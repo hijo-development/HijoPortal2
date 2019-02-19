@@ -350,6 +350,47 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+        public static DataTable EntBUSSUTable(string entCode)
+        {
+
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("ID", typeof(string));
+                dtTable.Columns.Add("NAME", typeof(string));
+            }
+
+            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable] WHERE (entity = '"+ entCode + "')";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["ID"] = row["OMOPERATINGUNITNUMBER"].ToString();
+                    dtRow["NAME"] = row["NAME"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
         public static string BUCodeDescription(string code)
         {
             string query = "SELECT NAME FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable] where OMOPERATINGUNITNUMBER = '" + code + "'";

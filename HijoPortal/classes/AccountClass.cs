@@ -9,6 +9,80 @@ namespace HijoPortal.classes
 {
     public class AccountClass
     {
+        public static DataTable UserLevelTable()
+        {
+
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("ID", typeof(string));
+                dtTable.Columns.Add("NAME", typeof(string));
+            }
+
+            string qry = "SELECT [PK] AS ID, [UserLevel] AS NAME FROM [hijo_portal].[dbo].[tbl_UserLevel]";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["ID"] = row["ID"].ToString();
+                    dtRow["NAME"] = row["NAME"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
+        public static DataTable UserStatusTable()
+        {
+
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("ID", typeof(string));
+                dtTable.Columns.Add("NAME", typeof(string));
+            }
+
+            DataRow dtRow = dtTable.NewRow();
+            dtRow["ID"] = "1";
+            dtRow["NAME"] = "Active";
+            dtTable.Rows.Add(dtRow);
+
+            DataRow dtRow1 = dtTable.NewRow();
+            dtRow1["ID"] = "0";
+            dtRow1["NAME"] = "Inactive";
+            dtTable.Rows.Add(dtRow1);
+
+            return dtTable;
+        }
+
+
         public static DataTable UserTypeTable()
         {
             DataTable dtTable = new DataTable();
