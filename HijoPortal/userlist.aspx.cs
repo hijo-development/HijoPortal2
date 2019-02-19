@@ -103,52 +103,72 @@ namespace HijoPortal
 
         protected void EntityCode_Init(object sender, EventArgs e)
         {
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
 
-            string query = "SELECT [ID], [NAME] AS EntCodeDesc FROM [hijo_portal].[dbo].[vw_AXEntityTable]";
-
-            SqlCommand cmd = new SqlCommand(query, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-
+            DataTable dtRecord = GlobalClass.EntityTable();
             ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "NAME";
+            l_ValueField.Width = 30;
+            combo.Columns.Add(l_ValueField);
 
-            while (reader.Read())
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+
+            GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+            if (!container.Grid.IsNewRowEditing)
             {
-                ListEditItem item = new ListEditItem
-                {
-                    Value = reader[0].ToString(),
-                    Text = reader[1].ToString()
-                };
-                combo.Items.Add(item);
+                combo.Value = DataBinder.Eval(container.DataItem, "EntityCode").ToString();
             }
-            conn.Close();
+
         }
 
         protected void BUCode_Init(object sender, EventArgs e)
         {
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
+            string query = "";
 
-            string query = "SELECT [OMOPERATINGUNITNUMBER] AS ID, [NAME] AS BUCodeDesc FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable]";
-
-            SqlCommand cmd = new SqlCommand(query, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            ASPxComboBox combo = sender as ASPxComboBox;
-
-            while (reader.Read())
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
+            ASPxTextBox entCode = pageControl.FindControl("EntityValue") as ASPxTextBox;
+            
+            if (entCode.Value.ToString().Trim() != "")
             {
+                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+                conn.Open();
 
-                ListEditItem item = new ListEditItem
+                query = "SELECT [OMOPERATINGUNITNUMBER] AS ID, [NAME] AS BUCodeDesc " +
+                        " FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable] " +
+                        " WHERE (entity = '" + entCode.Value.ToString().Trim() + "') ";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                ASPxComboBox combo = sender as ASPxComboBox;
+                combo.Items.Clear();
+                while (reader.Read())
                 {
-                    Value = reader[0].ToString(),
-                    Text = reader[1].ToString()
-                };
-                combo.Items.Add(item);
-            }
 
-            conn.Close();
+                    ListEditItem item = new ListEditItem
+                    {
+                        Value = reader[0].ToString(),
+                        Text = reader[1].ToString()
+                    };
+                    combo.Items.Add(item);
+                }
+
+                conn.Close();
+            } else
+            {
+                ASPxComboBox combo = sender as ASPxComboBox;
+                combo.Items.Clear();
+            }
+            
         }
 
         protected void EmployeeLevel_Init(object sender, EventArgs e)
@@ -204,7 +224,8 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
-            ASPxTextBox entCode = pageControl.FindControl("EntityValue") as ASPxTextBox;
+            //ASPxTextBox entCode = pageControl.FindControl("EntityValue") as ASPxTextBox;
+            ASPxComboBox entCode = pageControl.FindControl("EntityCode") as ASPxComboBox;
             ASPxTextBox buCode = pageControl.FindControl("BUValue") as ASPxTextBox;
             ASPxTextBox domainAcc = pageControl.FindControl("DomainAccount") as ASPxTextBox;
             ASPxTextBox userLevel = pageControl.FindControl("UserLevelValue") as ASPxTextBox;
@@ -249,6 +270,48 @@ namespace HijoPortal
             BindUserList();
             e.Cancel = true;
             grid.CancelEdit();
+        }
+
+        protected void BUCodeCallbackPanel_Callback(object sender, CallbackEventArgsBase e)
+        {
+            string query = "";
+
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
+            ASPxTextBox entCode = pageControl.FindControl("EntityValue") as ASPxTextBox;
+
+            if (entCode.Value.ToString().Trim() != "")
+            {
+                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+                conn.Open();
+
+                query = "SELECT [OMOPERATINGUNITNUMBER] AS ID, [NAME] AS BUCodeDesc " +
+                        " FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable] " +
+                        " WHERE (entity = '" + entCode.Value.ToString().Trim() + "') ";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                ASPxComboBox combo = sender as ASPxComboBox;
+                combo.Items.Clear();
+                while (reader.Read())
+                {
+
+                    ListEditItem item = new ListEditItem
+                    {
+                        Value = reader[0].ToString(),
+                        Text = reader[1].ToString()
+                    };
+                    combo.Items.Add(item);
+                }
+
+                conn.Close();
+            }
+            else
+            {
+                ASPxComboBox combo = sender as ASPxComboBox;
+                combo.Items.Clear();
+            }
         }
     }
 }

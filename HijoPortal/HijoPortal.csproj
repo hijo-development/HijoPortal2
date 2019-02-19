@@ -106,6 +106,7 @@
     <Content Include="mrp_preview.aspx" />
     <Content Include="mrp_workflow.aspx" />
     <Content Include="userlist.aspx" />
+    <Content Include="user_list.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +199,13 @@
     </Compile>
     <Compile Include="userlist.aspx.designer.cs">
       <DependentUpon>userlist.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="user_list.aspx.cs">
+      <DependentUpon>user_list.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user_list.aspx.designer.cs">
+      <DependentUpon>user_list.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

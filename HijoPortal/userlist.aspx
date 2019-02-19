@@ -78,10 +78,12 @@
                                                         <td>:</td>
                                                         <td style="width: 40%;">
                                                             <%--DataSourceID="SQLEntityConn" TextField="EntCodeDesc" ValueField="ID"--%>
-                                                            <dx:ASPxComboBox ID="EntityCode" runat="server" ClientInstanceName="EntityCodeDirect" Text='<%#Eval("EntityCodeDesc")%>' ValueType="System.String" Theme="Office2010Blue"
-                                                                ValidationSettings-ErrorDisplayMode="None"
-                                                                ValidationSettings-RequiredField-IsRequired="true" Width="100%" OnInit="EntityCode_Init">
-                                                                <ClientSideEvents SelectedIndexChanged="EntityCodeIndexChange" />
+                                                            <%--<dx:ASPxComboBox ID="EntityCode" runat="server" ClientInstanceName="EntityCodeDirect" Text='<%#Eval("EntityCodeDesc")%>' ValueType="System.String" Theme="Office2010Blue"--%>
+                                                            <dx:ASPxComboBox ID="EntityCode" runat="server" ClientInstanceName="EntityCodeDirect" OnInit="EntityCode_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
+                                                                <%--ValidationSettings-ErrorDisplayMode="None"--%>
+                                                                <%--ValidationSettings-RequiredField-IsRequired="true" Width="100%" OnInit="EntityCode_Init">--%>
+                                                                <%--<ClientSideEvents SelectedIndexChanged="EntityCodeIndexChange" />--%>
+                                                                <ClientSideEvents SelectedIndexChanged="" />
                                                                 <%--<ClientSideEvents SelectedIndexChanged="function(s, e) { SetComboBoxEntityID(s); }" />--%>
                                                             </dx:ASPxComboBox>
                                                         </td>
@@ -115,8 +117,8 @@
                                                         </td>
                                                         <td>:</td>
                                                         <td>
-                                                            <dx:ASPxCallbackPanel ID="BUCodeCallbackPanel" ClientInstanceName="BUCodeCallbackPanelDirect" runat="server" Width="200px">
-                                                                <ClientSideEvents />
+                                                            <dx:ASPxCallbackPanel ID="BUCodeCallbackPanel" ClientInstanceName="BUCodeCallbackPanelDirect" runat="server" Width="100%" OnCallback="BUCodeCallbackPanel_Callback">
+                                                                <ClientSideEvents EndCallback="BU_EndCallBack" />
                                                                 <PanelCollection>
                                                                     <dx:PanelContent>
                                                                         <dx:ASPxComboBox ID="BUCode" runat="server" ClientInstanceName="BUCodeDirect" Text='<%#Eval("BUCodeDesc")%>' ValueType="System.String" Theme="Office2010Blue"

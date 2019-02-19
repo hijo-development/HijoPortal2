@@ -371,10 +371,29 @@ function ActivityCodeIndexChangeMAN(s, e) {
     ActivityCodeMAN.SetText((codeString + secondString).toString());
 }
 
+//Entity to BU Callback
+var postponedCallbackEntitytoBU = false;
 function EntityCodeIndexChange(s, e) {
     SetComboBoxEntityID(s);
     var selectedString = s.GetSelectedItem().text;
     EntityCodeDirect.SetText(selectedString.toString());
+
+    console.log("pass callback");
+
+    if (BUCodeCallbackPanelDirect.InCallback()) {
+        postponedCallbackEntitytoBU = true;
+    }
+    else {
+        BUCodeCallbackPanelDirect.PerformCallback();
+    }
+}
+
+//END CALL BU
+function BU_EndCallBack(s, e) {
+    if (postponedCallbackEntitytoBU) {
+        BUCodeCallbackPanelDirect.PerformCallback();
+        postponedCallbackEntitytoBU = false;
+    }
 }
 
 function BUCodeIndexChange(s, e) {
@@ -423,6 +442,16 @@ function updateUserList(s, e) {
         UserListGrid.UpdateEdit();
     }
 }
+
+function updateUserListNew(s, e) {
+    var endCode = EntityCodeDirect.GetText();
+    //var buCode = BUValueClient.GetText();
+
+    if (endCode.length > 0) {
+        UserListGrid.UpdateEdit();
+    }
+}
+
 
 //Direct Materials
 function listbox_selected(s, e) {
@@ -657,7 +686,6 @@ function OnKeyUpCostPO(s, e) {//OnChange
         POTotalCost.SetText("");
     }
 }
-
 
 
 //END OF ADD FORM SCRIPT HERE.....
