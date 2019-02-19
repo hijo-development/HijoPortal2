@@ -72,7 +72,7 @@
                                                         <td style="width: 40%;">
                                                             <dx:ASPxComboBox ID="EntityCode" runat="server" ClientInstanceName="EntityCodeDirect" AutoResizeWithContainer="false" OnInit="EntityCode_Init" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
                                                                 ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
-                                                                <ClientSideEvents SelectedIndexChanged="" />
+                                                                <ClientSideEvents SelectedIndexChanged="UserEntity_IndexChanged" />
                                                             </dx:ASPxComboBox>
                                                         </td>
                                                         <td style="width: 5%;"></td>
@@ -81,7 +81,7 @@
                                                         </td>
                                                         <td>:</td>
                                                         <td style="width: 35%;">
-                                                            <dx:ASPxComboBox ID="UserLevel" runat="server" ClientInstanceName="UserLevelDirect" AutoResizeWithContainer="false" OnInit="UserLevelLevel_Init" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
+                                                            <dx:ASPxComboBox ID="UserLevel" runat="server" ClientInstanceName="UserLevelDirect" AutoResizeWithContainer="false" OnInit="UserLevel_Init" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
                                                                 ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
                                                                 <ClientSideEvents SelectedIndexChanged="" />
                                                             </dx:ASPxComboBox>
@@ -93,13 +93,14 @@
                                                             <dx:ASPxLabel runat="server" Text="BU / Department" Theme="Office2010Blue" />
                                                         </td>
                                                         <td>:</td>
-                                                        <td>
+                                                        <td style="padding: 3px 3px 3px;">
                                                             <dx:ASPxCallbackPanel ID="BUCallBackPanel" ClientInstanceName="BUCallBackPanelDirect" runat="server" OnCallback="BUCallBackPanel_Callback">
-                                                                <ClientSideEvents EndCallback="" />
+                                                                <ClientSideEvents EndCallback="UserBU_EndCallback" />
                                                                 <PanelCollection>
                                                                     <dx:PanelContent>
-                                                                        <dx:ASPxComboBox ID="BUCode" ClientInstanceName="BUCodeDirect" runat="server" ValueType="System.String" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="None"
-                                                                            ValidationSettings-RequiredField-IsRequired="false" Width="100%">
+                                                                        <dx:ASPxComboBox ID="BUCode" runat="server" ClientInstanceName="BUCodeDirect" OnInit="BUCode_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
+                                                                            ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="false" Width="100%">
+                                                                            <ClientSideEvents SelectedIndexChanged="" />
                                                                         </dx:ASPxComboBox>
                                                                     </dx:PanelContent>
                                                                 </PanelCollection>
@@ -124,7 +125,7 @@
                                                         </td>
                                                         <td>:</td>
                                                         <td style="padding: 3px 3px 3px;">
-                                                            <dx:ASPxTextBox ID="DomainAccount" ClientInstanceName="DomainAccountClient" runat="server" Text='<%#Eval("DomainAccount")%>' Theme="Office2010Blue" Width="100%" />
+                                                            <dx:ASPxTextBox ID="DomainAccount" ClientInstanceName="DomainAccountClient" runat="server" Text='<%#Eval("DomainAccount")%>' Theme="Office2010Blue" Width="100%" ValidationSettings-RequiredField-IsRequired="false" />
                                                         </td>
                                                     </tr>
                                                 </table>
