@@ -77,7 +77,7 @@ namespace HijoPortal
             //MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
             if (!container.Grid.IsNewRowEditing)
             {
-                combo.Value = DataBinder.Eval(container.DataItem, "EntCode").ToString();
+                combo.Value = DataBinder.Eval(container.DataItem, "EntityCode").ToString();
             }
         }
 
@@ -91,7 +91,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
             ASPxComboBox entCode = pageControl.FindControl("EntityCode") as ASPxComboBox;
-            ASPxComboBox buCode = pageControl.FindControl("EntityCode") as ASPxComboBox;
+            ASPxComboBox buCode = pageControl.FindControl("BUCode") as ASPxComboBox;
             ASPxComboBox userLevel = pageControl.FindControl("UserLevel") as ASPxComboBox;
             ASPxComboBox userStatus = pageControl.FindControl("UserStatus") as ASPxComboBox;
             ASPxTextBox domainAcc = pageControl.FindControl("DomainAccount") as ASPxTextBox;
@@ -194,7 +194,7 @@ namespace HijoPortal
 
         protected void UserStatus_Init(object sender, EventArgs e)
         {
-            DataTable dtRecord = AccountClass.UserLevelTable();
+            DataTable dtRecord = AccountClass.UserStatusTable();
             ASPxComboBox combo = sender as ASPxComboBox;
             combo.DataSource = dtRecord;
             ListBoxColumn l_ValueField = new ListBoxColumn();
@@ -223,7 +223,76 @@ namespace HijoPortal
         protected void BUCallBackPanel_Callback(object sender, CallbackEventArgsBase e)
         {
             //BUCode.value = "";
+            //ASPxGridView grid = sender as ASPxGridView;
 
+            //ASPxPageControl pageControl = grid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
+            ASPxPageControl pageControl = UserListGrid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
+            ASPxComboBox entCode = pageControl.FindControl("EntityCode") as ASPxComboBox;
+            //ASPxComboBox buCode = pageControl.FindControl("BUCode") as ASPxComboBox;
+
+            ASPxCallbackPanel callBackPanel = pageControl.FindControl("BUCallBackPanel") as ASPxCallbackPanel;
+            ASPxComboBox buCode = callBackPanel.FindControl("BUCode") as ASPxComboBox;
+
+            buCode.Value = "";
+            
+            DataTable dtRecord = GlobalClass.EntBUSSUTable(entCode.Value.ToString());
+            buCode.DataSource = dtRecord;
+
+            ListBoxColumn l_value = new ListBoxColumn();
+            l_value.FieldName = "ID";
+            l_value.Caption = "ID";
+            buCode.Columns.Add(l_value);
+
+            ListBoxColumn l_text = new ListBoxColumn();
+            l_text.FieldName = "NAME";
+            l_text.Caption = "Name";
+            buCode.Columns.Add(l_text);
+
+            buCode.TextField = "NAME";
+            buCode.ValueField = "ID";
+            buCode.TextFormatString = "{0}";
+            buCode.DataBind();
+
+            //ASPxComboBox combo = sender as ASPxComboBox;
+            //GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+            ////MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
+            //if (!container.Grid.IsNewRowEditing)
+            //{
+            //    combo.Value = DataBinder.Eval(container.DataItem, "BUCode").ToString();
+            //}
+        }
+
+        protected void BUCode_Init(object sender, EventArgs e)
+        {
+            ASPxPageControl pageControl = UserListGrid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
+            ASPxComboBox entCode = pageControl.FindControl("EntityCode") as ASPxComboBox;
+
+            
+
+            DataTable dtRecord = GlobalClass.EntBUSSUTable(entCode.Value.ToString());
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "CODE";
+            l_ValueField.Width = 0;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            l_ValueField.Caption = "LEVEL";
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+
+            GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+            //MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
+            if (!container.Grid.IsNewRowEditing)
+            {
+                combo.Value = DataBinder.Eval(container.DataItem, "StatusKey").ToString();
+            }
         }
     }
 }

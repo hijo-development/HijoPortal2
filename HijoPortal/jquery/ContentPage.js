@@ -688,4 +688,23 @@ function OnKeyUpCostPO(s, e) {//OnChange
 }
 
 
+//FOR USERLIST
+var postponedCallbackuserBU = false;
+function UserEntity_IndexChanged(s, e) {
+    if (BUCallBackPanelDirect.InCallback()) {
+        postponedCallbackuserBU = true;
+    }
+    else {
+        BUCallBackPanelDirect.PerformCallback();
+    }
+}
+
+function UserBU_EndCallback(s, e) {
+    if (postponedCallbackuserBU) {
+        BUCallBackPanelDirect.PerformCallback();
+        postponedCallbackuserBU = false;
+    }
+}
+
+
 //END OF ADD FORM SCRIPT HERE.....
