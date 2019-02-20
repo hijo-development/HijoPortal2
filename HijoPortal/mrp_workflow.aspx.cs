@@ -267,8 +267,6 @@ namespace HijoPortal
 
             conn.Close();
 
-            conn.Close();
-
             BindWorkflow();
             e.Cancel = true;
             grid.CancelEdit();

@@ -15,6 +15,8 @@ namespace HijoPortal
     public partial class user_list : System.Web.UI.Page
     {
         private static bool bindUserList = true;
+        private static string sEntCode = "";
+        private static string sBUCode = "";
 
         private void CheckCreatorKey()
         {
@@ -42,6 +44,7 @@ namespace HijoPortal
             {
                 bindUserList = true;
             }
+            
         }
 
         private void BindUserList()
@@ -84,6 +87,10 @@ namespace HijoPortal
         protected void UserListGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
             bindUserList = false;
+            //sEntCode = UserListGrid.GetRowValues(e.;
+            sEntCode = UserListGrid.GetRowValues(UserListGrid.FocusedRowIndex, "EntityCode").ToString();
+            sBUCode = UserListGrid.GetRowValues(UserListGrid.FocusedRowIndex, "BUCode").ToString();
+            //System.Diagnostics.Debug.WriteLine("Edit Clicked : " + sEntCode.ToString() + " / " + sBUCode.ToString());
         }
 
         protected void UserListGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
@@ -91,7 +98,10 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
             ASPxComboBox entCode = pageControl.FindControl("EntityCode") as ASPxComboBox;
-            ASPxComboBox buCode = pageControl.FindControl("BUCode") as ASPxComboBox;
+
+            ASPxCallbackPanel callBackPanel = pageControl.FindControl("BUCallBackPanel") as ASPxCallbackPanel;
+            ASPxComboBox buCode = callBackPanel.FindControl("BUCode") as ASPxComboBox;
+
             ASPxComboBox userLevel = pageControl.FindControl("UserLevel") as ASPxComboBox;
             ASPxComboBox userStatus = pageControl.FindControl("UserStatus") as ASPxComboBox;
             ASPxTextBox domainAcc = pageControl.FindControl("DomainAccount") as ASPxTextBox;
@@ -101,12 +111,17 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
             string sEntCode = entCode.Value.ToString();
-            string sBUCode = buCode.Value.ToString();
+            //string sBUCode = buCode.Value.ToString();
 
-            string sDomainAcc = "";
+            string sDomainAcc = "", sBUCode = "";
             if (domainAcc.Value != null)
             {
                 sDomainAcc = EncryptionClass.Encrypt(domainAcc.Value.ToString());
+            }
+
+            if (buCode.Value != null)
+            {
+                sBUCode = buCode.Value.ToString();
             }
 
             int sUserLevel = Convert.ToInt32(userLevel.Value.ToString());
@@ -145,6 +160,10 @@ namespace HijoPortal
                 {
                     //Session["UserListKey"] = UserList.GetRowValues(UserList.FocusedRowIndex, "PK").ToString();
                     //Response.RedirectLocation = "mrp_addedit.aspx";
+                    //sEntCode = sender.GetRowValues(e.VisibleIndex, "BUCode");
+                    //sEntCode = UserListGrid.GetRowValues(UserListGrid.FocusedRowIndex, "BUCode").ToString();
+                    //Session["UserListEntCode"] = UserListGrid.GetRowValues(UserListGrid.FocusedRowIndex, "BUCode").ToString();
+                    //System.Diagnostics.Debug.WriteLine("Edit Clicked : " + Session["UserListEntCode"].ToString());
                 }
 
             }
@@ -253,7 +272,7 @@ namespace HijoPortal
 
             buCode.TextField = "NAME";
             buCode.ValueField = "ID";
-            buCode.TextFormatString = "{0}";
+            buCode.TextFormatString = "{1}";
             buCode.DataBind();
 
             //ASPxComboBox combo = sender as ASPxComboBox;
@@ -267,12 +286,18 @@ namespace HijoPortal
 
         protected void BUCode_Init(object sender, EventArgs e)
         {
+
             ASPxPageControl pageControl = UserListGrid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
             //ASPxComboBox entCode = pageControl.FindControl("EntityCode") as ASPxComboBox;
-
-
-
-            DataTable dtRecord = GlobalClass.EntBUSSUTable("0000");
+            //ASPxCallbackPanel callBackPanel = pageControl.FindControl("BUCallBackPanel") as ASPxCallbackPanel;
+            //ASPxComboBox combo = pageControl.FindControl("BUCode") as ASPxComboBox;
+            //string EntCode = "";
+            //if (Session["UserListEntCode"] != null)
+            //{
+            //    EntCode = Session["UserListEntCode"].ToString();
+            //}
+            
+            DataTable dtRecord = GlobalClass.EntBUSSUTable(sEntCode);
             ASPxComboBox combo = sender as ASPxComboBox;
             combo.DataSource = dtRecord;
 
@@ -291,11 +316,12 @@ namespace HijoPortal
             combo.TextField = "NAME";
             combo.DataBind();
 
+            combo.Value = sBUCode;
             //GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
-            ////MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
+            //MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
             //if (!container.Grid.IsNewRowEditing)
             //{
-            //    combo.Value = DataBinder.Eval(container.DataItem, "StatusKey").ToString();
+            //combo.Value = DataBinder.Eval(container.DataItem, "BUCode").ToString();
             //}
         }
     }

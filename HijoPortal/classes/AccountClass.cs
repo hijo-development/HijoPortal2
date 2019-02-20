@@ -82,6 +82,46 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+        public static DataTable UserListTable()
+        {
+
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("ID", typeof(string));
+                dtTable.Columns.Add("NAME", typeof(string));
+            }
+
+            string qry = "SELECT PK, Lastname, Firstname FROM [hijo_portal].[dbo].[tbl_Users] ORDER BY Lastname, Firstname ";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["ID"] = row["PK"].ToString();
+                    dtRow["NAME"] = EncryptionClass.Decrypt(row["Lastname"].ToString()) + ",  " + EncryptionClass.Decrypt(row["Firstname"].ToString());
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
 
         public static DataTable UserTypeTable()
         {

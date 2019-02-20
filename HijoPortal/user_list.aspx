@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="user_list.aspx.cs" Inherits="HijoPortal.user_list" %>
+﻿<%@ Page Title="User List" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="user_list.aspx.cs" Inherits="HijoPortal.user_list" %>
 
 <%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -52,7 +52,7 @@
                                 <TabPages>
                                     <dx:TabPage Text="User Details" Visible="true">
                                         <ContentCollection>
-                                            <dx:ContentControl runat="server">
+                                            <dx:ContentControl ID="tabUserInfo" runat="server">
                                                 <table style="padding: 10px;">
                                                     <tr>
                                                         <td style="width: 10%; padding: 0px 0px 10px;">
@@ -63,6 +63,12 @@
                                                             <dx:ASPxLabel runat="server" Text='<%#Eval("CompleteName")%>' Theme="Office2010Blue" Font-Bold="true" />
                                                         </td>
                                                         <td></td>
+                                                        <td rowspan="4" style="width:15%; text-align:right; ">
+                                                            <dx:ASPxImage ID="UserImage" runat="server" ClientInstanceName="UserImageDirect" ImageUrl="~/images/ID.jpg" ShowLoadingImage="true" Height="100px" Width="100px">
+                                                                <Border BorderStyle="Solid" BorderColor="Black" BorderWidth="1" />
+                                                                <ClientSideEvents />
+                                                            </dx:ASPxImage>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 10%;">
@@ -84,7 +90,7 @@
                                                             <dx:ASPxLabel runat="server" Text="Level" Theme="Office2010Blue" />
                                                         </td>
                                                         <td>:</td>
-                                                        <td style="width: 35%;">
+                                                        <td style="width: 20%;">
                                                             <dx:ASPxComboBox ID="UserLevel" runat="server" ClientInstanceName="UserLevelDirect" AutoResizeWithContainer="false" OnInit="UserLevel_Init" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
                                                                 ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
                                                                 <ClientSideEvents SelectedIndexChanged="" />
@@ -149,6 +155,24 @@
                         </div>
                     </EditForm>
                 </Templates>
+                <EditFormLayoutProperties>
+                    <SettingsAdaptivity AdaptivityMode="SingleColumnWindowLimit" SwitchToSingleColumnAtWindowInnerWidth="800" />
+                </EditFormLayoutProperties>
+                <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                <SettingsPopup>
+                    <EditForm Width="900">
+                        <SettingsAdaptivity Mode="OnWindowInnerWidth" SwitchAtWindowInnerWidth="850" />
+                    </EditForm>
+                </SettingsPopup>
+                <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
+                    AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />
+                <SettingsText ConfirmDelete="Delete This User?" />
+                <Styles>
+                    <SelectedRow Font-Bold="False" Font-Italic="False">
+                    </SelectedRow>
+                    <FocusedRow Font-Bold="False" Font-Italic="False">
+                    </FocusedRow>
+                </Styles>
             </dx:ASPxGridView>
         </div>
     </div>
