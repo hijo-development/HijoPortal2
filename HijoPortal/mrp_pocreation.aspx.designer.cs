@@ -40,6 +40,24 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxButton BtnAdd;
         
         /// <summary>
+        /// Notify control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl Notify;
+        
+        /// <summary>
+        /// NotificationMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel NotificationMessage;
+        
+        /// <summary>
         /// dvContentWrapper control.
         /// </summary>
         /// <remarks>
@@ -74,15 +92,6 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.GridViewCommandColumnCustomButton Edit;
-        
-        /// <summary>
-        /// Delete control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.GridViewCommandColumnCustomButton Delete;
         
         /// <summary>
         /// Preview control.

@@ -238,19 +238,46 @@ namespace HijoPortal
 
         protected void ExpenseCode_Init(object sender, EventArgs e)
         {
-            ASPxComboBox combo = sender as ASPxComboBox;
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
+            //ASPxComboBox combo = sender as ASPxComboBox;
+            //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            //conn.Open();
 
-            string query = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory]";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                combo.Items.Add(reader[0].ToString() + "-" + reader[1].ToString());
-            }
-            reader.Close();
-            conn.Close();
+            //string query = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXExpenseAccount]";
+            //SqlCommand cmd = new SqlCommand(query, conn);
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    combo.Items.Add(reader[0].ToString() + "-" + reader[1].ToString());
+            //}
+            //reader.Close();
+            //conn.Close();
+
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = MRPClass.ExpenseCodeTable();
+
+            ListBoxColumn l_value = new ListBoxColumn();
+            l_value.FieldName = "MAINACCOUNTID";
+            combo.Columns.Add(l_value);
+
+            ListBoxColumn l_text = new ListBoxColumn();
+            l_text.FieldName = "NAME";
+            combo.Columns.Add(l_text);
+
+            ListBoxColumn l_text2 = new ListBoxColumn();
+            l_text2.FieldName = "isItem";
+            l_text2.Width = 0;
+            combo.Columns.Add(l_text2);
+
+            combo.ValueField = "MAINACCOUNTID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+            combo.TextFormatString = "{1}";
+
+            //ASPxPageControl pageControl = OPEXGrid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
+            //ASPxPageControl pc = OPEXGrid.NamingContainer as ASPxPageControl;
+            GridViewEditFormTemplateContainer container = ((ASPxComboBox)sender).NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+            if (!container.Grid.IsNewRowEditing)
+            combo.Value = DataBinder.Eval(container.DataItem, "ExpenseCode").ToString();
         }
 
         protected void ManPowerTypeKey_Init(object sender, EventArgs e)
@@ -734,11 +761,21 @@ namespace HijoPortal
 
         protected void listbox_Callback(object sender, CallbackEventArgsBase e)
         {
-            DataTable dtRecord = MRPClass.AXInventTable(e.Parameter);
             ASPxPageControl pageControl = DirectMaterialsGrid.FindEditFormTemplateControl("DirectPageControl") as ASPxPageControl;
             ASPxListBox listbox = pageControl.FindControl("listbox") as ASPxListBox;
             listbox.Visible = true;
-            listbox.DataSource = dtRecord;
+            listbox.DataSource = MRPClass.AXInventTable(e.Parameter);
+            listbox.ValueField = "ITEMID";
+            listbox.TextField = "NAMEALIAS";
+            listbox.DataBind();
+        }
+
+        protected void listboxOPEX_Callback(object sender, CallbackEventArgsBase e)
+        {
+            ASPxPageControl pageControl = OPEXGrid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
+            ASPxListBox listbox = pageControl.FindControl("listboxOPEX") as ASPxListBox;
+            listbox.Visible = true;
+            listbox.DataSource = MRPClass.AXInventTable(e.Parameter);
             listbox.ValueField = "ITEMID";
             listbox.TextField = "NAMEALIAS";
             listbox.DataBind();

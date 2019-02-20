@@ -38,9 +38,18 @@ namespace HijoPortal
                     WareHouse.Value = reader["InventSiteWarehouse"].ToString();
                     Location.Value = reader["InventSiteWarehouseLocation"].ToString();
                 }
-                conn.Close();
+                reader.Close();
+                
                 //BindGridViewDataComboBoxColumn();
                 BindPOAddEdit(Session["MRP_Number"].ToString(), "ITEMGROUPID");
+
+                string query_ponumber = "SELECT Count(*) FROM [hijo_portal].[dbo].[tbl_POCreation] where PONumber = '" + POnumber.Text + "' AND ExpectedDate IS NOT NULL";
+                cmd = new SqlCommand(query_ponumber, conn);
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                if (count > 0) Create.Text = "Update";
+                else Send.Enabled = false;
+
+                conn.Close();
 
             }
             else
@@ -108,6 +117,7 @@ namespace HijoPortal
             row["POCost"] = cost.Value.ToString();
             row["POTotalCost"] = total.Value.ToString();
 
+        
             IDictionaryEnumerator enumerator = e.NewValues.GetEnumerator();
             enumerator.Reset();
 
@@ -317,25 +327,35 @@ namespace HijoPortal
             cmd_po.Parameters.AddWithValue("@location", Location.Value.ToString());
             cmd_po.Parameters.AddWithValue("@ponumber", POnumber.Text);
             cmd_po.CommandType = CommandType.Text;
-            cmd_po.ExecuteNonQuery();
+            int result = cmd_po.ExecuteNonQuery();
+            if(result > 0)
+            {
+                Send.Enabled = true;
+                Create.Text = "Update";
+            }
+
+            conn.Close();
+
+
 
         }
 
         protected void POAddEditGrid_RowValidating(object sender, DevExpress.Web.Data.ASPxDataValidationEventArgs e)
         {
-            //foreach (GridViewColumn column in POAddEditGrid.Columns)
-            //{
-            //    GridViewDataColumn dataColumn = column as GridViewDataColumn;
-            //    if (dataColumn == null) continue;
-            //    if (e.NewValues[dataColumn.FieldName] == null)
-            //    {
-            //        if (dataColumn.FieldName != "PK" && dataColumn.FieldName != "TableIdentifier" && dataColumn.FieldName != "MRPCategory" && dataColumn.FieldName != "Item" && dataColumn.FieldName != "UOM" && dataColumn.FieldName != "Qty" && dataColumn.FieldName != "Cost" && dataColumn.FieldName != "TotalCost" && dataColumn.FieldName != "POQty")
-            //            e.Errors[dataColumn] = "Value cannot be null.";
-            //    }
-            //}
+            foreach (GridViewColumn column in POAddEditGrid.Columns)
+            {
+                GridViewDataColumn dataColumn = column as GridViewDataColumn;
+                if (dataColumn == null) continue;
+                if (e.NewValues[dataColumn.FieldName] == null)
+                {
+                    MRPClass.PrintString(dataColumn.FieldName);
+                    if (dataColumn.FieldName == "TaxGroup" || dataColumn.FieldName == "TaxItemGroup")
+                        e.Errors[dataColumn] = "Value cannot be null.";
+                }
+            }
 
-            // Displays the error row if there is at least one error. 
-            //if (e.Errors.Count > 0) e.RowError = "Please, fill all fields.";
+            //Displays the error row if there is at least one error. 
+            if (e.Errors.Count > 0) e.RowError = "Please, fill all fields.";
         }
         protected void ItemsRequestedByFilterCondition_1(object source, ListEditItemsRequestedByFilterConditionEventArgs e)
         {

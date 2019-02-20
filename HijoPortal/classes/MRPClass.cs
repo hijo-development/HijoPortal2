@@ -429,7 +429,8 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("VendorCode", typeof(string));
             }
 
-            string query = "SELECT * FROM [hijo_portal].[dbo].[tbl_POCreation]";
+            //string query = "SELECT * FROM [hijo_portal].[dbo].[tbl_POCreation]";
+            string query = "SELECT tbl_POCreation.PK, tbl_POCreation.PONumber, tbl_POCreation.MRPNumber, tbl_POCreation.DateCreated, tbl_POCreation.CreatorKey, tbl_POCreation.ExpectedDate, tbl_POCreation.VendorCode, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_POCreation INNER JOIN tbl_Users ON tbl_POCreation.CreatorKey = tbl_Users.PK";
 
             cmd = new SqlCommand(query);
             cmd.Connection = cn;
@@ -444,11 +445,14 @@ namespace HijoPortal.classes
                     dtRow["PONumber"] = row["PONumber"].ToString();
                     dtRow["MRPNumber"] = row["MRPNumber"].ToString();
                     dtRow["DateCreated"] = Convert.ToDateTime(row["DateCreated"]).ToString("MM/dd/yyyy");
-                    dtRow["CreatorKey"] = row["CreatorKey"].ToString();
+                    dtRow["CreatorKey"] = EncryptionClass.Decrypt(row["Firstname"].ToString()) + " " + EncryptionClass.Decrypt(row["Lastname"].ToString());
+                    //dtRow["ExpectedDate"] = row["ExpectedDate"].ToString();
+
                     if (!DBNull.Value.Equals(row["ExpectedDate"]))
                     {
                         dtRow["ExpectedDate"] = Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy");
-                    } else
+                    }
+                    else
                     {
                         dtRow["ExpectedDate"] = "";
                     }
@@ -570,6 +574,49 @@ namespace HijoPortal.classes
                     DataRow dtRow = dtTable.NewRow();
                     dtRow["ITEMID"] = row["ITEMID"].ToString();
                     dtRow["NAMEALIAS"] = row["NAMEALIAS"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
+        public static DataTable ExpenseCodeTable()
+        {
+
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("MAINACCOUNTID", typeof(string));
+                dtTable.Columns.Add("NAME", typeof(string));
+                dtTable.Columns.Add("isItem", typeof(int));
+            }
+
+            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXExpenseAccount]";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["MAINACCOUNTID"] = row["MAINACCOUNTID"].ToString();
+                    dtRow["NAME"] = row["NAME"].ToString();
+                    dtRow["isItem"] = Convert.ToInt32(row["isItem"].ToString());
                     dtTable.Rows.Add(dtRow);
                 }
             }

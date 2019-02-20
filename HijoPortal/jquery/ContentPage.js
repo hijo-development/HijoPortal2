@@ -356,12 +356,48 @@ function ActivityCodeIndexChange(s, e) {
 }
 
 function ExpenseCodeIndexChangeOPEX(s, e) {
-    //var selectedString = s.GetSelectedItem().text;
-    //var indexDash = selectedString.indexOf('-');
-    //var codeString = selectedString.substring(0, indexDash);
-    //console.log(codeString);
-    //ExpenseCodeOPEX.SetText(codeString);
+    //document.getElementById("itemTD").style.display = "none";
+    //document.getElementById("itemTD2").style.display = "none";
+    //ItemCodeOPEX.SetVisible(false);
+    var isItem = s.GetSelectedItem().GetColumnText('isItem');
+    switch (isItem) {
+        case "0"://Non PO
+            console.log("trial");
+            document.getElementById("div1").style.display = "none";
+            document.getElementById("div2").style.display = "none";
+            DescriptionOPEX.SetText("");
+            DescriptionOPEX.GetInputElement().readOnly = false;
+            break;
+        case "1"://PO
+            document.getElementById("div1").style.display = "block";
+            document.getElementById("div2").style.display = "block";
+            DescriptionOPEX.GetInputElement().readOnly = true;
+            break;
+    }
 }
+
+function ItemCodeOPEX_KeyPress(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    //KEY (ENTER) keycode: 13
+    if (key == 13) {
+        ASPxClientUtils.PreventEvent(e.htmlEvent);
+        listboxOPEX.SetVisible(true);
+        listboxOPEX.PerformCallback(ItemCodeOPEX.GetInputElement().value);
+    }
+}
+
+function listbox_selectedOPEX(s, e) {
+    var selValue = s.GetSelectedItem().value;
+    var selText = s.GetSelectedItem().text;
+    ItemCodeOPEX.SetText(selValue);
+    DescriptionOPEX.SetText(selText);
+    listboxOPEX.SetVisible(false);
+}
+
+function HideTD() {
+
+}
+
 function ActivityCodeIndexChangeMAN(s, e) {
     var selectedString = s.GetSelectedItem().text;
     var indexDash = selectedString.indexOf('-');
@@ -502,7 +538,7 @@ function OnMainSplitterPaneResized(s, e) {
     //ele.SetWidth(e.pane.GetClientHeight());
     var name = e.pane.name;
     ResizeContentSplitter(e.pane);
-    
+
 }
 
 function ResizeContentSplitter(control) {

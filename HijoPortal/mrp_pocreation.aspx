@@ -22,6 +22,13 @@
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
+    <dx:ASPxPopupControl ID="Notify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxLabel ID="NotificationMessage" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 30px;">
             <h1>List of AUTO PO</h1>
@@ -31,7 +38,7 @@
             <dx:ASPxGridView ID="POTable" runat="server" ClientInstanceName="POTable"
                 EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
                 Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
-                OnCustomButtonCallback="POTable_CustomButtonCallback">
+                OnCustomButtonCallback="POTable_CustomButtonCallback" OnAfterPerformCallback="POTable_AfterPerformCallback">
                 <ClientSideEvents CustomButtonClick="POCustomButtonClick" />
                 <Columns>
                     <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
@@ -42,7 +49,7 @@
                         </HeaderTemplate>
                         <CustomButtons>
                             <dx:GridViewCommandColumnCustomButton ID="Edit" Text="" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
-                            <dx:GridViewCommandColumnCustomButton ID="Delete" Text="" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                            <%--<dx:GridViewCommandColumnCustomButton ID="Delete" Text="" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>--%>
                             <dx:GridViewCommandColumnCustomButton ID="Preview" Text="" Image-Url="Images/Refresh.ico" Image-ToolTip="Preview Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                         </CustomButtons>
                     </dx:GridViewCommandColumn>
