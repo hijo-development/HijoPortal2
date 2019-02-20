@@ -169,6 +169,7 @@ namespace HijoPortal
             DataTable dtRecord = AccountClass.UserLevelTable();
             ASPxComboBox combo = sender as ASPxComboBox;
             combo.DataSource = dtRecord;
+
             ListBoxColumn l_ValueField = new ListBoxColumn();
             l_ValueField.FieldName = "ID";
             l_ValueField.Caption = "CODE";
@@ -177,7 +178,7 @@ namespace HijoPortal
 
             ListBoxColumn l_TextField = new ListBoxColumn();
             l_TextField.FieldName = "NAME";
-            l_ValueField.Caption = "LEVEL";
+            l_TextField.Caption = "LEVEL";
             combo.Columns.Add(l_TextField);
 
             combo.ValueField = "ID";
@@ -197,6 +198,7 @@ namespace HijoPortal
             DataTable dtRecord = AccountClass.UserStatusTable();
             ASPxComboBox combo = sender as ASPxComboBox;
             combo.DataSource = dtRecord;
+
             ListBoxColumn l_ValueField = new ListBoxColumn();
             l_ValueField.FieldName = "ID";
             l_ValueField.Caption = "CODE";
@@ -205,7 +207,7 @@ namespace HijoPortal
 
             ListBoxColumn l_TextField = new ListBoxColumn();
             l_TextField.FieldName = "NAME";
-            l_ValueField.Caption = "LEVEL";
+            l_TextField.Caption = "STATUS";
             combo.Columns.Add(l_TextField);
 
             combo.ValueField = "ID";
@@ -234,19 +236,20 @@ namespace HijoPortal
             ASPxComboBox buCode = callBackPanel.FindControl("BUCode") as ASPxComboBox;
 
             buCode.Value = "";
-            
+            buCode.Text = "";
+
             DataTable dtRecord = GlobalClass.EntBUSSUTable(entCode.Value.ToString());
             buCode.DataSource = dtRecord;
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "ID";
-            l_value.Caption = "ID";
-            buCode.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "ID";
+            //l_value.Caption = "ID";
+            //buCode.Columns.Add(l_value);
 
-            ListBoxColumn l_text = new ListBoxColumn();
-            l_text.FieldName = "NAME";
-            l_text.Caption = "Name";
-            buCode.Columns.Add(l_text);
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "NAME";
+            //l_text.Caption = "Name";
+            //buCode.Columns.Add(l_text);
 
             buCode.TextField = "NAME";
             buCode.ValueField = "ID";
@@ -265,34 +268,35 @@ namespace HijoPortal
         protected void BUCode_Init(object sender, EventArgs e)
         {
             ASPxPageControl pageControl = UserListGrid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
-            ASPxComboBox entCode = pageControl.FindControl("EntityCode") as ASPxComboBox;
+            //ASPxComboBox entCode = pageControl.FindControl("EntityCode") as ASPxComboBox;
 
-            
 
-            DataTable dtRecord = GlobalClass.EntBUSSUTable(entCode.Value.ToString());
+
+            DataTable dtRecord = GlobalClass.EntBUSSUTable("0000");
             ASPxComboBox combo = sender as ASPxComboBox;
             combo.DataSource = dtRecord;
+
             ListBoxColumn l_ValueField = new ListBoxColumn();
             l_ValueField.FieldName = "ID";
             l_ValueField.Caption = "CODE";
-            l_ValueField.Width = 0;
+            l_ValueField.Width = 30;
             combo.Columns.Add(l_ValueField);
 
             ListBoxColumn l_TextField = new ListBoxColumn();
             l_TextField.FieldName = "NAME";
-            l_ValueField.Caption = "LEVEL";
+            l_TextField.Caption = "NAME";
             combo.Columns.Add(l_TextField);
 
             combo.ValueField = "ID";
             combo.TextField = "NAME";
             combo.DataBind();
 
-            GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
-            //MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
-            if (!container.Grid.IsNewRowEditing)
-            {
-                combo.Value = DataBinder.Eval(container.DataItem, "StatusKey").ToString();
-            }
+            //GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+            ////MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
+            //if (!container.Grid.IsNewRowEditing)
+            //{
+            //    combo.Value = DataBinder.Eval(container.DataItem, "StatusKey").ToString();
+            //}
         }
     }
 }
