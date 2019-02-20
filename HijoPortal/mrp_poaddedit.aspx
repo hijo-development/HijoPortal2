@@ -145,9 +145,9 @@
                 </table>
             </div>
             <div>
-                <table style="width: 100%">
+                <table style="width: 100%" border="0">
                     <tr>
-                        <td style="width: 70%; vertical-align: top">
+                        <td style="width: 100%; vertical-align: top; text-align:center">
                             <dx:ASPxGridView ID="POAddEditGrid" ClientInstanceName="POAddEditGrid" runat="server" Theme="Office2010Blue" Width="100%" AutoGenerateColumns="false"
                                 OnRowValidating="POAddEditGrid_RowValidating"
                                 OnRowUpdating="POAddEditGrid_RowUpdating"
@@ -254,6 +254,7 @@
                     <tr>
                         <td style="text-align: right">
                             <dx:ASPxButton ID="Create" runat="server" Text="Create" Theme="Office2010Blue" OnClick="Create_Click"></dx:ASPxButton>
+                            <dx:ASPxButton ID="Send" runat="server" Text="Send" Theme="Office2010Blue" OnClick="Send_Click"></dx:ASPxButton>
                         </td>
                     </tr>
                 </table>
