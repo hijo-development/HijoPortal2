@@ -75,7 +75,11 @@
                                                                 <ClientSideEvents SelectedIndexChanged="UserEntity_IndexChanged" />
                                                             </dx:ASPxComboBox>
                                                         </td>
-                                                        <td style="width: 5%;"></td>
+                                                        <td style="width: 5%;">
+                                                            <div style="display: none;">
+                                                                <dx:ASPxTextBox ID="EntityValue" ClientInstanceName="EntityValueClient" runat="server" Text='<%#Eval("EntityCode")%>' Theme="Office2010Blue" Style="display: none;" />
+                                                            </div>
+                                                        </td>
                                                         <td style="width: 10%;">
                                                             <dx:ASPxLabel runat="server" Text="Level" Theme="Office2010Blue" />
                                                         </td>
