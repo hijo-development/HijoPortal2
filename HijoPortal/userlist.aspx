@@ -198,7 +198,7 @@
 
                 <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                     AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />
-                <SettingsText ConfirmDelete="Delete This Item?" />
+                <SettingsText ConfirmDelete="Delete This User?" />
                 <Styles>
                     <SelectedRow Font-Bold="False" Font-Italic="False">
                     </SelectedRow>

@@ -409,5 +409,107 @@ namespace HijoPortal.classes
             return actcodeVal;
         }
 
+        public static DataTable BUDeptHeadTable()
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("Ctrl", typeof(string));
+                dtTable.Columns.Add("EffectDate", typeof(string));
+                dtTable.Columns.Add("EntityCode", typeof(string));
+                dtTable.Columns.Add("EntityCodeDesc", typeof(string));
+                dtTable.Columns.Add("BUDeptCode", typeof(string));
+                dtTable.Columns.Add("BUDeptCodeDesc", typeof(string));
+                dtTable.Columns.Add("UserKey", typeof(string));
+                dtTable.Columns.Add("UserCompleteName", typeof(string));
+            }
+
+            string qry = "SELECT dbo.tbl_System_BUDeptHead.PK, dbo.tbl_System_BUDeptHead.Ctrl, " +
+                         " dbo.tbl_System_BUDeptHead.EffectDate, dbo.tbl_System_BUDeptHead.EntityCode, " +
+                         " dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, dbo.tbl_System_BUDeptHead.BUDeptCode, " +
+                         " dbo.vw_AXOperatingUnitTable.NAME AS BUDeptCodeDesc, dbo.tbl_System_BUDeptHead.UserKey, " +
+                         " dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname " +
+                         " FROM dbo.tbl_System_BUDeptHead LEFT OUTER JOIN " +
+                         " dbo.tbl_Users ON dbo.tbl_System_BUDeptHead.UserKey = dbo.tbl_Users.PK LEFT OUTER JOIN " +
+                         " dbo.vw_AXOperatingUnitTable ON dbo.tbl_System_BUDeptHead.BUDeptCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
+                         " dbo.vw_AXEntityTable ON dbo.tbl_System_BUDeptHead.EntityCode = dbo.vw_AXEntityTable.ID"; 
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["Ctrl"] = row["Ctrl"].ToString();
+                    dtRow["EffectDate"] = Convert.ToDateTime(row["EffectDate"]).ToString("MM/dd/yyyy");
+                    dtRow["EntityCode"] = row["EntityCode"].ToString();
+                    dtRow["EntityCodeDesc"] = row["EntityCodeDesc"].ToString();
+                    dtRow["BUDeptCode"] = row["BUDeptCode"].ToString();
+                    dtRow["BUDeptCodeDesc"] = row["BUDeptCodeDesc"].ToString();
+                    dtRow["UserKey"] = row["UserKey"].ToString();
+                    dtRow["UserCompleteName"] = EncryptionClass.Decrypt(row["Lastname"].ToString()) + ",  " + EncryptionClass.Decrypt(row["Firstname"].ToString());
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
+        public static string GetControl_DocNum(string sModuleName, DateTime dEffectDate)
+        {
+            string sDocNum = "", qry = "";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+            switch (sModuleName)
+            {
+                case "BU_Dept_Head":
+                    {
+                        qry = "SELECT TOP (1) Ctrl " +
+                              " FROM tbl_System_BUDeptHead " +
+                              " WHERE (Year(EffectDate) = "+ dEffectDate.Year + ")";
+                        break;
+                    }
+            }
+            
+            if (qry == "") { return sDocNum; }
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    sDocNum = Convert.ToString(Convert.ToDouble(row["Ctrl"]) + 1);
+                }
+            } else
+            {
+                sDocNum = dEffectDate.ToString("yyyy") + "0000";
+            }
+            dt.Clear();
+            cn.Close();
+            return sDocNum;
+        }
     }
 }

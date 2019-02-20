@@ -443,15 +443,6 @@ function updateUserList(s, e) {
     }
 }
 
-function updateUserListNew(s, e) {
-    var endCode = EntityCodeDirect.GetText();
-    //var buCode = BUValueClient.GetText();
-
-    if (endCode.length > 0) {
-        UserListGrid.UpdateEdit();
-    }
-}
-
 
 //Direct Materials
 function listbox_selected(s, e) {
@@ -703,6 +694,44 @@ function UserBU_EndCallback(s, e) {
     if (postponedCallbackuserBU) {
         BUCallBackPanelDirect.PerformCallback();
         postponedCallbackuserBU = false;
+    }
+}
+
+function updateUserListNew(s, e) {
+    var endCode = EntityCodeDirect.GetText();
+    var levelCode = UserLevelDirect.GetText();
+    var statusCode = UserStatusDirect.GetText();
+
+    if (endCode.length > 0 && levelCode.length > 0 && statusCode.length > 0) {
+        UserListGrid.UpdateEdit();
+    }
+}
+
+//FOR BU / Dept Head
+var postponedCallbackHeadBU = false;
+function HeadEntity_IndexChanged(s, e) {
+    if (BUCallBackPanelHeadDirect.InCallback()) {
+        postponedCallbackHeadBU = true;
+    }
+    else {
+        BUCallBackPanelHeadDirect.PerformCallback();
+    }
+}
+
+function HeadBU_EndCallback(s, e) {
+    if (postponedCallbackHeadBU) {
+        BUCallBackPanelHeadDirect.PerformCallback();
+        postponedCallbackHeadBU = false;
+    }
+}
+
+function updateBUDeptHeadList(s, e) {
+    var endCode = EntityCodeHeadDirect.GetText();
+    var headCode = BUHeadDirect.GetText();
+    var effectDate = EffectDateHeadDirect.GetText();
+
+    if (endCode.length > 0 && headCode.length > 0 && effectDate.length > 0) {
+        BUDeptListGridDirect.UpdateEdit();
     }
 }
 

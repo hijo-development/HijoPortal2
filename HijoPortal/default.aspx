@@ -29,7 +29,7 @@
                 <table style="width: 100%">
                     <tr>
                         <td style="text-align: center; align-content: center;">
-                            <a href="create_account.aspx">Create Account?</a>
+                            <a href="createaccount.aspx">Create Account?</a>
                             &nbsp
                             <a href="#">Forgot password?</a>
                         </td>

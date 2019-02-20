@@ -73,11 +73,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="budept_head.aspx" />
     <Content Include="change_pw.aspx" />
     <Content Include="config\cn.txt" />
     <Content Include="config\email.txt" />
     <Content Include="config\Key.txt" />
+    <Content Include="createaccount.aspx" />
     <Content Include="create_account.aspx" />
+    <Content Include="css\Account.css" />
     <Content Include="css\ContentPage.css" />
     <Content Include="css\LogIn.css" />
     <Content Include="css\LogInICON.css" />
@@ -99,6 +102,7 @@
     <Content Include="images\Users.png" />
     <Content Include="jquery\accounting.js" />
     <Content Include="jquery\ContentPage.js" />
+    <Content Include="jquery\createAccount.js" />
     <Content Include="mrp_addedit.aspx" />
     <Content Include="mrp_list.aspx" />
     <Content Include="mrp_poaddedit.aspx" />
@@ -110,6 +114,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="budept_head.aspx.cs">
+      <DependentUpon>budept_head.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="budept_head.aspx.designer.cs">
+      <DependentUpon>budept_head.aspx</DependentUpon>
+    </Compile>
     <Compile Include="change_pw.aspx.cs">
       <DependentUpon>change_pw.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -122,6 +133,13 @@
     <Compile Include="classes\GlobalClass.cs" />
     <Compile Include="classes\MRPClass.cs" />
     <Compile Include="classes\WorkflowClass.cs" />
+    <Compile Include="createaccount.aspx.cs">
+      <DependentUpon>createaccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="createaccount.aspx.designer.cs">
+      <DependentUpon>createaccount.aspx</DependentUpon>
+    </Compile>
     <Compile Include="create_account.aspx.cs">
       <DependentUpon>create_account.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -219,6 +237,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="images\users\" />
     <Folder Include="reports\" />
   </ItemGroup>
   <ItemGroup>
