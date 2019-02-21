@@ -14,6 +14,8 @@ namespace HijoPortal
 {
     public partial class mrp_pocreation : System.Web.UI.Page
     {
+
+        private static bool notifypopup = false;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -51,8 +53,23 @@ namespace HijoPortal
                     {
                         Session["PO_PK"] = PK;
                         string docNum = POTable.GetRowValues(POTable.FocusedRowIndex, "MRPNumber").ToString();
+                        string poNumber = POTable.GetRowValues(POTable.FocusedRowIndex, "PONumber").ToString();
                         Session["MRP_Number"] = docNum;
-                        Response.RedirectLocation = "mrp_poaddedit.aspx?DocNum=" + docNum.ToString();
+
+                        //query if po number already PO
+                        string query_po = "SELECT COUNT(*) FROM[hijo_portal].[dbo].[tbl_POCreation_Details] WHERE PONumber = '" + poNumber + "'";
+                        SqlCommand cmd = new SqlCommand(query_po, conn);
+                        int result_po = Convert.ToInt32(cmd.ExecuteScalar());
+                        if (result_po > 0)
+                        {
+                            
+                            notifypopup = true;
+                        }
+                        else
+                        {
+                            notifypopup = false;
+                            Response.RedirectLocation = "mrp_poaddedit.aspx?DocNum=" + docNum.ToString();
+                        }
                     }
                 }
 
@@ -165,6 +182,18 @@ namespace HijoPortal
                 Response.Redirect("login.aspx");
                 return;
             }
+        }
+
+        protected void POTable_AfterPerformCallback(object sender, ASPxGridViewAfterPerformCallbackEventArgs e)
+        {
+            MRPClass.PrintString("After Call Back:"+ notifypopup);
+            if (notifypopup)
+            {
+                Notify.HeaderText = "Alert";
+                NotificationMessage.Text = "Already PO";
+                Notify.ShowOnPageLoad = true;
+            }
+
         }
     }
 }
