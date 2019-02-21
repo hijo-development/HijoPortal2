@@ -146,7 +146,7 @@ function updateOpex(s, e) {
     var qty = QtyOPEX.GetText();
     var totalcost = TotalCostOPEX.GetText();
 
-    if (expense.length > 0 && itemCode.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0) {
+    if (expense.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0) {
         OPEXGrid.UpdateEdit();
     }
 }
@@ -357,25 +357,56 @@ function ActivityCodeIndexChange(s, e) {
     //ActivityCodeDirect.SetText((codeString + secondString).toString());
 }
 
+var isItemBeginCallback = 3;
+function OnBeginCallback(s, e) {
+    if (e.command == "STARTEDIT") {
+        var visibleIndex = OPEXGrid.GetFocusedRowIndex();
+        OPEXGrid.GetRowValues(visibleIndex, "isItem", OnGetGridViewValues);
+    }
+}
+
+function OnGetGridViewValues(values) {
+    if (values[0] >= 0) isItemBeginCallback = values[0];
+}
+
+function pageinit(s, e) {
+    if (isItemBeginCallback == 0) {
+        document.getElementById("div1").style.display = "none";
+        document.getElementById("div2").style.display = "none";
+        ItemCodeOPEX.SetText("");
+    }
+}
+
+var isItem = 1;
 function ExpenseCodeIndexChangeOPEX(s, e) {
     //document.getElementById("itemTD").style.display = "none";
     //document.getElementById("itemTD2").style.display = "none";
     //ItemCodeOPEX.SetVisible(false);
-    var isItem = s.GetSelectedItem().GetColumnText('isItem');
+    isItem = parseInt(s.GetSelectedItem().GetColumnText('isItem'));
     switch (isItem) {
-        case "0"://Non PO
-            console.log("trial");
+        case 0://Non PO
             document.getElementById("div1").style.display = "none";
             document.getElementById("div2").style.display = "none";
             DescriptionOPEX.SetText("");
             DescriptionOPEX.GetInputElement().readOnly = false;
+            ItemCodeOPEX.SetText("");
             break;
-        case "1"://PO
+        case 1://PO
             document.getElementById("div1").style.display = "block";
             document.getElementById("div2").style.display = "block";
+            DescriptionOPEX.SetText("");
             DescriptionOPEX.GetInputElement().readOnly = true;
+            ItemCodeOPEX.SetText("");
             break;
     }
+}
+
+function Hide() {
+    document.getElementById("div1").style.display = "none";
+    document.getElementById("div2").style.display = "none";
+    DescriptionOPEX.SetText("");
+    DescriptionOPEX.GetInputElement().readOnly = false;
+    ItemCodeOPEX.SetText("");
 }
 
 function ItemCodeOPEX_KeyPress(s, e) {
@@ -394,10 +425,6 @@ function listbox_selectedOPEX(s, e) {
     ItemCodeOPEX.SetText(selValue);
     DescriptionOPEX.SetText(selText);
     listboxOPEX.SetVisible(false);
-}
-
-function HideTD() {
-
 }
 
 function ActivityCodeIndexChangeMAN(s, e) {
@@ -566,20 +593,51 @@ function focusedWorkflowMaster(s, e, type) {
 
 
 //FOR PO ADD/EDIT GRID SELECTION CHANGE(CHECKBOX CONTROL)
+function rowfoc(s, e) {
+    console.log(" rowfoc");
+    POTable.GetRowValues(visibleIndex, "CreatorKey", OnGetGridViewValuesPOTable);
+}
 
+
+
+var creatorkey = -1;
+var hidcreatorkey = -1;
 // POCreation
 function POCustomButtonClick(s, e) {
-    console.log("custom button click" + e.buttonID);
+    //var someSession = '<%= Session["CreatorKey"].ToString() %>';
+    hidcreatorkey = document.getElementById('HiddenCreatorKey').value;
+    console.log("custom button click" + hidcreatorkey);
     var button = e.buttonID;
+    console.log("custom button click" + creatorkey);
+    console.log("custom button click" + button);
     if (button == "Delete") {
         var result = confirm("Delete this row?");
         if (result)
             e.processOnServer = true;
     } else if (button == "Edit") {
-        e.processOnServer = true;
+            e.processOnServer = true;
     } else if (button == "Preview") {
         e.processOnServer = true;
     }
+
+}
+
+function POEndCallback(s, e) {
+    //POTable.GetSelectedFieldValues(POTable.GetFocusedRowIndex(), 'CreatorKey', OnGetGridViewValuesPOTable);
+}
+
+function OnBeginCallbackPO(s, e) {
+    console.log(e.command);
+    if (e.command == "CUSTOMBUTTON") {
+        var visibleIndex = POTable.GetFocusedRowIndex();
+        POTable.GetRowValues(visibleIndex, "CreatorKey", OnGetGridViewValuesPOTable);
+    }
+}
+
+function OnGetGridViewValuesPOTable(values) {
+    console.log("doc:" + Hidden1.GetText());
+    if (values[0] != hidcreatorkey && hidcreatorkey > -1)
+        alert("You are not authorized to access this item");
 }
 
 function POgrid_selectionChanged(s, e) {

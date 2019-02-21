@@ -33,7 +33,7 @@ namespace HijoPortal
                 return;
             }
 
-            
+
             if (!Page.IsPostBack)
             {
 
@@ -277,7 +277,10 @@ namespace HijoPortal
             //ASPxPageControl pc = OPEXGrid.NamingContainer as ASPxPageControl;
             GridViewEditFormTemplateContainer container = ((ASPxComboBox)sender).NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
             if (!container.Grid.IsNewRowEditing)
-            combo.Value = DataBinder.Eval(container.DataItem, "ExpenseCode").ToString();
+            {
+                combo.Value = DataBinder.Eval(container.DataItem, "ExpenseCode").ToString();
+                combo.Text = DataBinder.Eval(container.DataItem, "ExpenseCodeName").ToString();
+            }
         }
 
         protected void ManPowerTypeKey_Init(object sender, EventArgs e)
@@ -448,10 +451,13 @@ namespace HijoPortal
 
             string insert = "INSERT INTO " + MRPClass.OpexTable() + " ([HeaderDocNum], [ExpenseCode], [ItemCode], [Description], [UOM], [Cost], [Qty], [TotalCost]) VALUES (@HeaderDocNum, @ExpenseCode, @ItemCode, @Description, @UOM, @Cost, @Qty, @TotalCost)";
 
+            string code = "";
+            if (itemCode.Value != null) code = itemCode.Value.ToString();
+
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
-            cmd.Parameters.AddWithValue("@ExpenseCode", experseCode.Text);
-            cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
+            cmd.Parameters.AddWithValue("@ExpenseCode", experseCode.Value.ToString());
+            cmd.Parameters.AddWithValue("@ItemCode", code);
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
@@ -483,7 +489,7 @@ namespace HijoPortal
                 SqlCommand cmd = new SqlCommand(delete, conn);
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                BindDirectMaterials(docnumber);
+                BindOPEX(docnumber);
                 e.Cancel = true;
             }
         }
@@ -491,6 +497,13 @@ namespace HijoPortal
         protected void OPEXGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
             bindCapex = false;
+
+            string a = OPEXGrid.GetRowValuesByKeyValue(e.EditingKeyValue, "isItem").ToString();
+            MRPClass.PrintString("iam print:"+a);
+
+
+            ASPxPageControl pageControl = OPEXGrid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
+
         }
 
         protected void OPEXGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
@@ -498,7 +511,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
 
-            ASPxComboBox experseCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
+            ASPxComboBox expenseCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
@@ -514,10 +527,13 @@ namespace HijoPortal
 
             string update_MRP = "UPDATE " + MRPClass.OpexTable() + " SET [ExpenseCode] = @ExpenseCode, [ItemCode] = @ItemCode ,[Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost WHERE [PK] = @PK";
 
+            string code = "";
+            if (itemCode.Value != null) code = itemCode.Value.ToString();
+
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@ExpenseCode", experseCode.Text);
-            cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
+            cmd.Parameters.AddWithValue("@ExpenseCode", expenseCode.Value.ToString());
+            cmd.Parameters.AddWithValue("@ItemCode", code);
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
@@ -799,7 +815,7 @@ namespace HijoPortal
 
         }
 
-        
+
 
         protected void RevenueGrid_RowInserting(object sender, DevExpress.Web.Data.ASPxDataInsertingEventArgs e)
         {
