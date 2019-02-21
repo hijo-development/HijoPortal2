@@ -57,6 +57,8 @@ changeWidth = {
 
         $('#dvMOPWorkflow').height(contentHeight - (HeaderH + 30));
 
+        $('#dvSCMSetup').height(contentHeight - (HeaderH + 30));
+
         //$('#dvContentWrapper').height(contentHeightInside);
 
         //console.log("Center Height: " + centerPanelHeight + " form Height: " + formHeight + ":::: " + h1);
@@ -769,6 +771,18 @@ function updateBUDeptHeadList(s, e) {
     if (endCode.length > 0 && headCode.length > 0 && effectDate.length > 0) {
         BUDeptListGridDirect.UpdateEdit();
     }
+}
+
+
+//FOR SCM
+var postponedCallbackSCMProcCat = false;
+function OnGridFocusedRowChangedSCMProcOff(s, e) {
+    grdSCMProcurementOffDetailsDirect.CancelEdit();
+    grdSCMProcurementOffDetailsDirect.PerformCallback();
+}
+
+function OnGridFocusedRowChangedSCMProcOff_EndCallback(s, e) {
+    grdSCMProcurementOffDetailsDirect.Refresh();
 }
 
 

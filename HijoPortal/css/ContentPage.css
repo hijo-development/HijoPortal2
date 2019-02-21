@@ -170,6 +170,13 @@
     /*background: rgba(227, 228, 229, 0.5);*/
 }
 
+.scroll-container {
+    width: 100%;
+    display: inline-block;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
 PanelLeft {
     height: 100%;
     width: 15%;
