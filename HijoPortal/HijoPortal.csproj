@@ -99,6 +99,8 @@
     <Content Include="images\index.png" />
     <Content Include="images\mountain.jpg" />
     <Content Include="images\Refresh.ico" />
+    <Content Include="images\Save.ico" />
+    <Content Include="images\Undo.ico" />
     <Content Include="images\Users.png" />
     <Content Include="jquery\accounting.js" />
     <Content Include="jquery\ContentPage.js" />
@@ -109,6 +111,7 @@
     <Content Include="mrp_pocreation.aspx" />
     <Content Include="mrp_preview.aspx" />
     <Content Include="mrp_workflow.aspx" />
+    <Content Include="scm.aspx" />
     <Content Include="userlist.aspx" />
     <Content Include="user_list.aspx" />
     <Content Include="Web.config" />
@@ -132,6 +135,7 @@
     <Compile Include="classes\EncryptionClass.cs" />
     <Compile Include="classes\GlobalClass.cs" />
     <Compile Include="classes\MRPClass.cs" />
+    <Compile Include="classes\SCMClass.cs" />
     <Compile Include="classes\WorkflowClass.cs" />
     <Compile Include="createaccount.aspx.cs">
       <DependentUpon>createaccount.aspx</DependentUpon>
@@ -211,6 +215,13 @@
       <DependentUpon>mrp_workflow.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="scm.aspx.cs">
+      <DependentUpon>scm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="scm.aspx.designer.cs">
+      <DependentUpon>scm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="userlist.aspx.cs">
       <DependentUpon>userlist.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

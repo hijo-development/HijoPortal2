@@ -65,6 +65,12 @@ namespace HijoPortal
             bindHeadList = false;
             sEntCode = "";
             sBUCode = "";
+
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("BUHeadPageControl") as ASPxPageControl;
+            ASPxDateEdit effectDate = pageControl.FindControl("EffectDate") as ASPxDateEdit;
+            effectDate.Value = DateTime.Now.ToString("MM/dd/yyyy");
+
         }
 
         protected void BUDeptListGrid_RowInserting(object sender, DevExpress.Web.Data.ASPxDataInsertingEventArgs e)
@@ -80,7 +86,8 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string sCtrlNum = GlobalClass.GetControl_DocNum("BU_Dept_Head", Convert.ToDateTime(effectDate.Value.ToString())) , sLastModified = DateTime.Now.ToString();
+            string sCtrlNum = GlobalClass.GetControl_DocNum("BU_Dept_Head", Convert.ToDateTime(effectDate.Value.ToString()));
+            string sLastModified = DateTime.Now.ToString();
 
             string sbuCode = "";
             if (buCode.Value != null)
@@ -113,6 +120,7 @@ namespace HijoPortal
             {
                 pk_latest = Convert.ToInt32(r[0].ToString());
             }
+            conn.Close();
             if (pk_latest > 0)
                 FocusThisRowGrid(grid, pk_latest);
         }

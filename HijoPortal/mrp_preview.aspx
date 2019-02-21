@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_preview.aspx.cs" Inherits="HijoPortal.mrp_preview" %>
+﻿<%@ Page Title="MOP Preview" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_preview.aspx.cs" Inherits="HijoPortal.mrp_preview" %>
 
 <%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -79,7 +79,7 @@
                 </tr>
             </table>
         </div>
-        <div>
+        <div style="background-color: #ffffff; padding: 0px 0px 10px 0px;">
             <table id="tblSummCost" runat="server" style="width: 80%; margin: auto; margin-bottom: 10px;" border="1">
                 <%--<table id="tblSummCost" runat="server">--%>
                 <tr>
