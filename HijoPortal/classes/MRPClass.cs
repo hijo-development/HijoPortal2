@@ -208,7 +208,9 @@ namespace HijoPortal.classes
                 //Columns for AspxGridview
                 dtTable.Columns.Add("PK", typeof(string));
                 dtTable.Columns.Add("HeaderDocNum", typeof(string));
+                dtTable.Columns.Add("ExpenseCodeName", typeof(string));
                 dtTable.Columns.Add("ExpenseCode", typeof(string));
+                dtTable.Columns.Add("isItem", typeof(string));
                 dtTable.Columns.Add("ItemCode", typeof(string));
                 dtTable.Columns.Add("Description", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
@@ -217,7 +219,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("TotalCost", typeof(string));
             }
 
-            string query = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query = "SELECT tbl_MRP_List_OPEX.PK, tbl_MRP_List_OPEX.HeaderDocNum, tbl_MRP_List_OPEX.ExpenseCode, tbl_MRP_List_OPEX.ItemCode, tbl_MRP_List_OPEX.Description, tbl_MRP_List_OPEX.UOM, tbl_MRP_List_OPEX.Cost, tbl_MRP_List_OPEX.Qty, tbl_MRP_List_OPEX.TotalCost, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             cmd = new SqlCommand(query);
             cmd.Connection = cn;
@@ -231,6 +233,8 @@ namespace HijoPortal.classes
                     dtRow["PK"] = row["PK"].ToString();
                     dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
                     dtRow["ExpenseCode"] = row["ExpenseCode"].ToString();
+                    dtRow["ExpenseCodeName"] = row["NAME"].ToString();
+                    dtRow["isItem"] = row["isItem"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
                     dtRow["Description"] = row["Description"].ToString();
                     dtRow["UOM"] = row["UOM"].ToString();
@@ -425,6 +429,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("MRPNumber", typeof(string));
                 dtTable.Columns.Add("DateCreated", typeof(string));
                 dtTable.Columns.Add("CreatorKey", typeof(string));
+                dtTable.Columns.Add("CreatorName", typeof(string));
                 dtTable.Columns.Add("ExpectedDate", typeof(string));
                 dtTable.Columns.Add("VendorCode", typeof(string));
             }
@@ -445,7 +450,8 @@ namespace HijoPortal.classes
                     dtRow["PONumber"] = row["PONumber"].ToString();
                     dtRow["MRPNumber"] = row["MRPNumber"].ToString();
                     dtRow["DateCreated"] = Convert.ToDateTime(row["DateCreated"]).ToString("MM/dd/yyyy");
-                    dtRow["CreatorKey"] = EncryptionClass.Decrypt(row["Firstname"].ToString()) + " " + EncryptionClass.Decrypt(row["Lastname"].ToString());
+                    dtRow["CreatorKey"] = row["CreatorKey"].ToString();
+                    dtRow["CreatorName"] = EncryptionClass.Decrypt(row["Firstname"].ToString()) + " " + EncryptionClass.Decrypt(row["Lastname"].ToString());
                     //dtRow["ExpectedDate"] = row["ExpectedDate"].ToString();
 
                     if (!DBNull.Value.Equals(row["ExpectedDate"]))

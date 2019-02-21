@@ -13,6 +13,15 @@ namespace HijoPortal {
     public partial class mrp_pocreation {
         
         /// <summary>
+        /// HiddenCreatorKey control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden HiddenCreatorKey;
+        
+        /// <summary>
         /// PopUpControl control.
         /// </summary>
         /// <remarks>

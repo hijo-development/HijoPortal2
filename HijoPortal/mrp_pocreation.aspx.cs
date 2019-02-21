@@ -8,16 +8,18 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using HijoPortal.classes;
-
+using System.Text;
 
 namespace HijoPortal
 {
     public partial class mrp_pocreation : System.Web.UI.Page
     {
 
-        private static bool notifypopup = false;
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["CreatorKey"] != null)
+                HiddenCreatorKey.Value = Session["CreatorKey"].ToString();
+            MRPClass.PrintString("Loading...");
             if (!Page.IsPostBack)
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
@@ -60,14 +62,14 @@ namespace HijoPortal
                         string query_po = "SELECT COUNT(*) FROM[hijo_portal].[dbo].[tbl_POCreation_Details] WHERE PONumber = '" + poNumber + "'";
                         SqlCommand cmd = new SqlCommand(query_po, conn);
                         int result_po = Convert.ToInt32(cmd.ExecuteScalar());
+                        MRPClass.PrintString(":" + result_po);
                         if (result_po > 0)
                         {
-                            
-                            notifypopup = true;
+                            ASPxTextBox text = POTable.FindHeaderTemplateControl(POTable.Columns[0], "Hidden1") as ASPxTextBox;
+                            text.Value = "try lng";
                         }
                         else
                         {
-                            notifypopup = false;
                             Response.RedirectLocation = "mrp_poaddedit.aspx?DocNum=" + docNum.ToString();
                         }
                     }
@@ -182,18 +184,6 @@ namespace HijoPortal
                 Response.Redirect("login.aspx");
                 return;
             }
-        }
-
-        protected void POTable_AfterPerformCallback(object sender, ASPxGridViewAfterPerformCallbackEventArgs e)
-        {
-            MRPClass.PrintString("After Call Back:"+ notifypopup);
-            if (notifypopup)
-            {
-                Notify.HeaderText = "Alert";
-                NotificationMessage.Text = "Already PO";
-                Notify.ShowOnPageLoad = true;
-            }
-
         }
     }
 }

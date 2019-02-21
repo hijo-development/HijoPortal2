@@ -4,6 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <input type="hidden" id="HiddenCreatorKey" runat="server" />
     <dx:ASPxPopupControl ID="PopUpControl" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -38,15 +39,20 @@
             <dx:ASPxGridView ID="POTable" runat="server" ClientInstanceName="POTable"
                 EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
                 Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
-                OnCustomButtonCallback="POTable_CustomButtonCallback" OnAfterPerformCallback="POTable_AfterPerformCallback">
+                OnCustomButtonCallback="POTable_CustomButtonCallback">
                 <ClientSideEvents CustomButtonClick="POCustomButtonClick" />
+                <ClientSideEvents BeginCallback="OnBeginCallbackPO" />
+                <%--<ClientSideEvents EndCallback="POEndCallback" />--%>
+     
                 <Columns>
                     <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
                         <HeaderTemplate>
                             <div style="text-align: center">
                                 <dx:ASPxButton ID="Add" OnClick="Add_Click" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle"></dx:ASPxButton>
+                                <dx:ASPxTextBox ID="Hidden1" ClientInstanceName="Hidden1" runat="server" Width="170px" Visible="false"></dx:ASPxTextBox>
                             </div>
                         </HeaderTemplate>
+                        
                         <CustomButtons>
                             <dx:GridViewCommandColumnCustomButton ID="Edit" Text="" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                             <%--<dx:GridViewCommandColumnCustomButton ID="Delete" Text="" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>--%>
@@ -57,9 +63,10 @@
                     <dx:GridViewDataColumn FieldName="PONumber" Caption="PO Number" VisibleIndex="2"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="MRPNumber" Caption="MRP Number" VisibleIndex="3"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="DateCreated" VisibleIndex="4"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="CreatorKey" Caption="Creator" VisibleIndex="5"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="CreatorName" Caption="Creator" VisibleIndex="5"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="ExpectedDate" VisibleIndex="6"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="VendorCode" VisibleIndex="7"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="CreatorKey" Visible="false"></dx:GridViewDataColumn>
                 </Columns>
 
                 <%--<Settings HorizontalScrollBarMode="Auto" />--%>
