@@ -234,7 +234,6 @@ namespace HijoPortal
             combo.DataBind();
 
             GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
-            //MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
             if (!container.Grid.IsNewRowEditing)
             {
                 combo.Value = DataBinder.Eval(container.DataItem, "StatusKey").ToString();
@@ -243,14 +242,8 @@ namespace HijoPortal
 
         protected void BUCallBackPanel_Callback(object sender, CallbackEventArgsBase e)
         {
-            //BUCode.value = "";
-            //ASPxGridView grid = sender as ASPxGridView;
-
-            //ASPxPageControl pageControl = grid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
             ASPxPageControl pageControl = UserListGrid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
             ASPxComboBox entCode = pageControl.FindControl("EntityCode") as ASPxComboBox;
-            //ASPxComboBox buCode = pageControl.FindControl("BUCode") as ASPxComboBox;
-
             ASPxCallbackPanel callBackPanel = pageControl.FindControl("BUCallBackPanel") as ASPxCallbackPanel;
             ASPxComboBox buCode = callBackPanel.FindControl("BUCode") as ASPxComboBox;
 
@@ -260,42 +253,14 @@ namespace HijoPortal
             DataTable dtRecord = GlobalClass.EntBUSSUTable(entCode.Value.ToString());
             buCode.DataSource = dtRecord;
 
-            //ListBoxColumn l_value = new ListBoxColumn();
-            //l_value.FieldName = "ID";
-            //l_value.Caption = "ID";
-            //buCode.Columns.Add(l_value);
-
-            //ListBoxColumn l_text = new ListBoxColumn();
-            //l_text.FieldName = "NAME";
-            //l_text.Caption = "Name";
-            //buCode.Columns.Add(l_text);
-
             buCode.TextField = "NAME";
             buCode.ValueField = "ID";
             buCode.TextFormatString = "{1}";
             buCode.DataBind();
-
-            //ASPxComboBox combo = sender as ASPxComboBox;
-            //GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
-            ////MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
-            //if (!container.Grid.IsNewRowEditing)
-            //{
-            //    combo.Value = DataBinder.Eval(container.DataItem, "BUCode").ToString();
-            //}
         }
 
         protected void BUCode_Init(object sender, EventArgs e)
         {
-
-            ASPxPageControl pageControl = UserListGrid.FindEditFormTemplateControl("UserPageControl") as ASPxPageControl;
-            //ASPxComboBox entCode = pageControl.FindControl("EntityCode") as ASPxComboBox;
-            //ASPxCallbackPanel callBackPanel = pageControl.FindControl("BUCallBackPanel") as ASPxCallbackPanel;
-            //ASPxComboBox combo = pageControl.FindControl("BUCode") as ASPxComboBox;
-            //string EntCode = "";
-            //if (Session["UserListEntCode"] != null)
-            //{
-            //    EntCode = Session["UserListEntCode"].ToString();
-            //}
             
             DataTable dtRecord = GlobalClass.EntBUSSUTable(sEntCode);
             ASPxComboBox combo = sender as ASPxComboBox;
@@ -317,12 +282,6 @@ namespace HijoPortal
             combo.DataBind();
 
             combo.Value = sBUCode;
-            //GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
-            //MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
-            //if (!container.Grid.IsNewRowEditing)
-            //{
-            //combo.Value = DataBinder.Eval(container.DataItem, "BUCode").ToString();
-            //}
         }
     }
 }

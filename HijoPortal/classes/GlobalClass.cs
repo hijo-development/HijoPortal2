@@ -556,6 +556,22 @@ namespace HijoPortal.classes
                               " ORDER BY Ctrl DESC";
                         break;
                     }
+                case "Finance_Head":
+                    {
+                        qry = "SELECT TOP (1) Ctrl " +
+                              " FROM dbo.tbl_System_FinanceHead " +
+                              " WHERE (Year(EffectDate) = " + dEffectDate.Year + ") " +
+                              " ORDER BY Ctrl DESC";
+                        break;
+                    }
+                case "Finance_Budget":
+                    {
+                        qry = "SELECT TOP (1) Ctrl " +
+                              " FROM dbo.tbl_System_FinanceBudget " +
+                              " WHERE (Year(EffectDate) = " + dEffectDate.Year + ") " +
+                              " ORDER BY Ctrl DESC";
+                        break;
+                    }
             }
             
             if (qry == "") { return sDocNum; }
