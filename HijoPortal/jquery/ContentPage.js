@@ -58,7 +58,8 @@ changeWidth = {
         $('#dvMOPWorkflow').height(contentHeight - (HeaderH + 30));
 
         $('#dvSCMSetup').height(contentHeight - (HeaderH + 30));
-
+        $('#dvFinanceSetup').height(contentHeight - (HeaderH + 30));
+        
         //$('#dvContentWrapper').height(contentHeightInside);
 
         //console.log("Center Height: " + centerPanelHeight + " form Height: " + formHeight + ":::: " + h1);
@@ -835,7 +836,6 @@ function updateBUDeptHeadList(s, e) {
 //FOR SCM
 var postponedCallbackSCMProcCat = false;
 function OnGridFocusedRowChangedSCMProcOff(s, e) {
-    grdSCMProcurementOffDetailsDirect.CancelEdit();
     grdSCMProcurementOffDetailsDirect.PerformCallback();
 }
 
@@ -843,5 +843,30 @@ function OnGridFocusedRowChangedSCMProcOff_EndCallback(s, e) {
     grdSCMProcurementOffDetailsDirect.Refresh();
 }
 
+//FOR Finance
+var postponedCallbackFinBudBU = false;
+function FinBudEntity_IndexChanged(s, e) {
+    if (FinBUCallbackPanelDirect.InCallback()) {
+        postponedCallbackFinBudBU = true;
+    }
+    else {
+        FinBUCallbackPanelDirect.PerformCallback();
+    }
+}
+
+function FinBudBU_EndCallback(s, e) {
+    if (postponedCallbackFinBudBU) {
+        FinBUCallbackPanelDirect.PerformCallback();
+        postponedCallbackFinBudBU = false;
+    }
+}
+
+function OnGridFocusedRowChangedFinBud(s, e) {
+    grdFinanceBudgetDetDirect.PerformCallback();
+}
+
+function OnGridFocusedRowChangedFinBud_EndCallback(s, e) {
+    grdFinanceBudgetDetDirect.Refresh();
+}
 
 //END OF ADD FORM SCRIPT HERE.....

@@ -169,9 +169,12 @@ namespace HijoPortal
             //ASPxDateEdit effectDate = grid.FindEditFormTemplateControl("EffectDate") as ASPxDateEdit;
             //ASPxTextBox lastModified = grid.FindEditFormTemplateControl("ASPxLastModifiedTextBox") as ASPxTextBox;
 
+            ASPxLabel ctrlNum = grdSCMHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMHead.Columns["Ctrl"], "ASPxCtrlTextBox") as ASPxLabel;
             ASPxDateEdit effectDate = grdSCMHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMHead.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
-            ASPxTextBox lastModified = grdSCMHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMHead.Columns["LastModified"], "ASPxLastModifiedTextBox") as ASPxTextBox;
+            ASPxLabel lastModified = grdSCMHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMHead.Columns["LastModified"], "ASPxLastModifiedTextBox") as ASPxLabel;
+            //ASPxTextBox lastModified = grdSCMHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMHead.Columns["LastModified"], "ASPxLastModifiedTextBox") as ASPxTextBox;
 
+            ctrlNum.Text = GlobalClass.GetControl_DocNum("SCM_Head", Convert.ToDateTime(DateTime.Now.ToString()));
             effectDate.Value = DateTime.Now.ToString("MM/dd/yyyy");
             lastModified.Text = DateTime.Now.ToString();
         }
@@ -303,10 +306,11 @@ namespace HijoPortal
             //ASPxGridView grid = sender as ASPxGridView;
             //ASPxDateEdit effectDate = grid.FindEditFormTemplateControl("EffectDate") as ASPxDateEdit;
             //ASPxTextBox lastModified = grid.FindEditFormTemplateControl("ASPxLastModifiedTextBox") as ASPxTextBox;
-
+            ASPxLabel ctrlNum = grdSCMInventoryAnal.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMInventoryAnal.Columns["Ctrl"], "ASPxCtrlTextBoxAnal") as ASPxLabel;
             ASPxDateEdit effectDate = grdSCMInventoryAnal.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMInventoryAnal.Columns["EffectDate"], "EffectDateAnal") as ASPxDateEdit;
-            ASPxTextBox lastModified = grdSCMInventoryAnal.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMInventoryAnal.Columns["LastModified"], "ASPxLastModifiedTextBoxAnal") as ASPxTextBox;
+            ASPxLabel lastModified = grdSCMInventoryAnal.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMInventoryAnal.Columns["LastModified"], "ASPxLastModifiedTextBoxAnal") as ASPxLabel;
 
+            ctrlNum.Text = GlobalClass.GetControl_DocNum("SCM_InventAnal", Convert.ToDateTime(DateTime.Now.ToString()));
             effectDate.Value = DateTime.Now.ToString("MM/dd/yyyy");
             lastModified.Text = DateTime.Now.ToString();
         }
@@ -435,9 +439,11 @@ namespace HijoPortal
             bindProcOffList = false;
             sProcOffKey = "";
 
+            ASPxLabel ctrlNum = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["Ctrl"], "ASPxCtrlTextBoxProcOff") as ASPxLabel;
             ASPxDateEdit effectDate = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["EffectDate"], "EffectDateProcOff") as ASPxDateEdit;
-            ASPxTextBox lastModified = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["LastModified"], "ASPxLastModifiedTextBoxProcOff") as ASPxTextBox;
+            ASPxLabel lastModified = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["LastModified"], "ASPxLastModifiedTextBoxProcOff") as ASPxLabel;
 
+            ctrlNum.Text = GlobalClass.GetControl_DocNum("SCM_ProcOff", Convert.ToDateTime(DateTime.Now.ToString()));
             effectDate.Value = DateTime.Now.ToString("MM/dd/yyyy");
             lastModified.Text = DateTime.Now.ToString();
         }
@@ -547,7 +553,7 @@ namespace HijoPortal
             ListBoxColumn l_ValueField = new ListBoxColumn();
             l_ValueField.FieldName = "ID";
             l_ValueField.Caption = "CODE";
-            l_ValueField.Width = 0;
+            l_ValueField.Width = 20;
             combo.Columns.Add(l_ValueField);
 
             ListBoxColumn l_TextField = new ListBoxColumn();
@@ -564,27 +570,15 @@ namespace HijoPortal
         protected void grdSCMProcurementOffDetails_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
         {
 
-            //BindSCMProcOff_Details
-
+            ASPxGridView grid = sender as ASPxGridView;
             int iProdOffKey = 0;
             if (grdSCMProcurementOff.VisibleRowCount > 0)
             {
                 iProdOffKey = Convert.ToInt32(grdSCMProcurementOff.GetRowValues(grdSCMProcurementOff.FocusedRowIndex, "PK").ToString());
             }
+            grid.CancelEdit();
             BindSCMProcOff_Details(iProdOffKey);
         }
-
-        //protected void SCMProcurementOffDetailsCallbackPanel_Callback(object sender, CallbackEventArgsBase e)
-        //{
-        //    int iProdOffKey = 0;
-        //    if (grdSCMProcurementOff.VisibleRowCount > 0)
-        //    {
-        //        iProdOffKey = Convert.ToInt32(grdSCMProcurementOff.GetRowValues(grdSCMProcurementOff.FocusedRowIndex, "PK").ToString());
-        //    }
-        //    BindSCMProcOff_Details(iProdOffKey);
-
-        //    //grdSCMProcurementOffDetails.
-        //}
 
         protected void grdSCMProcurementOffDetails_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
@@ -593,27 +587,23 @@ namespace HijoPortal
             if (sProcCatMasterKey == "") { return; }
 
             
-            grdSCMProcurementOff.Enabled = false;
+            //grdSCMProcurementOff.Enabled = false;
             bindProcCatList = false;
             sProcCatCode = "";
             iProcOffMaster = Convert.ToInt32(sProcCatMasterKey);
-            //ASPxTextBox txtMasterKey = grdSCMProcurementOffDetails.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOffDetails.Columns["MasterKey"], "ASPxMasterKeyTextBox") as ASPxTextBox;
-
-            //ASPxTextBox masterKey = grdSCMProcurementOffDetails.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOffDetails.Columns["MasterKey"], "ASPxMasterKeyTextBox") as ASPxTextBox;
-            //ASPxHiddenField masterKey = grdSCMProcurementOffDetails.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOffDetails.Columns["MasterKey"], "ASPxMasterKeyHiddenField") as ASPxHiddenField;
-            //masterKey["hidden_value"] = sProcCatMasterKey.ToString();
 
         }
 
         protected void grdSCMProcurementOffDetails_RowInserting(object sender, DevExpress.Web.Data.ASPxDataInsertingEventArgs e)
         {
             ASPxGridView grid = sender as ASPxGridView;
-            //ASPxTextBox sMasterKey = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["MasterKey"], "ASPxMasterKeyTextBox") as ASPxTextBox;
             ASPxHiddenField masterKey = grdSCMProcurementOffDetails.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOffDetails.Columns["MasterKey"], "ASPxMasterKeyHiddenField") as ASPxHiddenField;
             ASPxComboBox scmProfCat = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ProcCatDesc"], "ProcurementCat") as ASPxComboBox;
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
+
+            string sLastModified = DateTime.Now.ToString();
 
             string insert = "INSERT INTO tbl_System_SCMProcurementOfficer_Details ([MasterKey], [ProcCat]) " +
                             " VALUES (@MasterKey, @ProcCat)";
@@ -625,12 +615,22 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
 
+            string updateMaster = "UPDATE tbl_System_SCMProcurementOfficer " +
+                                  " SET [LastModified] = @LastModified " +
+                                  " WHERE ([PK] = @PK)";
+
+            SqlCommand cmd1 = new SqlCommand(updateMaster, conn);
+            cmd1.Parameters.AddWithValue("@PK", iProcOffMaster.ToString());
+            cmd1.Parameters.AddWithValue("@LastModified", sLastModified.ToString());
+            cmd1.CommandType = CommandType.Text;
+            cmd1.ExecuteNonQuery();
+
             e.Cancel = true;
             grid.CancelEdit();
             //BindSCMProcOff_Details(Convert.ToInt32(sMasterKey.Value));
             BindSCMProcOff_Details(iProcOffMaster);
 
-            grdSCMProcurementOff.Enabled = true;
+            //grdSCMProcurementOff.Enabled = true;
 
             int pk_latest = 0;
             string query_pk = "SELECT TOP 1 [PK] FROM tbl_System_SCMProcurementOfficer_Details ORDER BY [PK] DESC";
@@ -648,6 +648,88 @@ namespace HijoPortal
             }
         }
 
-        
+        protected void grdSCMProcurementOffDetails_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            sProcCatMasterKey = "";
+            sProcCatMasterKey = grdSCMProcurementOff.GetRowValues(grdSCMProcurementOff.FocusedRowIndex, "PK").ToString();
+            if (sProcCatMasterKey == "") { return; }
+
+            bindProcCatList = false;
+            iProcOffMaster = Convert.ToInt32(sProcCatMasterKey);
+            sProcCatCode = grdSCMProcurementOffDetails.GetRowValues(grdSCMProcurementOffDetails.FocusedRowIndex, "ProcCat").ToString();
+        }
+
+        protected void grdSCMProcurementOffDetails_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxHiddenField masterKey = grdSCMProcurementOffDetails.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOffDetails.Columns["MasterKey"], "ASPxMasterKeyHiddenField") as ASPxHiddenField;
+            ASPxComboBox scmProfCat = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ProcCatDesc"], "ProcurementCat") as ASPxComboBox;
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            string sLastModified = DateTime.Now.ToString();
+            string PK = e.Keys[0].ToString();
+
+            string update = "UPDATE tbl_System_SCMProcurementOfficer_Details " +
+                            " SET [ProcCat] = @ProcCat " +
+                            " WHERE ([PK] = @PK)";
+
+            SqlCommand cmd = new SqlCommand(update, conn);
+            cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.Parameters.AddWithValue("@ProcCat", scmProfCat.Value.ToString());
+            cmd.CommandType = CommandType.Text;
+            cmd.ExecuteNonQuery();
+
+            string updateMaster = "UPDATE tbl_System_SCMProcurementOfficer " +
+                                  " SET [LastModified] = @LastModified " +
+                                  " WHERE ([PK] = @PK)";
+
+            SqlCommand cmd1 = new SqlCommand(updateMaster, conn);
+            cmd1.Parameters.AddWithValue("@PK", iProcOffMaster.ToString());
+            cmd1.Parameters.AddWithValue("@LastModified", sLastModified.ToString());
+            cmd1.CommandType = CommandType.Text;
+            cmd1.ExecuteNonQuery();
+
+            conn.Close();
+            e.Cancel = true;
+            grid.CancelEdit();
+            BindSCMProcOff_Details(iProcOffMaster);
+        }
+
+        protected void grdSCMProcurementOffDetails_RowDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
+        {
+
+            sProcCatMasterKey = "";
+            sProcCatMasterKey = grdSCMProcurementOff.GetRowValues(grdSCMProcurementOff.FocusedRowIndex, "PK").ToString();
+            if (sProcCatMasterKey == "") { return; }
+
+            iProcOffMaster = Convert.ToInt32(sProcCatMasterKey);
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            string PK = e.Keys[0].ToString();
+            string sLastModified = DateTime.Now.ToString();
+
+            string delete = "DELETE FROM tbl_System_SCMProcurementOfficer_Details WHERE [PK] ='" + PK + "'";
+            SqlCommand cmd = new SqlCommand(delete, conn);
+            cmd.ExecuteNonQuery();
+
+            string updateMaster = "UPDATE tbl_System_SCMProcurementOfficer " +
+                                  " SET [LastModified] = @LastModified " +
+                                  " WHERE ([PK] = @PK)";
+
+            SqlCommand cmd1 = new SqlCommand(updateMaster, conn);
+            cmd1.Parameters.AddWithValue("@PK", iProcOffMaster.ToString());
+            cmd1.Parameters.AddWithValue("@LastModified", sLastModified.ToString());
+            cmd1.CommandType = CommandType.Text;
+            cmd1.ExecuteNonQuery();
+
+            conn.Close();
+            BindSCMProcOff_Details(iProcOffMaster);
+            e.Cancel = true;
+            conn.Close();
+        }
     }
 }
