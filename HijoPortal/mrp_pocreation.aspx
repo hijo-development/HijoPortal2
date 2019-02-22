@@ -4,7 +4,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <input type="hidden" id="HiddenCreatorKey" runat="server" />
     <dx:ASPxPopupControl ID="PopUpControl" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -23,10 +22,10 @@
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
-    <dx:ASPxPopupControl ID="Notify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="Notify" ClientInstanceName="Notify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
-                <dx:ASPxLabel ID="NotificationMessage" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                <dx:ASPxLabel ID="NotificationMessage" ClientInstanceName="NotificationMessage" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
@@ -41,15 +40,14 @@
                 Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
                 OnCustomButtonCallback="POTable_CustomButtonCallback">
                 <ClientSideEvents CustomButtonClick="POCustomButtonClick" />
-                <ClientSideEvents BeginCallback="OnBeginCallbackPO" />
-                <%--<ClientSideEvents EndCallback="POEndCallback" />--%>
+                <ClientSideEvents EndCallback="POEndCallback" />
      
                 <Columns>
                     <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
                         <HeaderTemplate>
                             <div style="text-align: center">
                                 <dx:ASPxButton ID="Add" OnClick="Add_Click" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle"></dx:ASPxButton>
-                                <dx:ASPxTextBox ID="Hidden1" ClientInstanceName="Hidden1" runat="server" Width="170px" Visible="false"></dx:ASPxTextBox>
+                                <dx:ASPxHiddenField ID="HiddenVal" ClientInstanceName="HiddenVal" runat="server"></dx:ASPxHiddenField>
                             </div>
                         </HeaderTemplate>
                         

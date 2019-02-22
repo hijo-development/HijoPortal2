@@ -4,6 +4,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <dx:ASPxPopupControl ID="ItemsEmpty" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxLabel ID="ItemsEmptyLabel" runat="server" Text=""></dx:ASPxLabel>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <%--<div id="dvHeader">--%>
         <div style="background-color: #fff">
@@ -30,29 +37,29 @@
                             </dx:ASPxTextBox>
                         </td>
                         <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Expected Delivery" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel runat="server" Text="Expected Delivery" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
                         </td>
                         <td>:</td>
                         <td style="width: 20%">
                             <dx:ASPxDateEdit ID="ExpDelivery" runat="server" Theme="Office2010Blue" AllowUserInput="false"
-                                ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
+                                ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                 <ClientSideEvents GotFocus="function(s, e) { s.ShowDropDown(); }" />
                             </dx:ASPxDateEdit>
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Vendor" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel runat="server" Text="Vendor" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
                         </td>
                         <td>:</td>
                         <td>
                             <dx:ASPxComboBox ID="Vendor" runat="server" ValueType="System.String" Theme="Office2010Blue"
-                                OnInit="Vendor_Init" ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
+                                OnInit="Vendor_Init" ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                 <ClientSideEvents SelectedIndexChanged="vendor_indexchanged" />
                             </dx:ASPxComboBox>
                         </td>
                         <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Currency" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel runat="server" Text="Currency" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
                         </td>
                         <td>:</td>
                         <td>
@@ -60,7 +67,7 @@
                                 <ClientSideEvents EndCallback="currency_endcallback" />
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxComboBox ID="Currency" runat="server" ValueType="System.String" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="None"
+                                        <dx:ASPxComboBox ID="Currency" runat="server" ValueType="System.String" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="ImageWithText"
                                             ValidationSettings-RequiredField-IsRequired="true">
                                         </dx:ASPxComboBox>
                                     </dx:PanelContent>
@@ -68,12 +75,12 @@
                             </dx:ASPxCallbackPanel>
                         </td>
                         <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Site" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel runat="server" Text="Site" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
                         </td>
                         <td>:</td>
                         <td>
                             <dx:ASPxComboBox ID="Site" runat="server" ValueType="System.String" Theme="Office2010Blue" OnInit="Site_Init"
-                                ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
+                                ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                 <ClientSideEvents SelectedIndexChanged="site_indexchanged" />
                             </dx:ASPxComboBox>
                         </td>
@@ -84,20 +91,19 @@
 
                         </td>
                         <td>:</td>
-                        <td style="width: 20%" colspan="4">
+                        <td style="width: 20%; padding-left:5px;" colspan="4">
                             <dx:ASPxCallbackPanel ID="TermsCallback" ClientInstanceName="TermsCallback" runat="server" Width="200px" OnCallback="TermsCallback_Callback">
                                 <ClientSideEvents EndCallback="terms_endcallback" />
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxComboBox ID="Terms" runat="server" ValueType="System.String" Theme="Office2010Blue"
-                                            ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
+                                        <dx:ASPxComboBox ID="Terms" runat="server" ValueType="System.String" Theme="Office2010Blue">
                                         </dx:ASPxComboBox>
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxCallbackPanel>
                         </td>
                         <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Warehouse" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel runat="server" Text="Warehouse" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
                         </td>
                         <td>:</td>
                         <td>
@@ -106,7 +112,7 @@
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxComboBox ID="WareHouse" ClientInstanceName="WareHouse" runat="server" ValueType="System.String" Theme="Office2010Blue"
-                                            ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
+                                            ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                             <ClientSideEvents SelectedIndexChanged="warehouse_indexchanged" />
                                         </dx:ASPxComboBox>
                                     </dx:PanelContent>
@@ -121,12 +127,12 @@
                         <td>:</td>
                         <td colspan="4">
                             <dx:ASPxComboBox ID="ProCategory" runat="server" ValueType="System.String" Width="170px" Theme="Office2010Blue"
-                                TextFormatString="{0}" OnInit="ProCategory_Init" ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
+                                TextFormatString="{0}" OnInit="ProCategory_Init" ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                 <ClientSideEvents SelectedIndexChanged="procategory_indexchange" />
                             </dx:ASPxComboBox>
                         </td>
                         <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Location" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel runat="server" Text="Location" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
                         </td>
                         <td>:</td>
                         <td>
@@ -135,19 +141,22 @@
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxComboBox ID="Location" ClientInstanceName="Location" runat="server" ValueType="System.String" Theme="Office2010Blue"
-                                            ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
+                                            ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                         </dx:ASPxComboBox>
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxCallbackPanel>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="4"><label style="color:red;">all fields marked with an asterisk (*) are required</label></td>
+                    </tr>
                 </table>
             </div>
             <div>
                 <table style="width: 100%" border="0">
                     <tr>
-                        <td style="width: 100%; vertical-align: top; text-align:center">
+                        <td style="width: 100%; vertical-align: top;">
                             <dx:ASPxGridView ID="POAddEditGrid" ClientInstanceName="POAddEditGrid" runat="server" Theme="Office2010Blue" Width="100%" AutoGenerateColumns="false"
                                 OnRowValidating="POAddEditGrid_RowValidating"
                                 OnRowUpdating="POAddEditGrid_RowUpdating"
@@ -156,7 +165,6 @@
                                 <%--<ClientSideEvents SelectionChanged="POgrid_selectionChanged" />--%>
                                 <Columns>
                                     <dx:GridViewCommandColumn ShowSelectCheckbox="true" SelectAllCheckboxMode="Page" ShowEditButton="true" VisibleIndex="0">
-                                        <CellStyle HorizontalAlign="Center"></CellStyle>
                                     </dx:GridViewCommandColumn>
                                     <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
                                     <dx:GridViewDataColumn FieldName="TableIdentifier" Visible="false"></dx:GridViewDataColumn>
@@ -213,10 +221,6 @@
                                             <dx:ASPxTextBox ID="POTotalCost" ClientInstanceName="POTotalCost" Text='<%#Eval("POTotalCost") %>' ReadOnly="true" runat="server" Width="100px"></dx:ASPxTextBox>
                                         </EditItemTemplate>
                                     </dx:GridViewDataColumn>
-
-                                    <%--<dx:GridViewDataColumn FieldName="TaxGroup" VisibleIndex="11"></dx:GridViewDataColumn>--%>
-                                    <%--<dx:GridViewDataColumn FieldName="TaxItemGroup" VisibleIndex="12"></dx:GridViewDataColumn>--%>
-
                                     <dx:GridViewDataComboBoxColumn FieldName="TaxGroup" VisibleIndex="11">
                                         <PropertiesComboBox ValueField="TaxGroup" OnItemsRequestedByFilterCondition="ItemsRequestedByFilterCondition_1"></PropertiesComboBox>
                                     </dx:GridViewDataComboBoxColumn>
@@ -225,8 +229,15 @@
                                     </dx:GridViewDataComboBoxColumn>
                                 </Columns>
                                 <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" />
-                                <SettingsBehavior AllowFocusedRow="True" AllowSort="true" AllowDragDrop="false" />
+                                <SettingsBehavior AllowFocusedRow="True" AllowSort="false" AllowDragDrop="false" />
                                 <SettingsEditing Mode="Inline"></SettingsEditing>
+                                <SettingsCommandButton>
+                                    <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px">
+                                        <Styles Style-HorizontalAlign="Center" Style-VerticalAlign="Middle"></Styles>
+                                    </EditButton>
+                                    <CancelButton ButtonType="Image" Image-Url="images/Undo.ico" Image-Width="15px"></CancelButton>
+                                    <UpdateButton ButtonType="Image" Image-Url="images/Save.ico" Image-Width="15px"></UpdateButton>
+                                </SettingsCommandButton>
                             </dx:ASPxGridView>
                         </td>
                         <td style="width: 1%;"></td>

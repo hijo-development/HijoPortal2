@@ -49,6 +49,8 @@ namespace HijoPortal
         {
             CheckSessionExpire();
 
+            ASPxHiddenField text = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenVal") as ASPxHiddenField;
+
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
             string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
@@ -66,7 +68,9 @@ namespace HijoPortal
                     {
                         //Session["DocNumber"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
                         string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
-                        Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
+                        //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
+                        Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString();
+                        //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
                     }
                 }
 
@@ -82,6 +86,11 @@ namespace HijoPortal
                         BindMRP();
                     }
                 }
+            }
+            else
+            {
+                if (e.ButtonID == "Edit")
+                    text["hidden_value"] = "InvalidCreator";
             }
 
             if (e.ButtonID == "Preview")

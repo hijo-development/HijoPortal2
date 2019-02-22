@@ -317,10 +317,14 @@ namespace HijoPortal
 
             string update_po = "UPDATE [hijo_portal].[dbo].[tbl_POCreation] SET [ExpectedDate] = @expdate, [VendorCode] = @vendor, [PaymentTerms] = @terms, [CurrencyCode] = @currency, [InventSite] = @site, [InventSiteWarehouse] = @warehouse,[InventSiteWarehouseLocation] = @location WHERE [PONumber] = @ponumber";
 
+            string terms = "";
+            if (Terms.Value != null)
+                terms = Terms.Value.ToString();
+
             SqlCommand cmd_po = new SqlCommand(update_po, conn);
             cmd_po.Parameters.AddWithValue("@expdate", ExpDelivery.Value.ToString());
             cmd_po.Parameters.AddWithValue("@vendor", Vendor.Value.ToString());
-            cmd_po.Parameters.AddWithValue("@terms", Terms.Value.ToString());
+            cmd_po.Parameters.AddWithValue("@terms", terms);
             cmd_po.Parameters.AddWithValue("@currency", Currency.Value.ToString());
             cmd_po.Parameters.AddWithValue("@site", Site.Value.ToString());
             cmd_po.Parameters.AddWithValue("@warehouse", WareHouse.Value.ToString());
@@ -387,6 +391,14 @@ namespace HijoPortal
         protected void Send_Click(object sender, EventArgs e)
         {
             List<object> selectedValues = POAddEditGrid.GetSelectedFieldValues(new string[] { "PK", "TableIdentifier", "MRPCategory", "Item", "Qty", "UOM", "Cost", "TotalCost", "POQty", "POCost", "POTotalCost", "TaxGroup", "TaxItemGroup" }) as List<object>;
+
+            if (selectedValues.Count == 0)
+            {
+                ItemsEmpty.HeaderText = "Alert";
+                ItemsEmptyLabel.Text = "No Selected Items";
+                ItemsEmpty.ShowOnPageLoad = true;
+            }
+
             foreach (object[] obj in selectedValues)
             {
                 string pk = obj[0].ToString();
@@ -452,10 +464,13 @@ namespace HijoPortal
                     }
 
                     conn.Close();
+                    Server.Transfer("mrp_pocreation.aspx");
                 }
                 else
                 {
-                    MRPClass.PrintString("empty");
+                    ItemsEmpty.HeaderText = "Alert";
+                    ItemsEmptyLabel.Text = "Some selected items are empty";
+                    ItemsEmpty.ShowOnPageLoad = true;
                 }
             }
         }

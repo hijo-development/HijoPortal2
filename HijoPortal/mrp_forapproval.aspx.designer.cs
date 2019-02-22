@@ -10,186 +10,186 @@
 namespace HijoPortal {
     
     
-    public partial class mrp_poaddedit {
+    public partial class mrp_forapproval {
         
         /// <summary>
-        /// ItemsEmpty control.
+        /// DocNum control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPopupControl ItemsEmpty;
+        protected global::DevExpress.Web.ASPxLabel DocNum;
         
         /// <summary>
-        /// ItemsEmptyLabel control.
+        /// Month control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel ItemsEmptyLabel;
+        protected global::DevExpress.Web.ASPxLabel Month;
         
         /// <summary>
-        /// dvContentWrapper control.
+        /// DateCreated control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvContentWrapper;
+        protected global::DevExpress.Web.ASPxLabel DateCreated;
         
         /// <summary>
-        /// POnumber control.
+        /// Year control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox POnumber;
+        protected global::DevExpress.Web.ASPxLabel Year;
         
         /// <summary>
-        /// POdate control.
+        /// EntityCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox POdate;
+        protected global::DevExpress.Web.ASPxLabel EntityCode;
         
         /// <summary>
-        /// ExpDelivery control.
+        /// BUCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxDateEdit ExpDelivery;
+        protected global::DevExpress.Web.ASPxLabel BUCode;
         
         /// <summary>
-        /// Vendor control.
+        /// Status control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxComboBox Vendor;
+        protected global::DevExpress.Web.ASPxLabel Status;
         
         /// <summary>
-        /// CurrencyCallback control.
+        /// Creator control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel CurrencyCallback;
+        protected global::DevExpress.Web.ASPxLabel Creator;
         
         /// <summary>
-        /// Currency control.
+        /// Submit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxComboBox Currency;
+        protected global::DevExpress.Web.ASPxButton Submit;
         
         /// <summary>
-        /// Site control.
+        /// MRPList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxComboBox Site;
+        protected global::DevExpress.Web.ASPxButton MRPList;
         
         /// <summary>
-        /// TermsCallback control.
+        /// Preview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel TermsCallback;
+        protected global::DevExpress.Web.ASPxButton Preview;
         
         /// <summary>
-        /// Terms control.
+        /// ASPxPageControl1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxComboBox Terms;
+        protected global::DevExpress.Web.ASPxPageControl ASPxPageControl1;
         
         /// <summary>
-        /// WarehouseCallback control.
+        /// DirectMaterialsRoundPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel WarehouseCallback;
+        protected global::DevExpress.Web.ASPxRoundPanel DirectMaterialsRoundPanel;
         
         /// <summary>
-        /// WareHouse control.
+        /// DMGrid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxComboBox WareHouse;
+        protected global::DevExpress.Web.ASPxGridView DMGrid;
         
         /// <summary>
-        /// ProCategory control.
+        /// OpexRoundPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxComboBox ProCategory;
+        protected global::DevExpress.Web.ASPxRoundPanel OpexRoundPanel;
         
         /// <summary>
-        /// LocationCallback control.
+        /// OpGrid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel LocationCallback;
+        protected global::DevExpress.Web.ASPxGridView OpGrid;
         
         /// <summary>
-        /// Location control.
+        /// ManpowerRoundPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxComboBox Location;
+        protected global::DevExpress.Web.ASPxRoundPanel ManpowerRoundPanel;
         
         /// <summary>
-        /// POAddEditGrid control.
+        /// ManPowerGrid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView POAddEditGrid;
+        protected global::DevExpress.Web.ASPxGridView ManPowerGrid;
         
         /// <summary>
-        /// Create control.
+        /// CapexRoundPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxButton Create;
+        protected global::DevExpress.Web.ASPxRoundPanel CapexRoundPanel;
         
         /// <summary>
-        /// Send control.
+        /// CapexGridApproval control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxButton Send;
+        protected global::DevExpress.Web.ASPxGridView CapexGridApproval;
     }
 }

@@ -427,11 +427,11 @@ hide-tr {
 }
 
 .list-box {
-    /*position: absolute;
-    z-index: 1;*/
-    /*trial*/
     position: relative;
-    /*height: 100px;
-    width: 100px;*/
     z-index: 1;
+}
+
+.asterisk {
+    color: red;
+    font-size: 14px;
 }

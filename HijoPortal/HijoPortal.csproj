@@ -46,6 +46,7 @@
     <Reference Include="DevExpress.Data.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.RichEdit.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v17.2.Export, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Web.ASPxThemes.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Web.Resources.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -106,6 +107,8 @@
     <Content Include="jquery\ContentPage.js" />
     <Content Include="jquery\createAccount.js" />
     <Content Include="mrp_addedit.aspx" />
+    <Content Include="mrp_forapproval.aspx" />
+    <Content Include="mrp_inventanalyst.aspx" />
     <Content Include="mrp_list.aspx" />
     <Content Include="mrp_poaddedit.aspx" />
     <Content Include="mrp_pocreation.aspx" />
@@ -178,6 +181,20 @@
     </Compile>
     <Compile Include="mrp_addedit.aspx.designer.cs">
       <DependentUpon>mrp_addedit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mrp_forapproval.aspx.cs">
+      <DependentUpon>mrp_forapproval.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_forapproval.aspx.designer.cs">
+      <DependentUpon>mrp_forapproval.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mrp_inventanalyst.aspx.cs">
+      <DependentUpon>mrp_inventanalyst.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_inventanalyst.aspx.designer.cs">
+      <DependentUpon>mrp_inventanalyst.aspx</DependentUpon>
     </Compile>
     <Compile Include="mrp_list.aspx.cs">
       <DependentUpon>mrp_list.aspx</DependentUpon>

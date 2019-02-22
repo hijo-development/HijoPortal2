@@ -106,6 +106,50 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
 
+//REUSABLE FUNCTION START HERE....
+function FilterDigit(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    console.log(key);
+    //KEY (TAB) keycode: 0
+    //KEY (0 to 9) keycode: 48-57
+    //Key (DEL)    keycode: 8
+    //Key (.)    keycode: 46
+    var textboxval = s.GetText().split(".");
+    var length = textboxval.length;
+    var text = s.GetText().substring(s.GetText().indexOf(".") + 1, s.GetText().length);
+    //console.log(text);
+    if (key == 46) {
+        if (length > 1) {
+            ASPxClientUtils.PreventEvent(e.htmlEvent);
+        }
+    } else {
+
+    }
+
+    if ((key >= 48 && key <= 57) || key == 8 || key == 46 || key == 0) {
+        return true;
+    } else {
+        ASPxClientUtils.PreventEvent(e.htmlEvent);
+    }
+}
+
+function OnValueChangeQty(s, e) {
+    s.SetText(CorrectValue(s.GetText(), 2));
+}
+
+function OnValueChange(s, e) {
+    s.SetText(CorrectValue(s.GetText(), 1));
+}
+
+function CorrectValue(str, type) {
+    switch (type) {
+        case 1:
+            return accounting.formatMoney(str);
+        case 2:
+            return accounting.formatNumber(str);
+    }
+}
+//END OF REUSABLE FUNCTION
 
 // MasterMRp
 function CustomButtonClick(s, e) {
@@ -119,6 +163,16 @@ function CustomButtonClick(s, e) {
         e.processOnServer = true;
     } else if (button == "Preview") {
         e.processOnServer = true;
+    }
+}
+
+function MainTableEndCallback(s, e) {
+    var hidden_val = MRPHiddenVal.Get('hidden_value');
+    if (hidden_val == "InvalidCreator") {
+        MRPNotificationMessage.SetText("You are not authorized to access this item");
+        MRPNotify.SetHeaderText("Alert");
+        MRPNotify.Show();
+        MRPHiddenVal.Set('hidden_value', ' ');
     }
 }
 
@@ -188,48 +242,7 @@ function updateRevenue(s, e) {
         RevenueGrid.UpdateEdit();
     }
 }
-function FilterDigit(s, e) {
-    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    console.log(key);
-    //KEY (TAB) keycode: 0
-    //KEY (0 to 9) keycode: 48-57
-    //Key (DEL)    keycode: 8
-    //Key (.)    keycode: 46
-    var textboxval = s.GetText().split(".");
-    var length = textboxval.length;
-    var text = s.GetText().substring(s.GetText().indexOf(".") + 1, s.GetText().length);
-    //console.log(text);
-    if (key == 46) {
-        if (length > 1) {
-            ASPxClientUtils.PreventEvent(e.htmlEvent);
-        }
-    } else {
 
-    }
-
-    if ((key >= 48 && key <= 57) || key == 8 || key == 46 || key == 0) {
-        return true;
-    } else {
-        ASPxClientUtils.PreventEvent(e.htmlEvent);
-    }
-}
-
-function OnValueChangeQty(s, e) {
-    s.SetText(CorrectValue(s.GetText(), 2));
-}
-
-function OnValueChange(s, e) {
-    s.SetText(CorrectValue(s.GetText(), 1));
-}
-
-function CorrectValue(str, type) {
-    switch (type) {
-        case 1:
-            return accounting.formatMoney(str);
-        case 2:
-            return accounting.formatNumber(str);
-    }
-}
 
 function OnKeyUpCostDirect(s, e) {//OnChange
     var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
@@ -592,30 +605,17 @@ function focusedWorkflowMaster(s, e, type) {
 }
 
 
-//FOR PO ADD/EDIT GRID SELECTION CHANGE(CHECKBOX CONTROL)
-function rowfoc(s, e) {
-    console.log(" rowfoc");
-    POTable.GetRowValues(visibleIndex, "CreatorKey", OnGetGridViewValuesPOTable);
-}
-
-
-
 var creatorkey = -1;
 var hidcreatorkey = -1;
 // POCreation
 function POCustomButtonClick(s, e) {
-    //var someSession = '<%= Session["CreatorKey"].ToString() %>';
-    hidcreatorkey = document.getElementById('HiddenCreatorKey').value;
-    console.log("custom button click" + hidcreatorkey);
     var button = e.buttonID;
-    console.log("custom button click" + creatorkey);
-    console.log("custom button click" + button);
     if (button == "Delete") {
         var result = confirm("Delete this row?");
         if (result)
             e.processOnServer = true;
     } else if (button == "Edit") {
-            e.processOnServer = true;
+        e.processOnServer = true;
     } else if (button == "Preview") {
         e.processOnServer = true;
     }
@@ -623,21 +623,18 @@ function POCustomButtonClick(s, e) {
 }
 
 function POEndCallback(s, e) {
-    //POTable.GetSelectedFieldValues(POTable.GetFocusedRowIndex(), 'CreatorKey', OnGetGridViewValuesPOTable);
-}
-
-function OnBeginCallbackPO(s, e) {
-    console.log(e.command);
-    if (e.command == "CUSTOMBUTTON") {
-        var visibleIndex = POTable.GetFocusedRowIndex();
-        POTable.GetRowValues(visibleIndex, "CreatorKey", OnGetGridViewValuesPOTable);
+    var hidden_val = HiddenVal.Get('hidden_value');
+    if (hidden_val == "AlreadyPO") {
+        NotificationMessage.SetText("Already PO");
+        Notify.SetHeaderText("Alert");
+        Notify.Show();
+        HiddenVal.Set('hidden_value', ' ');
+    } else if (hidden_val == "InvalidCreator") {
+        NotificationMessage.SetText("You are not authorized to access this item");
+        Notify.SetHeaderText("Alert");
+        Notify.Show();
+        HiddenVal.Set('hidden_value', ' ');
     }
-}
-
-function OnGetGridViewValuesPOTable(values) {
-    console.log("doc:" + Hidden1.GetText());
-    if (values[0] != hidcreatorkey && hidcreatorkey > -1)
-        alert("You are not authorized to access this item");
 }
 
 function POgrid_selectionChanged(s, e) {
@@ -842,6 +839,136 @@ function OnGridFocusedRowChangedSCMProcOff(s, e) {
 function OnGridFocusedRowChangedSCMProcOff_EndCallback(s, e) {
     grdSCMProcurementOffDetailsDirect.Refresh();
 }
-
-
 //END OF ADD FORM SCRIPT HERE.....
+
+//mrp_inventanalyst
+function MRPanalystfocused(s, e, type) {
+    //var pk = s.GetRowKey(e.visibleIndex);;
+    //params = type + "-" + pk;
+
+    //if (FloatCallbackPanel.InCallback())
+    //    postponedCallbackRequired = true;
+    //else
+    //    FloatCallbackPanel.PerformCallback(params);
+}
+
+function OnKeyUpQtytInvDirect(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var qty = parseFloat(accounting.unformat(s.GetText()));
+    var cost = parseFloat(InvEdittedCost.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvEdittiedTotalCost.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        InvEdittiedTotalCost.SetText("");
+    }
+}
+
+function OnKeyUpCosttInvDirect(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(InvEdittedQty.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvEdittiedTotalCost.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        InvEdittiedTotalCost.SetText("");
+    }
+}
+
+function OnKeyUpQtytInvOpex(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var qty = parseFloat(accounting.unformat(s.GetText()));
+    var cost = parseFloat(InvEdittedCostOp.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvEdittiedTotalCostOp.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        InvEdittiedTotalCostOp.SetText("");
+    }
+}
+
+function OnKeyUpCosttInvOpex(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(InvEdittedQtyOp.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvEdittiedTotalCostOp.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        InvEdittiedTotalCostOp.SetText("");
+    }
+}
+
+
+function OnKeyUpQtytInvManPower(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var qty = parseFloat(accounting.unformat(s.GetText()));
+    var cost = parseFloat(InvEdittedCostManPo.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvEdittiedTotalCostManPo.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        InvEdittiedTotalCostManPo.SetText("");
+    }
+}
+
+function OnKeyUpCosttInvManPower(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(InvEdittedQtyManPo.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvEdittiedTotalCostManPo.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        InvEdittiedTotalCostManPo.SetText("");
+    }
+}
+
+function OnKeyUpQtytInvCapex(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var qty = parseFloat(accounting.unformat(s.GetText()));
+    var cost = parseFloat(InvEdittedCostCapex.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvEdittiedTotalCostCapex.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        InvEdittiedTotalCostCapex.SetText("");
+    }
+}
+
+function OnKeyUpCosttInvCapex(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(InvEdittedQtyCapex.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvEdittiedTotalCostCapex.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        InvEdittiedTotalCostCapex.SetText("");
+    }
+}
