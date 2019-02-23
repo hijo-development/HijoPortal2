@@ -163,7 +163,7 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="UOM" Theme="Office2010Blue" />
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMDirect" Text='<%#Eval("UOM")%>' OnInit="UOM_Init" ValueType="System.String" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true"></dx:ASPxComboBox>
+                                                                                                                <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMDirect" OnInit="UOM_Init" ValueType="System.String" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true"></dx:ASPxComboBox>
                                                                                                             </td>
                                                                                                         </tr>
                                                                                                     </table>

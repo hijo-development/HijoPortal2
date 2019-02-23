@@ -130,13 +130,13 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxRoundPanel DirectMaterialsRoundPanel;
         
         /// <summary>
-        /// DMGrid control.
+        /// DMGridApproval control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView DMGrid;
+        protected global::DevExpress.Web.ASPxGridView DMGridApproval;
         
         /// <summary>
         /// OpexRoundPanel control.
@@ -148,13 +148,13 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxRoundPanel OpexRoundPanel;
         
         /// <summary>
-        /// OpGrid control.
+        /// OpexGridApproval control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView OpGrid;
+        protected global::DevExpress.Web.ASPxGridView OpexGridApproval;
         
         /// <summary>
         /// ManpowerRoundPanel control.
@@ -166,13 +166,13 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxRoundPanel ManpowerRoundPanel;
         
         /// <summary>
-        /// ManPowerGrid control.
+        /// ManPowerGridApproval control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView ManPowerGrid;
+        protected global::DevExpress.Web.ASPxGridView ManPowerGridApproval;
         
         /// <summary>
         /// CapexRoundPanel control.

@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using HijoPortal.classes;
 using DevExpress.Web;
+using System.Net.NetworkInformation;
 
 namespace HijoPortal
 {
@@ -68,9 +69,20 @@ namespace HijoPortal
                     {
                         //Session["DocNumber"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
                         string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
-                        //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
-                        Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString();
+                        Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
+                        //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
+                        String firstMacAddress = 
+                            NetworkInterface
+                            .GetAllNetworkInterfaces()
+                            .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                            .Select(nic => nic.GetPhysicalAddress().ToString())
+                            .FirstOrDefault();
+
+                        string username = Environment.UserName;
+                        MRPClass.PrintString(firstMacAddress);
+                        MRPClass.PrintString(username);
+
                     }
                 }
 
