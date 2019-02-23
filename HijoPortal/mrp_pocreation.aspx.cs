@@ -17,8 +17,6 @@ namespace HijoPortal
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["CreatorKey"] != null)
-                HiddenCreatorKey.Value = Session["CreatorKey"].ToString();
             MRPClass.PrintString("Loading...");
             if (!Page.IsPostBack)
             {
@@ -38,6 +36,8 @@ namespace HijoPortal
         protected void POTable_CustomButtonCallback(object sender, DevExpress.Web.ASPxGridViewCustomButtonCallbackEventArgs e)
         {
             CheckSessionExpire();
+            ASPxHiddenField text = POTable.FindHeaderTemplateControl(POTable.Columns[0], "HiddenVal") as ASPxHiddenField;
+            text["hidden_value"] = "";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -64,14 +64,9 @@ namespace HijoPortal
                         int result_po = Convert.ToInt32(cmd.ExecuteScalar());
                         MRPClass.PrintString(":" + result_po);
                         if (result_po > 0)
-                        {
-                            ASPxTextBox text = POTable.FindHeaderTemplateControl(POTable.Columns[0], "Hidden1") as ASPxTextBox;
-                            text.Value = "try lng";
-                        }
+                            text["hidden_value"] = "AlreadyPO";
                         else
-                        {
                             Response.RedirectLocation = "mrp_poaddedit.aspx?DocNum=" + docNum.ToString();
-                        }
                     }
                 }
 
@@ -85,6 +80,10 @@ namespace HijoPortal
                         BindPO();
                     }
                 }
+            }
+            else
+            {
+                text["hidden_value"] = "InvalidCreator";
             }
         }
 
@@ -179,11 +178,11 @@ namespace HijoPortal
 
         private void CheckSessionExpire()
         {
-            if (Session["CreatorKey"] == null)
-            {
-                Response.Redirect("login.aspx");
-                return;
-            }
+            //if (Session["CreatorKey"] == null)
+            //{
+            //    Response.Redirect("login.aspx");
+            //    return;
+            //}
         }
     }
 }

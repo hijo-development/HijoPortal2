@@ -36,6 +36,14 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
+    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="MRPNotificationMessage" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 30px;">
             <h1>M O P  List</h1>
@@ -47,17 +55,21 @@
                 Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
                 OnCustomButtonCallback="MainTable_CustomButtonCallback">
                 <ClientSideEvents CustomButtonClick="CustomButtonClick" />
-
+                <ClientSideEvents EndCallback="MainTableEndCallback" />
                 <SettingsBehavior AllowSort ="true" SortMode="Value" />
 
                 <Columns>
                     <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
                         <HeaderTemplate>
+                            
                             <div style="text-align: center">
                                 <dx:ASPxButton ID="Add" OnClick="Add_Click" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle"></dx:ASPxButton>
+                                <dx:ASPxHiddenField ID="MRPHiddenVal" ClientInstanceName="MRPHiddenVal" runat="server"></dx:ASPxHiddenField>
                             </div>
                         </HeaderTemplate>
+                        
                         <CustomButtons>
+                            
                             <dx:GridViewCommandColumnCustomButton ID="Edit" Text="" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                             <dx:GridViewCommandColumnCustomButton ID="Delete" Text="" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                             <dx:GridViewCommandColumnCustomButton ID="Preview" Text="" Image-Url="Images/Refresh.ico" Image-ToolTip="Preview Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
