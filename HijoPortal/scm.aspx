@@ -226,9 +226,13 @@
 
                                                             <%--FocusedRowChanged="OnGridFocusedRowChangedSCMProcOff"--%>
 
-                                                            <ClientSideEvents  
-                                                                RowClick="OnGridFocusedRowChangedSCMProcOff"
-                                                                EndCallback="OnGridFocusedRowChangedSCMProcOff_EndCallback" />
+                                                            <%--function (s, e) {grdSCMProcurementOffDetailsDirect.PerformCallback('AddNew');}"--%>
+                                                            <%--RowClick="OnGridFocusedRowChangedSCMProcOff"
+                                                            EndCallback="OnGridFocusedRowChangedSCMProcOff_EndCallback"--%>
+
+                                                            <ClientSideEvents
+                                                                RowClick="function (s, e) {grdSCMProcurementOffDetailsDirect.PerformCallback('ProcOff');}"
+                                                                EndCallback="function (s,e) {grdSCMProcurementOffDetailsDirect.Refresh();}" />
                                                             <Columns>
                                                                 <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0" Width="40px" CellStyle-HorizontalAlign="Left"></dx:GridViewCommandColumn>
                                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
@@ -309,18 +313,30 @@
                                                             Width="100%"
                                                             EnableCallBacks="true"
                                                             KeyFieldName="PK"
-                                                            Theme="Office2010Blue" 
+                                                            Theme="Office2010Blue"
                                                             OnCustomCallback="grdSCMProcurementOffDetails_CustomCallback"
                                                             OnInitNewRow="grdSCMProcurementOffDetails_InitNewRow"
-                                                            OnRowInserting="grdSCMProcurementOffDetails_RowInserting" 
-                                                            OnStartRowEditing="grdSCMProcurementOffDetails_StartRowEditing" 
-                                                            OnRowUpdating="grdSCMProcurementOffDetails_RowUpdating" 
+                                                            OnRowInserting="grdSCMProcurementOffDetails_RowInserting"
+                                                            OnStartRowEditing="grdSCMProcurementOffDetails_StartRowEditing"
+                                                            OnRowUpdating="grdSCMProcurementOffDetails_RowUpdating"
                                                             OnRowDeleting="grdSCMProcurementOffDetails_RowDeleting">
+
+                                                            <ClientSideEvents
+                                                                CustomButtonClick=""
+                                                                EndCallback="function (s,e) {grdSCMProcurementOffDetailsDirect.InCallback();}" />
 
                                                             <SettingsBehavior AllowSort="true" SortMode="Value" />
 
                                                             <Columns>
-                                                                <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0" Width="40px" CellStyle-HorizontalAlign="Left"></dx:GridViewCommandColumn>
+                                                                <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="false" VisibleIndex="0" Width="40px" CellStyle-HorizontalAlign="Left">
+                                                                    <HeaderTemplate>
+                                                                        <div style="text-align: left">
+                                                                            <dx:ASPxButton ID="AddProcCat" ClientInstanceName="AddProcCatDirect" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
+                                                                                <ClientSideEvents Click="function (s, e) {grdSCMProcurementOffDetailsDirect.PerformCallback('AddNew');}" />
+                                                                            </dx:ASPxButton>
+                                                                        </div>
+                                                                    </HeaderTemplate>
+                                                                </dx:GridViewCommandColumn>
                                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="MasterKey" Visible="false" VisibleIndex="2">
                                                                     <EditItemTemplate>
@@ -339,7 +355,7 @@
                                                                 </dx:GridViewDataColumn>
                                                             </Columns>
                                                             <SettingsCommandButton>
-                                                                <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px"></NewButton>
+                                                                <%--<NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px"></NewButton>--%>
                                                                 <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px"></EditButton>
                                                                 <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px"></DeleteButton>
                                                                 <UpdateButton ButtonType="Image" Image-Url="Images/Save.ico" Image-Width="15px"></UpdateButton>

@@ -13,9 +13,11 @@ namespace HijoPortal
 {
     public partial class finance : System.Web.UI.Page
     {
+        private static bool bindApprovalList = true;
         private static bool bindHeadList = true;
         private static bool bindBudgetList = true;
         private static bool bindBudgetDetList = true;
+        private static string sApprovalKey = "";
         private static string sHeadKey = "";
         private static string sBudgetKey = "";
         private static string sBudgetDetEnt = "";
@@ -37,6 +39,15 @@ namespace HijoPortal
             grid.FocusedRowIndex = grid.FindVisibleIndexByKeyValue(keyVal);
         }
 
+        private void BindApproval()
+        {
+            DataTable dtRecord = FinanceClass.ApprovalTable();
+            grdFinanceApproval.DataSource = dtRecord;
+            grdFinanceApproval.KeyFieldName = "PK";
+            grdFinanceApproval.DataBind();
+
+        }
+
         private void BindFinanceHead()
         {
 
@@ -54,7 +65,7 @@ namespace HijoPortal
             grdFinanceBudget.DataSource = dtRecord;
             grdFinanceBudget.KeyFieldName = "PK";
             grdFinanceBudget.DataBind();
-            ASPxLabelBudgetOff.Text = grdFinanceBudget.VisibleRowCount.ToString();
+            //ASPxLabelBudgetOff.Text = grdFinanceBudget.VisibleRowCount.ToString();
 
         }
 
@@ -75,6 +86,15 @@ namespace HijoPortal
             if (!Page.IsPostBack)
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            }
+
+            if (bindApprovalList)
+            {
+                BindApproval();
+            }
+            else
+            {
+                bindApprovalList = true;
             }
 
             if (bindHeadList)
@@ -618,11 +638,10 @@ namespace HijoPortal
                 sBudgetDetEnt = "";
                 sBudgetDetBU = "";
 
-                //ASPxLabelBudgetOff.Text = "pass add";
-
                 grdFinanceBudgetDet.AddNewRow();
 
-            } else
+            } 
+            if (e.Parameters == "BudOff")
             {
                 iMasterKey = 0;
                 if (grdFinanceBudget.VisibleRowCount > 0)
@@ -668,6 +687,140 @@ namespace HijoPortal
             //ASPxLabelBudgetOff.Text = "pass add";
 
             grdFinanceBudgetDet.AddNewRow();
+        }
+
+        protected void Approval_Init(object sender, EventArgs e)
+        {
+            DataTable dtRecord = AccountClass.UserListTable();
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "CODE";
+            l_ValueField.Width = 0;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+
+            combo.Value = sApprovalKey.ToString();
+        }
+
+        protected void grdFinanceApproval_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
+        {
+            bindApprovalList = false;
+            sApprovalKey = "";
+
+            ASPxLabel ctrlNum = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["Ctrl"], "ASPxCtrlTextBoxApp") as ASPxLabel;
+            ASPxDateEdit effectDate = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
+            ASPxLabel lastModified = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["LastModified"], "ASPxLastModifiedTextBoxApp") as ASPxLabel;
+
+
+            ctrlNum.Text = GlobalClass.GetControl_DocNum("Approval", Convert.ToDateTime(DateTime.Now.ToString()));
+            effectDate.Value = DateTime.Now.ToString("MM/dd/yyyy");
+            lastModified.Text = DateTime.Now.ToString();
+        }
+
+        protected void grdFinanceApproval_RowInserting(object sender, DevExpress.Web.Data.ASPxDataInsertingEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxDateEdit effectDate = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
+            ASPxComboBox approval = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["UserCompleteName"], "Approval") as ASPxComboBox;
+
+            string sCtrlNum = GlobalClass.GetControl_DocNum("Approval", Convert.ToDateTime(effectDate.Value.ToString()));
+            string sLastModified = DateTime.Now.ToString();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            string insert = "INSERT INTO tbl_System_Approval ([Ctrl], [EffectDate], [UserKey], [LastModified]) " +
+                            " VALUES (@Ctrl, @EffectDate, @UserKey, @LastModified)";
+
+            SqlCommand cmd = new SqlCommand(insert, conn);
+            cmd.Parameters.AddWithValue("@Ctrl", sCtrlNum);
+            cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
+            cmd.Parameters.AddWithValue("@UserKey", approval.Value.ToString());
+            cmd.Parameters.AddWithValue("@LastModified", sLastModified);
+            cmd.CommandType = CommandType.Text;
+            cmd.ExecuteNonQuery();
+
+            e.Cancel = true;
+            grid.CancelEdit();
+            BindApproval();
+
+            int pk_latest = 0;
+            string query_pk = "SELECT TOP 1 [PK] FROM tbl_System_Approval ORDER BY [PK] DESC";
+            SqlCommand comm = new SqlCommand(query_pk, conn);
+            SqlDataReader r = comm.ExecuteReader();
+            while (r.Read())
+            {
+                pk_latest = Convert.ToInt32(r[0].ToString());
+            }
+            conn.Close();
+            if (pk_latest > 0)
+            {
+                FocusThisRowGrid(grid, pk_latest);
+            }
+        }
+
+        protected void grdFinanceApproval_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            bindApprovalList = false;
+            sApprovalKey = grdFinanceApproval.GetRowValues(grdFinanceApproval.FocusedRowIndex, "UserKey").ToString();
+        }
+
+        protected void grdFinanceApproval_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxDateEdit effectDate = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
+            ASPxComboBox approval = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["UserCompleteName"], "Approval") as ASPxComboBox;
+
+            string sLastModified = DateTime.Now.ToString();
+            string PK = e.Keys[0].ToString();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            string update_MRP = "UPDATE tbl_System_Approval " +
+                                " SET [EffectDate] = @EffectDate, " +
+                                " [UserKey]= @BUHead, " +
+                                " [LastModified] = @LastModified " +
+                                " WHERE [PK] = @PK";
+
+            SqlCommand cmd = new SqlCommand(update_MRP, conn);
+            cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
+            cmd.Parameters.AddWithValue("@BUHead", approval.Value.ToString());
+            cmd.Parameters.AddWithValue("@LastModified", sLastModified);
+            cmd.CommandType = CommandType.Text;
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+
+            BindApproval();
+            e.Cancel = true;
+            grid.CancelEdit();
+        }
+
+        protected void grdFinanceApproval_RowDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            string PK = e.Keys[0].ToString();
+
+            string delete = "DELETE FROM tbl_System_Approval WHERE [PK] ='" + PK + "'";
+            SqlCommand cmd = new SqlCommand(delete, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            BindApproval();
+            e.Cancel = true;
+            conn.Close();
         }
     }
 }
