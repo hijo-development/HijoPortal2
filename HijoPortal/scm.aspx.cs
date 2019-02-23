@@ -571,13 +571,30 @@ namespace HijoPortal
         {
 
             ASPxGridView grid = sender as ASPxGridView;
-            int iProdOffKey = 0;
-            if (grdSCMProcurementOff.VisibleRowCount > 0)
+            if (e.Parameters == "AddNew")
             {
-                iProdOffKey = Convert.ToInt32(grdSCMProcurementOff.GetRowValues(grdSCMProcurementOff.FocusedRowIndex, "PK").ToString());
+                if (grdSCMProcurementOff.VisibleRowCount == 0) { return; }
+                bool parseInt = int.TryParse(grdSCMProcurementOff.GetRowValues(grdSCMProcurementOff.FocusedRowIndex, "PK").ToString(), out iProcOffMaster);
+                if (parseInt == false) { return; }
+                if (iProcOffMaster == 0) { return; }
+
+                bindProcCatList = false;
+                sProcCatCode = "";
+
+                grdSCMProcurementOffDetails.AddNewRow();
             }
-            grid.CancelEdit();
-            BindSCMProcOff_Details(iProdOffKey);
+
+            if (e.Parameters == "ProcOff")
+            {
+                int iProdOffKey = 0;
+                if (grdSCMProcurementOff.VisibleRowCount > 0)
+                {
+                    iProdOffKey = Convert.ToInt32(grdSCMProcurementOff.GetRowValues(grdSCMProcurementOff.FocusedRowIndex, "PK").ToString());
+                }
+                grid.CancelEdit();
+                BindSCMProcOff_Details(iProdOffKey);
+            }
+            
         }
 
         protected void grdSCMProcurementOffDetails_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)

@@ -10,6 +10,58 @@ namespace HijoPortal.classes
 {
     public class FinanceClass
     {
+
+        public static DataTable ApprovalTable()
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("Ctrl", typeof(string));
+                dtTable.Columns.Add("EffectDate", typeof(string));
+                dtTable.Columns.Add("UserKey", typeof(string));
+                dtTable.Columns.Add("UserCompleteName", typeof(string));
+                dtTable.Columns.Add("LastModified", typeof(string));
+            }
+
+            string qry = "SELECT dbo.tbl_System_Approval.PK, dbo.tbl_System_Approval.Ctrl, " +
+                         " dbo.tbl_System_Approval.EffectDate, dbo.tbl_System_Approval.UserKey, " +
+                         " dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname, dbo.tbl_System_Approval.LastModified " +
+                         " FROM dbo.tbl_System_Approval LEFT OUTER JOIN " +
+                         " dbo.tbl_Users ON dbo.tbl_System_Approval.UserKey = dbo.tbl_Users.PK";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["Ctrl"] = row["Ctrl"].ToString();
+                    dtRow["EffectDate"] = Convert.ToDateTime(row["EffectDate"]).ToString("MM/dd/yyyy");
+                    dtRow["UserKey"] = row["UserKey"].ToString();
+                    dtRow["UserCompleteName"] = EncryptionClass.Decrypt(row["Lastname"].ToString()) + ",  " + EncryptionClass.Decrypt(row["Firstname"].ToString());
+                    dtRow["LastModified"] = row["LastModified"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
         public static DataTable FinanceHeadTable()
         {
             DataTable dtTable = new DataTable();
