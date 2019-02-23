@@ -43,7 +43,8 @@
                                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="Ctrl" Caption="Ctrl" VisibleIndex="2" SortOrder="Ascending">
                                                                     <EditItemTemplate>
-                                                                        <dx:ASPxTextBox ID="ASPxCtrlTextBox" runat="server" Width="100%" Text='<%#Eval("EffectDate")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>
+                                                                        <%--<dx:ASPxTextBox ID="ASPxCtrlTextBox1" runat="server" Width="100%" Text='<%#Eval("EffectDate")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
+                                                                        <dx:ASPxLabel ID="ASPxCtrlTextBox" runat="server" Width="100%" Text='<%#Eval("Ctrl")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                                     </EditItemTemplate>
                                                                 </dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="EffectDate" Caption="Effect Date" VisibleIndex="3">
@@ -65,7 +66,8 @@
                                                                 </dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="7">
                                                                     <EditItemTemplate>
-                                                                        <dx:ASPxTextBox ID="ASPxLastModifiedTextBox" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>
+                                                                        <%--<dx:ASPxTextBox ID="ASPxLastModifiedTextBox" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
+                                                                        <dx:ASPxLabel ID="ASPxLastModifiedTextBox" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                                     </EditItemTemplate>
                                                                 </dx:GridViewDataColumn>
                                                             </Columns>
@@ -129,7 +131,8 @@
                                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="Ctrl" Caption="Ctrl" VisibleIndex="2" SortOrder="Ascending">
                                                                     <EditItemTemplate>
-                                                                        <dx:ASPxTextBox ID="ASPxCtrlTextBoxAnal" runat="server" Width="100%" Text='<%#Eval("EffectDate")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>
+                                                                        <%--<dx:ASPxTextBox ID="ASPxCtrlTextBoxAnal" runat="server" Width="100%" Text='<%#Eval("EffectDate")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
+                                                                        <dx:ASPxLabel ID="ASPxCtrlTextBoxAnal" runat="server" Width="100%" Text='<%#Eval("Ctrl")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                                     </EditItemTemplate>
                                                                 </dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="EffectDate" Caption="Effect Date" VisibleIndex="3">
@@ -151,7 +154,8 @@
                                                                 </dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="7">
                                                                     <EditItemTemplate>
-                                                                        <dx:ASPxTextBox ID="ASPxLastModifiedTextBoxAnal" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>
+                                                                        <%--<dx:ASPxTextBox ID="ASPxLastModifiedTextBoxAnal" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
+                                                                        <dx:ASPxLabel ID="ASPxLastModifiedTextBoxAnal" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                                     </EditItemTemplate>
                                                                 </dx:GridViewDataColumn>
                                                             </Columns>
@@ -220,15 +224,18 @@
 
                                                             <SettingsBehavior AllowSort="true" SortMode="Value" />
 
-                                                            <ClientSideEvents FocusedRowChanged="OnGridFocusedRowChangedSCMProcOff"
-                                                                EndCallback="OnGridFocusedRowChangedSCMProcOff_EndCallback" />
+                                                            <%--FocusedRowChanged="OnGridFocusedRowChangedSCMProcOff"--%>
 
+                                                            <ClientSideEvents  
+                                                                RowClick="OnGridFocusedRowChangedSCMProcOff"
+                                                                EndCallback="OnGridFocusedRowChangedSCMProcOff_EndCallback" />
                                                             <Columns>
                                                                 <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0" Width="40px" CellStyle-HorizontalAlign="Left"></dx:GridViewCommandColumn>
                                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="Ctrl" Caption="Ctrl" VisibleIndex="2" SortOrder="Ascending">
                                                                     <EditItemTemplate>
-                                                                        <dx:ASPxTextBox ID="ASPxCtrlTextBoxProcOff" runat="server" Width="100%" Text='<%#Eval("EffectDate")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>
+                                                                        <%--<dx:ASPxTextBox ID="ASPxCtrlTextBoxProcOff" runat="server" Width="100%" Text='<%#Eval("EffectDate")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
+                                                                        <dx:ASPxLabel ID="ASPxCtrlTextBoxProcOff" runat="server" Width="100%" Text='<%#Eval("Ctrl")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                                     </EditItemTemplate>
                                                                 </dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="EffectDate" Caption="Effect Date" VisibleIndex="3">
@@ -240,7 +247,7 @@
                                                                     </EditItemTemplate>
                                                                 </dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="UserKey" Visible="false" VisibleIndex="5"></dx:GridViewDataColumn>
-                                                                <dx:GridViewDataColumn FieldName="UserCompleteName" Caption="Inventory Analyst" VisibleIndex="6">
+                                                                <dx:GridViewDataColumn FieldName="UserCompleteName" Caption="Procurement Officer" VisibleIndex="6">
                                                                     <EditItemTemplate>
                                                                         <dx:ASPxComboBox ID="ProcurementOff" runat="server" ClientInstanceName="ProcurementOffDirect" OnInit="ProcurementOff_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
                                                                             ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
@@ -250,7 +257,8 @@
                                                                 </dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="7">
                                                                     <EditItemTemplate>
-                                                                        <dx:ASPxTextBox ID="ASPxLastModifiedTextBoxProcOff" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>
+                                                                        <%--<dx:ASPxTextBox ID="ASPxLastModifiedTextBoxProcOff" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
+                                                                        <dx:ASPxLabel ID="ASPxLastModifiedTextBoxProcOff" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                                     </EditItemTemplate>
                                                                 </dx:GridViewDataColumn>
                                                             </Columns>
@@ -301,10 +309,13 @@
                                                             Width="100%"
                                                             EnableCallBacks="true"
                                                             KeyFieldName="PK"
-                                                            Theme="Office2010Blue"
+                                                            Theme="Office2010Blue" 
                                                             OnCustomCallback="grdSCMProcurementOffDetails_CustomCallback"
                                                             OnInitNewRow="grdSCMProcurementOffDetails_InitNewRow"
-                                                            OnRowInserting="grdSCMProcurementOffDetails_RowInserting">
+                                                            OnRowInserting="grdSCMProcurementOffDetails_RowInserting" 
+                                                            OnStartRowEditing="grdSCMProcurementOffDetails_StartRowEditing" 
+                                                            OnRowUpdating="grdSCMProcurementOffDetails_RowUpdating" 
+                                                            OnRowDeleting="grdSCMProcurementOffDetails_RowDeleting">
 
                                                             <SettingsBehavior AllowSort="true" SortMode="Value" />
 
@@ -318,7 +329,7 @@
                                                                     </EditItemTemplate>
                                                                 </dx:GridViewDataColumn>
                                                                 <dx:GridViewDataColumn FieldName="ProcCat" Visible="false" VisibleIndex="3"></dx:GridViewDataColumn>
-                                                                <dx:GridViewDataColumn FieldName="ProcCatDesc" Caption="Procurement Category" VisibleIndex="4">
+                                                                <dx:GridViewDataColumn FieldName="ProcCatDesc" Caption="Procurement Category" VisibleIndex="4" SortOrder="Ascending">
                                                                     <EditItemTemplate>
                                                                         <dx:ASPxComboBox ID="ProcurementCat" runat="server" ClientInstanceName="ProcurementCatDirect" OnInit="ProcurementCat_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
                                                                             ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
