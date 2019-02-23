@@ -59,7 +59,7 @@ changeWidth = {
 
         $('#dvSCMSetup').height(contentHeight - (HeaderH + 30));
         $('#dvFinanceSetup').height(contentHeight - (HeaderH + 30));
-        
+
         //$('#dvContentWrapper').height(contentHeightInside);
 
         //console.log("Center Height: " + centerPanelHeight + " form Height: " + formHeight + ":::: " + h1);
@@ -841,6 +841,34 @@ function OnGridFocusedRowChangedSCMProcOff_EndCallback(s, e) {
 }
 //END OF ADD FORM SCRIPT HERE.....
 
+//FOR Finance
+var postponedCallbackFinBudBU = false;
+function FinBudEntity_IndexChanged(s, e) {
+    if (FinBUCallbackPanelDirect.InCallback()) {
+        postponedCallbackFinBudBU = true;
+    }
+    else {
+        FinBUCallbackPanelDirect.PerformCallback();
+    }
+}
+
+function FinBudBU_EndCallback(s, e) {
+    if (postponedCallbackFinBudBU) {
+        FinBUCallbackPanelDirect.PerformCallback();
+        postponedCallbackFinBudBU = false;
+    }
+}
+
+function OnGridFocusedRowChangedFinBud(s, e) {
+    grdFinanceBudgetDetDirect.PerformCallback();
+}
+
+function OnGridFocusedRowChangedFinBud_EndCallback(s, e) {
+    grdFinanceBudgetDetDirect.Refresh();
+
+}
+
+
 //mrp_inventanalyst
 function MRPanalystfocused(s, e, type) {
     //var pk = s.GetRowKey(e.visibleIndex);;
@@ -896,32 +924,6 @@ function OnKeyUpQtytInvOpex(s, e) {
     } else {
         InvEdittiedTotalCostOp.SetText("");
     }
-
-//FOR Finance
-var postponedCallbackFinBudBU = false;
-function FinBudEntity_IndexChanged(s, e) {
-    if (FinBUCallbackPanelDirect.InCallback()) {
-        postponedCallbackFinBudBU = true;
-    }
-    else {
-        FinBUCallbackPanelDirect.PerformCallback();
-    }
-}
-
-function FinBudBU_EndCallback(s, e) {
-    if (postponedCallbackFinBudBU) {
-        FinBUCallbackPanelDirect.PerformCallback();
-        postponedCallbackFinBudBU = false;
-    }
-}
-
-function OnGridFocusedRowChangedFinBud(s, e) {
-    grdFinanceBudgetDetDirect.PerformCallback();
-}
-
-function OnGridFocusedRowChangedFinBud_EndCallback(s, e) {
-    grdFinanceBudgetDetDirect.Refresh();
-
 }
 
 function OnKeyUpCosttInvOpex(s, e) {
@@ -997,5 +999,137 @@ function OnKeyUpCosttInvCapex(s, e) {
         }
     } else {
         InvEdittiedTotalCostCapex.SetText("");
+    }
+}
+
+//mrp_forapproval.aspx
+//for Approval Qty Direct Materials
+function OnKeyUpApprovedQtyDirect(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var qty = parseFloat(accounting.unformat(s.GetText()));
+    var cost = parseFloat(ApprovedCostDM.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            ApprovedTotalCostDM.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        ApprovedTotalCostDM.SetText("");
+    }
+}
+
+//for Approval Cost Direct Materials
+function OnKeyUpApprovedCostDirect(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(ApprovedQtyDM.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            ApprovedTotalCostDM.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        ApprovedTotalCostDM.SetText("");
+    }
+}
+
+//for Approval Qty Opex
+function OnKeyUpQtyApprovedQtyOpex(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var qty = parseFloat(accounting.unformat(s.GetText()));
+    var cost = parseFloat(ApprovedCostOpex.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            ApprovedTotalCostOpex.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        ApprovedTotalCostOpex.SetText("");
+    }
+}
+
+
+//for Approval Cost Opex
+function OnKeyUpCostApprovedCostOpex(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(ApprovedQtyOpex.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            ApprovedTotalCostOpex.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        ApprovedTotalCostOpex.SetText("");
+    }
+}
+
+
+//for Approval Qty Manpower
+function OnKeyUpApprovedQtyManPower(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var qty = parseFloat(accounting.unformat(s.GetText()));
+    var cost = parseFloat(ApprovedCostManPower.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            ApprovedTotalCostManPower.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        ApprovedTotalCostManPower.SetText("");
+    }
+}
+
+//for Approval Cost Manpower
+function OnKeyUpApprovedCostManPower(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(ApprovedQtyManPower.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            ApprovedTotalCostManPower.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        ApprovedTotalCostManPower.SetText("");
+    }
+}
+
+//for Approval Qty Capex
+function OnKeyUpApprovedQtyCapex(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var qty = parseFloat(accounting.unformat(s.GetText()));
+    var cost = parseFloat(ApprovedCostCapex.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            ApprovedTotalCostCapex.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        ApprovedTotalCostCapex.SetText("");
+    }
+}
+
+
+//for Approval Cost Capex
+function OnKeyUpApprovedCostCapex(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(ApprovedQtyCapex.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            ApprovedTotalCostCapex.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        ApprovedTotalCostCapex.SetText("");
     }
 }

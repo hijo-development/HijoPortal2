@@ -179,18 +179,6 @@ namespace HijoPortal
 
         protected void ActivityCode_Init(object sender, EventArgs e)
         {
-            //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            //conn.Open();
-
-            //string query = "SELECT * FROM [hijo_portal].[dbo].[vw_AXFindimActivity]";
-
-            //SqlCommand cmd = new SqlCommand(query, conn);
-            //SqlDataReader reader = cmd.ExecuteReader();
-            //ASPxComboBox combo = sender as ASPxComboBox;
-            //while (reader.Read())
-            //{
-            //    combo.Items.Add(reader[1].ToString() + "-" + reader[0].ToString());
-            //}
 
             DataTable dtRecord = MRPClass.ActivityCodeTable();
             ASPxComboBox combo = sender as ASPxComboBox;
@@ -217,41 +205,40 @@ namespace HijoPortal
             }
         }
 
-
-
         protected void UOM_Init(object sender, EventArgs e)
         {
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-            string query = "SELECT [SYMBOL] FROM[hijo_portal].[dbo].[vw_AXUnitOfMeasure]";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-
             ASPxComboBox combo = sender as ASPxComboBox;
-            while (reader.Read())
+            combo.DataSource = MRPClass.UOMTable();
+
+            ListBoxColumn l_value = new ListBoxColumn();
+            l_value.FieldName = "SYMBOL";
+            combo.Columns.Add(l_value);
+
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "NAME";
+            //combo.Columns.Add(l_text);
+
+            //ListBoxColumn l_text2 = new ListBoxColumn();
+            //l_text2.FieldName = "isItem";
+            //l_text2.Width = 0;
+            //combo.Columns.Add(l_text2);
+
+            combo.ValueField = "SYMBOL";
+            combo.TextField = "SYMBOL";
+            combo.DataBind();
+            combo.TextFormatString = "{0}";
+
+            GridViewEditFormTemplateContainer container = ((ASPxComboBox)sender).NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+            if (!container.Grid.IsNewRowEditing)
             {
-                combo.Items.Add(reader[0].ToString());
+                combo.Value = DataBinder.Eval(container.DataItem, "SYMBOL").ToString();
+                //combo.Text = DataBinder.Eval(container.DataItem, "ExpenseCodeName").ToString();
             }
-            reader.Close();
-            conn.Close();
+
         }
 
         protected void ExpenseCode_Init(object sender, EventArgs e)
         {
-            //ASPxComboBox combo = sender as ASPxComboBox;
-            //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            //conn.Open();
-
-            //string query = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXExpenseAccount]";
-            //SqlCommand cmd = new SqlCommand(query, conn);
-            //SqlDataReader reader = cmd.ExecuteReader();
-            //while (reader.Read())
-            //{
-            //    combo.Items.Add(reader[0].ToString() + "-" + reader[1].ToString());
-            //}
-            //reader.Close();
-            //conn.Close();
-
             ASPxComboBox combo = sender as ASPxComboBox;
             combo.DataSource = MRPClass.ExpenseCodeTable();
 
@@ -273,8 +260,6 @@ namespace HijoPortal
             combo.DataBind();
             combo.TextFormatString = "{1}";
 
-            //ASPxPageControl pageControl = OPEXGrid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
-            //ASPxPageControl pc = OPEXGrid.NamingContainer as ASPxPageControl;
             GridViewEditFormTemplateContainer container = ((ASPxComboBox)sender).NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
             if (!container.Grid.IsNewRowEditing)
             {
@@ -306,8 +291,6 @@ namespace HijoPortal
             bindDM = false;
         }
 
-
-
         protected void DirectMaterialsGrid_RowInserting(object sender, DevExpress.Web.Data.ASPxDataInsertingEventArgs e)
         {
             ASPxGridView grid = sender as ASPxGridView;
@@ -336,7 +319,8 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -392,7 +376,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             conn.Close();
 
@@ -409,7 +395,7 @@ namespace HijoPortal
             conn.Open();
 
             string PK = e.Keys[0].ToString();
-            bool Exist = CheckLogsExist(MRPClass.MaterialsTableLogs(), PK);
+            bool Exist = MRPClass.CheckLogsExist(MRPClass.MaterialsTableLogs(), PK);
             if (Exist)//if the material has logs
             {
                 conn.Close();
@@ -419,7 +405,8 @@ namespace HijoPortal
             {
                 string delete = "DELETE FROM " + MRPClass.DirectMatTable() + " WHERE [PK] ='" + PK + "'";
                 SqlCommand cmd = new SqlCommand(delete, conn);
-                cmd.ExecuteNonQuery();
+                int result = cmd.ExecuteNonQuery();
+                if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
                 conn.Close();
                 BindDirectMaterials(docnumber);
                 e.Cancel = true;
@@ -464,7 +451,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -477,7 +466,7 @@ namespace HijoPortal
             conn.Open();
 
             string PK = e.Keys[0].ToString();
-            bool Exist = CheckLogsExist(MRPClass.OpexTableLogs(), PK);
+            bool Exist = MRPClass.CheckLogsExist(MRPClass.OpexTableLogs(), PK);
             if (Exist)//if the material has logs
             {
                 conn.Close();
@@ -487,7 +476,10 @@ namespace HijoPortal
             {
                 string delete = "DELETE FROM " + MRPClass.OpexTable() + " WHERE [PK] ='" + PK + "'";
                 SqlCommand cmd = new SqlCommand(delete, conn);
-                cmd.ExecuteNonQuery();
+                int result = cmd.ExecuteNonQuery();
+
+                if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+
                 conn.Close();
                 BindOPEX(docnumber);
                 e.Cancel = true;
@@ -499,7 +491,7 @@ namespace HijoPortal
             bindCapex = false;
 
             string a = OPEXGrid.GetRowValuesByKeyValue(e.EditingKeyValue, "isItem").ToString();
-            MRPClass.PrintString("iam print:"+a);
+            MRPClass.PrintString("iam print:" + a);
 
 
             ASPxPageControl pageControl = OPEXGrid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
@@ -540,7 +532,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             conn.Close();
 
@@ -592,7 +586,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -605,7 +601,7 @@ namespace HijoPortal
             conn.Open();
 
             string PK = e.Keys[0].ToString();
-            bool Exist = CheckLogsExist(MRPClass.ManpowerTableLogs(), PK);
+            bool Exist = MRPClass.CheckLogsExist(MRPClass.ManpowerTableLogs(), PK);
             if (Exist)//if the material has logs
             {
                 conn.Close();
@@ -615,7 +611,10 @@ namespace HijoPortal
             {
                 string delete = "DELETE FROM " + MRPClass.ManPowerTable() + " WHERE [PK] ='" + PK + "'";
                 SqlCommand cmd = new SqlCommand(delete, conn);
-                cmd.ExecuteNonQuery();
+                int result = cmd.ExecuteNonQuery();
+
+                if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+
                 conn.Close();
                 BindDirectMaterials(docnumber);
                 e.Cancel = true;
@@ -668,7 +667,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             conn.Close();
 
@@ -705,7 +706,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -718,7 +721,7 @@ namespace HijoPortal
             conn.Open();
 
             string PK = e.Keys[0].ToString();
-            bool Exist = CheckLogsExist(MRPClass.CapexTableLogs(), PK);
+            bool Exist = MRPClass.CheckLogsExist(MRPClass.CapexTableLogs(), PK);
             if (Exist)//if the material has logs
             {
                 conn.Close();
@@ -728,9 +731,12 @@ namespace HijoPortal
             {
                 string delete = "DELETE FROM " + MRPClass.CapexTable() + " WHERE [PK] ='" + PK + "'";
                 SqlCommand cmd = new SqlCommand(delete, conn);
-                cmd.ExecuteNonQuery();
+                int result = cmd.ExecuteNonQuery();
+
+                if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+
                 conn.Close();
-                BindDirectMaterials(docnumber);
+                BindCAPEX(docnumber);
                 e.Cancel = true;
             }
         }
@@ -766,7 +772,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             conn.Close();
 
@@ -841,7 +849,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Volume", Convert.ToDouble(volume.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -854,7 +864,7 @@ namespace HijoPortal
             conn.Open();
 
             string PK = e.Keys[0].ToString();
-            bool Exist = CheckLogsExist(MRPClass.RevenueTableLogs(), PK);
+            bool Exist = MRPClass.CheckLogsExist(MRPClass.RevenueTableLogs(), PK);
             if (Exist)//if the material has logs
             {
                 conn.Close();
@@ -864,7 +874,8 @@ namespace HijoPortal
             {
                 string delete = "DELETE FROM " + MRPClass.RevenueTable() + " WHERE [PK] ='" + PK + "'";
                 SqlCommand cmd = new SqlCommand(delete, conn);
-                cmd.ExecuteNonQuery();
+                int result = cmd.ExecuteNonQuery();
+                if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
                 conn.Close();
                 BindDirectMaterials(docnumber);
                 e.Cancel = true;
@@ -902,29 +913,15 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Volume", Convert.ToDouble(volume.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             conn.Close();
 
             BindRevenue(docnumber);
             e.Cancel = true;
             grid.CancelEdit();
-        }
-
-        private bool CheckLogsExist(string table, string PK)
-        {
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-
-            string query = "SELECT COUNT(*) FROM " + table + " where MasterKey = '" + PK + "'";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            int count = Convert.ToInt32(cmd.ExecuteScalar());
-            conn.Close();
-
-            if (count > 0)//if the material has logs
-                return true;
-            else
-                return false;
         }
     }
 }

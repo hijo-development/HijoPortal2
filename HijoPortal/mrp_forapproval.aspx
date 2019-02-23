@@ -100,9 +100,9 @@
                         <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                             <PanelCollection>
                                 <dx:PanelContent>
-                                    <dx:ASPxGridView ID="DMGrid" runat="server" ClientInstanceName="DMGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
-                                        OnStartRowEditing="DMGrid_StartRowEditing"
-                                        OnRowUpdating="DMGrid_RowUpdating">
+                                    <dx:ASPxGridView ID="DMGridApproval" runat="server" ClientInstanceName="DMGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
+                                        OnStartRowEditing="DMGridApproval_StartRowEditing"
+                                        OnRowUpdating="DMGridApproval_RowUpdating">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
 
                                         <Columns>
@@ -146,23 +146,39 @@
                                             </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="EdittedQty" VisibleIndex="10">
                                                 <EditItemTemplate>
-                                                    <dx:ASPxTextBox ID="InvEdittedQty" ClientInstanceName="InvEdittedQty" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
-                                                        <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
-                                                        <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpQtytInvDirect" />
-                                                    </dx:ASPxTextBox>
+                                                    <dx:ASPxLabel runat="server" Text='<%#Eval("EdittedQty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="EdittedCost" VisibleIndex="11">
                                                 <EditItemTemplate>
-                                                    <dx:ASPxTextBox ID="InvEdittedCost" ClientInstanceName="InvEdittedCost" runat="server" Text='<%#Eval("EdittedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
-                                                        <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
-                                                        <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpCosttInvDirect" />
-                                                    </dx:ASPxTextBox>
+                                                    <dx:ASPxLabel runat="server" Text='<%#Eval("EdittedCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="EdittiedTotalCost" VisibleIndex="12">
                                                 <EditItemTemplate>
-                                                    <dx:ASPxTextBox ID="InvEdittiedTotalCost" ClientInstanceName="InvEdittiedTotalCost" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
+                                                    <dx:ASPxLabel runat="server" Text='<%#Eval("EdittiedTotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                </EditItemTemplate>
+                                            </dx:GridViewDataColumn>
+
+                                            <dx:GridViewDataColumn FieldName="ApprovedQty" VisibleIndex="13">
+                                                <EditItemTemplate>
+                                                    <dx:ASPxTextBox ID="ApprovedQtyDM" ClientInstanceName="ApprovedQtyDM" runat="server" Text='<%#Eval("ApprovedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
+                                                        <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpApprovedQtyDirect" />
+                                                    </dx:ASPxTextBox>
+                                                </EditItemTemplate>
+                                            </dx:GridViewDataColumn>
+                                            <dx:GridViewDataColumn FieldName="ApprovedCost" VisibleIndex="14">
+                                                <EditItemTemplate>
+                                                    <dx:ASPxTextBox ID="ApprovedCostDM" ClientInstanceName="ApprovedCostDM" runat="server" Text='<%#Eval("ApprovedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
+                                                        <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpApprovedCostDirect" />
+                                                    </dx:ASPxTextBox>
+                                                </EditItemTemplate>
+                                            </dx:GridViewDataColumn>
+                                            <dx:GridViewDataColumn FieldName="ApprovedTotalCost" VisibleIndex="15">
+                                                <EditItemTemplate>
+                                                    <dx:ASPxTextBox ID="ApprovedTotalCostDM" ClientInstanceName="ApprovedTotalCostDM" runat="server" Text='<%#Eval("ApprovedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                     </dx:ASPxTextBox>
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
@@ -186,9 +202,9 @@
                         <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" HeaderText="OPEX" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                             <PanelCollection>
                                 <dx:PanelContent>
-                                    <dx:ASPxGridView ID="OpGrid" runat="server" ClientInstanceName="OpGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
-                                        OnStartRowEditing="OpGrid_StartRowEditing"
-                                        OnRowUpdating="OpGrid_RowUpdating">
+                                    <dx:ASPxGridView ID="OpexGridApproval" runat="server" ClientInstanceName="OpexGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
+                                        OnStartRowEditing="OpexGridApproval_StartRowEditing"
+                                        OnRowUpdating="OpexGridApproval_RowUpdating">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
 
                                         <Columns>
@@ -232,23 +248,39 @@
                                             </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="EdittedQty" VisibleIndex="10">
                                                 <EditItemTemplate>
-                                                    <dx:ASPxTextBox ID="InvEdittedQtyOp" ClientInstanceName="InvEdittedQtyOp" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
-                                                        <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
-                                                        <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpQtytInvOpex" />
-                                                    </dx:ASPxTextBox>
+                                                    <dx:ASPxLabel runat="server" Text='<%#Eval("EdittedQty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="EdittedCost" VisibleIndex="11">
                                                 <EditItemTemplate>
-                                                    <dx:ASPxTextBox ID="InvEdittedCostOp" ClientInstanceName="InvEdittedCostOp" runat="server" Text='<%#Eval("EdittedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
-                                                        <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
-                                                        <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpCosttInvOpex" />
-                                                    </dx:ASPxTextBox>
+                                                    <dx:ASPxLabel runat="server" Text='<%#Eval("EdittedCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="EdittedTotalCost" VisibleIndex="12">
                                                 <EditItemTemplate>
-                                                    <dx:ASPxTextBox ID="InvEdittiedTotalCostOp" ClientInstanceName="InvEdittiedTotalCostOp" runat="server" Text='<%#Eval("EdittedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
+                                                    <dx:ASPxLabel runat="server" Text='<%#Eval("EdittedTotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                </EditItemTemplate>
+                                            </dx:GridViewDataColumn>
+
+                                            <dx:GridViewDataColumn FieldName="ApprovedQty" VisibleIndex="13">
+                                                <EditItemTemplate>
+                                                    <dx:ASPxTextBox ID="ApprovedQtyOpex" ClientInstanceName="ApprovedQtyOpex" runat="server" Text='<%#Eval("ApprovedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
+                                                        <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpQtyApprovedQtyOpex" />
+                                                    </dx:ASPxTextBox>
+                                                </EditItemTemplate>
+                                            </dx:GridViewDataColumn>
+                                            <dx:GridViewDataColumn FieldName="ApprovedCost" VisibleIndex="14">
+                                                <EditItemTemplate>
+                                                    <dx:ASPxTextBox ID="ApprovedCostOpex" ClientInstanceName="ApprovedCostOpex" runat="server" Text='<%#Eval("ApprovedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
+                                                        <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpCostApprovedCostOpex" />
+                                                    </dx:ASPxTextBox>
+                                                </EditItemTemplate>
+                                            </dx:GridViewDataColumn>
+                                            <dx:GridViewDataColumn FieldName="ApprovedTotalCost" VisibleIndex="15">
+                                                <EditItemTemplate>
+                                                    <dx:ASPxTextBox ID="ApprovedTotalCostOpex" ClientInstanceName="ApprovedTotalCostOpex" runat="server" Text='<%#Eval("ApprovedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                     </dx:ASPxTextBox>
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
@@ -272,9 +304,9 @@
                         <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                             <PanelCollection>
                                 <dx:PanelContent>
-                                    <dx:ASPxGridView ID="ManPowerGrid" runat="server" ClientInstanceName="ManPowerGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
-                                        OnStartRowEditing="ManPoGrid_StartRowEditing"
-                                        OnRowUpdating="ManPoGrid_RowUpdating">
+                                    <dx:ASPxGridView ID="ManPowerGridApproval" runat="server" ClientInstanceName="ManPowerGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
+                                        OnStartRowEditing="ManPowerGridApproval_StartRowEditing"
+                                        OnRowUpdating="ManPowerGridApproval_RowUpdating">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
 
                                         <Columns>
@@ -335,7 +367,7 @@
                                                 <EditItemTemplate>
                                                     <dx:ASPxTextBox ID="ApprovedQtyManPower" ClientInstanceName="ApprovedQtyManPower" runat="server" Text='<%#Eval("ApprovedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                         <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
-                                                        <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpQtyApproveManPower" />
+                                                        <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpApprovedQtyManPower" />
                                                     </dx:ASPxTextBox>
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
@@ -343,7 +375,7 @@
                                                 <EditItemTemplate>
                                                     <dx:ASPxTextBox ID="ApprovedCostManPower" ClientInstanceName="ApprovedCostManPower" runat="server" Text='<%#Eval("ApprovedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                         <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
-                                                        <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpCostApproveManPower" />
+                                                        <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpApprovedCostManPower" />
                                                     </dx:ASPxTextBox>
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
@@ -374,7 +406,8 @@
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="CapexGridApproval" runat="server" ClientInstanceName="CapexGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
-                                        >
+                                        OnStartRowEditing="CapexGridApproval_StartRowEditing"
+                                        OnRowUpdating="CapexGridApproval_RowUpdating">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
 
                                         <Columns>
@@ -425,7 +458,7 @@
                                                 <EditItemTemplate>
                                                     <dx:ASPxTextBox ID="ApprovedQtyCapex" ClientInstanceName="ApprovedQtyCapex" runat="server" Text='<%#Eval("ApprovedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                         <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
-                                                        <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpQtyApproveCapex" />
+                                                        <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpApprovedQtyCapex" />
                                                     </dx:ASPxTextBox>
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
@@ -433,7 +466,7 @@
                                                 <EditItemTemplate>
                                                     <dx:ASPxTextBox ID="ApprovedCostCapex" ClientInstanceName="ApprovedCostCapex" runat="server" Text='<%#Eval("ApprovedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                         <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
-                                                        <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpCostApproveCapex" />
+                                                        <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpApprovedCostCapex" />
                                                     </dx:ASPxTextBox>
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>

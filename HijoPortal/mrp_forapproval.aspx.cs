@@ -1,6 +1,8 @@
-﻿using HijoPortal.classes;
+﻿using DevExpress.Web;
+using HijoPortal.classes;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -13,6 +15,7 @@ namespace HijoPortal
     {
         private static string docnumber = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -67,10 +70,183 @@ namespace HijoPortal
                 ASPxPageControl1.Font.Size = 12;
             }
 
-            //if (bindDM) BindDirectMaterials(docnumber); else bindDM = true;
-            //if (bindOpex) BindOpex(docnumber); else bindOpex = true;
-            //if (bindManPower) BindManPower(docnumber); else bindManPower = true;
-            //if (bindCapex) BindCapex(docnumber); else bindCapex = true;
+            if (bindDM) BindDirectMaterials(docnumber); else bindDM = true;
+            if (bindOpex) BindOpex(docnumber); else bindOpex = true;
+            if (bindManPower) BindManPower(docnumber); else bindManPower = true;
+            if (bindCapex) BindCapex(docnumber); else bindCapex = true;
+        }
+
+        private void BindDirectMaterials(string DOC_NUMBER)
+        {
+            DMGridApproval.DataSource = MRPClass.MRPApproval_Direct_Materials(DOC_NUMBER);
+            DMGridApproval.KeyFieldName = "PK";
+            DMGridApproval.DataBind();
+        }
+
+        private void BindOpex(string DOC_NUMBER)
+        {
+            OpexGridApproval.DataSource = MRPClass.MRPApproval_OPEX(DOC_NUMBER);
+            OpexGridApproval.KeyFieldName = "PK";
+            OpexGridApproval.DataBind();
+        }
+
+        private void BindManPower(string DOC_NUMBER)
+        {
+            ManPowerGridApproval.DataSource = MRPClass.MRPApproval_ManPower(DOC_NUMBER);
+            ManPowerGridApproval.KeyFieldName = "PK";
+            ManPowerGridApproval.DataBind();
+        }
+
+        private void BindCapex(string DOC_NUMBER)
+        {
+            CapexGridApproval.DataSource = MRPClass.MRPApproval_CAPEX(DOC_NUMBER);
+            CapexGridApproval.KeyFieldName = "PK";
+            CapexGridApproval.DataBind();
+        }
+
+
+        protected void OpexGridApproval_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            bindOpex = false;
+        }
+
+        protected void OpexGridApproval_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxTextBox qty = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedQty"], "ApprovedQtyOpex") as ASPxTextBox;
+            ASPxTextBox cost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedCost"], "ApprovedCostOpex") as ASPxTextBox;
+            ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedTotalCost"], "ApprovedTotalCostOpex") as ASPxTextBox;
+
+            string PK = e.Keys[0].ToString();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            string update = "UPDATE " + MRPClass.OpexTable() + " SET [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            SqlCommand cmd = new SqlCommand(update, conn);
+            cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.Parameters.AddWithValue("@QTY", qty.Value.ToString());
+            cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
+            cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
+            cmd.CommandType = CommandType.Text;
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+
+            conn.Close();
+
+            e.Cancel = true;
+            grid.CancelEdit();
+            bindOpex = true;
+            BindOpex(docnumber);
+        }
+
+        protected void ManPowerGridApproval_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            bindManPower = false;
+        }
+
+        protected void ManPowerGridApproval_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxTextBox qty = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedQty"], "ApprovedQtyManPower") as ASPxTextBox;
+            ASPxTextBox cost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedCost"], "ApprovedCostManPower") as ASPxTextBox;
+            ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedTotalCost"], "ApprovedTotalCostManPower") as ASPxTextBox;
+
+            string PK = e.Keys[0].ToString();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            string update = "UPDATE " + MRPClass.ManPowerTable() + " SET [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            SqlCommand cmd = new SqlCommand(update, conn);
+            cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.Parameters.AddWithValue("@QTY", qty.Value.ToString());
+            cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
+            cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
+            cmd.CommandType = CommandType.Text;
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+
+            conn.Close();
+
+            e.Cancel = true;
+            grid.CancelEdit();
+            bindManPower = true;
+            BindManPower(docnumber);
+        }
+
+        protected void CapexGridApproval_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            bindCapex = false;
+        }
+
+        protected void CapexGridApproval_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxTextBox qty = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedQty"], "ApprovedQtyCapex") as ASPxTextBox;
+            ASPxTextBox cost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedCost"], "ApprovedCostCapex") as ASPxTextBox;
+            ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedTotalCost"], "ApprovedTotalCostCapex") as ASPxTextBox;
+
+            string PK = e.Keys[0].ToString();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            string update = "UPDATE " + MRPClass.CapexTable() + " SET [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            SqlCommand cmd = new SqlCommand(update, conn);
+            cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.Parameters.AddWithValue("@QTY", qty.Value.ToString());
+            cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
+            cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
+            cmd.CommandType = CommandType.Text;
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+
+            conn.Close();
+
+            e.Cancel = true;
+            grid.CancelEdit();
+            bindCapex = true;
+            BindCapex(docnumber);
+        }
+
+        protected void DMGridApproval_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxTextBox qty = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedQty"], "ApprovedQtyDM") as ASPxTextBox;
+            ASPxTextBox cost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedCost"], "ApprovedCostDM") as ASPxTextBox;
+            ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["ApprovedTotalCost"], "ApprovedTotalCostDM") as ASPxTextBox;
+
+            string PK = e.Keys[0].ToString();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            string update = "UPDATE " + MRPClass.DirectMatTable() + " SET [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            SqlCommand cmd = new SqlCommand(update, conn);
+            cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.Parameters.AddWithValue("@QTY", qty.Value.ToString());
+            cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
+            cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
+            cmd.CommandType = CommandType.Text;
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+
+            conn.Close();
+
+            e.Cancel = true;
+            grid.CancelEdit();
+            bindDM = true;
+            BindDirectMaterials(docnumber);
+        }
+
+        protected void DMGridApproval_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            bindDM = false;
         }
     }
 }

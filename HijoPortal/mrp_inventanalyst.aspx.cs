@@ -136,7 +136,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
             cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             conn.Close();
 
@@ -146,7 +148,7 @@ namespace HijoPortal
             BindDirectMaterials(docnumber);
         }
 
-        
+
 
         protected void OpGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
@@ -173,7 +175,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
             cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             conn.Close();
 
@@ -209,7 +213,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
             cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             conn.Close();
 
@@ -244,7 +250,9 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
             cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
             cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
 
             conn.Close();
 
