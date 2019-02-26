@@ -214,24 +214,19 @@ namespace HijoPortal
             l_value.FieldName = "SYMBOL";
             combo.Columns.Add(l_value);
 
-            //ListBoxColumn l_text = new ListBoxColumn();
-            //l_text.FieldName = "NAME";
-            //combo.Columns.Add(l_text);
-
-            //ListBoxColumn l_text2 = new ListBoxColumn();
-            //l_text2.FieldName = "isItem";
-            //l_text2.Width = 0;
-            //combo.Columns.Add(l_text2);
+            ListBoxColumn l_text = new ListBoxColumn();
+            l_text.FieldName = "description";
+            combo.Columns.Add(l_text);
 
             combo.ValueField = "SYMBOL";
-            combo.TextField = "SYMBOL";
+            combo.TextField = "description";
             combo.DataBind();
             combo.TextFormatString = "{0}";
 
             GridViewEditFormTemplateContainer container = ((ASPxComboBox)sender).NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
             if (!container.Grid.IsNewRowEditing)
             {
-                combo.Value = DataBinder.Eval(container.DataItem, "SYMBOL").ToString();
+                combo.Value = DataBinder.Eval(container.DataItem, "UOM").ToString();
                 //combo.Text = DataBinder.Eval(container.DataItem, "ExpenseCodeName").ToString();
             }
 
@@ -285,6 +280,21 @@ namespace HijoPortal
             conn.Close();
         }
 
+        protected void DirectMaterialsGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (DirectMaterialsGrid.IsEditing || DirectMaterialsGrid.IsNewRowEditing)
+            {
+                DirectMaterialsGrid.SettingsBehavior.AllowSort = false;
+                DirectMaterialsGrid.SettingsBehavior.AllowAutoFilter = false;
+                DirectMaterialsGrid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                DirectMaterialsGrid.SettingsBehavior.AllowSort = true;
+                DirectMaterialsGrid.SettingsBehavior.AllowAutoFilter = true;
+                DirectMaterialsGrid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
 
         protected void DirectMaterialsGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
@@ -413,12 +423,25 @@ namespace HijoPortal
             }
         }
 
+        protected void OPEXGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (OPEXGrid.IsEditing || OPEXGrid.IsNewRowEditing)
+            {
+                OPEXGrid.SettingsBehavior.AllowSort = false;
+                OPEXGrid.SettingsBehavior.AllowAutoFilter = false;
+                OPEXGrid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                OPEXGrid.SettingsBehavior.AllowSort = true;
+                OPEXGrid.SettingsBehavior.AllowAutoFilter = true;
+                OPEXGrid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
         protected void OPEXGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
             bindCapex = false;
         }
-
-
 
         protected void OPEXGrid_RowInserting(object sender, DevExpress.Web.Data.ASPxDataInsertingEventArgs e)
         {
@@ -541,6 +564,21 @@ namespace HijoPortal
             BindOPEX(docnumber);
             e.Cancel = true;
             grid.CancelEdit();
+        }
+        protected void ManPowerGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (ManPowerGrid.IsEditing || ManPowerGrid.IsNewRowEditing)
+            {
+                ManPowerGrid.SettingsBehavior.AllowSort = false;
+                ManPowerGrid.SettingsBehavior.AllowAutoFilter = false;
+                ManPowerGrid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                ManPowerGrid.SettingsBehavior.AllowSort = true;
+                ManPowerGrid.SettingsBehavior.AllowAutoFilter = true;
+                ManPowerGrid.SettingsBehavior.AllowHeaderFilter = true;
+            }
         }
 
         protected void ManPowerGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
@@ -677,6 +715,23 @@ namespace HijoPortal
             e.Cancel = true;
             grid.CancelEdit();
         }
+
+        protected void CAPEXGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (CAPEXGrid.IsEditing || CAPEXGrid.IsNewRowEditing)
+            {
+                CAPEXGrid.SettingsBehavior.AllowSort = false;
+                CAPEXGrid.SettingsBehavior.AllowAutoFilter = false;
+                CAPEXGrid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                CAPEXGrid.SettingsBehavior.AllowSort = true;
+                CAPEXGrid.SettingsBehavior.AllowAutoFilter = true;
+                CAPEXGrid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
         protected void CAPEXGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
             bindCapex = false;
@@ -794,6 +849,8 @@ namespace HijoPortal
             listbox.DataBind();
         }
 
+
+
         protected void listboxOPEX_Callback(object sender, CallbackEventArgsBase e)
         {
             ASPxPageControl pageControl = OPEXGrid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
@@ -803,6 +860,23 @@ namespace HijoPortal
             listbox.ValueField = "ITEMID";
             listbox.TextField = "NAMEALIAS";
             listbox.DataBind();
+        }
+
+
+        protected void RevenueGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (RevenueGrid.IsEditing || RevenueGrid.IsNewRowEditing)
+            {
+                RevenueGrid.SettingsBehavior.AllowSort = false;
+                RevenueGrid.SettingsBehavior.AllowAutoFilter = false;
+                RevenueGrid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                RevenueGrid.SettingsBehavior.AllowSort = true;
+                RevenueGrid.SettingsBehavior.AllowAutoFilter = true;
+                RevenueGrid.SettingsBehavior.AllowHeaderFilter = true;
+            }
         }
 
         protected void RevenueGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)

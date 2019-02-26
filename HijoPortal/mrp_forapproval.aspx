@@ -102,7 +102,8 @@
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="DMGridApproval" runat="server" ClientInstanceName="DMGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
                                         OnStartRowEditing="DMGridApproval_StartRowEditing"
-                                        OnRowUpdating="DMGridApproval_RowUpdating">
+                                        OnRowUpdating="DMGridApproval_RowUpdating" 
+                                        OnBeforeGetCallbackResult="DMGridApproval_BeforeGetCallbackResult">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
 
                                         <Columns>
@@ -204,7 +205,8 @@
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="OpexGridApproval" runat="server" ClientInstanceName="OpexGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
                                         OnStartRowEditing="OpexGridApproval_StartRowEditing"
-                                        OnRowUpdating="OpexGridApproval_RowUpdating">
+                                        OnRowUpdating="OpexGridApproval_RowUpdating" 
+                                        OnBeforeGetCallbackResult="OpexGridApproval_BeforeGetCallbackResult">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
 
                                         <Columns>
@@ -306,7 +308,8 @@
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="ManPowerGridApproval" runat="server" ClientInstanceName="ManPowerGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
                                         OnStartRowEditing="ManPowerGridApproval_StartRowEditing"
-                                        OnRowUpdating="ManPowerGridApproval_RowUpdating">
+                                        OnRowUpdating="ManPowerGridApproval_RowUpdating" 
+                                        OnBeforeGetCallbackResult="ManPowerGridApproval_BeforeGetCallbackResult">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
 
                                         <Columns>
@@ -407,7 +410,8 @@
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="CapexGridApproval" runat="server" ClientInstanceName="CapexGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
                                         OnStartRowEditing="CapexGridApproval_StartRowEditing"
-                                        OnRowUpdating="CapexGridApproval_RowUpdating">
+                                        OnRowUpdating="CapexGridApproval_RowUpdating" 
+                                        OnBeforeGetCallbackResult="CapexGridApproval_BeforeGetCallbackResult">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
 
                                         <Columns>

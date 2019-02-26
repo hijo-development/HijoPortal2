@@ -70,6 +70,8 @@ namespace HijoPortal
                 ASPxPageControl1.Font.Size = 12;
             }
 
+            MRPClass.PrintString(bindDM.ToString());
+            MRPClass.PrintString(DMGrid.ViewStateMode.ToString());
             if (bindDM) BindDirectMaterials(docnumber); else bindDM = true;
             if (bindOpex) BindOpex(docnumber); else bindOpex = true;
             if (bindManPower) BindManPower(docnumber); else bindManPower = true;
@@ -109,7 +111,69 @@ namespace HijoPortal
             CapGrid.DataBind();
         }
 
+        protected void DMGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (DMGrid.IsEditing || DMGrid.IsNewRowEditing)
+            {
+                DMGrid.SettingsBehavior.AllowSort = false;
+                DMGrid.SettingsBehavior.AllowAutoFilter = false;
+                DMGrid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                DMGrid.SettingsBehavior.AllowSort = true;
+                DMGrid.SettingsBehavior.AllowAutoFilter = true;
+                DMGrid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
 
+        protected void OpGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (OpGrid.IsEditing || OpGrid.IsNewRowEditing)
+            {
+                OpGrid.SettingsBehavior.AllowSort = false;
+                OpGrid.SettingsBehavior.AllowAutoFilter = false;
+                OpGrid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                OpGrid.SettingsBehavior.AllowSort = true;
+                OpGrid.SettingsBehavior.AllowAutoFilter = true;
+                OpGrid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
+        protected void ManPoGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (ManPoGrid.IsEditing || ManPoGrid.IsNewRowEditing)
+            {
+                ManPoGrid.SettingsBehavior.AllowSort = false;
+                ManPoGrid.SettingsBehavior.AllowAutoFilter = false;
+                ManPoGrid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                ManPoGrid.SettingsBehavior.AllowSort = true;
+                ManPoGrid.SettingsBehavior.AllowAutoFilter = true;
+                ManPoGrid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
+        protected void CapGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (CapGrid.IsEditing || CapGrid.IsNewRowEditing)
+            {
+                CapGrid.SettingsBehavior.AllowSort = false;
+                CapGrid.SettingsBehavior.AllowAutoFilter = false;
+                CapGrid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                CapGrid.SettingsBehavior.AllowSort = true;
+                CapGrid.SettingsBehavior.AllowAutoFilter = true;
+                CapGrid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
 
         protected void DMGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
@@ -192,6 +256,8 @@ namespace HijoPortal
         {
             bindManPower = false;
         }
+
+        
 
         protected void ManPoGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {

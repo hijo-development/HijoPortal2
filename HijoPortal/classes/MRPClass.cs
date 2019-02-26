@@ -1191,7 +1191,7 @@ namespace HijoPortal.classes
             {
                 //Columns for AspxGridview
                 dtTable.Columns.Add("SYMBOL", typeof(string));
-                //dtTable.Columns.Add("DESCRIPTION", typeof(string));
+                dtTable.Columns.Add("description", typeof(string));
             }
 
             string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXUnitOfMeasure]";
@@ -1206,7 +1206,7 @@ namespace HijoPortal.classes
                 {
                     DataRow dtRow = dtTable.NewRow();
                     dtRow["SYMBOL"] = row["SYMBOL"].ToString();
-                    //dtRow["DESCRIPTION"] = row["DESCRIPTION"].ToString();
+                    dtRow["description"] = row["description"].ToString();
                     dtTable.Rows.Add(dtRow);
                 }
             }

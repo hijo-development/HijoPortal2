@@ -113,9 +113,9 @@
                                                         OnRowInserting="DirectMaterialsGrid_RowInserting"
                                                         OnRowDeleting="DirectMaterialsGrid_RowDeleting"
                                                         OnStartRowEditing="DirectMaterialsGrid_StartRowEditing"
-                                                        OnRowUpdating="DirectMaterialsGrid_RowUpdating">
+                                                        OnRowUpdating="DirectMaterialsGrid_RowUpdating"
+                                                        OnBeforeGetCallbackResult="DirectMaterialsGrid_BeforeGetCallbackResult">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
-
                                                         <Columns>
                                                             <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0"></dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
@@ -145,13 +145,13 @@
                                                                                     <dx:ContentControl runat="server">
                                                                                         <table style="width: 100%; padding: 10px;" border="0">
                                                                                             <tr>
-                                                                                                <td style="vertical-align:top; width:30%;">
-                                                                                                    <table style="width:100%;">
+                                                                                                <td style="vertical-align: top; width: 30%;">
+                                                                                                    <table style="width: 100%;">
                                                                                                         <tr>
-                                                                                                            <td style="width:30%;">
+                                                                                                            <td style="width: 30%;">
                                                                                                                 <dx:ASPxLabel runat="server" Text="Activity" Theme="Office2010Blue" />
                                                                                                             </td>
-                                                                                                            <td style="width:70%;">
+                                                                                                            <td style="width: 70%;">
                                                                                                                 <dx:ASPxComboBox ID="ActivityCode" runat="server" ClientInstanceName="ActivityCodeDirect" OnInit="ActivityCode_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
                                                                                                                     ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
                                                                                                                     <ClientSideEvents SelectedIndexChanged="ActivityCodeIndexChange" />
@@ -168,13 +168,13 @@
                                                                                                         </tr>
                                                                                                     </table>
                                                                                                 </td>
-                                                                                                <td style="vertical-align:top; width:30%;">
-                                                                                                    <table style="width:100%;">
+                                                                                                <td style="vertical-align: top; width: 30%;">
+                                                                                                    <table style="width: 100%;">
                                                                                                         <tr>
-                                                                                                            <td style="width:30%;">
+                                                                                                            <td style="width: 30%;">
                                                                                                                 <dx:ASPxLabel runat="server" Text="Item Code" Theme="Office2010Blue" />
                                                                                                             </td>
-                                                                                                            <td style="width:70%;">
+                                                                                                            <td style="width: 70%;">
                                                                                                                 <dx:ASPxTextBox ID="ItemCode" ClientInstanceName="ItemCodeDirect" runat="server" Text='<%#Eval("ItemCode")%>' AutoResizeWithContainer="true" Width="170px" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
                                                                                                                     <ClientSideEvents KeyPress="ItemCodeDirect_KeyPress" />
                                                                                                                 </dx:ASPxTextBox>
@@ -218,13 +218,13 @@
                                                                                                         </tr>
                                                                                                     </table>
                                                                                                 </td>
-                                                                                                <td style="vertical-align:top; width:30%;">
-                                                                                                    <table style="width:100%;">
+                                                                                                <td style="vertical-align: top; width: 30%;">
+                                                                                                    <table style="width: 100%;">
                                                                                                         <tr>
-                                                                                                            <td style="width:30%;">
+                                                                                                            <td style="width: 30%;">
                                                                                                                 <dx:ASPxLabel runat="server" Text="Item Description" Theme="Office2010Blue" />
                                                                                                             </td>
-                                                                                                            <td style="width:70%;">
+                                                                                                            <td style="width: 70%;">
                                                                                                                 <dx:ASPxTextBox ID="ItemDescription" runat="server" ClientInstanceName="ItemDescriptionDirect" ReadOnly="true" Text='<%#Eval("ItemDescription")%>' Width="170px" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true"></dx:ASPxTextBox>
                                                                                                             </td>
                                                                                                         </tr>
@@ -272,9 +272,6 @@
                                 <tr>
                                     <td colspan="5">
                                         <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" HeaderText="OPEX" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
-                                            <%--<HeaderTemplate>
-                                    <dx:ASPxLabel runat="server" Text="OPEX" Theme="Office2010Blue"></dx:ASPxLabel>
-                                </HeaderTemplate>--%>
                                             <PanelCollection>
                                                 <dx:PanelContent>
                                                     <dx:ASPxGridView ID="OPEXGrid" runat="server" ClientInstanceName="OPEXGrid" Width="100%" Theme="Office2010Blue"
@@ -282,7 +279,8 @@
                                                         OnRowInserting="OPEXGrid_RowInserting"
                                                         OnRowDeleting="OPEXGrid_RowDeleting"
                                                         OnStartRowEditing="OPEXGrid_StartRowEditing"
-                                                        OnRowUpdating="OPEXGrid_RowUpdating">
+                                                        OnRowUpdating="OPEXGrid_RowUpdating" 
+                                                        OnBeforeGetCallbackResult="OPEXGrid_BeforeGetCallbackResult">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
                                                         <ClientSideEvents BeginCallback="OnBeginCallback" />
 
@@ -341,7 +339,7 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="UOM" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMOPEX" Text='<%#Eval("UOM")%>' OnInit="UOM_Init" Width="170px" Theme="Office2010Blue"
+                                                                                                                <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMOPEX" OnInit="UOM_Init" Width="170px" Theme="Office2010Blue"
                                                                                                                     ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
                                                                                                                 </dx:ASPxComboBox>
                                                                                                             </td>
@@ -470,7 +468,8 @@
                                                         OnRowInserting="ManPowerGrid_RowInserting"
                                                         OnRowDeleting="ManPowerGrid_RowDeleting"
                                                         OnStartRowEditing="ManPowerGrid_StartRowEditing"
-                                                        OnRowUpdating="ManPowerGrid_RowUpdating">
+                                                        OnRowUpdating="ManPowerGrid_RowUpdating" 
+                                                        OnBeforeGetCallbackResult="ManPowerGrid_BeforeGetCallbackResult">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
                                                         <Columns>
                                                             <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0"></dx:GridViewCommandColumn>
@@ -534,7 +533,7 @@
                                                                                                     <dx:ASPxLabel runat="server" Text="UOM" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMMAN" Text='<%#Eval("UOM")%>' OnInit="UOM_Init" Width="170px" Theme="Office2010Blue"
+                                                                                                    <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMMAN" OnInit="UOM_Init" Width="170px" Theme="Office2010Blue"
                                                                                                         ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
                                                                                                     </dx:ASPxComboBox>
                                                                                                 </td>
@@ -612,7 +611,8 @@
                                                         OnRowInserting="CAPEXGrid_RowInserting"
                                                         OnRowDeleting="CAPEXGrid_RowDeleting"
                                                         OnStartRowEditing="CAPEXGrid_StartRowEditing"
-                                                        OnRowUpdating="CAPEXGrid_RowUpdating">
+                                                        OnRowUpdating="CAPEXGrid_RowUpdating" 
+                                                        OnBeforeGetCallbackResult="CAPEXGrid_BeforeGetCallbackResult">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
                                                         <Columns>
                                                             <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0"></dx:GridViewCommandColumn>
@@ -654,7 +654,7 @@
                                                                                                     <dx:ASPxLabel runat="server" Text="UOM" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMCAPEX" Text='<%#Eval("UOM")%>' OnInit="UOM_Init" Width="170px" Theme="Office2010Blue"
+                                                                                                    <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMCAPEX" OnInit="UOM_Init" Width="170px" Theme="Office2010Blue"
                                                                                                         ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
                                                                                                     </dx:ASPxComboBox>
                                                                                                 </td>
@@ -741,7 +741,8 @@
                                                         OnRowInserting="RevenueGrid_RowInserting"
                                                         OnRowDeleting="RevenueGrid_RowDeleting"
                                                         OnStartRowEditing="RevenueGrid_StartRowEditing"
-                                                        OnRowUpdating="RevenueGrid_RowUpdating">
+                                                        OnRowUpdating="RevenueGrid_RowUpdating" 
+                                                        OnBeforeGetCallbackResult="RevenueGrid_BeforeGetCallbackResult">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Revenue');}" />
                                                         <Columns>
                                                             <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0"></dx:GridViewCommandColumn>

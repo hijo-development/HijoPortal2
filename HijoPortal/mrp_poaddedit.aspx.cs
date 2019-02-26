@@ -54,15 +54,15 @@ namespace HijoPortal
             }
             else
             {
-                //if (Session["DataSet"] != null)
-                //{
-                //    DataSet ds = (DataSet)Session["DataSet"];
-                //    DataTable dataTable = ds.Tables[0];
-                //    dataTable.PrimaryKey = new DataColumn[] { dataTable.Columns["PK"] };
-                //    POAddEditGrid.DataSource = dataTable;
-                //    POAddEditGrid.KeyFieldName = "PK";
-                //    POAddEditGrid.DataBind();
-                //}
+                if (Session["DataSet"] != null)
+                {
+                    DataSet ds = (DataSet)Session["DataSet"];
+                    DataTable dataTable = ds.Tables[0];
+                    dataTable.PrimaryKey = new DataColumn[] { dataTable.Columns["PK"] };
+                    POAddEditGrid.DataSource = dataTable;
+                    POAddEditGrid.KeyFieldName = "PK";
+                    POAddEditGrid.DataBind();
+                }
             }
         }
 
@@ -77,6 +77,22 @@ namespace HijoPortal
             DataSet ds = new DataSet();
             ds.Tables.Add(dtRecord);
             Session["DataSet"] = ds;
+        }
+
+        protected void POAddEditGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (POAddEditGrid.IsEditing || POAddEditGrid.IsNewRowEditing)
+            {
+                POAddEditGrid.SettingsBehavior.AllowSort = false;
+                POAddEditGrid.SettingsBehavior.AllowAutoFilter = false;
+                POAddEditGrid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                POAddEditGrid.SettingsBehavior.AllowSort = true;
+                POAddEditGrid.SettingsBehavior.AllowAutoFilter = true;
+                POAddEditGrid.SettingsBehavior.AllowHeaderFilter = true;
+            }
         }
 
         protected void selList_Callback(object sender, DevExpress.Web.CallbackEventArgsBase e)
@@ -474,5 +490,7 @@ namespace HijoPortal
                 }
             }
         }
+
+        
     }
 }

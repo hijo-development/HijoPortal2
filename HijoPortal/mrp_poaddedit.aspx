@@ -160,7 +160,8 @@
                             <dx:ASPxGridView ID="POAddEditGrid" ClientInstanceName="POAddEditGrid" runat="server" Theme="Office2010Blue" Width="100%" AutoGenerateColumns="false"
                                 OnRowValidating="POAddEditGrid_RowValidating"
                                 OnRowUpdating="POAddEditGrid_RowUpdating"
-                                OnCustomCallback="POAddEditGrid_CustomCallback"
+                                OnCustomCallback="POAddEditGrid_CustomCallback" 
+                                OnBeforeGetCallbackResult="POAddEditGrid_BeforeGetCallbackResult"
                                 EnableCallBacks="true" KeyFieldName="PK;TableIdentifier">
                                 <%--<ClientSideEvents SelectionChanged="POgrid_selectionChanged" />--%>
                                 <Columns>
@@ -229,7 +230,7 @@
                                     </dx:GridViewDataComboBoxColumn>
                                 </Columns>
                                 <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" />
-                                <SettingsBehavior AllowFocusedRow="True" AllowSort="false" AllowDragDrop="false" />
+                                <SettingsBehavior AllowFocusedRow="True" AllowSort="true" AllowDragDrop="false" />
                                 <SettingsEditing Mode="Inline"></SettingsEditing>
                                 <SettingsCommandButton>
                                     <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px">
