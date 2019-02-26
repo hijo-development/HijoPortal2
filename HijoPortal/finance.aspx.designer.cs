@@ -40,15 +40,6 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxSplitter FinanceSetupSplitter;
         
         /// <summary>
-        /// grdFinanceApproval control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView grdFinanceApproval;
-        
-        /// <summary>
         /// grdFinanceHead control.
         /// </summary>
         /// <remarks>
@@ -56,6 +47,15 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxGridView grdFinanceHead;
+        
+        /// <summary>
+        /// grdFinanceApproval control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxGridView grdFinanceApproval;
         
         /// <summary>
         /// grdFinanceBudget control.

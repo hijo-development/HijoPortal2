@@ -13,7 +13,7 @@ namespace HijoPortal
 {
     public partial class finance : System.Web.UI.Page
     {
-        private static bool bindApprovalList = true;
+        private static bool bindFinanceInventList = true;
         private static bool bindHeadList = true;
         private static bool bindBudgetList = true;
         private static bool bindBudgetDetList = true;
@@ -39,9 +39,9 @@ namespace HijoPortal
             grid.FocusedRowIndex = grid.FindVisibleIndexByKeyValue(keyVal);
         }
 
-        private void BindApproval()
+        private void BindFinanceInventoryOfficer()
         {
-            DataTable dtRecord = FinanceClass.ApprovalTable();
+            DataTable dtRecord = FinanceClass.FinanceInventoryOfficerTable();
             grdFinanceApproval.DataSource = dtRecord;
             grdFinanceApproval.KeyFieldName = "PK";
             grdFinanceApproval.DataBind();
@@ -88,13 +88,13 @@ namespace HijoPortal
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             }
 
-            if (bindApprovalList)
+            if (bindFinanceInventList)
             {
-                BindApproval();
+                BindFinanceInventoryOfficer();
             }
             else
             {
-                bindApprovalList = true;
+                bindFinanceInventList = true;
             }
 
             if (bindHeadList)
@@ -497,13 +497,19 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
+            string sBUCode = "";
+            if (buCode.Value != null)
+            {
+                sBUCode = buCode.Value.ToString();
+            }
+
             string insert = "INSERT INTO tbl_System_FinanceBudget_Details ([MasterKey], [EntityCode], [BUSSUCode]) " +
                             " VALUES (@MasterKey, @EntityCode, @BUSSUCode)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@MasterKey", iMasterKey.ToString());
             cmd.Parameters.AddWithValue("@EntityCode", entCode.Value.ToString());
-            cmd.Parameters.AddWithValue("@BUSSUCode", buCode.Value.ToString());
+            cmd.Parameters.AddWithValue("@BUSSUCode", sBUCode);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
 
@@ -628,7 +634,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             if (e.Parameters == "AddNew")
             {
-                MRPClass.PrintString("pass add");
+                //MRPClass.PrintString("pass add");
                 if (grdFinanceBudget.VisibleRowCount == 0) { return; }
                 bool parseInt = int.TryParse(grdFinanceBudget.GetRowValues(grdFinanceBudget.FocusedRowIndex, "PK").ToString(), out iMasterKey);
                 if (parseInt == false) { return; }
@@ -713,7 +719,7 @@ namespace HijoPortal
 
         protected void grdFinanceApproval_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
-            bindApprovalList = false;
+            bindFinanceInventList = false;
             sApprovalKey = "";
 
             ASPxLabel ctrlNum = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["Ctrl"], "ASPxCtrlTextBoxApp") as ASPxLabel;
@@ -721,7 +727,7 @@ namespace HijoPortal
             ASPxLabel lastModified = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["LastModified"], "ASPxLastModifiedTextBoxApp") as ASPxLabel;
 
 
-            ctrlNum.Text = GlobalClass.GetControl_DocNum("Approval", Convert.ToDateTime(DateTime.Now.ToString()));
+            ctrlNum.Text = GlobalClass.GetControl_DocNum("Finance_Inventory_Officer", Convert.ToDateTime(DateTime.Now.ToString()));
             effectDate.Value = DateTime.Now.ToString("MM/dd/yyyy");
             lastModified.Text = DateTime.Now.ToString();
         }
@@ -732,13 +738,13 @@ namespace HijoPortal
             ASPxDateEdit effectDate = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
             ASPxComboBox approval = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["UserCompleteName"], "Approval") as ASPxComboBox;
 
-            string sCtrlNum = GlobalClass.GetControl_DocNum("Approval", Convert.ToDateTime(effectDate.Value.ToString()));
+            string sCtrlNum = GlobalClass.GetControl_DocNum("Finance_Inventory_Officer", Convert.ToDateTime(effectDate.Value.ToString()));
             string sLastModified = DateTime.Now.ToString();
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO tbl_System_Approval ([Ctrl], [EffectDate], [UserKey], [LastModified]) " +
+            string insert = "INSERT INTO tbl_System_FinanceInventoryOfficer ([Ctrl], [EffectDate], [UserKey], [LastModified]) " +
                             " VALUES (@Ctrl, @EffectDate, @UserKey, @LastModified)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
@@ -751,10 +757,10 @@ namespace HijoPortal
 
             e.Cancel = true;
             grid.CancelEdit();
-            BindApproval();
+            BindFinanceInventoryOfficer();
 
             int pk_latest = 0;
-            string query_pk = "SELECT TOP 1 [PK] FROM tbl_System_Approval ORDER BY [PK] DESC";
+            string query_pk = "SELECT TOP 1 [PK] FROM tbl_System_FinanceInventoryOfficer ORDER BY [PK] DESC";
             SqlCommand comm = new SqlCommand(query_pk, conn);
             SqlDataReader r = comm.ExecuteReader();
             while (r.Read())
@@ -770,7 +776,7 @@ namespace HijoPortal
 
         protected void grdFinanceApproval_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
-            bindApprovalList = false;
+            bindFinanceInventList = false;
             sApprovalKey = grdFinanceApproval.GetRowValues(grdFinanceApproval.FocusedRowIndex, "UserKey").ToString();
         }
 
@@ -786,7 +792,7 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string update_MRP = "UPDATE tbl_System_Approval " +
+            string update_MRP = "UPDATE tbl_System_FinanceInventoryOfficer " +
                                 " SET [EffectDate] = @EffectDate, " +
                                 " [UserKey]= @BUHead, " +
                                 " [LastModified] = @LastModified " +
@@ -802,7 +808,7 @@ namespace HijoPortal
 
             conn.Close();
 
-            BindApproval();
+            BindFinanceInventoryOfficer();
             e.Cancel = true;
             grid.CancelEdit();
         }
@@ -814,11 +820,11 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
-            string delete = "DELETE FROM tbl_System_Approval WHERE [PK] ='" + PK + "'";
+            string delete = "DELETE FROM tbl_System_FinanceInventoryOfficer WHERE [PK] ='" + PK + "'";
             SqlCommand cmd = new SqlCommand(delete, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
-            BindApproval();
+            BindFinanceInventoryOfficer();
             e.Cancel = true;
             conn.Close();
         }
