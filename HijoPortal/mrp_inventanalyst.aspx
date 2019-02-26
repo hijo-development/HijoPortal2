@@ -105,7 +105,8 @@
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="DMGrid" runat="server" ClientInstanceName="DMGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
                                             OnStartRowEditing="DMGrid_StartRowEditing" 
-                                            OnRowUpdating="DMGrid_RowUpdating">
+                                            OnRowUpdating="DMGrid_RowUpdating" 
+                                            OnBeforeGetCallbackResult="DMGrid_BeforeGetCallbackResult">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
 
                                             <Columns>
@@ -191,7 +192,8 @@
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="OpGrid" runat="server" ClientInstanceName="OpGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
                                             OnStartRowEditing="OpGrid_StartRowEditing" 
-                                            OnRowUpdating="OpGrid_RowUpdating">
+                                            OnRowUpdating="OpGrid_RowUpdating" 
+                                            OnBeforeGetCallbackResult="OpGrid_BeforeGetCallbackResult">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
 
                                             <Columns>
@@ -277,7 +279,8 @@
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="ManPoGrid" runat="server" ClientInstanceName="ManPoGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
                                             OnStartRowEditing="ManPoGrid_StartRowEditing" 
-                                            OnRowUpdating="ManPoGrid_RowUpdating">
+                                            OnRowUpdating="ManPoGrid_RowUpdating" 
+                                            OnBeforeGetCallbackResult="ManPoGrid_BeforeGetCallbackResult">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
 
                                             <Columns>
@@ -363,7 +366,8 @@
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="CapGrid" runat="server" ClientInstanceName="CapGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
                                             OnStartRowEditing="CapGrid_StartRowEditing" 
-                                            OnRowUpdating="CapGrid_RowUpdating">
+                                            OnRowUpdating="CapGrid_RowUpdating" 
+                                            OnBeforeGetCallbackResult="CapGrid_BeforeGetCallbackResult">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
 
                                             <Columns>

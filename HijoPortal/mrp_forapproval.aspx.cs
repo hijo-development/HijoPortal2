@@ -104,6 +104,69 @@ namespace HijoPortal
             CapexGridApproval.DataBind();
         }
 
+        protected void DMGridApproval_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (DMGridApproval.IsEditing || DMGridApproval.IsNewRowEditing)
+            {
+                DMGridApproval.SettingsBehavior.AllowSort = false;
+                DMGridApproval.SettingsBehavior.AllowAutoFilter = false;
+                DMGridApproval.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                DMGridApproval.SettingsBehavior.AllowSort = true;
+                DMGridApproval.SettingsBehavior.AllowAutoFilter = true;
+                DMGridApproval.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
+        protected void OpexGridApproval_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (OpexGridApproval.IsEditing || OpexGridApproval.IsNewRowEditing)
+            {
+                OpexGridApproval.SettingsBehavior.AllowSort = false;
+                OpexGridApproval.SettingsBehavior.AllowAutoFilter = false;
+                OpexGridApproval.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                OpexGridApproval.SettingsBehavior.AllowSort = true;
+                OpexGridApproval.SettingsBehavior.AllowAutoFilter = true;
+                OpexGridApproval.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
+        protected void ManPowerGridApproval_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (ManPowerGridApproval.IsEditing || ManPowerGridApproval.IsNewRowEditing)
+            {
+                ManPowerGridApproval.SettingsBehavior.AllowSort = false;
+                ManPowerGridApproval.SettingsBehavior.AllowAutoFilter = false;
+                ManPowerGridApproval.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                ManPowerGridApproval.SettingsBehavior.AllowSort = true;
+                ManPowerGridApproval.SettingsBehavior.AllowAutoFilter = true;
+                ManPowerGridApproval.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
+        protected void CapexGridApproval_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            if (CapexGridApproval.IsEditing || CapexGridApproval.IsNewRowEditing)
+            {
+                CapexGridApproval.SettingsBehavior.AllowSort = false;
+                CapexGridApproval.SettingsBehavior.AllowAutoFilter = false;
+                CapexGridApproval.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                CapexGridApproval.SettingsBehavior.AllowSort = true;
+                CapexGridApproval.SettingsBehavior.AllowAutoFilter = true;
+                CapexGridApproval.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
 
         protected void OpexGridApproval_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
@@ -181,6 +244,8 @@ namespace HijoPortal
         {
             bindCapex = false;
         }
+
+        
 
         protected void CapexGridApproval_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {
