@@ -52,6 +52,7 @@ namespace HijoPortal
                 {
                     Session["EntityCode"] = foundRows[0]["EntityCode"].ToString();
                     Session["BUCode"] = foundRows[0]["BUCode"].ToString();
+                    Session["isAdmin"] = foundRows[0]["UserLevelKey"].ToString();
                     Response.Redirect("home.aspx");
                 }
             }

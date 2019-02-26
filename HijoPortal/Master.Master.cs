@@ -49,9 +49,20 @@ namespace HijoPortal
                             sb.Append("<ul>");
                             foreach (DataRow row in dtable.Rows)
                             {
-                                sb.Append("<li>");
-                                sb.Append(row["MenuScript"].ToString());
-                                sb.Append("</li>");
+                                if (Convert.ToInt32(Session["isAdmin"]) == 1)
+                                {
+                                    sb.Append("<li>");
+                                    sb.Append(row["MenuScript"].ToString());
+                                    sb.Append("</li>");
+                                } else
+                                {
+                                    if (Convert.ToInt32(row["forAdminOnly"]) != 1)
+                                    {
+                                        sb.Append("<li>");
+                                        sb.Append(row["MenuScript"].ToString());
+                                        sb.Append("</li>");
+                                    }
+                                }
                             }
                             sb.Append("</ul>");
                             dvSideNav.InnerHtml = sb.ToString();

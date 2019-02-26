@@ -20,7 +20,7 @@
                                             <ContentCollection>
                                                 <dx:SplitterContentControl runat="server">
                                                     <%--Head--%>
-                                                    <h3 style="text-align: center; width: 100%; margin-top: 2px;">Head</h3>
+                                                    <h3 style="text-align: center; width: 100%; margin-top: 2px;">SCM Lead</h3>
                                                     <div style="width: 100%;">
                                                         <dx:ASPxGridView ID="grdSCMHead" runat="server"
                                                             ClientInstanceName="grdSCMHeadDirect"

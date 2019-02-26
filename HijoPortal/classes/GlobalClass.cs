@@ -556,14 +556,6 @@ namespace HijoPortal.classes
                               " ORDER BY Ctrl DESC";
                         break;
                     }
-                case "Approval":
-                    {
-                        qry = "SELECT TOP (1) Ctrl " +
-                              " FROM dbo.tbl_System_Approval " +
-                              " WHERE (Year(EffectDate) = " + dEffectDate.Year + ") " +
-                              " ORDER BY Ctrl DESC";
-                        break;
-                    }
                 case "Finance_Head":
                     {
                         qry = "SELECT TOP (1) Ctrl " +
@@ -576,6 +568,22 @@ namespace HijoPortal.classes
                     {
                         qry = "SELECT TOP (1) Ctrl " +
                               " FROM dbo.tbl_System_FinanceBudget " +
+                              " WHERE (Year(EffectDate) = " + dEffectDate.Year + ") " +
+                              " ORDER BY Ctrl DESC";
+                        break;
+                    }
+                case "Finance_Inventory_Officer":
+                    {
+                        qry = "SELECT TOP (1) Ctrl " +
+                              " FROM dbo.tbl_System_FinanceInventoryOfficer " +
+                              " WHERE (Year(EffectDate) = " + dEffectDate.Year + ") " +
+                              " ORDER BY Ctrl DESC";
+                        break;
+                    }
+                case "Executive":
+                    {
+                        qry = "SELECT TOP (1) Ctrl " +
+                              " FROM dbo.tbl_System_Executive " +
                               " WHERE (Year(EffectDate) = " + dEffectDate.Year + ") " +
                               " ORDER BY Ctrl DESC";
                         break;

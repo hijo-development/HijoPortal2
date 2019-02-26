@@ -86,6 +86,7 @@
     <Content Include="css\LogIn.css" />
     <Content Include="css\LogInICON.css" />
     <Content Include="default.aspx" />
+    <Content Include="executive.aspx" />
     <Content Include="finance.aspx" />
     <Content Include="home.aspx" />
     <Content Include="images\Add.ico" />
@@ -162,6 +163,13 @@
     </Compile>
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="executive.aspx.cs">
+      <DependentUpon>executive.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="executive.aspx.designer.cs">
+      <DependentUpon>executive.aspx</DependentUpon>
     </Compile>
     <Compile Include="finance.aspx.cs">
       <DependentUpon>finance.aspx</DependentUpon>
