@@ -432,6 +432,48 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+        public static DataTable PositionNameTable()
+        {
+
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("ID", typeof(string));
+                dtTable.Columns.Add("NAME", typeof(string));
+            }
+
+            string qry = "SELECT [PK] AS NAME, [PositionName] AS DESCRIPTION " +
+                         " FROM [hijo_portal].[dbo].[tbl_System_Approval_Position] ORDER BY PositionName ASC";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["ID"] = row["NAME"].ToString();
+                    dtRow["NAME"] = row["DESCRIPTION"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
         public static string BUCodeDescription(string code)
         {
             string query = "SELECT NAME FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable] where OMOPERATINGUNITNUMBER = '" + code + "'";
@@ -584,6 +626,22 @@ namespace HijoPortal.classes
                     {
                         qry = "SELECT TOP (1) Ctrl " +
                               " FROM dbo.tbl_System_Executive " +
+                              " WHERE (Year(EffectDate) = " + dEffectDate.Year + ") " +
+                              " ORDER BY Ctrl DESC";
+                        break;
+                    }
+                case "DataFlow":
+                    {
+                        qry = "SELECT TOP (1) Ctrl " +
+                              " FROM dbo.tbl_System_MOP_DataFlow " +
+                              " WHERE (Year(EffectDate) = " + dEffectDate.Year + ") " +
+                              " ORDER BY Ctrl DESC";
+                        break;
+                    }
+                case "Approval":
+                    {
+                        qry = "SELECT TOP (1) Ctrl " +
+                              " FROM dbo.tbl_System_Approval " +
                               " WHERE (Year(EffectDate) = " + dEffectDate.Year + ") " +
                               " ORDER BY Ctrl DESC";
                         break;

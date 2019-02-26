@@ -60,6 +60,7 @@ changeWidth = {
         $('#dvSCMSetup').height(contentHeight - (HeaderH + 30));
         $('#dvFinanceSetup').height(contentHeight - (HeaderH + 30));
         $('#dvExecutiveSetup').height(contentHeight - (HeaderH + 30));
+        $('#dvWorkflowSetup').height(contentHeight - (HeaderH + 30));
         
         //$('#dvContentWrapper').height(contentHeightInside);
 
