@@ -20,19 +20,14 @@ namespace HijoPortal
         ArrayList ArrManPower = new ArrayList();
         ArrayList ArrCapex = new ArrayList();
         ArrayList ArrRevenue = new ArrayList();
+        private static int mrp_key = 0;
         private static string docnumber = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true, bindRevenue = true;
         private const string materialsIdentifier = "Materials", opexIdentifier = "OPEX", manpowerIdentifier = "Manpower", capexIdentifier = "CAPEX", revenueIdentifier = "Revenue";
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            if (Session["CreatorKey"] == null)
-            {
-                Response.Redirect("login.aspx");
-                return;
-            }
-
+            CheckCreatorKey();
 
             if (!Page.IsPostBack)
             {
@@ -67,6 +62,7 @@ namespace HijoPortal
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    mrp_key = Convert.ToInt32(reader["PK"].ToString());
                     DocNum.Text = reader["DocNumber"].ToString();
                     DateCreated.Text = reader["DateCreated"].ToString();
                     EntityCode.Text = reader["EntityCodeDesc"].ToString();
@@ -129,6 +125,19 @@ namespace HijoPortal
                 BindRevenue(docnumber);
             else
                 bindRevenue = true;
+        }
+
+        private void CheckCreatorKey()
+        {
+            if (Session["CreatorKey"] == null)
+            {
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
+                return;
+            }
         }
 
         private void BindDirectMaterials(string DOC_NUMBER)
@@ -282,18 +291,8 @@ namespace HijoPortal
 
         protected void DirectMaterialsGrid_BeforeGetCallbackResult(object sender, EventArgs e)
         {
-            if (DirectMaterialsGrid.IsEditing || DirectMaterialsGrid.IsNewRowEditing)
-            {
-                DirectMaterialsGrid.SettingsBehavior.AllowSort = false;
-                DirectMaterialsGrid.SettingsBehavior.AllowAutoFilter = false;
-                DirectMaterialsGrid.SettingsBehavior.AllowHeaderFilter = false;
-            }
-            else
-            {
-                DirectMaterialsGrid.SettingsBehavior.AllowSort = true;
-                DirectMaterialsGrid.SettingsBehavior.AllowAutoFilter = true;
-                DirectMaterialsGrid.SettingsBehavior.AllowHeaderFilter = true;
-            }
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.SetBehaviorGrid(grid);
         }
 
         protected void DirectMaterialsGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
@@ -330,11 +329,12 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
-            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
-
-            e.Cancel = true;
-            grid.CancelEdit();
-            BindDirectMaterials(docnumber);
+            if (result > 0)
+            {
+                string remarks = MRPClass.directmaterials_logs + "-" + MRPClass.add_logs;
+                MRPClass.UpdateLastModified(conn, docnumber);
+                MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+            }
 
             int pk_latest = 0;
             string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.DirectMatTable() + " ORDER BY [PK] DESC";
@@ -344,6 +344,11 @@ namespace HijoPortal
             {
                 pk_latest = Convert.ToInt32(r[0].ToString());
             }
+
+            e.Cancel = true;
+            grid.CancelEdit();
+            BindDirectMaterials(docnumber);
+
             if (pk_latest > 0)
                 FocusThisRowGrid(grid, pk_latest);
 
@@ -388,7 +393,12 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
-            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+            if (result > 0)
+            {
+                MRPClass.UpdateLastModified(conn, docnumber);
+                string remarks = MRPClass.directmaterials_logs + "-" + MRPClass.edit_logs;
+                MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+            }
 
             conn.Close();
 
@@ -416,7 +426,13 @@ namespace HijoPortal
                 string delete = "DELETE FROM " + MRPClass.DirectMatTable() + " WHERE [PK] ='" + PK + "'";
                 SqlCommand cmd = new SqlCommand(delete, conn);
                 int result = cmd.ExecuteNonQuery();
-                if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+                if (result > 0)
+                {
+                    MRPClass.UpdateLastModified(conn, docnumber);
+
+                    string remarks = MRPClass.directmaterials_logs + "-" + MRPClass.delete_logs;
+                    MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+                }
                 conn.Close();
                 BindDirectMaterials(docnumber);
                 e.Cancel = true;
@@ -425,18 +441,8 @@ namespace HijoPortal
 
         protected void OPEXGrid_BeforeGetCallbackResult(object sender, EventArgs e)
         {
-            if (OPEXGrid.IsEditing || OPEXGrid.IsNewRowEditing)
-            {
-                OPEXGrid.SettingsBehavior.AllowSort = false;
-                OPEXGrid.SettingsBehavior.AllowAutoFilter = false;
-                OPEXGrid.SettingsBehavior.AllowHeaderFilter = false;
-            }
-            else
-            {
-                OPEXGrid.SettingsBehavior.AllowSort = true;
-                OPEXGrid.SettingsBehavior.AllowAutoFilter = true;
-                OPEXGrid.SettingsBehavior.AllowHeaderFilter = true;
-            }
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.SetBehaviorGrid(grid);
         }
         protected void OPEXGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
@@ -476,7 +482,12 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
-            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+            if (result > 0)
+            {
+                MRPClass.UpdateLastModified(conn, docnumber);
+                string remarks = MRPClass.opex_logs + "-" + MRPClass.add_logs;
+                MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+            }
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -501,7 +512,12 @@ namespace HijoPortal
                 SqlCommand cmd = new SqlCommand(delete, conn);
                 int result = cmd.ExecuteNonQuery();
 
-                if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+                if (result > 0)
+                {
+                    MRPClass.UpdateLastModified(conn, docnumber);
+                    string remarks = MRPClass.opex_logs + "-" + MRPClass.delete_logs;
+                    MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+                }
 
                 conn.Close();
                 BindOPEX(docnumber);
@@ -557,7 +573,12 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
-            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+            if (result > 0)
+            {
+                MRPClass.UpdateLastModified(conn, docnumber);
+                string remarks = MRPClass.opex_logs + "-" + MRPClass.edit_logs;
+                MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+            }
 
             conn.Close();
 
@@ -567,18 +588,8 @@ namespace HijoPortal
         }
         protected void ManPowerGrid_BeforeGetCallbackResult(object sender, EventArgs e)
         {
-            if (ManPowerGrid.IsEditing || ManPowerGrid.IsNewRowEditing)
-            {
-                ManPowerGrid.SettingsBehavior.AllowSort = false;
-                ManPowerGrid.SettingsBehavior.AllowAutoFilter = false;
-                ManPowerGrid.SettingsBehavior.AllowHeaderFilter = false;
-            }
-            else
-            {
-                ManPowerGrid.SettingsBehavior.AllowSort = true;
-                ManPowerGrid.SettingsBehavior.AllowAutoFilter = true;
-                ManPowerGrid.SettingsBehavior.AllowHeaderFilter = true;
-            }
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.SetBehaviorGrid(grid);
         }
 
         protected void ManPowerGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
@@ -626,7 +637,12 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
-            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+            if (result > 0)
+            {
+                MRPClass.UpdateLastModified(conn, docnumber);
+                string remarks = MRPClass.manpower_logs + "-" + MRPClass.add_logs;
+                MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+            }
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -651,7 +667,12 @@ namespace HijoPortal
                 SqlCommand cmd = new SqlCommand(delete, conn);
                 int result = cmd.ExecuteNonQuery();
 
-                if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+                if (result > 0)
+                {
+                    MRPClass.UpdateLastModified(conn, docnumber);
+                    string remarks = MRPClass.manpower_logs + "-" + MRPClass.delete_logs;
+                    MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+                }
 
                 conn.Close();
                 BindDirectMaterials(docnumber);
@@ -707,7 +728,12 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
-            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+            if (result > 0)
+            {
+                MRPClass.UpdateLastModified(conn, docnumber);
+                string remarks = MRPClass.manpower_logs + "-" + MRPClass.edit_logs;
+                MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+            }
 
             conn.Close();
 
@@ -718,18 +744,8 @@ namespace HijoPortal
 
         protected void CAPEXGrid_BeforeGetCallbackResult(object sender, EventArgs e)
         {
-            if (CAPEXGrid.IsEditing || CAPEXGrid.IsNewRowEditing)
-            {
-                CAPEXGrid.SettingsBehavior.AllowSort = false;
-                CAPEXGrid.SettingsBehavior.AllowAutoFilter = false;
-                CAPEXGrid.SettingsBehavior.AllowHeaderFilter = false;
-            }
-            else
-            {
-                CAPEXGrid.SettingsBehavior.AllowSort = true;
-                CAPEXGrid.SettingsBehavior.AllowAutoFilter = true;
-                CAPEXGrid.SettingsBehavior.AllowHeaderFilter = true;
-            }
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.SetBehaviorGrid(grid);
         }
 
         protected void CAPEXGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
@@ -763,9 +779,14 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
-            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+            if (result > 0)
+            {
+                MRPClass.UpdateLastModified(conn, docnumber);
+                string remarks = MRPClass.capex_logs + "-" + MRPClass.add_logs;
+                MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+            }
 
-            e.Cancel = true;
+                e.Cancel = true;
             grid.CancelEdit();
             BindCAPEX(docnumber);
         }
@@ -788,9 +809,14 @@ namespace HijoPortal
                 SqlCommand cmd = new SqlCommand(delete, conn);
                 int result = cmd.ExecuteNonQuery();
 
-                if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+                if (result > 0)
+                {
+                    MRPClass.UpdateLastModified(conn, docnumber);
+                    string remarks = MRPClass.capex_logs + "-" + MRPClass.delete_logs;
+                    MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+                }
 
-                conn.Close();
+                    conn.Close();
                 BindCAPEX(docnumber);
                 e.Cancel = true;
             }
@@ -829,9 +855,14 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
-            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+            if (result > 0)
+            {
+                MRPClass.UpdateLastModified(conn, docnumber);
+                string remarks = MRPClass.capex_logs + "-" + MRPClass.edit_logs;
+                MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+            }
 
-            conn.Close();
+                conn.Close();
 
             BindCAPEX(docnumber);
             e.Cancel = true;
@@ -865,18 +896,8 @@ namespace HijoPortal
 
         protected void RevenueGrid_BeforeGetCallbackResult(object sender, EventArgs e)
         {
-            if (RevenueGrid.IsEditing || RevenueGrid.IsNewRowEditing)
-            {
-                RevenueGrid.SettingsBehavior.AllowSort = false;
-                RevenueGrid.SettingsBehavior.AllowAutoFilter = false;
-                RevenueGrid.SettingsBehavior.AllowHeaderFilter = false;
-            }
-            else
-            {
-                RevenueGrid.SettingsBehavior.AllowSort = true;
-                RevenueGrid.SettingsBehavior.AllowAutoFilter = true;
-                RevenueGrid.SettingsBehavior.AllowHeaderFilter = true;
-            }
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.SetBehaviorGrid(grid);
         }
 
         protected void RevenueGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
@@ -925,9 +946,14 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
-            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+            if (result > 0)
+            {
+                MRPClass.UpdateLastModified(conn, docnumber);
+                string remarks = MRPClass.revenueassumption_logs + "-" + MRPClass.add_logs;
+                MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+            }
 
-            e.Cancel = true;
+                e.Cancel = true;
             grid.CancelEdit();
             BindRevenue(docnumber);
         }
@@ -949,7 +975,12 @@ namespace HijoPortal
                 string delete = "DELETE FROM " + MRPClass.RevenueTable() + " WHERE [PK] ='" + PK + "'";
                 SqlCommand cmd = new SqlCommand(delete, conn);
                 int result = cmd.ExecuteNonQuery();
-                if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+                if (result > 0)
+                {
+                    MRPClass.UpdateLastModified(conn, docnumber);
+                    string remarks = MRPClass.revenueassumption_logs + "-" + MRPClass.delete_logs;
+                    MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+                }
                 conn.Close();
                 BindDirectMaterials(docnumber);
                 e.Cancel = true;
@@ -989,7 +1020,12 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
-            if (result > 0) MRPClass.UpdateLastModified(conn, docnumber);
+            if (result > 0)
+            {
+                MRPClass.UpdateLastModified(conn, docnumber);
+                string remarks = MRPClass.revenueassumption_logs + "-" + MRPClass.edit_logs;
+                MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
+            }
 
             conn.Close();
 

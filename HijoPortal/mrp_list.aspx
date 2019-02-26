@@ -8,8 +8,8 @@
     <dx:ASPxPopupControl ID="WarningPopUp" runat="server" Modal="true" CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
-                <div style="padding: 50px;">
-                    <dx:ASPxLabel runat="server" Text="Month and Year Already Exist"></dx:ASPxLabel>
+                <div style="padding: 5px;">
+                    <dx:ASPxLabel runat="server" ID="WarningText" Text=""></dx:ASPxLabel>
                 </div>
             </dx:PopupControlContentControl>
         </ContentCollection>

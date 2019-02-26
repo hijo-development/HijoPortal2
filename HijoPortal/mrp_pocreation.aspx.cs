@@ -17,12 +17,12 @@ namespace HijoPortal
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            MRPClass.PrintString("Loading...");
+            CheckCreatorKey();
             if (!Page.IsPostBack)
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-                BindPO();
             }
+            BindPO();
         }
 
         private void BindPO()
@@ -35,7 +35,11 @@ namespace HijoPortal
 
         protected void POTable_CustomButtonCallback(object sender, DevExpress.Web.ASPxGridViewCustomButtonCallbackEventArgs e)
         {
-            CheckSessionExpire();
+            if (Session["CreatorKey"] == null)
+            {
+                Response.RedirectLocation = "default.aspx";
+                return;
+            }
             ASPxHiddenField text = POTable.FindHeaderTemplateControl(POTable.Columns[0], "HiddenVal") as ASPxHiddenField;
             text["hidden_value"] = "";
 
@@ -130,7 +134,7 @@ namespace HijoPortal
 
         protected void BtnAdd_Click(object sender, EventArgs e)
         {
-            CheckSessionExpire();
+            CheckCreatorKey();
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
@@ -176,13 +180,17 @@ namespace HijoPortal
             conn.Close();
         }
 
-        private void CheckSessionExpire()
+        private void CheckCreatorKey()
         {
-            //if (Session["CreatorKey"] == null)
-            //{
-            //    Response.Redirect("login.aspx");
-            //    return;
-            //}
+            if (Session["CreatorKey"] == null)
+            {
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
+                return;
+            }
         }
     }
 }

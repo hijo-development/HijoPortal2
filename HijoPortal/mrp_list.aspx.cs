@@ -17,11 +17,7 @@ namespace HijoPortal
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            if (Session["CreatorKey"] == null)
-            {
-                Response.Redirect("default.aspx");
-                return;
-            }
+            CheckCreatorKey();
 
             if (!Page.IsPostBack)
             {
@@ -33,6 +29,19 @@ namespace HijoPortal
             if (!Page.IsAsync)
             {
 
+            }
+        }
+
+        private void CheckCreatorKey()
+        {
+            if (Session["CreatorKey"] == null)
+            {
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
+                return;
             }
         }
 
@@ -69,20 +78,10 @@ namespace HijoPortal
                     {
                         //Session["DocNumber"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
                         string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
+                        string mrp_pk = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
                         Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
-                        String firstMacAddress = 
-                            NetworkInterface
-                            .GetAllNetworkInterfaces()
-                            .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-                            .Select(nic => nic.GetPhysicalAddress().ToString())
-                            .FirstOrDefault();
-
-                        string username = Environment.UserName;
-                        MRPClass.PrintString(firstMacAddress);
-                        MRPClass.PrintString(username);
-
                     }
                 }
 
@@ -169,7 +168,12 @@ namespace HijoPortal
             int yearInteger = Convert.ToInt32(year);
 
             if (monthIndex <= Convert.ToInt32(DateTime.Now.Month.ToString("00")) && yearInteger <= Convert.ToInt32(DateTime.Now.Year.ToString()))
+            {
+                WarningPopUp.HeaderText = month + " " + year;
+                WarningPopUp.ShowOnPageLoad = true;
+                WarningText.Text = "Month and Year behind current date";
                 return;
+            }
 
 
             string query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE [MRPMonth] = @MONTH AND [MRPYear] = @YEAR AND [EntityCode] = @ENTITYCODE AND [BUCode] = @BUCODE";
@@ -188,6 +192,7 @@ namespace HijoPortal
             {
                 WarningPopUp.HeaderText = month + " " + year;
                 WarningPopUp.ShowOnPageLoad = true;
+                WarningText.Text = "Month and Year Already Exist";
             }
             else
             {
@@ -246,7 +251,19 @@ namespace HijoPortal
                 cmd.Parameters.AddWithValue("@CreatorKey", CREATOR_KEY);
                 cmd.Parameters.AddWithValue("@LastModified", DATE_CREATED.ToString("MM/dd/yyyy hh:mm:ss tt"));
                 cmd.CommandType = CommandType.Text;
-                cmd.ExecuteNonQuery();
+                int result = cmd.ExecuteNonQuery();
+
+                string remarks = "MRP-ADD";
+
+                int pk_latest = 0;
+                string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.MOPTableName() + " ORDER BY [PK] DESC";
+                SqlCommand comm = new SqlCommand(query_pk, conn);
+                SqlDataReader r = comm.ExecuteReader();
+
+                while (r.Read()) pk_latest = Convert.ToInt32(r[0].ToString());
+                r.Close();
+
+                if (result > 0) MRPClass.AddLogsMOPList(conn, pk_latest, remarks);
 
                 //Session["DocNumber"] = DOC_NUMBER;
                 string docNum = DOC_NUMBER;

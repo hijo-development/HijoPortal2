@@ -14,7 +14,8 @@
                 Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
                 OnStartRowEditing="UserListGrid_StartRowEditing"
                 OnRowUpdating="UserListGrid_RowUpdating"
-                OnCustomButtonCallback="UserListGrid_CustomButtonCallback">
+                OnCustomButtonCallback="UserListGrid_CustomButtonCallback" 
+                OnBeforeGetCallbackResult="UserListGrid_BeforeGetCallbackResult">
                 <SettingsBehavior AllowSort="true" SortMode="Value" />
 
                 <Columns>

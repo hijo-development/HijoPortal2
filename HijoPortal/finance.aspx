@@ -31,7 +31,8 @@
                                                 OnRowInserting="grdFinanceHead_RowInserting"
                                                 OnStartRowEditing="grdFinanceHead_StartRowEditing"
                                                 OnRowUpdating="grdFinanceHead_RowUpdating"
-                                                OnRowDeleting="grdFinanceHead_RowDeleting">
+                                                OnRowDeleting="grdFinanceHead_RowDeleting" 
+                                                OnBeforeGetCallbackResult="grdFinanceHead_BeforeGetCallbackResult">
 
                                                 <SettingsBehavior AllowSort="true" SortMode="Value" />
 
@@ -119,7 +120,8 @@
                                                 OnRowInserting="grdFinanceApproval_RowInserting" 
                                                 OnStartRowEditing="grdFinanceApproval_StartRowEditing" 
                                                 OnRowUpdating="grdFinanceApproval_RowUpdating" 
-                                                OnRowDeleting="grdFinanceApproval_RowDeleting">
+                                                OnRowDeleting="grdFinanceApproval_RowDeleting" 
+                                                OnBeforeGetCallbackResult="grdFinanceApproval_BeforeGetCallbackResult">
 
                                                 <SettingsBehavior AllowSort="true" SortMode="Value" />
 
@@ -211,7 +213,8 @@
                                                 OnRowInserting="grdFinanceBudget_RowInserting"
                                                 OnStartRowEditing="grdFinanceBudget_StartRowEditing"
                                                 OnRowUpdating="grdFinanceBudget_RowUpdating"
-                                                OnRowDeleting="grdFinanceBudget_RowDeleting">
+                                                OnRowDeleting="grdFinanceBudget_RowDeleting" 
+                                                OnBeforeGetCallbackResult="grdFinanceBudget_BeforeGetCallbackResult">
 
                                                 <%--RowClick="OnGridFocusedRowChangedFinBud"--%>
                                                 <%--EndCallback="OnGridFocusedRowChangedFinBud_EndCallback"--%>
@@ -309,7 +312,8 @@
                                                 OnStartRowEditing="grdFinanceBudgetDet_StartRowEditing"
                                                 OnRowUpdating="grdFinanceBudgetDet_RowUpdating"
                                                 OnRowDeleting="grdFinanceBudgetDet_RowDeleting"
-                                                OnCustomCallback="grdFinanceBudgetDet_CustomCallback">
+                                                OnCustomCallback="grdFinanceBudgetDet_CustomCallback" 
+                                                OnBeforeGetCallbackResult="grdFinanceBudgetDet_BeforeGetCallbackResult">
 
                                                 <ClientSideEvents
                                                     CustomButtonClick=""
