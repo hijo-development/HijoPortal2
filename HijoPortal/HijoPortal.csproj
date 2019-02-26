@@ -108,6 +108,7 @@
     <Content Include="jquery\accounting.js" />
     <Content Include="jquery\ContentPage.js" />
     <Content Include="jquery\createAccount.js" />
+    <Content Include="mop_workflow.aspx" />
     <Content Include="mrp_addedit.aspx" />
     <Content Include="mrp_forapproval.aspx" />
     <Content Include="mrp_inventanalyst.aspx" />
@@ -137,6 +138,7 @@
       <DependentUpon>change_pw.aspx</DependentUpon>
     </Compile>
     <Compile Include="classes\AccountClass.cs" />
+    <Compile Include="classes\DataFlowClass.cs" />
     <Compile Include="classes\EncryptionClass.cs" />
     <Compile Include="classes\FinanceClass.cs" />
     <Compile Include="classes\GlobalClass.cs" />
@@ -191,6 +193,13 @@
     </Compile>
     <Compile Include="Master.Master.designer.cs">
       <DependentUpon>Master.Master</DependentUpon>
+    </Compile>
+    <Compile Include="mop_workflow.aspx.cs">
+      <DependentUpon>mop_workflow.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mop_workflow.aspx.designer.cs">
+      <DependentUpon>mop_workflow.aspx</DependentUpon>
     </Compile>
     <Compile Include="mrp_addedit.aspx.cs">
       <DependentUpon>mrp_addedit.aspx</DependentUpon>
