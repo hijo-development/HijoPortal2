@@ -5,11 +5,15 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using DevExpress.Web;
+using System.Net.NetworkInformation;
 
 namespace HijoPortal.classes
 {
     public class MRPClass
     {
+        public const string capex_logs = "CAPEX", opex_logs = "OPEX", directmaterials_logs = "DIRECTMATERIALS", manpower_logs = "MANPOWER", revenueassumption_logs = "REVENUEASSUMPTION", add_logs = "ADD", edit_logs = "EDIT", delete_logs = "DELETE";
+
         static double
             capex_total_amount = 0,
             opex_total_amount = 0,
@@ -1836,6 +1840,11 @@ namespace HijoPortal.classes
                 PrintString("Failed Update");
         }
 
+        public static string MOPTableName()
+        {
+            return "[hijo_portal].[dbo].[tbl_MRP_List]";
+        }
+
         public static string DirectMatTable()
         {
             return "[hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials]";
@@ -1901,6 +1910,11 @@ namespace HijoPortal.classes
             return "[hijo_portal].[dbo].[tbl_DocumentNumber]";
         }
 
+        public static string DefaultPage()
+        {
+            return "default.aspx";
+        }
+
         public static double capex_total()
         {
             return capex_total_amount;
@@ -1946,6 +1960,43 @@ namespace HijoPortal.classes
             string update_last_modified = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List] SET [LastModified] = '" + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss tt") + "' WHERE [DocNumber] = '" + docnumber + "'";
             SqlCommand comm = new SqlCommand(update_last_modified, conn);
             comm.ExecuteNonQuery();
+        }
+
+        public static void AddLogsMOPList(SqlConnection conn, int MRPKey, string Remarks)
+        {
+            String PhysicalAdd = NetworkInterface.GetAllNetworkInterfaces()
+                            .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                            .Select(nic => nic.GetPhysicalAddress().ToString())
+                            .FirstOrDefault();
+
+            string ComputerUN = Environment.UserName;
+
+            string add_logs = "INSERT INTO [hijo_portal].[dbo].[tbl_MRP_List_ModifiedLogs] ([MRPKey], [DateModified],[PhysicalAdd], [ComputerUN], [Remarks]) VALUES (@MRPKey, @DateModified, @PhysicalAdd, @ComputerUN, @Remarks)";
+            SqlCommand comm = new SqlCommand(add_logs, conn);
+            comm.Parameters.AddWithValue("@MRPKey", MRPKey);
+            comm.Parameters.AddWithValue("@DateModified", DateTime.Now.ToString());
+            comm.Parameters.AddWithValue("@PhysicalAdd", PhysicalAdd);
+            comm.Parameters.AddWithValue("@ComputerUN", ComputerUN);
+            comm.Parameters.AddWithValue("@Remarks", Remarks);
+            comm.ExecuteNonQuery();
+        }
+
+        
+
+        public static void SetBehaviorGrid(ASPxGridView grid)
+        {
+            if (grid.IsEditing || grid.IsNewRowEditing)
+            {
+                grid.SettingsBehavior.AllowSort = false;
+                grid.SettingsBehavior.AllowAutoFilter = false;
+                grid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                grid.SettingsBehavior.AllowSort = true;
+                grid.SettingsBehavior.AllowAutoFilter = true;
+                grid.SettingsBehavior.AllowHeaderFilter = true;
+            }
         }
     }
 }

@@ -21,7 +21,8 @@
                     OnRowInserting="grdExecutive_RowInserting" 
                     OnStartRowEditing="grdExecutive_StartRowEditing" 
                     OnRowUpdating="grdExecutive_RowUpdating" 
-                    OnRowDeleting="grdExecutive_RowDeleting">
+                    OnRowDeleting="grdExecutive_RowDeleting" 
+                    OnBeforeGetCallbackResult="grdExecutive_BeforeGetCallbackResult">
 
                     <SettingsBehavior AllowSort="true" SortMode="Value" />
 

@@ -34,7 +34,8 @@
                                                             OnRowInserting="grdSCMHead_RowInserting"
                                                             OnStartRowEditing="grdSCMHead_StartRowEditing"
                                                             OnRowUpdating="grdSCMHead_RowUpdating"
-                                                            OnRowDeleting="grdSCMHead_RowDeleting">
+                                                            OnRowDeleting="grdSCMHead_RowDeleting" 
+                                                            OnBeforeGetCallbackResult="grdSCMHead_BeforeGetCallbackResult">
 
                                                             <SettingsBehavior AllowSort="true" SortMode="Value" />
 
@@ -122,7 +123,8 @@
                                                             OnRowInserting="grdSCMInventoryAnal_RowInserting"
                                                             OnStartRowEditing="grdSCMInventoryAnal_StartRowEditing"
                                                             OnRowUpdating="grdSCMInventoryAnal_RowUpdating"
-                                                            OnRowDeleting="grdSCMInventoryAnal_RowDeleting">
+                                                            OnRowDeleting="grdSCMInventoryAnal_RowDeleting" 
+                                                            OnBeforeGetCallbackResult="grdSCMInventoryAnal_BeforeGetCallbackResult">
 
                                                             <SettingsBehavior AllowSort="true" SortMode="Value" />
 
@@ -220,7 +222,8 @@
                                                             OnRowInserting="grdSCMProcurementOff_RowInserting"
                                                             OnStartRowEditing="grdSCMProcurementOff_StartRowEditing"
                                                             OnRowUpdating="grdSCMProcurementOff_RowUpdating"
-                                                            OnRowDeleting="grdSCMProcurementOff_RowDeleting">
+                                                            OnRowDeleting="grdSCMProcurementOff_RowDeleting" 
+                                                            OnBeforeGetCallbackResult="grdSCMProcurementOff_BeforeGetCallbackResult">
 
                                                             <SettingsBehavior AllowSort="true" SortMode="Value" />
 
@@ -319,7 +322,8 @@
                                                             OnRowInserting="grdSCMProcurementOffDetails_RowInserting"
                                                             OnStartRowEditing="grdSCMProcurementOffDetails_StartRowEditing"
                                                             OnRowUpdating="grdSCMProcurementOffDetails_RowUpdating"
-                                                            OnRowDeleting="grdSCMProcurementOffDetails_RowDeleting">
+                                                            OnRowDeleting="grdSCMProcurementOffDetails_RowDeleting" 
+                                                            OnBeforeGetCallbackResult="grdSCMProcurementOffDetails_BeforeGetCallbackResult">
 
                                                             <ClientSideEvents
                                                                 CustomButtonClick=""

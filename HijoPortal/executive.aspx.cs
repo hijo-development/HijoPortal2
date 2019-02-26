@@ -20,7 +20,11 @@ namespace HijoPortal
         {
             if (Session["CreatorKey"] == null)
             {
-                Response.Redirect("default.aspx");
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
                 return;
             }
         }
@@ -190,6 +194,12 @@ namespace HijoPortal
             BindExecutive();
             e.Cancel = true;
             conn.Close();
+        }
+
+        protected void grdExecutive_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.SetBehaviorGrid(grid);
         }
     }
 }

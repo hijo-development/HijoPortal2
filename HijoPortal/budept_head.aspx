@@ -16,7 +16,8 @@
                 OnRowInserting="BUDeptListGrid_RowInserting"
                 OnRowDeleting="BUDeptListGrid_RowDeleting"
                 OnStartRowEditing="BUDeptListGrid_StartRowEditing"
-                OnRowUpdating="BUDeptListGrid_RowUpdating">
+                OnRowUpdating="BUDeptListGrid_RowUpdating" 
+                OnBeforeGetCallbackResult="BUDeptListGrid_BeforeGetCallbackResult">
                 <SettingsBehavior AllowSort="true" SortMode="Value" />
 
                 <Columns>

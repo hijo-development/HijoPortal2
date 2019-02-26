@@ -29,7 +29,11 @@ namespace HijoPortal
         {
             if (Session["CreatorKey"] == null)
             {
-                Response.Redirect("default.aspx");
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
                 return;
             }
         }
@@ -747,6 +751,63 @@ namespace HijoPortal
             BindSCMProcOff_Details(iProcOffMaster);
             e.Cancel = true;
             conn.Close();
+        }
+
+        protected void grdSCMHead_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            if (grid.IsEditing || grid.IsNewRowEditing)
+            {
+                grid.SettingsBehavior.AllowSort = false;
+                grid.SettingsBehavior.AllowAutoFilter = false;
+                grid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                grid.SettingsBehavior.AllowSort = true;
+                grid.SettingsBehavior.AllowAutoFilter = true;
+                grid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
+        protected void grdSCMInventoryAnal_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            if (grid.IsEditing || grid.IsNewRowEditing)
+            {
+                grid.SettingsBehavior.AllowSort = false;
+                grid.SettingsBehavior.AllowAutoFilter = false;
+                grid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                grid.SettingsBehavior.AllowSort = true;
+                grid.SettingsBehavior.AllowAutoFilter = true;
+                grid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
+        protected void grdSCMProcurementOff_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            if (grid.IsEditing || grid.IsNewRowEditing)
+            {
+                grid.SettingsBehavior.AllowSort = false;
+                grid.SettingsBehavior.AllowAutoFilter = false;
+                grid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                grid.SettingsBehavior.AllowSort = true;
+                grid.SettingsBehavior.AllowAutoFilter = true;
+                grid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
+        protected void grdSCMProcurementOffDetails_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.SetBehaviorGrid(grid);
         }
     }
 }

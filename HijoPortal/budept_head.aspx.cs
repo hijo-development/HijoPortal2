@@ -21,7 +21,11 @@ namespace HijoPortal
         {
             if (Session["CreatorKey"] == null)
             {
-                Response.Redirect("default.aspx");
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
                 return;
             }
         }
@@ -139,12 +143,12 @@ namespace HijoPortal
             //}
             //else
             //{
-                string delete = "DELETE FROM tbl_System_BUDeptHead WHERE [PK] ='" + PK + "'";
-                SqlCommand cmd = new SqlCommand(delete, conn);
-                cmd.ExecuteNonQuery();
-                conn.Close();
-                BindUserList();
-                e.Cancel = true;
+            string delete = "DELETE FROM tbl_System_BUDeptHead WHERE [PK] ='" + PK + "'";
+            SqlCommand cmd = new SqlCommand(delete, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            BindUserList();
+            e.Cancel = true;
             //}
             conn.Close();
         }
@@ -307,6 +311,12 @@ namespace HijoPortal
             {
                 combo.Value = DataBinder.Eval(container.DataItem, "UserKey").ToString();
             }
+        }
+
+        protected void BUDeptListGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.SetBehaviorGrid(grid);
         }
     }
 }

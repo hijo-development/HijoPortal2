@@ -16,7 +16,7 @@ namespace HijoPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            CheckCreatorKey();
             if (!Page.IsPostBack)
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
@@ -66,6 +66,19 @@ namespace HijoPortal
             }
         }
 
+        private void CheckCreatorKey()
+        {
+            if (Session["CreatorKey"] == null)
+            {
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
+                return;
+            }
+        }
+
         private void BindPOAddEdit(string mrp_number, string type)
         {
             DataTable dtRecord = MRPClass.POAddEdit_Table(mrp_number, type);
@@ -81,18 +94,8 @@ namespace HijoPortal
 
         protected void POAddEditGrid_BeforeGetCallbackResult(object sender, EventArgs e)
         {
-            if (POAddEditGrid.IsEditing || POAddEditGrid.IsNewRowEditing)
-            {
-                POAddEditGrid.SettingsBehavior.AllowSort = false;
-                POAddEditGrid.SettingsBehavior.AllowAutoFilter = false;
-                POAddEditGrid.SettingsBehavior.AllowHeaderFilter = false;
-            }
-            else
-            {
-                POAddEditGrid.SettingsBehavior.AllowSort = true;
-                POAddEditGrid.SettingsBehavior.AllowAutoFilter = true;
-                POAddEditGrid.SettingsBehavior.AllowHeaderFilter = true;
-            }
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.SetBehaviorGrid(grid);
         }
 
         protected void selList_Callback(object sender, DevExpress.Web.CallbackEventArgsBase e)
