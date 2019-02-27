@@ -61,7 +61,7 @@ changeWidth = {
         $('#dvFinanceSetup').height(contentHeight - (HeaderH + 30));
         $('#dvExecutiveSetup').height(contentHeight - (HeaderH + 30));
         $('#dvWorkflowSetup').height(contentHeight - (HeaderH + 30));
-        
+
         //$('#dvContentWrapper').height(contentHeightInside);
 
         //console.log("Center Height: " + centerPanelHeight + " form Height: " + formHeight + ":::: " + h1);
@@ -181,7 +181,60 @@ function MainTableEndCallback(s, e) {
 
 
 // MRPAddForm Script
+function OperatingUnitDM(s, e) {
+    var text = s.GetSelectedItem().text;
+    if (text.length == 0)
+        s.SetIsValid(false);
+    else
+        s.SetIsValid(true);
+}
+
+function OperatingUnitOP(s, e) {
+    var text = s.GetSelectedItem().text;
+    if (text.length == 0)
+        s.SetIsValid(false);
+    else
+        s.SetIsValid(true);
+}
+
+function OperatingUnitCA(s, e) {
+    var text = s.GetSelectedItem().text;
+    if (text.length == 0)
+        s.SetIsValid(false);
+    else
+        s.SetIsValid(true);
+}
+
+function OperatingUnitMAN(s, e) {
+    var text = s.GetSelectedItem().text;
+    if (text.length == 0)
+        s.SetIsValid(false);
+    else
+        s.SetIsValid(true);
+}
+
+function OperatingUnitREV(s, e) {
+    var text = s.GetSelectedItem().text;
+    if (text.length == 0)
+        s.SetIsValid(false);
+    else
+        s.SetIsValid(true);
+}
+
 function updateDirectMat(s, e) {
+    var entityval = entityhidden.Get('hidden_value');
+    var bool = true;
+    console.log(entityval);
+    if (entityval == "display") {
+        if (OperatingUnit.GetText().length == 0) {
+            OperatingUnit.SetIsValid(false);
+            bool = false;
+        } else {
+            OperatingUnit.SetIsValid(true);
+            bool = true;
+        }
+    }
+
     var actCode = ActivityCodeDirect.GetText();
     var itemCode = ItemCodeDirect.GetText();
     var itemDesc = ItemDescriptionDirect.GetText();
@@ -190,11 +243,24 @@ function updateDirectMat(s, e) {
     var qty = QtyDirect.GetText();
     var totalcost = TotalCostDirect.GetText();
 
-    if (actCode.length > 0 && itemCode.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0) {
+    if (actCode.length > 0 && itemCode.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool) {
         DirectMaterialsGrid.UpdateEdit();
     }
 }
 function updateOpex(s, e) {
+
+    var entityval = entityhiddenOP.Get('hidden_value');
+    var bool = true;
+    if (entityval == "display") {
+        if (OperatingUnitOP.GetText().length == 0) {
+            OperatingUnitOP.SetIsValid(false);
+            bool = false;
+        } else {
+            OperatingUnitOP.SetIsValid(true);
+            bool = true;
+        }
+    }
+
     var expense = ExpenseCodeOPEX.GetText();
     var itemCode = ItemCodeOPEX.GetText();
     var itemDesc = DescriptionOPEX.GetText();
@@ -203,7 +269,7 @@ function updateOpex(s, e) {
     var qty = QtyOPEX.GetText();
     var totalcost = TotalCostOPEX.GetText();
 
-    if (expense.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0) {
+    if (expense.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool) {
         OPEXGrid.UpdateEdit();
     }
 }

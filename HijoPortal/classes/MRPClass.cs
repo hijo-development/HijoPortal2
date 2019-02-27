@@ -12,7 +12,7 @@ namespace HijoPortal.classes
 {
     public class MRPClass
     {
-        public const string capex_logs = "CAPEX", opex_logs = "OPEX", directmaterials_logs = "DIRECTMATERIALS", manpower_logs = "MANPOWER", revenueassumption_logs = "REVENUEASSUMPTION", add_logs = "ADD", edit_logs = "EDIT", delete_logs = "DELETE";
+        public const string capex_logs = "CAPEX", opex_logs = "OPEX", directmaterials_logs = "DIRECTMATERIALS", manpower_logs = "MANPOWER", revenueassumption_logs = "REVENUEASSUMPTION", add_logs = "ADD", edit_logs = "EDIT", delete_logs = "DELETE", train_entity = "0101";
 
         static double
             capex_total_amount = 0,
@@ -142,7 +142,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable MRP_Direct_Materials(string DOC_NUMBER)
+        public static DataTable MRP_Direct_Materials(string DOC_NUMBER, string entity)
         {
             DataTable dtTable = new DataTable();
             SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
@@ -164,11 +164,17 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Cost", typeof(string));
                 dtTable.Columns.Add("Qty", typeof(Double));
                 dtTable.Columns.Add("TotalCost", typeof(string));
+                dtTable.Columns.Add("VALUE", typeof(string));
+                dtTable.Columns.Add("RevDesc", typeof(string));
             }
 
-            string query = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "'";
+            string query_1 = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc, tbl_MRP_List.EntityCode FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE INNER JOIN tbl_MRP_List ON tbl_MRP_List_DirectMaterials.HeaderDocNum = tbl_MRP_List.DocNumber INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List.EntityCode = vw_AXFindimBananaRevenue.Entity AND tbl_MRP_List_DirectMaterials.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "'";
 
-            cmd = new SqlCommand(query);
+            string query_2 = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "'";
+
+            if (entity == train_entity) cmd = new SqlCommand(query_1);
+            else cmd = new SqlCommand(query_2);
+
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dt);
@@ -186,6 +192,18 @@ namespace HijoPortal.classes
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
+
+                    if (entity == "0101")
+                    {
+                        dtRow["VALUE"] = row["VALUE"].ToString();
+                        dtRow["RevDesc"] = row["RevDesc"].ToString();
+                    }
+                    else
+                    {
+                        dtRow["VALUE"] = "";
+                        dtRow["RevDesc"] = "";
+                    }
+
                     dtTable.Rows.Add(dtRow);
 
                     PrintString(row["Cost"].ToString());
@@ -319,7 +337,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable MRP_OPEX(string DOC_NUMBER)
+        public static DataTable MRP_OPEX(string DOC_NUMBER, string entitycode)
         {
             DataTable dtTable = new DataTable();
             SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
@@ -343,11 +361,19 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Cost", typeof(string));
                 dtTable.Columns.Add("Qty", typeof(Double));
                 dtTable.Columns.Add("TotalCost", typeof(string));
+                dtTable.Columns.Add("VALUE", typeof(string));
+                dtTable.Columns.Add("RevDesc", typeof(string));
             }
 
-            string query = "SELECT tbl_MRP_List_OPEX.PK, tbl_MRP_List_OPEX.HeaderDocNum, tbl_MRP_List_OPEX.ExpenseCode, tbl_MRP_List_OPEX.ItemCode, tbl_MRP_List_OPEX.Description, tbl_MRP_List_OPEX.UOM, tbl_MRP_List_OPEX.Cost, tbl_MRP_List_OPEX.Qty, tbl_MRP_List_OPEX.TotalCost, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query_1 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_OPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE INNER JOIN tbl_MRP_List ON tbl_MRP_List_OPEX.HeaderDocNum = tbl_MRP_List.DocNumber WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
-            cmd = new SqlCommand(query);
+            string query_2 = "SELECT tbl_MRP_List_OPEX.PK, tbl_MRP_List_OPEX.HeaderDocNum, tbl_MRP_List_OPEX.ExpenseCode, tbl_MRP_List_OPEX.ItemCode, tbl_MRP_List_OPEX.Description, tbl_MRP_List_OPEX.UOM, tbl_MRP_List_OPEX.Cost, tbl_MRP_List_OPEX.Qty, tbl_MRP_List_OPEX.TotalCost, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+
+            if (entitycode == train_entity)
+                cmd = new SqlCommand(query_1);
+            else
+                cmd = new SqlCommand(query_2);
+
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dt);
@@ -369,6 +395,16 @@ namespace HijoPortal.classes
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
                     dtTable.Rows.Add(dtRow);
 
+                    if (entitycode == train_entity)
+                    {
+                        dtRow["VALUE"] = row["VALUE"].ToString();
+                        dtRow["RevDesc"] = row["RevDesc"].ToString();
+                    }
+                    else
+                    {
+                        dtRow["VALUE"] = "";
+                        dtRow["RevDesc"] = "";
+                    }
                     opex_total_amount += Convert.ToDouble(row["TotalCost"]);
                 }
             }
@@ -766,6 +802,8 @@ namespace HijoPortal.classes
             }
 
             string query = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+
+
 
             cmd = new SqlCommand(query);
             cmd.Connection = cn;
@@ -1832,6 +1870,46 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+        public static DataTable OperatingUnitTable(string entity)
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("VALUE", typeof(string));
+                dtTable.Columns.Add("DESCRIPTION", typeof(string));
+            }
+
+            string qry = "SELECT [VALUE], [DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXFindimBananaRevenue] WHERE [Entity] ='" + entity + "'";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["VALUE"] = row["VALUE"].ToString();
+                    dtRow["DESCRIPTION"] = row["DESCRIPTION"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
         public static void SqlSuccess(int result)
         {
             if (result > 0)
@@ -1981,7 +2059,7 @@ namespace HijoPortal.classes
             comm.ExecuteNonQuery();
         }
 
-        
+
 
         public static void SetBehaviorGrid(ASPxGridView grid)
         {
