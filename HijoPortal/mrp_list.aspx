@@ -53,7 +53,8 @@
             <dx:ASPxGridView ID="MainTable" runat="server" ClientInstanceName="MainTable"
                 EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
                 Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
-                OnCustomButtonCallback="MainTable_CustomButtonCallback">
+                OnCustomButtonCallback="MainTable_CustomButtonCallback" 
+                OnCustomCallback="MainTable_CustomCallback">
                 <ClientSideEvents CustomButtonClick="CustomButtonClick" />
                 <ClientSideEvents EndCallback="MainTableEndCallback" />
                 <SettingsBehavior AllowSort ="true" SortMode="Value" />
@@ -63,8 +64,12 @@
                         <HeaderTemplate>
                             
                             <div style="text-align: center">
-                                <dx:ASPxButton ID="Add" OnClick="Add_Click" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle"></dx:ASPxButton>
+                                <dx:ASPxButton ID="Add" OnClick="Add_Click" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
+                                    <%--<ClientSideEvents Click="function (s, e) {MainTable.PerformCallback('AddNew');}" />--%>
+                                    
+                                </dx:ASPxButton>
                                 <dx:ASPxHiddenField ID="MRPHiddenVal" ClientInstanceName="MRPHiddenVal" runat="server"></dx:ASPxHiddenField>
+                                <dx:ASPxHiddenField ID="ASPxHiddenFieldEnt" ClientInstanceName="ASPxHiddenFieldEntDirect" runat="server"></dx:ASPxHiddenField>
                             </div>
                         </HeaderTemplate>
                         

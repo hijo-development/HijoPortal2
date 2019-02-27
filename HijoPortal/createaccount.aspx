@@ -9,6 +9,9 @@
     <title>Create Account</title>
     <link rel="stylesheet" type="text/css" href="css/Account.css" />
     <script src="jquery/createAccount.js" type="text/javascript"></script>
+    <style type="text/css">
+        .btn {}
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">

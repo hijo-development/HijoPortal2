@@ -19,15 +19,19 @@ namespace HijoPortal
         }
         protected void signUp_Click(object sender, EventArgs e)
         {
+            int iEmployeeKey = 0;
+            MRPClass.PrintString("pass clicked signup");
             if (captcha.IsValid && ASPxEdit.ValidateEditorsInContainer(this))
             {
+                //MRPClass.PrintString("pass inside validation");
                 DataTable dt = new DataTable();
                 SqlCommand cmd = null;
                 SqlDataAdapter adp;
-                int iEmployeeKey = 0;
+                
                 string qry = "";
                 using (SqlConnection conHRIS = new SqlConnection(GlobalClass.SQLConnStringHRIS()))
                 {
+                    //MRPClass.PrintString("pass inside hris");
                     qry = "SELECT PK, IDNumber FROM dbo.tbl_EmployeeIDNumber WHERE(IDNumber = '" + IDNumTextBox.Text.ToString() + "')";
                     cmd = new SqlCommand(qry);
                     cmd.Connection = conHRIS;
@@ -35,6 +39,7 @@ namespace HijoPortal
                     adp.Fill(dt);
                     if (dt.Rows.Count > 0)
                     {
+                        //MRPClass.PrintString("pass inside hris with id");
                         foreach (DataRow row in dt.Rows)
                         {
                             iEmployeeKey = Convert.ToInt32(row["PK"]);
@@ -51,8 +56,9 @@ namespace HijoPortal
                 }
 
                 DataTable dtUser = AccountClass.UserList();
+
                 //dtUser.CaseSensitive = true;
-                string expressionID = "IDNumber = '" + IDNumTextBox.Text.ToString().Trim() + "'";
+                string expressionID = "EmployeeKey = '" + iEmployeeKey.ToString().Trim() + "'";
                 string sortOrderID = "PK ASC";
                 DataRow[] foundRowsID;
                 foundRowsID = dtUser.Select(expressionID, sortOrderID);
@@ -63,7 +69,7 @@ namespace HijoPortal
                     return;
                 }
 
-                //dtUser.CaseSensitive = true;
+                dtUser.CaseSensitive = true;
                 string expressionName = "Lastname = '" + lastNameTextBox.Text.ToString().Trim() + "' AND Firstname = '" + firstNameTextBox.Text.ToString().Trim() + "'";
                 string sortOrderName = "PK ASC";
                 DataRow[] foundRowsName;
@@ -111,10 +117,9 @@ namespace HijoPortal
                     con.Open();
 
                     qry = "INSERT INTO tbl_Users " +
-                          " (Lastname, Firstname, Username, Password, Email, EmployeeKey, IDNumber) " +
+                          " (Lastname, Firstname, Username, Password, Email, EmployeeKey) " +
                           " VALUES ('" + _sLastName + "', '" + _sFirstName + "', '" + _sUserName + "', " +
-                          " '" + _sPassword + "', '" + _sEmail + "', " + iEmployeeKey + ", " +
-                          " '" + _sIDNum + "')"; ;
+                          " '" + _sPassword + "', '" + _sEmail + "', " + iEmployeeKey + ")"; ;
                     try
                     {
                         cmd = new SqlCommand(qry);
@@ -124,11 +129,14 @@ namespace HijoPortal
                         Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
                                 @"<script type=""text/javascript"">setTimeout(()=>{alert('You have successfully registered')},0);</script>");
 
+                        //MRPClass.PrintString("pass saved");
+
                         Response.Redirect("default.aspx");
 
                     }
                     catch (SqlException ex)
                     {
+                        //MRPClass.PrintString(ex.ToString());
                         con.Close();
                         Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
                                 @"<script type=""text/javascript"">setTimeout(()=>{alert('" + ex.ToString() + "')},0);</script>");
@@ -163,6 +171,7 @@ namespace HijoPortal
                 dt.Clear();
                 conHRIS.Close();
             }
+
             //if (IDNumTextBoxMatch.Text.Trim() == "")
             //{
             //    IDNumTextBox.IsValid = false;

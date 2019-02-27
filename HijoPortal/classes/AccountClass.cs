@@ -213,6 +213,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("DomainAccount", typeof(string));
                 dtTable.Columns.Add("StatusKey", typeof(string));
                 dtTable.Columns.Add("StatusDesc", typeof(string));
+                dtTable.Columns.Add("EmployeeKey", typeof(string));
             }
             dtTable.Clear();
 
@@ -226,7 +227,7 @@ namespace HijoPortal.classes
                              " dbo.tbl_Users.EmployeeKey, dbo.tbl_Users.EntityCode, dbo.tbl_Users.BUCode, " +
                              " dbo.tbl_Users.Image, ISNULL(dbo.vw_AXEntityTable.NAME, '') AS EntityCodeDesc, " +
                              " ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUCodeDesc, dbo.tbl_Users.DomainAccount, " +
-                             " dbo.tbl_Users.Active " +
+                             " dbo.tbl_Users.Active, dbo.tbl_Users.EmployeeKey " +
                              " FROM dbo.tbl_Users LEFT OUTER JOIN " +
                              " dbo.vw_AXOperatingUnitTable ON dbo.tbl_Users.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
                              " dbo.vw_AXEntityTable ON dbo.tbl_Users.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
@@ -275,6 +276,14 @@ namespace HijoPortal.classes
                         {
                             rowAdd["StatusDesc"] = "Inactive";
                         }
+
+                        if (!DBNull.Value.Equals(row["EmployeeKey"]))
+                        {
+                            rowAdd["EmployeeKey"] = row["EmployeeKey"].ToString();
+                        } else
+                        {
+                            rowAdd["EmployeeKey"] = "0";
+                        }                        
                         dtTable.Rows.Add(rowAdd);
                     }
                 }
