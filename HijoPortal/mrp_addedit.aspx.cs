@@ -21,9 +21,8 @@ namespace HijoPortal
         ArrayList ArrCapex = new ArrayList();
         ArrayList ArrRevenue = new ArrayList();
         private static int mrp_key = 0;
-        private static string docnumber = "";
+        private static string docnumber = "", entitycode = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true, bindRevenue = true;
-        private const string materialsIdentifier = "Materials", opexIdentifier = "OPEX", manpowerIdentifier = "Manpower", capexIdentifier = "CAPEX", revenueIdentifier = "Revenue";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -63,6 +62,7 @@ namespace HijoPortal
                 while (reader.Read())
                 {
                     mrp_key = Convert.ToInt32(reader["PK"].ToString());
+                    entitycode = reader["EntityCode"].ToString();
                     DocNum.Text = reader["DocNumber"].ToString();
                     DateCreated.Text = reader["DateCreated"].ToString();
                     EntityCode.Text = reader["EntityCodeDesc"].ToString();
@@ -76,6 +76,7 @@ namespace HijoPortal
                 }
                 reader.Close();
                 conn.Close();
+
 
                 Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
 
@@ -100,6 +101,8 @@ namespace HijoPortal
                 ASPxPageControl1.Font.Bold = true;
                 ASPxPageControl1.Font.Size = 12;
             }
+
+
 
             if (bindDM)
                 BindDirectMaterials(docnumber);
@@ -129,6 +132,7 @@ namespace HijoPortal
 
         private void CheckCreatorKey()
         {
+
             if (Session["CreatorKey"] == null)
             {
                 if (Page.IsCallback)
@@ -142,7 +146,7 @@ namespace HijoPortal
 
         private void BindDirectMaterials(string DOC_NUMBER)
         {
-            DataTable dtRecord = MRPClass.MRP_Direct_Materials(DOC_NUMBER);
+            DataTable dtRecord = MRPClass.MRP_Direct_Materials(DOC_NUMBER, entitycode);
             DirectMaterialsGrid.DataSource = dtRecord;
             DirectMaterialsGrid.KeyFieldName = "PK";
             DirectMaterialsGrid.DataBind();
@@ -150,7 +154,7 @@ namespace HijoPortal
 
         private void BindOPEX(string DOC_NUMBER)
         {
-            DataTable dtRecord = MRPClass.MRP_OPEX(DOC_NUMBER);
+            DataTable dtRecord = MRPClass.MRP_OPEX(DOC_NUMBER, entitycode);
             OPEXGrid.DataSource = dtRecord;
             OPEXGrid.KeyFieldName = "PK";
             OPEXGrid.DataBind();
@@ -272,6 +276,32 @@ namespace HijoPortal
             }
         }
 
+        protected void OperatingUnit_Init(object sender, EventArgs e)
+        {
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = MRPClass.OperatingUnitTable(entitycode);
+
+            ListBoxColumn l_value = new ListBoxColumn();
+            l_value.FieldName = "VALUE";
+            combo.Columns.Add(l_value);
+
+            ListBoxColumn l_text = new ListBoxColumn();
+            l_text.FieldName = "DESCRIPTION";
+            combo.Columns.Add(l_text);
+
+            combo.ValueField = "VALUE";
+            combo.TextField = "DESCRIPTION";
+            combo.DataBind();
+            combo.TextFormatString = "{1}";
+
+            GridViewEditFormTemplateContainer container = ((ASPxComboBox)sender).NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+            if (!container.Grid.IsNewRowEditing)
+            {
+                combo.Value = DataBinder.Eval(container.DataItem, "VALUE").ToString();
+                combo.Text = DataBinder.Eval(container.DataItem, "RevDesc").ToString();
+            }
+        }
+
         protected void ManPowerTypeKey_Init(object sender, EventArgs e)
         {
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
@@ -293,6 +323,27 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.SetBehaviorGrid(grid);
+
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("DirectPageControl") as ASPxPageControl;
+            if (pageControl != null)
+            {
+                ASPxHiddenField entityhidden = pageControl.FindControl("entityhidden") as ASPxHiddenField;
+                if (entitycode != MRPClass.train_entity)
+                {
+                    HtmlControl div1 = (HtmlControl)pageControl.FindControl("OperatingUnit_label");
+                    div1.Style.Add("display", "none");
+                    HtmlControl div2 = (HtmlControl)pageControl.FindControl("OperatingUnit_combo");
+                    div2.Style.Add("display", "none");
+
+                    entityhidden["hidden_value"] = "not display";
+                }
+                else
+                {
+                    entityhidden["hidden_value"] = "display";
+                }
+            }
+
+            MRPClass.PrintString(OPEXGrid.IsEditing.ToString());
         }
 
         protected void DirectMaterialsGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
@@ -305,6 +356,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("DirectPageControl") as ASPxPageControl;
 
+            ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox actCode = pageControl.FindControl("ActivityCode") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("ItemDescription") as ASPxTextBox;
@@ -316,10 +368,16 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO " + MRPClass.DirectMatTable() + " ([HeaderDocNum], [ActivityCode], [ItemCode], [ItemDescription], [UOM], [Cost], [Qty], [TotalCost]) VALUES (@HeaderDocNum, @ActivityCode, @ItemCode, @ItemDesc, @UOM, @Cost, @Qty, @TotalCost)";
+            string operating_unit = "";
+            if (opunit.Value != null)
+                operating_unit = opunit.Value.ToString();
+
+
+            string insert = "INSERT INTO " + MRPClass.DirectMatTable() + " ([HeaderDocNum], [ActivityCode], [ItemCode], [ItemDescription], [UOM], [Cost], [Qty], [TotalCost], [OprUnit]) VALUES (@HeaderDocNum, @ActivityCode, @ItemCode, @ItemDesc, @UOM, @Cost, @Qty, @TotalCost, @OprUnit)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ActivityCode", actCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemDesc", itemDesc.Value.ToString());
@@ -364,6 +422,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("DirectPageControl") as ASPxPageControl;
 
+            ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox actCode = pageControl.FindControl("ActivityCode") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("ItemDescription") as ASPxTextBox;
@@ -376,13 +435,17 @@ namespace HijoPortal
             conn.Open();
 
             string actcodeVal = MRPClass.ActivityCodeDESCRIPTION(actCode.Value.ToString());
-
             string PK = e.Keys[0].ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.DirectMatTable() + " SET [ActivityCode] = @ActivityCode, [ItemCode] = @ItemCode ,[ItemDescription] = @ItemDescription, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost WHERE [PK] = @PK";
+            string operating_unit = "";
+            if (opunit.Value != null)
+                operating_unit = opunit.Value.ToString();
+
+            string update_MRP = "UPDATE " + MRPClass.DirectMatTable() + " SET [ActivityCode] = @ActivityCode, [ItemCode] = @ItemCode ,[ItemDescription] = @ItemDescription, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit WHERE [PK] = @PK";
 
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ActivityCode", actcodeVal);
             cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemDescription", itemDesc.Value.ToString());
@@ -443,6 +506,25 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.SetBehaviorGrid(grid);
+
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
+            if (pageControl != null)
+            {
+                ASPxHiddenField entityhidden = pageControl.FindControl("entityhidden") as ASPxHiddenField;
+                if (entitycode != MRPClass.train_entity)
+                {
+                    HtmlControl div1 = (HtmlControl)pageControl.FindControl("OperatingUnit_label");
+                    div1.Style.Add("display", "none");
+                    HtmlControl div2 = (HtmlControl)pageControl.FindControl("OperatingUnit_combo");
+                    div2.Style.Add("display", "none");
+
+                    entityhidden["hidden_value"] = "not display";
+                }
+                else
+                {
+                    entityhidden["hidden_value"] = "display";
+                }
+            }
         }
         protected void OPEXGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
@@ -786,7 +868,7 @@ namespace HijoPortal
                 MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
             }
 
-                e.Cancel = true;
+            e.Cancel = true;
             grid.CancelEdit();
             BindCAPEX(docnumber);
         }
@@ -816,7 +898,7 @@ namespace HijoPortal
                     MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
                 }
 
-                    conn.Close();
+                conn.Close();
                 BindCAPEX(docnumber);
                 e.Cancel = true;
             }
@@ -862,7 +944,7 @@ namespace HijoPortal
                 MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
             }
 
-                conn.Close();
+            conn.Close();
 
             BindCAPEX(docnumber);
             e.Cancel = true;
@@ -894,6 +976,7 @@ namespace HijoPortal
         }
 
 
+
         protected void RevenueGrid_BeforeGetCallbackResult(object sender, EventArgs e)
         {
             ASPxGridView grid = sender as ASPxGridView;
@@ -909,6 +992,8 @@ namespace HijoPortal
         {
             Response.Redirect("mrp_list.aspx");
         }
+
+
 
         protected void Preview_Click(object sender, EventArgs e)
         {
@@ -953,7 +1038,7 @@ namespace HijoPortal
                 MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
             }
 
-                e.Cancel = true;
+            e.Cancel = true;
             grid.CancelEdit();
             BindRevenue(docnumber);
         }
@@ -1032,6 +1117,24 @@ namespace HijoPortal
             BindRevenue(docnumber);
             e.Cancel = true;
             grid.CancelEdit();
+        }
+
+        protected void DirectMaterialsGrid_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            if (entitycode == MRPClass.train_entity)
+                grid.Columns["RevDesc"].Visible = true;
+            else
+                grid.Columns["RevDesc"].Visible = false;
+        }
+
+        protected void OPEXGrid_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            if (entitycode == MRPClass.train_entity)
+                grid.Columns["RevDesc"].Visible = true;
+            else
+                grid.Columns["RevDesc"].Visible = false;
         }
     }
 }

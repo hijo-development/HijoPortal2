@@ -71,12 +71,12 @@ namespace HijoPortal
                 CapexListview.DataBind();
                 TotalAmountTD.InnerText = MRPClass.capex_total().ToString("N");
 
-                DataTable tableMat = MRPClass.MRP_Direct_Materials(DocNum.Text.ToString());
+                DataTable tableMat = MRPClass.MRP_Direct_Materials(DocNum.Text.ToString(), "");
                 MatListview.DataSource = tableMat;
                 MatListview.DataBind();
                 TAMat.InnerText = MRPClass.materials_total().ToString("N");
 
-                DataTable tableOpex = MRPClass.MRP_OPEX(DocNum.Text.ToString());
+                DataTable tableOpex = MRPClass.MRP_OPEX(DocNum.Text.ToString(), "");
                 OpexListiview.DataSource = tableOpex;
                 OpexListiview.DataBind();
                 TAOpex.InnerText = MRPClass.opex_total().ToString("N");
