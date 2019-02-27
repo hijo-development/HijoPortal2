@@ -51,9 +51,18 @@ namespace HijoPortal
                 if (Convert.ToInt32(foundRows[0]["UserType"]) == 1)
                 {
                     Session["EntityCode"] = foundRows[0]["EntityCode"].ToString();
+                    Session["EntityCodeDesc"] = foundRows[0]["EntityCodeDesc"].ToString();
                     Session["BUCode"] = foundRows[0]["BUCode"].ToString();
+                    Session["BUCodeDesc"] = foundRows[0]["BUCodeDesc"].ToString();
                     Session["isAdmin"] = foundRows[0]["UserLevelKey"].ToString();
-                    Response.Redirect("home.aspx");
+
+                    if (Convert.ToUInt32(foundRows[0]["StatusKey"]) == 1)
+                    {
+                        Response.Redirect("home.aspx");
+                    } else
+                    {
+                        lblerror.Text = "Your account is inactive, Please call administrator.";
+                    }                    
                 }
             }
             else

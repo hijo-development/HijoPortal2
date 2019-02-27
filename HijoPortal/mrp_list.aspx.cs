@@ -22,13 +22,17 @@ namespace HijoPortal
             if (!Page.IsPostBack)
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                ASPxHiddenField entText = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "ASPxHiddenFieldEnt") as ASPxHiddenField;
+                entText["hidden_value"] = Session["EntityCode"].ToString();
             }
 
             BindMRP();
 
             if (!Page.IsAsync)
             {
-
+                //ASPxHiddenFieldEnt
+                
             }
         }
 
@@ -47,7 +51,7 @@ namespace HijoPortal
 
         private void BindMRP()
         {
-            MRPClass.PrintString("MRP is bind");
+            //MRPClass.PrintString("MRP is bind");
             DataTable dtRecord = MRPClass.Master_MRP_List();
             MainTable.DataSource = dtRecord;
             MainTable.KeyFieldName = "PK";
@@ -120,6 +124,8 @@ namespace HijoPortal
         protected void Add_Click(object sender, EventArgs e)
         {
             CheckSessionExpire();
+
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
             PopUpControl.HeaderText = "MRP";
             PopUpControl.ShowOnPageLoad = true;
@@ -281,6 +287,27 @@ namespace HijoPortal
                 Response.Redirect("default.aspx");
                 return;
             }
+        }
+
+        protected void MainTable_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
+        {
+            //MRPClass.PrintString("pass custom callback");
+            //if (e.Parameters == "AddNew")
+            //{
+            //    CheckSessionExpire();
+            //    //ASPxHiddenField entText = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "ASPxHiddenFieldEnt") as ASPxHiddenField;
+            //    if (Session["EntityCode"].ToString().Trim() != "")
+            //    {                    
+            //        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            //        PopUpControl.HeaderText = "MRP";
+            //        PopUpControl.ShowOnPageLoad = true;
+            //    }
+            //    else
+            //    {
+            //        MRPClass.PrintString("pass script");
+            //        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "CheckEnt", "checkEntity();", true);
+            //    }                
+            //}
         }
     }
 }

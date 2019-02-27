@@ -170,6 +170,9 @@ function CustomButtonClick(s, e) {
 }
 
 function MainTableEndCallback(s, e) {
+
+    //MainTable.InCallback();
+
     var hidden_val = MRPHiddenVal.Get('hidden_value');
     if (hidden_val == "InvalidCreator") {
         MRPNotificationMessage.SetText("You are not authorized to access this item");
@@ -1135,3 +1138,24 @@ function OnKeyUpApprovedCostCapex(s, e) {
         ApprovedTotalCostCapex.SetText("");
     }
 }
+
+//function (s, e) {
+//    var entity = lblEntity.getvalue();
+//    MRPNotificationMessage.SetText('You are not authorized to access this item');
+//    MRPNotify.SetHeaderText('Alert');
+//    MRPNotify.Show();
+//    MRPHiddenVal.Set('hidden_value', ' ');
+//}
+
+
+function AddMOPCheckEntity(s, e) {
+    var entity = ASPxLabelEntDirect.GetText();
+    if (entity === "") {
+        MRPNotificationMessage.SetText("No assigned entity!");
+        MRPNotify.SetHeaderText("Alert");
+        MRPNotify.Show();
+    }
+}
+
+
+

@@ -59,10 +59,7 @@ function GetErrorText(editor) {
     } else if (editor === confirmPasswordTextBox) {
         if (passwordTextBox.GetText() !== confirmPasswordTextBox.GetText())
             return "The password you entered do not match";
-    } else if (editor === idnumTextboxDirect) {
-        //if (idnumTextboxDirect.GetText() !== idnumTextboxMatchDirect.GetText())
-        //    return "ID Number not found in Employee MasterList!";
-    }
+    } 
     return "";
 }
 function OnPassValidation(s, e) {
@@ -158,8 +155,8 @@ function OnIDNumberTextBoxInit(s, e) {
 }
 
 function OnIDNumPassValidation(s, e) {
-    var inputIDNum = idnumTextboxDirect.GetText();
-    var IDNumMatch = idnumTextboxMatchDirect.GetText();
+    //var inputIDNum = idnumTextboxDirect.GetText();
+    //var IDNumMatch = idnumTextboxMatchDirect.GetText();
     //var IDNumMatch = document.getElementById("IDNumTextBoxMatch");
     //console.log("ID Num : " + IDNumMatch);
     //if (inputIDNum !== IDNumMatch) {

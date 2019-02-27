@@ -26,6 +26,25 @@ namespace HijoPortal
                 {
                     lblUser.InnerHtml = "User : " + Session["UserCompleteName"].ToString();
 
+                    ASPxLabelEnt.Text = "";
+                    //if (Session["EntityCodeDesc"] != null)
+                    //{
+                    //    ASPxLabelEnt.Text = "Entity : " + Session["EntityCodeDesc"].ToString();
+                    //}
+                    if (Session["EntityCodeDesc"].ToString().Trim() != "")
+                    {
+                        ASPxLabelEnt.Text = "Entity : " + Session["EntityCodeDesc"].ToString();
+                    }
+
+                    ASPxLabelBU.Text = "";
+                    //if (Session["BUCodeDesc"] != null)
+                    //{
+                    //    ASPxLabelBU.Text = "BU / Dept : " + Session["BUCodeDesc"].ToString();
+                    //}
+                    if (Session["BUCodeDesc"].ToString().Trim() != "")
+                    {
+                        ASPxLabelBU.Text = "BU / Dept : " + Session["BUCodeDesc"].ToString();
+                    }
 
                     //ASPxSplitter1.Height = 661 - 10;
 

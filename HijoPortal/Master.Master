@@ -96,6 +96,11 @@
         </div>
         <div id="footer" runat="server">
             <label id="lblUser" runat="server">User :</label>
+            &nbsp
+            <%--<label id="lblEntity" runat="server"></label>--%>
+            <dx:ASPxLabel ID="ASPxLabelEnt" ClientInstanceName="ASPxLabelEntDirect" runat="server" Text="" ForeColor="White"></dx:ASPxLabel>
+            &nbsp
+            <dx:ASPxLabel ID="ASPxLabelBU" ClientInstanceName="ASPxLabelBUDirect" runat="server" Text="" ForeColor="White"></dx:ASPxLabel>
         </div>
     </form>
 </body>
