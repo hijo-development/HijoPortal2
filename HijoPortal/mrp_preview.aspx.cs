@@ -66,7 +66,7 @@ namespace HijoPortal
                 conn.Close();
 
                 MRPClass.PrintString("ispostback");
-                DataTable table = MRPClass.MRP_CAPEX(DocNum.Text.ToString());
+                DataTable table = MRPClass.MRP_CAPEX(DocNum.Text.ToString(), "");
                 CapexListview.DataSource = table;
                 CapexListview.DataBind();
                 TotalAmountTD.InnerText = MRPClass.capex_total().ToString("N");
@@ -81,12 +81,12 @@ namespace HijoPortal
                 OpexListiview.DataBind();
                 TAOpex.InnerText = MRPClass.opex_total().ToString("N");
 
-                DataTable tableManpower = MRPClass.MRP_ManPower(DocNum.Text.ToString());
+                DataTable tableManpower = MRPClass.MRP_ManPower(DocNum.Text.ToString(), "");
                 ManListview.DataSource = tableManpower;
                 ManListview.DataBind();
                 TAManpower.InnerText = MRPClass.manpower_total().ToString("N");
 
-                DataTable tableRevenue = MRPClass.MRP_Revenue(DocNum.Text.ToString());
+                DataTable tableRevenue = MRPClass.MRP_Revenue(DocNum.Text.ToString(), "");
                 RevListview.DataSource = tableRevenue;
                 RevListview.DataBind();
                 TARevenue.InnerText = MRPClass.revenue_total().ToString("N");

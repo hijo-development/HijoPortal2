@@ -14,7 +14,7 @@ namespace HijoPortal
     public partial class mrp_inventanalyst : System.Web.UI.Page
     {
         private static int mrp_key = 0;
-        private static string docnumber = "";
+        private static string docnumber = "", entitycode = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -38,6 +38,7 @@ namespace HijoPortal
                 while (reader.Read())
                 {
                     mrp_key = Convert.ToInt32(reader["PK"].ToString());
+                    entitycode = reader["EntityCode"].ToString();
                     DocNum.Text = reader["DocNumber"].ToString();
                     DateCreated.Text = reader["DateCreated"].ToString();
                     EntityCode.Text = reader["EntityCodeDesc"].ToString();
@@ -96,7 +97,7 @@ namespace HijoPortal
 
         private void BindDirectMaterials(string DOC_NUMBER)
         {
-            DataTable dtRecord = MRPClass.MRPInvent_Direct_Materials(DOC_NUMBER);
+            DataTable dtRecord = MRPClass.MRPInvent_Direct_Materials(DOC_NUMBER, entitycode);
             DMGrid.DataSource = dtRecord;
             DMGrid.KeyFieldName = "PK";
             DMGrid.DataBind();
@@ -104,7 +105,7 @@ namespace HijoPortal
 
         private void BindOpex(string DOC_NUMBER)
         {
-            DataTable dtRecord = MRPClass.MRPInvent_OPEX(DOC_NUMBER);
+            DataTable dtRecord = MRPClass.MRPInvent_OPEX(DOC_NUMBER, entitycode);
             OpGrid.DataSource = dtRecord;
             OpGrid.KeyFieldName = "PK";
             OpGrid.DataBind();
@@ -112,7 +113,7 @@ namespace HijoPortal
 
         private void BindManPower(string DOC_NUMBER)
         {
-            DataTable dtRecord = MRPClass.MRPInvent_ManPower(DOC_NUMBER);
+            DataTable dtRecord = MRPClass.MRPInvent_ManPower(DOC_NUMBER, entitycode);
             ManPoGrid.DataSource = dtRecord;
             ManPoGrid.KeyFieldName = "PK";
             ManPoGrid.DataBind();
@@ -121,7 +122,7 @@ namespace HijoPortal
 
         private void BindCapex(string DOC_NUMBER)
         {
-            DataTable dtRecord = MRPClass.MRPInvent_CAPEX(DOC_NUMBER);
+            DataTable dtRecord = MRPClass.MRPInvent_CAPEX(DOC_NUMBER, entitycode);
             CapGrid.DataSource = dtRecord;
             CapGrid.KeyFieldName = "PK";
             CapGrid.DataBind();
@@ -238,6 +239,8 @@ namespace HijoPortal
 
         }
 
+        
+
         protected void ManPoGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
             bindManPower = false;
@@ -322,6 +325,30 @@ namespace HijoPortal
             bindCapex = true;
             BindCapex(docnumber);
 
+        }
+
+        protected void DMGrid_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
+        }
+
+        protected void OpGrid_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
+        }
+
+        protected void ManPoGrid_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
+        }
+
+        protected void CapGrid_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
         }
     }
 }

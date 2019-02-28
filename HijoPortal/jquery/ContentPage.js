@@ -112,7 +112,6 @@ function closeNav() {
 //REUSABLE FUNCTION START HERE....
 function FilterDigit(s, e) {
     var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    console.log(key);
     //KEY (TAB) keycode: 0
     //KEY (0 to 9) keycode: 48-57
     //Key (DEL)    keycode: 8
@@ -224,6 +223,43 @@ function OperatingUnitREV(s, e) {
         s.SetIsValid(true);
 }
 
+function DirectMaterialsGrid_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "Edit") {
+        if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+            OPEXGrid.CancelEdit();
+
+        if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+            ManPowerGrid.CancelEdit();
+
+        if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+            CAPEXGrid.CancelEdit();
+
+        if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+            RevenueGrid.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    } else if (button == "Delete"){
+        s.DeleteRow(s.GetFocusedRowIndex());
+    }
+}
+
+function DirectMaterialsGrid_Add(s, e) {
+    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+        OPEXGrid.CancelEdit();
+
+    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+        ManPowerGrid.CancelEdit();
+
+    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+        CAPEXGrid.CancelEdit();
+
+    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+        RevenueGrid.CancelEdit();
+
+    DirectMaterialsGrid.AddNewRow();
+}
+
 function updateDirectMat(s, e) {
     var entityval = entityhidden.Get('hidden_value');
     var bool = true;
@@ -278,6 +314,19 @@ function updateOpex(s, e) {
 }
 
 function updateManpower(s, e) {
+
+    var entityval = entityhiddenMAN.Get('hidden_value');
+    var bool = true;
+    if (entityval == "display") {
+        if (OperatingUnitMAN.GetText().length == 0) {
+            OperatingUnitMAN.SetIsValid(false);
+            bool = false;
+        } else {
+            OperatingUnitMAN.SetIsValid(true);
+            bool = true;
+        }
+    }
+
     var activity = ActivityCodeMAN.GetText();
     var type = ManPowerTypeKeyNameMAN.GetText();
     var itemDesc = DescriptionMAN.GetText();
@@ -286,31 +335,55 @@ function updateManpower(s, e) {
     var qty = QtyMAN.GetText();
     var totalcost = TotalCostMAN.GetText();
 
-    if (activity.length > 0 && type.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0) {
+    if (activity.length > 0 && type.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool) {
         ManPowerGrid.UpdateEdit();
     }
 }
 
 function updateCAPEX(s, e) {
+    var entityval = entityhiddenCA.Get('hidden_value');
+    var bool = true;
+    if (entityval == "display") {
+        if (OperatingUnitCA.GetText().length == 0) {
+            OperatingUnitCA.SetIsValid(false);
+            bool = false;
+        } else {
+            OperatingUnitCA.SetIsValid(true);
+            bool = true;
+        }
+    }
+
     var itemDesc = DescriptionCAPEX.GetText();
     var uom = UOMCAPEX.GetText();
     var cost = CostCAPEX.GetText();
     var qty = QtyCAPEX.GetText();
     var totalcost = TotalCostCAPEX.GetText();
 
-    if (itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0) {
+    if (itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool) {
         CAPEXGrid.UpdateEdit();
     }
 }
 
 function updateRevenue(s, e) {
+    var entityval = entityhiddenREV.Get('hidden_value');
+    var bool = true;
+    if (entityval == "display") {
+        if (OperatingUnitREV.GetText().length == 0) {
+            OperatingUnitREV.SetIsValid(false);
+            bool = false;
+        } else {
+            OperatingUnitREV.SetIsValid(true);
+            bool = true;
+        }
+    }
+
     var product = ProductNameRev.GetText();
     var farm = FarmNameRev.GetText();
     var prize = PrizeRev.GetText();
     var volume = VolumeRev.GetText();
     var totalprize = TotalPrizeRev.GetText();
 
-    if (product.length > 0 && farm.length > 0 && prize.length > 0 && volume.length > 0 && totalprize.length > 0) {
+    if (product.length > 0 && farm.length > 0 && prize.length > 0 && volume.length > 0 && totalprize.length > 0 && bool) {
         RevenueGrid.UpdateEdit();
     }
 }
@@ -324,10 +397,12 @@ function OnKeyUpCostDirect(s, e) {//OnChange
     if (qty > 0) {
         if (cost > 0) {
             total = cost * qty;
-            TotalCostDirect.SetText(parseFloat(total).toFixed(2));
+            TotalCostDirect.SetText(accounting.formatMoney(total));
+            TotalCostDirect.SetIsValid(true);
         }
     } else {
         TotalCostDirect.SetText("");
+        TotalCostDirect.SetIsValid(false);
     }
 }
 
@@ -339,10 +414,12 @@ function OnKeyUpCostOpex(s, e) {//OnChange
     if (qty > 0) {
         if (cost > 0) {
             total = cost * qty;
-            TotalCostOPEX.SetText(parseFloat(total).toFixed(2));
+            TotalCostOPEX.SetText(accounting.formatMoney(total));
+            TotalCostOPEX.SetIsValid(true);
         }
     } else {
         TotalCostOPEX.SetText("");
+        TotalCostOPEX.SetIsValid(false);
     }
 }
 function OnKeyUpCostMan(s, e) {//OnChange
@@ -353,10 +430,12 @@ function OnKeyUpCostMan(s, e) {//OnChange
     if (qty > 0) {
         if (cost > 0) {
             total = cost * qty;
-            TotalCostMAN.SetText(parseFloat(total).toFixed(2));
+            TotalCostMAN.SetText(accounting.formatMoney(total));
+            TotalCostMAN.SetIsValid(true);
         }
     } else {
         TotalCostMAN.SetText("");
+        TotalCostMAN.SetIsValid(false);
     }
 } function OnKeyUpCostCapex(s, e) {//OnChange
     //var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
@@ -366,12 +445,32 @@ function OnKeyUpCostMan(s, e) {//OnChange
     if (qty > 0) {
         if (cost > 0) {
             total = cost * qty;
-            TotalCostCAPEX.SetText(parseFloat(accounting.formatMoney(total)));
+            TotalCostCAPEX.SetText(accounting.formatMoney(total));
+            TotalCostCAPEX.SetIsValid(true);
         }
     } else {
         TotalCostCAPEX.SetText("");
+        TotalCostCAPEX.SetIsValid(false);
     }
 }
+
+function OnKeyUpCostRev(s, e) {
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(VolumeRev.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            TotalPrizeRev.SetText(accounting.formatMoney(total));
+            TotalPrizeRev.SetIsValid(true);
+        }
+    } else {
+        TotalPrizeRev.SetText("");
+        TotalPrizeRev.SetIsValid(false);
+    }
+}
+
+
 function OnKeyUpQtyDirect(s, e) {//OnChange
     var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
     var qty = parseFloat(s.GetText()).toFixed(2);
@@ -380,10 +479,12 @@ function OnKeyUpQtyDirect(s, e) {//OnChange
     if (qty > 0) {
         if (cost > 0) {
             total = cost * qty;
-            TotalCostDirect.SetText(parseFloat(total).toFixed(2));
+            TotalCostDirect.SetText(accounting.formatMoney(total));
+            TotalCostDirect.SetIsValid(true);
         }
     } else {
         TotalCostDirect.SetText("");
+        TotalCostDirect.SetIsValid(false);
     }
 }
 
@@ -396,9 +497,11 @@ function OnKeyUpQtyOpex(s, e) {//OnChange
         if (cost > 0) {
             total = cost * qty;
             TotalCostOPEX.SetText(parseFloat(total).toFixed(2));
+            TotalCostOPEX.SetIsValid(true);
         }
     } else {
         TotalCostOPEX.SetText("");
+        TotalCostOPEX.SetIsValid(false);
     }
 }
 function OnKeyUpQtyMan(s, e) {//OnChange
@@ -410,9 +513,11 @@ function OnKeyUpQtyMan(s, e) {//OnChange
         if (cost > 0) {
             total = cost * qty;
             TotalCostMAN.SetText(parseFloat(total).toFixed(2));
+            TotalCostMAN.SetIsValid(true);
         }
     } else {
         TotalCostMAN.SetText("");
+        TotalCostMAN.SetIsValid(false);
     }
 }
 function OnKeyUpQtyCapex(s, e) {//OnChange
@@ -424,11 +529,31 @@ function OnKeyUpQtyCapex(s, e) {//OnChange
         if (cost > 0) {
             total = cost * qty;
             TotalCostCAPEX.SetText(parseFloat(total).toFixed(2));
+            TotalCostCAPEX.SetIsValid(true);
         }
     } else {
         TotalCostCAPEX.SetText("");
+        TotalCostCAPEX.SetIsValid(false);
     }
 }
+
+function OnKeyUpQtyRev(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var qty = parseFloat(s.GetText()).toFixed(2);
+    var cost = parseFloat(accounting.unformat(PrizeRev.GetText()));
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            TotalPrizeRev.SetText(parseFloat(total).toFixed(2));
+            TotalPrizeRev.SetIsValid(true);
+        }
+    } else {
+        TotalPrizeRev.SetText("");
+        TotalPrizeRev.SetIsValid(false);
+    }
+}
+
 //MRP Items
 function ActivityCodeIndexChange(s, e) {
     //var selectedString = s.GetSelectedItem().text;
@@ -509,6 +634,7 @@ function listbox_selectedOPEX(s, e) {
     var selText = s.GetSelectedItem().text;
     ItemCodeOPEX.SetText(selValue);
     DescriptionOPEX.SetText(selText);
+    DescriptionOPEX.SetIsValid(true);
     listboxOPEX.SetVisible(false);
 }
 
@@ -594,12 +720,13 @@ function updateUserList(s, e) {
 }
 
 
-//Direct Materials
+//Direct Materials ITem Code list box
 function listbox_selected(s, e) {
     var selValue = s.GetSelectedItem().value;
     var selText = s.GetSelectedItem().text;
     ItemCodeDirect.SetText(selValue);
     ItemDescriptionDirect.SetText(selText);
+    ItemDescriptionDirect.SetIsValid(true);
     listbox.SetVisible(false);
 }
 
