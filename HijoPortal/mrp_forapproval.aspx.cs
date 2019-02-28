@@ -14,7 +14,7 @@ namespace HijoPortal
     public partial class mrp_forapproval : System.Web.UI.Page
     {
         private static int mrp_key = 0;
-        private static string docnumber = "";
+        private static string docnumber = "", entitycode = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -38,6 +38,7 @@ namespace HijoPortal
                 while (reader.Read())
                 {
                     mrp_key = Convert.ToInt32(reader["PK"].ToString());
+                    entitycode = reader["EntityCode"].ToString();
                     DocNum.Text = reader["DocNumber"].ToString();
                     DateCreated.Text = reader["DateCreated"].ToString();
                     EntityCode.Text = reader["EntityCodeDesc"].ToString();
@@ -94,28 +95,28 @@ namespace HijoPortal
 
         private void BindDirectMaterials(string DOC_NUMBER)
         {
-            DMGridApproval.DataSource = MRPClass.MRPApproval_Direct_Materials(DOC_NUMBER);
+            DMGridApproval.DataSource = MRPClass.MRPApproval_Direct_Materials(DOC_NUMBER, entitycode);
             DMGridApproval.KeyFieldName = "PK";
             DMGridApproval.DataBind();
         }
 
         private void BindOpex(string DOC_NUMBER)
         {
-            OpexGridApproval.DataSource = MRPClass.MRPApproval_OPEX(DOC_NUMBER);
+            OpexGridApproval.DataSource = MRPClass.MRPApproval_OPEX(DOC_NUMBER, entitycode);
             OpexGridApproval.KeyFieldName = "PK";
             OpexGridApproval.DataBind();
         }
 
         private void BindManPower(string DOC_NUMBER)
         {
-            ManPowerGridApproval.DataSource = MRPClass.MRPApproval_ManPower(DOC_NUMBER);
+            ManPowerGridApproval.DataSource = MRPClass.MRPApproval_ManPower(DOC_NUMBER, entitycode);
             ManPowerGridApproval.KeyFieldName = "PK";
             ManPowerGridApproval.DataBind();
         }
 
         private void BindCapex(string DOC_NUMBER)
         {
-            CapexGridApproval.DataSource = MRPClass.MRPApproval_CAPEX(DOC_NUMBER);
+            CapexGridApproval.DataSource = MRPClass.MRPApproval_CAPEX(DOC_NUMBER, entitycode);
             CapexGridApproval.KeyFieldName = "PK";
             CapexGridApproval.DataBind();
         }
@@ -231,7 +232,7 @@ namespace HijoPortal
             bindCapex = false;
         }
 
-        
+
 
         protected void CapexGridApproval_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {
@@ -308,6 +309,30 @@ namespace HijoPortal
         protected void DMGridApproval_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
             bindDM = false;
+        }
+
+        protected void DMGridApproval_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
+        }
+
+        protected void OpexGridApproval_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
+        }
+
+        protected void ManPowerGridApproval_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
+        }
+
+        protected void CapexGridApproval_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
         }
     }
 }

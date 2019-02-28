@@ -106,7 +106,8 @@
                                         <dx:ASPxGridView ID="DMGrid" runat="server" ClientInstanceName="DMGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
                                             OnStartRowEditing="DMGrid_StartRowEditing" 
                                             OnRowUpdating="DMGrid_RowUpdating" 
-                                            OnBeforeGetCallbackResult="DMGrid_BeforeGetCallbackResult">
+                                            OnBeforeGetCallbackResult="DMGrid_BeforeGetCallbackResult" 
+                                            OnDataBound="DMGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
 
                                             <Columns>
@@ -118,37 +119,42 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("ActivityCode")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="ItemCode" VisibleIndex="4">
+                                                <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="4">
+                                                    <EditItemTemplate>
+                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                    </EditItemTemplate>
+                                                </dx:GridViewDataColumn>
+                                                <dx:GridViewDataColumn FieldName="ItemCode" VisibleIndex="5">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("ItemCode")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="ItemDescription" VisibleIndex="5">
+                                                <dx:GridViewDataColumn FieldName="ItemDescription" VisibleIndex="6">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("ItemDescription")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="6">
+                                                <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="7">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("UOM")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="7">
+                                                <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Cost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="8">
+                                                <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="9">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="9">
+                                                <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedQty" VisibleIndex="10">
+                                                <dx:GridViewDataColumn FieldName="EdittedQty" VisibleIndex="11">
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittedQty" ClientInstanceName="InvEdittedQty" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -156,7 +162,7 @@
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedCost" VisibleIndex="11">
+                                                <dx:GridViewDataColumn FieldName="EdittedCost" VisibleIndex="12">
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittedCost" ClientInstanceName="InvEdittedCost" runat="server" Text='<%#Eval("EdittedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -164,7 +170,7 @@
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittiedTotalCost" VisibleIndex="12">
+                                                <dx:GridViewDataColumn FieldName="EdittiedTotalCost" VisibleIndex="13">
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittiedTotalCost" ClientInstanceName="InvEdittiedTotalCost" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                         </dx:ASPxTextBox>
@@ -193,7 +199,8 @@
                                         <dx:ASPxGridView ID="OpGrid" runat="server" ClientInstanceName="OpGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
                                             OnStartRowEditing="OpGrid_StartRowEditing" 
                                             OnRowUpdating="OpGrid_RowUpdating" 
-                                            OnBeforeGetCallbackResult="OpGrid_BeforeGetCallbackResult">
+                                            OnBeforeGetCallbackResult="OpGrid_BeforeGetCallbackResult" 
+                                            OnDataBound="OpGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
 
                                             <Columns>
@@ -205,37 +212,42 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("ExpenseCodeName")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="ItemCode" VisibleIndex="4">
+                                                 <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="4">
+                                                    <EditItemTemplate>
+                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                    </EditItemTemplate>
+                                                </dx:GridViewDataColumn>
+                                                <dx:GridViewDataColumn FieldName="ItemCode" VisibleIndex="5">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("ItemCode")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Description" VisibleIndex="5">
+                                                <dx:GridViewDataColumn FieldName="Description" VisibleIndex="6">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Description")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="6">
+                                                <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="7">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("UOM")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="7">
+                                                <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Cost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="8">
+                                                <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="9">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="9">
+                                                <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedQty" VisibleIndex="10">
+                                                <dx:GridViewDataColumn FieldName="EdittedQty" VisibleIndex="11">
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittedQtyOp" ClientInstanceName="InvEdittedQtyOp" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -243,7 +255,7 @@
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedCost" VisibleIndex="11">
+                                                <dx:GridViewDataColumn FieldName="EdittedCost" VisibleIndex="12">
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittedCostOp" ClientInstanceName="InvEdittedCostOp" runat="server" Text='<%#Eval("EdittedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -251,7 +263,7 @@
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedTotalCost" VisibleIndex="12">
+                                                <dx:GridViewDataColumn FieldName="EdittedTotalCost" VisibleIndex="13">
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittiedTotalCostOp" ClientInstanceName="InvEdittiedTotalCostOp" runat="server" Text='<%#Eval("EdittedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                         </dx:ASPxTextBox>
@@ -280,7 +292,8 @@
                                         <dx:ASPxGridView ID="ManPoGrid" runat="server" ClientInstanceName="ManPoGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
                                             OnStartRowEditing="ManPoGrid_StartRowEditing" 
                                             OnRowUpdating="ManPoGrid_RowUpdating" 
-                                            OnBeforeGetCallbackResult="ManPoGrid_BeforeGetCallbackResult">
+                                            OnBeforeGetCallbackResult="ManPoGrid_BeforeGetCallbackResult" 
+                                            OnDataBound="ManPoGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
 
                                             <Columns>
@@ -292,37 +305,42 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("ActivityCode")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="ManPowerTypeKeyName" VisibleIndex="4">
+                                                <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="4">
+                                                    <EditItemTemplate>
+                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                    </EditItemTemplate>
+                                                </dx:GridViewDataColumn>
+                                                <dx:GridViewDataColumn FieldName="ManPowerTypeKeyName" Caption="Type" VisibleIndex="5">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("ManPowerTypeKeyName")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Description" VisibleIndex="5">
+                                                <dx:GridViewDataColumn FieldName="Description" VisibleIndex="6">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Description")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="6">
+                                                <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="7">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("UOM")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="7">
+                                                <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Cost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="8">
+                                                <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="9">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="9">
+                                                <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedQty" VisibleIndex="10">
+                                                <dx:GridViewDataColumn FieldName="EdittedQty" VisibleIndex="11">
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittedQtyManPo" ClientInstanceName="InvEdittedQtyManPo" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -330,7 +348,7 @@
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedCost" VisibleIndex="11">
+                                                <dx:GridViewDataColumn FieldName="EdittedCost" VisibleIndex="12">
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittedCostManPo" ClientInstanceName="InvEdittedCostManPo" runat="server" Text='<%#Eval("EdittedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -338,7 +356,7 @@
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittiedTotalCost" VisibleIndex="12">
+                                                <dx:GridViewDataColumn FieldName="EdittiedTotalCost" VisibleIndex="13">
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittiedTotalCostManPo" ClientInstanceName="InvEdittiedTotalCostManPo" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                         </dx:ASPxTextBox>
@@ -367,16 +385,22 @@
                                         <dx:ASPxGridView ID="CapGrid" runat="server" ClientInstanceName="CapGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
                                             OnStartRowEditing="CapGrid_StartRowEditing" 
                                             OnRowUpdating="CapGrid_RowUpdating" 
-                                            OnBeforeGetCallbackResult="CapGrid_BeforeGetCallbackResult">
+                                            OnBeforeGetCallbackResult="CapGrid_BeforeGetCallbackResult" 
+                                            OnDataBound="CapGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
 
                                             <Columns>
                                                 <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Description" VisibleIndex="5">
+                                                <dx:GridViewDataColumn FieldName="Description" VisibleIndex="4">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Description")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                    </EditItemTemplate>
+                                                </dx:GridViewDataColumn>
+                                                <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="5">
+                                                    <EditItemTemplate>
+                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="6">

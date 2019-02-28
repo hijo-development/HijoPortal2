@@ -4,6 +4,26 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <dx:ASPxPopupControl ID="DeleteRow" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <table>
+                    <tr>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Delete this row?" Theme="Office2010Blue"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dx:ASPxButton ID="ASPxButton1" runat="server" Text="OK" Theme="Office2010Blue"></dx:ASPxButton>
+                            <dx:ASPxButton ID="ASPxButton2" runat="server" Text="CANCEL" Theme="Office2010Blue"></dx:ASPxButton>
+                        </td>
+                    </tr>
+                </table>
+
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader">
             <h1>M O P  Details</h1>
@@ -117,8 +137,20 @@
                                                         OnBeforeGetCallbackResult="DirectMaterialsGrid_BeforeGetCallbackResult"
                                                         OnDataBound="DirectMaterialsGrid_DataBound">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
+                                                        <ClientSideEvents CustomButtonClick="DirectMaterialsGrid_CustomButtonClick" />
                                                         <Columns>
-                                                            <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0">
+                                                            <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                                <HeaderTemplate>
+                                                                    <div style="text-align: center">
+                                                                        <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
+                                                                            <ClientSideEvents Click="DirectMaterialsGrid_Add" />
+                                                                        </dx:ASPxButton>
+                                                                    </div>
+                                                                </HeaderTemplate>
+                                                                <CustomButtons>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="Edit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="Delete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                </CustomButtons>
                                                             </dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
@@ -162,7 +194,7 @@
                                                                                                                 <div id="OperatingUnit_combo" runat="server">
                                                                                                                     <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnit" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue">
                                                                                                                         <ClientSideEvents SelectedIndexChanged="OperatingUnitDM" />
-                                                                                                                        <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithText">
+                                                                                                                        <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
                                                                                                                         </ValidationSettings>
                                                                                                                     </dx:ASPxComboBox>
                                                                                                                 </div>
@@ -173,8 +205,8 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="Activity" Theme="Office2010Blue" />
                                                                                                             </td>
                                                                                                             <td style="width: 70%;">
-                                                                                                                <dx:ASPxComboBox ID="ActivityCode" runat="server" ClientInstanceName="ActivityCodeDirect" OnInit="ActivityCode_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid value">
+                                                                                                                <dx:ASPxComboBox ID="ActivityCode" runat="server" ClientInstanceName="ActivityCodeDirect" OnInit="ActivityCode_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                     <ClientSideEvents SelectedIndexChanged="ActivityCodeIndexChange" />
                                                                                                                 </dx:ASPxComboBox>
                                                                                                             </td>
@@ -184,8 +216,8 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="UOM" Theme="Office2010Blue" />
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMDirect" OnInit="UOM_Init" ValueType="System.String" Theme="Office2010Blue"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid value">
+                                                                                                                <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMDirect" OnInit="UOM_Init" ValueType="System.String" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                 </dx:ASPxComboBox>
                                                                                                             </td>
                                                                                                         </tr>
@@ -198,8 +230,8 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="Item Code" Theme="Office2010Blue" />
                                                                                                             </td>
                                                                                                             <td style="width: 70%;">
-                                                                                                                <dx:ASPxTextBox ID="ItemCode" ClientInstanceName="ItemCodeDirect" runat="server" Text='<%#Eval("ItemCode")%>' AutoResizeWithContainer="true" Width="170px" Theme="Office2010Blue"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid value">
+                                                                                                                <dx:ASPxTextBox ID="ItemCode" ClientInstanceName="ItemCodeDirect" runat="server" Text='<%#Eval("ItemCode")%>' AutoResizeWithContainer="true" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                     <ClientSideEvents KeyPress="ItemCodeDirect_KeyPress" />
                                                                                                                 </dx:ASPxTextBox>
                                                                                                             </td>
@@ -208,20 +240,34 @@
                                                                                                             <td></td>
                                                                                                             <td>
                                                                                                                 <div style="overflow-x: auto; width: 300px;">
-                                                                                                                    <dx:ASPxListBox ID="listbox" ClientInstanceName="listbox" runat="server" ValueType="System.String" OnCallback="listbox_Callback" ClientVisible="false" Theme="Office2010Blue"
-                                                                                                                        ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid value">
+                                                                                                                    <dx:ASPxListBox ID="listbox" ClientInstanceName="listbox" runat="server" ValueType="System.String" OnCallback="listbox_Callback" ClientVisible="false" Theme="Office2010Blue">
+                                                                                                                        <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                         <ClientSideEvents SelectedIndexChanged="listbox_selected" />
                                                                                                                     </dx:ASPxListBox>
                                                                                                                 </div>
                                                                                                             </td>
                                                                                                         </tr>
                                                                                                         <tr>
+                                                                                                            <td style="width: 30%;">
+                                                                                                                <dx:ASPxLabel runat="server" Text="Item Description" Theme="Office2010Blue" />
+                                                                                                            </td>
+                                                                                                            <td style="width: 70%;">
+                                                                                                                <dx:ASPxTextBox ID="ItemDescription" runat="server" ClientInstanceName="ItemDescriptionDirect" ReadOnly="true" Text='<%#Eval("ItemDescription")%>' Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
+                                                                                                </td>
+                                                                                                <td style="vertical-align: top; width: 30%;">
+                                                                                                    <table style="width: 100%;">
+                                                                                                        <tr>
                                                                                                             <td>
                                                                                                                 <dx:ASPxLabel runat="server" Text="Cost" Theme="Office2010Blue" />
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxTextBox ID="Cost" runat="server" ClientInstanceName="CostDirect" Text='<%#Eval("Cost")%>' Width="170px" Theme="Office2010Blue" HorizontalAlign="Right"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid value">
+                                                                                                                <dx:ASPxTextBox ID="Cost" runat="server" ClientInstanceName="CostDirect" Text='<%#Eval("Cost")%>' Width="170px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                     <ClientSideEvents ValueChanged="OnValueChange" />
                                                                                                                     <ClientSideEvents KeyUp="OnKeyUpCostDirect" />
                                                                                                                     <ClientSideEvents KeyPress="FilterDigit" />
@@ -233,25 +279,11 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="Qty" Theme="Office2010Blue" />
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxTextBox ID="Qty" runat="server" ClientInstanceName="QtyDirect" Text='<%#Eval("Qty")%>' Width="170px" Theme="Office2010Blue" HorizontalAlign="Right"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid value">
+                                                                                                                <dx:ASPxTextBox ID="Qty" runat="server" ClientInstanceName="QtyDirect" Text='<%#Eval("Qty")%>' Width="170px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                     <ClientSideEvents ValueChanged="OnValueChangeQty" />
                                                                                                                     <ClientSideEvents KeyUp="OnKeyUpQtyDirect" />
                                                                                                                     <ClientSideEvents KeyPress="FilterDigit" />
-                                                                                                                </dx:ASPxTextBox>
-                                                                                                            </td>
-                                                                                                        </tr>
-                                                                                                    </table>
-                                                                                                </td>
-                                                                                                <td style="vertical-align: top; width: 30%;">
-                                                                                                    <table style="width: 100%;">
-                                                                                                        <tr>
-                                                                                                            <td style="width: 30%;">
-                                                                                                                <dx:ASPxLabel runat="server" Text="Item Description" Theme="Office2010Blue" />
-                                                                                                            </td>
-                                                                                                            <td style="width: 70%;">
-                                                                                                                <dx:ASPxTextBox ID="ItemDescription" runat="server" ClientInstanceName="ItemDescriptionDirect" ReadOnly="true" Text='<%#Eval("ItemDescription")%>' Width="170px" Theme="Office2010Blue"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid value">
                                                                                                                 </dx:ASPxTextBox>
                                                                                                             </td>
                                                                                                         </tr>
@@ -260,8 +292,8 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="Total Cost" Theme="Office2010Blue" />
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxTextBox ID="TotalCost" runat="server" ClientInstanceName="TotalCostDirect" Text='<%#Eval("TotalCost")%>' ReadOnly="true" Width="170px" Theme="Office2010Blue" HorizontalAlign="Right"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid value">
+                                                                                                                <dx:ASPxTextBox ID="TotalCost" runat="server" ClientInstanceName="TotalCostDirect" Text='<%#Eval("TotalCost")%>' ReadOnly="true" Width="170px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter a value in Cost and Qty field" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                 </dx:ASPxTextBox>
                                                                                                             </td>
                                                                                                         </tr>
@@ -307,7 +339,7 @@
                                                         OnRowDeleting="OPEXGrid_RowDeleting"
                                                         OnStartRowEditing="OPEXGrid_StartRowEditing"
                                                         OnRowUpdating="OPEXGrid_RowUpdating"
-                                                        OnBeforeGetCallbackResult="OPEXGrid_BeforeGetCallbackResult" 
+                                                        OnBeforeGetCallbackResult="OPEXGrid_BeforeGetCallbackResult"
                                                         OnDataBound="OPEXGrid_DataBound">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
                                                         <ClientSideEvents BeginCallback="OnBeginCallback" />
@@ -346,10 +378,10 @@
                                                                                 <ContentCollection>
                                                                                     <dx:ContentControl runat="server">
                                                                                         <dx:ASPxHiddenField ID="entityhidden" runat="server" ClientInstanceName="entityhiddenOP"></dx:ASPxHiddenField>
-                                                                                        <table style="width: 100%" border="1">
+                                                                                        <table style="width: 100%" border="0">
                                                                                             <tr>
-                                                                                                <td style="width: 50%;">
-                                                                                                    <table style="width: 100%;" border="1">
+                                                                                                <td style="width: 50%; vertical-align: top;">
+                                                                                                    <table style="width: 100%;">
                                                                                                         <tr>
                                                                                                             <td style="width: 20%;">
                                                                                                                 <div id="OperatingUnit_label" runat="server">
@@ -360,7 +392,7 @@
                                                                                                                 <div id="OperatingUnit_combo" runat="server">
                                                                                                                     <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnitOP" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue">
                                                                                                                         <ClientSideEvents SelectedIndexChanged="OperatingUnitOP" />
-                                                                                                                        <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithText">
+                                                                                                                        <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
                                                                                                                         </ValidationSettings>
                                                                                                                     </dx:ASPxComboBox>
                                                                                                                 </div>
@@ -371,32 +403,12 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="Expense" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxComboBox ID="ExpenseCode" runat="server" ClientInstanceName="ExpenseCodeOPEX" OnInit="ExpenseCode_Init" ValueType="System.String" Theme="Office2010Blue"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid Value">
+                                                                                                                <dx:ASPxComboBox ID="ExpenseCode" runat="server" ClientInstanceName="ExpenseCodeOPEX" OnInit="ExpenseCode_Init" ValueType="System.String" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                     <ClientSideEvents SelectedIndexChanged="ExpenseCodeIndexChangeOPEX" />
                                                                                                                 </dx:ASPxComboBox>
                                                                                                             </td>
                                                                                                         </tr>
-                                                                                                    </table>
-                                                                                                </td>
-                                                                                                <td style="width: 50%;">
-                                                                                                    <table style="width: 100%;">
-                                                                                                        <tr>
-                                                                                                            <td style="width: 20%;">
-                                                                                                                <dx:ASPxLabel runat="server" Text="UOM" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                            </td>
-                                                                                                            <td>
-                                                                                                                <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMOPEX" OnInit="UOM_Init" Width="170px" Theme="Office2010Blue"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid Value">
-                                                                                                                </dx:ASPxComboBox>
-                                                                                                            </td>
-                                                                                                        </tr>
-                                                                                                    </table>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td style="vertical-align: top;">
-                                                                                                    <table style="width: 100%;" border="0">
                                                                                                         <tr>
                                                                                                             <td style="width: 20%;">
                                                                                                                 <div id="div1">
@@ -405,8 +417,8 @@
                                                                                                             </td>
                                                                                                             <td>
                                                                                                                 <div id="div2">
-                                                                                                                    <dx:ASPxTextBox ID="ItemCode" runat="server" ClientInstanceName="ItemCodeOPEX" Text='<%#Eval("ItemCode")%>' Width="170px" Theme="Office2010Blue"
-                                                                                                                        ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid Value">
+                                                                                                                    <dx:ASPxTextBox ID="ItemCode" runat="server" ClientInstanceName="ItemCodeOPEX" Text='<%#Eval("ItemCode")%>' Width="170px" Theme="Office2010Blue">
+                                                                                                                        <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                         <ClientSideEvents KeyPress="ItemCodeOPEX_KeyPress" />
                                                                                                                     </dx:ASPxTextBox>
 
@@ -418,8 +430,7 @@
                                                                                                             <td style="width: 20%;"></td>
                                                                                                             <td>
                                                                                                                 <div style="overflow-x: auto; width: 300px;">
-                                                                                                                    <dx:ASPxListBox ID="listboxOPEX" ClientInstanceName="listboxOPEX" runat="server" ValueType="System.String" OnCallback="listboxOPEX_Callback" ClientVisible="false" Theme="Office2010Blue" 
-                                                                                                                        ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid Value">
+                                                                                                                    <dx:ASPxListBox ID="listboxOPEX" ClientInstanceName="listboxOPEX" runat="server" ValueType="System.String" OnCallback="listboxOPEX_Callback" ClientVisible="false" Theme="Office2010Blue">
                                                                                                                         <ClientSideEvents SelectedIndexChanged="listbox_selectedOPEX" />
                                                                                                                     </dx:ASPxListBox>
                                                                                                                 </div>
@@ -430,22 +441,32 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="Item Description" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxTextBox ID="Description" runat="server" ClientInstanceName="DescriptionOPEX" Text='<%#Eval("Description")%>' Width="170px" Theme="Office2010Blue"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid Value">
+                                                                                                                <dx:ASPxTextBox ID="Description" runat="server" ClientInstanceName="DescriptionOPEX" Text='<%#Eval("Description")%>' Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                 </dx:ASPxTextBox>
                                                                                                             </td>
                                                                                                         </tr>
                                                                                                     </table>
                                                                                                 </td>
-                                                                                                <td style="vertical-align: top;">
+                                                                                                <td style="width: 50%;">
                                                                                                     <table style="width: 100%;">
+                                                                                                        <tr>
+                                                                                                            <td style="width: 20%;">
+                                                                                                                <dx:ASPxLabel runat="server" Text="UOM" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMOPEX" OnInit="UOM_Init" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxComboBox>
+                                                                                                            </td>
+                                                                                                        </tr>
                                                                                                         <tr>
                                                                                                             <td style="width: 20%;">
                                                                                                                 <dx:ASPxLabel runat="server" Text="Cost" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxTextBox ID="Cost" runat="server" ClientInstanceName="CostOPEX" Text='<%#Eval("Cost")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid Value">
+                                                                                                                <dx:ASPxTextBox ID="Cost" runat="server" ClientInstanceName="CostOPEX" Text='<%#Eval("Cost")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                     <ClientSideEvents ValueChanged="OnValueChange" />
                                                                                                                     <ClientSideEvents KeyUp="OnKeyUpCostOpex" />
                                                                                                                     <ClientSideEvents KeyPress="FilterDigit" />
@@ -457,8 +478,8 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="Qty" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxTextBox ID="Qty" runat="server" ClientInstanceName="QtyOPEX" Text='<%#Eval("Qty")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid Value">
+                                                                                                                <dx:ASPxTextBox ID="Qty" runat="server" ClientInstanceName="QtyOPEX" Text='<%#Eval("Qty")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                     <ClientSideEvents ValueChanged="OnValueChangeQty" />
                                                                                                                     <ClientSideEvents KeyUp="OnKeyUpQtyOpex" />
                                                                                                                     <ClientSideEvents KeyPress="FilterDigit" />
@@ -470,8 +491,8 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="Total Cost" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxTextBox ID="TotalCost" runat="server" ClientInstanceName="TotalCostOPEX" Text='<%#Eval("TotalCost")%>' ReadOnly="true" HorizontalAlign="Right" Width="170px" Theme="Office2010Blue"
-                                                                                                                    ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true" ValidationSettings-RequiredField-ErrorText="Invalid Value">
+                                                                                                                <dx:ASPxTextBox ID="TotalCost" runat="server" ClientInstanceName="TotalCostOPEX" Text='<%#Eval("TotalCost")%>' ReadOnly="true" HorizontalAlign="Right" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter a value in Cost and Qty field" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                 </dx:ASPxTextBox>
                                                                                                             </td>
                                                                                                         </tr>
@@ -517,20 +538,23 @@
                                                         OnRowDeleting="ManPowerGrid_RowDeleting"
                                                         OnStartRowEditing="ManPowerGrid_StartRowEditing"
                                                         OnRowUpdating="ManPowerGrid_RowUpdating"
-                                                        OnBeforeGetCallbackResult="ManPowerGrid_BeforeGetCallbackResult">
+                                                        OnBeforeGetCallbackResult="ManPowerGrid_BeforeGetCallbackResult"
+                                                        OnDataBound="ManPowerGrid_DataBound">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
                                                         <Columns>
                                                             <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0"></dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="ActivityCode" Caption="Activity" VisibleIndex="3"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="ManPowerTypeKey" Visible="false" VisibleIndex="4"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="ManPowerTypeKeyName" Caption="Type" VisibleIndex="5"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Description" VisibleIndex="6"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="7"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="9" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="VALUE" Visible="false"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="4"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="ManPowerTypeKey" Visible="false" VisibleIndex="5"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="ManPowerTypeKeyName" Caption="Type" VisibleIndex="6"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Description" VisibleIndex="7"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="8"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="9" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="10" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="11" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
                                                         </Columns>
 
                                                         <SettingsCommandButton>
@@ -548,78 +572,115 @@
                                                                             <dx:TabPage Text="ManPower" Visible="true">
                                                                                 <ContentCollection>
                                                                                     <dx:ContentControl runat="server">
+                                                                                        <dx:ASPxHiddenField ID="entityhidden" runat="server" ClientInstanceName="entityhiddenMAN"></dx:ASPxHiddenField>
                                                                                         <table style="width: 100%" border="0">
                                                                                             <tr>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Activity Code" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                <td style="vertical-align: top;">
+                                                                                                    <table>
+                                                                                                        <tr>
+                                                                                                            <td style="width: 40%;">
+                                                                                                                <div id="OperatingUnit_label" runat="server">
+                                                                                                                    <dx:ASPxLabel runat="server" Text="Operating Unit" Theme="Office2010Blue" />
+                                                                                                                </div>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <div id="OperatingUnit_combo" runat="server">
+                                                                                                                    <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnitMAN" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue">
+                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitMAN" />
+                                                                                                                        <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
+                                                                                                                        </ValidationSettings>
+                                                                                                                    </dx:ASPxComboBox>
+                                                                                                                </div>
+                                                                                                            </td>
+                                                                                                        </tr>
+
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxLabel runat="server" Text="Activity Code" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxComboBox ID="ActivityCode" runat="server" ClientInstanceName="ActivityCodeMAN" OnInit="ActivityCode_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                    <%--<ClientSideEvents SelectedIndexChanged="ActivityCodeIndexChangeMAN" />--%>
+                                                                                                                </dx:ASPxComboBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxLabel runat="server" Text="UOM" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMMAN" OnInit="UOM_Init" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxComboBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
+                                                                                                </td>
+                                                                                                <td style="vertical-align: top;">
+                                                                                                    <table>
+                                                                                                        <tr>
+                                                                                                            <td style="width: 40%;">
+                                                                                                                <dx:ASPxLabel runat="server" Text="Type" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxComboBox ID="ManPowerTypeKeyName" runat="server" ClientInstanceName="ManPowerTypeKeyNameMAN" Text='<%#Eval("ManPowerTypeKeyName")%>' OnInit="ManPowerTypeKey_Init" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxComboBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td style="width: 10%;">
+                                                                                                                <dx:ASPxLabel runat="server" Text="Description" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="Description" runat="server" ClientInstanceName="DescriptionMAN" Text='<%#Eval("Description")%>' Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    <dx:ASPxComboBox ID="ActivityCode" runat="server" ClientInstanceName="ActivityCodeMAN" OnInit="ActivityCode_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                        <%--<ClientSideEvents SelectedIndexChanged="ActivityCodeIndexChangeMAN" />--%>
-                                                                                                    </dx:ASPxComboBox>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Type" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxComboBox ID="ManPowerTypeKeyName" runat="server" ClientInstanceName="ManPowerTypeKeyNameMAN" Text='<%#Eval("ManPowerTypeKeyName")%>' OnInit="ManPowerTypeKey_Init" Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxComboBox>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Description" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxTextBox ID="Description" runat="server" ClientInstanceName="DescriptionMAN" Text='<%#Eval("Description")%>' Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxTextBox>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="UOM" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMMAN" OnInit="UOM_Init" Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxComboBox>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Cost" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxTextBox ID="Cost" runat="server" ClientInstanceName="CostMAN" Text='<%#Eval("Cost")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                        <ClientSideEvents ValueChanged="OnValueChange" />
-                                                                                                        <ClientSideEvents KeyUp="OnKeyUpCostMan" />
-                                                                                                        <ClientSideEvents KeyPress="FilterDigit" />
-                                                                                                    </dx:ASPxTextBox>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Qty" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxTextBox ID="Qty" runat="server" ClientInstanceName="QtyMAN" Text='<%#Eval("Qty")%>' Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                        <ClientSideEvents ValueChanged="OnValueChangeQty" />
-                                                                                                        <ClientSideEvents KeyUp="OnKeyUpQtyMan" />
-                                                                                                        <ClientSideEvents KeyPress="FilterDigit" />
-                                                                                                    </dx:ASPxTextBox>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td></td>
-                                                                                                <td></td>
-                                                                                                <td></td>
-                                                                                                <td></td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Total Cost" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxTextBox ID="TotalCost" runat="server" ClientInstanceName="TotalCostMAN" Text='<%#Eval("TotalCost")%>' ReadOnly="true" HorizontalAlign="Right" Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxTextBox>
+                                                                                                    <table>
+                                                                                                        <tr>
+                                                                                                            <td style="width: 40%;">
+                                                                                                                <dx:ASPxLabel runat="server" Text="Cost" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="Cost" runat="server" ClientInstanceName="CostMAN" Text='<%#Eval("Cost")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                    <ClientSideEvents ValueChanged="OnValueChange" />
+                                                                                                                    <ClientSideEvents KeyUp="OnKeyUpCostMan" />
+                                                                                                                    <ClientSideEvents KeyPress="FilterDigit" />
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxLabel runat="server" Text="Qty" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="Qty" runat="server" ClientInstanceName="QtyMAN" Text='<%#Eval("Qty")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                    <ClientSideEvents ValueChanged="OnValueChangeQty" />
+                                                                                                                    <ClientSideEvents KeyUp="OnKeyUpQtyMan" />
+                                                                                                                    <ClientSideEvents KeyPress="FilterDigit" />
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxLabel runat="server" Text="Total Cost" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="TotalCost" runat="server" ClientInstanceName="TotalCostMAN" Text='<%#Eval("TotalCost")%>' ReadOnly="true" HorizontalAlign="Right" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter a value in Cost and Qty field" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </table>
@@ -660,12 +721,15 @@
                                                         OnRowDeleting="CAPEXGrid_RowDeleting"
                                                         OnStartRowEditing="CAPEXGrid_StartRowEditing"
                                                         OnRowUpdating="CAPEXGrid_RowUpdating"
-                                                        OnBeforeGetCallbackResult="CAPEXGrid_BeforeGetCallbackResult">
+                                                        OnBeforeGetCallbackResult="CAPEXGrid_BeforeGetCallbackResult"
+                                                        OnDataBound="CAPEXGrid_DataBound">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
                                                         <Columns>
                                                             <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0"></dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="VALUE" Visible="false"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="3"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Description" VisibleIndex="5"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="6"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="7" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
@@ -688,55 +752,88 @@
                                                                             <dx:TabPage Text="CAPEX" Visible="true">
                                                                                 <ContentCollection>
                                                                                     <dx:ContentControl runat="server">
+                                                                                        <dx:ASPxHiddenField ID="entityhidden" runat="server" ClientInstanceName="entityhiddenCA"></dx:ASPxHiddenField>
                                                                                         <table style="width: 100%">
                                                                                             <tr>
                                                                                                 <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Description" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                    <table>
+                                                                                                        <tr>
+                                                                                                            <td style="width: 40%;">
+                                                                                                                <div id="OperatingUnit_label" runat="server">
+                                                                                                                    <dx:ASPxLabel runat="server" Text="Operating Unit" Theme="Office2010Blue" />
+                                                                                                                </div>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <div id="OperatingUnit_combo" runat="server">
+                                                                                                                    <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnitCA" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue">
+                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitCA" />
+                                                                                                                        <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
+                                                                                                                        </ValidationSettings>
+                                                                                                                    </dx:ASPxComboBox>
+                                                                                                                </div>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td style="width: 40%">
+                                                                                                                <dx:ASPxLabel runat="server" Text="Description" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="Description" runat="server" ClientInstanceName="DescriptionCAPEX" Text='<%#Eval("Description")%>' Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxLabel runat="server" Text="UOM" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMCAPEX" OnInit="UOM_Init" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxComboBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    <dx:ASPxTextBox ID="Description" runat="server" ClientInstanceName="DescriptionCAPEX" Text='<%#Eval("Description")%>' Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxTextBox>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="UOM" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxComboBox ID="UOM" runat="server" ClientInstanceName="UOMCAPEX" OnInit="UOM_Init" Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxComboBox>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Cost" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxTextBox ID="Cost" runat="server" ClientInstanceName="CostCAPEX" Text='<%#Eval("Cost")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                        <ClientSideEvents ValueChanged="OnValueChange" />
-                                                                                                        <ClientSideEvents KeyUp="OnKeyUpCostCapex" />
-                                                                                                        <ClientSideEvents KeyPress="FilterDigit" />
-                                                                                                    </dx:ASPxTextBox>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Qty" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxTextBox ID="Qty" runat="server" ClientInstanceName="QtyCAPEX" Text='<%#Eval("Qty")%>' Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                        <ClientSideEvents ValueChanged="OnValueChangeQty" />
-                                                                                                        <ClientSideEvents KeyUp="OnKeyUpQtyCapex" />
-                                                                                                        <ClientSideEvents KeyPress="FilterDigit" />
-                                                                                                    </dx:ASPxTextBox>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Total Cost" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxTextBox ID="TotalCost" runat="server" ClientInstanceName="TotalCostCAPEX" Text='<%#Eval("TotalCost")%>' ReadOnly="true" HorizontalAlign="Right" Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxTextBox>
+                                                                                                    <table>
+                                                                                                        <tr>
+                                                                                                            <td style="width: 40%">
+                                                                                                                <dx:ASPxLabel runat="server" Text="Cost" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="Cost" runat="server" ClientInstanceName="CostCAPEX" Text='<%#Eval("Cost")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                    <ClientSideEvents ValueChanged="OnValueChange" />
+                                                                                                                    <ClientSideEvents KeyUp="OnKeyUpCostCapex" />
+                                                                                                                    <ClientSideEvents KeyPress="FilterDigit" />
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxLabel runat="server" Text="Qty" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="Qty" runat="server" ClientInstanceName="QtyCAPEX" Text='<%#Eval("Qty")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                    <ClientSideEvents ValueChanged="OnValueChangeQty" />
+                                                                                                                    <ClientSideEvents KeyUp="OnKeyUpQtyCapex" />
+                                                                                                                    <ClientSideEvents KeyPress="FilterDigit" />
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxLabel runat="server" Text="Total Cost" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="TotalCost" runat="server" ClientInstanceName="TotalCostCAPEX" Text='<%#Eval("TotalCost")%>' ReadOnly="true" HorizontalAlign="Right" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter a value in Cost and Qty field" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </table>
@@ -790,17 +887,20 @@
                                                         OnRowDeleting="RevenueGrid_RowDeleting"
                                                         OnStartRowEditing="RevenueGrid_StartRowEditing"
                                                         OnRowUpdating="RevenueGrid_RowUpdating"
-                                                        OnBeforeGetCallbackResult="RevenueGrid_BeforeGetCallbackResult">
+                                                        OnBeforeGetCallbackResult="RevenueGrid_BeforeGetCallbackResult"
+                                                        OnDataBound="RevenueGrid_DataBound">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Revenue');}" />
                                                         <Columns>
                                                             <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0"></dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="ProductName" VisibleIndex="3"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="FarmName" VisibleIndex="4"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Prize" VisibleIndex="5" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Volume" VisibleIndex="6" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="TotalPrize" VisibleIndex="7" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="VALUE" Visible="false"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="3"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="ProductName" VisibleIndex="4"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="FarmName" VisibleIndex="5"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Prize" VisibleIndex="6" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Volume" VisibleIndex="7" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="TotalPrize" VisibleIndex="8" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
                                                         </Columns>
 
                                                         <SettingsCommandButton>
@@ -818,49 +918,88 @@
                                                                             <dx:TabPage Text="Revenue & Assumptions" Visible="true">
                                                                                 <ContentCollection>
                                                                                     <dx:ContentControl runat="server">
-                                                                                        <table style="width: 100%">
+                                                                                        <dx:ASPxHiddenField ID="entityhidden" runat="server" ClientInstanceName="entityhiddenREV"></dx:ASPxHiddenField>
+                                                                                        <table style="width: 100%;">
                                                                                             <tr>
                                                                                                 <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Product Name" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                    <table>
+                                                                                                        <tr>
+                                                                                                            <td style="width: 40%;">
+                                                                                                                <div id="OperatingUnit_label" runat="server">
+                                                                                                                    <dx:ASPxLabel runat="server" Text="Operating Unit" Theme="Office2010Blue" />
+                                                                                                                </div>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <div id="OperatingUnit_combo" runat="server">
+                                                                                                                    <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnitREV" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue">
+                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitREV" />
+                                                                                                                        <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
+                                                                                                                        </ValidationSettings>
+                                                                                                                    </dx:ASPxComboBox>
+                                                                                                                </div>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td style="width: 40%">
+                                                                                                                <dx:ASPxLabel runat="server" Text="Product Name" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="ProductName" runat="server" ClientInstanceName="ProductNameRev" Text='<%#Eval("ProductName")%>' Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxLabel runat="server" Text="Farm Name" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="FarmName" runat="server" ClientInstanceName="FarmNameRev" Text='<%#Eval("FarmName")%>' Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    <dx:ASPxTextBox ID="ProductName" runat="server" ClientInstanceName="ProductNameRev" Text='<%#Eval("ProductName")%>' Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxTextBox>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Farm Name" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxTextBox ID="FarmName" runat="server" ClientInstanceName="FarmNameRev" Text='<%#Eval("FarmName")%>' Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxTextBox>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Prize" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxTextBox ID="Prize" runat="server" ClientInstanceName="PrizeRev" Text='<%#Eval("Prize")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxTextBox>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Volume" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxTextBox ID="Volume" runat="server" ClientInstanceName="VolumeRev" Text='<%#Eval("Volume")%>' Width="170px" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxTextBox>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxLabel runat="server" Text="Total Prize" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <dx:ASPxTextBox ID="TotalPrize" runat="server" ClientInstanceName="TotalPrizeRev" Text='<%#Eval("TotalPrize")%>' Width="170px" HorizontalAlign="Right" Theme="Office2010Blue"
-                                                                                                        ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                                                    </dx:ASPxTextBox>
+                                                                                                    <table>
+                                                                                                        <tr>
+                                                                                                            <td style="width: 40%">
+                                                                                                                <dx:ASPxLabel runat="server" Text="Prize" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="Prize" runat="server" ClientInstanceName="PrizeRev" Text='<%#Eval("Prize")%>' HorizontalAlign="Right" Width="170px" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                    <ClientSideEvents ValueChanged="OnValueChange" />
+                                                                                                                    <ClientSideEvents KeyUp="OnKeyUpCostRev" />
+                                                                                                                    <ClientSideEvents KeyPress="FilterDigit" />
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxLabel runat="server" Text="Volume" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="Volume" runat="server" ClientInstanceName="VolumeRev" Text='<%#Eval("Volume")%>' Width="170px" HorizontalAlign="Right" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                    <ClientSideEvents ValueChanged="OnValueChangeQty" />
+                                                                                                                    <ClientSideEvents KeyUp="OnKeyUpQtyRev" />
+                                                                                                                    <ClientSideEvents KeyPress="FilterDigit" />
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxLabel runat="server" Text="Total Prize" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxTextBox ID="TotalPrize" runat="server" ClientInstanceName="TotalPrizeRev" Text='<%#Eval("TotalPrize")%>' Width="170px" HorizontalAlign="Right" Theme="Office2010Blue">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter a value in Prize and Volume field" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxTextBox>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </table>

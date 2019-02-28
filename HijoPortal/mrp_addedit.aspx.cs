@@ -161,7 +161,7 @@ namespace HijoPortal
         }
         private void BindManPower(string DOC_NUMBER)
         {
-            DataTable dtRecord = MRPClass.MRP_ManPower(DOC_NUMBER);
+            DataTable dtRecord = MRPClass.MRP_ManPower(DOC_NUMBER, entitycode);
             ManPowerGrid.DataSource = dtRecord;
             ManPowerGrid.KeyFieldName = "PK";
             ManPowerGrid.DataBind();
@@ -169,7 +169,7 @@ namespace HijoPortal
 
         private void BindCAPEX(string DOC_NUMBER)
         {
-            DataTable dtRecord = MRPClass.MRP_CAPEX(DOC_NUMBER);
+            DataTable dtRecord = MRPClass.MRP_CAPEX(DOC_NUMBER, entitycode);
             CAPEXGrid.DataSource = dtRecord;
             CAPEXGrid.KeyFieldName = "PK";
             CAPEXGrid.DataBind();
@@ -177,7 +177,7 @@ namespace HijoPortal
 
         private void BindRevenue(string DOC_NUMBER)
         {
-            DataTable dtRecord = MRPClass.MRP_Revenue(DOC_NUMBER);
+            DataTable dtRecord = MRPClass.MRP_Revenue(DOC_NUMBER, entitycode);
             RevenueGrid.DataSource = dtRecord;
             RevenueGrid.KeyFieldName = "PK";
             RevenueGrid.DataBind();
@@ -343,7 +343,7 @@ namespace HijoPortal
                 }
             }
 
-            MRPClass.PrintString(OPEXGrid.IsEditing.ToString());
+           
         }
 
         protected void DirectMaterialsGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
@@ -536,6 +536,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
 
+            ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox experseCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
@@ -547,13 +548,18 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO " + MRPClass.OpexTable() + " ([HeaderDocNum], [ExpenseCode], [ItemCode], [Description], [UOM], [Cost], [Qty], [TotalCost]) VALUES (@HeaderDocNum, @ExpenseCode, @ItemCode, @Description, @UOM, @Cost, @Qty, @TotalCost)";
+            string insert = "INSERT INTO " + MRPClass.OpexTable() + " ([HeaderDocNum], [ExpenseCode], [ItemCode], [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit]) VALUES (@HeaderDocNum, @ExpenseCode, @ItemCode, @Description, @UOM, @Cost, @Qty, @TotalCost, @OprUnit)";
 
             string code = "";
             if (itemCode.Value != null) code = itemCode.Value.ToString();
 
+            string operating_unit = "";
+            if (opunit.Value != null)
+                operating_unit = opunit.Value.ToString();
+
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ExpenseCode", experseCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemCode", code);
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
@@ -624,6 +630,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
 
+            ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox expenseCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
@@ -638,13 +645,18 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.OpexTable() + " SET [ExpenseCode] = @ExpenseCode, [ItemCode] = @ItemCode ,[Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost WHERE [PK] = @PK";
+            string update_MRP = "UPDATE " + MRPClass.OpexTable() + " SET [ExpenseCode] = @ExpenseCode, [ItemCode] = @ItemCode ,[Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit WHERE [PK] = @PK";
 
             string code = "";
             if (itemCode.Value != null) code = itemCode.Value.ToString();
 
+            string operating_unit = "";
+            if (opunit.Value != null)
+                operating_unit = opunit.Value.ToString();
+
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ExpenseCode", expenseCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemCode", code);
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
@@ -672,6 +684,27 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.SetBehaviorGrid(grid);
+
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("ManPowerPageControl") as ASPxPageControl;
+            if (pageControl != null)
+            {
+                ASPxHiddenField entityhidden = pageControl.FindControl("entityhidden") as ASPxHiddenField;
+                if (entitycode != MRPClass.train_entity)
+                {
+                    HtmlControl div1 = (HtmlControl)pageControl.FindControl("OperatingUnit_label");
+                    div1.Style.Add("display", "none");
+                    HtmlControl div2 = (HtmlControl)pageControl.FindControl("OperatingUnit_combo");
+                    div2.Style.Add("display", "none");
+
+                    entityhidden["hidden_value"] = "not display";
+                }
+                else
+                {
+                    entityhidden["hidden_value"] = "display";
+                }
+            }
+
+
         }
 
         protected void ManPowerGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
@@ -684,6 +717,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("ManPowerPageControl") as ASPxPageControl;
 
+            ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox actCode = pageControl.FindControl("ActivityCode") as ASPxComboBox;
             ASPxComboBox type = pageControl.FindControl("ManPowerTypeKeyName") as ASPxComboBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
@@ -705,10 +739,15 @@ namespace HijoPortal
             }
             reader.Close();
 
-            string insert = "INSERT INTO " + MRPClass.ManPowerTable() + " ([HeaderDocNum], [ActivityCode], [ManPowerTypeKey], [Description], [UOM], [Cost], [Qty], [TotalCost]) VALUES (@HeaderDocNum, @ActivityCode, @ManPowerTypeKey, @Description, @UOM, @Cost, @Qty, @TotalCost)";
+            string operating_unit = "";
+            if (opunit.Value != null)
+                operating_unit = opunit.Value.ToString();
+
+            string insert = "INSERT INTO " + MRPClass.ManPowerTable() + " ([HeaderDocNum], [ActivityCode], [ManPowerTypeKey], [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit]) VALUES (@HeaderDocNum, @ActivityCode, @ManPowerTypeKey, @Description, @UOM, @Cost, @Qty, @TotalCost, @OprUnit)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ActivityCode", actCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ManPowerTypeKey", manpower_type_pk);
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
@@ -772,6 +811,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("ManPowerPageControl") as ASPxPageControl;
 
+            ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox actCode = pageControl.FindControl("ActivityCode") as ASPxComboBox;
             ASPxComboBox type = pageControl.FindControl("ManPowerTypeKeyName") as ASPxComboBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
@@ -796,10 +836,15 @@ namespace HijoPortal
             }
             reader.Close();
 
-            string update_MRP = "UPDATE " + MRPClass.ManPowerTable() + " SET [ActivityCode] = @ActivityCode, [ManPowerTypeKey] = @ManPowerTypeKey ,[Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost WHERE [PK] = @PK";
+            string operating_unit = "";
+            if (opunit.Value != null)
+                operating_unit = opunit.Value.ToString();
+
+            string update_MRP = "UPDATE " + MRPClass.ManPowerTable() + " SET [ActivityCode] = @ActivityCode, [ManPowerTypeKey] = @ManPowerTypeKey ,[Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit WHERE [PK] = @PK";
 
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ActivityCode", actcodeVal);
             cmd.Parameters.AddWithValue("@ManPowerTypeKey", manpower_type_pk);
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
@@ -828,6 +873,25 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.SetBehaviorGrid(grid);
+
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("CAPEXPageControl") as ASPxPageControl;
+            if (pageControl != null)
+            {
+                ASPxHiddenField entityhidden = pageControl.FindControl("entityhidden") as ASPxHiddenField;
+                if (entitycode != MRPClass.train_entity)
+                {
+                    HtmlControl div1 = (HtmlControl)pageControl.FindControl("OperatingUnit_label");
+                    div1.Style.Add("display", "none");
+                    HtmlControl div2 = (HtmlControl)pageControl.FindControl("OperatingUnit_combo");
+                    div2.Style.Add("display", "none");
+
+                    entityhidden["hidden_value"] = "not display";
+                }
+                else
+                {
+                    entityhidden["hidden_value"] = "display";
+                }
+            }
         }
 
         protected void CAPEXGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
@@ -840,6 +904,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("CAPEXPageControl") as ASPxPageControl;
 
+            ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
@@ -849,10 +914,15 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO " + MRPClass.CapexTable() + " ([HeaderDocNum], [Description], [UOM], [Cost], [Qty], [TotalCost]) VALUES (@HeaderDocNum, @Description, @UOM, @Cost, @Qty, @TotalCost)";
+            string operating_unit = "";
+            if (opunit.Value != null)
+                operating_unit = opunit.Value.ToString();
+
+            string insert = "INSERT INTO " + MRPClass.CapexTable() + " ([HeaderDocNum], [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit]) VALUES (@HeaderDocNum, @Description, @UOM, @Cost, @Qty, @TotalCost, @OprUnit)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
@@ -914,6 +984,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("CAPEXPageControl") as ASPxPageControl;
 
+            ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
@@ -925,10 +996,15 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.CapexTable() + " SET [Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost WHERE [PK] = @PK";
+            string operating_unit = "";
+            if (opunit.Value != null)
+                operating_unit = opunit.Value.ToString();
+
+            string update_MRP = "UPDATE " + MRPClass.CapexTable() + " SET [Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit WHERE [PK] = @PK";
 
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
@@ -981,6 +1057,25 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.SetBehaviorGrid(grid);
+
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("RevenuePageControl") as ASPxPageControl;
+            if (pageControl != null)
+            {
+                ASPxHiddenField entityhidden = pageControl.FindControl("entityhidden") as ASPxHiddenField;
+                if (entitycode != MRPClass.train_entity)
+                {
+                    HtmlControl div1 = (HtmlControl)pageControl.FindControl("OperatingUnit_label");
+                    div1.Style.Add("display", "none");
+                    HtmlControl div2 = (HtmlControl)pageControl.FindControl("OperatingUnit_combo");
+                    div2.Style.Add("display", "none");
+
+                    entityhidden["hidden_value"] = "not display";
+                }
+                else
+                {
+                    entityhidden["hidden_value"] = "display";
+                }
+            }
         }
 
         protected void RevenueGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
@@ -1010,6 +1105,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("RevenuePageControl") as ASPxPageControl;
 
+            ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxTextBox product = pageControl.FindControl("ProductName") as ASPxTextBox;
             ASPxTextBox farm = pageControl.FindControl("FarmName") as ASPxTextBox;
             ASPxTextBox prize = pageControl.FindControl("Prize") as ASPxTextBox;
@@ -1019,10 +1115,15 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [FarmName], [Prize], [Volume], [TotalPrize]) VALUES (@HeaderDocNum, @ProductName, @FarmName, @Prize, @Volume, @TotalPrize)";
+            string operating_unit = "";
+            if (opunit.Value != null)
+                operating_unit = opunit.Value.ToString();
+
+            string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [FarmName], [Prize], [Volume], [TotalPrize], [OprUnit]) VALUES (@HeaderDocNum, @ProductName, @FarmName, @Prize, @Volume, @TotalPrize, @OprUnit)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ProductName", product.Value.ToString());
             cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
             cmd.Parameters.AddWithValue("@Prize", Convert.ToDouble(prize.Value.ToString()));
@@ -1082,6 +1183,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("RevenuePageControl") as ASPxPageControl;
 
+            ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxTextBox product = pageControl.FindControl("ProductName") as ASPxTextBox;
             ASPxTextBox farm = pageControl.FindControl("FarmName") as ASPxTextBox;
             ASPxTextBox prize = pageControl.FindControl("Prize") as ASPxTextBox;
@@ -1093,10 +1195,15 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.RevenueTable() + " SET [ProductName] = @ProductName, [FarmName]= @FarmName, [Prize] = @Prize, [Volume] = @Volume, [TotalPrize] = @TotalPrize WHERE [PK] = @PK";
+            string operating_unit = "";
+            if (opunit.Value != null)
+                operating_unit = opunit.Value.ToString();
+
+            string update_MRP = "UPDATE " + MRPClass.RevenueTable() + " SET [ProductName] = @ProductName, [FarmName]= @FarmName, [Prize] = @Prize, [Volume] = @Volume, [TotalPrize] = @TotalPrize, [OprUnit] = @OprUnit WHERE [PK] = @PK";
 
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ProductName", product.Value.ToString());
             cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
             cmd.Parameters.AddWithValue("@Prize", Convert.ToDouble(prize.Value.ToString()));
@@ -1119,22 +1226,36 @@ namespace HijoPortal
             grid.CancelEdit();
         }
 
+        
+
         protected void DirectMaterialsGrid_DataBound(object sender, EventArgs e)
         {
             ASPxGridView grid = sender as ASPxGridView;
-            if (entitycode == MRPClass.train_entity)
-                grid.Columns["RevDesc"].Visible = true;
-            else
-                grid.Columns["RevDesc"].Visible = false;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
         }
 
         protected void OPEXGrid_DataBound(object sender, EventArgs e)
         {
             ASPxGridView grid = sender as ASPxGridView;
-            if (entitycode == MRPClass.train_entity)
-                grid.Columns["RevDesc"].Visible = true;
-            else
-                grid.Columns["RevDesc"].Visible = false;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
+        }
+
+        protected void ManPowerGrid_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
+        }
+
+        protected void CAPEXGrid_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
+        }
+
+        protected void RevenueGrid_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.VisibilityRevDesc(grid, entitycode);
         }
     }
 }
