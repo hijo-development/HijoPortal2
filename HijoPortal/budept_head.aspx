@@ -77,7 +77,7 @@
                                                             </div>
                                                         </td>
                                                         <td style="width: 10%;">
-                                                            <dx:ASPxLabel runat="server" Text="Level" Theme="Office2010Blue" />
+                                                            <dx:ASPxLabel runat="server" Text="User" Theme="Office2010Blue" />
                                                         </td>
                                                         <td>:</td>
                                                         <td style="width: 40%;">

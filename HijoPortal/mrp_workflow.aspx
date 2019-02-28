@@ -25,7 +25,8 @@
                                     OnRowInserting="grdWorkflowMaster_RowInserting"
                                     OnRowDeleting="grdWorkflowMaster_RowDeleting"
                                     OnStartRowEditing="grdWorkflowMaster_StartRowEditing"
-                                    OnRowUpdating="grdWorkflowMaster_RowUpdating">
+                                    OnRowUpdating="grdWorkflowMaster_RowUpdating" 
+                                    OnBeforeGetCallbackResult="grdWorkflowMaster_BeforeGetCallbackResult">
 
                                     <%--<ClientSideEvents RowClick="function(s,e){focusedWorkflowMaster(s,e,'WorkflowMaster');}" />--%>
 

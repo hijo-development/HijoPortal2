@@ -45,7 +45,7 @@
                 <Columns>
                     <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
                         <HeaderTemplate>
-                            <div style="text-align: center">
+                            <div style="text-align: left;">
                                 <dx:ASPxButton ID="Add" OnClick="Add_Click" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle"></dx:ASPxButton>
                                 <dx:ASPxHiddenField ID="HiddenVal" ClientInstanceName="HiddenVal" runat="server"></dx:ASPxHiddenField>
                             </div>

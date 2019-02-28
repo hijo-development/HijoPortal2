@@ -761,5 +761,73 @@ namespace HijoPortal
                 BindApprovalDetails(0);
             }
         }
+
+        protected void grdDataFlow_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            if (grid.IsEditing || grid.IsNewRowEditing)
+            {
+                grid.SettingsBehavior.AllowSort = false;
+                grid.SettingsBehavior.AllowAutoFilter = false;
+                grid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                grid.SettingsBehavior.AllowSort = true;
+                grid.SettingsBehavior.AllowAutoFilter = true;
+                grid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
+        protected void grdDataFlowDetail_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            if (grid.IsEditing || grid.IsNewRowEditing)
+            {
+                grid.SettingsBehavior.AllowSort = false;
+                grid.SettingsBehavior.AllowAutoFilter = false;
+                grid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                grid.SettingsBehavior.AllowSort = true;
+                grid.SettingsBehavior.AllowAutoFilter = true;
+                grid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
+        protected void grdApproval_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            if (grid.IsEditing || grid.IsNewRowEditing)
+            {
+                grid.SettingsBehavior.AllowSort = false;
+                grid.SettingsBehavior.AllowAutoFilter = false;
+                grid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                grid.SettingsBehavior.AllowSort = true;
+                grid.SettingsBehavior.AllowAutoFilter = true;
+                grid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
+
+        protected void grdApprovalDetail_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            if (grid.IsEditing || grid.IsNewRowEditing)
+            {
+                grid.SettingsBehavior.AllowSort = false;
+                grid.SettingsBehavior.AllowAutoFilter = false;
+                grid.SettingsBehavior.AllowHeaderFilter = false;
+            }
+            else
+            {
+                grid.SettingsBehavior.AllowSort = true;
+                grid.SettingsBehavior.AllowAutoFilter = true;
+                grid.SettingsBehavior.AllowHeaderFilter = true;
+            }
+        }
     }
 }
