@@ -30,7 +30,8 @@
                                                 OnRowInserting="grdDataFlow_RowInserting" 
                                                 OnStartRowEditing="grdDataFlow_StartRowEditing" 
                                                 OnRowUpdating="grdDataFlow_RowUpdating" 
-                                                OnRowDeleting="grdDataFlow_RowDeleting">
+                                                OnRowDeleting="grdDataFlow_RowDeleting" 
+                                                OnBeforeGetCallbackResult="grdDataFlow_BeforeGetCallbackResult">
 
                                                 <ClientSideEvents 
                                                     RowClick="function (s,e) {grdDataFlowDetailDirect.PerformCallback('DataFlow');}"
@@ -127,7 +128,8 @@
                                                 OnRowInserting="grdDataFlowDetail_RowInserting" 
                                                 OnStartRowEditing="grdDataFlowDetail_StartRowEditing" 
                                                 OnRowUpdating="grdDataFlowDetail_RowUpdating" 
-                                                OnRowDeleting="grdDataFlowDetail_RowDeleting">
+                                                OnRowDeleting="grdDataFlowDetail_RowDeleting" 
+                                                OnBeforeGetCallbackResult="grdDataFlowDetail_BeforeGetCallbackResult">
 
                                                 <ClientSideEvents
                                                     CustomButtonClick=""
@@ -217,7 +219,8 @@
                                                 OnRowInserting="grdApproval_RowInserting" 
                                                 OnStartRowEditing="grdApproval_StartRowEditing" 
                                                 OnRowUpdating="grdApproval_RowUpdating" 
-                                                OnRowDeleting="grdApproval_RowDeleting">
+                                                OnRowDeleting="grdApproval_RowDeleting" 
+                                                OnBeforeGetCallbackResult="grdApproval_BeforeGetCallbackResult">
 
                                                 <ClientSideEvents
                                                     RowClick="function (s,e) {grdApprovalDetailDirect.PerformCallback('Approval');}"
@@ -314,7 +317,8 @@
                                                 OnRowInserting="grdApprovalDetail_RowInserting" 
                                                 OnStartRowEditing="grdApprovalDetail_StartRowEditing" 
                                                 OnRowUpdating="grdApprovalDetail_RowUpdating" 
-                                                OnRowDeleting="grdApprovalDetail_RowDeleting">
+                                                OnRowDeleting="grdApprovalDetail_RowDeleting" 
+                                                OnBeforeGetCallbackResult="grdApprovalDetail_BeforeGetCallbackResult">
 
                                                 <ClientSideEvents
                                                     CustomButtonClick=""

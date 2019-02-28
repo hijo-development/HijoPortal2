@@ -65,8 +65,14 @@ namespace HijoPortal
 
             ASPxHiddenField text = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenVal") as ASPxHiddenField;
 
+            if (e.ButtonID == "Add")
+            {
+
+            }
+
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
+            string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
             string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
             string query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "' AND PK = '" + PK + "'";
 
@@ -81,7 +87,6 @@ namespace HijoPortal
                     if (MainTable.FocusedRowIndex > -1)
                     {
                         //Session["DocNumber"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
-                        string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
                         string mrp_pk = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
                         Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString();
@@ -101,17 +106,66 @@ namespace HijoPortal
                         BindMRP();
                     }
                 }
+
+                if (e.ButtonID == "Submit")
+                {
+                    if (MainTable.FocusedRowIndex > -1)
+                    {
+                        //PK
+                        string qry = "", sEmail = "";
+                        SqlCommand cmdUp = null;
+                        SqlCommand cmd = null;
+                        SqlDataAdapter adp;
+                        DataTable dtable = new DataTable();
+
+                        qry = "SELECT dbo.tbl_System_Approval_Position.SQLQuery, " +
+                              " ISNULL(dbo.tbl_Users.Email,'') AS Email, dbo.tbl_Users.Lastname " +
+                              " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
+                              " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
+                              " dbo.tbl_Users ON dbo.tbl_MRP_List_Workflow.UserKey = dbo.tbl_Users.PK " +
+                              " WHERE(dbo.tbl_MRP_List_Workflow.Line = 1) " +
+                              " AND(dbo.tbl_MRP_List_Workflow.MasterKey = " + PK + ")";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = conn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            foreach(DataRow row in dtable.Rows)
+                            {
+                                sEmail = EncryptionClass.Decrypt(row["Email"].ToString());
+                                if (GlobalClass.IsEmailValid(sEmail) == true)
+                                {
+                                    string sMailSubject = "", sMailBody = "";
+                                    sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your review";
+                                    sMailBody = "Dear Mr/Ms. " + EncryptionClass.Decrypt(row["Lastname"].ToString()) + "MOP DocNum " + docNum.ToString() + " is waiting for your review";
+                                    bool msgSend = GlobalClass.IsMailSent(sEmail, sMailSubject, sMailBody);
+
+                                    if (msgSend == true)
+                                    {
+                                        qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 1 WHERE (MasterKey = " + PK + ") AND (Line = 1)";
+                                        cmdUp = new SqlCommand(qry, conn);
+                                        cmdUp.ExecuteNonQuery();
+                                    }
+                                    
+                                }
+                                
+                            }
+                        }
+                        dtable.Clear();
+                    }
+                }
             }
             else
             {
-                if (e.ButtonID == "Edit")
+                if (e.ButtonID == "Edit" || e.ButtonID == "Submit" || e.ButtonID == "Delete")
                     text["hidden_value"] = "InvalidCreator";
             }
 
             if (e.ButtonID == "Preview")
             {
                 //msgTrans.Text = "Pass Preview";
-                string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
+                //string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
                 Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString();
 
                 //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
@@ -203,7 +257,7 @@ namespace HijoPortal
             else
             {
                 string DocumentPrefix = "", DocumentNum = "", STATUS_NAME = "";
-                int STATUS_KEY = 0;
+                int STATUS_KEY = 0, DataFlowKey = 0;
                 int MRP_MONTH = monthIndex;
                 int MRP_YEAR = yearInteger;
 
@@ -211,6 +265,7 @@ namespace HijoPortal
 
                 SqlCommand command = new SqlCommand(query, conn);
                 SqlDataReader reader = command.ExecuteReader();
+                
 
                 while (reader.Read())
                 {
@@ -244,6 +299,15 @@ namespace HijoPortal
                 string DOC_NUMBER = (doc_num).ToString("00000#");
                 DOC_NUMBER = ENTITY_CODE + "-" + monthStringTwoDigits + yearStringTwoDigits + DocumentPrefix + "-" + DOC_NUMBER;
 
+                string query_DataFlow = "SELECT TOP (1) [PK] FROM [hijo_portal].[dbo].[tbl_System_MOP_DataFlow] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
+                command = new SqlCommand(query_DataFlow, conn);
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    DataFlowKey = Convert.ToInt32(reader[0].ToString());
+                }
+                reader.Close();
+
                 string str = "INSERT INTO [dbo].[tbl_MRP_List] ([DocNumber], [DateCreated], [EntityCode], [BUCode], [MRPMonth], [MRPYear], [StatusKey], [CreatorKey], [LastModified]) VALUES (@DocNumber, @DateCreated, @EntityCode, @BUCode, @Month, @Year, @StatusKey, @CreatorKey, @LastModified)";
 
                 cmd = new SqlCommand(str, conn);
@@ -269,6 +333,69 @@ namespace HijoPortal
                 while (r.Read()) pk_latest = Convert.ToInt32(r[0].ToString());
                 r.Close();
 
+                //Add Dataflow  DataFlowKey
+                string eMailAdd = "";
+
+                SqlCommand cmdA = null;
+                SqlDataAdapter adp;
+                DataTable dtable = new DataTable();
+
+                SqlCommand cmdB = null;
+                SqlDataAdapter adp1;
+                DataTable dtable1 = new DataTable();
+
+                string query_DataFlowAdd = "SELECT dbo.tbl_System_MOP_DataFlow_Details.Line, " +
+                                           " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey, " +
+                                           " dbo.tbl_System_Approval_Position.SQLQuery " +
+                                           " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
+                                           " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+                                           " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = "+ DataFlowKey + ") " +
+                                           " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
+                                           " ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
+                cmdA = new SqlCommand(query_DataFlowAdd);
+                cmdA.Connection = conn;
+                adp = new SqlDataAdapter(cmdA);
+                adp.Fill(dtable);
+                if (dtable.Rows.Count > 0)
+                {
+                    int userKey = 0, status = 0, visible = 0;
+                    foreach (DataRow row in dtable.Rows)
+                    {
+                        if (row["SQLQuery"].ToString().Trim() != "")
+                        {
+                            string qryB = row["SQLQuery"].ToString() + " '" + ENTITY_CODE + "', '" + BU_CODE + "', '" + DATE_CREATED + "'";
+                            cmdB = new SqlCommand(qryB);
+                            cmdB.Connection = conn;
+                            adp1 = new SqlDataAdapter(cmdB);
+                            adp1.Fill(dtable1);
+                            if (dtable1.Rows.Count > 0)
+                            {
+                                foreach (DataRow row1 in dtable1.Rows)
+                                {
+                                    userKey = Convert.ToInt32(row1["UserKey"]);
+                                }
+                            }
+                            dtable1.Clear();
+                        }
+                        
+                        string qryAddDataflow = "INSERT INTO tbl_MRP_List_Workflow " +
+                                            " ([MasterKey], [Line], [PositionNameKey], [UserKey], [Status], [Visible])" +
+                                            " VALUES (@MasterKey, @Line, @PositionNameKey, @UserKey, @Status, @Visible)";
+                        SqlCommand cmd1 = new SqlCommand(qryAddDataflow, conn);
+                        cmd1.Parameters.AddWithValue("@MasterKey", pk_latest);
+                        cmd1.Parameters.AddWithValue("@Line", Convert.ToInt32(row["Line"]));
+                        cmd1.Parameters.AddWithValue("@PositionNameKey", Convert.ToInt32(row["PositionNameKey"]));
+                        cmd1.Parameters.AddWithValue("@UserKey", userKey);
+                        cmd1.Parameters.AddWithValue("@Status", status);
+                        cmd1.Parameters.AddWithValue("@Visible", visible);
+                        cmd1.CommandType = CommandType.Text;
+                        int resultAdd = cmd1.ExecuteNonQuery();
+                    }
+
+                }
+                dtable.Clear();
+
+
                 if (result > 0) MRPClass.AddLogsMOPList(conn, pk_latest, remarks);
 
                 //Session["DocNumber"] = DOC_NUMBER;
@@ -292,22 +419,23 @@ namespace HijoPortal
         protected void MainTable_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
         {
             //MRPClass.PrintString("pass custom callback");
-            //if (e.Parameters == "AddNew")
-            //{
-            //    CheckSessionExpire();
-            //    //ASPxHiddenField entText = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "ASPxHiddenFieldEnt") as ASPxHiddenField;
-            //    if (Session["EntityCode"].ToString().Trim() != "")
-            //    {                    
-            //        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-            //        PopUpControl.HeaderText = "MRP";
-            //        PopUpControl.ShowOnPageLoad = true;
-            //    }
-            //    else
-            //    {
-            //        MRPClass.PrintString("pass script");
-            //        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "CheckEnt", "checkEntity();", true);
-            //    }                
-            //}
+            if (e.Parameters == "AddNew")
+            {
+                CheckSessionExpire();
+                //ASPxHiddenField entText = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "ASPxHiddenFieldEnt") as ASPxHiddenField;
+                if (Session["EntityCode"].ToString().Trim() != "")
+                {
+                    MRPClass.PrintString("pass with entity");
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    PopUpControl.HeaderText = "MRP";
+                    PopUpControl.ShowOnPageLoad = true;
+                }
+                else
+                {
+                    MRPClass.PrintString("pass script");
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "CheckEnt", "AddMOPCheckEntity();", true);
+                }
+            }
         }
     }
 }

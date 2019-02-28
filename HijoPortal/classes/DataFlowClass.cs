@@ -88,7 +88,7 @@ namespace HijoPortal.classes
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dt);
 
-            MRPClass.PrintString(dt.Rows.Count.ToString());
+            //MRPClass.PrintString(dt.Rows.Count.ToString());
 
             if (dt.Rows.Count > 0)
             {

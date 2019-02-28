@@ -14,6 +14,7 @@
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
+
     <dx:ASPxPopupControl ID="PopUpControl" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -63,7 +64,8 @@
                     <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
                         <HeaderTemplate>
                             
-                            <div style="text-align: center">
+                            <div style="text-align: left;">
+                                <%--OnClick="Add_Click"--%>
                                 <dx:ASPxButton ID="Add" OnClick="Add_Click" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
                                     <%--<ClientSideEvents Click="function (s, e) {MainTable.PerformCallback('AddNew');}" />--%>
                                     
@@ -88,6 +90,11 @@
                     <dx:GridViewDataColumn FieldName="MRPYear" Caption="Year" VisibleIndex="6"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="Amount" VisibleIndex="7"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="8"></dx:GridViewDataColumn>
+                    <dx:GridViewCommandColumn VisibleIndex="9" ButtonRenderMode="Image" Width="20">
+                        <CustomButtons>
+                            <dx:GridViewCommandColumnCustomButton ID="Submit" Text="" Image-Url="Images/Submit.ico" Image-ToolTip="Submit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                        </CustomButtons>
+                    </dx:GridViewCommandColumn>
                 </Columns>
 
                 <%--<Settings HorizontalScrollBarMode="Auto" />--%>

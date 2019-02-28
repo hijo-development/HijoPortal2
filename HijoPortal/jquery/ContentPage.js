@@ -156,7 +156,7 @@ function CorrectValue(str, type) {
 
 // MasterMRp
 function CustomButtonClick(s, e) {
-    console.log("custom button click" + e.buttonID);
+    //console.log("custom button click" + e.buttonID);
     var button = e.buttonID;
     if (button == "Delete") {
         var result = confirm("Delete this row?");
@@ -165,6 +165,8 @@ function CustomButtonClick(s, e) {
     } else if (button == "Edit") {
         e.processOnServer = true;
     } else if (button == "Preview") {
+        e.processOnServer = true;
+    } else if (button == "Submit") {
         e.processOnServer = true;
     }
 }
@@ -1215,6 +1217,7 @@ function OnKeyUpApprovedCostCapex(s, e) {
 
 
 function AddMOPCheckEntity(s, e) {
+    console.log("pass script");
     var entity = ASPxLabelEntDirect.GetText();
     if (entity === "") {
         MRPNotificationMessage.SetText("No assigned entity!");

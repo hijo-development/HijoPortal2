@@ -103,6 +103,7 @@
     <Content Include="images\mountain.jpg" />
     <Content Include="images\Refresh.ico" />
     <Content Include="images\Save.ico" />
+    <Content Include="images\Submit.ico" />
     <Content Include="images\Undo.ico" />
     <Content Include="images\Users.png" />
     <Content Include="jquery\accounting.js" />
