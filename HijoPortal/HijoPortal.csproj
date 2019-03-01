@@ -111,8 +111,11 @@
     <Content Include="jquery\createAccount.js" />
     <Content Include="mop_workflow.aspx" />
     <Content Include="mrp_addedit.aspx" />
+    <Content Include="mrp_capexcip.aspx" />
+    <Content Include="mrp_finance.aspx" />
     <Content Include="mrp_forapproval.aspx" />
     <Content Include="mrp_inventanalyst.aspx" />
+    <Content Include="mrp_inventoryanalyst_forapproval.aspx" />
     <Content Include="mrp_list.aspx" />
     <Content Include="mrp_poaddedit.aspx" />
     <Content Include="mrp_pocreation.aspx" />
@@ -209,6 +212,20 @@
     <Compile Include="mrp_addedit.aspx.designer.cs">
       <DependentUpon>mrp_addedit.aspx</DependentUpon>
     </Compile>
+    <Compile Include="mrp_capexcip.aspx.cs">
+      <DependentUpon>mrp_capexcip.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_capexcip.aspx.designer.cs">
+      <DependentUpon>mrp_capexcip.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mrp_finance.aspx.cs">
+      <DependentUpon>mrp_finance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_finance.aspx.designer.cs">
+      <DependentUpon>mrp_finance.aspx</DependentUpon>
+    </Compile>
     <Compile Include="mrp_forapproval.aspx.cs">
       <DependentUpon>mrp_forapproval.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -222,6 +239,13 @@
     </Compile>
     <Compile Include="mrp_inventanalyst.aspx.designer.cs">
       <DependentUpon>mrp_inventanalyst.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mrp_inventoryanalyst_forapproval.aspx.cs">
+      <DependentUpon>mrp_inventoryanalyst_forapproval.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_inventoryanalyst_forapproval.aspx.designer.cs">
+      <DependentUpon>mrp_inventoryanalyst_forapproval.aspx</DependentUpon>
     </Compile>
     <Compile Include="mrp_list.aspx.cs">
       <DependentUpon>mrp_list.aspx</DependentUpon>
