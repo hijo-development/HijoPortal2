@@ -166,6 +166,8 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("TotalCost", typeof(string));
                 dtTable.Columns.Add("VALUE", typeof(string));
                 dtTable.Columns.Add("RevDesc", typeof(string));
+                //dtTable.Columns.Add("WrkLine", typeof(string));
+                //dtTable.Columns.Add("StatusKey", typeof(string));
             }
 
             string query_1 = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc, tbl_MRP_List.EntityCode FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE INNER JOIN tbl_MRP_List ON tbl_MRP_List_DirectMaterials.HeaderDocNum = tbl_MRP_List.DocNumber INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List.EntityCode = vw_AXFindimBananaRevenue.Entity AND tbl_MRP_List_DirectMaterials.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "'";
@@ -203,6 +205,8 @@ namespace HijoPortal.classes
                         dtRow["VALUE"] = "";
                         dtRow["RevDesc"] = "";
                     }
+                    //dtRow["WrkLine"] = WrkLine.ToString();
+                    //dtRow["StatusKey"] = StatusKey.ToString();
 
                     dtTable.Rows.Add(dtRow);
 
@@ -2286,11 +2290,21 @@ namespace HijoPortal.classes
                     {
                         string sMailSubject = "", sMailBody = "";
                         sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your review";
-                        sMailBody = "Dear Mr/Ms. " + EncryptionClass.Decrypt(row["Lastname"].ToString()) + "MOP DocNum " + docNum.ToString() + " is waiting for your review";
+                        sMailBody = "Dear Mr/Ms. " + EncryptionClass.Decrypt(row["Lastname"].ToString()) + " MOP DocNum " + docNum.ToString() + " is waiting for your review";
                         bool msgSend = GlobalClass.IsMailSent(sEmail, sMailSubject, sMailBody);
 
                         if (msgSend == true)
                         {
+                            //Update Workflow B4
+                            int wrkflwlnB4 = WorkFlowLine - 1;
+                            qry = "UPDATE tbl_MRP_List_Workflow " +
+                                   " SET Visible = 0, " +
+                                   " Status = 1 " +
+                                   " WHERE (MasterKey = " + MRPKey + ") " +
+                                   " AND (Line = " + wrkflwlnB4 + ")";
+                            cmdUp = new SqlCommand(qry, conn);
+                            cmdUp.ExecuteNonQuery();
+
                             //Update Workflow
                             qry = "UPDATE tbl_MRP_List_Workflow " +
                                    " SET Visible = 1 " +
@@ -2318,8 +2332,6 @@ namespace HijoPortal.classes
                 }
             }
             dtable.Clear();
-
-
             conn.Close();
         }
     }

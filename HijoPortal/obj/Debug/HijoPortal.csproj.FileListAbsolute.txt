@@ -150,6 +150,7 @@ C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPort
 C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPortal\bin\DevExpress.Data.v17.2.dll
 C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPortal\bin\DevExpress.Printing.v17.2.Core.dll
 C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPortal\bin\DevExpress.RichEdit.v17.2.Core.dll
+C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPortal\bin\DevExpress.RichEdit.v17.2.Export.dll
 C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPortal\bin\DevExpress.Web.ASPxThemes.v17.2.dll
 C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPortal\bin\DevExpress.Web.Resources.v17.2.dll
 C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPortal\bin\DevExpress.Web.v17.2.dll
@@ -198,4 +199,3 @@ C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPort
 C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPortal\obj\Debug\HijoPortal.csproj.CopyComplete
 C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPortal\obj\Debug\HijoPortal.dll
 C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPortal\obj\Debug\HijoPortal.pdb
-C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\HijoPortal\bin\DevExpress.RichEdit.v17.2.Export.dll

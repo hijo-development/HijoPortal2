@@ -234,7 +234,10 @@ var typeCustomDelete = "";
 const DM_string = "Direct Materials", OP_string = "OPEX", MAN_string = "Manpower", CA_string = "CAPEX", REV_string = "Revenue";
 function DirectMaterialsGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
-    if (button == "Edit") {
+    var wrkFlowLine = ASPxHiddenFieldDMWrkFlwLnDirect.Get('hidden_value');
+    //var hidden_val = HiddenVal.Get('hidden_value');
+    console.log(wrkFlowLine);
+    if (button == "DMEdit") {
         if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
             OPEXGrid.CancelEdit();
 
@@ -248,7 +251,7 @@ function DirectMaterialsGrid_CustomButtonClick(s, e) {
             RevenueGrid.CancelEdit();
 
         s.StartEditRow(e.visibleIndex);
-    } else if (button == "Delete") {
+    } else if (button == "DMDelete") {
         typeCustomDelete = DM_string;
         PopUpDelete.SetHeaderText("Alert");
         PopUpDelete.Show();

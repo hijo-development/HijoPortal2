@@ -7,14 +7,14 @@
     <dx:ASPxPopupControl ID="PopUpDelete" ClientInstanceName="PopUpDelete" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
-                <table style="width:100%;" border="0">
+                <table style="width: 100%;" border="0">
                     <tr>
-                        <td colspan="2" style="padding-right:20px;padding-bottom:20px;">
+                        <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
                             <dx:ASPxLabel runat="server" Text="Delete this row?" Theme="Office2010Blue"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align:right;">
+                        <td style="text-align: right;">
                             <dx:ASPxButton ID="OK_DELETE" runat="server" Text="OK" Theme="Office2010Blue" AutoPostBack="false">
                                 <ClientSideEvents Click="OK_DELETE" />
                             </dx:ASPxButton>
@@ -28,9 +28,20 @@
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
+
+    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="MRPNotificationMessage" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader">
             <h1>M O P  Details</h1>
+
+
             <%--<table class="mrp-add-form-table" style="width: 100%; padding: 25px; margin-bottom: 5px;" border="0">--%>
             <table border="0">
                 <tr>
@@ -93,7 +104,9 @@
                     <td>
                         <dx:ASPxLabel runat="server" ID="Status" Text="STATUS" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
-                    <td></td>
+                    <td>
+                        <%--<dx:ASPxHiddenField ID="statusKey" runat="server" ClientInstanceName="statusKeyDirect"></dx:ASPxHiddenField>--%>
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -106,11 +119,20 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td>
+                        <div style="display: none;">
+                            <dx:ASPxTextBox ID="WorkFlowLineTxt" ClientInstanceName="WorkFlowLineTxt" runat="server" Width="170px"></dx:ASPxTextBox>
+                            <dx:ASPxTextBox ID="StatusKeyTxt" ClientInstanceName="StatusKeyTxt" runat="server" Width="170px"></dx:ASPxTextBox>
+                            <dx:ASPxLabel ID="WorkFlowLineLbl" ClientInstanceName="WorkFlowLineLblDirect" runat="server" Text=""></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="StatusKeyLbl" ClientInstanceName="StatusKeyLblDirect" runat="server" Text=""></dx:ASPxLabel>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="7" style="text-align: right">
-                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue" OnClick="Submit_Click">
+                            <ClientSideEvents />
+                        </dx:ASPxButton>
                         &nbsp
                             <dx:ASPxButton ID="MRPList" runat="server" Text="MOP LIST" AutoPostBack="false" Theme="Office2010Blue" OnClick="MRPList_Click"></dx:ASPxButton>
                         &nbsp
@@ -125,10 +147,14 @@
                 <dx:TabPage Text="MRP">
                     <ContentCollection>
                         <dx:ContentControl>
+
+                            <dx:ASPxHiddenField ID="ASPxHiddenFieldDMWrkFlwLn" ClientInstanceName="ASPxHiddenFieldDMWrkFlwLnDirect" runat="server"></dx:ASPxHiddenField>
+                            <dx:ASPxHiddenField ID="ASPxHiddenFieldDMStatusKey" ClientInstanceName="ASPxHiddenFieldDMStatusKeyDirect" runat="server"></dx:ASPxHiddenField>
+
                             <%--<div id="dvDetails" class="scroll">--%>
                             <table style="width: 100%; padding: 25px;" border="0">
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="5">                                        
                                         <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                             <PanelCollection>
                                                 <dx:PanelContent>
@@ -152,8 +178,12 @@
                                                                     </div>
                                                                 </HeaderTemplate>
                                                                 <CustomButtons>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="DMEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="DMDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="DMEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                                        <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                                    </dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="DMDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px">
+                                                                        <Image AlternateText="Delete" ToolTip="Delete Row" Width="15px" Url="Images/Delete.ico"></Image>
+                                                                    </dx:GridViewCommandColumnCustomButton>
                                                                 </CustomButtons>
                                                             </dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
@@ -164,16 +194,29 @@
                                                             <dx:GridViewDataColumn FieldName="ItemCode" VisibleIndex="5"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="ItemDescription" VisibleIndex="6"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="7"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="9"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="WrkLine" Visible="false" VisibleIndex="11"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="12"></dx:GridViewDataColumn>
                                                         </Columns>
 
                                                         <SettingsCommandButton>
-                                                            <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px"></EditButton>
-                                                            <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px"></DeleteButton>
-                                                            <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px"></NewButton>
+                                                            <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Edit.ico"></Image>
+                                                            </EditButton>
+                                                            <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Delete.ico"></Image>
+                                                            </DeleteButton>
+                                                            <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Add.ico"></Image>
+                                                            </NewButton>
                                                         </SettingsCommandButton>
+
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
                                                         <Templates>
                                                             <EditForm>
@@ -359,8 +402,12 @@
                                                                     </div>
                                                                 </HeaderTemplate>
                                                                 <CustomButtons>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="OPEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="OPDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="OPEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                                        <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                                    </dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="OPDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px">
+                                                                        <Image AlternateText="Delete" ToolTip="Delete Row" Width="15px" Url="Images/Delete.ico"></Image>
+                                                                    </dx:GridViewCommandColumnCustomButton>
                                                                 </CustomButtons>
                                                             </dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
@@ -371,17 +418,29 @@
                                                             <dx:GridViewDataColumn FieldName="ItemCode" VisibleIndex="5"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Description" VisibleIndex="6"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="7"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="9" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="9" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="ExpenseCode" Visible="false"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="isItem" Visible="false"></dx:GridViewDataColumn>
                                                         </Columns>
 
                                                         <SettingsCommandButton>
-                                                            <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px"></EditButton>
-                                                            <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px"></DeleteButton>
-                                                            <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px"></NewButton>
+                                                            <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Edit.ico"></Image>
+                                                            </EditButton>
+                                                            <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Delete.ico"></Image>
+                                                            </DeleteButton>
+                                                            <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Add.ico"></Image>
+                                                            </NewButton>
                                                         </SettingsCommandButton>
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
 
@@ -569,8 +628,12 @@
                                                                     </div>
                                                                 </HeaderTemplate>
                                                                 <CustomButtons>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="MANEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="MANDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="MANEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                                        <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                                    </dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="MANDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px">
+                                                                        <Image AlternateText="Delete" ToolTip="Delete Row" Width="15px" Url="Images/Delete.ico"></Image>
+                                                                    </dx:GridViewCommandColumnCustomButton>
                                                                 </CustomButtons>
                                                             </dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
@@ -582,15 +645,27 @@
                                                             <dx:GridViewDataColumn FieldName="ManPowerTypeKeyName" Caption="Type" VisibleIndex="6"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Description" VisibleIndex="7"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="8"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="9" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="10" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="11" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="9" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="10" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="11" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
                                                         </Columns>
 
                                                         <SettingsCommandButton>
-                                                            <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px"></EditButton>
-                                                            <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px"></DeleteButton>
-                                                            <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px"></NewButton>
+                                                            <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Edit.ico"></Image>
+                                                            </EditButton>
+                                                            <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Delete.ico"></Image>
+                                                            </DeleteButton>
+                                                            <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Add.ico"></Image>
+                                                            </NewButton>
                                                         </SettingsCommandButton>
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
 
@@ -765,8 +840,12 @@
                                                                     </div>
                                                                 </HeaderTemplate>
                                                                 <CustomButtons>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="CAEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="CADelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="CAEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                                        <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                                    </dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="CADelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px">
+                                                                        <Image AlternateText="Delete" ToolTip="Delete Row" Width="15px" Url="Images/Delete.ico"></Image>
+                                                                    </dx:GridViewCommandColumnCustomButton>
                                                                 </CustomButtons>
                                                             </dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
@@ -775,15 +854,27 @@
                                                             <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="3"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Description" VisibleIndex="5"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="6"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="7" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="8" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="9" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="7" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="8" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="9" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
                                                         </Columns>
 
                                                         <SettingsCommandButton>
-                                                            <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px"></EditButton>
-                                                            <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px"></DeleteButton>
-                                                            <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px"></NewButton>
+                                                            <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Edit.ico"></Image>
+                                                            </EditButton>
+                                                            <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Delete.ico"></Image>
+                                                            </DeleteButton>
+                                                            <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Add.ico"></Image>
+                                                            </NewButton>
                                                         </SettingsCommandButton>
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
 
@@ -944,8 +1035,12 @@
                                                                     </div>
                                                                 </HeaderTemplate>
                                                                 <CustomButtons>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="REVEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="REVDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="REVEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                                        <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                                    </dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="REVDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px">
+                                                                        <Image AlternateText="Delete" ToolTip="Delete Row" Width="15px" Url="Images/Delete.ico"></Image>
+                                                                    </dx:GridViewCommandColumnCustomButton>
                                                                 </CustomButtons>
                                                             </dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
@@ -954,15 +1049,27 @@
                                                             <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="3"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="ProductName" VisibleIndex="4"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="FarmName" VisibleIndex="5"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Prize" VisibleIndex="6" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Volume" VisibleIndex="7" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="TotalPrize" VisibleIndex="8" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Prize" VisibleIndex="6" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Volume" VisibleIndex="7" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="TotalPrize" VisibleIndex="8" CellStyle-HorizontalAlign="Right">
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
                                                         </Columns>
 
                                                         <SettingsCommandButton>
-                                                            <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px"></EditButton>
-                                                            <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px"></DeleteButton>
-                                                            <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px"></NewButton>
+                                                            <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Edit.ico"></Image>
+                                                            </EditButton>
+                                                            <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Delete.ico"></Image>
+                                                            </DeleteButton>
+                                                            <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px">
+                                                                <Image Width="15px" Url="Images/Add.ico"></Image>
+                                                            </NewButton>
                                                         </SettingsCommandButton>
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
 
