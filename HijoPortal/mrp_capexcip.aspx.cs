@@ -13,7 +13,7 @@ namespace HijoPortal
     public partial class mrp_capexcip : System.Web.UI.Page
     {
         private static int mrp_key = 0;
-        private static string docnumber = "", entitycode = "";
+        private static string docnumber = "", entitycode = "", month = "", year = "", pk = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckCreatorKey();
@@ -36,31 +36,33 @@ namespace HijoPortal
                 {
                     mrp_key = Convert.ToInt32(reader["PK"].ToString());
                     entitycode = reader["EntityCode"].ToString();
-                    DocNum.Text = reader["DocNumber"].ToString();
-                    DateCreated.Text = reader["DateCreated"].ToString();
-                    EntityCode.Text = reader["EntityCodeDesc"].ToString();
-                    BUCode.Text = reader["BUCodeDesc"].ToString();
-                    Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
-                    Year.Text = reader["MRPYear"].ToString();
-                    Status.Text = reader["StatusName"].ToString();
-                    firstname = reader["Firstname"].ToString();
-                    lastname = reader["Lastname"].ToString();
+                    //DocNum.Text = reader["DocNumber"].ToString();
+                    //DateCreated.Text = reader["DateCreated"].ToString();
+                    //EntityCode.Text = reader["EntityCodeDesc"].ToString();
+                    //BUCode.Text = reader["BUCodeDesc"].ToString();
+                    //Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
+                    //Year.Text = reader["MRPYear"].ToString();
+                    //Status.Text = reader["StatusName"].ToString();
+                    //firstname = reader["Firstname"].ToString();
+                    //lastname = reader["Lastname"].ToString();
 
                 }
                 reader.Close();
                 conn.Close();
 
-                Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
+                //Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
 
-                CapexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Capital Expenditure";
-                CapexRoundPanel.Font.Bold = true;
-                CapexRoundPanel.Collapsed = true;
+                //CapexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Capital Expenditure";
+                //CapexRoundPanel.Font.Bold = true;
+                //CapexRoundPanel.Collapsed = true;
 
-                ASPxPageControl1.Font.Bold = true;
-                ASPxPageControl1.Font.Size = 12;
+                //ASPxPageControl1.Font.Bold = true;
+                //ASPxPageControl1.Font.Size = 12;
+
+                month = ""; year = ""; pk = "";
             }
 
-            BindCapex(docnumber);
+            BindCapex(month, year, pk);
         }
         private void CheckCreatorKey()
         {
@@ -75,16 +77,59 @@ namespace HijoPortal
             }
         }
 
-        private void BindCapex(string DOC_NUMBER)
+        protected void CAPEXCIP_BeforeGetCallbackResult(object sender, EventArgs e)
         {
-            //CAPEXCIP.DataSource = MRPClass.MRPInvent_CAPEX(DOC_NUMBER, entitycode);
-            //CAPEXCIP.KeyFieldName = "PK";
-            //CAPEXCIP.DataBind();
+            ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.SetBehaviorGrid(grid);
         }
 
-        protected void CAPEXCIP_DataBound(object sender, EventArgs e)
+        protected void MRPmonthyear_Init(object sender, EventArgs e)
         {
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = MRPClass.MRPMonthYearTable();
 
+            ListBoxColumn l_value = new ListBoxColumn();
+            l_value.FieldName = "PK";
+            l_value.Width = 0;
+            combo.Columns.Add(l_value);
+
+            ListBoxColumn l_text = new ListBoxColumn();
+            l_text.FieldName = "MRPMonth";
+            combo.Columns.Add(l_text);
+
+            ListBoxColumn l_text2 = new ListBoxColumn();
+            l_text2.FieldName = "MRPYear";
+            combo.Columns.Add(l_text2);
+
+            combo.ValueField = "PK";
+            combo.TextField = "MRPMonth";
+            combo.DataBind();
+            combo.TextFormatString = "{1} {2}";
+        }
+
+        protected void CAPEXCIP_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
+        {
+            MRPClass.PrintString("custom back back");
+            MRPClass.PrintString(MRPmonthyear.Text.ToString());
+
+            string var = MRPmonthyear.Text.ToString();
+            pk = MRPmonthyear.Value.ToString();
+            int spaceindex = var.IndexOf(" ");
+            int secondlength = var.Length - (spaceindex + 1);
+
+            string monthvar = var.Substring(0, spaceindex);
+            int monthIndex = Convert.ToDateTime("01-" + monthvar + "-2011").Month;
+            month = monthIndex.ToString();
+            year = var.Substring(spaceindex + 1, secondlength);
+
+            BindCapex(month, year, pk);
+        }
+
+        private void BindCapex(string month, string year, string pk)
+        {
+            CAPEXCIP.DataSource = MRPClass.CAPEXCIP_Table(month, year, pk);
+            CAPEXCIP.KeyFieldName = "PK";
+            CAPEXCIP.DataBind();
         }
     }
 }

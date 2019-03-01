@@ -1108,7 +1108,7 @@ namespace HijoPortal.classes
                     dtRow["ApprovedCost"] = Convert.ToDouble(row["ApprovedCost"]).ToString("N");
                     dtRow["ApprovedTotalCost"] = Convert.ToDouble(row["ApprovedTotalCost"]).ToString("N");
 
-                    if(exec)
+                    if (exec)
                         dtRow["RevDesc"] = row["RevDesc"].ToString();
                     else
                         dtRow["RevDesc"] = "";
@@ -1684,6 +1684,68 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+        public static DataTable CAPEXCIP_Table(string month, string year, string pk)
+        {
+
+            DataTable dtTable = new DataTable();
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            capex_total_amount = 0;
+
+            cn.Open();
+            if (dtTable.Columns.Count == 0)
+            {
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("CIPSIPNumber", typeof(string));
+                dtTable.Columns.Add("HeaderDocNum", typeof(string));
+                dtTable.Columns.Add("CompanyName", typeof(string));
+                dtTable.Columns.Add("BUName", typeof(string));
+                dtTable.Columns.Add("RevDesc", typeof(string));
+                dtTable.Columns.Add("Description", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("ApprovedCost", typeof(string));
+                dtTable.Columns.Add("ApprovedTotalCost", typeof(string));
+                dtTable.Columns.Add("ApprovedQty", typeof(Double));
+            }
+            string query_all = "SELECT dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID";
+
+            string query_sort = "SELECT dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.MRPMonth = '" + month + "' AND dbo.tbl_MRP_List.MRPYear = '" + year + "' AND dbo.tbl_MRP_List.PK = '" + pk + "'";
+
+            if (string.IsNullOrEmpty(month) && string.IsNullOrEmpty(year))
+                cmd = new SqlCommand(query_all);
+            else
+                cmd = new SqlCommand(query_sort);
+
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["CIPSIPNumber"] = row["CIPSIPNumber"].ToString();
+                    dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
+                    dtRow["CompanyName"] = row["CompanyName"].ToString();
+                    dtRow["BUName"] = row["BUName"].ToString();
+                    dtRow["RevDesc"] = row["RevDesc"].ToString();
+                    dtRow["Description"] = row["Description"].ToString();
+                    dtRow["UOM"] = row["UOM"].ToString();
+                    dtRow["ApprovedCost"] = row["ApprovedCost"].ToString();
+                    dtRow["ApprovedTotalCost"] = row["ApprovedTotalCost"].ToString();
+                    dtRow["ApprovedQty"] = Convert.ToDouble(row["ApprovedQty"].ToString());
+
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+        }
+
         public static DataTable ProCategoryTable()
         {
 
@@ -2080,6 +2142,50 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+        public static DataTable MRPMonthYearTable()
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("MRPMonth", typeof(string));
+                dtTable.Columns.Add("MRPYear", typeof(string));
+                //dtTable.Columns.Add("EntityCode", typeof(string));
+            }
+
+            string qry = "SELECT [PK], [MRPMonth], [MRPYear], [EntityCode] FROM [hijo_portal].[dbo].[tbl_MRP_List] ORDER BY MRPMonth, MRPYear ASC";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["MRPMonth"] = Month_Name(Convert.ToInt32(row["MRPMonth"].ToString()));
+                    dtRow["MRPYear"] = row["MRPYear"].ToString();
+                    //dtRow["EntityCode"] = row["EntityCode"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
         public static void SqlSuccess(int result)
         {
             if (result > 0)
@@ -2271,7 +2377,7 @@ namespace HijoPortal.classes
                   " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
                   " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
                   " dbo.tbl_Users ON dbo.tbl_MRP_List_Workflow.UserKey = dbo.tbl_Users.PK " +
-                  " WHERE(dbo.tbl_MRP_List_Workflow.Line = "+ WorkFlowLine + ") " +
+                  " WHERE(dbo.tbl_MRP_List_Workflow.Line = " + WorkFlowLine + ") " +
                   " AND(dbo.tbl_MRP_List_Workflow.MasterKey = " + MRPKey + ")";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
@@ -2295,7 +2401,7 @@ namespace HijoPortal.classes
                             qry = "UPDATE tbl_MRP_List_Workflow " +
                                    " SET Visible = 1 " +
                                    " WHERE (MasterKey = " + MRPKey + ") " +
-                                   " AND (Line = "+ WorkFlowLine + ")";
+                                   " AND (Line = " + WorkFlowLine + ")";
                             cmdUp = new SqlCommand(qry, conn);
                             cmdUp.ExecuteNonQuery();
 

@@ -22,76 +22,13 @@ namespace HijoPortal {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvContentWrapper;
         
         /// <summary>
-        /// DocNum control.
+        /// MRPmonthyear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel DocNum;
-        
-        /// <summary>
-        /// Month control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel Month;
-        
-        /// <summary>
-        /// DateCreated control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel DateCreated;
-        
-        /// <summary>
-        /// Year control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel Year;
-        
-        /// <summary>
-        /// EntityCode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel EntityCode;
-        
-        /// <summary>
-        /// BUCode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel BUCode;
-        
-        /// <summary>
-        /// Status control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel Status;
-        
-        /// <summary>
-        /// Creator control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel Creator;
+        protected global::DevExpress.Web.ASPxComboBox MRPmonthyear;
         
         /// <summary>
         /// Submit control.
@@ -110,24 +47,6 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxButton Preview;
-        
-        /// <summary>
-        /// ASPxPageControl1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPageControl ASPxPageControl1;
-        
-        /// <summary>
-        /// CapexRoundPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxRoundPanel CapexRoundPanel;
         
         /// <summary>
         /// CAPEXCIP control.
