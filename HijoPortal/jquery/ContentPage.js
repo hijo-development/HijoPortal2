@@ -175,8 +175,14 @@ function MainTableEndCallback(s, e) {
     //MainTable.InCallback();
 
     var hidden_val = MRPHiddenVal.Get('hidden_value');
+    console.log(hidden_val);
     if (hidden_val == "InvalidCreator") {
-        MRPNotificationMessage.SetText("You are not authorized to access this item");
+        MRPNotificationMessage.SetText("You are not authorized to access this item!");
+        MRPNotify.SetHeaderText("Alert");
+        MRPNotify.Show();
+        MRPHiddenVal.Set('hidden_value', ' ');
+    } else if (hidden_val == "2") {
+        MRPNotificationMessage.SetText("This MRP is in review!");
         MRPNotify.SetHeaderText("Alert");
         MRPNotify.Show();
         MRPHiddenVal.Set('hidden_value', ' ');

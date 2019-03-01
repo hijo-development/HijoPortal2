@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\Administrator\Working Files\VS2017\Web-based\GitHub\HijoPortal\Publish</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/de/DevExpress.Data.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:50:55</publishTime>
+    </File>
+    <File Include="bin/de/DevExpress.Office.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:21</publishTime>
+    </File>
+    <File Include="bin/de/DevExpress.Pdf.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:21</publishTime>
+    </File>
+    <File Include="bin/de/DevExpress.Printing.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:22</publishTime>
+    </File>
+    <File Include="bin/de/DevExpress.RichEdit.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:41</publishTime>
+    </File>
+    <File Include="bin/de/DevExpress.Web.Resources.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:51:31</publishTime>
+    </File>
+    <File Include="bin/de/DevExpress.Web.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:50:41</publishTime>
+    </File>
+    <File Include="bin/DevExpress.Data.v17.2.dll">
+      <publishTime>12/12/2018 10:50:55</publishTime>
+    </File>
+    <File Include="bin/DevExpress.Images.v17.2.dll">
+      <publishTime>12/12/2018 10:50:57</publishTime>
+    </File>
+    <File Include="bin/DevExpress.Office.v17.2.Core.dll">
+      <publishTime>12/12/2018 10:51:21</publishTime>
+    </File>
+    <File Include="bin/DevExpress.Pdf.v17.2.Core.dll">
+      <publishTime>12/12/2018 10:51:21</publishTime>
+    </File>
+    <File Include="bin/DevExpress.Printing.v17.2.Core.dll">
+      <publishTime>12/12/2018 10:51:22</publishTime>
+    </File>
+    <File Include="bin/DevExpress.RichEdit.v17.2.Core.dll">
+      <publishTime>12/12/2018 10:51:42</publishTime>
+    </File>
+    <File Include="bin/DevExpress.RichEdit.v17.2.Export.dll">
+      <publishTime>12/12/2018 10:51:42</publishTime>
+    </File>
+    <File Include="bin/DevExpress.Web.ASPxThemes.v17.2.dll">
+      <publishTime>12/12/2018 10:50:42</publishTime>
+    </File>
+    <File Include="bin/DevExpress.Web.Resources.v17.2.dll">
+      <publishTime>12/12/2018 10:51:31</publishTime>
+    </File>
+    <File Include="bin/DevExpress.Web.v17.2.dll">
+      <publishTime>12/12/2018 10:50:41</publishTime>
+    </File>
+    <File Include="bin/es/DevExpress.Data.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:50:57</publishTime>
+    </File>
+    <File Include="bin/es/DevExpress.Office.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:21</publishTime>
+    </File>
+    <File Include="bin/es/DevExpress.Pdf.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:21</publishTime>
+    </File>
+    <File Include="bin/es/DevExpress.Printing.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:22</publishTime>
+    </File>
+    <File Include="bin/es/DevExpress.RichEdit.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:42</publishTime>
+    </File>
+    <File Include="bin/es/DevExpress.Web.Resources.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:51:31</publishTime>
+    </File>
+    <File Include="bin/es/DevExpress.Web.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:50:41</publishTime>
+    </File>
+    <File Include="bin/HijoPortal.dll">
+      <publishTime>03/01/2019 08:22:47</publishTime>
+    </File>
+    <File Include="bin/HijoPortal.pdb">
+      <publishTime>03/01/2019 08:22:47</publishTime>
+    </File>
+    <File Include="bin/ja/DevExpress.Data.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:50:57</publishTime>
+    </File>
+    <File Include="bin/ja/DevExpress.Office.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:21</publishTime>
+    </File>
+    <File Include="bin/ja/DevExpress.Pdf.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:22</publishTime>
+    </File>
+    <File Include="bin/ja/DevExpress.Printing.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:22</publishTime>
+    </File>
+    <File Include="bin/ja/DevExpress.RichEdit.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:42</publishTime>
+    </File>
+    <File Include="bin/ja/DevExpress.Web.Resources.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:51:31</publishTime>
+    </File>
+    <File Include="bin/ja/DevExpress.Web.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:50:41</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe.config">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.rsp">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.exe">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.exe.config">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.rsp">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.Scripting.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.Scripting.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.amd64.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.x86.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Managed.Core.targets">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.VisualBasic.Core.targets">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.AppContext.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Collections.Immutable.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Console.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Diagnostics.FileVersionInfo.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Diagnostics.StackTrace.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.Compression.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.Primitives.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.Pipes.AccessControl.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.Pipes.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Reflection.Metadata.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.AccessControl.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Claims.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.Algorithms.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.Encoding.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.Primitives.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.X509Certificates.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Principal.Windows.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Text.Encoding.CodePages.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.ValueTuple.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.ReaderWriter.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.XmlDocument.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.XPath.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.XPath.XDocument.dll">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe.config">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.rsp">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe.config">
+      <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/ru/DevExpress.Data.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:50:57</publishTime>
+    </File>
+    <File Include="bin/ru/DevExpress.Office.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:21</publishTime>
+    </File>
+    <File Include="bin/ru/DevExpress.Pdf.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:22</publishTime>
+    </File>
+    <File Include="bin/ru/DevExpress.Printing.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:22</publishTime>
+    </File>
+    <File Include="bin/ru/DevExpress.RichEdit.v17.2.Core.resources.dll">
+      <publishTime>12/12/2018 10:51:42</publishTime>
+    </File>
+    <File Include="bin/ru/DevExpress.Web.Resources.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:51:31</publishTime>
+    </File>
+    <File Include="bin/ru/DevExpress.Web.v17.2.resources.dll">
+      <publishTime>12/12/2018 10:50:41</publishTime>
+    </File>
+    <File Include="budept_head.aspx">
+      <publishTime>02/28/2019 16:52:38</publishTime>
+    </File>
+    <File Include="change_pw.aspx">
+      <publishTime>02/15/2019 09:51:53</publishTime>
+    </File>
+    <File Include="config/cn.txt">
+      <publishTime>02/13/2019 10:02:08</publishTime>
+    </File>
+    <File Include="config/email.txt">
+      <publishTime>02/13/2019 10:02:08</publishTime>
+    </File>
+    <File Include="config/Key.txt">
+      <publishTime>02/13/2019 10:02:08</publishTime>
+    </File>
+    <File Include="createaccount.aspx">
+      <publishTime>02/27/2019 16:51:58</publishTime>
+    </File>
+    <File Include="create_account.aspx">
+      <publishTime>02/13/2019 10:18:14</publishTime>
+    </File>
+    <File Include="css/Account.css">
+      <publishTime>02/21/2019 08:29:22</publishTime>
+    </File>
+    <File Include="css/ContentPage.css">
+      <publishTime>02/27/2019 08:59:06</publishTime>
+    </File>
+    <File Include="css/LogIn.css">
+      <publishTime>02/21/2019 08:29:22</publishTime>
+    </File>
+    <File Include="css/LogInICON.css">
+      <publishTime>02/13/2019 09:52:06</publishTime>
+    </File>
+    <File Include="default.aspx">
+      <publishTime>02/21/2019 08:29:22</publishTime>
+    </File>
+    <File Include="executive.aspx">
+      <publishTime>02/26/2019 16:47:01</publishTime>
+    </File>
+    <File Include="finance.aspx">
+      <publishTime>02/26/2019 16:47:01</publishTime>
+    </File>
+    <File Include="home.aspx">
+      <publishTime>02/27/2019 11:21:34</publishTime>
+    </File>
+    <File Include="images/Add.ico">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="images/avatar.png">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="images/Delete.ico">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="images/Edit.ico">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="images/Header.png">
+      <publishTime>02/13/2019 13:14:56</publishTime>
+    </File>
+    <File Include="images/HeaderTitle.png">
+      <publishTime>02/13/2019 13:28:44</publishTime>
+    </File>
+    <File Include="images/HijoLogo.png">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="images/hijosign.png">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="images/HIJOState.jpg">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="images/ID.jpg">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="images/index.png">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="images/mountain.jpg">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="images/Refresh.ico">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="images/Save.ico">
+      <publishTime>02/22/2019 07:07:20</publishTime>
+    </File>
+    <File Include="images/Submit.ico">
+      <publishTime>02/28/2019 16:52:38</publishTime>
+    </File>
+    <File Include="images/Undo.ico">
+      <publishTime>02/22/2019 07:07:20</publishTime>
+    </File>
+    <File Include="images/Users.png">
+      <publishTime>02/13/2019 09:49:49</publishTime>
+    </File>
+    <File Include="jquery/accounting.js">
+      <publishTime>02/14/2019 12:21:31</publishTime>
+    </File>
+    <File Include="jquery/ContentPage.js">
+      <publishTime>02/28/2019 16:52:38</publishTime>
+    </File>
+    <File Include="jquery/createAccount.js">
+      <publishTime>02/27/2019 16:51:58</publishTime>
+    </File>
+    <File Include="Master.Master">
+      <publishTime>02/27/2019 16:51:58</publishTime>
+    </File>
+    <File Include="mop_workflow.aspx">
+      <publishTime>02/28/2019 16:52:38</publishTime>
+    </File>
+    <File Include="mrp_addedit.aspx">
+      <publishTime>02/28/2019 16:52:38</publishTime>
+    </File>
+    <File Include="mrp_forapproval.aspx">
+      <publishTime>02/28/2019 16:52:38</publishTime>
+    </File>
+    <File Include="mrp_inventanalyst.aspx">
+      <publishTime>02/28/2019 16:52:38</publishTime>
+    </File>
+    <File Include="mrp_list.aspx">
+      <publishTime>02/28/2019 16:52:38</publishTime>
+    </File>
+    <File Include="mrp_poaddedit.aspx">
+      <publishTime>02/26/2019 11:01:57</publishTime>
+    </File>
+    <File Include="mrp_pocreation.aspx">
+      <publishTime>02/28/2019 16:52:38</publishTime>
+    </File>
+    <File Include="mrp_preview.aspx">
+      <publishTime>02/22/2019 07:07:20</publishTime>
+    </File>
+    <File Include="mrp_workflow.aspx">
+      <publishTime>02/28/2019 16:52:38</publishTime>
+    </File>
+    <File Include="scm.aspx">
+      <publishTime>02/26/2019 16:47:01</publishTime>
+    </File>
+    <File Include="userlist.aspx">
+      <publishTime>02/21/2019 08:29:22</publishTime>
+    </File>
+    <File Include="user_list.aspx">
+      <publishTime>02/26/2019 16:47:01</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>03/01/2019 08:22:48</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
