@@ -4,19 +4,23 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <dx:ASPxPopupControl ID="DeleteRow" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="PopUpDelete" ClientInstanceName="PopUpDelete" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
-                <table>
+                <table style="width:100%;" border="0">
                     <tr>
-                        <td>
-                            <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Delete this row?" Theme="Office2010Blue"></dx:ASPxLabel>
+                        <td colspan="2" style="padding-right:20px;padding-bottom:20px;">
+                            <dx:ASPxLabel runat="server" Text="Delete this row?" Theme="Office2010Blue"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            <dx:ASPxButton ID="ASPxButton1" runat="server" Text="OK" Theme="Office2010Blue"></dx:ASPxButton>
-                            <dx:ASPxButton ID="ASPxButton2" runat="server" Text="CANCEL" Theme="Office2010Blue"></dx:ASPxButton>
+                        <td style="text-align:right;">
+                            <dx:ASPxButton ID="OK_DELETE" runat="server" Text="OK" Theme="Office2010Blue" AutoPostBack="false">
+                                <ClientSideEvents Click="OK_DELETE" />
+                            </dx:ASPxButton>
+                            <dx:ASPxButton ID="CANCEL_DELETE" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                                <ClientSideEvents Click="CANCEL_DELETE" />
+                            </dx:ASPxButton>
                         </td>
                     </tr>
                 </table>
@@ -148,8 +152,8 @@
                                                                     </div>
                                                                 </HeaderTemplate>
                                                                 <CustomButtons>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="Edit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
-                                                                    <dx:GridViewCommandColumnCustomButton ID="Delete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="DMEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="DMDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                                                                 </CustomButtons>
                                                             </dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
@@ -343,9 +347,22 @@
                                                         OnDataBound="OPEXGrid_DataBound">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
                                                         <ClientSideEvents BeginCallback="OnBeginCallback" />
+                                                        <ClientSideEvents CustomButtonClick="OPEXGrid_CustomButtonClick" />
 
                                                         <Columns>
-                                                            <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                            <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                                <HeaderTemplate>
+                                                                    <div style="text-align: center">
+                                                                        <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
+                                                                            <ClientSideEvents Click="OPEXGrid_Add" />
+                                                                        </dx:ASPxButton>
+                                                                    </div>
+                                                                </HeaderTemplate>
+                                                                <CustomButtons>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="OPEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="OPDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                </CustomButtons>
+                                                            </dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="ExpenseCodeName" Caption="Expense" VisibleIndex="3"></dx:GridViewDataColumn>
@@ -541,8 +558,21 @@
                                                         OnBeforeGetCallbackResult="ManPowerGrid_BeforeGetCallbackResult"
                                                         OnDataBound="ManPowerGrid_DataBound">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
+                                                        <ClientSideEvents CustomButtonClick="ManPowerGrid_CustomButtonClick" />
                                                         <Columns>
-                                                            <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                            <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                                <HeaderTemplate>
+                                                                    <div style="text-align: center">
+                                                                        <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
+                                                                            <ClientSideEvents Click="ManPowerGrid_Add" />
+                                                                        </dx:ASPxButton>
+                                                                    </div>
+                                                                </HeaderTemplate>
+                                                                <CustomButtons>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="MANEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="MANDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                </CustomButtons>
+                                                            </dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="ActivityCode" Caption="Activity" VisibleIndex="3"></dx:GridViewDataColumn>
@@ -724,8 +754,21 @@
                                                         OnBeforeGetCallbackResult="CAPEXGrid_BeforeGetCallbackResult"
                                                         OnDataBound="CAPEXGrid_DataBound">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
+                                                        <ClientSideEvents CustomButtonClick="CAPEXGrid_CustomButtonClick" />
                                                         <Columns>
-                                                            <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                            <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                                <HeaderTemplate>
+                                                                    <div style="text-align: center">
+                                                                        <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
+                                                                            <ClientSideEvents Click="CAPEXGrid_Add" />
+                                                                        </dx:ASPxButton>
+                                                                    </div>
+                                                                </HeaderTemplate>
+                                                                <CustomButtons>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="CAEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="CADelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                </CustomButtons>
+                                                            </dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="VALUE" Visible="false"></dx:GridViewDataColumn>
@@ -890,8 +933,21 @@
                                                         OnBeforeGetCallbackResult="RevenueGrid_BeforeGetCallbackResult"
                                                         OnDataBound="RevenueGrid_DataBound">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Revenue');}" />
+                                                        <ClientSideEvents CustomButtonClick="RevenueGrid_CustomButtonClick" />
                                                         <Columns>
-                                                            <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                            <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                                <HeaderTemplate>
+                                                                    <div style="text-align: center">
+                                                                        <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
+                                                                            <ClientSideEvents Click="RevenueGrid_Add" />
+                                                                        </dx:ASPxButton>
+                                                                    </div>
+                                                                </HeaderTemplate>
+                                                                <CustomButtons>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="REVEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                    <dx:GridViewCommandColumnCustomButton ID="REVDelete" Image-AlternateText="Delete" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                                </CustomButtons>
+                                                            </dx:GridViewCommandColumn>
                                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="VALUE" Visible="false"></dx:GridViewDataColumn>

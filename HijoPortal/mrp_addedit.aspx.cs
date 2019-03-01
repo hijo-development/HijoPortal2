@@ -212,7 +212,6 @@ namespace HijoPortal
             combo.DataBind();
 
             GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
-            MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
             if (!container.Grid.IsNewRowEditing)
             {
                 combo.Value = DataBinder.Eval(container.DataItem, "ActivityCode").ToString();
@@ -619,7 +618,6 @@ namespace HijoPortal
             bindCapex = false;
 
             string a = OPEXGrid.GetRowValuesByKeyValue(e.EditingKeyValue, "isItem").ToString();
-            MRPClass.PrintString("iam print:" + a);
 
 
             ASPxPageControl pageControl = OPEXGrid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
@@ -797,7 +795,7 @@ namespace HijoPortal
                 }
 
                 conn.Close();
-                BindDirectMaterials(docnumber);
+                BindManPower(docnumber);
                 e.Cancel = true;
             }
         }
@@ -1169,7 +1167,7 @@ namespace HijoPortal
                     MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
                 }
                 conn.Close();
-                BindDirectMaterials(docnumber);
+                BindRevenue(docnumber);
                 e.Cancel = true;
             }
         }
