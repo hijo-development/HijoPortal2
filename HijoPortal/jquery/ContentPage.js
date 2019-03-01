@@ -224,7 +224,8 @@ function OperatingUnitREV(s, e) {
     else
         s.SetIsValid(true);
 }
-
+var typeCustomDelete = "";
+const DM_string = "Direct Materials", OP_string = "OPEX", MAN_string = "Manpower", CA_string = "CAPEX", REV_string = "Revenue";
 function DirectMaterialsGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     if (button == "Edit") {
@@ -241,9 +242,130 @@ function DirectMaterialsGrid_CustomButtonClick(s, e) {
             RevenueGrid.CancelEdit();
 
         s.StartEditRow(e.visibleIndex);
-    } else if (button == "Delete"){
-        s.DeleteRow(s.GetFocusedRowIndex());
+    } else if (button == "Delete") {
+        typeCustomDelete = DM_string;
+        PopUpDelete.SetHeaderText("Alert");
+        PopUpDelete.Show();
     }
+}
+
+function OPEXGrid_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "OPEdit") {
+        if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+            DirectMaterialsGrid.CancelEdit();
+
+        if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+            ManPowerGrid.CancelEdit();
+
+        if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+            CAPEXGrid.CancelEdit();
+
+        if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+            RevenueGrid.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    } else if (button == "OPDelete") {
+        typeCustomDelete = OP_string;
+        PopUpDelete.SetHeaderText("Alert");
+        PopUpDelete.Show();
+    }
+}
+
+function ManPowerGrid_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "MANEdit") {
+        if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+            DirectMaterialsGrid.CancelEdit();
+
+        if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+            OPEXGrid.CancelEdit();
+
+        if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+            CAPEXGrid.CancelEdit();
+
+        if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+            RevenueGrid.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    } else if (button == "MANDelete") {
+        typeCustomDelete = MAN_string;
+        PopUpDelete.SetHeaderText("Alert");
+        PopUpDelete.Show();
+    }
+}
+
+function CAPEXGrid_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "CAEdit") {
+        if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+            DirectMaterialsGrid.CancelEdit();
+
+        if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+            OPEXGrid.CancelEdit();
+
+        if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+            ManPowerGrid.CancelEdit();
+
+        if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+            RevenueGrid.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    } else if (button == "CADelete") {
+        typeCustomDelete = CA_string;
+        PopUpDelete.SetHeaderText("Alert");
+        PopUpDelete.Show();
+    }
+}
+
+function RevenueGrid_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "REVEdit") {
+        if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+            DirectMaterialsGrid.CancelEdit();
+
+        if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+            OPEXGrid.CancelEdit();
+
+        if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+            ManPowerGrid.CancelEdit();
+
+        if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+            CAPEXGrid.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    } else if (button == "REVDelete") {
+        typeCustomDelete = REV_string;
+        PopUpDelete.SetHeaderText("Alert");
+        PopUpDelete.Show();
+    }
+}
+
+function OK_DELETE(s, e) {
+    switch (typeCustomDelete) {
+        case DM_string:
+            console.log(typeCustomDelete);
+            DirectMaterialsGrid.DeleteRow(DirectMaterialsGrid.GetFocusedRowIndex());
+            break;
+        case OP_string:
+            OPEXGrid.DeleteRow(OPEXGrid.GetFocusedRowIndex());
+            break;
+        case MAN_string:
+            ManPowerGrid.DeleteRow(ManPowerGrid.GetFocusedRowIndex());
+            break;
+        case CA_string:
+            CAPEXGrid.DeleteRow(CAPEXGrid.GetFocusedRowIndex());
+            break;
+        case REV_string:
+            RevenueGrid.DeleteRow(RevenueGrid.GetFocusedRowIndex());
+            break;
+    }
+    typeCustomDelete = "";
+    PopUpDelete.Hide();
+}
+
+function CANCEL_DELETE(s, e) {
+    PopUpDelete.Hide();
 }
 
 function DirectMaterialsGrid_Add(s, e) {
@@ -260,6 +382,70 @@ function DirectMaterialsGrid_Add(s, e) {
         RevenueGrid.CancelEdit();
 
     DirectMaterialsGrid.AddNewRow();
+}
+
+function OPEXGrid_Add(s, e) {
+    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+        DirectMaterialsGrid.CancelEdit();
+
+    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+        ManPowerGrid.CancelEdit();
+
+    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+        CAPEXGrid.CancelEdit();
+
+    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+        RevenueGrid.CancelEdit();
+
+    OPEXGrid.AddNewRow();
+}
+
+function ManPowerGrid_Add(s,e){
+    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+        DirectMaterialsGrid.CancelEdit();
+
+    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+        OPEXGrid.CancelEdit();
+
+    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+        CAPEXGrid.CancelEdit();
+
+    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+        RevenueGrid.CancelEdit();
+
+    ManPowerGrid.AddNewRow();
+}
+
+function CAPEXGrid_Add(s, e) {
+    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+        DirectMaterialsGrid.CancelEdit();
+
+    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+        OPEXGrid.CancelEdit();
+
+    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+        ManPowerGrid.CancelEdit();
+
+    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+        RevenueGrid.CancelEdit();
+
+    CAPEXGrid.AddNewRow();
+}
+
+function RevenueGrid_Add(s, e) {
+    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+        DirectMaterialsGrid.CancelEdit();
+
+    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+        OPEXGrid.CancelEdit();
+
+    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+        ManPowerGrid.CancelEdit();
+
+    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+        CAPEXGrid.CancelEdit();
+
+    RevenueGrid.AddNewRow();
 }
 
 function updateDirectMat(s, e) {
@@ -1353,5 +1539,119 @@ function AddMOPCheckEntity(s, e) {
     }
 }
 
+//mrp_inventoryanalyst_forapproval
+function OnKeyUpInvAppEditQtyDM(s, e) {//OnChange
+    var qty = parseFloat(s.GetText()).toFixed(2);
+    var cost = parseFloat(accounting.unformat(InvAppEditCostDM.GetText()));
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvAppEditTotalDM.SetText(accounting.formatMoney(total));
+        }
+    } else {
+        InvAppEditTotalDM.SetText("");
+    }
+}
+
+function OnKeyUpInvAppEditCostDM(s, e) {//OnChange
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(InvAppEditQtyDM.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvAppEditTotalDM.SetText(accounting.formatMoney(total));
+        }
+    } else {
+        InvAppEditTotalDM.SetText("");
+    }
+}
+
+function OnKeyUpInvAppEditQtyOP(s, e) {//OnChange
+    var qty = parseFloat(s.GetText()).toFixed(2);
+    var cost = parseFloat(accounting.unformat(InvAppEditCostOP.GetText()));
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvAppEditTotalOP.SetText(accounting.formatMoney(total));
+        }
+    } else {
+        InvAppEditTotalOP.SetText("");
+    }
+}
+
+function OnKeyUpInvAppEditCostOP(s, e) {//OnChange
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(InvAppEditQtyOP.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvAppEditTotalOP.SetText(accounting.formatMoney(total));
+        }
+    } else {
+        InvAppEditTotalOP.SetText("");
+    }
+}
+
+function OnKeyUpInvAppEditQtyMAN(s, e) {//OnChange
+    var qty = parseFloat(s.GetText()).toFixed(2);
+    var cost = parseFloat(accounting.unformat(InvAppEditCostMAN.GetText()));
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvAppEditTotalMAN.SetText(accounting.formatMoney(total));
+        }
+    } else {
+        InvAppEditTotalMAN.SetText("");
+    }
+}
+
+function OnKeyUpInvAppEditCostMAN(s, e) {//OnChange
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(InvAppEditQtyMAN.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvAppEditTotalMAN.SetText(accounting.formatMoney(total));
+        }
+    } else {
+        InvAppEditTotalMAN.SetText("");
+    }
+}
+
+function OnKeyUpInvAppEditQtyCA(s, e) {//OnChange
+    var qty = parseFloat(s.GetText()).toFixed(2);
+    var cost = parseFloat(accounting.unformat(InvAppEditCostCA.GetText()));
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvAppEditTotalCA.SetText(accounting.formatMoney(total));
+        }
+    } else {
+        InvAppEditTotalCA.SetText("");
+    }
+}
+
+function OnKeyUpInvAppEditCostCA(s, e) {//OnChange
+    var cost = parseFloat(accounting.unformat(s.GetText()));
+    var qty = parseFloat(InvAppEditQtyCA.GetText()).toFixed(2);
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            InvAppEditTotalCA.SetText(accounting.formatMoney(total));
+        }
+    } else {
+        InvAppEditTotalCA.SetText("");
+    }
+}
+
+//...END OF...mrp_inventoryanalyst_forapproval
 
 

@@ -88,9 +88,12 @@ namespace HijoPortal
                     {
                         //Session["DocNumber"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
                         string mrp_pk = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
-                        Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
+                        //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
+                        //Response.RedirectLocation = "mrp_finance.aspx?DocNum=" + docNum.ToString();
+                        //Response.RedirectLocation = "mrp_inventoryanalyst_forapproval.aspx?DocNum=" + docNum.ToString();
+                        Response.RedirectLocation = "mrp_capexcip.aspx?DocNum=" + docNum.ToString();
                     }
                 }
 
