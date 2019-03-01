@@ -72,11 +72,11 @@
                                 </dx:ASPxButton>
                                 <dx:ASPxHiddenField ID="MRPHiddenVal" ClientInstanceName="MRPHiddenVal" runat="server"></dx:ASPxHiddenField>
                                 <dx:ASPxHiddenField ID="ASPxHiddenFieldEnt" ClientInstanceName="ASPxHiddenFieldEntDirect" runat="server"></dx:ASPxHiddenField>
+                                
                             </div>
                         </HeaderTemplate>
                         
                         <CustomButtons>
-                            
                             <dx:GridViewCommandColumnCustomButton ID="Edit" Text="" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                             <dx:GridViewCommandColumnCustomButton ID="Delete" Text="" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                             <dx:GridViewCommandColumnCustomButton ID="Preview" Text="" Image-Url="Images/Refresh.ico" Image-ToolTip="Preview Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
@@ -89,8 +89,9 @@
                     <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month" VisibleIndex="5"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="MRPYear" Caption="Year" VisibleIndex="6"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="Amount" VisibleIndex="7"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="8"></dx:GridViewDataColumn>
-                    <dx:GridViewCommandColumn VisibleIndex="9" ButtonRenderMode="Image" Width="20">
+                    <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="8"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="9"></dx:GridViewDataColumn>
+                    <dx:GridViewCommandColumn VisibleIndex="10" ButtonRenderMode="Image" Width="20">
                         <CustomButtons>
                             <dx:GridViewCommandColumnCustomButton ID="Submit" Text="" Image-Url="Images/Submit.ico" Image-ToolTip="Submit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                         </CustomButtons>

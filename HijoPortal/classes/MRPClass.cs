@@ -2252,5 +2252,75 @@ namespace HijoPortal.classes
             else
                 grid.Columns["RevDesc"].Visible = false;
         }
+
+        public static void Submit_MRP(string docNum, int MRPKey, int WorkFlowLine)
+        {
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            string qry = "", sEmail = "";
+            SqlCommand cmdIns = null;
+            SqlCommand cmdUp = null;
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dtable = new DataTable();
+
+            conn.Open();
+
+            qry = "SELECT dbo.tbl_System_Approval_Position.SQLQuery, " +
+                  " ISNULL(dbo.tbl_Users.Email,'') AS Email, dbo.tbl_Users.Lastname, " +
+                  " dbo.tbl_MRP_List_Workflow.UserKey, dbo.tbl_MRP_List_Workflow.PositionNameKey " +
+                  " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
+                  " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
+                  " dbo.tbl_Users ON dbo.tbl_MRP_List_Workflow.UserKey = dbo.tbl_Users.PK " +
+                  " WHERE(dbo.tbl_MRP_List_Workflow.Line = "+ WorkFlowLine + ") " +
+                  " AND(dbo.tbl_MRP_List_Workflow.MasterKey = " + MRPKey + ")";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtable.Rows)
+                {
+                    sEmail = EncryptionClass.Decrypt(row["Email"].ToString());
+                    if (GlobalClass.IsEmailValid(sEmail) == true)
+                    {
+                        string sMailSubject = "", sMailBody = "";
+                        sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your review";
+                        sMailBody = "Dear Mr/Ms. " + EncryptionClass.Decrypt(row["Lastname"].ToString()) + "MOP DocNum " + docNum.ToString() + " is waiting for your review";
+                        bool msgSend = GlobalClass.IsMailSent(sEmail, sMailSubject, sMailBody);
+
+                        if (msgSend == true)
+                        {
+                            //Update Workflow
+                            qry = "UPDATE tbl_MRP_List_Workflow " +
+                                   " SET Visible = 1 " +
+                                   " WHERE (MasterKey = " + MRPKey + ") " +
+                                   " AND (Line = "+ WorkFlowLine + ")";
+                            cmdUp = new SqlCommand(qry, conn);
+                            cmdUp.ExecuteNonQuery();
+
+                            //Insert to User Assigned
+                            qry = "INSERT INTO tbl_Users_Assigned " +
+                                  " (UserKey, PositionNameKey, MRPKey) " +
+                                  " VALUES(" + Convert.ToInt32(row["UserKey"]) + ", " +
+                                  " " + Convert.ToInt32(row["PositionNameKey"]) + ", " + MRPKey + ")";
+                            cmdIns = new SqlCommand(qry, conn);
+                            cmdIns.ExecuteNonQuery();
+
+                            //Update MOP Status
+                            qry = "UPDATE tbl_MRP_List SET StatusKey = 2 WHERE (PK = " + MRPKey + ")";
+                            cmdUp = new SqlCommand(qry, conn);
+                            cmdUp.ExecuteNonQuery();
+                        }
+
+                    }
+
+                }
+            }
+            dtable.Clear();
+
+
+            conn.Close();
+        }
     }
 }

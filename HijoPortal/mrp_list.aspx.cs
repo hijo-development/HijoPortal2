@@ -32,7 +32,7 @@ namespace HijoPortal
             if (!Page.IsAsync)
             {
                 //ASPxHiddenFieldEnt
-                
+
             }
         }
 
@@ -74,6 +74,7 @@ namespace HijoPortal
             conn.Open();
             string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
             string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
+            int StatusKey = Convert.ToInt32(MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString());
             string query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "' AND PK = '" + PK + "'";
 
             SqlCommand comm = new SqlCommand(query, conn);
@@ -81,6 +82,12 @@ namespace HijoPortal
 
             if (count > 0)
             {
+                //if (StatusKey != 1)
+                //{
+                //    text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+                //    //MRPClass.PrintString(MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString());
+                //} else
+                //{
                 if (e.ButtonID == "Edit")
                 {
                     //msgTrans.Text = "Pass Edit";
@@ -88,7 +95,7 @@ namespace HijoPortal
                     {
                         //Session["DocNumber"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
                         string mrp_pk = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
-                        Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
+                        Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                         //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
                     }
@@ -99,11 +106,18 @@ namespace HijoPortal
                     //msgTrans.Text = "Pass Delete";
                     if (MainTable.FocusedRowIndex > -1)
                     {
-                        //string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
-                        string delete = "DELETE FROM [dbo].[tbl_MRP_List] WHERE [PK] ='" + PK + "'";
-                        SqlCommand cmd = new SqlCommand(delete, conn);
-                        cmd.ExecuteNonQuery();
-                        BindMRP();
+                        if (StatusKey != 1)
+                        {
+                            text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+                        } else
+                        {
+                            //string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
+                            string delete = "DELETE FROM [dbo].[tbl_MRP_List] WHERE [PK] ='" + PK + "'";
+                            SqlCommand cmd = new SqlCommand(delete, conn);
+                            cmd.ExecuteNonQuery();
+                            BindMRP();
+                        }
+                        
                     }
                 }
 
@@ -111,50 +125,19 @@ namespace HijoPortal
                 {
                     if (MainTable.FocusedRowIndex > -1)
                     {
-                        //PK
-                        string qry = "", sEmail = "";
-                        SqlCommand cmdUp = null;
-                        SqlCommand cmd = null;
-                        SqlDataAdapter adp;
-                        DataTable dtable = new DataTable();
-
-                        qry = "SELECT dbo.tbl_System_Approval_Position.SQLQuery, " +
-                              " ISNULL(dbo.tbl_Users.Email,'') AS Email, dbo.tbl_Users.Lastname " +
-                              " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
-                              " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
-                              " dbo.tbl_Users ON dbo.tbl_MRP_List_Workflow.UserKey = dbo.tbl_Users.PK " +
-                              " WHERE(dbo.tbl_MRP_List_Workflow.Line = 1) " +
-                              " AND(dbo.tbl_MRP_List_Workflow.MasterKey = " + PK + ")";
-                        cmd = new SqlCommand(qry);
-                        cmd.Connection = conn;
-                        adp = new SqlDataAdapter(cmd);
-                        adp.Fill(dtable);
-                        if (dtable.Rows.Count > 0)
+                        if (StatusKey != 1)
                         {
-                            foreach(DataRow row in dtable.Rows)
-                            {
-                                sEmail = EncryptionClass.Decrypt(row["Email"].ToString());
-                                if (GlobalClass.IsEmailValid(sEmail) == true)
-                                {
-                                    string sMailSubject = "", sMailBody = "";
-                                    sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your review";
-                                    sMailBody = "Dear Mr/Ms. " + EncryptionClass.Decrypt(row["Lastname"].ToString()) + "MOP DocNum " + docNum.ToString() + " is waiting for your review";
-                                    bool msgSend = GlobalClass.IsMailSent(sEmail, sMailSubject, sMailBody);
-
-                                    if (msgSend == true)
-                                    {
-                                        qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 1 WHERE (MasterKey = " + PK + ") AND (Line = 1)";
-                                        cmdUp = new SqlCommand(qry, conn);
-                                        cmdUp.ExecuteNonQuery();
-                                    }
-                                    
-                                }
-                                
-                            }
+                            text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+                        } else
+                        {
+                            MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1);
+                            BindMRP();
                         }
-                        dtable.Clear();
+
+                            
                     }
                 }
+                //}                
             }
             else
             {
@@ -265,7 +248,7 @@ namespace HijoPortal
 
                 SqlCommand command = new SqlCommand(query, conn);
                 SqlDataReader reader = command.ExecuteReader();
-                
+
 
                 while (reader.Read())
                 {
@@ -349,7 +332,7 @@ namespace HijoPortal
                                            " dbo.tbl_System_Approval_Position.SQLQuery " +
                                            " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
                                            " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                                           " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = "+ DataFlowKey + ") " +
+                                           " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + DataFlowKey + ") " +
                                            " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
                                            " ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
                 cmdA = new SqlCommand(query_DataFlowAdd);
@@ -377,7 +360,7 @@ namespace HijoPortal
                             }
                             dtable1.Clear();
                         }
-                        
+
                         string qryAddDataflow = "INSERT INTO tbl_MRP_List_Workflow " +
                                             " ([MasterKey], [Line], [PositionNameKey], [UserKey], [Status], [Visible])" +
                                             " VALUES (@MasterKey, @Line, @PositionNameKey, @UserKey, @Status, @Visible)";
@@ -401,7 +384,7 @@ namespace HijoPortal
                 //Session["DocNumber"] = DOC_NUMBER;
                 string docNum = DOC_NUMBER;
                 PopUpControl.ShowOnPageLoad = false;
-                Response.Redirect("mrp_addedit.aspx?DocNum=" + docNum.ToString());
+                Response.Redirect("mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0");
                 //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
             }
             conn.Close();

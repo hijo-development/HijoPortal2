@@ -1,0 +1,62 @@
+﻿body {
+    background: url('../images/hijosign.png') center;
+    background-repeat: repeat;
+    font-family: sans-serif;
+    background-color: rgb(230,239,247);
+}
+
+/*Create Account*/
+@media(max-width:840px) {
+    .mobileGroupIndent {
+        padding-top: 20px;
+    }
+}
+
+.mobileAlign {
+    text-align: center !important;
+}
+
+.maxWidth {
+    max-width: 360px !important;
+}
+
+.fullHeight {
+    height: 100% !important;
+}
+
+.fullWidth {
+    width: 100% !important;
+}
+
+#dvHeader {
+    width: 100%;
+    /*background-color: #ffffff;*/
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    padding: 0px;
+    /*border-radius: 3px;*/
+}
+
+    #dvHeader h1 {
+        margin: 5px auto 5px;
+        width: 100%;
+        text-align: center;
+        /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+        font-size:larger;
+        font-weight: bold;
+        color: white;
+        text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+    }
+
+    #dvHeader table {
+        width: 98%;
+        padding: 25px;
+        margin: 5px 10px 10px 10px;
+        /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+    }
+
+    #dvHeader td {
+        padding: 0px 5px;
+        /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+    }
+
+/*-----------------------*/
