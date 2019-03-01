@@ -1,0 +1,107 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Master.master.cs" ClientIDMode="Static" Inherits="HijoPortal.Master" %>
+
+<%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="css/ContentPage.css" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/x-icon" href="../images/HijoLogo.png" />
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="jquery/accounting.js"></script>
+    <script type="text/javascript" src="jquery/ContentPage.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body id="MainBody" runat="server">
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div id="dvBanner" runat="server" style="height: 100px;">
+            <table style="width: 100%; height: 100%">
+                <tr style="height: 100px;">
+                    <td style="width: 80px; height: 80px; padding: 10px;">
+                        <img src="images/HijoLogo.png" style="height: 60px; width: 60px;" />
+                    </td>
+                    <td class="Header-td">
+                        <h1>HIJO Portal</h1>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="background-color: #0e3f6b; height: 5px;"></div>
+        <div id="dvSplitter" runat="server">
+            <dx:ASPxSplitter ID="ASPxSplitter1" runat="server" ClientInstanceName="MainSplitterClient" BackColor="Transparent" AllowResize="true" Border-BorderStyle="None" Height="100%" >
+                <ClientSideEvents PaneResized = "" />
+                <Panes>
+                    <dx:SplitterPane Size="200px" Name="containMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" ScrollBars="Auto" PaneStyle-Border-BorderStyle="None" ShowCollapseBackwardButton="True">
+                        <ContentCollection>
+                            <dx:SplitterContentControl runat="server" Style="padding: 5px;">
+                                <div id="dvNavWapper" runat="server">
+                                    <div id="dvSideNav" runat="server" class="side-menu">
+                                        <%--Menu From Database--%>
+                                    </div>
+                                </div>
+                            </dx:SplitterContentControl>
+                        </ContentCollection>
+                    </dx:SplitterPane>
+                    <dx:SplitterPane Name="containForm" PaneStyle-BackColor="#e6eff7" ScrollBars="Auto" AllowResize="True" AutoHeight ="false"  PaneStyle-Border-BorderStyle="None">
+                        <Separator>
+                            <SeparatorStyle BackColor="#0e3f6b" />
+                        </Separator>
+                        <ContentCollection>
+                            <dx:SplitterContentControl ID = "Content" runat="server">
+                                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                    <%--Content WebForm--%>
+                                </asp:ContentPlaceHolder>
+                            </dx:SplitterContentControl>
+                        </ContentCollection>
+                    </dx:SplitterPane>
+                    <dx:SplitterPane Size="20%" Name="SideMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" PaneStyle-Border-BorderStyle="None" ShowCollapseForwardButton="True" Collapsed="true">
+                        <Separator>
+                            <SeparatorStyle BackColor="#0e3f6b" />
+                        </Separator>
+                        <ContentCollection>
+                            <dx:SplitterContentControl runat="server">
+                                <%--Right Panel Collapse--%>
+                                <dx:ASPxCallbackPanel ID="FloatCallbackPanel" ClientInstanceName="FloatCallbackPanel" runat="server" Width="100%" OnCallback="FloatCallbackPanel_Callback">
+                                    <ClientSideEvents EndCallback="FloatEndCallback" />
+                                    <PanelCollection>
+                                        <dx:PanelContent>
+                                            <div id="dvItemSidePanel" runat="server">
+                                                <table id="warehousetable" border="0" runat="server" style="margin: 5px; width: 90%; background-color: white;">
+                                                    <tr>
+                                                        <th colspan="2">INFO</th>
+                                                    </tr>
+                                                </table>
+                                                <table id="commentstable" border="0" runat="server" style="margin-left: 5px; margin-right: 5px; width: 90%; background-color: white">
+                                                    <tr>
+                                                        <th colspan="2">COMMENT/SUGGESTION</th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </dx:PanelContent>
+                                    </PanelCollection>
+                                </dx:ASPxCallbackPanel>
+                            </dx:SplitterContentControl>
+                        </ContentCollection>
+                    </dx:SplitterPane>
+                </Panes>
+            </dx:ASPxSplitter>
+        </div>
+        <div id="footer" runat="server">
+            <label id="lblUser" runat="server">User :</label>
+            &nbsp
+            <%--<label id="lblEntity" runat="server"></label>--%>
+            <dx:ASPxLabel ID="ASPxLabelEnt" ClientInstanceName="ASPxLabelEntDirect" runat="server" Text="" ForeColor="White"></dx:ASPxLabel>
+            &nbsp
+            <dx:ASPxLabel ID="ASPxLabelBU" ClientInstanceName="ASPxLabelBUDirect" runat="server" Text="" ForeColor="White"></dx:ASPxLabel>
+        </div>
+    </form>
+</body>
+</html>
