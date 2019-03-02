@@ -29,10 +29,10 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="Add_Edit_MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue" ContentStyle-Paddings-Padding="20">
         <ContentCollection>
             <dx:PopupControlContentControl>
-                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="MRPNotificationMessage" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="Add_Edit_MRPNotificationMessage" runat="server" Text="" ForeColor="Red" Theme="Office2010Blue"></dx:ASPxLabel>
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
@@ -171,7 +171,7 @@
                                                         <Columns>
                                                             <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
                                                                 <HeaderTemplate>
-                                                                    <div style="text-align: center">
+                                                                    <div style="text-align: left">
                                                                         <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
                                                                             <ClientSideEvents Click="DirectMaterialsGrid_Add" />
                                                                         </dx:ASPxButton>
@@ -395,7 +395,7 @@
                                                         <Columns>
                                                             <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
                                                                 <HeaderTemplate>
-                                                                    <div style="text-align: center">
+                                                                    <div style="text-align: left">
                                                                         <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
                                                                             <ClientSideEvents Click="OPEXGrid_Add" />
                                                                         </dx:ASPxButton>
@@ -621,7 +621,7 @@
                                                         <Columns>
                                                             <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
                                                                 <HeaderTemplate>
-                                                                    <div style="text-align: center">
+                                                                    <div style="text-align: left">
                                                                         <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
                                                                             <ClientSideEvents Click="ManPowerGrid_Add" />
                                                                         </dx:ASPxButton>
@@ -833,7 +833,7 @@
                                                         <Columns>
                                                             <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
                                                                 <HeaderTemplate>
-                                                                    <div style="text-align: center">
+                                                                    <div style="text-align: left">
                                                                         <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
                                                                             <ClientSideEvents Click="CAPEXGrid_Add" />
                                                                         </dx:ASPxButton>
@@ -1028,7 +1028,7 @@
                                                         <Columns>
                                                             <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
                                                                 <HeaderTemplate>
-                                                                    <div style="text-align: center">
+                                                                    <div style="text-align: left">
                                                                         <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
                                                                             <ClientSideEvents Click="RevenueGrid_Add" />
                                                                         </dx:ASPxButton>

@@ -435,3 +435,8 @@ hide-tr {
     color: red;
     font-size: 14px;
 }
+
+.notification_class {
+    font-size:medium;
+    color:red;
+}
