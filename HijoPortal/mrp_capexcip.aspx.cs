@@ -14,6 +14,7 @@ namespace HijoPortal
     {
         private static int mrp_key = 0;
         private static string docnumber = "", entitycode = "", month = "", year = "", pk = "";
+        private static bool bindCapexCIP = true;
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckCreatorKey();
@@ -62,7 +63,10 @@ namespace HijoPortal
                 month = ""; year = ""; pk = "";
             }
 
-            BindCapex(month, year, pk);
+            if (bindCapexCIP)
+                BindCapex(month, year);
+            else
+                bindCapexCIP = true;
         }
         private void CheckCreatorKey()
         {
@@ -75,6 +79,40 @@ namespace HijoPortal
 
                 return;
             }
+        }
+
+        protected void CAPEXCIP_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            bindCapexCIP = false;
+        }
+
+        protected void CAPEXCIP_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxTextBox CIP = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["CIPSIPNumber"], "CIPSIPNumber") as ASPxTextBox;
+            string PK = e.Keys[0].ToString();
+            string cip_text = CIP.Text.ToString();
+           
+            if (!string.IsNullOrEmpty(cip_text))
+            {
+                MRPClass.PrintString(cip_text + " " + PK );
+                string update = "UPDATE [dbo].[tbl_MRP_List_CAPEX] SET [CIPSIPNumber] = '" + cip_text + "' WHERE [PK] = '" + PK + "'";
+                MRPClass.PrintString(update);
+
+                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(update, conn);
+                int result = cmd.ExecuteNonQuery();
+
+
+                MRPClass.PrintString(result.ToString());
+                conn.Close();
+            }
+
+            grid.CancelEdit();
+            e.Cancel = true;
+            BindCapex(month, year);
         }
 
         protected void CAPEXCIP_BeforeGetCallbackResult(object sender, EventArgs e)
@@ -122,12 +160,15 @@ namespace HijoPortal
             month = monthIndex.ToString();
             year = var.Substring(spaceindex + 1, secondlength);
 
-            BindCapex(month, year, pk);
+            BindCapex(month, year);
         }
 
-        private void BindCapex(string month, string year, string pk)
+        private void BindCapex(string month, string year)
         {
-            CAPEXCIP.DataSource = MRPClass.CAPEXCIP_Table(month, year, pk);
+            if (string.IsNullOrEmpty(month) && string.IsNullOrEmpty(year))
+                return;
+
+            CAPEXCIP.DataSource = MRPClass.CAPEXCIP_Table(month, year);
             CAPEXCIP.KeyFieldName = "PK";
             CAPEXCIP.DataBind();
         }

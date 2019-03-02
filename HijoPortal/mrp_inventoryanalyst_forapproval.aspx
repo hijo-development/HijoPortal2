@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_inventoryanalyst_forapproval.aspx.cs" Inherits="HijoPortal.mrp_inventoryanalyst_forapproval" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -101,15 +102,23 @@
                             <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxGridView ID="DMGridInventApproval" runat="server" ClientInstanceName="DMGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
+                                        <dx:ASPxGridView ID="DMGridInventApproval" runat="server" ClientInstanceName="DMGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
                                             OnStartRowEditing="DMGridInventApproval_StartRowEditing"
-                                            OnRowUpdating="DMGridInventApproval_RowUpdating" 
+                                            OnRowUpdating="DMGridInventApproval_RowUpdating"
                                             OnBeforeGetCallbackResult="DMGridInventApproval_BeforeGetCallbackResult"
                                             OnDataBound="DMGridInventApproval_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
+                                            <ClientSideEvents CustomButtonClick="DMGridInventApproval_CustomButtonClick" />
 
                                             <Columns>
-                                                <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                    <CustomButtons>
+                                                        <dx:GridViewCommandColumnCustomButton ID="DMInvEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                            <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                        </dx:GridViewCommandColumnCustomButton>
+                                                    </CustomButtons>
+                                                </dx:GridViewCommandColumn>
+
                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="ActivityCode" Caption="Activity" VisibleIndex="3">
@@ -186,7 +195,7 @@
                                             <SettingsPager PageSize="10"></SettingsPager>
                                             <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
-                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false"/>
+                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>
                                     </dx:PanelContent>
                                 </PanelCollection>
@@ -194,15 +203,22 @@
                             <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" HeaderText="OPEX" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxGridView ID="OPGridInventApproval" runat="server" ClientInstanceName="OPGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
-                                            OnStartRowEditing="OPGridInventApproval_StartRowEditing" 
+                                        <dx:ASPxGridView ID="OPGridInventApproval" runat="server" ClientInstanceName="OPGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
+                                            OnStartRowEditing="OPGridInventApproval_StartRowEditing"
                                             OnRowUpdating="OPGridInventApproval_RowUpdating"
                                             OnBeforeGetCallbackResult="OPGridInventApproval_BeforeGetCallbackResult"
                                             OnDataBound="OPGridInventApproval_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
+                                            <ClientSideEvents CustomButtonClick="OPGridInventApproval_CustomButtonClick" />
 
                                             <Columns>
-                                                <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                    <CustomButtons>
+                                                        <dx:GridViewCommandColumnCustomButton ID="OPInvEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                            <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                        </dx:GridViewCommandColumnCustomButton>
+                                                    </CustomButtons>
+                                                </dx:GridViewCommandColumn>
                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="ExpenseCodeName" Caption="Activity" VisibleIndex="3">
@@ -210,7 +226,7 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("ExpenseCodeName")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                 <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="4">
+                                                <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="4">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
@@ -279,7 +295,7 @@
                                             <SettingsPager PageSize="10"></SettingsPager>
                                             <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
-                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false"/>
+                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>
                                     </dx:PanelContent>
                                 </PanelCollection>
@@ -287,15 +303,22 @@
                             <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxGridView ID="MANGridInventApproval" runat="server" ClientInstanceName="MANGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
+                                        <dx:ASPxGridView ID="MANGridInventApproval" runat="server" ClientInstanceName="MANGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
                                             OnStartRowEditing="MANGridInventApproval_StartRowEditing"
                                             OnRowUpdating="MANGridInventApproval_RowUpdating"
                                             OnBeforeGetCallbackResult="MANGridInventApproval_BeforeGetCallbackResult"
                                             OnDataBound="MANGridInventApproval_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
+                                            <ClientSideEvents CustomButtonClick="MANGridInventApproval_CustomButtonClick" />
 
                                             <Columns>
-                                                <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                    <CustomButtons>
+                                                        <dx:GridViewCommandColumnCustomButton ID="MANInvEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                            <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                        </dx:GridViewCommandColumnCustomButton>
+                                                    </CustomButtons>
+                                                </dx:GridViewCommandColumn>
                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="ActivityCode" Caption="Activity" VisibleIndex="3">
@@ -372,23 +395,30 @@
                                             <SettingsPager PageSize="10"></SettingsPager>
                                             <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
-                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false"/>
+                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
-                             <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxGridView ID="CAGridInventApproval" runat="server" ClientInstanceName="CAGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
-                                            OnStartRowEditing="CAGridInventApproval_StartRowEditing" 
+                                        <dx:ASPxGridView ID="CAGridInventApproval" runat="server" ClientInstanceName="CAGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
+                                            OnStartRowEditing="CAGridInventApproval_StartRowEditing"
                                             OnRowUpdating="CAGridInventApproval_RowUpdating"
                                             OnBeforeGetCallbackResult="CAGridInventApproval_BeforeGetCallbackResult"
                                             OnDataBound="CAGridInventApproval_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
+                                            <ClientSideEvents CustomButtonClick="CAGridInventApproval_CustomButtonClick" />
 
                                             <Columns>
-                                                <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                    <CustomButtons>
+                                                        <dx:GridViewCommandColumnCustomButton ID="CAInvEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                            <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                        </dx:GridViewCommandColumnCustomButton>
+                                                    </CustomButtons>
+                                                </dx:GridViewCommandColumn>
                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="Description" VisibleIndex="4">
@@ -455,7 +485,7 @@
                                             <SettingsPager PageSize="10"></SettingsPager>
                                             <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
-                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false"/>
+                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>
                                     </dx:PanelContent>
                                 </PanelCollection>

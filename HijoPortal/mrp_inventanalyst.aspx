@@ -100,7 +100,7 @@
                 <dx:TabPage Text="MRP">
                     <ContentCollection>
                         <dx:ContentControl>
-                            <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" ClientInstanceName="DMGridRoundPanel" runat="server" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="DMGrid" runat="server" ClientInstanceName="DMGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
@@ -109,9 +109,16 @@
                                             OnBeforeGetCallbackResult="DMGrid_BeforeGetCallbackResult" 
                                             OnDataBound="DMGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
+                                            <ClientSideEvents CustomButtonClick="DMGrid_CustomButtonClick" />
 
                                             <Columns>
-                                                <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                    <CustomButtons>
+                                                        <dx:GridViewCommandColumnCustomButton ID="DMGridEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                            <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                        </dx:GridViewCommandColumnCustomButton>
+                                                    </CustomButtons>
+                                                </dx:GridViewCommandColumn>
                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="ActivityCode" Caption="Activity" VisibleIndex="3">
@@ -202,9 +209,16 @@
                                             OnBeforeGetCallbackResult="OpGrid_BeforeGetCallbackResult" 
                                             OnDataBound="OpGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
+                                            <ClientSideEvents CustomButtonClick="OpGrid_CustomButtonClick" />
 
                                             <Columns>
-                                                <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                    <CustomButtons>
+                                                        <dx:GridViewCommandColumnCustomButton ID="OPGridEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                            <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                        </dx:GridViewCommandColumnCustomButton>
+                                                    </CustomButtons>
+                                                </dx:GridViewCommandColumn>
                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="ExpenseCodeName" Caption="Activity" VisibleIndex="3">
@@ -295,9 +309,16 @@
                                             OnBeforeGetCallbackResult="ManPoGrid_BeforeGetCallbackResult" 
                                             OnDataBound="ManPoGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
+                                            <ClientSideEvents CustomButtonClick="ManPoGrid_CustomButtonClick" />
 
                                             <Columns>
-                                                <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                    <CustomButtons>
+                                                        <dx:GridViewCommandColumnCustomButton ID="MANGridEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                            <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                        </dx:GridViewCommandColumnCustomButton>
+                                                    </CustomButtons>
+                                                </dx:GridViewCommandColumn>
                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="ActivityCode" Caption="Activity" VisibleIndex="3">
@@ -388,9 +409,16 @@
                                             OnBeforeGetCallbackResult="CapGrid_BeforeGetCallbackResult" 
                                             OnDataBound="CapGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
+                                            <ClientSideEvents CustomButtonClick="CapGrid_CustomButtonClick" />
 
                                             <Columns>
-                                                <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                                <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                    <CustomButtons>
+                                                        <dx:GridViewCommandColumnCustomButton ID="CAGridEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                            <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                        </dx:GridViewCommandColumnCustomButton>
+                                                    </CustomButtons>
+                                                </dx:GridViewCommandColumn>
                                                 <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="Description" VisibleIndex="4">

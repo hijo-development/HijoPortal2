@@ -409,7 +409,7 @@ function OPEXGrid_Add(s, e) {
     OPEXGrid.AddNewRow();
 }
 
-function ManPowerGrid_Add(s,e){
+function ManPowerGrid_Add(s, e) {
     if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
         DirectMaterialsGrid.CancelEdit();
 
@@ -1661,6 +1661,134 @@ function OnKeyUpInvAppEditCostCA(s, e) {//OnChange
     }
 }
 
+function DMGridInventApproval_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "DMInvEdit") {
+        if (OPGridInventApproval.IsEditing() || OPGridInventApproval.IsNewRowEditing())
+            OPGridInventApproval.CancelEdit();
+
+        if (MANGridInventApproval.IsEditing() || MANGridInventApproval.IsNewRowEditing())
+            MANGridInventApproval.CancelEdit();
+
+        if (CAGridInventApproval.IsEditing() || CAGridInventApproval.IsNewRowEditing())
+            CAGridInventApproval.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    }
+}
+
+function OPGridInventApproval_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "OPInvEdit") {
+        if (DMGridInventApproval.IsEditing() || DMGridInventApproval.IsNewRowEditing())
+            DMGridInventApproval.CancelEdit();
+
+        if (MANGridInventApproval.IsEditing() || MANGridInventApproval.IsNewRowEditing())
+            MANGridInventApproval.CancelEdit();
+
+        if (CAGridInventApproval.IsEditing() || CAGridInventApproval.IsNewRowEditing())
+            CAGridInventApproval.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    }
+}
+
+function MANGridInventApproval_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "MANInvEdit") {
+        if (DMGridInventApproval.IsEditing() || DMGridInventApproval.IsNewRowEditing())
+            DMGridInventApproval.CancelEdit();
+
+        if (OPGridInventApproval.IsEditing() || OPGridInventApproval.IsNewRowEditing())
+            OPGridInventApproval.CancelEdit();
+
+        if (CAGridInventApproval.IsEditing() || CAGridInventApproval.IsNewRowEditing())
+            CAGridInventApproval.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    }
+}
+
+function CAGridInventApproval_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "CAInvEdit") {
+        if (DMGridInventApproval.IsEditing() || DMGridInventApproval.IsNewRowEditing())
+            DMGridInventApproval.CancelEdit();
+
+        if (OPGridInventApproval.IsEditing() || OPGridInventApproval.IsNewRowEditing())
+            OPGridInventApproval.CancelEdit();
+
+        if (MANGridInventApproval.IsEditing() || MANGridInventApproval.IsNewRowEditing())
+            MANGridInventApproval.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    }
+}
 //...END OF...mrp_inventoryanalyst_forapproval
 
+//mrp_inventanalyst
+function DMGrid_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "DMGridEdit") {
+        if (OpGrid.IsEditing() || OpGrid.IsNewRowEditing())
+            OpGrid.CancelEdit();
 
+        if (ManPoGrid.IsEditing() || ManPoGrid.IsNewRowEditing())
+            ManPoGrid.CancelEdit();
+
+        if (CapGrid.IsEditing() || CapGrid.IsNewRowEditing())
+            CapGrid.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    }
+}
+
+function OpGrid_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "OPGridEdit") {
+        if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
+            DMGrid.CancelEdit();
+
+        if (ManPoGrid.IsEditing() || ManPoGrid.IsNewRowEditing())
+            ManPoGrid.CancelEdit();
+
+        if (CapGrid.IsEditing() || CapGrid.IsNewRowEditing())
+            CapGrid.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    }
+}
+
+function ManPoGrid_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "MANGridEdit") {
+        if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
+            DMGrid.CancelEdit();
+
+        if (OpGrid.IsEditing() || OpGrid.IsNewRowEditing())
+            OpGrid.CancelEdit();
+
+        if (CapGrid.IsEditing() || CapGrid.IsNewRowEditing())
+            CapGrid.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    }
+}
+
+function CapGrid_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "CAGridEdit") {
+        if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
+            DMGrid.CancelEdit();
+
+        if (ManPoGrid.IsEditing() || ManPoGrid.IsNewRowEditing())
+            ManPoGrid.CancelEdit();
+
+        if (OpGrid.IsEditing() || OpGrid.IsNewRowEditing())
+            OpGrid.CancelEdit();
+
+        s.StartEditRow(e.visibleIndex);
+    }
+}
+
+//...END OF...mrp_inventanalyst
