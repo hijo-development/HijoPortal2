@@ -234,9 +234,9 @@ var typeCustomDelete = "";
 const DM_string = "Direct Materials", OP_string = "OPEX", MAN_string = "Manpower", CA_string = "CAPEX", REV_string = "Revenue";
 function DirectMaterialsGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
-    var wrkFlowLine = ASPxHiddenFieldDMWrkFlwLnDirect.Get('hidden_value');
-    //var hidden_val = HiddenVal.Get('hidden_value');
-    console.log(wrkFlowLine);
+    var wrkflowLine = WorkFlowLineTxt.GetText();
+    var statusKey = StatusKeyTxt.GetText();
+
     if (button == "DMEdit") {
         if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
             OPEXGrid.CancelEdit();
@@ -250,16 +250,47 @@ function DirectMaterialsGrid_CustomButtonClick(s, e) {
         if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
             RevenueGrid.CancelEdit();
 
-        s.StartEditRow(e.visibleIndex);
+        if (wrkflowLine === "0") {
+            if (statusKey === "1") {
+                s.StartEditRow(e.visibleIndex);
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
+        } else {
+            s.StartEditRow(e.visibleIndex);
+        }
+
+        //s.StartEditRow(e.visibleIndex);
     } else if (button == "DMDelete") {
-        typeCustomDelete = DM_string;
-        PopUpDelete.SetHeaderText("Alert");
-        PopUpDelete.Show();
+
+        if (wrkflowLine === "0") {
+            if (statusKey === "1") {
+                typeCustomDelete = DM_string;
+                PopUpDelete.SetHeaderText("Alert");
+                PopUpDelete.Show();
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
+        } else {
+            typeCustomDelete = DM_string;
+            PopUpDelete.SetHeaderText("Alert");
+            PopUpDelete.Show();
+        }
+
+        //typeCustomDelete = DM_string;
+        //PopUpDelete.SetHeaderText("Alert");
+        //PopUpDelete.Show();
     }
 }
 
 function OPEXGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
+    var wrkflowLine = WorkFlowLineTxt.GetText();
+    var statusKey = StatusKeyTxt.GetText();
     if (button == "OPEdit") {
         if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
             DirectMaterialsGrid.CancelEdit();
@@ -273,16 +304,46 @@ function OPEXGrid_CustomButtonClick(s, e) {
         if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
             RevenueGrid.CancelEdit();
 
-        s.StartEditRow(e.visibleIndex);
+        if (wrkflowLine === "0") {
+            if (statusKey === "1") {
+                s.StartEditRow(e.visibleIndex);
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
+        } else {
+            s.StartEditRow(e.visibleIndex);
+        }
+        //s.StartEditRow(e.visibleIndex);
     } else if (button == "OPDelete") {
-        typeCustomDelete = OP_string;
-        PopUpDelete.SetHeaderText("Alert");
-        PopUpDelete.Show();
+
+        if (wrkflowLine === "0") {
+            if (statusKey === "1") {
+                typeCustomDelete = OP_string;
+                PopUpDelete.SetHeaderText("Alert");
+                PopUpDelete.Show();
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
+        } else {
+            typeCustomDelete = OP_string;
+            PopUpDelete.SetHeaderText("Alert");
+            PopUpDelete.Show();
+        }
+
+        //typeCustomDelete = OP_string;
+        //PopUpDelete.SetHeaderText("Alert");
+        //PopUpDelete.Show();
     }
 }
 
 function ManPowerGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
+    var wrkflowLine = WorkFlowLineTxt.GetText();
+    var statusKey = StatusKeyTxt.GetText();
     if (button == "MANEdit") {
         if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
             DirectMaterialsGrid.CancelEdit();
@@ -296,16 +357,46 @@ function ManPowerGrid_CustomButtonClick(s, e) {
         if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
             RevenueGrid.CancelEdit();
 
-        s.StartEditRow(e.visibleIndex);
+        if (wrkflowLine === "0") {
+            if (statusKey === "1") {
+                s.StartEditRow(e.visibleIndex);
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
+        } else {
+            s.StartEditRow(e.visibleIndex);
+        }
+        //s.StartEditRow(e.visibleIndex);
     } else if (button == "MANDelete") {
-        typeCustomDelete = MAN_string;
-        PopUpDelete.SetHeaderText("Alert");
-        PopUpDelete.Show();
+
+        if (wrkflowLine === "0") {
+            if (statusKey === "1") {
+                typeCustomDelete = MAN_string;
+                PopUpDelete.SetHeaderText("Alert");
+                PopUpDelete.Show();
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
+        } else {
+            typeCustomDelete = MAN_string;
+            PopUpDelete.SetHeaderText("Alert");
+            PopUpDelete.Show();
+        }
+
+        //typeCustomDelete = MAN_string;
+        //PopUpDelete.SetHeaderText("Alert");
+        //PopUpDelete.Show();
     }
 }
 
 function CAPEXGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
+    var wrkflowLine = WorkFlowLineTxt.GetText();
+    var statusKey = StatusKeyTxt.GetText();
     if (button == "CAEdit") {
         if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
             DirectMaterialsGrid.CancelEdit();
@@ -319,16 +410,47 @@ function CAPEXGrid_CustomButtonClick(s, e) {
         if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
             RevenueGrid.CancelEdit();
 
-        s.StartEditRow(e.visibleIndex);
+        if (wrkflowLine === "0") {
+            if (statusKey === "1") {
+                s.StartEditRow(e.visibleIndex);
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
+        } else {
+            s.StartEditRow(e.visibleIndex);
+        }
+
+        //s.StartEditRow(e.visibleIndex);
     } else if (button == "CADelete") {
-        typeCustomDelete = CA_string;
-        PopUpDelete.SetHeaderText("Alert");
-        PopUpDelete.Show();
+
+        if (wrkflowLine === "0") {
+            if (statusKey === "1") {
+                typeCustomDelete = CA_string;
+                PopUpDelete.SetHeaderText("Alert");
+                PopUpDelete.Show();
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
+        } else {
+            typeCustomDelete = CA_string;
+            PopUpDelete.SetHeaderText("Alert");
+            PopUpDelete.Show();
+        }
+
+        //typeCustomDelete = CA_string;
+        //PopUpDelete.SetHeaderText("Alert");
+        //PopUpDelete.Show();
     }
 }
 
 function RevenueGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
+    var wrkflowLine = WorkFlowLineTxt.GetText();
+    var statusKey = StatusKeyTxt.GetText();
     if (button == "REVEdit") {
         if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
             DirectMaterialsGrid.CancelEdit();
@@ -342,18 +464,46 @@ function RevenueGrid_CustomButtonClick(s, e) {
         if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
             CAPEXGrid.CancelEdit();
 
-        s.StartEditRow(e.visibleIndex);
+        if (wrkflowLine === "0") {
+            if (statusKey === "1") {
+                s.StartEditRow(e.visibleIndex);
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
+        } else {
+            s.StartEditRow(e.visibleIndex);
+        }
+        //s.StartEditRow(e.visibleIndex);
     } else if (button == "REVDelete") {
-        typeCustomDelete = REV_string;
-        PopUpDelete.SetHeaderText("Alert");
-        PopUpDelete.Show();
+
+        if (wrkflowLine === "0") {
+            if (statusKey === "1") {
+                typeCustomDelete = REV_string;
+                PopUpDelete.SetHeaderText("Alert");
+                PopUpDelete.Show();
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
+        } else {
+            typeCustomDelete = REV_string;
+            PopUpDelete.SetHeaderText("Alert");
+            PopUpDelete.Show();
+        }
+
+        //typeCustomDelete = REV_string;
+        //PopUpDelete.SetHeaderText("Alert");
+        //PopUpDelete.Show();
     }
 }
 
 function OK_DELETE(s, e) {
     switch (typeCustomDelete) {
         case DM_string:
-            console.log(typeCustomDelete);
+            //console.log(typeCustomDelete);
             DirectMaterialsGrid.DeleteRow(DirectMaterialsGrid.GetFocusedRowIndex());
             break;
         case OP_string:
@@ -378,6 +528,10 @@ function CANCEL_DELETE(s, e) {
 }
 
 function DirectMaterialsGrid_Add(s, e) {
+
+    var wrkflowLine = WorkFlowLineTxt.GetText();
+    var statusKey = StatusKeyTxt.GetText();
+
     if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
         OPEXGrid.CancelEdit();
 
@@ -390,10 +544,23 @@ function DirectMaterialsGrid_Add(s, e) {
     if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
         RevenueGrid.CancelEdit();
 
-    DirectMaterialsGrid.AddNewRow();
+    if (wrkflowLine === "0") {
+        if (statusKey === "1") {
+            DirectMaterialsGrid.AddNewRow();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
+    } else {
+        DirectMaterialsGrid.AddNewRow();
+    }
+    
 }
 
 function OPEXGrid_Add(s, e) {
+    var wrkflowLine = WorkFlowLineTxt.GetText();
+    var statusKey = StatusKeyTxt.GetText();
     if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
         DirectMaterialsGrid.CancelEdit();
 
@@ -406,10 +573,22 @@ function OPEXGrid_Add(s, e) {
     if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
         RevenueGrid.CancelEdit();
 
-    OPEXGrid.AddNewRow();
+    if (wrkflowLine === "0") {
+        if (statusKey === "1") {
+            OPEXGrid.AddNewRow();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
+    } else {
+        OPEXGrid.AddNewRow();
+    }
 }
 
-function ManPowerGrid_Add(s,e){
+function ManPowerGrid_Add(s, e) {
+    var wrkflowLine = WorkFlowLineTxt.GetText();
+    var statusKey = StatusKeyTxt.GetText();
     if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
         DirectMaterialsGrid.CancelEdit();
 
@@ -422,10 +601,23 @@ function ManPowerGrid_Add(s,e){
     if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
         RevenueGrid.CancelEdit();
 
-    ManPowerGrid.AddNewRow();
+    if (wrkflowLine === "0") {
+        if (statusKey === "1") {
+            ManPowerGrid.AddNewRow();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
+    } else {
+        ManPowerGrid.AddNewRow();
+    }
+    //ManPowerGrid.AddNewRow();
 }
 
 function CAPEXGrid_Add(s, e) {
+    var wrkflowLine = WorkFlowLineTxt.GetText();
+    var statusKey = StatusKeyTxt.GetText();
     if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
         DirectMaterialsGrid.CancelEdit();
 
@@ -438,10 +630,23 @@ function CAPEXGrid_Add(s, e) {
     if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
         RevenueGrid.CancelEdit();
 
-    CAPEXGrid.AddNewRow();
+    if (wrkflowLine === "0") {
+        if (statusKey === "1") {
+            CAPEXGrid.AddNewRow();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
+    } else {
+        CAPEXGrid.AddNewRow();
+    }
+    //CAPEXGrid.AddNewRow();
 }
 
 function RevenueGrid_Add(s, e) {
+    var wrkflowLine = WorkFlowLineTxt.GetText();
+    var statusKey = StatusKeyTxt.GetText();
     if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
         DirectMaterialsGrid.CancelEdit();
 
@@ -453,8 +658,18 @@ function RevenueGrid_Add(s, e) {
 
     if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
         CAPEXGrid.CancelEdit();
-
-    RevenueGrid.AddNewRow();
+    if (wrkflowLine === "0") {
+        if (statusKey === "1") {
+            RevenueGrid.AddNewRow();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
+    } else {
+        RevenueGrid.AddNewRow();
+    }
+    //RevenueGrid.AddNewRow();
 }
 
 function updateDirectMat(s, e) {

@@ -50,8 +50,7 @@ namespace HijoPortal
                 docnumber = Request.Params["DocNum"].ToString();  //Session["DocNumber"].ToString();
                 wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
 
-                WorkFlowLineLbl.Text = wrkflwln.ToString();
-                WorkFlowLineTxt.Text = wrkflwln.ToString();
+                
 
                 //ASPxHiddenField hidWorkflowLine = Page.FindControl("WorkFlowLine") as ASPxHiddenField;
                 //hidWorkflowLine["hidden_value"] = wrkflwln.ToString();
@@ -138,12 +137,15 @@ namespace HijoPortal
                 iStatusKey = Convert.ToInt32(reader["StatusKey"]);
                 firstname = reader["Firstname"].ToString();
                 lastname = reader["Lastname"].ToString();
-                StatusKeyLbl.Text = iStatusKey.ToString();
-                StatusKeyTxt.Text = iStatusKey.ToString();
+                
             }
             reader.Close();
             conn.Close();
 
+            WorkFlowLineLbl.Text = wrkflwln.ToString();
+            WorkFlowLineTxt.Text = wrkflwln.ToString();
+            StatusKeyLbl.Text = iStatusKey.ToString();
+            StatusKeyTxt.Text = iStatusKey.ToString();
 
             Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
 
@@ -1301,13 +1303,49 @@ namespace HijoPortal
 
         protected void Submit_Click(object sender, EventArgs e)
         {
-            MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1);
-            Load_MRP(docnumber);
-            BindDirectMaterials(docnumber);
-            BindOPEX(docnumber);
-            BindManPower(docnumber);
-            BindCAPEX(docnumber);
-            BindRevenue(docnumber);
+            if (wrkflwln == 0)
+            {
+                if (iStatusKey == 1)
+                {
+                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1);
+                    Load_MRP(docnumber);
+                    BindDirectMaterials(docnumber);
+                    BindOPEX(docnumber);
+                    BindManPower(docnumber);
+                    BindCAPEX(docnumber);
+                    BindRevenue(docnumber);
+                } else
+                {
+
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                    MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
+                    MRPNotify.HeaderText = "Alert";
+                    MRPNotify.ShowOnPageLoad = true;
+                    //MRPNotify.
+                }
+            } else
+            {
+                if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
+                {
+                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1);
+                    Load_MRP(docnumber);
+                    BindDirectMaterials(docnumber);
+                    BindOPEX(docnumber);
+                    BindManPower(docnumber);
+                    BindCAPEX(docnumber);
+                    BindRevenue(docnumber);
+                } else
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                    MRPNotificationMessage.Text = "Document already submitted to Inventory Analyst for review.";
+                    MRPNotify.HeaderText = "Alert";
+                    MRPNotify.ShowOnPageLoad = true;
+                }
+                
+            }
+            
         }
     }
 }
