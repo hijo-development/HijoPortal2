@@ -1688,7 +1688,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable CAPEXCIP_Table(string month, string year, string pk)
+        public static DataTable CAPEXCIP_Table(string month, string year)
         {
 
             DataTable dtTable = new DataTable();
@@ -1715,7 +1715,7 @@ namespace HijoPortal.classes
             }
             string query_all = "SELECT dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID";
 
-            string query_sort = "SELECT dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.MRPMonth = '" + month + "' AND dbo.tbl_MRP_List.MRPYear = '" + year + "' AND dbo.tbl_MRP_List.PK = '" + pk + "'";
+            string query_sort = "SELECT dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.MRPMonth = '" + month + "' AND dbo.tbl_MRP_List.MRPYear = '" + year + "'";
 
             if (string.IsNullOrEmpty(month) && string.IsNullOrEmpty(year))
                 cmd = new SqlCommand(query_all);
@@ -2166,7 +2166,8 @@ namespace HijoPortal.classes
                 //dtTable.Columns.Add("EntityCode", typeof(string));
             }
 
-            string qry = "SELECT [PK], [MRPMonth], [MRPYear], [EntityCode] FROM [hijo_portal].[dbo].[tbl_MRP_List] ORDER BY MRPMonth, MRPYear ASC";
+            //string qry = "SELECT [PK], [MRPMonth], [MRPYear], [EntityCode] FROM [hijo_portal].[dbo].[tbl_MRP_List] ORDER BY MRPMonth, MRPYear ASC";
+            string qry = "SELECT [PK], [MRPMonth], [MRPYear], [EntityCode] FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE PK IN(SELECT MAX(PK) FROM [hijo_portal].[dbo].[tbl_MRP_List] GROUP BY MRPMonth, MRPYear) ORDER BY MRPMonth, MRPYear ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;

@@ -6,7 +6,7 @@
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeaderPO">
             <h1>M O P  Details</h1>
-            <table border="0" style="width:100%;">
+            <table border="0" style="width: 100%;">
                 <tr>
                     <td style="width: 2%">
                         <dx:ASPxLabel runat="server" Text="MRP MONTH YEAR" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
@@ -29,14 +29,19 @@
         </div>
 
         <dx:ASPxGridView ID="CAPEXCIP" ClientInstanceName="CAPEXCIP" runat="server" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
-             OnBeforeGetCallbackResult="CAPEXCIP_BeforeGetCallbackResult" OnCustomCallback="CAPEXCIP_CustomCallback">
+            OnStartRowEditing="CAPEXCIP_StartRowEditing"
+            OnRowUpdating="CAPEXCIP_RowUpdating"
+            OnBeforeGetCallbackResult="CAPEXCIP_BeforeGetCallbackResult"
+            OnCustomCallback="CAPEXCIP_CustomCallback">
             <%--<ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />--%>
             <Columns>
                 <dx:GridViewCommandColumn ShowEditButton="true"></dx:GridViewCommandColumn>
                 <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
                 <dx:GridViewDataColumn FieldName="CIPSIPNumber">
                     <EditItemTemplate>
-                        <dx:ASPxTextBox ID="CIPSIPNumber" Text='<%#Eval("CIPSIPNumber")%>' runat="server" Width="170px" Theme="Office2010Blue"></dx:ASPxTextBox>
+                        <dx:ASPxTextBox ID="CIPSIPNumber" Text='<%#Eval("CIPSIPNumber")%>' runat="server" Width="170px" HorizontalAlign="Right" Theme="Office2010Blue">
+                            <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
+                        </dx:ASPxTextBox>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
                 <dx:GridViewDataColumn FieldName="HeaderDocNum" Caption="Document Number">
@@ -85,7 +90,9 @@
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
             </Columns>
-            <Styles><Cell Wrap="False"></Cell></Styles>
+            <Styles>
+                <Cell Wrap="False"></Cell>
+            </Styles>
             <SettingsCommandButton>
                 <EditButton Image-Url="images/Edit.ico" Image-AlternateText="Edit" Image-ToolTip="Edit Row" RenderMode="Image" Image-Width="15px"></EditButton>
                 <UpdateButton Image-Url="images/Save.ico" Image-AlternateText="Update" Image-ToolTip="Update" RenderMode="Image" Image-Width="15px"></UpdateButton>
