@@ -2364,6 +2364,37 @@ namespace HijoPortal.classes
                 grid.Columns["RevDesc"].Visible = false;
         }
 
+        public static int MRP_Line_Status(int masterKey, int line)
+        {
+            //tbl_MRP_List_Workflow
+            int mrpLineStat = 0;
+            string qry = "";
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dtable = new DataTable();
+
+            conn.Open();
+            qry = "SELECT Status " +
+                  " FROM tbl_MRP_List_Workflow " +
+                  " WHERE (MasterKey = " + masterKey + ") " +
+                  " AND (Line = "+ line + ")";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count>0)
+            {
+                foreach(DataRow row in dtable.Rows)
+                {
+                    mrpLineStat = Convert.ToInt32(row["Status"]);
+                }
+            }
+            dtable.Clear();
+            conn.Close();
+            return mrpLineStat;
+        }
+
         public static void Submit_MRP(string docNum, int MRPKey, int WorkFlowLine)
         {
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
