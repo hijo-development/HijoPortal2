@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using DevExpress.Web;
 using System.Net.NetworkInformation;
+using System.Text;
 
 namespace HijoPortal.classes
 {
@@ -2407,12 +2408,25 @@ namespace HijoPortal.classes
 
             conn.Open();
 
-            qry = "SELECT dbo.tbl_System_Approval_Position.SQLQuery, " +
-                  " ISNULL(dbo.tbl_Users.Email,'') AS Email, dbo.tbl_Users.Lastname, " +
-                  " dbo.tbl_MRP_List_Workflow.UserKey, dbo.tbl_MRP_List_Workflow.PositionNameKey " +
-                  " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
-                  " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
-                  " dbo.tbl_Users ON dbo.tbl_MRP_List_Workflow.UserKey = dbo.tbl_Users.PK " +
+            //qry = "SELECT dbo.tbl_System_Approval_Position.SQLQuery, " +
+            //      " ISNULL(dbo.tbl_Users.Email,'') AS Email, dbo.tbl_Users.Lastname, dbo.tbl_Users.Gender, " +
+            //      " dbo.tbl_MRP_List_Workflow.UserKey, dbo.tbl_MRP_List_Workflow.PositionNameKey " +
+            //      " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
+            //      " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
+            //      " dbo.tbl_Users ON dbo.tbl_MRP_List_Workflow.UserKey = dbo.tbl_Users.PK " +
+            //      " WHERE(dbo.tbl_MRP_List_Workflow.Line = " + WorkFlowLine + ") " +
+            //      " AND(dbo.tbl_MRP_List_Workflow.MasterKey = " + MRPKey + ")";
+
+            qry = "SELECT dbo.tbl_System_Approval_Position.SQLQuery, ISNULL(tbl_Users_1.Email, '') AS Email, " +
+                  " tbl_Users_1.Lastname, tbl_Users_1.Gender, dbo.tbl_MRP_List_Workflow.UserKey, " +
+                  " dbo.tbl_MRP_List_Workflow.PositionNameKey, dbo.tbl_Users.Lastname AS CreatorLName, " +
+                  " dbo.tbl_Users.Email AS CreatorEmail, dbo.tbl_Users.Gender AS CreatorGender, " +
+                  " dbo.tbl_System_Approval_Position.PositionName " +
+                  " FROM dbo.tbl_Users RIGHT OUTER JOIN " +
+                  " dbo.tbl_MRP_List ON dbo.tbl_Users.PK = dbo.tbl_MRP_List.CreatorKey RIGHT OUTER JOIN " +
+                  " dbo.tbl_MRP_List_Workflow ON dbo.tbl_MRP_List.PK = dbo.tbl_MRP_List_Workflow.MasterKey LEFT OUTER JOIN " +
+                  " dbo.tbl_Users AS tbl_Users_1 ON dbo.tbl_MRP_List_Workflow.UserKey = tbl_Users_1.PK LEFT OUTER JOIN " +
+                  " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
                   " WHERE(dbo.tbl_MRP_List_Workflow.Line = " + WorkFlowLine + ") " +
                   " AND(dbo.tbl_MRP_List_Workflow.MasterKey = " + MRPKey + ")";
             cmd = new SqlCommand(qry);
@@ -2426,10 +2440,32 @@ namespace HijoPortal.classes
                     sEmail = EncryptionClass.Decrypt(row["Email"].ToString());
                     if (GlobalClass.IsEmailValid(sEmail) == true)
                     {
-                        string sMailSubject = "", sMailBody = "";
-                        sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your review";
-                        sMailBody = "Dear Mr/Ms. " + EncryptionClass.Decrypt(row["Lastname"].ToString()) + " MOP DocNum " + docNum.ToString() + " is waiting for your review";
-                        bool msgSend = GlobalClass.IsMailSent(sEmail, sMailSubject, sMailBody);
+                        //send email to approver
+                        string sMailSubject = "", sGreetings = "";
+                        sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your review and approval";
+                        if (Convert.ToInt32(row["Gender"]) == 1)
+                        {
+                            sGreetings = "Dear Mr. " + EncryptionClass.Decrypt(row["Lastname"].ToString());
+                        }
+                        else
+                        {
+                            sGreetings = "Dear Ms. " + EncryptionClass.Decrypt(row["Lastname"].ToString());
+                        }
+
+                        var sbBody = new StringBuilder();
+                        sbBody.Append("<!DOCTYPE html>");
+                        sbBody.Append("<html>");
+                        sbBody.Append("<head>");                        
+                        sbBody.Append("</head>");
+                        sbBody.Append("<body>");
+                        sbBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetings + ",</p>");
+                        sbBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " is waiting for your review/approval.</p>");
+                        sbBody.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
+                        sbBody.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
+                        sbBody.Append("</body>");
+                        sbBody.Append("</html>");
+                        
+                        bool msgSend = GlobalClass.IsMailSent(sEmail, sMailSubject, sbBody.ToString());
 
                         if (msgSend == true)
                         {
@@ -2453,9 +2489,10 @@ namespace HijoPortal.classes
 
                             //Insert to User Assigned
                             qry = "INSERT INTO tbl_Users_Assigned " +
-                                  " (UserKey, PositionNameKey, MRPKey) " +
+                                  " (UserKey, PositionNameKey, MRPKey, WorkFlowLine) " +
                                   " VALUES(" + Convert.ToInt32(row["UserKey"]) + ", " +
-                                  " " + Convert.ToInt32(row["PositionNameKey"]) + ", " + MRPKey + ")";
+                                  " " + Convert.ToInt32(row["PositionNameKey"]) + ", " +
+                                  " " + MRPKey + ", "+ WorkFlowLine + ")";
                             cmdIns = new SqlCommand(qry, conn);
                             cmdIns.ExecuteNonQuery();
 
@@ -2463,8 +2500,34 @@ namespace HijoPortal.classes
                             qry = "UPDATE tbl_MRP_List SET StatusKey = 2 WHERE (PK = " + MRPKey + ")";
                             cmdUp = new SqlCommand(qry, conn);
                             cmdUp.ExecuteNonQuery();
-                        }
 
+                            // Send Email to Creator
+                            string sSubjectCR = "", sGreetingsCR = "";
+                            string sEmailCR = EncryptionClass.Decrypt(row["CreatorEmail"].ToString());
+                            if (Convert.ToInt32(row["CreatorGender"]) == 1)
+                            {
+                                sGreetingsCR = "Dear Mr. " + EncryptionClass.Decrypt(row["CreatorLName"].ToString());
+                            }
+                            else
+                            {
+                                sGreetingsCR = "Dear Ms. " + EncryptionClass.Decrypt(row["CreatorLName"].ToString());
+                            }
+
+                            var sbBodyCR = new StringBuilder();
+                            sbBodyCR.Append("<!DOCTYPE html>");
+                            sbBodyCR.Append("<html>");
+                            sbBodyCR.Append("<head>");
+                            sbBodyCR.Append("</head>");
+                            sbBodyCR.Append("<body>");
+                            sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetingsCR + ",</p>");
+                            sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted to " + row["PositionName"].ToString() +" for review/approval.</p>");
+                            sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
+                            sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
+                            sbBodyCR.Append("</body>");
+                            sbBodyCR.Append("</html>");
+
+                            bool msgSendToCreator = GlobalClass.IsMailSent(sEmailCR, sSubjectCR, sbBodyCR.ToString());
+                        }
                     }
 
                 }
@@ -2472,5 +2535,61 @@ namespace HijoPortal.classes
             dtable.Clear();
             conn.Close();
         }
+
+        public static DataTable MRP_InventoryAnalyst_Edit()
+        {
+            DataTable dtTable = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dtable = new DataTable();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("DocNumber", typeof(string));
+                dtTable.Columns.Add("DateCreated", typeof(string));
+                dtTable.Columns.Add("EntityCodeDesc", typeof(string));
+                dtTable.Columns.Add("BUCodeDesc", typeof(string));
+                dtTable.Columns.Add("MRPMonthDesc", typeof(string));
+                dtTable.Columns.Add("MRPYear", typeof(string));
+            }
+            dtTable.Clear();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+            string qry = "SELECT dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, " +
+                         " dbo.vw_AXOperatingUnitTable.NAME AS Department, dbo.tbl_MRP_List_Workflow.MasterKey, " +
+                         " dbo.tbl_MRP_List.MRPMonth, dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.DateCreated " +
+                         " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
+                         " dbo.tbl_MRP_List ON dbo.tbl_MRP_List_Workflow.MasterKey = dbo.tbl_MRP_List.PK LEFT OUTER JOIN " +
+                         " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
+                         " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
+                         " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK " +
+                         " WHERE(dbo.tbl_MRP_List_Workflow.Line = 3) AND(dbo.tbl_MRP_List_Workflow.Status = 0)";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count > 0)
+            {
+                foreach(DataRow row in dtable.Rows)
+                {
+                    DataRow rowAdd = dtTable.NewRow();
+                    rowAdd["PK"] = row["MasterKey"].ToString();
+                    rowAdd["DocNumber"] = row["DocNumber"].ToString();
+                    rowAdd["DateCreated"] = Convert.ToDateTime(row["DateCreated"]).ToString("MM/dd/yyyy");
+                    rowAdd["EntityCodeDesc"] =row["Entity"].ToString();
+                    rowAdd["BUCodeDesc"] = row["Department"].ToString();
+                    rowAdd["MRPMonthDesc"] = Month_Name(Convert.ToInt32(row["MRPMonth"]));
+                    rowAdd["MRPYear"] = row["MRPYear"].ToString();
+                    dtTable.Rows.Add(rowAdd);
+                }
+            }
+            dtable.Clear();
+            conn.Close();
+
+            return dtTable;
+        }
+
     }
 }

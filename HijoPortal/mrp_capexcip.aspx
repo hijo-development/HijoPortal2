@@ -1,11 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_capexcip.aspx.cs" Inherits="HijoPortal.mrp_capexcip" %>
+﻿<%@ Page Title="CAPEX ID Assignment" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_capexcip.aspx.cs" Inherits="HijoPortal.mrp_capexcip" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeaderPO">
-            <h1>M O P  Details</h1>
+            <h1>for CAPEX ID Assignment</h1>
             <table border="0" style="width: 100%;">
                 <tr>
                     <td style="width: 2%">
@@ -19,10 +19,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="7" style="text-align: right">
+                    <td colspan="7" style="text-align: right; padding-right: 5px;">
                         <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
-                        &nbsp
-                            <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                       <%-- &nbsp
+                        <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>--%>
                     </td>
                 </tr>
             </table>
@@ -35,7 +35,7 @@
             OnCustomCallback="CAPEXCIP_CustomCallback">
             <%--<ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />--%>
             <Columns>
-                <dx:GridViewCommandColumn ShowEditButton="true"></dx:GridViewCommandColumn>
+                <dx:GridViewCommandColumn ShowEditButton="true" Width="30" CellStyle-HorizontalAlign ="Left"></dx:GridViewCommandColumn>
                 <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
                 <dx:GridViewDataColumn FieldName="CIPSIPNumber">
                     <EditItemTemplate>
@@ -74,17 +74,17 @@
                         <dx:ASPxLabel runat="server" Text='<%#Eval("UOM")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
-                <dx:GridViewDataColumn FieldName="ApprovedQty">
+                <dx:GridViewDataColumn FieldName="ApprovedQty" CellStyle-HorizontalAlign="Right">
                     <EditItemTemplate>
                         <dx:ASPxLabel runat="server" Text='<%#Eval("ApprovedQty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
-                <dx:GridViewDataColumn FieldName="ApprovedCost">
+                <dx:GridViewDataColumn FieldName="ApprovedCost" CellStyle-HorizontalAlign="Right">
                     <EditItemTemplate>
                         <dx:ASPxLabel runat="server" Text='<%#Eval("ApprovedCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
-                <dx:GridViewDataColumn FieldName="ApprovedTotalCost">
+                <dx:GridViewDataColumn FieldName="ApprovedTotalCost" CellStyle-HorizontalAlign="Right">
                     <EditItemTemplate>
                         <dx:ASPxLabel runat="server" Text='<%#Eval("ApprovedTotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                     </EditItemTemplate>

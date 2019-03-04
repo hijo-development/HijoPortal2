@@ -1,11 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_inventanalyst.aspx.cs" Inherits="HijoPortal.mrp_inventanalyst" %>
+﻿<%@ Page Title="MOP Inventory Analyst (Edit)" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_inventanalyst.aspx.cs" Inherits="HijoPortal.mrp_inventanalyst" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader">
-            <h1>M O P  Details</h1>
+            <h1>M O P  Details (Inventory Analyst)</h1>
             <%--<table class="mrp-add-form-table" style="width: 100%; padding: 25px; margin-bottom: 5px;" border="0">--%>
             <table border="0">
                 <tr>

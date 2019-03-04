@@ -10,7 +10,7 @@
 namespace HijoPortal {
     
     
-    public partial class mrp_capexcip {
+    public partial class mrp_listinventoryanalyst {
         
         /// <summary>
         /// dvContentWrapper control.
@@ -22,30 +22,30 @@ namespace HijoPortal {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvContentWrapper;
         
         /// <summary>
-        /// MRPmonthyear control.
+        /// msgTrans control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxComboBox MRPmonthyear;
+        protected global::System.Web.UI.WebControls.Label msgTrans;
         
         /// <summary>
-        /// Submit control.
+        /// grdMRPListInventAnalyst control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxButton Submit;
+        protected global::DevExpress.Web.ASPxGridView grdMRPListInventAnalyst;
         
         /// <summary>
-        /// CAPEXCIP control.
+        /// Edit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView CAPEXCIP;
+        protected global::DevExpress.Web.GridViewCommandColumnCustomButton Edit;
     }
 }

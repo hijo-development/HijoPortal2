@@ -100,7 +100,7 @@ namespace HijoPortal
 
                         Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
-                        Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString();
+                        //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_finance.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_inventoryanalyst_forapproval.aspx?DocNum=" + docNum.ToString();
@@ -415,14 +415,14 @@ namespace HijoPortal
                 //ASPxHiddenField entText = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "ASPxHiddenFieldEnt") as ASPxHiddenField;
                 if (Session["EntityCode"].ToString().Trim() != "")
                 {
-                    MRPClass.PrintString("pass with entity");
+                    //MRPClass.PrintString("pass with entity");
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                     PopUpControl.HeaderText = "MRP";
                     PopUpControl.ShowOnPageLoad = true;
                 }
                 else
                 {
-                    MRPClass.PrintString("pass script");
+                    //MRPClass.PrintString("pass script");
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "CheckEnt", "AddMOPCheckEntity();", true);
                 }
             }
