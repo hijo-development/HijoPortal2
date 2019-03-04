@@ -37,7 +37,7 @@
             <Columns>
                 <dx:GridViewCommandColumn ShowEditButton="true" Width="30" CellStyle-HorizontalAlign ="Left"></dx:GridViewCommandColumn>
                 <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
-                <dx:GridViewDataColumn FieldName="CIPSIPNumber">
+                <dx:GridViewDataColumn FieldName="CIPSIPNumber" Caption="Capex Number">
                     <EditItemTemplate>
                         <dx:ASPxTextBox ID="CIPSIPNumber" Text='<%#Eval("CIPSIPNumber")%>' runat="server" Width="170px" HorizontalAlign="Right" Theme="Office2010Blue">
                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>

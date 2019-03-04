@@ -299,6 +299,11 @@ namespace HijoPortal
             MRPClass.VisibilityRevDesc(grid, entitycode);
         }
 
+        protected void Preview_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString());
+        }
+
         protected void CAGridInventApproval_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
             bindCapex = false;

@@ -97,18 +97,25 @@
             <dx:TabPage Text="MRP">
                 <ContentCollection>
                     <dx:ContentControl>
-                        <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                        <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" ClientInstanceName="DMGridAppRoundPanel" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="DMGridApproval" runat="server" ClientInstanceName="DMGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
                                         OnStartRowEditing="DMGridApproval_StartRowEditing"
-                                        OnRowUpdating="DMGridApproval_RowUpdating" 
-                                        OnBeforeGetCallbackResult="DMGridApproval_BeforeGetCallbackResult" 
+                                        OnRowUpdating="DMGridApproval_RowUpdating"
+                                        OnBeforeGetCallbackResult="DMGridApproval_BeforeGetCallbackResult"
                                         OnDataBound="DMGridApproval_DataBound">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
+                                        <ClientSideEvents CustomButtonClick="DMGridApproval_CustomButtonClick" />
 
                                         <Columns>
-                                            <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                            <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                <CustomButtons>
+                                                    <dx:GridViewCommandColumnCustomButton ID="DMAppEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                        <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                    </dx:GridViewCommandColumnCustomButton>
+                                                </CustomButtons>
+                                            </dx:GridViewCommandColumn>
                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="ActivityCode" Caption="Activity" VisibleIndex="3">
@@ -117,10 +124,10 @@
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="4">
-                                                    <EditItemTemplate>
-                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
-                                                    </EditItemTemplate>
-                                                </dx:GridViewDataColumn>
+                                                <EditItemTemplate>
+                                                    <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                </EditItemTemplate>
+                                            </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="ItemCode" VisibleIndex="5">
                                                 <EditItemTemplate>
                                                     <dx:ASPxLabel runat="server" Text='<%#Eval("ItemCode")%>' Theme="Office2010Blue"></dx:ASPxLabel>
@@ -206,18 +213,25 @@
                                 </dx:PanelContent>
                             </PanelCollection>
                         </dx:ASPxRoundPanel>
-                        <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" HeaderText="OPEX" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                        <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" ClientInstanceName="OPGridAppRoundPanel" HeaderText="OPEX" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="OpexGridApproval" runat="server" ClientInstanceName="OpexGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
                                         OnStartRowEditing="OpexGridApproval_StartRowEditing"
-                                        OnRowUpdating="OpexGridApproval_RowUpdating" 
-                                        OnBeforeGetCallbackResult="OpexGridApproval_BeforeGetCallbackResult" 
+                                        OnRowUpdating="OpexGridApproval_RowUpdating"
+                                        OnBeforeGetCallbackResult="OpexGridApproval_BeforeGetCallbackResult"
                                         OnDataBound="OpexGridApproval_DataBound">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
+                                        <ClientSideEvents CustomButtonClick="OpexGridApproval_CustomButtonClick" />
 
                                         <Columns>
-                                            <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                            <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                <CustomButtons>
+                                                    <dx:GridViewCommandColumnCustomButton ID="OPAppEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                        <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                    </dx:GridViewCommandColumnCustomButton>
+                                                </CustomButtons>
+                                            </dx:GridViewCommandColumn>
                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="ExpenseCodeName" Caption="Activity" VisibleIndex="3">
@@ -226,10 +240,10 @@
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="4">
-                                                    <EditItemTemplate>
-                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
-                                                    </EditItemTemplate>
-                                                </dx:GridViewDataColumn>
+                                                <EditItemTemplate>
+                                                    <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                </EditItemTemplate>
+                                            </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="ItemCode" VisibleIndex="5">
                                                 <EditItemTemplate>
                                                     <dx:ASPxLabel runat="server" Text='<%#Eval("ItemCode")%>' Theme="Office2010Blue"></dx:ASPxLabel>
@@ -315,18 +329,25 @@
                                 </dx:PanelContent>
                             </PanelCollection>
                         </dx:ASPxRoundPanel>
-                        <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                        <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" ClientInstanceName="MANGridAppRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="ManPowerGridApproval" runat="server" ClientInstanceName="ManPowerGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
                                         OnStartRowEditing="ManPowerGridApproval_StartRowEditing"
-                                        OnRowUpdating="ManPowerGridApproval_RowUpdating" 
-                                        OnBeforeGetCallbackResult="ManPowerGridApproval_BeforeGetCallbackResult" 
+                                        OnRowUpdating="ManPowerGridApproval_RowUpdating"
+                                        OnBeforeGetCallbackResult="ManPowerGridApproval_BeforeGetCallbackResult"
                                         OnDataBound="ManPowerGridApproval_DataBound">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
+                                        <ClientSideEvents CustomButtonClick="ManPowerGridApproval_CustomButtonClick" />
 
                                         <Columns>
-                                            <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                            <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                <CustomButtons>
+                                                    <dx:GridViewCommandColumnCustomButton ID="MANAppEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                        <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                    </dx:GridViewCommandColumnCustomButton>
+                                                </CustomButtons>
+                                            </dx:GridViewCommandColumn>
                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="ActivityCode" Caption="Activity" VisibleIndex="3">
@@ -335,10 +356,10 @@
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="4">
-                                                    <EditItemTemplate>
-                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
-                                                    </EditItemTemplate>
-                                                </dx:GridViewDataColumn>
+                                                <EditItemTemplate>
+                                                    <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                </EditItemTemplate>
+                                            </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="ManPowerTypeKeyName" Caption="Type" VisibleIndex="5">
                                                 <EditItemTemplate>
                                                     <dx:ASPxLabel runat="server" Text='<%#Eval("ManPowerTypeKeyName")%>' Theme="Office2010Blue"></dx:ASPxLabel>
@@ -423,18 +444,25 @@
                                 </dx:PanelContent>
                             </PanelCollection>
                         </dx:ASPxRoundPanel>
-                        <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                        <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" ClientInstanceName="CAGridAppRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="CapexGridApproval" runat="server" ClientInstanceName="CapexGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
                                         OnStartRowEditing="CapexGridApproval_StartRowEditing"
-                                        OnRowUpdating="CapexGridApproval_RowUpdating" 
-                                        OnBeforeGetCallbackResult="CapexGridApproval_BeforeGetCallbackResult" 
+                                        OnRowUpdating="CapexGridApproval_RowUpdating"
+                                        OnBeforeGetCallbackResult="CapexGridApproval_BeforeGetCallbackResult"
                                         OnDataBound="CapexGridApproval_DataBound">
                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
+                                        <ClientSideEvents CustomButtonClick="CapexGridApproval_CustomButtonClick" />
 
                                         <Columns>
-                                            <dx:GridViewCommandColumn ShowEditButton="true" VisibleIndex="0"></dx:GridViewCommandColumn>
+                                            <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                                <CustomButtons>
+                                                    <dx:GridViewCommandColumnCustomButton ID="CAAppEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
+                                                        <Image AlternateText="Edit" ToolTip="Edit Row" Width="15px" Url="Images/Edit.ico"></Image>
+                                                    </dx:GridViewCommandColumnCustomButton>
+                                                </CustomButtons>
+                                            </dx:GridViewCommandColumn>
                                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="Description" VisibleIndex="4">
@@ -443,10 +471,10 @@
                                                 </EditItemTemplate>
                                             </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="5">
-                                                    <EditItemTemplate>
-                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
-                                                    </EditItemTemplate>
-                                                </dx:GridViewDataColumn>
+                                                <EditItemTemplate>
+                                                    <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                </EditItemTemplate>
+                                            </dx:GridViewDataColumn>
                                             <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="6">
                                                 <EditItemTemplate>
                                                     <dx:ASPxLabel runat="server" Text='<%#Eval("UOM")%>' Theme="Office2010Blue"></dx:ASPxLabel>

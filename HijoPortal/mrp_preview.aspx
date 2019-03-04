@@ -29,7 +29,7 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <div id="dvContentWrapper" runat="server" class ="ContentWrapper">
+    <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 150px; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
             <h1>M R P  Preview</h1>
             <table style="width: 80%; margin: auto;">
@@ -41,9 +41,7 @@
                     <td colspan="4">
                         <dx:ASPxLabel ID="DocNum" runat="server" Text="" Theme="Office2010Blue" Style="font-size: medium; font-weight: bold; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"></dx:ASPxLabel>
                     </td>
-                    <td rowspan="3" style="width: 40%">
-
-                    </td>
+                    <td rowspan="3" style="width: 40%"></td>
                 </tr>
                 <tr>
                     <td>
@@ -120,14 +118,15 @@
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <asp:ListView ID="MatListview" runat="server" OnItemCommand="MatListview_ItemCommand">
+                        <asp:ListView ID="MatListview" runat="server" OnItemCommand="MatListview_ItemCommand" OnDataBound="MatListview_DataBound" OnItemDataBound="MatListview_ItemDataBound">
                             <LayoutTemplate>
                                 <table class="table1" style="width: 100%" runat="server">
                                     <tr class="headerRow">
-                                        <th style="width: 0px"></th>
-                                        <th style="width: 40%;"></th>
+                                        <th id="pk_header" runat="server" style="width: 0px;"></th>
+                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
                                         <th style="width: 10%;">UOM</th>
-                                        <th style="width: 10%;">Qty</th>
+                                        <th style="width: 5%;">Qty</th>
                                         <th style="width: 15%;">Est. Cost/Unit</th>
                                         <th style="width: 15%;">Total</th>
                                         <th style="width: 10%;"></th>
@@ -137,13 +136,17 @@
                             </LayoutTemplate>
                             <ItemTemplate>
                                 <tr>
-                                    <td style="width: 0px">
+                                    <td id="pk_td" runat="server" style="width: 0px;">
                                         <asp:Label ID="MatID" runat="server"
                                             Text='<%# Eval("PK") %>' Visible="false" />
                                     </td>
                                     <td style="padding-left: 5px;">
                                         <asp:Label ID="MatDescription" runat="server"
                                             Text='<%# Eval("ItemDescription") %>' />
+                                    </td>
+                                    <td id="tableDataRevDesc" runat="server" style="text-align: center;">
+                                        <asp:Label ID="MatOpr" runat="server"
+                                            Text='<%# Eval("RevDesc") %>' />
                                     </td>
                                     <td style="text-align: center;">
                                         <asp:Label ID="MatUOM" runat="server"
@@ -184,14 +187,15 @@
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <asp:ListView ID="OpexListiview" runat="server" OnItemCommand="OpexListiview_ItemCommand">
+                        <asp:ListView ID="OpexListiview" runat="server" OnItemCommand="OpexListiview_ItemCommand" OnDataBound="OpexListiview_DataBound" OnItemDataBound="OpexListiview_ItemDataBound">
                             <LayoutTemplate>
                                 <table class="table1" style="width: 100%" runat="server">
                                     <tr class="headerRow">
-                                        <th style="width: 0px"></th>
-                                        <th style="width: 40%;"></th>
+                                        <th id="pk_header" runat="server" style="width: 0px"></th>
+                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
                                         <th style="width: 10%;">UOM</th>
-                                        <th style="width: 10%;">Qty</th>
+                                        <th style="width: 5%;">Qty</th>
                                         <th style="width: 15%;">Est. Cost/Unit</th>
                                         <th style="width: 15%;">Total</th>
                                         <th style="width: 10%;"></th>
@@ -201,13 +205,20 @@
                             </LayoutTemplate>
                             <ItemTemplate>
                                 <tr>
-                                    <td style="width: 0px">
+                                    <td id="pk_td" runat="server" style="width: 0px">
                                         <asp:Label ID="OpexID" runat="server"
                                             Text='<%# Eval("PK") %>' Visible="false" />
                                     </td>
+
                                     <td style="padding-left: 5px;">
                                         <asp:Label ID="OpexDescription" runat="server"
                                             Text='<%# Eval("Description") %>' />
+                                    </td>
+
+                                    <td id="tableDataRevDesc" runat="server" style="text-align: center;">
+                                        <asp:Label ID="OPOpr" runat="server"
+                                            Text='<%# Eval("RevDesc") %>' />
+
                                     </td>
                                     <td style="text-align: center;">
                                         <asp:Label ID="OpexUOM" runat="server"
@@ -247,14 +258,15 @@
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <asp:ListView ID="ManListview" runat="server" OnItemCommand="ManListview_ItemCommand">
+                        <asp:ListView ID="ManListview" runat="server" OnItemCommand="ManListview_ItemCommand" OnDataBound="ManListview_DataBound" OnItemDataBound="ManListview_ItemDataBound">
                             <LayoutTemplate>
                                 <table class="table1" style="width: 100%" runat="server">
                                     <tr class="headerRow">
-                                        <th style="width: 0px"></th>
-                                        <th style="width: 40%;"></th>
+                                        <th id="pk_header" runat="server" style="width: 0px"></th>
+                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
                                         <th style="width: 10%;">UOM</th>
-                                        <th style="width: 10%;">Qty</th>
+                                        <th style="width: 5%;">Qty</th>
                                         <th style="width: 15%;">Est. Cost/Unit</th>
                                         <th style="width: 15%;">Total</th>
                                         <th style="width: 10%;"></th>
@@ -264,13 +276,19 @@
                             </LayoutTemplate>
                             <ItemTemplate>
                                 <tr>
-                                    <td style="width: 0px">
+                                    <td id="pk_td" runat="server" style="width: 0px">
                                         <asp:Label ID="ManID" runat="server"
                                             Text='<%# Eval("PK") %>' Visible="false" />
                                     </td>
                                     <td style="padding-left: 5px;">
                                         <asp:Label ID="ManDescription" runat="server"
                                             Text='<%# Eval("Description") %>' />
+                                    </td>
+
+                                    <td id="tableDataRevDesc" runat="server" style="text-align: center;">
+                                        <asp:Label ID="MANOpr" runat="server"
+                                            Text='<%# Eval("RevDesc") %>' />
+
                                     </td>
                                     <td style="text-align: center;">
                                         <asp:Label ID="ManUOM" runat="server"
@@ -311,14 +329,15 @@
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <asp:ListView ID="CapexListview" runat="server" OnItemCommand="CapexListview_ItemCommand">
+                        <asp:ListView ID="CapexListview" runat="server" OnItemCommand="CapexListview_ItemCommand" OnDataBound="CapexListview_DataBound" OnItemDataBound="CapexListview_ItemDataBound">
                             <LayoutTemplate>
                                 <table class="table1" style="width: 100%" runat="server">
                                     <tr class="headerRow">
-                                        <th style="width: 0px"></th>
-                                        <th style="width: 40%;"></th>
+                                        <th id="pk_header" runat="server" style="width: 0px"></th>
+                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
                                         <th style="width: 10%;">UOM</th>
-                                        <th style="width: 10%;">Qty</th>
+                                        <th style="width: 5%;">Qty</th>
                                         <th style="width: 15%;">Est. Cost/Unit</th>
                                         <th style="width: 15%;">Total</th>
                                         <th style="width: 10%;"></th>
@@ -328,13 +347,19 @@
                             </LayoutTemplate>
                             <ItemTemplate>
                                 <tr>
-                                    <td style="width: 0px">
+                                    <td id="pk_td" runat="server" style="width: 0px">
                                         <asp:Label ID="CapexID" runat="server"
                                             Text='<%# Eval("PK") %>' Visible="false" />
                                     </td>
                                     <td style="padding-left: 5px;">
                                         <asp:Label ID="CapexDescription" runat="server"
                                             Text='<%# Eval("Description") %>' />
+                                    </td>
+
+                                    <td id="tableDataRevDesc" runat="server" style="text-align: center;">
+                                        <asp:Label ID="CAOpr" runat="server"
+                                            Text='<%# Eval("RevDesc") %>' />
+
                                     </td>
                                     <td style="text-align: center;">
                                         <asp:Label ID="CapexUOM" runat="server"
@@ -376,16 +401,17 @@
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <asp:ListView ID="RevListview" runat="server" OnItemCommand="RevListview_ItemCommand">
+                        <asp:ListView ID="RevListview" runat="server" OnItemCommand="RevListview_ItemCommand" OnDataBound="RevListview_DataBound" OnItemDataBound="RevListview_ItemDataBound">
                             <LayoutTemplate>
                                 <table class="table1" style="width: 100%" runat="server">
                                     <tr class="headerRow">
-                                        <th style="width: 0px"></th>
-                                        <th style="width: 40%;"></th>
-                                        <th style="width: 10%;">UOM</th>
-                                        <th style="width: 10%;">Qty</th>
-                                        <th style="width: 15%;">Est. Cost/Unit</th>
-                                        <th style="width: 15%;">Total</th>
+                                        <th id="pk_header" runat="server" style="width: 0px"></th>
+                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Product</th>
+                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
+                                        <th style="width: 10%;">Farm Name</th>
+                                        <th style="width: 5%;">Volume</th>
+                                        <th style="width: 15%;">Prize</th>
+                                        <th style="width: 15%;">Total Prize</th>
                                         <th style="width: 10%;"></th>
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" />
@@ -393,13 +419,18 @@
                             </LayoutTemplate>
                             <ItemTemplate>
                                 <tr>
-                                    <td style="width: 0px">
+                                    <td id="pk_td" runat="server" style="width: 0px">
                                         <asp:Label ID="RevID" runat="server"
                                             Text='<%# Eval("PK") %>' Visible="false" />
                                     </td>
                                     <td style="padding-left: 5px;">
                                         <asp:Label ID="RevProduct" runat="server"
                                             Text='<%# Eval("ProductName") %>' />
+                                    </td>
+                                    <td id="tableDataRevDesc" runat="server" style="text-align: center;">
+                                        <asp:Label ID="RevOpr" runat="server"
+                                            Text='<%# Eval("RevDesc") %>' />
+
                                     </td>
                                     <td style="text-align: center;">
                                         <asp:Label ID="RevFarm" runat="server"
@@ -430,8 +461,9 @@
                 </tr>
                 <tr>
                     <td style="width: 75%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <%--<td id="revExtra" runat="server" style="width: 10%;"></td>--%>
                     <td id="TARevenue" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px;"></td>
+                    <td style="border-left-width: 0px; width:10%"></td>
                 </tr>
             </table>
         </div>

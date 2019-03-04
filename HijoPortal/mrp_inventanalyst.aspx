@@ -89,12 +89,12 @@
                         &nbsp
                             <dx:ASPxButton ID="MRPList" runat="server" Text="MOP LIST" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
                         &nbsp
-                            <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                            <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click"></dx:ASPxButton>
                     </td>
                 </tr>
             </table>
         </div>
-
+         
         <dx:ASPxPageControl ID="ASPxPageControl1" runat="server" Width="100%" ActiveTabIndex="0" EnableHierarchyRecreation="true" Theme="Office2010Blue">
             <TabPages>
                 <dx:TabPage Text="MRP">
@@ -200,7 +200,7 @@
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
-                            <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" HeaderText="OPEX" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" ClientInstanceName="OPGridRoundPanel" HeaderText="OPEX" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="OpGrid" runat="server" ClientInstanceName="OpGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
@@ -300,7 +300,7 @@
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
-                            <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" ClientInstanceName="MANGridRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="ManPoGrid" runat="server" ClientInstanceName="ManPoGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
@@ -400,7 +400,7 @@
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
-                             <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                             <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" ClientInstanceName="CAGridRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="CapGrid" runat="server" ClientInstanceName="CapGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 

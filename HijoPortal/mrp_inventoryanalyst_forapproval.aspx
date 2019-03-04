@@ -88,7 +88,7 @@
                         &nbsp
                             <dx:ASPxButton ID="MRPList" runat="server" Text="MOP LIST" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
                         &nbsp
-                            <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                            <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click"></dx:ASPxButton>
                     </td>
                 </tr>
             </table>
@@ -99,7 +99,7 @@
                 <dx:TabPage Text="MRP">
                     <ContentCollection>
                         <dx:ContentControl>
-                            <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" ClientInstanceName="DMGridInvAppRoundPanel" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="DMGridInventApproval" runat="server" ClientInstanceName="DMGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
@@ -200,7 +200,7 @@
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
-                            <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" HeaderText="OPEX" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" ClientInstanceName="OPGridInvAppRoundPanel" HeaderText="OPEX" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="OPGridInventApproval" runat="server" ClientInstanceName="OPGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
@@ -300,7 +300,7 @@
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
-                            <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" ClientInstanceName="MANGridInvAppRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="MANGridInventApproval" runat="server" ClientInstanceName="MANGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
@@ -400,7 +400,7 @@
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
-                            <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" ClientInstanceName="CAGridInvAppRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="CAGridInventApproval" runat="server" ClientInstanceName="CAGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
