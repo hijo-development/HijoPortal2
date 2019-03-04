@@ -23,7 +23,7 @@
                     <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="LastName" Caption="Last Name" VisibleIndex="2" SortOrder="Ascending"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="FirstName" Caption="First Name" VisibleIndex="3"></dx:GridViewDataColumn>
-                    <%--<dx:GridViewDataColumn FieldName="MiddleName" Caption="Middle Name" VisibleIndex="4"></dx:GridViewDataColumn>--%>
+                    <dx:GridViewDataColumn FieldName="Gender" Caption="Gender" VisibleIndex="4"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="Email" Caption="Email" VisibleIndex="5"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="UserType" Visible="false" VisibleIndex="6"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="UserTypeDesc" Caption="User Type" VisibleIndex="7"></dx:GridViewDataColumn>

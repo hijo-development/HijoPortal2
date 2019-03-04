@@ -203,6 +203,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("UserLevelDesc", typeof(string));
                 dtTable.Columns.Add("LastName", typeof(string));
                 dtTable.Columns.Add("FirstName", typeof(string));
+                dtTable.Columns.Add("Gender", typeof(string));
                 //dtTable.Columns.Add("MiddleName", typeof(string));
                 dtTable.Columns.Add("CompleteName", typeof(string));
                 dtTable.Columns.Add("Email", typeof(string));
@@ -223,7 +224,7 @@ namespace HijoPortal.classes
                 string qry = "SELECT dbo.tbl_Users.PK, dbo.tbl_Users.UserType, dbo.tbl_UsersType.UserType AS UserTypeDesc, " +
                              " dbo.tbl_Users.UserLevelKey, dbo.tbl_UserLevel.UserLevel, dbo.tbl_Users.Username, " +
                              " dbo.tbl_Users.Password, dbo.tbl_Users.DomainAccount, dbo.tbl_Users.Lastname, " +
-                             " dbo.tbl_Users.Firstname, dbo.tbl_Users.Email, " +
+                             " dbo.tbl_Users.Firstname, dbo.tbl_Users.Email, dbo.tbl_Users.Gender, " +
                              " dbo.tbl_Users.EmployeeKey, dbo.tbl_Users.EntityCode, dbo.tbl_Users.BUCode, " +
                              " dbo.tbl_Users.Image, ISNULL(dbo.vw_AXEntityTable.NAME, '') AS EntityCodeDesc, " +
                              " ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUCodeDesc, dbo.tbl_Users.DomainAccount, " +
@@ -253,6 +254,13 @@ namespace HijoPortal.classes
                         rowAdd["CompleteName"] = EncryptionClass.Decrypt(row["Lastname"].ToString()) + ",  " + EncryptionClass.Decrypt(row["Firstname"].ToString());  //+ "  " + EncryptionClass.Decrypt(row["Middlename"].ToString());
                         rowAdd["LastName"] = EncryptionClass.Decrypt(row["Lastname"].ToString());
                         rowAdd["FirstName"] = EncryptionClass.Decrypt(row["Firstname"].ToString());
+                        if (Convert.ToInt32(row["Gender"]) == 1)
+                        {
+                            rowAdd["Gender"] = "Male";
+                        } else
+                        {
+                            rowAdd["Gender"] = "Female";
+                        }
                         //rowAdd["MiddleName"] = EncryptionClass.Decrypt(row["Middlename"].ToString());
                         rowAdd["Email"] = EncryptionClass.Decrypt(row["Email"].ToString());
                         rowAdd["EntityCode"] = row["EntityCode"].ToString();

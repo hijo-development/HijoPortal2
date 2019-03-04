@@ -106,9 +106,10 @@ namespace HijoPortal
                 using (SqlConnection con = new SqlConnection(GlobalClass.SQLConnString()))
                 {
                     string _sLastName, _sFirstName, _sEmail, _sUserName, _sPassword, _sIDNum;
-
-                    _sLastName = EncryptionClass.Encrypt(lastNameTextBox.Text.ToString().Trim());
-                    _sFirstName = EncryptionClass.Encrypt(firstNameTextBox.Text.ToString().Trim());
+                    int _Gender = 0;
+                    _sLastName = EncryptionClass.Encrypt(GlobalClass.UpperCaseFirstLetter(lastNameTextBox.Text.ToString().Trim()));
+                    _sFirstName = EncryptionClass.Encrypt(GlobalClass.UpperCaseFirstLetter(firstNameTextBox.Text.ToString().Trim()));
+                    _Gender = Convert.ToInt32(cmbGender.Value);
                     _sEmail = EncryptionClass.Encrypt(eMailTextBox.Text.ToString().Trim());
                     _sUserName = EncryptionClass.Encrypt(userNameTextBox.Text.ToString().Trim());
                     _sPassword = EncryptionClass.Encrypt(passwordTextBox.Text.ToString().Trim());
@@ -117,9 +118,9 @@ namespace HijoPortal
                     con.Open();
 
                     qry = "INSERT INTO tbl_Users " +
-                          " (Lastname, Firstname, Username, Password, Email, EmployeeKey) " +
+                          " (Lastname, Firstname, Username, Password, Email, EmployeeKey, Gender) " +
                           " VALUES ('" + _sLastName + "', '" + _sFirstName + "', '" + _sUserName + "', " +
-                          " '" + _sPassword + "', '" + _sEmail + "', " + iEmployeeKey + ")"; ;
+                          " '" + _sPassword + "', '" + _sEmail + "', " + iEmployeeKey + ", "+ _Gender + ")"; ;
                     try
                     {
                         cmd = new SqlCommand(qry);

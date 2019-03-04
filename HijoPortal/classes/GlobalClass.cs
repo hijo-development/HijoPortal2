@@ -165,6 +165,8 @@ namespace HijoPortal.classes
             mailMsg.From = new MailAddress(sEmailFrom);
             mailMsg.Subject = sEmailSubject;
 
+            sEmailSignature = sWebRoot + @"images\EmailSig.jpg";
+
             if (File.Exists(sEmailSignature) == true)
             {
                 AlternateView htmlView = AlternateView.CreateAlternateViewFromString(sEmailBody + "<img src=cid:EmailSig>", null, "text/html");

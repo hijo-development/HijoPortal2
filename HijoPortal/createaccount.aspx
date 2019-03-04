@@ -10,7 +10,8 @@
     <link rel="stylesheet" type="text/css" href="css/Account.css" />
     <script src="jquery/createAccount.js" type="text/javascript"></script>
     <style type="text/css">
-        .btn {}
+        .btn {
+        }
     </style>
 </head>
 <body>
@@ -18,8 +19,8 @@
         <dx:ASPxGlobalEvents runat="server" ID="GlobalEvents">
             <ClientSideEvents ControlsInitialized="onControlsInitialized" />
         </dx:ASPxGlobalEvents>
-        <div style="height:50px;"></div>
-        <div id="dvHeader" style="height:50px;">
+        <div style="height: 50px;"></div>
+        <div id="dvHeader" style="height: 50px;">
             <h1>Account Registration</h1>
         </div>
         <div style="width: 800px; height: 500px; margin: auto;">
@@ -45,7 +46,7 @@
                                                             <RequiredField IsRequired="True" ErrorText="The value is required" />
                                                             <ErrorFrameStyle Wrap="True" />
                                                         </ValidationSettings>
-                                                        <ClientSideEvents LostFocus="onIDNumberLostFocus" Validation="OnIDNumPassValidation"  />
+                                                        <ClientSideEvents LostFocus="onIDNumberLostFocus" Validation="OnIDNumPassValidation" />
                                                     </dx:ASPxTextBox>
                                                     <dx:ASPxCallbackPanel ID="CallbackPanelIDNum" runat="server" ClientInstanceName="CallbackPanelIDNumDirect" Width="100%" OnCallback="CallbackPanelIDNum_Callback">
                                                         <ClientSideEvents EndCallback="IDNumberEndCallback" />
@@ -66,8 +67,7 @@
                                                     <dx:ASPxTextBox ID="lastNameTextBox" runat="server" ClientInstanceName="lnameTextboxDirect" NullText="Last Name" Width="100%" CssClass="maxWidth">
                                                         <ValidationSettings Display="Dynamic" RequiredField-IsRequired="true" ErrorDisplayMode="Text" SetFocusOnError="true" ErrorTextPosition="Bottom" ErrorFrameStyle-Wrap="true">
                                                             <ErrorFrameStyle Wrap="True"></ErrorFrameStyle>
-
-                                                            <RequiredField IsRequired="True"></RequiredField>
+                                                            <RequiredField IsRequired="True" ErrorText="The value is required"></RequiredField>
                                                         </ValidationSettings>
                                                         <ClientSideEvents />
                                                     </dx:ASPxTextBox>
@@ -81,12 +81,30 @@
                                                         <ValidationSettings Display="Dynamic" RequiredField-IsRequired="true" ErrorDisplayMode="Text" SetFocusOnError="true" ErrorTextPosition="Bottom" ErrorFrameStyle-Wrap="true">
                                                             <ErrorFrameStyle Wrap="True"></ErrorFrameStyle>
 
-                                                            <RequiredField IsRequired="True"></RequiredField>
+                                                            <RequiredField IsRequired="True" ErrorText="The value is required"></RequiredField>
                                                         </ValidationSettings>
                                                     </dx:ASPxTextBox>
                                                 </dx:LayoutItemNestedControlContainer>
                                             </LayoutItemNestedControlCollection>
                                         </dx:LayoutItem>
+
+                                        <dx:LayoutItem Caption="Gender">
+                                            <LayoutItemNestedControlCollection>
+                                                <dx:LayoutItemNestedControlContainer>
+                                                    <dx:ASPxComboBox ID="cmbGender" ClientInstanceName="cmbGenderDirect" runat="server" ValueType="System.String" Width="100%" CssClass="maxWidth">
+                                                        <Items>
+                                                            <dx:ListEditItem Text="Male" Value="1" />
+                                                            <dx:ListEditItem Text="Female" Value="2" />
+                                                        </Items>
+                                                        <ValidationSettings Display="Dynamic" RequiredField-IsRequired="true" ErrorDisplayMode="Text" SetFocusOnError="true" ErrorTextPosition="Bottom" ErrorFrameStyle-Wrap="true">
+                                                            <ErrorFrameStyle Wrap="True"></ErrorFrameStyle>
+                                                            <RequiredField IsRequired="True" ErrorText="The value is required"></RequiredField>
+                                                        </ValidationSettings>
+                                                    </dx:ASPxComboBox>
+                                                </dx:LayoutItemNestedControlContainer>
+                                            </LayoutItemNestedControlCollection>
+                                        </dx:LayoutItem>
+
                                         <dx:LayoutItem Caption="E-mail">
                                             <LayoutItemNestedControlCollection>
                                                 <dx:LayoutItemNestedControlContainer>
@@ -121,7 +139,11 @@
                                             <LayoutItemNestedControlCollection>
                                                 <dx:LayoutItemNestedControlContainer>
                                                     <dx:ASPxTextBox ID="userNameTextBox" runat="server" NullText="User Name" Width="100%" CssClass="maxWidth">
-                                                        <ValidationSettings Display="Dynamic" RequiredField-IsRequired="true" ErrorDisplayMode="Text" SetFocusOnError="true" ErrorTextPosition="Bottom" ErrorFrameStyle-Wrap="true" />
+                                                        <%--<ValidationSettings Display="Dynamic" RequiredField-IsRequired="true" ErrorDisplayMode="Text" SetFocusOnError="true" ErrorTextPosition="Bottom" ErrorFrameStyle-Wrap="true" />--%>
+                                                        <ValidationSettings ErrorTextPosition="Bottom" ErrorDisplayMode="Text" Display="Dynamic" SetFocusOnError="true">
+                                                            <RequiredField IsRequired="True" ErrorText="The value is required" />
+                                                            <ErrorFrameStyle Wrap="True" />
+                                                        </ValidationSettings>
                                                     </dx:ASPxTextBox>
                                                 </dx:LayoutItemNestedControlContainer>
                                             </LayoutItemNestedControlCollection>

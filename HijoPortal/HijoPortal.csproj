@@ -93,6 +93,7 @@
     <Content Include="images\avatar.png" />
     <Content Include="images\Delete.ico" />
     <Content Include="images\Edit.ico" />
+    <Content Include="images\EmailSig.jpg" />
     <Content Include="images\Header.png" />
     <Content Include="images\HeaderTitle.png" />
     <Content Include="images\HijoLogo.png" />
@@ -117,6 +118,7 @@
     <Content Include="mrp_inventanalyst.aspx" />
     <Content Include="mrp_inventoryanalyst_forapproval.aspx" />
     <Content Include="mrp_list.aspx" />
+    <Content Include="mrp_listinventoryanalyst.aspx" />
     <Content Include="mrp_poaddedit.aspx" />
     <Content Include="mrp_pocreation.aspx" />
     <Content Include="mrp_preview.aspx" />
@@ -253,6 +255,13 @@
     </Compile>
     <Compile Include="mrp_list.aspx.designer.cs">
       <DependentUpon>mrp_list.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mrp_listinventoryanalyst.aspx.cs">
+      <DependentUpon>mrp_listinventoryanalyst.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_listinventoryanalyst.aspx.designer.cs">
+      <DependentUpon>mrp_listinventoryanalyst.aspx</DependentUpon>
     </Compile>
     <Compile Include="mrp_poaddedit.aspx.cs">
       <DependentUpon>mrp_poaddedit.aspx</DependentUpon>
