@@ -159,15 +159,19 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
+            Double qty_float = Convert.ToDouble(qty.Value.ToString());
+            Double cost_float = Convert.ToDouble(cost.Value.ToString());
+            Double total_float = Convert.ToDouble(total.Value.ToString());
+
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
             string update = "UPDATE " + MRPClass.OpexTable() + " SET [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@QTY", qty.Value.ToString());
-            cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
-            cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
+            cmd.Parameters.AddWithValue("@QTY", qty_float);
+            cmd.Parameters.AddWithValue("@COST", cost_float);
+            cmd.Parameters.AddWithValue("@TOTAL", total_float);
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
@@ -200,15 +204,19 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
+            Double qty_float = Convert.ToDouble(qty.Value.ToString());
+            Double cost_float = Convert.ToDouble(cost.Value.ToString());
+            Double total_float = Convert.ToDouble(total.Value.ToString());
+
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
             string update = "UPDATE " + MRPClass.ManPowerTable() + " SET [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@QTY", qty.Value.ToString());
-            cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
-            cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
+            cmd.Parameters.AddWithValue("@QTY", qty_float);
+            cmd.Parameters.AddWithValue("@COST", cost_float);
+            cmd.Parameters.AddWithValue("@TOTAL", total_float);
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
@@ -243,15 +251,19 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
+            Double qty_float = Convert.ToDouble(qty.Value.ToString());
+            Double cost_float = Convert.ToDouble(cost.Value.ToString());
+            Double total_float = Convert.ToDouble(total.Value.ToString());
+
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
             string update = "UPDATE " + MRPClass.CapexTable() + " SET [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@QTY", qty.Value.ToString());
-            cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
-            cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
+            cmd.Parameters.AddWithValue("@QTY", qty_float);
+            cmd.Parameters.AddWithValue("@COST", cost_float);
+            cmd.Parameters.AddWithValue("@TOTAL", total_float);
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
@@ -279,15 +291,19 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
+            Double qty_float = Convert.ToDouble(qty.Value.ToString());
+            Double cost_float = Convert.ToDouble(cost.Value.ToString());
+            Double total_float = Convert.ToDouble(total.Value.ToString());
+
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
             string update = "UPDATE " + MRPClass.DirectMatTable() + " SET [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@QTY", qty.Value.ToString());
-            cmd.Parameters.AddWithValue("@COST", cost.Value.ToString());
-            cmd.Parameters.AddWithValue("@TOTAL", total.Value.ToString());
+            cmd.Parameters.AddWithValue("@QTY", qty_float);
+            cmd.Parameters.AddWithValue("@COST", cost_float);
+            cmd.Parameters.AddWithValue("@TOTAL", total_float);
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 

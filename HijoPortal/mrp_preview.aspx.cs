@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using HijoPortal.classes;
+using System.Web.UI.HtmlControls;
 
 namespace HijoPortal
 {
@@ -18,8 +19,87 @@ namespace HijoPortal
             PK_MAN = 0,
             PK_CAPEX = 0,
             PK_REV = 0;
-        private static string itemcommand = "";
+        private static string itemcommand = "", entitycode = "";
         private const string matstring = "Materials", opexstring = "Opex", manstring = "Manpower", capexstring = "Capex", revstring = "Revenue";
+
+        protected void MatListview_DataBound(object sender, EventArgs e)
+        {
+            HideHeader(sender);
+        }
+
+        protected void MatListview_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            HideTableData(e);
+            
+        }
+
+        protected void OpexListiview_DataBound(object sender, EventArgs e)
+        {
+            HideHeader(sender);
+        }
+
+        protected void OpexListiview_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            HideTableData(e);
+        }
+
+        protected void ManListview_DataBound(object sender, EventArgs e)
+        {
+            HideHeader(sender);
+        }
+
+        protected void ManListview_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            HideTableData(e);
+        }
+
+        protected void CapexListview_DataBound(object sender, EventArgs e)
+        {
+            HideHeader(sender);
+        }
+
+        protected void CapexListview_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            HideTableData(e);
+        }
+
+        protected void RevListview_DataBound(object sender, EventArgs e)
+        {
+            HideHeader(sender);
+        }
+
+        protected void RevListview_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            HideTableData(e);
+        }
+
+        private void HideHeader(object sender)
+        {
+            if (entitycode != MRPClass.train_entity)
+            {
+                ListView listview = sender as ListView;
+                HtmlTableCell th = (HtmlTableCell)listview.FindControl("tableHeaderRevDesc");
+                th.Visible = false;
+
+                HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
+                pk_th.Visible = false;
+            }
+        }
+
+        private void HideTableData(ListViewItemEventArgs e)
+        {
+            if (entitycode != MRPClass.train_entity)
+            {
+                HtmlTableCell td = (HtmlTableCell)e.Item.FindControl("tableDataRevDesc");
+                td.Visible = false;
+                //visibility:hidden
+
+                HtmlTableCell pk_td = (HtmlTableCell)e.Item.FindControl("pk_td");
+                pk_td.Visible = false;
+            }
+        }
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["CreatorKey"] == null)
@@ -56,6 +136,7 @@ namespace HijoPortal
                 {
                     //DocNum.Text = reader["DocNumber"].ToString();
                     //DateCreated.Text = reader["DateCreated"].ToString();
+                    entitycode = reader["EntityCode"].ToString();
                     EntityCode.Text = reader["EntityCodeDesc"].ToString();
                     BUCode.Text = reader["BUCodeDesc"].ToString();
                     Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
@@ -65,13 +146,15 @@ namespace HijoPortal
                 reader.Close();
                 conn.Close();
 
+
+
                 MRPClass.PrintString("ispostback");
                 DataTable table = MRPClass.MRP_CAPEX(DocNum.Text.ToString(), "");
                 CapexListview.DataSource = table;
                 CapexListview.DataBind();
                 TotalAmountTD.InnerText = MRPClass.capex_total().ToString("N");
 
-                DataTable tableMat = MRPClass.MRP_Direct_Materials(DocNum.Text.ToString(), "");
+                DataTable tableMat = MRPClass.MRP_Direct_Materials(DocNum.Text.ToString(), entitycode);
                 MatListview.DataSource = tableMat;
                 MatListview.DataBind();
                 TAMat.InnerText = MRPClass.materials_total().ToString("N");
@@ -91,6 +174,8 @@ namespace HijoPortal
                 RevListview.DataBind();
                 TARevenue.InnerText = MRPClass.revenue_total().ToString("N");
 
+                //if (entitycode != MRPClass.train_entity)
+                //    revExtra.Visible = false;
             }
 
 
@@ -100,7 +185,6 @@ namespace HijoPortal
         {
             string tablename = "";
             int PK = 0;
-
 
             if (itemcommand == matstring)
             {
