@@ -1,4 +1,5 @@
-﻿using HijoPortal.classes;
+﻿using DevExpress.Web;
+using HijoPortal.classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,8 @@ namespace HijoPortal
             if(e.ButtonID == "BudgetGridEdit")
             {
                 string doc_number = ListBudgetGrid.GetRowValues(ListBudgetGrid.FocusedRowIndex, "DocNumber").ToString();
-                Response.RedirectLocation = "mrp_finance.aspx?DocNum=" + doc_number.ToString();
+                string work_line = ListBudgetGrid.GetRowValues(ListBudgetGrid.FocusedRowIndex, "WorkLine").ToString();
+                ASPxWebControl.RedirectOnCallback("mrp_preview.aspx?DocNum=" + doc_number.ToString() + "&WrkFlwLn=" + work_line.ToString());
             }
         }
     }

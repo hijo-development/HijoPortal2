@@ -27,10 +27,18 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
+    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="MRPNotificationMessage" runat="server" Text="" Theme="Office2010Blue" ForeColor="Red"></dx:ASPxLabel>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 150px; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
             <h1>M R P  Preview</h1>
-            <table style="width: 80%; margin: auto;">
+            <table style="width: 80%; margin: auto;" border="0">
                 <tr>
                     <td style="width: 12%">
                         <dx:ASPxLabel runat="server" Text="MRP Number" Theme="Office2010Blue"></dx:ASPxLabel>
@@ -39,7 +47,14 @@
                     <td colspan="4">
                         <dx:ASPxLabel ID="DocNum" runat="server" Text="" Theme="Office2010Blue" Style="font-size: medium; font-weight: bold; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"></dx:ASPxLabel>
                     </td>
-                    <td rowspan="3" style="width: 40%"></td>
+                    <td rowspan="3" style="width: 40%; text-align:right; vertical-align:bottom;">
+                        <div style="display: none;">
+                            <dx:ASPxHiddenField ID="StatusHidden" runat="server" ClientInstanceName="StatusHidden"></dx:ASPxHiddenField>
+                        </div>
+                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue" OnClick="Submit_Click">
+                            <ClientSideEvents Click="Preview_Submit_Click" />
+                        </dx:ASPxButton>
+                    </td>
                 </tr>
                 <tr>
                     <td>

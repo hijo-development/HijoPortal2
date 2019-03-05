@@ -254,5 +254,10 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue;
+
+        protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
+        protected global::DevExpress.Web.ASPxButton Submit;
+        protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
+        protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
     }
 }

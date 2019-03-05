@@ -1140,7 +1140,7 @@ namespace HijoPortal
 
         protected void Preview_Click(object sender, EventArgs e)
         {
-            Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString());
+            Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn="+ wrkflwln.ToString());
 
             //Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docnumber.ToString();
 

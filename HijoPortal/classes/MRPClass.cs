@@ -15,6 +15,8 @@ namespace HijoPortal.classes
     {
         public const string capex_logs = "CAPEX", opex_logs = "OPEX", directmaterials_logs = "DIRECTMATERIALS", manpower_logs = "MANPOWER", revenueassumption_logs = "REVENUEASSUMPTION", add_logs = "ADD", edit_logs = "EDIT", delete_logs = "DELETE", train_entity = "0101";
 
+        public const string successfully_submitted = "Successfully Submitted";
+
         static double
             capex_total_amount = 0,
             opex_total_amount = 0,
@@ -2748,6 +2750,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("BUCodeDesc", typeof(string));
                 dtTable.Columns.Add("MRPMonthDesc", typeof(string));
                 dtTable.Columns.Add("MRPYear", typeof(string));
+                dtTable.Columns.Add("WorkLine", typeof(string));
             }
             dtTable.Clear();
 
@@ -2765,7 +2768,7 @@ namespace HijoPortal.classes
 
             string qry = "SELECT dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, " +
                          " dbo.vw_AXOperatingUnitTable.NAME AS Department, dbo.tbl_MRP_List_Workflow.MasterKey, " +
-                         " dbo.tbl_MRP_List.MRPMonth, dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.DateCreated " +
+                         " dbo.tbl_MRP_List.MRPMonth, dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List_Workflow.Line " +
                          " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
                          " dbo.tbl_MRP_List ON dbo.tbl_MRP_List_Workflow.MasterKey = dbo.tbl_MRP_List.PK LEFT OUTER JOIN " +
                          " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
@@ -2791,6 +2794,7 @@ namespace HijoPortal.classes
                     rowAdd["BUCodeDesc"] = row["Department"].ToString();
                     rowAdd["MRPMonthDesc"] = Month_Name(Convert.ToInt32(row["MRPMonth"]));
                     rowAdd["MRPYear"] = row["MRPYear"].ToString();
+                    rowAdd["WorkLine"] = row["Line"].ToString();
                     dtTable.Rows.Add(rowAdd);
                 }
             }
