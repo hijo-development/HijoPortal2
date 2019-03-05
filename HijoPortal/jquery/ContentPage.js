@@ -2010,7 +2010,7 @@ function DMGrid_CustomButtonClick(s, e) {
             CAGridRoundPanel.SetCollapsed(true);
 
 
-        if (statusKey === "1") {
+        if (statusKey === "0") {
             s.StartEditRow(e.visibleIndex);
         } else {
             Add_Edit_MRPNotificationMessage_InventAnal.SetText("Can't Edit! Document already submitted to Budget for review.");
@@ -2045,7 +2045,7 @@ function OpGrid_CustomButtonClick(s, e) {
         if (!CAGridRoundPanel.GetCollapsed())
             CAGridRoundPanel.SetCollapsed(true);
 
-        if (statusKey === "1") {
+        if (statusKey === "0") {
             s.StartEditRow(e.visibleIndex);
         } else {
             Add_Edit_MRPNotificationMessage_InventAnal.SetText("Can't Edit! Document already submitted to Budget for review.");
@@ -2079,7 +2079,7 @@ function ManPoGrid_CustomButtonClick(s, e) {
         if (!CAGridRoundPanel.GetCollapsed())
             CAGridRoundPanel.SetCollapsed(true);
 
-        if (statusKey === "1") {
+        if (statusKey === "0") {
             s.StartEditRow(e.visibleIndex);
         } else {
             Add_Edit_MRPNotificationMessage_InventAnal.SetText("Can't Edit! Document already submitted to Budget for review.");
@@ -2113,7 +2113,7 @@ function CapGrid_CustomButtonClick(s, e) {
         if (!OPGridRoundPanel.GetCollapsed())
             OPGridRoundPanel.SetCollapsed(true);
 
-        if (statusKey === "1") {
+        if (statusKey === "0") {
             s.StartEditRow(e.visibleIndex);
         } else {
             Add_Edit_MRPNotificationMessage_InventAnal.SetText("Can't Edit! Document already submitted to Budget for review.");

@@ -2563,7 +2563,9 @@ namespace HijoPortal.classes
                          " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
                          " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
                          " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK " +
-                         " WHERE(dbo.tbl_MRP_List_Workflow.Line = 3) AND(dbo.tbl_MRP_List_Workflow.Status = 0)";
+                         " WHERE(dbo.tbl_MRP_List_Workflow.Line = 2) " +
+                         " AND(dbo.tbl_MRP_List_Workflow.Status = 0) " +
+                         " AND(dbo.tbl_MRP_List_Workflow.Visible = 1)"; ;
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -2677,6 +2679,16 @@ namespace HijoPortal.classes
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
+            //string qry = "SELECT dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, " +
+            //             " dbo.vw_AXOperatingUnitTable.NAME AS Department, dbo.tbl_MRP_List_Workflow.MasterKey, " +
+            //             " dbo.tbl_MRP_List.MRPMonth, dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.DateCreated " +
+            //             " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
+            //             " dbo.tbl_MRP_List ON dbo.tbl_MRP_List_Workflow.MasterKey = dbo.tbl_MRP_List.PK LEFT OUTER JOIN " +
+            //             " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
+            //             " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
+            //             " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK " +
+            //             " WHERE(dbo.tbl_MRP_List_Workflow.Line = 3) AND(dbo.tbl_MRP_List_Workflow.Status = 0)";
+
             string qry = "SELECT dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, " +
                          " dbo.vw_AXOperatingUnitTable.NAME AS Department, dbo.tbl_MRP_List_Workflow.MasterKey, " +
                          " dbo.tbl_MRP_List.MRPMonth, dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.DateCreated " +
@@ -2685,7 +2697,10 @@ namespace HijoPortal.classes
                          " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
                          " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
                          " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK " +
-                         " WHERE(dbo.tbl_MRP_List_Workflow.Line = 2) AND(dbo.tbl_MRP_List_Workflow.Status = 0)";
+                         " WHERE(dbo.tbl_MRP_List_Workflow.Line = 3) " +
+                         " AND(dbo.tbl_MRP_List_Workflow.Status = 0) " +
+                         " AND(dbo.tbl_MRP_List_Workflow.Visible = 1)";
+
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
