@@ -85,14 +85,16 @@
                     </dx:GridViewCommandColumn>
                     <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="DocNumber" Caption="MRP Number" VisibleIndex="2" SortOrder="Descending"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity" VisibleIndex="3"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="Department" VisibleIndex="4"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month" VisibleIndex="5"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="MRPYear" Caption="Year" VisibleIndex="6"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="Amount" VisibleIndex="7"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="8"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="9"></dx:GridViewDataColumn>
-                    <dx:GridViewCommandColumn VisibleIndex="10" ButtonRenderMode="Image" Width="20">
+                    <dx:GridViewDataColumn FieldName="EntityCode" Visible="false" VisibleIndex="3"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity" VisibleIndex="4"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="BUCode" Visible="false" VisibleIndex="5"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="Department" VisibleIndex="6"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month" VisibleIndex="7"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="MRPYear" Caption="Year" VisibleIndex="8"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="Amount" VisibleIndex="9"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="10"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="11"></dx:GridViewDataColumn>
+                    <dx:GridViewCommandColumn VisibleIndex="12" ButtonRenderMode="Image" Width="20">
                         <CustomButtons>
                             <dx:GridViewCommandColumnCustomButton ID="Submit" Text="" Image-Url="Images/Submit.ico" Image-ToolTip="Submit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                         </CustomButtons>

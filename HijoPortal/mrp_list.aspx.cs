@@ -74,6 +74,8 @@ namespace HijoPortal
             conn.Open();
             string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
             string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
+            string entCode = MainTable.GetRowValues(MainTable.FocusedRowIndex, "EntityCode").ToString();
+            string buCode = MainTable.GetRowValues(MainTable.FocusedRowIndex, "BUCode").ToString();
             int StatusKey = Convert.ToInt32(MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString());
             string query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "' AND PK = '" + PK + "'";
 
@@ -98,12 +100,12 @@ namespace HijoPortal
 
                         //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
 
-                        //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                        Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
                         //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_finance.aspx?DocNum=" + docNum.ToString();
-                        Response.RedirectLocation = "mrp_inventoryanalyst_forapproval.aspx?DocNum=" + docNum.ToString();
+                        //Response.RedirectLocation = "mrp_inventoryanalyst_forapproval.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_capexcip.aspx?DocNum=" + docNum.ToString();
                     }
                 }
@@ -137,7 +139,7 @@ namespace HijoPortal
                             text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
                         } else
                         {
-                            MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1);
+                            MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode);
                             BindMRP();
                         }
 
@@ -261,7 +263,7 @@ namespace HijoPortal
                 {
                     DocumentPrefix = reader[0].ToString();
                     DocumentNum = reader[1].ToString();
-                    MRPClass.PrintString("prefix:" + DocumentPrefix);
+                    //MRPClass.PrintString("prefix:" + DocumentPrefix);
                 }
                 reader.Close();
                 int doc_num = Int32.Parse(DocumentNum) + 1;
