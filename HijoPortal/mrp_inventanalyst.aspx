@@ -3,6 +3,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="Add_Edit_MRPNotify_InventAnal" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue" ContentStyle-Paddings-Padding="20">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="Add_Edit_MRPNotificationMessage_InventAnal" runat="server" Text="" ForeColor="Red" Theme="Office2010Blue"></dx:ASPxLabel>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader">
             <h1>M O P  Details (Inventory Analyst)</h1>
@@ -78,16 +87,23 @@
                     <td>
                         <dx:ASPxLabel ID="Creator" runat="server" Text="" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
-                    <td></td>
+                    <td>
+                        <div style="display: none;">
+                            <dx:ASPxTextBox ID="WorkFlowLineTxt" ClientInstanceName="WorkFlowLineTxtInventAnal" runat="server" Width="170px"></dx:ASPxTextBox>
+                            <dx:ASPxTextBox ID="StatusKeyTxt" ClientInstanceName="StatusKeyTxtInventAnal" runat="server" Width="170px"></dx:ASPxTextBox>
+                            <dx:ASPxLabel ID="WorkFlowLineLbl" ClientInstanceName="WorkFlowLineLblDirect" runat="server" Text=""></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="StatusKeyLbl" ClientInstanceName="StatusKeyLblDirect" runat="server" Text=""></dx:ASPxLabel>
+                        </div>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="7" style="text-align: right">
-                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue" OnClick="Submit_Click"></dx:ASPxButton>
                         &nbsp
-                            <dx:ASPxButton ID="MRPList" runat="server" Text="MOP LIST" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                            <dx:ASPxButton ID="MRPList" runat="server" Text="MOP LIST" AutoPostBack="false" Theme="Office2010Blue" OnClick="MRPList_Click"></dx:ASPxButton>
                         &nbsp
                             <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click"></dx:ASPxButton>
                     </td>
@@ -100,6 +116,10 @@
                 <dx:TabPage Text="MRP">
                     <ContentCollection>
                         <dx:ContentControl>
+
+                            <dx:ASPxHiddenField ID="ASPxHiddenFieldDMWrkFlwLnInventAnal" ClientInstanceName="ASPxHiddenFieldDMWrkFlwLnInventAnalDirect" runat="server"></dx:ASPxHiddenField>
+                            <dx:ASPxHiddenField ID="ASPxHiddenFieldDMStatusKeyInventAnal" ClientInstanceName="ASPxHiddenFieldDMStatusKeyInventAnalDirect" runat="server"></dx:ASPxHiddenField>
+
                             <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" ClientInstanceName="DMGridRoundPanel" runat="server" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                 <PanelCollection>
                                     <dx:PanelContent>

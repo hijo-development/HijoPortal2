@@ -91,6 +91,7 @@
     <Content Include="home.aspx" />
     <Content Include="images\Add.ico" />
     <Content Include="images\avatar.png" />
+    <Content Include="images\Banner.png" />
     <Content Include="images\Delete.ico" />
     <Content Include="images\Edit.ico" />
     <Content Include="images\EmailSig.jpg" />

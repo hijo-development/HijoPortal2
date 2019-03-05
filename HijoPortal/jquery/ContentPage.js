@@ -61,6 +61,11 @@ changeWidth = {
         $('#dvFinanceSetup').height(contentHeight - (HeaderH + 30));
         $('#dvExecutiveSetup').height(contentHeight - (HeaderH + 30));
         $('#dvWorkflowSetup').height(contentHeight - (HeaderH + 30));
+        $('#tblWelcome').height(contentHeight - (HeaderH + 30));
+
+        //$('#divWelcome').height(contentHeight - (HeaderH + 100));
+
+        //$('#trWelcome').height(contentHeight - (HeaderH));
 
         //$('#dvContentWrapper').height(contentHeightInside);
 
@@ -1981,6 +1986,10 @@ function CAGridInventApproval_CustomButtonClick(s, e) {
 //mrp_inventanalyst
 function DMGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
+
+    var wrkflowLine = WorkFlowLineTxtInventAnal.GetText();
+    var statusKey = StatusKeyTxtInventAnal.GetText();
+
     if (button == "DMGridEdit") {
         if (OpGrid.IsEditing() || OpGrid.IsNewRowEditing())
             OpGrid.CancelEdit();
@@ -2000,12 +2009,23 @@ function DMGrid_CustomButtonClick(s, e) {
         if (!CAGridRoundPanel.GetCollapsed())
             CAGridRoundPanel.SetCollapsed(true);
 
-        s.StartEditRow(e.visibleIndex);
+
+        if (statusKey === "1") {
+            s.StartEditRow(e.visibleIndex);
+        } else {
+            Add_Edit_MRPNotificationMessage_InventAnal.SetText("Can't Edit! Document already submitted to Budget for review.");
+            Add_Edit_MRPNotify_InventAnal.SetHeaderText("Alert");
+            Add_Edit_MRPNotify_InventAnal.Show();
+        }
+
+
+        //s.StartEditRow(e.visibleIndex);
     }
 }
 
 function OpGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
+    var statusKey = StatusKeyTxtInventAnal.GetText();
     if (button == "OPGridEdit") {
         if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
             DMGrid.CancelEdit();
@@ -2025,12 +2045,21 @@ function OpGrid_CustomButtonClick(s, e) {
         if (!CAGridRoundPanel.GetCollapsed())
             CAGridRoundPanel.SetCollapsed(true);
 
-        s.StartEditRow(e.visibleIndex);
+        if (statusKey === "1") {
+            s.StartEditRow(e.visibleIndex);
+        } else {
+            Add_Edit_MRPNotificationMessage_InventAnal.SetText("Can't Edit! Document already submitted to Budget for review.");
+            Add_Edit_MRPNotify_InventAnal.SetHeaderText("Alert");
+            Add_Edit_MRPNotify_InventAnal.Show();
+        }
+
+        //s.StartEditRow(e.visibleIndex);
     }
 }
 
 function ManPoGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
+    var statusKey = StatusKeyTxtInventAnal.GetText();
     if (button == "MANGridEdit") {
         if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
             DMGrid.CancelEdit();
@@ -2050,12 +2079,21 @@ function ManPoGrid_CustomButtonClick(s, e) {
         if (!CAGridRoundPanel.GetCollapsed())
             CAGridRoundPanel.SetCollapsed(true);
 
-        s.StartEditRow(e.visibleIndex);
+        if (statusKey === "1") {
+            s.StartEditRow(e.visibleIndex);
+        } else {
+            Add_Edit_MRPNotificationMessage_InventAnal.SetText("Can't Edit! Document already submitted to Budget for review.");
+            Add_Edit_MRPNotify_InventAnal.SetHeaderText("Alert");
+            Add_Edit_MRPNotify_InventAnal.Show();
+        }
+
+        //s.StartEditRow(e.visibleIndex);
     }
 }
 
 function CapGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
+    var statusKey = StatusKeyTxtInventAnal.GetText();
     if (button == "CAGridEdit") {
         if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
             DMGrid.CancelEdit();
@@ -2075,7 +2113,15 @@ function CapGrid_CustomButtonClick(s, e) {
         if (!OPGridRoundPanel.GetCollapsed())
             OPGridRoundPanel.SetCollapsed(true);
 
-        s.StartEditRow(e.visibleIndex);
+        if (statusKey === "1") {
+            s.StartEditRow(e.visibleIndex);
+        } else {
+            Add_Edit_MRPNotificationMessage_InventAnal.SetText("Can't Edit! Document already submitted to Budget for review.");
+            Add_Edit_MRPNotify_InventAnal.SetHeaderText("Alert");
+            Add_Edit_MRPNotify_InventAnal.Show();
+        }
+
+        //s.StartEditRow(e.visibleIndex);
     }
 }
 //...END OF...mrp_inventanalyst

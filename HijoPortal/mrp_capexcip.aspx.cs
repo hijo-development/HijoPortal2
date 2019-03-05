@@ -95,9 +95,9 @@ namespace HijoPortal
            
             if (!string.IsNullOrEmpty(cip_text))
             {
-                MRPClass.PrintString(cip_text + " " + PK );
+                //MRPClass.PrintString(cip_text + " " + PK );
                 string update = "UPDATE [dbo].[tbl_MRP_List_CAPEX] SET [CIPSIPNumber] = '" + cip_text + "' WHERE [PK] = '" + PK + "'";
-                MRPClass.PrintString(update);
+                //MRPClass.PrintString(update);
 
                 SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
                 conn.Open();
@@ -106,7 +106,7 @@ namespace HijoPortal
                 int result = cmd.ExecuteNonQuery();
 
 
-                MRPClass.PrintString(result.ToString());
+                //MRPClass.PrintString(result.ToString());
                 conn.Close();
             }
 
@@ -147,8 +147,8 @@ namespace HijoPortal
 
         protected void CAPEXCIP_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
         {
-            MRPClass.PrintString("custom back back");
-            MRPClass.PrintString(MRPmonthyear.Text.ToString());
+            //MRPClass.PrintString("custom back back");
+            //MRPClass.PrintString(MRPmonthyear.Text.ToString());
 
             string var = MRPmonthyear.Text.ToString();
             pk = MRPmonthyear.Value.ToString();

@@ -8,13 +8,14 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using HijoPortal.classes;
-using DevExpress.Web;
 
 namespace HijoPortal
 {
     public partial class home : System.Web.UI.Page
     {
+
+        DataTable wrkTable = new DataTable();
+
         private void CheckSessionExpire()
         {
             if (Session["CreatorKey"] == null)
@@ -24,7 +25,11 @@ namespace HijoPortal
             }
         }
 
-        
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            divWelcome.Visible = false;
+            divWorkAssigned.Visible = false;
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -34,14 +39,29 @@ namespace HijoPortal
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
+                wrkTable = MRPClass.MRP_Work_Assigned_To_Me(Convert.ToInt32(Session["CreatorKey"]));
+
+                divWelcome.Visible = false;
+                divWorkAssigned.Visible = false;
+
+                if (wrkTable.Rows.Count > 0)
+                {
+                    divWorkAssigned.Visible = true;
+                    BindHomeGrid(Convert.ToInt32(Session["CreatorKey"]));
+
+                } else
+                {
+                    divWelcome.Visible = true;
+                }
+
             }
 
-            BindHomeGrid();
+            
         }
 
-        private void BindHomeGrid()
+        private void BindHomeGrid(int usrKey)
         {
-            HomeGrid.DataSource = MRPClass.Master_MRP_List();
+            HomeGrid.DataSource = MRPClass.MRP_Work_Assigned_To_Me(usrKey);
             HomeGrid.KeyFieldName = "PK";
             HomeGrid.DataBind();
         }
@@ -50,14 +70,20 @@ namespace HijoPortal
         {
 
             string page = "";
-            int i = 0;
-            if (i == 0)
+            int wrkline = Convert.ToInt32(HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "LevelLine").ToString());
+            if (wrkline == 1)
+            {
                 page = "mrp_addedit.aspx";
+            }
+            if (wrkline == 2)
+            {
+                page = "mrp_inventanalyst.aspx";
+            }
 
             ASPxHyperLink link = sender as ASPxHyperLink;
             GridViewDataItemTemplateContainer container = link.NamingContainer as GridViewDataItemTemplateContainer;
             object value = container.Grid.GetRowValues(container.VisibleIndex, "DocNumber");
-            link.NavigateUrl = page+ "?DocNum=" + value.ToString() + "&WrkFlwLn=1";
+            link.NavigateUrl = page+ "?DocNum=" + value.ToString() + "&WrkFlwLn="+ wrkline.ToString();
         }
 
     }
