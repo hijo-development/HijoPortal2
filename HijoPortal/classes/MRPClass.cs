@@ -2376,22 +2376,50 @@ namespace HijoPortal.classes
             DataTable dtable = new DataTable();
 
             conn.Open();
-            qry = "SELECT Status " +
-                  " FROM tbl_MRP_List_Workflow " +
-                  " WHERE (MasterKey = " + masterKey + ") " +
-                  " AND (Line = "+ line + ")";
-            cmd = new SqlCommand(qry);
-            cmd.Connection = conn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dtable);
-            if (dtable.Rows.Count>0)
+            if (line == 0 )
             {
-                foreach(DataRow row in dtable.Rows)
+                qry = "SELECT StatusKey " +
+                      " FROM tbl_MRP_List " +
+                      " WHERE (PK = " + masterKey + ") ";
+                cmd = new SqlCommand(qry);
+                cmd.Connection = conn;
+                adp = new SqlDataAdapter(cmd);
+                adp.Fill(dtable);
+                if (dtable.Rows.Count > 0)
                 {
-                    mrpLineStat = Convert.ToInt32(row["Status"]);
+                    foreach (DataRow row in dtable.Rows)
+                    {
+                        if (Convert.ToInt32(row["StatusKey"]) == 1)
+                        {
+                            mrpLineStat = 0;
+                        } else
+                        {
+                            mrpLineStat = 1;
+                        }
+                        //mrpLineStat = Convert.ToInt32(row["Status"]);
+                    }
                 }
+                dtable.Clear();
+            } else
+            {
+                qry = "SELECT Status " +
+                      " FROM tbl_MRP_List_Workflow " +
+                      " WHERE (MasterKey = " + masterKey + ") " +
+                      " AND (Line = " + line + ")";
+                cmd = new SqlCommand(qry);
+                cmd.Connection = conn;
+                adp = new SqlDataAdapter(cmd);
+                adp.Fill(dtable);
+                if (dtable.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dtable.Rows)
+                    {
+                        mrpLineStat = Convert.ToInt32(row["Status"]);
+                    }
+                }
+                dtable.Clear();
             }
-            dtable.Clear();
+            
             conn.Close();
             return mrpLineStat;
         }
@@ -2399,12 +2427,16 @@ namespace HijoPortal.classes
         public static void Submit_MRP(string docNum, int MRPKey, int WorkFlowLine, string EntCode, string BuCode)
         {
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            string qry = "", sEmail = "";
+            string qry = "", sEmail = "", sEmailCR = "", sMailSubject = "", sGreetings = "", sSubjectCR = "", sGreetingsCR = "";
             SqlCommand cmdIns = null;
             SqlCommand cmdUp = null;
             SqlCommand cmd = null;
             SqlDataAdapter adp;
             DataTable dtable = new DataTable();
+
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+            DataTable dtable1 = new DataTable();
 
             conn.Open();
             //if (WorkFlowLine == 1 || WorkFlowLine == 2)
@@ -2436,10 +2468,25 @@ namespace HijoPortal.classes
                 foreach (DataRow row in dtable.Rows)
                 {
                     sEmail = EncryptionClass.Decrypt(row["Email"].ToString());
+                    sEmailCR = EncryptionClass.Decrypt(row["CreatorEmail"].ToString());
+                    var sbBody = new StringBuilder();
+                    var sbBodyCR = new StringBuilder();
+                    int wrkflwlnB4 = WorkFlowLine - 1;
+
+                    if (Convert.ToInt32(row["CreatorGender"]) == 1)
+                    {
+                        sGreetingsCR = "Dear Mr. " + EncryptionClass.Decrypt(row["CreatorLName"].ToString());
+                    }
+                    else
+                    {
+                        sGreetingsCR = "Dear Ms. " + EncryptionClass.Decrypt(row["CreatorLName"].ToString());
+                    }
+
+                    sSubjectCR = "MOP DocNum " + docNum.ToString() + " status";
+
                     if (GlobalClass.IsEmailValid(sEmail) == true)
                     {
                         //send email to approver
-                        string sMailSubject = "", sGreetings = "";
                         sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your review and approval";
                         if (Convert.ToInt32(row["Gender"]) == 1)
                         {
@@ -2450,10 +2497,31 @@ namespace HijoPortal.classes
                             sGreetings = "Dear Ms. " + EncryptionClass.Decrypt(row["Lastname"].ToString());
                         }
 
-                        var sbBody = new StringBuilder();
+                        //Update Workflow B4
+                        qry = "UPDATE tbl_MRP_List_Workflow " +
+                               " SET Visible = 0, " +
+                               " Status = 1 " +
+                               " WHERE (MasterKey = " + MRPKey + ") " +
+                               " AND (Line = " + wrkflwlnB4 + ")";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
+
+                        //Update Workflow
+                        qry = "UPDATE tbl_MRP_List_Workflow " +
+                               " SET Visible = 1 " +
+                               " WHERE (MasterKey = " + MRPKey + ") " +
+                               " AND (Line = " + WorkFlowLine + ")";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
+
+                        //Update MOP Status
+                        qry = "UPDATE tbl_MRP_List SET StatusKey = 2 WHERE (PK = " + MRPKey + ")";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
+
                         sbBody.Append("<!DOCTYPE html>");
                         sbBody.Append("<html>");
-                        sbBody.Append("<head>");                        
+                        sbBody.Append("<head>");
                         sbBody.Append("</head>");
                         sbBody.Append("<body>");
                         sbBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetings + ",</p>");
@@ -2462,71 +2530,77 @@ namespace HijoPortal.classes
                         sbBody.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
                         sbBody.Append("</body>");
                         sbBody.Append("</html>");
-                        
+
                         bool msgSend = GlobalClass.IsMailSent(sEmail, sMailSubject, sbBody.ToString());
 
                         if (msgSend == true)
                         {
-                            //Update Workflow B4
-                            int wrkflwlnB4 = WorkFlowLine - 1;
-                            qry = "UPDATE tbl_MRP_List_Workflow " +
-                                   " SET Visible = 0, " +
-                                   " Status = 1 " +
-                                   " WHERE (MasterKey = " + MRPKey + ") " +
-                                   " AND (Line = " + wrkflwlnB4 + ")";
-                            cmdUp = new SqlCommand(qry, conn);
-                            cmdUp.ExecuteNonQuery();
-
-                            //Update Workflow
-                            qry = "UPDATE tbl_MRP_List_Workflow " +
-                                   " SET Visible = 1 " +
-                                   " WHERE (MasterKey = " + MRPKey + ") " +
-                                   " AND (Line = " + WorkFlowLine + ")";
-                            cmdUp = new SqlCommand(qry, conn);
-                            cmdUp.ExecuteNonQuery();
-
                             //Insert to User Assigned
-                            qry = "INSERT INTO tbl_Users_Assigned " +
-                                  " (UserKey, PositionNameKey, MRPKey, WorkFlowLine) " +
-                                  " VALUES(" + Convert.ToInt32(row["UserKey"]) + ", " +
-                                  " " + Convert.ToInt32(row["PositionNameKey"]) + ", " +
-                                  " " + MRPKey + ", "+ WorkFlowLine + ")";
-                            cmdIns = new SqlCommand(qry, conn);
-                            cmdIns.ExecuteNonQuery();
+                            qry = "SELECT tbl_Users_Assigned.* " +
+                                  " FROM tbl_Users_Assigned " +
+                                  " WHERE (UserKey = " + Convert.ToInt32(row["UserKey"]) + ") " +
+                                  " AND (MRPKey = " + MRPKey + ") "  +
+                                  " AND (WorkFlowLine = " + WorkFlowLine + ")";
+                            cmd1 = new SqlCommand(qry);
+                            cmd1.Connection = conn;
+                            adp1 = new SqlDataAdapter(cmd1);
+                            adp1.Fill(dtable1);
+                            if (dtable1.Rows.Count == 0)
+                            {
+                                qry = "INSERT INTO tbl_Users_Assigned " +
+                                      " (UserKey, PositionNameKey, MRPKey, WorkFlowLine) " +
+                                      " VALUES(" + Convert.ToInt32(row["UserKey"]) + ", " +
+                                      " " + Convert.ToInt32(row["PositionNameKey"]) + ", " +
+                                      " " + MRPKey + ", " + WorkFlowLine + ")";
+                                cmdIns = new SqlCommand(qry, conn);
+                                cmdIns.ExecuteNonQuery();
+                            }
+                            dtable1.Clear();
+                        }
 
-                            //Update MOP Status
-                            qry = "UPDATE tbl_MRP_List SET StatusKey = 2 WHERE (PK = " + MRPKey + ")";
-                            cmdUp = new SqlCommand(qry, conn);
-                            cmdUp.ExecuteNonQuery();
+                        // Send Email to Creator
+                        sbBodyCR.Append("<!DOCTYPE html>");
+                        sbBodyCR.Append("<html>");
+                        sbBodyCR.Append("<head>");
+                        sbBodyCR.Append("</head>");
+                        sbBodyCR.Append("<body>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetingsCR + ",</p>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted to " + row["PositionName"].ToString() + " for review/approval.</p>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
+                        sbBodyCR.Append("</body>");
+                        sbBodyCR.Append("</html>");
 
+                        
+                    } else
+                    {
+                        if (WorkFlowLine == 4)
+                        {
                             // Send Email to Creator
-                            string sSubjectCR = "", sGreetingsCR = "";
-                            string sEmailCR = EncryptionClass.Decrypt(row["CreatorEmail"].ToString());
-                            if (Convert.ToInt32(row["CreatorGender"]) == 1)
-                            {
-                                sGreetingsCR = "Dear Mr. " + EncryptionClass.Decrypt(row["CreatorLName"].ToString());
-                            }
-                            else
-                            {
-                                sGreetingsCR = "Dear Ms. " + EncryptionClass.Decrypt(row["CreatorLName"].ToString());
-                            }
-
-                            var sbBodyCR = new StringBuilder();
                             sbBodyCR.Append("<!DOCTYPE html>");
                             sbBodyCR.Append("<html>");
                             sbBodyCR.Append("<head>");
                             sbBodyCR.Append("</head>");
                             sbBodyCR.Append("<body>");
                             sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetingsCR + ",</p>");
-                            sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted to " + row["PositionName"].ToString() +" for review/approval.</p>");
+                            sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted for deliberation.</p>");
                             sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
                             sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
                             sbBodyCR.Append("</body>");
                             sbBodyCR.Append("</html>");
-
-                            bool msgSendToCreator = GlobalClass.IsMailSent(sEmailCR, sSubjectCR, sbBodyCR.ToString());
                         }
                     }
+
+                    bool msgSendToCreator = GlobalClass.IsMailSent(sEmailCR, sSubjectCR, sbBodyCR.ToString());
+
+                    //Update user assigned to me
+                    qry = "UPDATE tbl_Users_Assigned " +
+                           " SET Attended = 1 " +
+                           " WHERE (MRPKey = " + MRPKey + ") " +
+                           " AND (WorkFlowLine = " + wrkflwlnB4 + ")";
+                    cmdUp = new SqlCommand(qry, conn);
+                    cmdUp.ExecuteNonQuery();
+                    
 
                 }
             }
