@@ -1,18 +1,19 @@
-﻿using System;
+﻿using HijoPortal.classes;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using HijoPortal.classes;
 using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 
 namespace HijoPortal
 {
     public partial class mrp_preview : System.Web.UI.Page
     {
+
         private static int
             PK_MAT = 0,
             PK_OPEX = 0,
@@ -30,7 +31,7 @@ namespace HijoPortal
         protected void MatListview_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
-            
+
         }
 
         protected void OpexListiview_DataBound(object sender, EventArgs e)
@@ -83,6 +84,8 @@ namespace HijoPortal
 
                 HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
                 pk_th.Visible = false;
+
+
             }
         }
 
@@ -96,6 +99,12 @@ namespace HijoPortal
 
                 HtmlTableCell pk_td = (HtmlTableCell)e.Item.FindControl("pk_td");
                 pk_td.Visible = false;
+
+                extraDMTD.Visible = false;
+                extraOPTD.Visible = false;
+                extraMANTD.Visible = false;
+                extraCATD.Visible = false;
+                extraRevTD.Visible = false;
             }
         }
 
@@ -111,6 +120,7 @@ namespace HijoPortal
             if (!IsPostBack)
             {
                 //lblMRPDocNum.Text = Request.Params["DocNum"].ToString();
+                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 DocNum.Text = Request.Params["DocNum"].ToString();
 
@@ -173,9 +183,6 @@ namespace HijoPortal
                 RevListview.DataSource = tableRevenue;
                 RevListview.DataBind();
                 TARevenue.InnerText = MRPClass.revenue_total().ToString("N");
-
-                //if (entitycode != MRPClass.train_entity)
-                //    revExtra.Visible = false;
             }
 
 
@@ -430,5 +437,6 @@ namespace HijoPortal
                 LogsPopup.ShowOnPageLoad = true;
             }
         }
+
     }
 }

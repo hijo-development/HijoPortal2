@@ -119,6 +119,7 @@
     <Content Include="mrp_inventanalyst.aspx" />
     <Content Include="mrp_inventoryanalyst_forapproval.aspx" />
     <Content Include="mrp_list.aspx" />
+    <Content Include="mrp_listbudget.aspx" />
     <Content Include="mrp_listinventoryanalyst.aspx" />
     <Content Include="mrp_poaddedit.aspx" />
     <Content Include="mrp_pocreation.aspx" />
@@ -256,6 +257,13 @@
     </Compile>
     <Compile Include="mrp_list.aspx.designer.cs">
       <DependentUpon>mrp_list.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mrp_listbudget.aspx.cs">
+      <DependentUpon>mrp_listbudget.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_listbudget.aspx.designer.cs">
+      <DependentUpon>mrp_listbudget.aspx</DependentUpon>
     </Compile>
     <Compile Include="mrp_listinventoryanalyst.aspx.cs">
       <DependentUpon>mrp_listinventoryanalyst.aspx</DependentUpon>

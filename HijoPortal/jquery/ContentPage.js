@@ -2229,3 +2229,10 @@ function CapexGridApproval_CustomButtonClick(s, e) {
 
 
 //...END OF...mrp_forapproval
+
+function ListBudgetGrid_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "BudgetGridEdit") {
+        e.processOnServer = true;
+    }
+}
