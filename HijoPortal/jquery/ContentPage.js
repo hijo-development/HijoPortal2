@@ -158,9 +158,8 @@ function CorrectValue(str, type) {
 }
 //END OF REUSABLE FUNCTION
 
-// MasterMRp
+// Master mrp_list.aspx
 function CustomButtonClick(s, e) {
-    //console.log("custom button click" + e.buttonID);
     var button = e.buttonID;
     if (button == "Delete") {
         var result = confirm("Delete this row?");
@@ -176,9 +175,7 @@ function CustomButtonClick(s, e) {
 }
 
 function MainTableEndCallback(s, e) {
-
     //MainTable.InCallback();
-
     var hidden_val = MRPHiddenVal.Get('hidden_value');
     console.log(hidden_val);
     if (hidden_val == "InvalidCreator") {
@@ -191,6 +188,12 @@ function MainTableEndCallback(s, e) {
         MRPNotify.SetHeaderText("Alert");
         MRPNotify.Show();
         MRPHiddenVal.Set('hidden_value', ' ');
+    } else if (hidden_val == "submitted") {
+        MRPNotificationMessage.SetText("Successfully Submitted");
+        MRPNotify.SetHeaderText("Info");
+        MRPNotify.Show();
+        MRPHiddenVal.Set('hidden_value', ' ');
+        MainTable.Refresh();
     }
 }
 
@@ -2234,5 +2237,30 @@ function ListBudgetGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     if (button == "BudgetGridEdit") {
         e.processOnServer = true;
+    }
+}
+
+//
+function Preview_Submit_Click(s, e) {
+    var stat = StatusHidden.Get("hidden_preview_iStatusKey");
+    var workline = StatusHidden.Get("hidden_preview_wrkflwln");
+    if (stat == "0")//0 
+        e.processOnServer = true;
+    else {//1 submitted
+        if (workline == "0") {
+            MRPNotificationMessage.SetText("Document already submitted to BU / SSU Lead for review.");
+            MRPNotify.SetHeaderText("Alert");
+            MRPNotify.Show();
+        } else if (workline == "1") {
+            MRPNotificationMessage.SetText("Document already submitted to Inventory Analyst for review.");
+            MRPNotify.SetHeaderText("Alert");
+            MRPNotify.Show();
+        } else if (workline == "2") {
+            MRPNotificationMessage.SetText("Document already submitted to Budget for review.");
+            MRPNotify.SetHeaderText("Alert");
+            MRPNotify.Show();
+        }
+
+        e.processOnServer = false;
     }
 }

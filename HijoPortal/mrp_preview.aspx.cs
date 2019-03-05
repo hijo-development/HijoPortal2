@@ -14,13 +14,14 @@ namespace HijoPortal
     public partial class mrp_preview : System.Web.UI.Page
     {
 
+        private static int mrp_key = 0, wrkflwln = 0, iStatusKey = 0;
         private static int
             PK_MAT = 0,
             PK_OPEX = 0,
             PK_MAN = 0,
             PK_CAPEX = 0,
             PK_REV = 0;
-        private static string itemcommand = "", entitycode = "";
+        private static string itemcommand = "", entitycode = "", buCode = "", docnumber ="";
         private const string matstring = "Materials", opexstring = "Opex", manstring = "Manpower", capexstring = "Capex", revstring = "Revenue";
 
         protected void MatListview_DataBound(object sender, EventArgs e)
@@ -59,6 +60,78 @@ namespace HijoPortal
             HideHeader(sender);
         }
 
+        protected void Submit_Click(object sender, EventArgs e)
+        {
+            MRPClass.PrintString("exec here...."+wrkflwln + " " + iStatusKey);
+            if (wrkflwln == 0)
+            {
+                if (iStatusKey == 1)
+                {
+
+                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode);
+
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    Submit.Enabled = false;
+
+                    MRPNotificationMessage.Text = MRPClass.successfully_submitted;
+                    MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
+                    MRPNotify.HeaderText = "Info";
+                    MRPNotify.ShowOnPageLoad = true;
+
+                    //Load_MRP(docnumber);
+                    //BindDirectMaterials(docnumber);
+                    //BindOPEX(docnumber);
+                    //BindManPower(docnumber);
+                    //BindCAPEX(docnumber);
+                    //BindRevenue(docnumber);
+                }
+                else
+                {
+
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    
+                    //MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
+                    //MRPNotify.HeaderText = "Alert";
+                    //MRPNotify.ShowOnPageLoad = true;
+
+
+
+                    //MRPNotify.
+                }
+            }
+            else
+            {
+                if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
+                {
+                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode);
+
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    Submit.Enabled = false;
+
+                    MRPNotificationMessage.Text = MRPClass.successfully_submitted;
+                    MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
+                    MRPNotify.HeaderText = "Info";
+                    MRPNotify.ShowOnPageLoad = true;
+
+                    //Load_MRP(docnumber);
+                    //BindDirectMaterials(docnumber);
+                    //BindOPEX(docnumber);
+                    //BindManPower(docnumber);
+                    //BindCAPEX(docnumber);
+                    //BindRevenue(docnumber);
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                    //MRPNotificationMessage.Text = "Document already submitted to Inventory Analyst for review.";
+                    //MRPNotify.HeaderText = "Alert";
+                    //MRPNotify.ShowOnPageLoad = true;
+                }
+
+            }
+        }
+
         protected void CapexListview_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
@@ -76,16 +149,17 @@ namespace HijoPortal
 
         private void HideHeader(object sender)
         {
+            MRPClass.PrintString("hideheader");
             if (entitycode != MRPClass.train_entity)
             {
                 ListView listview = sender as ListView;
                 HtmlTableCell th = (HtmlTableCell)listview.FindControl("tableHeaderRevDesc");
+                if (th != null)
                 th.Visible = false;
 
                 HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
+                if(th != null)
                 pk_th.Visible = false;
-
-
             }
         }
 
@@ -111,6 +185,7 @@ namespace HijoPortal
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            MRPClass.PrintString("Preview: docnumber load");
             if (Session["CreatorKey"] == null)
             {
                 Response.Redirect("login.aspx");
@@ -123,7 +198,9 @@ namespace HijoPortal
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 DocNum.Text = Request.Params["DocNum"].ToString();
-
+                docnumber = Request.Params["DocNum"].ToString();
+                wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
+                MRPClass.PrintString("wrk:" + wrkflwln);
 
                 string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
                               " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
@@ -146,8 +223,10 @@ namespace HijoPortal
                 {
                     //DocNum.Text = reader["DocNumber"].ToString();
                     //DateCreated.Text = reader["DateCreated"].ToString();
+                    mrp_key = Convert.ToInt32(reader["PK"]);
                     entitycode = reader["EntityCode"].ToString();
                     EntityCode.Text = reader["EntityCodeDesc"].ToString();
+                    buCode = reader["BUCode"].ToString();
                     BUCode.Text = reader["BUCodeDesc"].ToString();
                     Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
                     Year.Text = reader["MRPYear"].ToString();
@@ -157,6 +236,9 @@ namespace HijoPortal
                 conn.Close();
 
 
+                iStatusKey = MRPClass.MRP_Line_Status(mrp_key, wrkflwln);
+                StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
+                StatusHidden["hidden_preview_wrkflwln"] = wrkflwln;
 
                 MRPClass.PrintString("ispostback");
                 DataTable table = MRPClass.MRP_CAPEX(DocNum.Text.ToString(), "");

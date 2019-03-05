@@ -101,5 +101,7 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.GridViewCommandColumnCustomButton Preview;
+
+        protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
     }
 }

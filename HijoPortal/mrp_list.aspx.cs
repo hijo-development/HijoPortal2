@@ -102,7 +102,7 @@ namespace HijoPortal
 
                         Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
-                        //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString();
+                        //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                         //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_finance.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_inventoryanalyst_forapproval.aspx?DocNum=" + docNum.ToString();
@@ -118,7 +118,8 @@ namespace HijoPortal
                         if (StatusKey != 1)
                         {
                             text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
-                        } else
+                        }
+                        else
                         {
                             //string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
                             string delete = "DELETE FROM [dbo].[tbl_MRP_List] WHERE [PK] ='" + PK + "'";
@@ -126,7 +127,7 @@ namespace HijoPortal
                             cmd.ExecuteNonQuery();
                             BindMRP();
                         }
-                        
+
                     }
                 }
 
@@ -137,16 +138,16 @@ namespace HijoPortal
                         if (StatusKey != 1)
                         {
                             text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
-                        } else
-                        {
-                            MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode);
-                            BindMRP();
                         }
-
+                        else
+                        {
+                            text["hidden_value"] = "submitted";
+                            MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode);
+                            //BindMRP();
                             
+                        }
                     }
                 }
-                //}                
             }
             else
             {
@@ -158,7 +159,7 @@ namespace HijoPortal
             {
                 //msgTrans.Text = "Pass Preview";
                 //string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
-                Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString();
+                Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
                 //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
                 //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
