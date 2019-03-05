@@ -1,10 +1,8 @@
-﻿<%@ Page Title="MOP Preview" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_preview.aspx.cs" Inherits="HijoPortal.mrp_preview" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_preview.aspx.cs" Inherits="HijoPortal.mrp_preview" %>
 
-<%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
     <dx:ASPxPopupControl ID="LogsPopup" runat="server" Modal="true" CloseAction="CloseButton"
         PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
@@ -114,13 +112,13 @@
 
             <table runat="server" style="width: 80%; margin: auto; margin-bottom: 10px;" border="1">
                 <tr>
-                    <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="3">DIRECT MATERIALS</td>
+                    <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="4">DIRECT MATERIALS</td>
                 </tr>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="4">
                         <asp:ListView ID="MatListview" runat="server" OnItemCommand="MatListview_ItemCommand" OnDataBound="MatListview_DataBound" OnItemDataBound="MatListview_ItemDataBound">
                             <LayoutTemplate>
-                                <table class="table1" style="width: 100%" runat="server">
+                                <table class="table1" style="width: 100%" runat="server" border="0">
                                     <tr class="headerRow">
                                         <th id="pk_header" runat="server" style="width: 0px;"></th>
                                         <th style="width: 35%; text-align: left; padding-left: 5px;">Description</th>
@@ -174,22 +172,25 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 75%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td style="width: 65%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td id="extraDMTD" runat="server" style="width: 10%; border-right-width: 0px;border-left-width: 0px;"></td>
                     <td id="TAMat" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px;"></td>
+                    <td style="border-left-width: 0px; width: 10%;"></td>
+
+
                 </tr>
             </table>
 
 
             <table runat="server" style="width: 80%; margin: auto; margin-bottom: 10px;" border="1">
                 <tr>
-                    <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="3">OPEX</td>
+                    <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="4">OPEX</td>
                 </tr>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="4">
                         <asp:ListView ID="OpexListiview" runat="server" OnItemCommand="OpexListiview_ItemCommand" OnDataBound="OpexListiview_DataBound" OnItemDataBound="OpexListiview_ItemDataBound">
                             <LayoutTemplate>
-                                <table class="table1" style="width: 100%" runat="server">
+                                <table class="table1" style="width: 100%" runat="server" border="0">
                                     <tr class="headerRow">
                                         <th id="pk_header" runat="server" style="width: 0px"></th>
                                         <th style="width: 35%; text-align: left; padding-left: 5px;">Description</th>
@@ -246,18 +247,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 75%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td style="width: 65%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td id="extraOPTD" runat="server" style="width: 10%; border-right-width: 0px;border-left-width: 0px;"></td>
                     <td id="TAOpex" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px;"></td>
+                    <td style="border-left-width: 0px; width: 10%;"></td>
                 </tr>
             </table>
 
             <table runat="server" style="width: 80%; margin: auto; margin-bottom: 10px;" border="1">
                 <tr>
-                    <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="3">MANPOWER</td>
+                    <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="4">MANPOWER</td>
                 </tr>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="4">
                         <asp:ListView ID="ManListview" runat="server" OnItemCommand="ManListview_ItemCommand" OnDataBound="ManListview_DataBound" OnItemDataBound="ManListview_ItemDataBound">
                             <LayoutTemplate>
                                 <table class="table1" style="width: 100%" runat="server">
@@ -316,19 +318,20 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 75%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td style="width: 65%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td id="extraMANTD" runat="server" style="width: 10%; border-right-width: 0px;border-left-width: 0px;"></td>
                     <td id="TAManpower" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px;"></td>
+                    <td style="border-left-width: 0px; width: 10%;"></td>
                 </tr>
             </table>
 
 
             <table runat="server" style="width: 80%; margin: auto; margin-bottom: 10px;" border="1">
                 <tr>
-                    <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="3">CAPEX</td>
+                    <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="4">CAPEX</td>
                 </tr>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="4">
                         <asp:ListView ID="CapexListview" runat="server" OnItemCommand="CapexListview_ItemCommand" OnDataBound="CapexListview_DataBound" OnItemDataBound="CapexListview_ItemDataBound">
                             <LayoutTemplate>
                                 <table class="table1" style="width: 100%" runat="server">
@@ -389,18 +392,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 75%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td style="width: 65%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td id="extraCATD" runat="server" style="width: 10%; border-right-width: 0px;border-left-width: 0px;"></td>
                     <td id="TotalAmountTD" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px;"></td>
+                    <td style="border-left-width: 0px; width: 10%;"></td>
                 </tr>
             </table>
 
             <table runat="server" style="width: 80%; margin: auto;" border="1">
                 <tr>
-                    <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="3">REVENUE ASSUMPTIONS</td>
+                    <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="4">REVENUE ASSUMPTIONS</td>
                 </tr>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="4">
                         <asp:ListView ID="RevListview" runat="server" OnItemCommand="RevListview_ItemCommand" OnDataBound="RevListview_DataBound" OnItemDataBound="RevListview_ItemDataBound">
                             <LayoutTemplate>
                                 <table class="table1" style="width: 100%" runat="server">
@@ -460,12 +464,14 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 75%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                    <%--<td id="revExtra" runat="server" style="width: 10%;"></td>--%>
+                    <td style="width: 65%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td id="extraRevTD" runat="server" style="width: 10%; border-right-width: 0px;border-left-width: 0px;"></td>
                     <td id="TARevenue" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px; width:10%"></td>
+                    <td style="border-left-width: 0px; width: 10%"></td>
                 </tr>
             </table>
         </div>
     </div>
+
+
 </asp:Content>

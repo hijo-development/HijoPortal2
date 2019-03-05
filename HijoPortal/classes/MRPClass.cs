@@ -2591,5 +2591,60 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+        public static DataTable MRP_ListBudget()
+        {
+            DataTable dtTable = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dtable = new DataTable();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("DocNumber", typeof(string));
+                dtTable.Columns.Add("DateCreated", typeof(string));
+                dtTable.Columns.Add("EntityCodeDesc", typeof(string));
+                dtTable.Columns.Add("BUCodeDesc", typeof(string));
+                dtTable.Columns.Add("MRPMonthDesc", typeof(string));
+                dtTable.Columns.Add("MRPYear", typeof(string));
+            }
+            dtTable.Clear();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+            string qry = "SELECT dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, " +
+                         " dbo.vw_AXOperatingUnitTable.NAME AS Department, dbo.tbl_MRP_List_Workflow.MasterKey, " +
+                         " dbo.tbl_MRP_List.MRPMonth, dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.DateCreated " +
+                         " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
+                         " dbo.tbl_MRP_List ON dbo.tbl_MRP_List_Workflow.MasterKey = dbo.tbl_MRP_List.PK LEFT OUTER JOIN " +
+                         " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
+                         " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
+                         " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK " +
+                         " WHERE(dbo.tbl_MRP_List_Workflow.Line = 2) AND(dbo.tbl_MRP_List_Workflow.Status = 0)";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtable.Rows)
+                {
+                    DataRow rowAdd = dtTable.NewRow();
+                    rowAdd["PK"] = row["MasterKey"].ToString();
+                    rowAdd["DocNumber"] = row["DocNumber"].ToString();
+                    rowAdd["DateCreated"] = Convert.ToDateTime(row["DateCreated"]).ToString("MM/dd/yyyy");
+                    rowAdd["EntityCodeDesc"] = row["Entity"].ToString();
+                    rowAdd["BUCodeDesc"] = row["Department"].ToString();
+                    rowAdd["MRPMonthDesc"] = Month_Name(Convert.ToInt32(row["MRPMonth"]));
+                    rowAdd["MRPYear"] = row["MRPYear"].ToString();
+                    dtTable.Rows.Add(rowAdd);
+                }
+            }
+            dtable.Clear();
+            conn.Close();
+
+            return dtTable;
+        }
+
     }
 }

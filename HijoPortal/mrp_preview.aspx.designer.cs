@@ -130,6 +130,15 @@ namespace HijoPortal {
         protected global::System.Web.UI.WebControls.ListView MatListview;
         
         /// <summary>
+        /// extraDMTD control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell extraDMTD;
+        
+        /// <summary>
         /// TAMat control.
         /// </summary>
         /// <remarks>
@@ -146,6 +155,15 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListView OpexListiview;
+        
+        /// <summary>
+        /// extraOPTD control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell extraOPTD;
         
         /// <summary>
         /// TAOpex control.
@@ -166,6 +184,15 @@ namespace HijoPortal {
         protected global::System.Web.UI.WebControls.ListView ManListview;
         
         /// <summary>
+        /// extraMANTD control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell extraMANTD;
+        
+        /// <summary>
         /// TAManpower control.
         /// </summary>
         /// <remarks>
@@ -182,6 +209,15 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListView CapexListview;
+        
+        /// <summary>
+        /// extraCATD control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell extraCATD;
         
         /// <summary>
         /// TotalAmountTD control.
@@ -202,6 +238,15 @@ namespace HijoPortal {
         protected global::System.Web.UI.WebControls.ListView RevListview;
         
         /// <summary>
+        /// extraRevTD control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell extraRevTD;
+        
+        /// <summary>
         /// TARevenue control.
         /// </summary>
         /// <remarks>
@@ -209,7 +254,5 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue;
-
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell revExtra;
     }
 }
