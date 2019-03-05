@@ -350,9 +350,10 @@ namespace HijoPortal
                 adp.Fill(dtable);
                 if (dtable.Rows.Count > 0)
                 {
-                    int userKey = 0, status = 0, visible = 0;
+                    
                     foreach (DataRow row in dtable.Rows)
                     {
+                        int userKey = 0, status = 0, visible = 0;
                         if (row["SQLQuery"].ToString().Trim() != "")
                         {
                             string qryB = row["SQLQuery"].ToString() + " '" + ENTITY_CODE + "', '" + BU_CODE + "', '" + DATE_CREATED + "'";
@@ -371,8 +372,8 @@ namespace HijoPortal
                         }
 
                         string qryAddDataflow = "INSERT INTO tbl_MRP_List_Workflow " +
-                                            " ([MasterKey], [Line], [PositionNameKey], [UserKey], [Status], [Visible])" +
-                                            " VALUES (@MasterKey, @Line, @PositionNameKey, @UserKey, @Status, @Visible)";
+                                                " ([MasterKey], [Line], [PositionNameKey], [UserKey], [Status], [Visible])" +
+                                                " VALUES (@MasterKey, @Line, @PositionNameKey, @UserKey, @Status, @Visible)";
                         SqlCommand cmd1 = new SqlCommand(qryAddDataflow, conn);
                         cmd1.Parameters.AddWithValue("@MasterKey", pk_latest);
                         cmd1.Parameters.AddWithValue("@Line", Convert.ToInt32(row["Line"]));
