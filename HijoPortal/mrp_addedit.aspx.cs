@@ -21,7 +21,7 @@ namespace HijoPortal
         ArrayList ArrCapex = new ArrayList();
         ArrayList ArrRevenue = new ArrayList();
         private static int mrp_key = 0, wrkflwln = 0, iStatusKey = 0;
-        private static string docnumber = "", entitycode = "";
+        private static string docnumber = "", entitycode = "", buCode = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true, bindRevenue = true;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -105,11 +105,12 @@ namespace HijoPortal
             ArrCapex.Clear();
             ArrRevenue.Clear();
 
-            string query = "SELECT TOP (100) PERCENT  tbl_MRP_List.*, " +
+            string query = "SELECT tbl_MRP_List.*, " +
                            " vw_AXEntityTable.NAME AS EntityCodeDesc, " +
                            " vw_AXOperatingUnitTable.NAME AS BUCodeDesc, " +
                            " tbl_MRP_Status.StatusName, tbl_Users.Lastname, " +
-                           " tbl_Users.Firstname " +
+                           " tbl_Users.Firstname, tbl_MRP_List.EntityCode, " +
+                           " tbl_MRP_List.BUCode " +
                            " FROM tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK " +
                            " LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
                            " LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK " +
@@ -137,7 +138,11 @@ namespace HijoPortal
                 iStatusKey = Convert.ToInt32(reader["StatusKey"]);
                 firstname = reader["Firstname"].ToString();
                 lastname = reader["Lastname"].ToString();
-                
+
+                entitycode = reader["EntityCode"].ToString();
+                buCode = reader["BUCode"].ToString();
+
+
             }
             reader.Close();
             conn.Close();
@@ -361,7 +366,7 @@ namespace HijoPortal
             {
                 if (iStatusKey != 1)
                 {
-                    MRPClass.PrintString("pass");
+                    //MRPClass.PrintString("pass");
                     //return;
                 } else
                 {
@@ -1307,7 +1312,11 @@ namespace HijoPortal
             {
                 if (iStatusKey == 1)
                 {
-                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1);
+
+                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode);
+
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
                     Load_MRP(docnumber);
                     BindDirectMaterials(docnumber);
                     BindOPEX(docnumber);
@@ -1328,7 +1337,10 @@ namespace HijoPortal
             {
                 if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
                 {
-                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1);
+                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode);
+
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
                     Load_MRP(docnumber);
                     BindDirectMaterials(docnumber);
                     BindOPEX(docnumber);

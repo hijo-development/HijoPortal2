@@ -13,8 +13,8 @@ namespace HijoPortal
 {
     public partial class mrp_inventanalyst : System.Web.UI.Page
     {
-        private static int mrp_key = 0, wrkflwln = 0;
-        private static string docnumber = "", entitycode = "";
+        private static int mrp_key = 0, wrkflwln = 0, iStatusKey = 0;
+        private static string docnumber = "", entitycode = "", buCode = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -22,39 +22,56 @@ namespace HijoPortal
             CheckCreatorKey();
             if (!Page.IsPostBack)
             {
+
+                DirectMaterialsRoundPanel.Font.Bold = true;
+                OpexRoundPanel.Font.Bold = true;
+                ManpowerRoundPanel.Font.Bold = true;
+                CapexRoundPanel.Font.Bold = true;
+
+                DirectMaterialsRoundPanel.Collapsed = true;
+                OpexRoundPanel.Collapsed = true;
+                ManpowerRoundPanel.Collapsed = true;
+                CapexRoundPanel.Collapsed = true;
+
+                ASPxPageControl1.Font.Bold = true;
+                ASPxPageControl1.Font.Size = 12;
+
                 //Rsize
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 docnumber = Request.Params["DocNum"].ToString();
                 wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
-                string query = "SELECT TOP (100) PERCENT  tbl_MRP_List.*, vw_AXEntityTable.NAME AS EntityCodeDesc, vw_AXOperatingUnitTable.NAME AS BUCodeDesc, tbl_MRP_Status.StatusName, tbl_Users.Lastname, tbl_Users.Firstname FROM   tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
 
-                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-                conn.Open();
+                Load_MRP(docnumber);
 
-                string firstname = "", lastname = "";
+                //string query = "SELECT TOP (100) PERCENT  tbl_MRP_List.*, vw_AXEntityTable.NAME AS EntityCodeDesc, vw_AXOperatingUnitTable.NAME AS BUCodeDesc, tbl_MRP_Status.StatusName, tbl_Users.Lastname, tbl_Users.Firstname FROM   tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    mrp_key = Convert.ToInt32(reader["PK"].ToString());
-                    entitycode = reader["EntityCode"].ToString();
-                    DocNum.Text = reader["DocNumber"].ToString();
-                    DateCreated.Text = reader["DateCreated"].ToString();
-                    EntityCode.Text = reader["EntityCodeDesc"].ToString();
-                    BUCode.Text = reader["BUCodeDesc"].ToString();
-                    Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
-                    Year.Text = reader["MRPYear"].ToString();
-                    Status.Text = reader["StatusName"].ToString();
-                    firstname = reader["Firstname"].ToString();
-                    lastname = reader["Lastname"].ToString();
+                //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+                //conn.Open();
 
-                }
-                reader.Close();
-                conn.Close();
+                //string firstname = "", lastname = "";
 
-                Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
+                //SqlCommand cmd = new SqlCommand(query, conn);
+                //SqlDataReader reader = cmd.ExecuteReader();
+                //while (reader.Read())
+                //{
+                //    mrp_key = Convert.ToInt32(reader["PK"].ToString());
+                //    entitycode = reader["EntityCode"].ToString();
+                //    DocNum.Text = reader["DocNumber"].ToString();
+                //    DateCreated.Text = reader["DateCreated"].ToString();
+                //    EntityCode.Text = reader["EntityCodeDesc"].ToString();
+                //    BUCode.Text = reader["BUCodeDesc"].ToString();
+                //    Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
+                //    Year.Text = reader["MRPYear"].ToString();
+                //    Status.Text = reader["StatusName"].ToString();
+                //    firstname = reader["Firstname"].ToString();
+                //    lastname = reader["Lastname"].ToString();
+
+                //}
+                //reader.Close();
+                //conn.Close();
+
+                //Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
 
                 DirectMaterialsRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Direct Materials";
                 OpexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Operational Expense";
@@ -75,12 +92,81 @@ namespace HijoPortal
                 ASPxPageControl1.Font.Size = 12;
             }
 
-            MRPClass.PrintString(bindDM.ToString());
-            MRPClass.PrintString(DMGrid.ViewStateMode.ToString());
+            //MRPClass.PrintString(bindDM.ToString());
+            //MRPClass.PrintString(DMGrid.ViewStateMode.ToString());
             if (bindDM) BindDirectMaterials(docnumber); else bindDM = true;
             if (bindOpex) BindOpex(docnumber); else bindOpex = true;
             if (bindManPower) BindManPower(docnumber); else bindManPower = true;
             if (bindCapex) BindCapex(docnumber); else bindCapex = true;
+        }
+
+        private void Load_MRP(string docnumber)
+        {
+            ASPxHiddenField hidStatusKey = Page.FindControl("StatusKey") as ASPxHiddenField;
+
+            string query = "SELECT tbl_MRP_List.*, " +
+                           " vw_AXEntityTable.NAME AS EntityCodeDesc, " +
+                           " vw_AXOperatingUnitTable.NAME AS BUCodeDesc, " +
+                           " tbl_MRP_Status.StatusName, tbl_Users.Lastname, " +
+                           " tbl_Users.Firstname, tbl_MRP_List.EntityCode, " +
+                           " tbl_MRP_List.BUCode " +
+                           " FROM tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK " +
+                           " LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
+                           " LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK " +
+                           " LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID " +
+                           " WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' " +
+                           " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            string firstname = "", lastname = "";
+
+            SqlCommand cmd = new SqlCommand(query, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                mrp_key = Convert.ToInt32(reader["PK"].ToString());
+                entitycode = reader["EntityCode"].ToString();
+                DocNum.Text = reader["DocNumber"].ToString();
+                DateCreated.Text = reader["DateCreated"].ToString();
+                EntityCode.Text = reader["EntityCodeDesc"].ToString();
+                BUCode.Text = reader["BUCodeDesc"].ToString();
+                Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
+                Year.Text = reader["MRPYear"].ToString();
+                Status.Text = reader["StatusName"].ToString();
+                iStatusKey = Convert.ToInt32(reader["StatusKey"]);
+                firstname = reader["Firstname"].ToString();
+                lastname = reader["Lastname"].ToString();
+
+                entitycode = reader["EntityCode"].ToString();
+                buCode = reader["BUCode"].ToString();
+
+                Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
+
+            }
+            reader.Close();
+
+            iStatusKey = MRPClass.MRP_Line_Status(mrp_key, wrkflwln);
+
+            WorkFlowLineLbl.Text = wrkflwln.ToString();
+            WorkFlowLineTxt.Text = wrkflwln.ToString();
+            StatusKeyLbl.Text = iStatusKey.ToString();
+            StatusKeyTxt.Text = iStatusKey.ToString();
+
+            Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
+
+            DirectMaterialsRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Direct Materials";
+            OpexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Operational Expense";
+            ManpowerRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Man Power";
+            CapexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Capital Expenditure";
+
+            //ASPxPageControl pageControl = grid.FindEditFormTemplateControl("RevenuePageControl") as ASPxPageControl;
+            ASPxHiddenField hfwrkLine = ASPxPageControl1.FindControl("ASPxHiddenFieldDMWrkFlwLnInventAnal") as ASPxHiddenField;
+            ASPxHiddenField hfstatKey = ASPxPageControl1.FindControl("ASPxHiddenFieldDMStatusKeyInventAnal") as ASPxHiddenField;
+            hfwrkLine["hidden_value"] = wrkflwln.ToString();
+            hfstatKey["hidden_value"] = iStatusKey.ToString();
+
+
         }
 
         private void CheckCreatorKey()
@@ -342,6 +428,68 @@ namespace HijoPortal
             bindCapex = true;
             BindCapex(docnumber);
 
+        }
+
+        protected void MRPList_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("mrp_listinventoryanalyst.aspx");
+        }
+
+        protected void Submit_Click(object sender, EventArgs e)
+        {
+            if (wrkflwln == 0)
+            {
+                if (iStatusKey == 1)
+                {
+
+                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode);
+
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                    Load_MRP(docnumber);
+
+                    BindDirectMaterials(docnumber);
+                    BindOpex(docnumber);
+                    BindManPower(docnumber);
+                    BindCapex(docnumber);
+
+                }
+                else
+                {
+
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                    MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
+                    MRPNotify.HeaderText = "Alert";
+                    MRPNotify.ShowOnPageLoad = true;
+                    //MRPNotify.
+                }
+            }
+            else
+            {
+                if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
+                {
+                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode);
+
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                    Load_MRP(docnumber);
+                    BindDirectMaterials(docnumber);
+                    BindOpex(docnumber);
+                    BindManPower(docnumber);
+                    BindCapex(docnumber);
+                    //BindRevenue(docnumber);
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                    MRPNotificationMessage.Text = "Document already submitted to Inventory Analyst for review.";
+                    MRPNotify.HeaderText = "Alert";
+                    MRPNotify.ShowOnPageLoad = true;
+                }
+
+            }
         }
 
         protected void Preview_Click(object sender, EventArgs e)
