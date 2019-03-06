@@ -71,15 +71,23 @@ namespace HijoPortal
 
             string page = "";
             int wrkline = Convert.ToInt32(HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "LevelLine").ToString());
-            if (wrkline == 1)
+            int wrkflowtype = Convert.ToInt32(HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "WorkflowType").ToString());
+            if (wrkflowtype == 1)
             {
-                page = "mrp_addedit.aspx";
+                if (wrkline == 1)
+                {
+                    page = "mrp_addedit.aspx";
+                }
+                if (wrkline == 2)
+                {
+                    page = "mrp_inventanalyst.aspx";
+                }
+                if (wrkline == 3)
+                {
+                    page = "mrp_preview.aspx";
+                }
             }
-            if (wrkline == 2)
-            {
-                page = "mrp_inventanalyst.aspx";
-            }
-
+            
             ASPxHyperLink link = sender as ASPxHyperLink;
             GridViewDataItemTemplateContainer container = link.NamingContainer as GridViewDataItemTemplateContainer;
             object value = container.Grid.GetRowValues(container.VisibleIndex, "DocNumber");

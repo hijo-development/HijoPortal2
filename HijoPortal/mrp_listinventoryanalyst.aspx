@@ -21,7 +21,7 @@
                     <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="DocNumber" Caption="MRP Number" VisibleIndex="2" SortOrder="Descending"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity" VisibleIndex="3"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="Department" VisibleIndex="4"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="BU / Department" VisibleIndex="4"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month" VisibleIndex="5"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="MRPYear" Caption="Year" VisibleIndex="6"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn  Caption="Status" VisibleIndex="9"></dx:GridViewDataColumn>
