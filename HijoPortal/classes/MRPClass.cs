@@ -2378,7 +2378,7 @@ namespace HijoPortal.classes
             DataTable dtable = new DataTable();
 
             conn.Open();
-            if (line == 0 )
+            if (line == 0)
             {
                 qry = "SELECT StatusKey " +
                       " FROM tbl_MRP_List " +
@@ -2394,7 +2394,8 @@ namespace HijoPortal.classes
                         if (Convert.ToInt32(row["StatusKey"]) == 1)
                         {
                             mrpLineStat = 0;
-                        } else
+                        }
+                        else
                         {
                             mrpLineStat = 1;
                         }
@@ -2402,7 +2403,8 @@ namespace HijoPortal.classes
                     }
                 }
                 dtable.Clear();
-            } else
+            }
+            else
             {
                 qry = "SELECT Status " +
                       " FROM tbl_MRP_List_Workflow " +
@@ -2421,7 +2423,7 @@ namespace HijoPortal.classes
                 }
                 dtable.Clear();
             }
-            
+
             conn.Close();
             return mrpLineStat;
         }
@@ -2430,6 +2432,8 @@ namespace HijoPortal.classes
         {
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             string qry = "", sEmail = "", sEmailCR = "", sMailSubject = "", sGreetings = "", sSubjectCR = "", sGreetingsCR = "";
+            var sbBody = new StringBuilder();
+            var sbBodyCR = new StringBuilder();
             SqlCommand cmdIns = null;
             SqlCommand cmdUp = null;
             SqlCommand cmd = null;
@@ -2439,9 +2443,232 @@ namespace HijoPortal.classes
             SqlCommand cmd1 = null;
             SqlDataAdapter adp1;
             DataTable dtable1 = new DataTable();
+
+            SqlCommand cmd2 = null;
+            SqlDataAdapter adp2;
+            DataTable dtable2 = new DataTable();
+
+            conn.Open();
+            qry = "SELECT dbo.tbl_System_Approval_Position.SQLQuery, ISNULL(tbl_Users_1.Email, '') AS Email, " +
+                  " tbl_Users_1.Lastname, tbl_Users_1.Gender, dbo.tbl_MRP_List_Approval.UserKey, " +
+                  " dbo.tbl_MRP_List_Approval.PositionNameKey, dbo.tbl_Users.Lastname AS CreatorLName, " +
+                  " dbo.tbl_Users.Email AS CreatorEmail, dbo.tbl_Users.Gender AS CreatorGender, " +
+                  " dbo.tbl_System_Approval_Position.PositionName " +
+                  " FROM dbo.tbl_Users RIGHT OUTER JOIN " +
+                  " dbo.tbl_MRP_List ON dbo.tbl_Users.PK = dbo.tbl_MRP_List.CreatorKey RIGHT OUTER JOIN " +
+                  " dbo.tbl_MRP_List_Approval ON dbo.tbl_MRP_List.PK = dbo.tbl_MRP_List_Approval.MasterKey LEFT OUTER JOIN " +
+                  " dbo.tbl_Users AS tbl_Users_1 ON dbo.tbl_MRP_List_Approval.UserKey = tbl_Users_1.PK LEFT OUTER JOIN " +
+                  " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Approval.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+                  " WHERE(dbo.tbl_MRP_List_Approval.Line = " + AprvLine + ") " +
+                  " AND(dbo.tbl_MRP_List_Approval.MasterKey = " + MRPKey + ")";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count > 0)
+            {
+                foreach(DataRow row in dtable.Rows)
+                {
+                    sEmail = EncryptionClass.Decrypt(row["Email"].ToString());
+                    sEmailCR = EncryptionClass.Decrypt(row["CreatorEmail"].ToString());
+                    
+                    int AprvLineB4 = AprvLine - 1;
+
+                    if (Convert.ToInt32(row["CreatorGender"]) == 1)
+                    {
+                        sGreetingsCR = "Dear Mr. " + EncryptionClass.Decrypt(row["CreatorLName"].ToString());
+                    }
+                    else
+                    {
+                        sGreetingsCR = "Dear Ms. " + EncryptionClass.Decrypt(row["CreatorLName"].ToString());
+                    }
+
+                    sSubjectCR = "MOP DocNum " + docNum.ToString() + " status";
+
+                    if (GlobalClass.IsEmailValid(sEmail) == true)
+                    {
+                        if (Convert.ToInt32(row["Gender"]) == 1)
+                        {
+                            sGreetings = "Dear Mr. " + EncryptionClass.Decrypt(row["Lastname"].ToString());
+                        }
+                        else
+                        {
+                            sGreetings = "Dear Ms. " + EncryptionClass.Decrypt(row["Lastname"].ToString());
+                        }
+                        sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your approval";
+
+                        //Update Workflow B4
+                        qry = "UPDATE tbl_MRP_List_Approval " +
+                               " SET Visible = 0, " +
+                               " Status = 1 " +
+                               " WHERE (MasterKey = " + MRPKey + ") " +
+                               " AND (Line = " + AprvLineB4 + ")";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
+
+                        //Update Workflow
+                        qry = "UPDATE tbl_MRP_List_Approval " +
+                               " SET Visible = 1 " +
+                               " WHERE (MasterKey = " + MRPKey + ") " +
+                               " AND (Line = " + AprvLine + ")";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
+
+                        sbBody.Append("<!DOCTYPE html>");
+                        sbBody.Append("<html>");
+                        sbBody.Append("<head>");
+                        sbBody.Append("</head>");
+                        sbBody.Append("<body>");
+                        sbBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetings + ",</p>");
+                        sbBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " is waiting for your approval.</p>");
+                        sbBody.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
+                        sbBody.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
+                        sbBody.Append("</body>");
+                        sbBody.Append("</html>");
+
+                        bool msgSend = GlobalClass.IsMailSent(sEmail, sMailSubject, sbBody.ToString());
+
+                        if (msgSend == true)
+                        {
+                            //Insert to User Assigned
+                            qry = "SELECT tbl_Users_Assigned.* " +
+                                  " FROM tbl_Users_Assigned " +
+                                  " WHERE (UserKey = " + Convert.ToInt32(row["UserKey"]) + ") " +
+                                  " AND (MRPKey = " + MRPKey + ") " +
+                                  " AND (WorkFlowLine = " + AprvLine + ") " +
+                                  " AND (WorkFlowType = 2)";
+                            cmd1 = new SqlCommand(qry);
+                            cmd1.Connection = conn;
+                            adp1 = new SqlDataAdapter(cmd1);
+                            adp1.Fill(dtable1);
+                            if (dtable1.Rows.Count == 0)
+                            {
+                                qry = "INSERT INTO tbl_Users_Assigned " +
+                                      " (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) " +
+                                      " VALUES(" + Convert.ToInt32(row["UserKey"]) + ", " +
+                                      " " + Convert.ToInt32(row["PositionNameKey"]) + ", " +
+                                      " " + MRPKey + ", " + AprvLine + ", 2)";
+                                cmdIns = new SqlCommand(qry, conn);
+                                cmdIns.ExecuteNonQuery();
+                            }
+                            dtable1.Clear();
+                        }
+
+                        // Send Email to Creator
+                        sbBodyCR.Append("<!DOCTYPE html>");
+                        sbBodyCR.Append("<html>");
+                        sbBodyCR.Append("<head>");
+                        sbBodyCR.Append("</head>");
+                        sbBodyCR.Append("<body>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetingsCR + ",</p>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted to " + row["PositionName"].ToString() + " for approval.</p>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
+                        sbBodyCR.Append("</body>");
+                        sbBodyCR.Append("</html>");
+
+                        bool msgSendToCreator = GlobalClass.IsMailSent(sEmailCR, sSubjectCR, sbBodyCR.ToString());
+                    } 
+                }
+            } else
+            {
+                // back to workflow
+                qry = "SELECT dbo.tbl_MRP_List.CreatorKey, dbo.tbl_Users.Lastname, " +
+                      " dbo.tbl_Users.Gender, dbo.tbl_Users.Email " +
+                      " FROM dbo.tbl_MRP_List LEFT OUTER JOIN " +
+                      " dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK " +
+                      " WHERE(dbo.tbl_MRP_List.PK = "+ MRPKey + ")";
+                cmd1 = new SqlCommand(qry);
+                cmd1.Connection = conn;
+                adp1 = new SqlDataAdapter(cmd1);
+                adp1.Fill(dtable1);
+                if (dtable1.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dtable1.Rows)
+                    {
+                        sEmailCR = EncryptionClass.Decrypt(row["Email"].ToString());
+                        if (Convert.ToInt32(row["Gender"]) == 1)
+                        {
+                            sGreetingsCR = "Dear Mr. " + EncryptionClass.Decrypt(row["Lastname"].ToString());
+                        }
+                        else
+                        {
+                            sGreetingsCR = "Dear Ms. " + EncryptionClass.Decrypt(row["Lastname"].ToString());
+                        }
+                        sSubjectCR = "MOP DocNum " + docNum.ToString() + " status";
+                        // Send Email to Creator
+                        sbBodyCR.Append("<!DOCTYPE html>");
+                        sbBodyCR.Append("<html>");
+                        sbBodyCR.Append("<head>");
+                        sbBodyCR.Append("</head>");
+                        sbBodyCR.Append("<body>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetingsCR + ",</p>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been approved.</p>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
+                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
+                        sbBodyCR.Append("</body>");
+                        sbBodyCR.Append("</html>");
+
+                        bool msgSendToCreator = GlobalClass.IsMailSent(sEmailCR, sSubjectCR, sbBodyCR.ToString());
+
+                    }
+                }
+                dtable1.Clear();
+
+                //Update MOP Status
+                qry = "UPDATE tbl_MRP_List SET StatusKey = 4 WHERE (PK = " + MRPKey + ")";
+                cmdUp = new SqlCommand(qry, conn);
+                cmdUp.ExecuteNonQuery();
+
+                //Update Workflow B4
+                qry = "UPDATE tbl_MRP_List_Workflow " +
+                       " SET Visible = 0, " +
+                       " Status = 1 " +
+                       " WHERE (MasterKey = " + MRPKey + ") " +
+                       " AND (Line = 5)";
+                cmdUp = new SqlCommand(qry, conn);
+                cmdUp.ExecuteNonQuery();
+
+                //if have CAPEX
+                qry = "SELECT tbl_MRP_List_CAPEX.* " +
+                      " FROM tbl_MRP_List_CAPEX " +
+                      " WHERE (HeaderDocNum = '" + docNum.ToString() + "')";
+                cmd1 = new SqlCommand(qry);
+                cmd1.Connection = conn;
+                adp1 = new SqlDataAdapter(cmd1);
+                adp1.Fill(dtable1);
+                if (dtable1.Rows.Count > 0)
+                {
+                    qry = "UPDATE tbl_MRP_List_Workflow " +
+                          " SET Visible = 1 " +
+                          " WHERE (MasterKey = " + MRPKey + ") " +
+                          " AND (Line = 6)";
+                    cmdUp = new SqlCommand(qry, conn);
+                    cmdUp.ExecuteNonQuery();
+                } else
+                {
+                    qry = "UPDATE tbl_MRP_List_Workflow " +
+                          " SET Visible = 0, " +
+                          " Status = 1 " +
+                          " WHERE (MasterKey = " + MRPKey + ") " +
+                          " AND (Line = 6)";
+                    cmdUp = new SqlCommand(qry, conn);
+                    cmdUp.ExecuteNonQuery();
+
+                    qry = "UPDATE tbl_MRP_List_Workflow " +
+                          " SET Visible = 1 " +
+                          " WHERE (MasterKey = " + MRPKey + ") " +
+                          " AND (Line = 7)";
+                    cmdUp = new SqlCommand(qry, conn);
+                    cmdUp.ExecuteNonQuery();
+                }
+                dtable1.Clear();
+            }
+            dtable.Clear();
+            conn.Close();
         }
 
-        public static void Submit_MRP(string docNum, int MRPKey, int WorkFlowLine, string EntCode, string BuCode)
+        public static void Submit_MRP(string docNum, int MRPKey, int WorkFlowLine, string EntCode, string BuCode, int usrKey)
         {
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             string qry = "", sEmail = "", sEmailCR = "", sMailSubject = "", sGreetings = "", sSubjectCR = "", sGreetingsCR = "";
@@ -2456,26 +2683,18 @@ namespace HijoPortal.classes
             DataTable dtable1 = new DataTable();
 
             conn.Open();
-            //if (WorkFlowLine == 1 || WorkFlowLine == 2)
-            //{
-                qry = "SELECT dbo.tbl_System_Approval_Position.SQLQuery, ISNULL(tbl_Users_1.Email, '') AS Email, " +
-                      " tbl_Users_1.Lastname, tbl_Users_1.Gender, dbo.tbl_MRP_List_Workflow.UserKey, " +
-                      " dbo.tbl_MRP_List_Workflow.PositionNameKey, dbo.tbl_Users.Lastname AS CreatorLName, " +
-                      " dbo.tbl_Users.Email AS CreatorEmail, dbo.tbl_Users.Gender AS CreatorGender, " +
-                      " dbo.tbl_System_Approval_Position.PositionName " +
-                      " FROM dbo.tbl_Users RIGHT OUTER JOIN " +
-                      " dbo.tbl_MRP_List ON dbo.tbl_Users.PK = dbo.tbl_MRP_List.CreatorKey RIGHT OUTER JOIN " +
-                      " dbo.tbl_MRP_List_Workflow ON dbo.tbl_MRP_List.PK = dbo.tbl_MRP_List_Workflow.MasterKey LEFT OUTER JOIN " +
-                      " dbo.tbl_Users AS tbl_Users_1 ON dbo.tbl_MRP_List_Workflow.UserKey = tbl_Users_1.PK LEFT OUTER JOIN " +
-                      " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                      " WHERE(dbo.tbl_MRP_List_Workflow.Line = " + WorkFlowLine + ") " +
-                      " AND(dbo.tbl_MRP_List_Workflow.MasterKey = " + MRPKey + ")";
-            //}
-            //if (WorkFlowLine == 3)
-            //{
-            //    qry = "";
-            //}
-            
+            qry = "SELECT dbo.tbl_System_Approval_Position.SQLQuery, ISNULL(tbl_Users_1.Email, '') AS Email, " +
+                  " tbl_Users_1.Lastname, tbl_Users_1.Gender, dbo.tbl_MRP_List_Workflow.UserKey, " +
+                  " dbo.tbl_MRP_List_Workflow.PositionNameKey, dbo.tbl_Users.Lastname AS CreatorLName, " +
+                  " dbo.tbl_Users.Email AS CreatorEmail, dbo.tbl_Users.Gender AS CreatorGender, " +
+                  " dbo.tbl_System_Approval_Position.PositionName " +
+                  " FROM dbo.tbl_Users RIGHT OUTER JOIN " +
+                  " dbo.tbl_MRP_List ON dbo.tbl_Users.PK = dbo.tbl_MRP_List.CreatorKey RIGHT OUTER JOIN " +
+                  " dbo.tbl_MRP_List_Workflow ON dbo.tbl_MRP_List.PK = dbo.tbl_MRP_List_Workflow.MasterKey LEFT OUTER JOIN " +
+                  " dbo.tbl_Users AS tbl_Users_1 ON dbo.tbl_MRP_List_Workflow.UserKey = tbl_Users_1.PK LEFT OUTER JOIN " +
+                  " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+                  " WHERE(dbo.tbl_MRP_List_Workflow.Line = " + WorkFlowLine + ") " +
+                  " AND(dbo.tbl_MRP_List_Workflow.MasterKey = " + MRPKey + ")";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -2507,11 +2726,12 @@ namespace HijoPortal.classes
                         if (WorkFlowLine == 4)
                         {
                             sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for deliberation";
-                        } else
+                        }
+                        else
                         {
                             sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your review and approval";
                         }
-                            
+
                         if (Convert.ToInt32(row["Gender"]) == 1)
                         {
                             sGreetings = "Dear Mr. " + EncryptionClass.Decrypt(row["Lastname"].ToString());
@@ -2559,27 +2779,31 @@ namespace HijoPortal.classes
 
                         if (msgSend == true)
                         {
-                            //Insert to User Assigned
-                            qry = "SELECT tbl_Users_Assigned.* " +
+                            if (WorkFlowLine == 1 || WorkFlowLine == 2 || WorkFlowLine == 3)
+                            {
+                                //Insert to User Assigned
+                                qry = "SELECT tbl_Users_Assigned.* " +
                                   " FROM tbl_Users_Assigned " +
                                   " WHERE (UserKey = " + Convert.ToInt32(row["UserKey"]) + ") " +
-                                  " AND (MRPKey = " + MRPKey + ") "  +
-                                  " AND (WorkFlowLine = " + WorkFlowLine + ")";
-                            cmd1 = new SqlCommand(qry);
-                            cmd1.Connection = conn;
-                            adp1 = new SqlDataAdapter(cmd1);
-                            adp1.Fill(dtable1);
-                            if (dtable1.Rows.Count == 0)
-                            {
-                                qry = "INSERT INTO tbl_Users_Assigned " +
-                                      " (UserKey, PositionNameKey, MRPKey, WorkFlowLine) " +
-                                      " VALUES(" + Convert.ToInt32(row["UserKey"]) + ", " +
-                                      " " + Convert.ToInt32(row["PositionNameKey"]) + ", " +
-                                      " " + MRPKey + ", " + WorkFlowLine + ")";
-                                cmdIns = new SqlCommand(qry, conn);
-                                cmdIns.ExecuteNonQuery();
+                                  " AND (MRPKey = " + MRPKey + ") " +
+                                  " AND (WorkFlowLine = " + WorkFlowLine + ") " +
+                                  " AND (WorkFlowType = 1)";
+                                cmd1 = new SqlCommand(qry);
+                                cmd1.Connection = conn;
+                                adp1 = new SqlDataAdapter(cmd1);
+                                adp1.Fill(dtable1);
+                                if (dtable1.Rows.Count == 0)
+                                {
+                                    qry = "INSERT INTO tbl_Users_Assigned " +
+                                          " (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) " +
+                                          " VALUES(" + Convert.ToInt32(row["UserKey"]) + ", " +
+                                          " " + Convert.ToInt32(row["PositionNameKey"]) + ", " +
+                                          " " + MRPKey + ", " + WorkFlowLine + ", 1)";
+                                    cmdIns = new SqlCommand(qry, conn);
+                                    cmdIns.ExecuteNonQuery();
+                                }
+                                dtable1.Clear();
                             }
-                            dtable1.Clear();
                         }
 
                         // Send Email to Creator
@@ -2592,7 +2816,8 @@ namespace HijoPortal.classes
                         if (WorkFlowLine == 4)
                         {
                             sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted for deliberation.</p>");
-                        } else
+                        }
+                        else
                         {
                             sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted to " + row["PositionName"].ToString() + " for review/approval.</p>");
                         }
@@ -2601,11 +2826,18 @@ namespace HijoPortal.classes
                         sbBodyCR.Append("</body>");
                         sbBodyCR.Append("</html>");
 
-                        
-                    } else
+
+                    }
+                    else
                     {
                         if (WorkFlowLine == 5)
                         {
+
+                            //Update MOP Status
+                            qry = "UPDATE tbl_MRP_List SET StatusKey = 3 WHERE (PK = " + MRPKey + ")";
+                            cmdUp = new SqlCommand(qry, conn);
+                            cmdUp.ExecuteNonQuery();
+
                             // Send Email to Creator
                             sbBodyCR.Append("<!DOCTYPE html>");
                             sbBodyCR.Append("<html>");
@@ -2622,15 +2854,28 @@ namespace HijoPortal.classes
                     }
 
                     bool msgSendToCreator = GlobalClass.IsMailSent(sEmailCR, sSubjectCR, sbBodyCR.ToString());
-
+                    
                     //Update user assigned to me
                     qry = "UPDATE tbl_Users_Assigned " +
                            " SET Attended = 1 " +
                            " WHERE (MRPKey = " + MRPKey + ") " +
-                           " AND (WorkFlowLine = " + wrkflwlnB4 + ")";
+                           " AND (WorkFlowLine = " + wrkflwlnB4 + ") " +
+                           " AND (UserKey = "+ usrKey + ") " +
+                           " AND (WorkFlowType = 1)";
                     cmdUp = new SqlCommand(qry, conn);
                     cmdUp.ExecuteNonQuery();
-                    
+
+                    //to approver
+                    if (WorkFlowLine == 5)
+                    {
+                        //Update approver workflow
+                        qry = "UPDATE tbl_MRP_List_Approval " +
+                               " SET Visible = 1 " +
+                               " WHERE (MasterKey = " + MRPKey + ") " +
+                               " AND (Line = 1)";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
+                    }
 
                 }
             }
@@ -2676,13 +2921,13 @@ namespace HijoPortal.classes
             adp.Fill(dtable);
             if (dtable.Rows.Count > 0)
             {
-                foreach(DataRow row in dtable.Rows)
+                foreach (DataRow row in dtable.Rows)
                 {
                     DataRow rowAdd = dtTable.NewRow();
                     rowAdd["PK"] = row["MasterKey"].ToString();
                     rowAdd["DocNumber"] = row["DocNumber"].ToString();
                     rowAdd["DateCreated"] = Convert.ToDateTime(row["DateCreated"]).ToString("MM/dd/yyyy");
-                    rowAdd["EntityCodeDesc"] =row["Entity"].ToString();
+                    rowAdd["EntityCodeDesc"] = row["Entity"].ToString();
                     rowAdd["BUCodeDesc"] = row["Department"].ToString();
                     rowAdd["MRPMonthDesc"] = Month_Name(Convert.ToInt32(row["MRPMonth"]));
                     rowAdd["MRPYear"] = row["MRPYear"].ToString();
@@ -2694,8 +2939,8 @@ namespace HijoPortal.classes
 
             return dtTable;
         }
-      
-        public static DataTable MRP_Work_Assigned_To_Me (int usrkey)
+
+        public static DataTable MRP_Work_Assigned_To_Me(int usrkey)
         {
             DataTable dtTable = new DataTable();
             SqlCommand cmd = null;
@@ -2714,35 +2959,57 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("LevelLine", typeof(string));
                 dtTable.Columns.Add("LevelPosition", typeof(string));
                 dtTable.Columns.Add("Status", typeof(string));
+                dtTable.Columns.Add("WorkflowType", typeof(string));
             }
             dtTable.Clear();
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
-            string qry = "SELECT dbo.tbl_Users_Assigned.MRPKey, dbo.tbl_MRP_List.DocNumber, " +
-                         " dbo.tbl_MRP_List.DateCreated, dbo.vw_AXEntityTable.NAME AS Entity, " +
-                         " dbo.vw_AXOperatingUnitTable.NAME AS Dept, dbo.tbl_MRP_List.MRPMonth, " +
-                         " dbo.tbl_MRP_List.MRPYear, dbo.tbl_Users_Assigned.WorkFlowLine, " +
-                         " dbo.tbl_Users_Assigned.PositionNameKey, dbo.tbl_System_Approval_Position.PositionName, " +
-                         " dbo.tbl_MRP_List.StatusKey, dbo.tbl_MRP_Status.StatusName, " +
-                         " dbo.tbl_MRP_List_Workflow.Visible, dbo.tbl_MRP_List_Workflow.Status " +
-                         " FROM  dbo.tbl_MRP_List_Workflow RIGHT OUTER JOIN " +
-                         " dbo.tbl_MRP_List ON dbo.tbl_MRP_List_Workflow.MasterKey = dbo.tbl_MRP_List.PK RIGHT OUTER JOIN " +
-                         " dbo.tbl_Users_Assigned ON dbo.tbl_MRP_List_Workflow.Line = dbo.tbl_Users_Assigned.WorkFlowLine AND dbo.tbl_MRP_List.PK = dbo.tbl_Users_Assigned.MRPKey LEFT OUTER JOIN " +
+            //string qry = "SELECT dbo.tbl_Users_Assigned.MRPKey, dbo.tbl_MRP_List.DocNumber, " +
+            //             " dbo.tbl_MRP_List.DateCreated, dbo.vw_AXEntityTable.NAME AS Entity, " +
+            //             " dbo.vw_AXOperatingUnitTable.NAME AS Dept, dbo.tbl_MRP_List.MRPMonth, " +
+            //             " dbo.tbl_MRP_List.MRPYear, dbo.tbl_Users_Assigned.WorkFlowLine, " +
+            //             " dbo.tbl_Users_Assigned.PositionNameKey, dbo.tbl_System_Approval_Position.PositionName, " +
+            //             " dbo.tbl_MRP_List.StatusKey, dbo.tbl_MRP_Status.StatusName, " +
+            //             " dbo.tbl_MRP_List_Workflow.Visible, dbo.tbl_MRP_List_Workflow.Status, " +
+            //             " dbo.tbl_Users_Assigned.WorkFlowType " +
+            //             " FROM  dbo.tbl_MRP_List_Workflow RIGHT OUTER JOIN " +
+            //             " dbo.tbl_MRP_List ON dbo.tbl_MRP_List_Workflow.MasterKey = dbo.tbl_MRP_List.PK RIGHT OUTER JOIN " +
+            //             " dbo.tbl_Users_Assigned ON dbo.tbl_MRP_List_Workflow.Line = dbo.tbl_Users_Assigned.WorkFlowLine AND dbo.tbl_MRP_List.PK = dbo.tbl_Users_Assigned.MRPKey LEFT OUTER JOIN " +
+            //             " dbo.tbl_System_Approval_Position ON dbo.tbl_Users_Assigned.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
+            //             " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK LEFT OUTER JOIN " +
+            //             " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
+            //             " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
+            //             " WHERE(dbo.tbl_MRP_List_Workflow.Visible = 1) " +
+            //             " AND(dbo.tbl_MRP_List_Workflow.Status = 0)" +
+            //             " AND (dbo.tbl_Users_Assigned.UserKey = " + usrkey + ")";
+            string qry = "SELECT dbo.tbl_Users_Assigned.MRPKey, dbo.tbl_MRP_List.DocNumber, dbo.tbl_MRP_List.DateCreated, dbo.vw_AXEntityTable.NAME AS Entity, " +
+                         " dbo.vw_AXOperatingUnitTable.NAME AS Dept, dbo.tbl_MRP_List.MRPMonth, dbo.tbl_MRP_List.MRPYear, dbo.tbl_Users_Assigned.WorkFlowLine, " +
+                         " dbo.tbl_Users_Assigned.PositionNameKey, dbo.tbl_System_Approval_Position.PositionName, dbo.tbl_MRP_List.StatusKey, dbo.tbl_MRP_Status.StatusName, " +
+                         " dbo.tbl_Users_Assigned.WorkFlowType, (CASE dbo.tbl_Users_Assigned.WorkFlowType WHEN 1 THEN (SELECT Status FROM  dbo.tbl_MRP_List_Workflow " +
+                         " WHERE(MasterKey = dbo.tbl_Users_Assigned.MRPKey) AND(Line = dbo.tbl_Users_Assigned.WorkFlowLine)) ELSE (SELECT Status FROM  dbo.tbl_MRP_List_Approval " +
+                         " WHERE(MasterKey = dbo.tbl_Users_Assigned.MRPKey) AND(Line = dbo.tbl_Users_Assigned.WorkFlowLine)) END) AS Status, (CASE dbo.tbl_Users_Assigned.WorkFlowType WHEN 1 THEN " +
+                         " (SELECT Visible FROM  dbo.tbl_MRP_List_Workflow WHERE(MasterKey = dbo.tbl_Users_Assigned.MRPKey) AND(Line = dbo.tbl_Users_Assigned.WorkFlowLine)) ELSE " +
+                         " (SELECT Visible FROM  dbo.tbl_MRP_List_Approval WHERE(MasterKey = dbo.tbl_Users_Assigned.MRPKey) AND(Line = dbo.tbl_Users_Assigned.WorkFlowLine)) END) AS Visible " +
+                         " FROM dbo.tbl_MRP_List RIGHT OUTER JOIN " +
+                         " dbo.tbl_Users_Assigned ON dbo.tbl_MRP_List.PK = dbo.tbl_Users_Assigned.MRPKey LEFT OUTER JOIN " +
                          " dbo.tbl_System_Approval_Position ON dbo.tbl_Users_Assigned.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
                          " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK LEFT OUTER JOIN " +
                          " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
                          " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
-                         " WHERE(dbo.tbl_MRP_List_Workflow.Visible = 1) " +
-                         " AND(dbo.tbl_MRP_List_Workflow.Status = 0)" +
-                         " AND (dbo.tbl_Users_Assigned.UserKey = "+ usrkey + ")";
+                         " WHERE(dbo.tbl_Users_Assigned.UserKey = " + usrkey + ") " +
+                         " AND ((CASE dbo.tbl_Users_Assigned.WorkFlowType WHEN 1 THEN (SELECT Visible FROM  dbo.tbl_MRP_List_Workflow " +
+                         " WHERE(MasterKey = dbo.tbl_Users_Assigned.MRPKey) AND(Line = dbo.tbl_Users_Assigned.WorkFlowLine)) ELSE " +
+                         " (SELECT Visible FROM  dbo.tbl_MRP_List_Approval WHERE(MasterKey = dbo.tbl_Users_Assigned.MRPKey) AND(Line = dbo.tbl_Users_Assigned.WorkFlowLine)) END) = 1) " +
+                         " AND((CASE dbo.tbl_Users_Assigned.WorkFlowType WHEN 1 THEN (SELECT Status FROM  dbo.tbl_MRP_List_Workflow WHERE(MasterKey = dbo.tbl_Users_Assigned.MRPKey) " +
+                         " AND(Line = dbo.tbl_Users_Assigned.WorkFlowLine)) ELSE (SELECT Status FROM  dbo.tbl_MRP_List_Approval WHERE(MasterKey = dbo.tbl_Users_Assigned.MRPKey) AND(Line = dbo.tbl_Users_Assigned.WorkFlowLine)) END) = 0)";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dtable);
             if (dtable.Rows.Count > 0)
             {
-                foreach(DataRow row in dtable.Rows)
+                foreach (DataRow row in dtable.Rows)
                 {
                     DataRow rowAdd = dtTable.NewRow();
                     rowAdd["PK"] = row["MRPKey"].ToString();
@@ -2755,13 +3022,14 @@ namespace HijoPortal.classes
                     rowAdd["LevelLine"] = row["WorkFlowLine"].ToString();
                     rowAdd["LevelPosition"] = row["PositionName"].ToString();
                     rowAdd["Status"] = row["StatusName"].ToString();
+                    rowAdd["WorkflowType"] = row["WorkFlowType"].ToString();
                     dtTable.Rows.Add(rowAdd);
                 }
             }
             conn.Close();
             return dtTable;
         }
-    
+
         public static DataTable MRP_ListBudget()
         {
             DataTable dtTable = new DataTable();
@@ -2892,5 +3160,65 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+        public static DataTable MRP_ListforDeliberation()
+        {
+            DataTable dtTable = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dtable = new DataTable();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("DocNumber", typeof(string));
+                dtTable.Columns.Add("DateCreated", typeof(string));
+                dtTable.Columns.Add("EntityCodeDesc", typeof(string));
+                dtTable.Columns.Add("BUCodeDesc", typeof(string));
+                dtTable.Columns.Add("MRPMonthDesc", typeof(string));
+                dtTable.Columns.Add("MRPYear", typeof(string));
+                dtTable.Columns.Add("WorkLine", typeof(string));
+            }
+            dtTable.Clear();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+            string qry = "SELECT dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, " +
+                         " dbo.vw_AXOperatingUnitTable.NAME AS Department, dbo.tbl_MRP_List_Workflow.MasterKey, " +
+                         " dbo.tbl_MRP_List.MRPMonth, dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List_Workflow.Line " +
+                         " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
+                         " dbo.tbl_MRP_List ON dbo.tbl_MRP_List_Workflow.MasterKey = dbo.tbl_MRP_List.PK LEFT OUTER JOIN " +
+                         " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
+                         " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
+                         " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK " +
+                         " WHERE(dbo.tbl_MRP_List_Workflow.Line = 4) " +
+                         " AND(dbo.tbl_MRP_List_Workflow.Status = 0) " +
+                         " AND(dbo.tbl_MRP_List_Workflow.Visible = 1)";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtable.Rows)
+                {
+                    DataRow rowAdd = dtTable.NewRow();
+                    rowAdd["PK"] = row["MasterKey"].ToString();
+                    rowAdd["DocNumber"] = row["DocNumber"].ToString();
+                    rowAdd["DateCreated"] = Convert.ToDateTime(row["DateCreated"]).ToString("MM/dd/yyyy");
+                    rowAdd["EntityCodeDesc"] = row["Entity"].ToString();
+                    rowAdd["BUCodeDesc"] = row["Department"].ToString();
+                    rowAdd["MRPMonthDesc"] = Month_Name(Convert.ToInt32(row["MRPMonth"]));
+                    rowAdd["MRPYear"] = row["MRPYear"].ToString();
+                    rowAdd["WorkLine"] = row["Line"].ToString();
+                    dtTable.Rows.Add(rowAdd);
+                }
+            }
+            dtable.Clear();
+
+            conn.Close();
+
+            return dtTable;
+        }
     }
 }
