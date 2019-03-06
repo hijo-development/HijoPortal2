@@ -19,9 +19,17 @@ namespace HijoPortal.classes
 
         static double
             capex_total_amount = 0,
+            ca_edited_total = 0,
+            ca_approved_total = 0,
             opex_total_amount = 0,
+            op_edited_total = 0,
+            op_approved_total = 0,
             materials_total_amount = 0,
+            mat_edited_total = 0,
+            mat_approved_total = 0,
             manpower_total_amount = 0,
+            man_edited_total =0,
+            man_approved_total = 0,
             revenue_total_amount = 0;
 
         public static string Month_Name(int iMonth)
@@ -304,6 +312,8 @@ namespace HijoPortal.classes
             SqlCommand cmd = null;
             SqlDataAdapter adp;
             materials_total_amount = 0;
+            mat_edited_total = 0;
+            mat_approved_total = 0;
 
             cn.Open();
             if (dtTable.Columns.Count == 0)
@@ -369,6 +379,8 @@ namespace HijoPortal.classes
 
                     dtTable.Rows.Add(dtRow);
                     materials_total_amount += Convert.ToDouble(row["TotalCost"]);
+                    mat_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
+                    mat_approved_total += Convert.ToDouble(row["ApprovedTotalCost"]);
                 }
             }
             dt.Clear();
@@ -534,6 +546,8 @@ namespace HijoPortal.classes
             SqlCommand cmd = null;
             SqlDataAdapter adp;
             opex_total_amount = 0;
+            op_approved_total = 0;
+            op_edited_total = 0;
 
             cn.Open();
             if (dtTable.Columns.Count == 0)
@@ -598,6 +612,8 @@ namespace HijoPortal.classes
 
                     dtTable.Rows.Add(dtRow);
                     opex_total_amount += Convert.ToDouble(row["TotalCost"]);
+                    op_edited_total += Convert.ToDouble(row["EdittedTotalCost"]);
+                    op_approved_total += Convert.ToDouble(row["ApprovedTotalCost"]);
                 }
             }
             dt.Clear();
@@ -765,6 +781,8 @@ namespace HijoPortal.classes
             SqlCommand cmd = null;
             SqlDataAdapter adp;
             manpower_total_amount = 0;
+            man_edited_total = 0;
+            man_approved_total = 0;
 
             cn.Open();
             if (dtTable.Columns.Count == 0)
@@ -832,6 +850,8 @@ namespace HijoPortal.classes
                     dtTable.Rows.Add(dtRow);
 
                     manpower_total_amount += Convert.ToDouble(row["TotalCost"]);
+                    man_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
+                    man_approved_total += Convert.ToDouble(row["ApprovedTotalCost"]);
                 }
             }
             dt.Clear();
@@ -1062,6 +1082,8 @@ namespace HijoPortal.classes
             SqlCommand cmd = null;
             SqlDataAdapter adp;
             capex_total_amount = 0;
+            ca_edited_total = 0;
+            ca_approved_total = 0;
 
             cn.Open();
             if (dtTable.Columns.Count == 0)
@@ -1124,6 +1146,8 @@ namespace HijoPortal.classes
 
                     //for Preview Page
                     capex_total_amount += Convert.ToDouble(row["TotalCost"]);
+                    ca_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
+                    ca_approved_total += Convert.ToDouble(row["ApprovedTotalCost"]);
 
                 }
             }
@@ -2299,6 +2323,44 @@ namespace HijoPortal.classes
         public static double revenue_total()
         {
             return revenue_total_amount;
+        }
+
+        public static double material_edited_total()
+        {
+            return mat_edited_total;
+        }
+
+        public static double capex_edited_total()
+        {
+            return ca_edited_total;
+        }
+
+        public static double opex_edited_total()
+        {
+            return op_edited_total;
+        }
+        public static double manpower_edited_total()
+        {
+            return man_edited_total;
+        }
+
+        public static double material_approved_total()
+        {
+            return mat_approved_total;
+        }
+
+        public static double capex_approved_total()
+        {
+            return ca_approved_total;
+        }
+
+        public static double opex_approved_total()
+        {
+            return op_approved_total;
+        }
+        public static double manpower_approved_total()
+        {
+            return man_approved_total;
         }
 
         public static bool CheckLogsExist(string table, string PK)

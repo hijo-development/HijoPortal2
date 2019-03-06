@@ -62,7 +62,6 @@ namespace HijoPortal
 
         protected void Submit_Click(object sender, EventArgs e)
         {
-            MRPClass.PrintString("exec here...."+wrkflwln + " " + iStatusKey);
             if (wrkflwln == 0)
             {
                 if (iStatusKey == 1)
@@ -243,7 +242,7 @@ namespace HijoPortal
                 StatusHidden["hidden_preview_wrkflwln"] = wrkflwln;
 
                 MRPClass.PrintString("ispostback");
-                DataTable table = MRPClass.MRP_CAPEX(DocNum.Text.ToString(), "");
+                DataTable table = MRPClass.MRP_CAPEX(DocNum.Text.ToString(), entitycode);
                 CapexListview.DataSource = table;
                 CapexListview.DataBind();
                 TotalAmountTD.InnerText = MRPClass.capex_total().ToString("N");
@@ -253,17 +252,17 @@ namespace HijoPortal
                 MatListview.DataBind();
                 TAMat.InnerText = MRPClass.materials_total().ToString("N");
 
-                DataTable tableOpex = MRPClass.MRP_OPEX(DocNum.Text.ToString(), "");
+                DataTable tableOpex = MRPClass.MRP_OPEX(DocNum.Text.ToString(), entitycode);
                 OpexListiview.DataSource = tableOpex;
                 OpexListiview.DataBind();
                 TAOpex.InnerText = MRPClass.opex_total().ToString("N");
 
-                DataTable tableManpower = MRPClass.MRP_ManPower(DocNum.Text.ToString(), "");
+                DataTable tableManpower = MRPClass.MRP_ManPower(DocNum.Text.ToString(), entitycode);
                 ManListview.DataSource = tableManpower;
                 ManListview.DataBind();
                 TAManpower.InnerText = MRPClass.manpower_total().ToString("N");
 
-                DataTable tableRevenue = MRPClass.MRP_Revenue(DocNum.Text.ToString(), "");
+                DataTable tableRevenue = MRPClass.MRP_Revenue(DocNum.Text.ToString(), entitycode);
                 RevListview.DataSource = tableRevenue;
                 RevListview.DataBind();
                 TARevenue.InnerText = MRPClass.revenue_total().ToString("N");
