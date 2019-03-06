@@ -11,7 +11,10 @@ namespace HijoPortal {
     
     
     public partial class mrp_inventoryanalyst_forapproval {
-        
+
+        protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
+
+        protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
         /// <summary>
         /// dvContentWrapper control.
         /// </summary>

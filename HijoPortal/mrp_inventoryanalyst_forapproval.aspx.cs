@@ -305,10 +305,10 @@ namespace HijoPortal
             ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             Submit.Enabled = false;
 
-            //MRPNotificationMessage.Text = MRPClass.successfully_submitted;
-            //MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
-            //MRPNotify.HeaderText = "Info";
-            //MRPNotify.ShowOnPageLoad = true;
+            MRPNotificationMessage.Text = MRPClass.successfully_submitted;
+            MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
+            MRPNotify.HeaderText = "Info";
+            MRPNotify.ShowOnPageLoad = true;
         }
 
         protected void MANGridInventApproval_DataBound(object sender, EventArgs e)
