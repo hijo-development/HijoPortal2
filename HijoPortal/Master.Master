@@ -36,8 +36,10 @@
         </div>
         <div style="background-color: #0e3f6b; height: 5px;"></div>
         <div id="dvSplitter" runat="server">
-            <dx:ASPxSplitter ID="ASPxSplitter1" runat="server" ClientInstanceName="MainSplitterClient" BackColor="Transparent" AllowResize="true" Border-BorderStyle="None" Height="100%" >
+            <dx:ASPxSplitter ID="ASPxSplitter1" runat="server" ClientInstanceName="MainSplitterClient" BackColor="Transparent" AllowResize="true" Border-BorderStyle="None" Height="100%">
                 <ClientSideEvents PaneCollapsed="MainSplitterClient_PaneCollapsed" />
+                <ClientSideEvents PaneExpanded="MainSplitterClient_PaneExpanded" />
+                <ClientSideEvents PaneResized="MainSplitterClient_PaneResized" />
                 <Panes>
                     <dx:SplitterPane Size="200px" Name="containMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" ScrollBars="Auto" PaneStyle-Border-BorderStyle="None" ShowCollapseBackwardButton="True">
                         <ContentCollection>
@@ -50,12 +52,12 @@
                             </dx:SplitterContentControl>
                         </ContentCollection>
                     </dx:SplitterPane>
-                    <dx:SplitterPane Name="containForm" PaneStyle-BackColor="#e6eff7" ScrollBars="Auto" AllowResize="True" AutoHeight ="false"  PaneStyle-Border-BorderStyle="None">
+                    <dx:SplitterPane Name="containForm" PaneStyle-BackColor="#e6eff7" ScrollBars="Auto" AllowResize="True" AutoHeight="false" PaneStyle-Border-BorderStyle="None">
                         <Separator>
                             <SeparatorStyle BackColor="#0e3f6b" />
                         </Separator>
                         <ContentCollection>
-                            <dx:SplitterContentControl ID = "Content" runat="server">
+                            <dx:SplitterContentControl ID="Content" runat="server">
                                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                                     <%--Content WebForm--%>
                                 </asp:ContentPlaceHolder>
