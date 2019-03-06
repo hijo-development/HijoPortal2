@@ -250,7 +250,7 @@ namespace HijoPortal
             else
             {
                 string DocumentPrefix = "", DocumentNum = "", STATUS_NAME = "";
-                int STATUS_KEY = 0, DataFlowKey = 0;
+                int STATUS_KEY = 0, DataFlowKey = 0, AppFlowKey = 0;
                 int MRP_MONTH = monthIndex;
                 int MRP_YEAR = yearInteger;
 
@@ -301,6 +301,15 @@ namespace HijoPortal
                 }
                 reader.Close();
 
+                string query_AppFlow = "SELECT TOP (1) [PK] FROM [hijo_portal].[dbo].[tbl_System_Approval] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
+                command = new SqlCommand(query_AppFlow, conn);
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    AppFlowKey = Convert.ToInt32(reader[0].ToString());
+                }
+                reader.Close();
+
                 string str = "INSERT INTO [dbo].[tbl_MRP_List] ([DocNumber], [DateCreated], [EntityCode], [BUCode], [MRPMonth], [MRPYear], [StatusKey], [CreatorKey], [LastModified]) VALUES (@DocNumber, @DateCreated, @EntityCode, @BUCode, @Month, @Year, @StatusKey, @CreatorKey, @LastModified)";
 
                 cmd = new SqlCommand(str, conn);
@@ -327,7 +336,7 @@ namespace HijoPortal
                 r.Close();
 
                 //Add Dataflow  DataFlowKey
-                string eMailAdd = "";
+                string eMailAdd = "", query_DataFlowAdd = "";
 
                 SqlCommand cmdA = null;
                 SqlDataAdapter adp;
@@ -337,14 +346,22 @@ namespace HijoPortal
                 SqlDataAdapter adp1;
                 DataTable dtable1 = new DataTable();
 
-                string query_DataFlowAdd = "SELECT dbo.tbl_System_MOP_DataFlow_Details.Line, " +
-                                           " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey, " +
-                                           " dbo.tbl_System_Approval_Position.SQLQuery " +
-                                           " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
-                                           " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                                           " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + DataFlowKey + ") " +
-                                           " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
-                                           " ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
+                //string query_DataFlowAdd = "SELECT dbo.tbl_System_MOP_DataFlow_Details.Line, " +
+                //                           " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey, " +
+                //                           " dbo.tbl_System_Approval_Position.SQLQuery " +
+                //                           " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
+                //                           " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+                //                           " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + DataFlowKey + ") " +
+                //                           " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
+                //                           " ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
+
+                query_DataFlowAdd = "SELECT dbo.tbl_System_MOP_DataFlow_Details.Line, " +
+                                    " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey, " +
+                                    " dbo.tbl_System_Approval_Position.SQLQuery " +
+                                    " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
+                                    " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+                                    " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + DataFlowKey + ") " +
+                                    " ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
                 cmdA = new SqlCommand(query_DataFlowAdd);
                 cmdA.Connection = conn;
                 adp = new SqlDataAdapter(cmdA);
@@ -389,6 +406,56 @@ namespace HijoPortal
                 }
                 dtable.Clear();
 
+                //Add Approval
+                query_DataFlowAdd = "SELECT TOP (100) PERCENT dbo.tbl_System_Approval_Details.Line, " +
+                                    " dbo.tbl_System_Approval_Details.PositionNameKey, " +
+                                    " dbo.tbl_System_Approval_Position.SQLQuery " +
+                                    " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
+                                    " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
+                                    " dbo.tbl_System_Approval ON dbo.tbl_System_Approval_Details.MasterKey = dbo.tbl_System_Approval.PK " +
+                                    " WHERE(dbo.tbl_System_Approval_Details.MasterKey = "+ AppFlowKey + ") " +
+                                    " ORDER BY dbo.tbl_System_Approval_Details.Line";
+                cmdA = new SqlCommand(query_DataFlowAdd);
+                cmdA.Connection = conn;
+                adp = new SqlDataAdapter(cmdA);
+                adp.Fill(dtable);
+                if (dtable.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dtable.Rows)
+                    {
+                        int userKey = 0, status = 0, visible = 0;
+                        if (row["SQLQuery"].ToString().Trim() != "")
+                        {
+                            string qryB = row["SQLQuery"].ToString() + " '" + ENTITY_CODE + "', '" + BU_CODE + "', '" + DATE_CREATED + "'";
+                            cmdB = new SqlCommand(qryB);
+                            cmdB.Connection = conn;
+                            adp1 = new SqlDataAdapter(cmdB);
+                            adp1.Fill(dtable1);
+                            if (dtable1.Rows.Count > 0)
+                            {
+                                foreach (DataRow row1 in dtable1.Rows)
+                                {
+                                    userKey = Convert.ToInt32(row1["UserKey"]);
+                                }
+                            }
+                            dtable1.Clear();
+
+                            string qryAddDataflow = "INSERT INTO tbl_MRP_List_Approval " +
+                                                    " ([MasterKey], [Line], [PositionNameKey], [UserKey], [Status], [Visible])" +
+                                                    " VALUES (@MasterKey, @Line, @PositionNameKey, @UserKey, @Status, @Visible)";
+                            SqlCommand cmd1 = new SqlCommand(qryAddDataflow, conn);
+                            cmd1.Parameters.AddWithValue("@MasterKey", pk_latest);
+                            cmd1.Parameters.AddWithValue("@Line", Convert.ToInt32(row["Line"]));
+                            cmd1.Parameters.AddWithValue("@PositionNameKey", Convert.ToInt32(row["PositionNameKey"]));
+                            cmd1.Parameters.AddWithValue("@UserKey", userKey);
+                            cmd1.Parameters.AddWithValue("@Status", status);
+                            cmd1.Parameters.AddWithValue("@Visible", visible);
+                            cmd1.CommandType = CommandType.Text;
+                            int resultAdd = cmd1.ExecuteNonQuery();
+                        }
+                    }
+                }
+                dtable.Clear();
 
                 if (result > 0) MRPClass.AddLogsMOPList(conn, pk_latest, remarks);
 
