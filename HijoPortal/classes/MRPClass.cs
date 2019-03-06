@@ -2426,6 +2426,21 @@ namespace HijoPortal.classes
             return mrpLineStat;
         }
 
+        public static void Approve_MRP(string docNum, int MRPKey, int AprvLine)
+        {
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            string qry = "", sEmail = "", sEmailCR = "", sMailSubject = "", sGreetings = "", sSubjectCR = "", sGreetingsCR = "";
+            SqlCommand cmdIns = null;
+            SqlCommand cmdUp = null;
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dtable = new DataTable();
+
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+            DataTable dtable1 = new DataTable();
+        }
+
         public static void Submit_MRP(string docNum, int MRPKey, int WorkFlowLine, string EntCode, string BuCode)
         {
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
@@ -2489,7 +2504,14 @@ namespace HijoPortal.classes
                     if (GlobalClass.IsEmailValid(sEmail) == true)
                     {
                         //send email to approver
-                        sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your review and approval";
+                        if (WorkFlowLine == 4)
+                        {
+                            sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for deliberation";
+                        } else
+                        {
+                            sMailSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your review and approval";
+                        }
+                            
                         if (Convert.ToInt32(row["Gender"]) == 1)
                         {
                             sGreetings = "Dear Mr. " + EncryptionClass.Decrypt(row["Lastname"].ToString());
@@ -2567,7 +2589,13 @@ namespace HijoPortal.classes
                         sbBodyCR.Append("</head>");
                         sbBodyCR.Append("<body>");
                         sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetingsCR + ",</p>");
-                        sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted to " + row["PositionName"].ToString() + " for review/approval.</p>");
+                        if (WorkFlowLine == 4)
+                        {
+                            sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted for deliberation.</p>");
+                        } else
+                        {
+                            sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted to " + row["PositionName"].ToString() + " for review/approval.</p>");
+                        }
                         sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
                         sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
                         sbBodyCR.Append("</body>");
@@ -2576,7 +2604,7 @@ namespace HijoPortal.classes
                         
                     } else
                     {
-                        if (WorkFlowLine == 4)
+                        if (WorkFlowLine == 5)
                         {
                             // Send Email to Creator
                             sbBodyCR.Append("<!DOCTYPE html>");
@@ -2585,7 +2613,7 @@ namespace HijoPortal.classes
                             sbBodyCR.Append("</head>");
                             sbBodyCR.Append("<body>");
                             sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetingsCR + ",</p>");
-                            sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted for deliberation.</p>");
+                            sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted for approval.</p>");
                             sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
                             sbBodyCR.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
                             sbBodyCR.Append("</body>");
