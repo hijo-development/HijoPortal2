@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="budept_head.aspx" />
+    <Content Include="changepw.aspx" />
     <Content Include="change_pw.aspx" />
     <Content Include="config\cn.txt" />
     <Content Include="config\email.txt" />
@@ -109,6 +110,7 @@
     <Content Include="images\Undo.ico" />
     <Content Include="images\Users.png" />
     <Content Include="jquery\accounting.js" />
+    <Content Include="jquery\changePW.js" />
     <Content Include="jquery\ContentPage.js" />
     <Content Include="jquery\createAccount.js" />
     <Content Include="mop_workflow.aspx" />
@@ -139,6 +141,13 @@
     </Compile>
     <Compile Include="budept_head.aspx.designer.cs">
       <DependentUpon>budept_head.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="changepw.aspx.cs">
+      <DependentUpon>changepw.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="changepw.aspx.designer.cs">
+      <DependentUpon>changepw.aspx</DependentUpon>
     </Compile>
     <Compile Include="change_pw.aspx.cs">
       <DependentUpon>change_pw.aspx</DependentUpon>

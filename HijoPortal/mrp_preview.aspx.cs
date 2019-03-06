@@ -185,17 +185,19 @@ namespace HijoPortal
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            MRPClass.PrintString("Preview: docnumber load");
+            //MRPClass.PrintString("Preview: docnumber load");
             if (Session["CreatorKey"] == null)
             {
                 Response.Redirect("login.aspx");
                 return;
             }
 
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
             if (!IsPostBack)
             {
                 //lblMRPDocNum.Text = Request.Params["DocNum"].ToString();
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                
 
                 DocNum.Text = Request.Params["DocNum"].ToString();
                 docnumber = Request.Params["DocNum"].ToString();
