@@ -392,6 +392,7 @@ ul li {
     -webkit-box-shadow: 1px 1px 3px 2px #87cefa;
     box-shadow: 1px 1px 3px 2px #87cefa;
     overflow-x: auto;
+    
     /*overflow-y: auto;*/
 }
 

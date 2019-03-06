@@ -37,7 +37,7 @@
         <div style="background-color: #0e3f6b; height: 5px;"></div>
         <div id="dvSplitter" runat="server">
             <dx:ASPxSplitter ID="ASPxSplitter1" runat="server" ClientInstanceName="MainSplitterClient" BackColor="Transparent" AllowResize="true" Border-BorderStyle="None" Height="100%" >
-                <ClientSideEvents PaneResized = "" />
+                <ClientSideEvents PaneCollapsed="MainSplitterClient_PaneCollapsed" />
                 <Panes>
                     <dx:SplitterPane Size="200px" Name="containMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" ScrollBars="Auto" PaneStyle-Border-BorderStyle="None" ShowCollapseBackwardButton="True">
                         <ContentCollection>

@@ -21,12 +21,21 @@ changeWidth = {
         var leftCenter = rightPanel + origCenterPanel;
         var mrpwidth = fullwidthBrowser * 0.84;
         var mrpwidthWrapper = fullwidthBrowser * 0.85;
+        var ContentWrapperWidth = fullwidthBrowser * 0.80;
 
         //var contentHeight = 600;
         //$('#MRPPanel').width(mrpwidth);
         $('#MasterPanel').width(mrpwidth);
         $('#AddFormPanel').width(mrpwidth);
         $('#PanelLeft').width(leftPanel);
+
+        var menupanel = MainSplitterClient.GetPaneByName('containMenu');
+        console.log("menupanel.IsCollapsed(): " + menupanel.IsCollapsed());
+        if (menupanel.IsCollapsed()) {
+            $('.ContentWrapper').width(fullwidthBrowser);
+        } else {
+            $('.ContentWrapper').width(ContentWrapperWidth);
+        }
 
         var h = window.innerHeight
             || document.documentElement.clientHeight
@@ -193,7 +202,7 @@ function MainTableEndCallback(s, e) {
         MRPNotify.SetHeaderText("Info");
         MRPNotify.Show();
         MRPHiddenVal.Set('hidden_value', ' ');
-        MainTable.Refresh();
+        MainTable.Refresh();//refresh Grid
     }
 }
 
@@ -2262,5 +2271,20 @@ function Preview_Submit_Click(s, e) {
         }
 
         e.processOnServer = false;
+    }
+}
+
+//Master.Master Splitter Collapse
+function MainSplitterClient_PaneCollapsed(s, e) {
+    //var menupanel = s.GetPaneByName('containMenu');
+    //if (menupanel.IsCollapsed())
+
+}
+
+//mrp_listforapproval
+function ListForApprovalGrid_CustomButtonClick(s, e) {
+    var button = e.buttonID;
+    if (button == "ForApprovalGridEdit") {
+        e.processOnServer = true;
     }
 }
