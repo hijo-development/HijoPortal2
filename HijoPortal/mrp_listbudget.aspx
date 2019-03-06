@@ -21,10 +21,10 @@
                     <dx:GridViewDataColumn FieldName="DocNumber"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="DateCreated"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="Business Unit"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="MRP Month"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="MRPYear" Caption="MRP Year"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="WorkLine" Visible="true"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="BU / Department"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="MRPYear" Caption="Year"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="WorkLine" Visible="false"></dx:GridViewDataColumn>
                 </Columns>
                 <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
                 <SettingsBehavior AllowFocusedRow="true" AllowSort="true" />

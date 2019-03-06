@@ -13,8 +13,8 @@ namespace HijoPortal
 {
     public partial class mrp_inventoryanalyst_forapproval : System.Web.UI.Page
     {
-        private static int mrp_key = 0;
-        private static string docnumber = "", entitycode = "";
+        private static int mrp_key = 0, wrkflwln = 0, iStatusKey = 0;
+        private static string docnumber = "", entitycode = "", buCode = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -25,6 +25,8 @@ namespace HijoPortal
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 docnumber = Request.Params["DocNum"].ToString();
+                wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
+
                 string query = "SELECT TOP (100) PERCENT  tbl_MRP_List.*, vw_AXEntityTable.NAME AS EntityCodeDesc, vw_AXOperatingUnitTable.NAME AS BUCodeDesc, tbl_MRP_Status.StatusName, tbl_Users.Lastname, tbl_Users.Firstname FROM   tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
 
                 SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
@@ -42,6 +44,7 @@ namespace HijoPortal
                     DateCreated.Text = reader["DateCreated"].ToString();
                     EntityCode.Text = reader["EntityCodeDesc"].ToString();
                     BUCode.Text = reader["BUCodeDesc"].ToString();
+                    buCode = reader["BUCode"].ToString();
                     Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
                     Year.Text = reader["MRPYear"].ToString();
                     Status.Text = reader["StatusName"].ToString();
@@ -51,6 +54,8 @@ namespace HijoPortal
                 }
                 reader.Close();
                 conn.Close();
+
+                iStatusKey = MRPClass.MRP_Line_Status(mrp_key, wrkflwln);
 
                 Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
 
@@ -291,6 +296,19 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.SetBehaviorGrid(grid);
+        }
+
+        protected void Submit_Click(object sender, EventArgs e)
+        {
+            MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            Submit.Enabled = false;
+
+            //MRPNotificationMessage.Text = MRPClass.successfully_submitted;
+            //MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
+            //MRPNotify.HeaderText = "Info";
+            //MRPNotify.ShowOnPageLoad = true;
         }
 
         protected void MANGridInventApproval_DataBound(object sender, EventArgs e)

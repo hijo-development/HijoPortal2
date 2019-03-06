@@ -45,6 +45,7 @@
                         <dx:GridViewDataColumn FieldName="LevelLine" Visible="false"></dx:GridViewDataColumn>
                         <dx:GridViewDataColumn FieldName="LevelPosition" Caption="Workflow Level"></dx:GridViewDataColumn>
                         <dx:GridViewDataColumn FieldName="Status" Caption="Status"></dx:GridViewDataColumn>
+                        <dx:GridViewDataColumn FieldName="WorkflowType" Visible="false"></dx:GridViewDataColumn>
                     </Columns>
                     <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" />
                     <SettingsBehavior AllowFocusedRow="true" ProcessSelectionChangedOnServer="true" AllowSort="true" AllowHeaderFilter="true" />

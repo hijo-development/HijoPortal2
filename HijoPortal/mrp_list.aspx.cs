@@ -142,7 +142,7 @@ namespace HijoPortal
                         else
                         {
                             text["hidden_value"] = "submitted";
-                            MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode);
+                            MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
                             //BindMRP();
                             
                         }
