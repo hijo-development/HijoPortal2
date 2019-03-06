@@ -10,25 +10,16 @@
 namespace HijoPortal {
     
     
-    public partial class mrp_previewforapproval {
+    public partial class changepw {
         
         /// <summary>
-        /// MRPNotify control.
+        /// GlobalEvents control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
-        
-        /// <summary>
-        /// MRPNotificationMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
+        protected global::DevExpress.Web.ASPxGlobalEvents GlobalEvents;
         
         /// <summary>
         /// dvContentWrapper control.
@@ -40,111 +31,75 @@ namespace HijoPortal {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvContentWrapper;
         
         /// <summary>
-        /// DocNum control.
+        /// FormLayoutChangePW control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel DocNum;
+        protected global::DevExpress.Web.ASPxFormLayout FormLayoutChangePW;
         
         /// <summary>
-        /// StatusHidden control.
+        /// oldPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
+        protected global::DevExpress.Web.ASPxTextBox oldPassword;
         
         /// <summary>
-        /// Month control.
+        /// newPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel Month;
+        protected global::DevExpress.Web.ASPxTextBox newPassword;
         
         /// <summary>
-        /// EntityCode control.
+        /// ratingControlChangePW control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel EntityCode;
+        protected global::DevExpress.Web.ASPxRatingControl ratingControlChangePW;
         
         /// <summary>
-        /// Year control.
+        /// ratingLabelChangePW control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel Year;
+        protected global::DevExpress.Web.ASPxLabel ratingLabelChangePW;
         
         /// <summary>
-        /// BUCode control.
+        /// confirmPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel BUCode;
+        protected global::DevExpress.Web.ASPxTextBox confirmPassword;
         
         /// <summary>
-        /// tblSummCost control.
+        /// captcha control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable tblSummCost;
+        protected global::DevExpress.Web.ASPxCaptcha captcha;
         
         /// <summary>
-        /// PreviewListSummary control.
+        /// btnChangePW control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView PreviewListSummary;
-        
-        /// <summary>
-        /// TotalAmountSummary control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TotalAmountSummary;
-        
-        /// <summary>
-        /// MatListview control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView MatListview;
-        
-        /// <summary>
-        /// extraDMTD control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell extraDMTD;
-        
-        /// <summary>
-        /// TAMat control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAMat;
+        protected global::DevExpress.Web.ASPxButton btnChangePW;
     }
 }
