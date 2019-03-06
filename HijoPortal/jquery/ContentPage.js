@@ -2255,7 +2255,7 @@ function ListBudgetGrid_CustomButtonClick(s, e) {
     }
 }
 
-//
+//mrp_preview
 function Preview_Submit_Click(s, e) {
     var stat = StatusHidden.Get("hidden_preview_iStatusKey");
     var workline = StatusHidden.Get("hidden_preview_wrkflwln");
@@ -2326,5 +2326,32 @@ function ListForApprovalGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     if (button == "ForApprovalGridEdit") {
         e.processOnServer = true;
+    }
+}
+
+//mrp_previewforapproval
+function PreviewForApproval_Submit_Click(s, e) {
+    var stat = StatusHiddenPrevApp.Get("hidden_preview_iStatusKey");
+    var workline = StatusHiddenPrevApp.Get("hidden_preview_wrkflwln");
+    console.log(stat);
+    console.log(workline);
+    if (stat == "0")//0 
+        e.processOnServer = true;
+    else {//1 submitted
+        if (workline == "0") {
+            MRPNotifyMsgPrevApp.SetText("Document already submitted to BU / SSU Lead for review.");
+            MRPNotifyPrevApp.SetHeaderText("Alert");
+            MRPNotifyPrevApp.Show();
+        } else if (workline == "1") {
+            MRPNotifyMsgPrevApp.SetText("Document already submitted to Inventory Analyst for review.");
+            MRPNotifyPrevApp.SetHeaderText("Alert");
+            MRPNotifyPrevApp.Show();
+        } else if (workline == "2") {
+            MRPNotifyMsgPrevApp.SetText("Document already submitted to Budget for review.");
+            MRPNotifyPrevApp.SetHeaderText("Alert");
+            MRPNotifyPrevApp.Show();
+        }
+
+        e.processOnServer = false;
     }
 }
