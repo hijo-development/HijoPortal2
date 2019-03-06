@@ -7,6 +7,9 @@ $(window).resize(function () {
     changeWidth.resizeWidth();
 });
 
+var recentstatemenupane = "";
+var collapsed_string = "collapsed";
+var expanded_string = "expanded";
 changeWidth = {
     resizeWidth: function () {
         var heightNoScrollBars = $(window).height();
@@ -21,7 +24,8 @@ changeWidth = {
         var leftCenter = rightPanel + origCenterPanel;
         var mrpwidth = fullwidthBrowser * 0.84;
         var mrpwidthWrapper = fullwidthBrowser * 0.85;
-        var ContentWrapperWidth = fullwidthBrowser * 0.80;
+        var ContentWrapperWidth = fullwidthBrowser * 0.81;
+        var containMenu = fullwidthBrowser * 0.15;
 
         //var contentHeight = 600;
         //$('#MRPPanel').width(mrpwidth);
@@ -30,11 +34,13 @@ changeWidth = {
         $('#PanelLeft').width(leftPanel);
 
         var menupanel = MainSplitterClient.GetPaneByName('containMenu');
-        console.log("menupanel.IsCollapsed(): " + menupanel.IsCollapsed());
+        menupanel.SetSize(containMenu);
         if (menupanel.IsCollapsed()) {
             $('.ContentWrapper').width(fullwidthBrowser);
+            recentstatemenupane = collapsed_string;
         } else {
             $('.ContentWrapper').width(ContentWrapperWidth);
+            recentstatemenupane = expanded_string;
         }
 
         var h = window.innerHeight
@@ -2276,9 +2282,43 @@ function Preview_Submit_Click(s, e) {
 
 //Master.Master Splitter Collapse
 function MainSplitterClient_PaneCollapsed(s, e) {
-    //var menupanel = s.GetPaneByName('containMenu');
-    //if (menupanel.IsCollapsed())
+    SplitterBehavior(s, e);
+}
 
+function MainSplitterClient_PaneExpanded(s, e) {
+    SplitterBehavior(s, e);
+}
+
+function SplitterBehavior(s, e) {
+    var fullwidthBrowser = $('body').width();
+    var partfullwidthBrowser = fullwidthBrowser * 0.96;
+    var ContentWrapperWidth = fullwidthBrowser * 0.81;
+
+    var menupanel = s.GetPaneByName('containMenu');
+
+    switch (recentstatemenupane) {
+        case collapsed_string:
+            if (!menupanel.IsCollapsed()) {
+                $('.ContentWrapper').width(ContentWrapperWidth);
+                recentstatemenupane = expanded_string;
+            }
+            break;
+        case expanded_string:
+            if (menupanel.IsCollapsed()) {
+                $('.ContentWrapper').width(partfullwidthBrowser);
+                recentstatemenupane = collapsed_string;
+            }
+            break;
+    }
+}
+
+function MainSplitterClient_PaneResized(s, e) {
+    var menupanel = s.GetPaneByName('containMenu');
+    var fullwidthBrowser = $('body').width();
+    var size_str = menupanel.GetSize();
+    var size_px = size_str.replace("px", "");
+    var whatsleft = (fullwidthBrowser * 0.96) - parseInt(size_px);
+    $('.ContentWrapper').width(whatsleft);
 }
 
 //mrp_listforapproval
