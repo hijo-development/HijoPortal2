@@ -85,6 +85,33 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
         
         /// <summary>
+        /// PopupSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl PopupSubmit;
+        
+        /// <summary>
+        /// OK_SUBMIT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton OK_SUBMIT;
+        
+        /// <summary>
+        /// CANCEL_SUBMIT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton CANCEL_SUBMIT;
+        
+        /// <summary>
         /// dvContentWrapper control.
         /// </summary>
         /// <remarks>

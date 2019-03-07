@@ -51,7 +51,7 @@
                         <div style="display: none;">
                             <dx:ASPxHiddenField ID="StatusHidden" runat="server" ClientInstanceName="StatusHiddenPrevApp"></dx:ASPxHiddenField>
                         </div>
-                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue" OnClick="Submit_Click">
+                        <dx:ASPxButton ID="Submit" runat="server" Text="Approved" AutoPostBack="false" Theme="Office2010Blue" OnClick="Submit_Click">
                             <ClientSideEvents Click="PreviewForApproval_Submit_Click" />
                         </dx:ASPxButton>
                     </td>
