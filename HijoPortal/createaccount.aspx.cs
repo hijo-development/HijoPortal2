@@ -20,7 +20,7 @@ namespace HijoPortal
         protected void signUp_Click(object sender, EventArgs e)
         {
             int iEmployeeKey = 0;
-            MRPClass.PrintString("pass clicked signup");
+            //MRPClass.PrintString("pass clicked signup");
             if (captcha.IsValid && ASPxEdit.ValidateEditorsInContainer(this))
             {
                 //MRPClass.PrintString("pass inside validation");

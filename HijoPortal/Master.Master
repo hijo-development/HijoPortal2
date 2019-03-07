@@ -16,6 +16,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="jquery/accounting.js"></script>
     <script type="text/javascript" src="jquery/ContentPage.js"></script>
+    <script type="text/javascript" src="jquery/changePW.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>

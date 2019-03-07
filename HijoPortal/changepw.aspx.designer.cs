@@ -13,15 +13,6 @@ namespace HijoPortal {
     public partial class changepw {
         
         /// <summary>
-        /// GlobalEvents control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxGlobalEvents GlobalEvents;
-        
-        /// <summary>
         /// dvContentWrapper control.
         /// </summary>
         /// <remarks>
@@ -31,31 +22,49 @@ namespace HijoPortal {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvContentWrapper;
         
         /// <summary>
-        /// FormLayoutChangePW control.
+        /// ASPxLabel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxFormLayout FormLayoutChangePW;
+        protected global::DevExpress.Web.ASPxLabel ASPxLabel1;
         
         /// <summary>
-        /// oldPassword control.
+        /// oldPasswordCH control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox oldPassword;
+        protected global::DevExpress.Web.ASPxTextBox oldPasswordCH;
         
         /// <summary>
-        /// newPassword control.
+        /// oldPasswordCHDB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox newPassword;
+        protected global::DevExpress.Web.ASPxTextBox oldPasswordCHDB;
+        
+        /// <summary>
+        /// ASPxLabel2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel ASPxLabel2;
+        
+        /// <summary>
+        /// newPasswordCH control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox newPasswordCH;
         
         /// <summary>
         /// ratingControlChangePW control.
@@ -76,13 +85,22 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxLabel ratingLabelChangePW;
         
         /// <summary>
-        /// confirmPassword control.
+        /// ASPxLabel3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox confirmPassword;
+        protected global::DevExpress.Web.ASPxLabel ASPxLabel3;
+        
+        /// <summary>
+        /// confirmPasswordCH control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox confirmPasswordCH;
         
         /// <summary>
         /// captcha control.

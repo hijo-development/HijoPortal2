@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_previewforapproval.aspx.cs" Inherits="HijoPortal.mrp_previewforapproval" %>
+﻿<%@ Page Title="For Approval" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_previewforapproval.aspx.cs" Inherits="HijoPortal.mrp_previewforapproval" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
