@@ -16,50 +16,48 @@
         <div style="background-color: #fff">
             <div id="dvHeaderPO" style="height: auto; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
                 <h1>List of AUTO PO</h1>
-                <table border="0" style="width: 100%;">
+                <table border="1" style="width: 100%;">
                     <tr>
-                        <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="PO #" Theme="Office2010Blue"></dx:ASPxLabel>
+                        <td style="width: 20%;">
+                            <dx:ASPxLabel runat="server" Text="DocNumber #" Theme="Office2010Blue"></dx:ASPxLabel>
                         </td>
                         <td>:</td>
-                        <td style="width: 20%">
-                            <dx:ASPxTextBox ID="POnumber" runat="server" Text="" Width="180px" Theme="Office2010Blue" Border-BorderStyle="None" ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true"
-                                Style="font-size: medium; font-weight: bold; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
-                            </dx:ASPxTextBox>
+                        <td>
+                            <dx:ASPxComboBox ID="DocNumber" runat="server" ClientInstanceName="PODocNumber" OnInit="DocNumber_Init" ValueType="System.String" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="ImageWithText"
+                                ValidationSettings-RequiredField-IsRequired="true">
+                                <ClientSideEvents SelectedIndexChanged="PODocNumber_SelectedIndexChanged" />
+                            </dx:ASPxComboBox>
                         </td>
-                        <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="PO Date" Theme="Office2010Blue"></dx:ASPxLabel>
-                        </td>
-                        <td>:</td>
-                        <td style="width: 20%">
-                            <dx:ASPxTextBox ID="POdate" runat="server" Text="" Theme="Office2010Blue" Border-BorderStyle="None"
-                                ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                            </dx:ASPxTextBox>
-                        </td>
-                        <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Expected Delivery" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
+                        <td style="width: 20%;">
+                            <dx:ASPxLabel runat="server" Text="Expected Delivery" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <label class="asterisk">*</label>
                         </td>
                         <td>:</td>
-                        <td style="width: 20%">
-                            <dx:ASPxDateEdit ID="ExpDelivery" runat="server" Theme="Office2010Blue" AllowUserInput="false"
+                        <td>
+                            <dx:ASPxDateEdit ID="ExpDelivery" runat="server" ClientInstanceName="POExpDelivery" Theme="Office2010Blue" AllowUserInput="false"
                                 ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                 <ClientSideEvents GotFocus="function(s, e) { s.ShowDropDown(); }" />
                             </dx:ASPxDateEdit>
                         </td>
+                        <td style="width: 20%;"></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     <tr>
-                        <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Vendor" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
+                        <td>
+                            <dx:ASPxLabel runat="server" Text="Vendor" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <label class="asterisk">*</label>
                         </td>
                         <td>:</td>
                         <td>
-                            <dx:ASPxComboBox ID="Vendor" runat="server" ValueType="System.String" Theme="Office2010Blue"
+                            <dx:ASPxComboBox ID="Vendor" runat="server" ClientInstanceName="POVendor" ValueType="System.String" Theme="Office2010Blue"
                                 OnInit="Vendor_Init" ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                 <ClientSideEvents SelectedIndexChanged="vendor_indexchanged" />
                             </dx:ASPxComboBox>
                         </td>
-                        <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Currency" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
+                        <td>
+                            <dx:ASPxLabel runat="server" Text="Currency" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <label class="asterisk">*</label>
                         </td>
                         <td>:</td>
                         <td>
@@ -67,43 +65,45 @@
                                 <ClientSideEvents EndCallback="currency_endcallback" />
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxComboBox ID="Currency" runat="server" ValueType="System.String" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="ImageWithText"
+                                        <dx:ASPxComboBox ID="Currency" runat="server" ClientInstanceName="POCurrency" ValueType="System.String" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="ImageWithText"
                                             ValidationSettings-RequiredField-IsRequired="true">
                                         </dx:ASPxComboBox>
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxCallbackPanel>
                         </td>
-                        <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Site" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
+                        <td>
+                            <dx:ASPxLabel runat="server" Text="Site" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <label class="asterisk">*</label>
                         </td>
                         <td>:</td>
                         <td>
-                            <dx:ASPxComboBox ID="Site" runat="server" ValueType="System.String" Theme="Office2010Blue" OnInit="Site_Init"
+                            <dx:ASPxComboBox ID="Site" runat="server" ClientInstanceName="POSite" ValueType="System.String" Theme="Office2010Blue" OnInit="Site_Init"
                                 ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                 <ClientSideEvents SelectedIndexChanged="site_indexchanged" />
                             </dx:ASPxComboBox>
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 12%; height: 20px">
+                        <td style="height: 20px">
                             <dx:ASPxLabel runat="server" Text="Terms" Theme="Office2010Blue"></dx:ASPxLabel>
 
                         </td>
                         <td>:</td>
-                        <td style="width: 20%; padding-left:5px;" colspan="4">
+                        <td style="padding-left: 5px;" colspan="4">
                             <dx:ASPxCallbackPanel ID="TermsCallback" ClientInstanceName="TermsCallback" runat="server" Width="200px" OnCallback="TermsCallback_Callback">
                                 <ClientSideEvents EndCallback="terms_endcallback" />
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxComboBox ID="Terms" runat="server" ValueType="System.String" Theme="Office2010Blue">
+                                        <dx:ASPxComboBox ID="Terms" runat="server" ClientInstanceName="POTerms" ValueType="System.String" Theme="Office2010Blue">
                                         </dx:ASPxComboBox>
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxCallbackPanel>
                         </td>
-                        <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Warehouse" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
+                        <td>
+                            <dx:ASPxLabel runat="server" Text="Warehouse" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <label class="asterisk">*</label>
                         </td>
                         <td>:</td>
                         <td>
@@ -126,13 +126,14 @@
                         </td>
                         <td>:</td>
                         <td colspan="4">
-                            <dx:ASPxComboBox ID="ProCategory" runat="server" ValueType="System.String" Width="170px" Theme="Office2010Blue"
+                            <dx:ASPxComboBox ID="ProCategory" runat="server" ClientInstanceName="POProCategory" ValueType="System.String" Width="170px" Theme="Office2010Blue"
                                 TextFormatString="{0}" OnInit="ProCategory_Init" ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                 <ClientSideEvents SelectedIndexChanged="procategory_indexchange" />
                             </dx:ASPxComboBox>
                         </td>
-                        <td style="width: 12%">
-                            <dx:ASPxLabel runat="server" Text="Location" Theme="Office2010Blue"></dx:ASPxLabel><label class="asterisk">*</label>
+                        <td>
+                            <dx:ASPxLabel runat="server" Text="Location" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <label class="asterisk">*</label>
                         </td>
                         <td>:</td>
                         <td>
@@ -149,7 +150,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4"><label style="color:red;">all fields marked with an asterisk (*) are required</label></td>
+                        <td colspan="4">
+                            <label style="color: red;">all fields marked with an asterisk (*) are required</label></td>
                     </tr>
                 </table>
             </div>
@@ -160,12 +162,12 @@
                             <dx:ASPxGridView ID="POAddEditGrid" ClientInstanceName="POAddEditGrid" runat="server" Theme="Office2010Blue" Width="100%" AutoGenerateColumns="false"
                                 OnRowValidating="POAddEditGrid_RowValidating"
                                 OnRowUpdating="POAddEditGrid_RowUpdating"
-                                OnCustomCallback="POAddEditGrid_CustomCallback" 
+                                OnCustomCallback="POAddEditGrid_CustomCallback"
                                 OnBeforeGetCallbackResult="POAddEditGrid_BeforeGetCallbackResult"
                                 EnableCallBacks="true" KeyFieldName="PK;TableIdentifier">
                                 <%--<ClientSideEvents SelectionChanged="POgrid_selectionChanged" />--%>
                                 <Columns>
-                                    <dx:GridViewCommandColumn ShowSelectCheckbox="true" SelectAllCheckboxMode="Page" ShowEditButton="true" VisibleIndex="0">
+                                    <dx:GridViewCommandColumn ShowSelectCheckbox="true" SelectAllCheckboxMode="Page" ShowEditButton="true" ShowApplyFilterButton="true" VisibleIndex="0">
                                     </dx:GridViewCommandColumn>
                                     <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
                                     <dx:GridViewDataColumn FieldName="TableIdentifier" Visible="false"></dx:GridViewDataColumn>
