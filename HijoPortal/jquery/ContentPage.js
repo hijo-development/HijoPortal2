@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
 
     $("#LogOut").click(function (e) {
+        PopupLogout.SetHeaderText("Alert");
         PopupLogout.Show();
     });
 
@@ -2342,16 +2343,16 @@ function PreviewForApproval_Submit_Click(s, e) {
     if (stat == "0")//0 
         e.processOnServer = true;
     else {//1 submitted
-        if (workline == "0") {
-            MRPNotifyMsgPrevApp.SetText("Document already submitted to BU / SSU Lead for review.");
-            MRPNotifyPrevApp.SetHeaderText("Alert");
-            MRPNotifyPrevApp.Show();
-        } else if (workline == "1") {
-            MRPNotifyMsgPrevApp.SetText("Document already submitted to Inventory Analyst for review.");
+        if (workline == "1") {
+            MRPNotifyMsgPrevApp.SetText("Document already approved by SCM Lead.");
             MRPNotifyPrevApp.SetHeaderText("Alert");
             MRPNotifyPrevApp.Show();
         } else if (workline == "2") {
-            MRPNotifyMsgPrevApp.SetText("Document already submitted to Budget for review.");
+            MRPNotifyMsgPrevApp.SetText("Document already approved by Finance Lead.");
+            MRPNotifyPrevApp.SetHeaderText("Alert");
+            MRPNotifyPrevApp.Show();
+        } else if (workline == "3") {
+            MRPNotifyMsgPrevApp.SetText("Document already approved by Executive.");
             MRPNotifyPrevApp.SetHeaderText("Alert");
             MRPNotifyPrevApp.Show();
         }
@@ -2359,6 +2360,7 @@ function PreviewForApproval_Submit_Click(s, e) {
         e.processOnServer = false;
     }
 }
+
 
 function PODocNumber_SelectedIndexChanged(s, e) {
     if (PODocNumber.GetText().length > 0) {
@@ -2374,3 +2376,4 @@ function PODocNumber_SelectedIndexChanged(s, e) {
     }
 
 }
+

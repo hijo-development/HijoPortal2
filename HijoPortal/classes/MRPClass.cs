@@ -16,6 +16,7 @@ namespace HijoPortal.classes
         public const string capex_logs = "CAPEX", opex_logs = "OPEX", directmaterials_logs = "DIRECTMATERIALS", manpower_logs = "MANPOWER", revenueassumption_logs = "REVENUEASSUMPTION", add_logs = "ADD", edit_logs = "EDIT", delete_logs = "DELETE", train_entity = "0101";
 
         public const string successfully_submitted = "Successfully Submitted";
+        public const string successfully_approved = "Successfully Approved";
 
         static double
             capex_total_amount = 0,
@@ -2488,7 +2489,7 @@ namespace HijoPortal.classes
 
             conn.Close();
             return mrpLineStat;
-        }
+        }       
 
         public static void Approve_MRP(string docNum, int MRPKey, int AprvLine)
         {
@@ -3281,6 +3282,37 @@ namespace HijoPortal.classes
             conn.Close();
 
             return dtTable;
+        }
+
+        public static int MRP_ApprvLine_Status(int masterKey, int line)
+        {
+            int aprvLineStat = 0;
+            string qry = "";
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dtable = new DataTable();
+
+            conn.Open();
+            qry = "SELECT Status " +
+                  " FROM tbl_MRP_List_Approval " +
+                  " WHERE (MasterKey = " + masterKey + ") " +
+                  " AND (Line = " + line + ")";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtable.Rows)
+                {
+                    aprvLineStat = Convert.ToInt32(row["Status"]);
+                }
+            }
+            dtable.Clear();
+            conn.Close();
+            return aprvLineStat;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace HijoPortal
 {
     public partial class mrp_previewforapproval : System.Web.UI.Page
     {
-        private static int mrp_key = 0, wrkflwln = 0, iStatusKey = 0;
+        private static int mrp_key = 0, appflwln = 0, iStatusKey = 0;
         private static int
             PK_MAT = 0,
             PK_OPEX = 0,
@@ -88,8 +88,8 @@ namespace HijoPortal
 
                 string query = "SELECT [Remarks] FROM " + MRPClass.MaterialsTableLogs() + " WHERE MasterKey = '" + PK_MAT + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
 
-                MRPClass.PrintString("CreatorKey: " + Session["CreatorKey"].ToString());
-                MRPClass.PrintString("PK_MAT: " + PK_MAT.ToString());
+                //MRPClass.PrintString("CreatorKey: " + Session["CreatorKey"].ToString());
+                //MRPClass.PrintString("PK_MAT: " + PK_MAT.ToString());
 
                 SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
                 conn.Open();
@@ -292,56 +292,60 @@ namespace HijoPortal
 
         protected void Submit_Click(object sender, EventArgs e)
         {
-            if (wrkflwln == 0)
+            if (iStatusKey == 1)
             {
-                if (iStatusKey == 1)
-                {
 
-                    MRPClass.Submit_MRP(docnum, mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+                //MRPClass.Submit_MRP(docnum, mrp_key, appflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-                    Submit.Enabled = false;
+                MRPClass.Approve_MRP(docnum, mrp_key, appflwln);
 
-                    MRPNotifyMsgPrevApp.Text = MRPClass.successfully_submitted;
-                    MRPNotifyMsgPrevApp.ForeColor = System.Drawing.Color.Black;
-                    MRPNotifyPrevApp.HeaderText = "Info";
-                    MRPNotifyPrevApp.ShowOnPageLoad = true;
-                }
-                else
-                {
+                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                Submit.Enabled = false;
 
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-
-                    //MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
-                    //MRPNotify.HeaderText = "Alert";
-                    //MRPNotify.ShowOnPageLoad = true;
-
-                }
+                MRPNotifyMsgPrevApp.Text = MRPClass.successfully_approved;
+                MRPNotifyMsgPrevApp.ForeColor = System.Drawing.Color.Black;
+                MRPNotifyPrevApp.HeaderText = "Info";
+                MRPNotifyPrevApp.ShowOnPageLoad = true;
             }
             else
             {
-                if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
-                {
-                    MRPClass.Submit_MRP(docnum, mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-                    Submit.Enabled = false;
+                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
-                    MRPNotifyMsgPrevApp.Text = MRPClass.successfully_submitted;
-                    MRPNotifyMsgPrevApp.ForeColor = System.Drawing.Color.Black;
-                    MRPNotifyPrevApp.HeaderText = "Info";
-                    MRPNotifyPrevApp.ShowOnPageLoad = true;
-                }
-                else
-                {
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-
-                    //MRPNotificationMessage.Text = "Document already submitted to Inventory Analyst for review.";
-                    //MRPNotify.HeaderText = "Alert";
-                    //MRPNotify.ShowOnPageLoad = true;
-                }
+                //MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
+                //MRPNotify.HeaderText = "Alert";
+                //MRPNotify.ShowOnPageLoad = true;
 
             }
+
+            //if (appflwln == 0)
+            //{
+                
+            //}
+            //else
+            //{
+            //    if (MRPClass.MRP_Line_Status(mrp_key, appflwln) == 0)
+            //    {
+            //        MRPClass.Submit_MRP(docnum, mrp_key, appflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+
+            //        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            //        Submit.Enabled = false;
+
+            //        MRPNotifyMsgPrevApp.Text = MRPClass.successfully_submitted;
+            //        MRPNotifyMsgPrevApp.ForeColor = System.Drawing.Color.Black;
+            //        MRPNotifyPrevApp.HeaderText = "Info";
+            //        MRPNotifyPrevApp.ShowOnPageLoad = true;
+            //    }
+            //    else
+            //    {
+            //        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+            //        //MRPNotificationMessage.Text = "Document already submitted to Inventory Analyst for review.";
+            //        //MRPNotify.HeaderText = "Alert";
+            //        //MRPNotify.ShowOnPageLoad = true;
+            //    }
+
+            //}
         }
 
         private void HideTableData(ListViewItemEventArgs e)
@@ -366,14 +370,16 @@ namespace HijoPortal
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckCreatorKey();
-            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            
             if (!Page.IsPostBack)
             {
-                
+                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
                 docnum = Request.Params["DocNum"].ToString();
+                appflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
 
                 DocNum.Text = Request.Params["DocNum"].ToString();
-                wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
+                
 
                 string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
                               " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
@@ -408,9 +414,9 @@ namespace HijoPortal
                 reader.Close();
                 conn.Close();
 
-                iStatusKey = MRPClass.MRP_Line_Status(mrp_key, wrkflwln);
+                iStatusKey = MRPClass.MRP_ApprvLine_Status(mrp_key, appflwln);
                 StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
-                StatusHidden["hidden_preview_wrkflwln"] = wrkflwln;
+                StatusHidden["hidden_preview_wrkflwln"] = appflwln;
                 BindAll();
             }
 
