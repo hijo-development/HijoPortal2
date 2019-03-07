@@ -2361,3 +2361,19 @@ function PreviewForApproval_Submit_Click(s, e) {
     }
 }
 
+
+function PODocNumber_SelectedIndexChanged(s, e) {
+    if (PODocNumber.GetText().length > 0) {
+        POExpDelivery.SetEnabled(true);
+        POVendor.SetEnabled(true);
+        POCurrency.SetEnabled(true);
+        POSite.SetEnabled(true);
+        Location.SetEnabled(true);
+        POTerms.SetEnabled(true);
+        WareHouse.SetEnabled(true);
+        POProCategory.SetEnabled(true);
+        POAddEditGrid.PerformCallback();
+    }
+
+}
+

@@ -18,9 +18,9 @@ namespace HijoPortal
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckCreatorKey();
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             if (!Page.IsPostBack)
             {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             }
             BindPO();
         }
@@ -93,8 +93,13 @@ namespace HijoPortal
 
         protected void Add_Click(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-            PopUpControl.ShowOnPageLoad = true;
+            //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            //PopUpControl.ShowOnPageLoad = true;
+            //MRPClass.PrintString("triall...");
+            //CheckCreatorKey();
+            Session["MRP_Number"] = null;
+            Response.Redirect("mrp_poaddedit.aspx");
+
         }
 
         protected void MRPNumber_Init(object sender, EventArgs e)
@@ -134,50 +139,50 @@ namespace HijoPortal
 
         protected void BtnAdd_Click(object sender, EventArgs e)
         {
-            CheckCreatorKey();
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
+            //CheckCreatorKey();
+            //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            //conn.Open();
 
-            //Declare Variables
-            string DocPref = "", strDocNum = "";
-            int DocNum = 0;
+            ////Declare Variables
+            //string DocPref = "", strDocNum = "";
+            //int DocNum = 0;
 
-            string query = "SELECT [DocumentPrefix],[DocumentNum] FROM " + MRPClass.DocNumberTableName() + " where DocumentPrefix = 'PO'";
+            //string query = "SELECT [DocumentPrefix],[DocumentNum] FROM " + MRPClass.DocNumberTableName() + " where DocumentPrefix = 'PO'";
 
-            SqlCommand cmd = new SqlCommand(query, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                DocPref = reader[0].ToString();
-                DocNum = Convert.ToInt32(reader[1].ToString());
-            }
-            reader.Close();
+            //SqlCommand cmd = new SqlCommand(query, conn);
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    DocPref = reader[0].ToString();
+            //    DocNum = Convert.ToInt32(reader[1].ToString());
+            //}
+            //reader.Close();
 
-            DocNum += 1;
-            strDocNum = DocNum.ToString("00000000#");
-            string PONumber = DocPref + "-" + Session["EntityCode"].ToString() + "-" + strDocNum;
-            string MRPnumber = MRPNumber.Value.ToString();
+            //DocNum += 1;
+            //strDocNum = DocNum.ToString("00000000#");
+            //string PONumber = DocPref + "-" + Session["EntityCode"].ToString() + "-" + strDocNum;
+            //string MRPnumber = MRPNumber.Value.ToString();
 
-            string insert = "INSERT INTO " + MRPClass.POTableName() + " ([MRPNumber],[PONumber],[CreatorKey]) VALUES (@MRPNumber, @PONumber, @CreatorKey)";
-            cmd = new SqlCommand(insert, conn);
-            cmd.Parameters.AddWithValue("MRPNumber", MRPnumber);
-            cmd.Parameters.AddWithValue("PONumber", PONumber);
-            cmd.Parameters.AddWithValue("CreatorKey", Session["CreatorKey"].ToString());
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
+            //string insert = "INSERT INTO " + MRPClass.POTableName() + " ([MRPNumber],[PONumber],[CreatorKey]) VALUES (@MRPNumber, @PONumber, @CreatorKey)";
+            //cmd = new SqlCommand(insert, conn);
+            //cmd.Parameters.AddWithValue("MRPNumber", MRPnumber);
+            //cmd.Parameters.AddWithValue("PONumber", PONumber);
+            //cmd.Parameters.AddWithValue("CreatorKey", Session["CreatorKey"].ToString());
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
 
-            if (result > 0)
-            {
-                string update = "UPDATE " + MRPClass.DocNumberTableName() + " SET [DocumentNum] = '" + DocNum + "' WHERE [DocumentPrefix] = 'PO'";
+            //if (result > 0)
+            //{
+            //    string update = "UPDATE " + MRPClass.DocNumberTableName() + " SET [DocumentNum] = '" + DocNum + "' WHERE [DocumentPrefix] = 'PO'";
 
-                cmd = new SqlCommand(update, conn);
-                cmd.ExecuteNonQuery();
-            }
+            //    cmd = new SqlCommand(update, conn);
+            //    cmd.ExecuteNonQuery();
+            //}
 
-            PopUpControl.ShowOnPageLoad = false;
-            Response.RedirectLocation = "mrp_poaddedit.aspx?DocNum=" + MRPnumber;
+            //PopUpControl.ShowOnPageLoad = false;
+            //Response.RedirectLocation = "mrp_poaddedit.aspx?DocNum=" + MRPnumber;
 
-            conn.Close();
+            //conn.Close();
         }
 
         private void CheckCreatorKey()

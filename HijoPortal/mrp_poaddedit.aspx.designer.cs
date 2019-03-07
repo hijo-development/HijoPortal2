@@ -40,22 +40,13 @@ namespace HijoPortal {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvContentWrapper;
         
         /// <summary>
-        /// POnumber control.
+        /// DocNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox POnumber;
-        
-        /// <summary>
-        /// POdate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox POdate;
+        protected global::DevExpress.Web.ASPxComboBox DocNumber;
         
         /// <summary>
         /// ExpDelivery control.
@@ -101,7 +92,7 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxComboBox Site;
-        
+
         /// <summary>
         /// TermsCallback control.
         /// </summary>

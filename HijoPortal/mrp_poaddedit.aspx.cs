@@ -17,53 +17,64 @@ namespace HijoPortal
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckCreatorKey();
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
             if (!Page.IsPostBack)
             {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-
-                string query = "SELECT * FROM " + MRPClass.POTableName() + " WHERE [PK] = '" + Session["PO_PK"].ToString() + "'";
-                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(query, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    POnumber.Text = reader["PONumber"].ToString();
-                    POdate.Text = Convert.ToDateTime(reader["DateCreated"]).ToString("MM/dd/yyyy");
-                    ExpDelivery.Value = reader["ExpectedDate"].ToString();
-                    Vendor.Value = reader["VendorCode"].ToString();
-                    Currency.Value = reader["CurrencyCode"].ToString();
-                    Site.Value = reader["InventSite"].ToString();
-                    Terms.Value = reader["PaymentTerms"].ToString();
-                    WareHouse.Value = reader["InventSiteWarehouse"].ToString();
-                    Location.Value = reader["InventSiteWarehouseLocation"].ToString();
-                }
-                reader.Close();
-                
-                //BindGridViewDataComboBoxColumn();
-                BindPOAddEdit(Session["MRP_Number"].ToString(), "ITEMGROUPID");
-
-                string query_ponumber = "SELECT Count(*) FROM [hijo_portal].[dbo].[tbl_POCreation] where PONumber = '" + POnumber.Text + "' AND ExpectedDate IS NOT NULL";
-                cmd = new SqlCommand(query_ponumber, conn);
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                if (count > 0) Create.Text = "Update";
-                else Send.Enabled = false;
-
-                conn.Close();
-
+                ExpDelivery.ClientEnabled = false;
+                Vendor.ClientEnabled = false;
+                Currency.ClientEnabled = false;
+                Site.ClientEnabled = false;
+                Terms.ClientEnabled = false;
+                WareHouse.ClientEnabled = false;
+                Location.ClientEnabled = false;
+                ProCategory.ClientEnabled = false;
             }
-            else
-            {
-                if (Session["DataSet"] != null)
-                {
-                    DataSet ds = (DataSet)Session["DataSet"];
-                    DataTable dataTable = ds.Tables[0];
-                    dataTable.PrimaryKey = new DataColumn[] { dataTable.Columns["PK"] };
-                    POAddEditGrid.DataSource = dataTable;
-                    POAddEditGrid.KeyFieldName = "PK";
-                    POAddEditGrid.DataBind();
-                }
-            }
+            //if (!Page.IsPostBack)
+            //{
+            //    string query = "SELECT * FROM " + MRPClass.POTableName() + " WHERE [PK] = '" + Session["PO_PK"].ToString() + "'";
+            //    SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            //    conn.Open();
+            //    SqlCommand cmd = new SqlCommand(query, conn);
+            //    SqlDataReader reader = cmd.ExecuteReader();
+            //    while (reader.Read())
+            //    {
+            //        POnumber.Text = reader["PONumber"].ToString();
+            //        POdate.Text = Convert.ToDateTime(reader["DateCreated"]).ToString("MM/dd/yyyy");
+            //        ExpDelivery.Value = reader["ExpectedDate"].ToString();
+            //        Vendor.Value = reader["VendorCode"].ToString();
+            //        Currency.Value = reader["CurrencyCode"].ToString();
+            //        Site.Value = reader["InventSite"].ToString();
+            //        Terms.Value = reader["PaymentTerms"].ToString();
+            //        WareHouse.Value = reader["InventSiteWarehouse"].ToString();
+            //        Location.Value = reader["InventSiteWarehouseLocation"].ToString();
+            //    }
+            //    reader.Close();
+
+            //    //BindGridViewDataComboBoxColumn();
+            //    BindPOAddEdit(Session["MRP_Number"].ToString(), "ITEMGROUPID");
+
+            //    string query_ponumber = "SELECT Count(*) FROM [hijo_portal].[dbo].[tbl_POCreation] where PONumber = '" + POnumber.Text + "' AND ExpectedDate IS NOT NULL";
+            //    cmd = new SqlCommand(query_ponumber, conn);
+            //    int count = Convert.ToInt32(cmd.ExecuteScalar());
+            //    if (count > 0) Create.Text = "Update";
+            //    else Send.Enabled = false;
+
+            //    conn.Close();
+
+            //}
+            //else
+            //{
+            //    if (Session["DataSet"] != null)
+            //    {
+            //        DataSet ds = (DataSet)Session["DataSet"];
+            //        DataTable dataTable = ds.Tables[0];
+            //        dataTable.PrimaryKey = new DataColumn[] { dataTable.Columns["PK"] };
+            //        POAddEditGrid.DataSource = dataTable;
+            //        POAddEditGrid.KeyFieldName = "PK";
+            //        POAddEditGrid.DataBind();
+            //    }
+            //}
         }
 
         private void CheckCreatorKey()
@@ -136,7 +147,7 @@ namespace HijoPortal
             row["POCost"] = cost.Value.ToString();
             row["POTotalCost"] = total.Value.ToString();
 
-        
+
             IDictionaryEnumerator enumerator = e.NewValues.GetEnumerator();
             enumerator.Reset();
 
@@ -177,8 +188,15 @@ namespace HijoPortal
         protected void POAddEditGrid_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
         {
             string s = ProCategory.Value.ToString();
+            string docnum = DocNumber.Value.ToString();
+
             if (s == "ALL") s = "ITEMGROUPID";
-            BindPOAddEdit(Session["MRP_Number"].ToString(), s);
+
+            if (Session["MRP_Number"] == null)
+                BindPOAddEdit(docnum, s);
+            else
+                BindPOAddEdit(Session["MRP_Number"].ToString(), s);
+
             //selList.Items.Clear();
         }
 
@@ -224,6 +242,7 @@ namespace HijoPortal
             WareHouse.ValueField = "warehouse";
             WareHouse.TextFormatString = "{0}";
             WareHouse.DataBind();
+            WareHouse.ClientEnabled = true;
         }
 
         protected void LocationCallback_Callback(object sender, CallbackEventArgsBase e)
@@ -246,6 +265,7 @@ namespace HijoPortal
             Location.ValueField = "LocationCode";
             Location.DataBind();
             Location.TextFormatString = "{0}";
+            Location.ClientEnabled = true;
         }
 
         protected void Vendor_Init(object sender, EventArgs e)
@@ -296,6 +316,7 @@ namespace HijoPortal
             Currency.TextField = "TXT";
             Currency.DataBind();
             Currency.TextFormatString = "{0}";
+            Currency.ClientEnabled = true;
         }
 
         protected void TermsCallback_Callback(object sender, CallbackEventArgsBase e)
@@ -327,6 +348,7 @@ namespace HijoPortal
             Terms.TextField = "DESCRIPTION";
             Terms.DataBind();
             Terms.TextFormatString = "{0}";
+            Terms.ClientEnabled = true;
         }
 
         protected void Create_Click(object sender, EventArgs e)
@@ -348,19 +370,99 @@ namespace HijoPortal
             cmd_po.Parameters.AddWithValue("@site", Site.Value.ToString());
             cmd_po.Parameters.AddWithValue("@warehouse", WareHouse.Value.ToString());
             cmd_po.Parameters.AddWithValue("@location", Location.Value.ToString());
-            cmd_po.Parameters.AddWithValue("@ponumber", POnumber.Text);
+            //cmd_po.Parameters.AddWithValue("@ponumber", POnumber.Text);
             cmd_po.CommandType = CommandType.Text;
             int result = cmd_po.ExecuteNonQuery();
-            if(result > 0)
+            if (result > 0)
             {
                 Send.Enabled = true;
                 Create.Text = "Update";
             }
 
+            List<object> selectedValues = POAddEditGrid.GetSelectedFieldValues(new string[] { "PK", "TableIdentifier", "MRPCategory", "Item", "Qty", "UOM", "Cost", "TotalCost", "POQty", "POCost", "POTotalCost", "TaxGroup", "TaxItemGroup" }) as List<object>;
+
+            if (selectedValues.Count == 0)
+            {
+                ItemsEmpty.HeaderText = "Alert";
+                ItemsEmptyLabel.Text = "No Selected Items";
+                ItemsEmpty.ShowOnPageLoad = true;
+            }
+
+            //foreach (object[] obj in selectedValues)
+            //{
+            //    string pk = obj[0].ToString();
+            //    string identifier = obj[1].ToString();
+            //    string category = obj[2].ToString();
+            //    string item = obj[3].ToString();
+            //    int slashIndex = item.IndexOf("/");
+            //    string item_code = item.Substring(0, slashIndex);
+            //    string qty = obj[4].ToString();
+            //    string uom = obj[5].ToString();
+            //    string cost = obj[6].ToString();
+            //    string total = obj[7].ToString();
+            //    string po_qty = obj[8].ToString();
+            //    string po_cost = obj[9].ToString();
+            //    string po_total = obj[10].ToString();
+            //    string taxgroup = obj[11].ToString();
+            //    string taxitem = obj[12].ToString();
+
+            //    if (!string.IsNullOrEmpty(pk) && !string.IsNullOrEmpty(identifier) && !string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(item) && !string.IsNullOrEmpty(qty) && !string.IsNullOrEmpty(uom) && !string.IsNullOrEmpty(cost) && !string.IsNullOrEmpty(total) && !string.IsNullOrEmpty(po_qty) && !string.IsNullOrEmpty(po_cost) && !string.IsNullOrEmpty(po_total) && !string.IsNullOrEmpty(taxgroup) && !string.IsNullOrEmpty(taxitem))
+            //    {
+            //        conn.Open();
+
+            //        switch (identifier)
+            //        {
+            //            case "1"://Direct Materials
+            //                string update_materials = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] SET [QtyPO] = '" + po_qty + "' WHERE [PK] = '" + pk + "'";
+            //                SqlCommand cmd_mat = new SqlCommand(update_materials, conn);
+            //                cmd_mat.ExecuteNonQuery();
+
+            //                string insert_mat_po = "INSERT [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[ItemCode],[TaxGroup],[TaxItemGroup],[Qty],[Cost],[TotalCost]) VALUES (@ponumber, @code, @taxgroup, @taxitem, @poqty, @pocost, @pototal)";
+
+            //                SqlCommand cmd_mat_po = new SqlCommand(insert_mat_po, conn);
+            //                cmd_mat_po.Parameters.AddWithValue("@ponumber", POnumber.Text);
+            //                cmd_mat_po.Parameters.AddWithValue("@code", item_code);
+            //                cmd_mat_po.Parameters.AddWithValue("@taxgroup", taxgroup);
+            //                cmd_mat_po.Parameters.AddWithValue("@taxitem", taxitem);
+            //                cmd_mat_po.Parameters.AddWithValue("@poqty", Convert.ToDouble(po_qty));
+            //                cmd_mat_po.Parameters.AddWithValue("@pocost", Convert.ToDouble(po_cost));
+            //                cmd_mat_po.Parameters.AddWithValue("@pototal", Convert.ToDouble(po_total));
+            //                cmd_mat_po.CommandType = CommandType.Text;
+            //                cmd_mat_po.ExecuteNonQuery();
+            //                break;
+
+            //            case "2"://Opex
+            //                string update_opex = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_OPEX] SET [QtyPO] = '" + po_qty + "' WHERE [PK] = '" + pk + "'";
+            //                SqlCommand cmd_opex = new SqlCommand(update_opex, conn);
+            //                cmd_opex.ExecuteNonQuery();
+
+            //                string insert_opex_po = "INSERT [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[ItemCode],[TaxGroup],[TaxItemGroup],[Qty],[Cost],[TotalCost]) VALUES (@ponumber, @code, @taxgroup, @taxitem, @poqty, @pocost, @pototal)";
+
+            //                SqlCommand cmd_opex_po = new SqlCommand(insert_opex_po, conn);
+            //                cmd_opex_po.Parameters.AddWithValue("@ponumber", POnumber.Text);
+            //                cmd_opex_po.Parameters.AddWithValue("@code", item_code);
+            //                cmd_opex_po.Parameters.AddWithValue("@taxgroup", taxgroup);
+            //                cmd_opex_po.Parameters.AddWithValue("@taxitem", taxitem);
+            //                cmd_opex_po.Parameters.AddWithValue("@poqty", Convert.ToDouble(po_qty));
+            //                cmd_opex_po.Parameters.AddWithValue("@pocost", Convert.ToDouble(po_cost));
+            //                cmd_opex_po.Parameters.AddWithValue("@pototal", Convert.ToDouble(po_total));
+            //                cmd_opex_po.CommandType = CommandType.Text;
+            //                cmd_opex_po.ExecuteNonQuery();
+            //                break;
+            //        }
+
+            //        conn.Close();
+            //        Server.Transfer("mrp_pocreation.aspx");
+            //    }
+            //    else
+            //    {
+            //        ItemsEmpty.HeaderText = "Alert";
+            //        ItemsEmptyLabel.Text = "Some selected items are empty";
+            //        ItemsEmpty.ShowOnPageLoad = true;
+            //    }
+            //}
+
             conn.Close();
-
-
-
         }
 
         protected void POAddEditGrid_RowValidating(object sender, DevExpress.Web.Data.ASPxDataValidationEventArgs e)
@@ -409,91 +511,43 @@ namespace HijoPortal
 
         protected void Send_Click(object sender, EventArgs e)
         {
-            List<object> selectedValues = POAddEditGrid.GetSelectedFieldValues(new string[] { "PK", "TableIdentifier", "MRPCategory", "Item", "Qty", "UOM", "Cost", "TotalCost", "POQty", "POCost", "POTotalCost", "TaxGroup", "TaxItemGroup" }) as List<object>;
 
-            if (selectedValues.Count == 0)
-            {
-                ItemsEmpty.HeaderText = "Alert";
-                ItemsEmptyLabel.Text = "No Selected Items";
-                ItemsEmpty.ShowOnPageLoad = true;
-            }
-
-            foreach (object[] obj in selectedValues)
-            {
-                string pk = obj[0].ToString();
-                string identifier = obj[1].ToString();
-                string category = obj[2].ToString();
-                string item = obj[3].ToString();
-                int slashIndex = item.IndexOf("/");
-                string item_code = item.Substring(0, slashIndex);
-                string qty = obj[4].ToString();
-                string uom = obj[5].ToString();
-                string cost = obj[6].ToString();
-                string total = obj[7].ToString();
-                string po_qty = obj[8].ToString();
-                string po_cost = obj[9].ToString();
-                string po_total = obj[10].ToString();
-                string taxgroup = obj[11].ToString();
-                string taxitem = obj[12].ToString();
-
-                if (!string.IsNullOrEmpty(pk) && !string.IsNullOrEmpty(identifier) && !string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(item) && !string.IsNullOrEmpty(qty) && !string.IsNullOrEmpty(uom) && !string.IsNullOrEmpty(cost) && !string.IsNullOrEmpty(total) && !string.IsNullOrEmpty(po_qty) && !string.IsNullOrEmpty(po_cost) && !string.IsNullOrEmpty(po_total) && !string.IsNullOrEmpty(taxgroup) && !string.IsNullOrEmpty(taxitem))
-                {
-                    SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-                    conn.Open();
-
-                    switch (identifier)
-                    {
-                        case "1"://Direct Materials
-                            string update_materials = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] SET [QtyPO] = '" + po_qty + "' WHERE [PK] = '" + pk + "'";
-                            SqlCommand cmd_mat = new SqlCommand(update_materials, conn);
-                            cmd_mat.ExecuteNonQuery();
-
-                            string insert_mat_po = "INSERT [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[ItemCode],[TaxGroup],[TaxItemGroup],[Qty],[Cost],[TotalCost]) VALUES (@ponumber, @code, @taxgroup, @taxitem, @poqty, @pocost, @pototal)";
-
-                            SqlCommand cmd_mat_po = new SqlCommand(insert_mat_po, conn);
-                            cmd_mat_po.Parameters.AddWithValue("@ponumber", POnumber.Text);
-                            cmd_mat_po.Parameters.AddWithValue("@code", item_code);
-                            cmd_mat_po.Parameters.AddWithValue("@taxgroup", taxgroup);
-                            cmd_mat_po.Parameters.AddWithValue("@taxitem", taxitem);
-                            cmd_mat_po.Parameters.AddWithValue("@poqty", Convert.ToDouble(po_qty));
-                            cmd_mat_po.Parameters.AddWithValue("@pocost", Convert.ToDouble(po_cost));
-                            cmd_mat_po.Parameters.AddWithValue("@pototal", Convert.ToDouble(po_total));
-                            cmd_mat_po.CommandType = CommandType.Text;
-                            cmd_mat_po.ExecuteNonQuery();
-                            break;
-
-                        case "2"://Opex
-                            string update_opex = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_OPEX] SET [QtyPO] = '" + po_qty + "' WHERE [PK] = '" + pk + "'";
-                            SqlCommand cmd_opex = new SqlCommand(update_opex, conn);
-                            cmd_opex.ExecuteNonQuery();
-
-                            string insert_opex_po = "INSERT [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[ItemCode],[TaxGroup],[TaxItemGroup],[Qty],[Cost],[TotalCost]) VALUES (@ponumber, @code, @taxgroup, @taxitem, @poqty, @pocost, @pototal)";
-
-                            SqlCommand cmd_opex_po = new SqlCommand(insert_opex_po, conn);
-                            cmd_opex_po.Parameters.AddWithValue("@ponumber", POnumber.Text);
-                            cmd_opex_po.Parameters.AddWithValue("@code", item_code);
-                            cmd_opex_po.Parameters.AddWithValue("@taxgroup", taxgroup);
-                            cmd_opex_po.Parameters.AddWithValue("@taxitem", taxitem);
-                            cmd_opex_po.Parameters.AddWithValue("@poqty", Convert.ToDouble(po_qty));
-                            cmd_opex_po.Parameters.AddWithValue("@pocost", Convert.ToDouble(po_cost));
-                            cmd_opex_po.Parameters.AddWithValue("@pototal", Convert.ToDouble(po_total));
-                            cmd_opex_po.CommandType = CommandType.Text;
-                            cmd_opex_po.ExecuteNonQuery();
-                            break;
-                    }
-
-                    conn.Close();
-                    Server.Transfer("mrp_pocreation.aspx");
-                }
-                else
-                {
-                    ItemsEmpty.HeaderText = "Alert";
-                    ItemsEmptyLabel.Text = "Some selected items are empty";
-                    ItemsEmpty.ShowOnPageLoad = true;
-                }
-            }
         }
 
-        
+        protected void DocNumber_Init(object sender, EventArgs e)
+        {
+            ASPxComboBox combo = sender as ASPxComboBox;
+            DataTable dtRecord = MRPClass.Master_MRP_List_DOCNUM();
+            combo.DataSource = dtRecord;
+
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "DocNumber";
+            l_ValueField.Caption = "MRP#";
+            l_ValueField.Width = 150;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "MRPMonth";
+            l_TextField.Caption = "Month/Year";
+            l_TextField.Width = 75;
+            combo.Columns.Add(l_TextField);
+
+            ListBoxColumn l_TextField2 = new ListBoxColumn();
+            l_TextField2.FieldName = "EntityCode";
+            l_TextField2.Caption = "Entity";
+            l_TextField2.Width = 150;
+            combo.Columns.Add(l_TextField2);
+
+            ListBoxColumn l_TextField3 = new ListBoxColumn();
+            l_TextField3.FieldName = "BUCode";
+            l_TextField3.Caption = "BU";
+            l_TextField3.Width = 250;
+            combo.Columns.Add(l_TextField3);
+
+            combo.ValueField = "DocNumber";
+            combo.TextField = "DocNumber";
+            combo.DataBind();
+            combo.TextFormatString = "{0}";
+        }
     }
 }
