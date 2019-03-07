@@ -1,5 +1,9 @@
 ﻿$(document).ready(function () {
 
+    $("#LogOut").click(function (e) {
+        PopupLogout.Show();
+    });
+
     changeWidth.resizeWidth();
 });
 

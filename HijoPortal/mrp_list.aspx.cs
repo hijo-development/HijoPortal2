@@ -40,6 +40,7 @@ namespace HijoPortal
         {
             if (Session["CreatorKey"] == null)
             {
+                MRPClass.PrintString(Page.IsCallback.ToString());
                 if (Page.IsCallback)
                     ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
                 else
@@ -61,7 +62,10 @@ namespace HijoPortal
 
         protected void MainTable_CustomButtonCallback(object sender, ASPxGridViewCustomButtonCallbackEventArgs e)
         {
-            CheckSessionExpire();
+            CheckCreatorKey();
+
+            if (Session["CreatorKey"] == null)
+                return;
 
             ASPxHiddenField text = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenVal") as ASPxHiddenField;
 
@@ -100,12 +104,12 @@ namespace HijoPortal
 
                         //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
 
-                        Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                        //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
-                        //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                        Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                         //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_finance.aspx?DocNum=" + docNum.ToString();
-                        //Response.RedirectLocation = "mrp_inventoryanalyst_forapproval.aspx?DocNum=" + docNum.ToString();
+                        //Response.RedirectLocation = "mrp_inventoryanalyst_forapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                         //Response.RedirectLocation = "mrp_capexcip.aspx?DocNum=" + docNum.ToString();
                     }
                 }
@@ -160,8 +164,8 @@ namespace HijoPortal
                 //msgTrans.Text = "Pass Preview";
                 //string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
 
-                //Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                 Response.RedirectLocation = "mrp_previewforapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                //Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
                 //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
                 //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
@@ -172,7 +176,7 @@ namespace HijoPortal
 
         protected void Add_Click(object sender, EventArgs e)
         {
-            CheckSessionExpire();
+            CheckCreatorKey();
 
             ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
@@ -212,7 +216,7 @@ namespace HijoPortal
         protected void BtnAdd_Click(object sender, EventArgs e)
         {
 
-            CheckSessionExpire();
+            CheckCreatorKey();
 
             if (Month.Value == null || Year.Value == null)
                 return;
@@ -470,21 +474,11 @@ namespace HijoPortal
             conn.Close();
         }
 
-        private void CheckSessionExpire()
-        {
-            if (Session["CreatorKey"] == null)
-            {
-                Response.Redirect("default.aspx");
-                return;
-            }
-        }
-
         protected void MainTable_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
         {
-            //MRPClass.PrintString("pass custom callback");
+            CheckCreatorKey();
             if (e.Parameters == "AddNew")
             {
-                CheckSessionExpire();
                 //ASPxHiddenField entText = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "ASPxHiddenFieldEnt") as ASPxHiddenField;
                 if (Session["EntityCode"].ToString().Trim() != "")
                 {

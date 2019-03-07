@@ -80,10 +80,12 @@ namespace HijoPortal
                                         sb.Append("<li>");
                                         sb.Append(row["MenuScript"].ToString());
                                         sb.Append("</li>");
+                                        
                                     }
                                 }
                             }
                             sb.Append("</ul>");
+                            System.Diagnostics.Debug.Write(sb.ToString());
                             dvSideNav.InnerHtml = sb.ToString();
                         }
                         dtable.Clear();

@@ -27,7 +27,6 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-
     <dx:ASPxPopupControl ID="MRPNotifyPrevApp" ClientInstanceName="MRPNotifyPrevApp" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -210,7 +209,7 @@
                                             Text='<%# Eval("ApprovedTotalCost") %>' />
                                     </td>
                                     <td>
-                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/Images/comment-black.png" Width="20px" Height="20px" />
+                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
                                     </td>
                                 </tr>
                                         
@@ -317,7 +316,7 @@
                                             Text='<%# Eval("ApprovedTotalCost") %>' />
                                     </td>
                                     <td>
-                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/Images/comment-black.png" Width="20px" Height="20px" />
+                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
                                     </td>
                                 </tr>
                             </ItemTemplate>
@@ -423,7 +422,7 @@
                                             Text='<%# Eval("ApprovedTotalCost") %>' />
                                     </td>
                                     <td>
-                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/Images/comment-black.png" Width="20px" Height="20px" />
+                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
                                     </td>
                                 </tr>
                             </ItemTemplate>
@@ -531,7 +530,7 @@
                                     <td>
 
                                         <%--<asp:LinkButton ID="LinkButton1" runat="server" CommandName="Link" EnableViewState="false">LinkButton</asp:LinkButton>--%>
-                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/Images/comment-black.png" Width="20px" Height="20px" />
+                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
                                     </td>
                                 </tr>
                             </ItemTemplate>

@@ -67,6 +67,33 @@ namespace HijoPortal {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSplitter;
         
         /// <summary>
+        /// PopupLogout control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl PopupLogout;
+        
+        /// <summary>
+        /// OK_LOGOUT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton OK_LOGOUT;
+        
+        /// <summary>
+        /// CANCEL_LOGOUT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton CANCEL_LOGOUT;
+        
+        /// <summary>
         /// ASPxSplitter1 control.
         /// </summary>
         /// <remarks>

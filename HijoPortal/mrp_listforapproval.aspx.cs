@@ -13,6 +13,7 @@ namespace HijoPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            CheckCreatorKey();
             if (!Page.IsPostBack) {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             }
@@ -33,6 +34,19 @@ namespace HijoPortal
                 string doc_number = ListForApprovalGrid.GetRowValues(ListForApprovalGrid.FocusedRowIndex, "DocNumber").ToString();
                 string work_line = ListForApprovalGrid.GetRowValues(ListForApprovalGrid.FocusedRowIndex, "WorkLine").ToString();
                 ASPxWebControl.RedirectOnCallback("mrp_inventoryanalyst_forapproval.aspx?DocNum=" + doc_number.ToString() + "&WrkFlwLn=" + work_line.ToString());
+            }
+        }
+
+        private void CheckCreatorKey()
+        {
+            if (Session["CreatorKey"] == null)
+            {
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
+                return;
             }
         }
     }

@@ -14,6 +14,7 @@ namespace HijoPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session["CreatorKey"] = null;
             txtUserName.Focus();
         }
 

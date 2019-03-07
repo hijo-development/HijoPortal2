@@ -327,6 +327,21 @@ namespace HijoPortal
             bindDM = false;
         }
 
+        protected void Submit_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void MRPList_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Preview_Click(object sender, EventArgs e)
+        {
+
+        }
+
         protected void DMGridApproval_DataBound(object sender, EventArgs e)
         {
             ASPxGridView grid = sender as ASPxGridView;
