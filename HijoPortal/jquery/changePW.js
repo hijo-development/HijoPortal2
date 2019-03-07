@@ -18,18 +18,23 @@ function GetPasswordRating(password) {
 }
 
 function GetErrorText(editor) {
-    if (editor === newPassword) {
+    if (editor === oldPasswordCH) {
+        if (oldPasswordCH.GetText() !== oldPasswordCHDB.GetText()) {
+            return "The old password you entered was invalid.";
+        }
+    } else if (editor === newPasswordCH) {
         if (ratingControlChangePW.GetValue() === 1)
-            return "The password is too simple";
-    } else if (editor === confirmPassword) {
-        if (newPassword.GetText() !== confirmPassword.GetText())
-            return "The password you entered do not match";
+            return "The password is too simple.";
+    } else if (editor === confirmPasswordCH) {
+        if (newPasswordCH.GetText() !== confirmPasswordCH.GetText()) {
+            return "The password you entered do not match.";
+        }
     }
     return "";
 }
 
 function ApplyCurrentPasswordRating() {
-    var password = newPassword.GetText();
+    var password = newPasswordCH.GetText();
     var passwordRating = GetPasswordRating(password);
     ApplyPasswordRating(passwordRating);
 }
