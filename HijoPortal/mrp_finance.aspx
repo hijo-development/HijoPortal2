@@ -84,9 +84,9 @@
                 </tr>
                 <tr>
                     <td colspan="7" style="text-align: right">
-                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" OnClick="Submit_Click" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
                         &nbsp
-                            <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                            <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" OnClick="Preview_Click" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
                     </td>
                 </tr>
             </table>

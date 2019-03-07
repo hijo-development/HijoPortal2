@@ -17,7 +17,6 @@ namespace HijoPortal
         private static string docnumber = "", entitycode = "";
         protected void Page_Load(object sender, EventArgs e)
         {
-
             CheckCreatorKey();
             if (!Page.IsPostBack)
             {
@@ -140,6 +139,16 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.VisibilityRevDesc(grid, entitycode);
+        }
+
+        protected void Submit_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Preview_Click(object sender, EventArgs e)
+        {
+
         }
 
         protected void CAGridFinance_DataBound(object sender, EventArgs e)

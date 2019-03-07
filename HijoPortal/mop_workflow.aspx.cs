@@ -28,7 +28,11 @@ namespace HijoPortal
         {
             if (Session["CreatorKey"] == null)
             {
-                Response.Redirect("default.aspx");
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
                 return;
             }
         }

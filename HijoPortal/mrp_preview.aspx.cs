@@ -1,4 +1,5 @@
-﻿using HijoPortal.classes;
+﻿using DevExpress.Web;
+using HijoPortal.classes;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -184,12 +185,8 @@ namespace HijoPortal
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //MRPClass.PrintString("Preview: docnumber load");
-            if (Session["CreatorKey"] == null)
-            {
-                Response.Redirect("login.aspx");
-                return;
-            }
+
+            CheckCreatorKey();
 
             ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
@@ -518,6 +515,20 @@ namespace HijoPortal
 
                 LogsPopup.HeaderText = "Comment";
                 LogsPopup.ShowOnPageLoad = true;
+            }
+        }
+
+        private void CheckCreatorKey()
+        {
+
+            if (Session["CreatorKey"] == null)
+            {
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
+                return;
             }
         }
 

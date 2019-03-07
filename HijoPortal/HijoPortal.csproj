@@ -104,6 +104,7 @@
     <Content Include="images\ID.jpg" />
     <Content Include="images\index.png" />
     <Content Include="images\mountain.jpg" />
+    <Content Include="images\pin.png" />
     <Content Include="images\Refresh.ico" />
     <Content Include="images\Save.ico" />
     <Content Include="images\Submit.ico" />

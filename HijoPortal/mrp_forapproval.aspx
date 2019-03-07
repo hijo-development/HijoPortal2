@@ -83,11 +83,11 @@
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right">
-                    <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                    <dx:ASPxButton ID="Submit" runat="server" OnClick="Submit_Click" Text="Submit" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
                     &nbsp
-                            <dx:ASPxButton ID="MRPList" runat="server" Text="MOP LIST" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                            <dx:ASPxButton ID="MRPList" runat="server" OnClick="MRPList_Click" Text="MOP LIST" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
                     &nbsp
-                            <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                            <dx:ASPxButton ID="Preview" runat="server" OnClick="Preview_Click" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
                 </td>
             </tr>
         </table>

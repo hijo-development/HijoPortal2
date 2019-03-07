@@ -1,4 +1,5 @@
-﻿using HijoPortal.classes;
+﻿using DevExpress.Web;
+using HijoPortal.classes;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -35,7 +36,6 @@ namespace HijoPortal
 
         private void HideHeader(object sender)
         {
-            MRPClass.PrintString("hideheader");
             if (entitycode != MRPClass.train_entity)
             {
                 ListView listview = sender as ListView;
@@ -80,13 +80,16 @@ namespace HijoPortal
         {
             if (e.CommandName == "Link")
             {
-                itemcommand = manstring;
+                itemcommand = matstring;
                 ListViewItem itemClicked = e.Item;
                 // Find Controls/Retrieve values from the item  here
-                Label c = (Label)itemClicked.FindControl("ManID");
-                PK_MAN = Convert.ToInt32(c.Text);
+                Label c = (Label)itemClicked.FindControl("MatID");
+                PK_MAT = Convert.ToInt32(c.Text);
 
-                string query = "SELECT [Remarks] FROM " + MRPClass.ManpowerTableLogs() + " WHERE MasterKey = '" + PK_MAN + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
+                string query = "SELECT [Remarks] FROM " + MRPClass.MaterialsTableLogs() + " WHERE MasterKey = '" + PK_MAT + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
+
+                MRPClass.PrintString("CreatorKey: " + Session["CreatorKey"].ToString());
+                MRPClass.PrintString("PK_MAT: " + PK_MAT.ToString());
 
                 SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
                 conn.Open();
@@ -102,6 +105,7 @@ namespace HijoPortal
 
                 if (empty)
                 {
+                    LogsMemo.Enabled = true;
                     LogsMemo.Text = "";
                     LogsMemo.Focus();
                 }
@@ -154,16 +158,13 @@ namespace HijoPortal
         {
             if (e.CommandName == "Link")
             {
-                itemcommand = matstring;
+                itemcommand = manstring;
                 ListViewItem itemClicked = e.Item;
                 // Find Controls/Retrieve values from the item  here
-                Label c = (Label)itemClicked.FindControl("MatID");
-                PK_MAT = Convert.ToInt32(c.Text);
+                Label c = (Label)itemClicked.FindControl("ManID");
+                PK_MAN = Convert.ToInt32(c.Text);
 
-                string query = "SELECT [Remarks] FROM " + MRPClass.MaterialsTableLogs() + " WHERE MasterKey = '" + PK_MAT + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
-
-                MRPClass.PrintString("CreatorKey: " + Session["CreatorKey"].ToString());
-                MRPClass.PrintString("PK_MAT: " + PK_MAT.ToString());
+                string query = "SELECT [Remarks] FROM " + MRPClass.ManpowerTableLogs() + " WHERE MasterKey = '" + PK_MAN + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
 
                 SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
                 conn.Open();
@@ -179,7 +180,6 @@ namespace HijoPortal
 
                 if (empty)
                 {
-                    LogsMemo.Enabled = true;
                     LogsMemo.Text = "";
                     LogsMemo.Focus();
                 }
@@ -266,7 +266,6 @@ namespace HijoPortal
             conn.Open();
             SqlCommand comm = new SqlCommand(query, conn);
             int count = Convert.ToInt32(comm.ExecuteScalar());
-            MRPClass.PrintString(tablename + PK + count + LogsMemo.Text);
             if (count > 0)//edit
             {
                 string update = "UPDATE " + tablename + " SET [Remarks] = @Remarks WHERE [MasterKey] = '" + PK + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
@@ -366,14 +365,15 @@ namespace HijoPortal
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            CheckCreatorKey();
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             if (!Page.IsPostBack)
             {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                
                 docnum = Request.Params["DocNum"].ToString();
 
                 DocNum.Text = Request.Params["DocNum"].ToString();
                 wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
-                MRPClass.PrintString("wrk:" + wrkflwln);
 
                 string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
                               " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
@@ -411,9 +411,10 @@ namespace HijoPortal
                 iStatusKey = MRPClass.MRP_Line_Status(mrp_key, wrkflwln);
                 StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
                 StatusHidden["hidden_preview_wrkflwln"] = wrkflwln;
+                BindAll();
             }
 
-            BindAll();
+
         }
 
         private void BindAll()
@@ -439,8 +440,22 @@ namespace HijoPortal
             CapexListview.DataSource = MRPClass.MRPApproval_CAPEX(docnum, entitycode);
             CapexListview.DataBind();
             TotalAmountTD.InnerText = MRPClass.capex_total().ToString("N");
-            ETotalAmountTD.InnerText = MRPClass.manpower_total().ToString("N");
-            ATotalAmountTD.InnerText = MRPClass.manpower_total().ToString("N");
+            ETotalAmountTD.InnerText = MRPClass.capex_edited_total().ToString("N");
+            ATotalAmountTD.InnerText = MRPClass.capex_approved_total().ToString("N");
+        }
+
+        private void CheckCreatorKey()
+        {
+
+            if (Session["CreatorKey"] == null)
+            {
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
+                return;
+            }
         }
     }
 }
