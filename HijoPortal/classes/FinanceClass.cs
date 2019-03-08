@@ -81,12 +81,15 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("EffectDate", typeof(string));
                 dtTable.Columns.Add("UserKey", typeof(string));
                 dtTable.Columns.Add("UserCompleteName", typeof(string));
+                dtTable.Columns.Add("StatusKey", typeof(string));
+                dtTable.Columns.Add("StatusDesc", typeof(string));
                 dtTable.Columns.Add("LastModified", typeof(string));
             }
 
             string qry = "SELECT dbo.tbl_System_FinanceInventoryOfficer.PK, dbo.tbl_System_FinanceInventoryOfficer.Ctrl, " +
                          " dbo.tbl_System_FinanceInventoryOfficer.EffectDate, dbo.tbl_System_FinanceInventoryOfficer.UserKey, " +
-                         " dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname, dbo.tbl_System_FinanceInventoryOfficer.LastModified " +
+                         " dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname, dbo.tbl_System_FinanceInventoryOfficer.LastModified, " +
+                         " dbo.tbl_System_FinanceInventoryOfficer.StatusKey " +
                          " FROM dbo.tbl_System_FinanceInventoryOfficer LEFT OUTER JOIN " +
                          " dbo.tbl_Users ON dbo.tbl_System_FinanceInventoryOfficer.UserKey = dbo.tbl_Users.PK";
             cmd = new SqlCommand(qry);
@@ -103,6 +106,15 @@ namespace HijoPortal.classes
                     dtRow["EffectDate"] = Convert.ToDateTime(row["EffectDate"]).ToString("MM/dd/yyyy");
                     dtRow["UserKey"] = row["UserKey"].ToString();
                     dtRow["UserCompleteName"] = EncryptionClass.Decrypt(row["Lastname"].ToString()) + ",  " + EncryptionClass.Decrypt(row["Firstname"].ToString());
+                    dtRow["StatusKey"] = row["StatusKey"].ToString();
+                    if (Convert.ToInt32(row["StatusKey"]) == 1)
+                    {
+                        dtRow["StatusDesc"] = "Active";
+                    }
+                    else
+                    {
+                        dtRow["StatusDesc"] = "Inactive";
+                    }
                     dtRow["LastModified"] = row["LastModified"].ToString();
                     dtTable.Rows.Add(dtRow);
                 }
@@ -132,12 +144,15 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("EffectDate", typeof(string));
                 dtTable.Columns.Add("UserKey", typeof(string));
                 dtTable.Columns.Add("UserCompleteName", typeof(string));
+                dtTable.Columns.Add("StatusKey", typeof(string));
+                dtTable.Columns.Add("StatusDesc", typeof(string));
                 dtTable.Columns.Add("LastModified", typeof(string));
             }
 
             string qry = "SELECT dbo.tbl_System_FinanceHead.PK, dbo.tbl_System_FinanceHead.Ctrl, " +
                          " dbo.tbl_System_FinanceHead.EffectDate, dbo.tbl_System_FinanceHead.UserKey, " +
-                         " dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname, dbo.tbl_System_FinanceHead.LastModified " +
+                         " dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname, dbo.tbl_System_FinanceHead.LastModified," +
+                         " dbo.tbl_System_FinanceHead.StatusKey " +
                          " FROM dbo.tbl_System_FinanceHead LEFT OUTER JOIN " +
                          " dbo.tbl_Users ON dbo.tbl_System_FinanceHead.UserKey = dbo.tbl_Users.PK";
             cmd = new SqlCommand(qry);
@@ -154,6 +169,15 @@ namespace HijoPortal.classes
                     dtRow["EffectDate"] = Convert.ToDateTime(row["EffectDate"]).ToString("MM/dd/yyyy");
                     dtRow["UserKey"] = row["UserKey"].ToString();
                     dtRow["UserCompleteName"] = EncryptionClass.Decrypt(row["Lastname"].ToString()) + ",  " + EncryptionClass.Decrypt(row["Firstname"].ToString());
+                    dtRow["StatusKey"] = row["StatusKey"].ToString();
+                    if (Convert.ToInt32(row["StatusKey"]) == 1)
+                    {
+                        dtRow["StatusDesc"] = "Active";
+                    }
+                    else
+                    {
+                        dtRow["StatusDesc"] = "Inactive";
+                    }
                     dtRow["LastModified"] = row["LastModified"].ToString();
                     dtTable.Rows.Add(dtRow);
                 }
@@ -183,12 +207,15 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("EffectDate", typeof(string));
                 dtTable.Columns.Add("UserKey", typeof(string));
                 dtTable.Columns.Add("UserCompleteName", typeof(string));
+                dtTable.Columns.Add("StatusKey", typeof(string));
+                dtTable.Columns.Add("StatusDesc", typeof(string));
                 dtTable.Columns.Add("LastModified", typeof(string));
             }
 
             string qry = "SELECT dbo.tbl_System_FinanceBudget.PK, dbo.tbl_System_FinanceBudget.Ctrl, " +
                          " dbo.tbl_System_FinanceBudget.EffectDate, dbo.tbl_System_FinanceBudget.UserKey, " +
-                         " dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname, dbo.tbl_System_FinanceBudget.LastModified " +
+                         " dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname, dbo.tbl_System_FinanceBudget.LastModified, " +
+                         " dbo.tbl_System_FinanceBudget.StatusKey " +
                          " FROM dbo.tbl_System_FinanceBudget LEFT OUTER JOIN " +
                          " dbo.tbl_Users ON dbo.tbl_System_FinanceBudget.UserKey = dbo.tbl_Users.PK";
             cmd = new SqlCommand(qry);
@@ -205,6 +232,15 @@ namespace HijoPortal.classes
                     dtRow["EffectDate"] = Convert.ToDateTime(row["EffectDate"]).ToString("MM/dd/yyyy");
                     dtRow["UserKey"] = row["UserKey"].ToString();
                     dtRow["UserCompleteName"] = EncryptionClass.Decrypt(row["Lastname"].ToString()) + ",  " + EncryptionClass.Decrypt(row["Firstname"].ToString());
+                    dtRow["StatusKey"] = row["StatusKey"].ToString();
+                    if (Convert.ToInt32(row["StatusKey"]) == 1)
+                    {
+                        dtRow["StatusDesc"] = "Active";
+                    }
+                    else
+                    {
+                        dtRow["StatusDesc"] = "Inactive";
+                    }
                     dtRow["LastModified"] = row["LastModified"].ToString();
                     dtTable.Rows.Add(dtRow);
                 }

@@ -18,8 +18,11 @@ namespace HijoPortal
         private static bool bindProcOffList = true;
         private static bool bindProcCatList = true;
         private static string sHeadKey = "";
+        private static string sHeadStatusKey = "";
         private static string sInventAnalKey = "";
+        private static string sInventAnalStatusKey = "";
         private static string sProcOffKey = "";
+        private static string sStatusKey = "";
         private static string sProcCatMasterKey = "";
         private static string sProcCatCode = "";
 
@@ -169,6 +172,7 @@ namespace HijoPortal
         {
             bindHeadList = false;
             sHeadKey = "";
+            sHeadStatusKey = "";
             //ASPxGridView grid = sender as ASPxGridView;
             //ASPxDateEdit effectDate = grid.FindEditFormTemplateControl("EffectDate") as ASPxDateEdit;
             //ASPxTextBox lastModified = grid.FindEditFormTemplateControl("ASPxLastModifiedTextBox") as ASPxTextBox;
@@ -188,6 +192,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdSCMHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMHead.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
             ASPxComboBox scmHead = grdSCMHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMHead.Columns["UserCompleteName"], "SCMHead") as ASPxComboBox;
+            ASPxComboBox scmHeadStatus = grdSCMHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMHead.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sCtrlNum = GlobalClass.GetControl_DocNum("SCM_Head", Convert.ToDateTime(effectDate.Value.ToString()));
             string sLastModified = DateTime.Now.ToString();
@@ -195,13 +200,14 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO tbl_System_SCMHead ([Ctrl], [EffectDate], [UserKey], [LastModified]) " +
-                            " VALUES (@Ctrl, @EffectDate, @UserKey, @LastModified)";
+            string insert = "INSERT INTO tbl_System_SCMHead ([Ctrl], [EffectDate], [UserKey], [StatusKey], [LastModified]) " +
+                            " VALUES (@Ctrl, @EffectDate, @UserKey, @StatusKey, @LastModified)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@Ctrl", sCtrlNum);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@UserKey", scmHead.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", scmHeadStatus.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -229,6 +235,7 @@ namespace HijoPortal
         {
             bindHeadList = false;
             sHeadKey = grdSCMHead.GetRowValues(grdSCMHead.FocusedRowIndex, "UserKey").ToString();
+            sHeadStatusKey = grdSCMHead.GetRowValues(grdSCMHead.FocusedRowIndex, "StatusKey").ToString();
         }
 
         protected void grdSCMHead_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
@@ -236,6 +243,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdSCMHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMHead.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
             ASPxComboBox scmHead = grdSCMHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMHead.Columns["UserCompleteName"], "SCMHead") as ASPxComboBox;
+            ASPxComboBox scmHeadStatus = grdSCMHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMHead.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sLastModified = DateTime.Now.ToString();
             string PK = e.Keys[0].ToString();
@@ -246,6 +254,7 @@ namespace HijoPortal
             string update_MRP = "UPDATE tbl_System_SCMHead " +
                                 " SET [EffectDate] = @EffectDate, " +
                                 " [UserKey]= @BUHead, " +
+                                " [StatusKey] = @StatusKey, " +
                                 " [LastModified] = @LastModified " +
                                 " WHERE [PK] = @PK";
 
@@ -253,6 +262,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@BUHead", scmHead.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", scmHeadStatus.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -307,6 +317,7 @@ namespace HijoPortal
         {
             bindInventAnalList = false;
             sInventAnalKey = "";
+            sInventAnalStatusKey = "";
             //ASPxGridView grid = sender as ASPxGridView;
             //ASPxDateEdit effectDate = grid.FindEditFormTemplateControl("EffectDate") as ASPxDateEdit;
             //ASPxTextBox lastModified = grid.FindEditFormTemplateControl("ASPxLastModifiedTextBox") as ASPxTextBox;
@@ -324,6 +335,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdSCMInventoryAnal.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMInventoryAnal.Columns["EffectDate"], "EffectDateAnal") as ASPxDateEdit;
             ASPxComboBox scmInventAnal = grdSCMInventoryAnal.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMInventoryAnal.Columns["UserCompleteName"], "InventoryAnal") as ASPxComboBox;
+            ASPxComboBox scmInventAnalStatus = grdSCMInventoryAnal.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMInventoryAnal.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sCtrlNum = GlobalClass.GetControl_DocNum("SCM_InventAnal", Convert.ToDateTime(effectDate.Value.ToString()));
             string sLastModified = DateTime.Now.ToString();
@@ -331,13 +343,14 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO tbl_System_SCMInventoryAnalyst ([Ctrl], [EffectDate], [UserKey], [LastModified]) " +
-                            " VALUES (@Ctrl, @EffectDate, @UserKey, @LastModified)";
+            string insert = "INSERT INTO tbl_System_SCMInventoryAnalyst ([Ctrl], [EffectDate], [UserKey], [StatusKey] [LastModified]) " +
+                            " VALUES (@Ctrl, @EffectDate, @UserKey, @StatusKey, @LastModified)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@Ctrl", sCtrlNum);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@UserKey", scmInventAnal.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", scmInventAnalStatus.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -365,6 +378,7 @@ namespace HijoPortal
         {
             bindInventAnalList = false;
             sInventAnalKey = grdSCMInventoryAnal.GetRowValues(grdSCMInventoryAnal.FocusedRowIndex, "UserKey").ToString();
+            sInventAnalStatusKey = grdSCMInventoryAnal.GetRowValues(grdSCMInventoryAnal.FocusedRowIndex, "StatusKey").ToString();
         }
 
         protected void grdSCMInventoryAnal_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
@@ -372,6 +386,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdSCMInventoryAnal.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMInventoryAnal.Columns["EffectDate"], "EffectDateAnal") as ASPxDateEdit;
             ASPxComboBox scmInventAnal = grdSCMInventoryAnal.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMInventoryAnal.Columns["UserCompleteName"], "InventoryAnal") as ASPxComboBox;
+            ASPxComboBox scmInventAnalStatus = grdSCMInventoryAnal.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMInventoryAnal.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sLastModified = DateTime.Now.ToString();
             string PK = e.Keys[0].ToString();
@@ -382,6 +397,7 @@ namespace HijoPortal
             string update_MRP = "UPDATE tbl_System_SCMInventoryAnalyst " +
                                 " SET [EffectDate] = @EffectDate, " +
                                 " [UserKey]= @BUHead, " +
+                                " [StatusKey] = @StatusKey, " +
                                 " [LastModified] = @LastModified " +
                                 " WHERE [PK] = @PK";
 
@@ -389,6 +405,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@BUHead", scmInventAnal.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", scmInventAnalStatus.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -442,6 +459,7 @@ namespace HijoPortal
         {
             bindProcOffList = false;
             sProcOffKey = "";
+            sStatusKey = "";
 
             ASPxLabel ctrlNum = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["Ctrl"], "ASPxCtrlTextBoxProcOff") as ASPxLabel;
             ASPxDateEdit effectDate = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["EffectDate"], "EffectDateProcOff") as ASPxDateEdit;
@@ -457,6 +475,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["EffectDate"], "EffectDateProcOff") as ASPxDateEdit;
             ASPxComboBox scmProfOff = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["UserCompleteName"], "ProcurementOff") as ASPxComboBox;
+            ASPxComboBox scmStatus = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sCtrlNum = GlobalClass.GetControl_DocNum("SCM_ProcOff", Convert.ToDateTime(effectDate.Value.ToString()));
             string sLastModified = DateTime.Now.ToString();
@@ -464,13 +483,14 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO tbl_System_SCMProcurementOfficer ([Ctrl], [EffectDate], [UserKey], [LastModified]) " +
-                            " VALUES (@Ctrl, @EffectDate, @UserKey, @LastModified)";
+            string insert = "INSERT INTO tbl_System_SCMProcurementOfficer ([Ctrl], [EffectDate], [UserKey], [StatusKey], [LastModified]) " +
+                            " VALUES (@Ctrl, @EffectDate, @UserKey, @StatusKey, @LastModified)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@Ctrl", sCtrlNum);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@UserKey", scmProfOff.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", scmStatus.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -498,6 +518,7 @@ namespace HijoPortal
         {
             bindProcOffList = false;
             sProcOffKey = grdSCMProcurementOff.GetRowValues(grdSCMProcurementOff.FocusedRowIndex, "UserKey").ToString();
+            sStatusKey = grdSCMProcurementOff.GetRowValues(grdSCMProcurementOff.FocusedRowIndex, "StatusKey").ToString();
         }
 
         protected void grdSCMProcurementOff_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
@@ -505,6 +526,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["EffectDate"], "EffectDateProcOff") as ASPxDateEdit;
             ASPxComboBox scmProfOff = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["UserCompleteName"], "ProcurementOff") as ASPxComboBox;
+            ASPxComboBox scmStatus = grdSCMProcurementOff.FindEditRowCellTemplateControl((GridViewDataColumn)grdSCMProcurementOff.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sLastModified = DateTime.Now.ToString();
             string PK = e.Keys[0].ToString();
@@ -515,6 +537,7 @@ namespace HijoPortal
             string update_MRP = "UPDATE tbl_System_SCMProcurementOfficer " +
                                 " SET [EffectDate] = @EffectDate, " +
                                 " [UserKey]= @BUHead, " +
+                                " [StatusKey] = @StatusKey, " +
                                 " [LastModified] = @LastModified " +
                                 " WHERE [PK] = @PK";
 
@@ -522,6 +545,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@BUHead", scmProfOff.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", scmStatus.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -808,6 +832,81 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.SetBehaviorGrid(grid);
+        }
+
+        protected void Status_Init(object sender, EventArgs e)
+        {
+            DataTable dtRecord = AccountClass.UserStatusTable();
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "CODE";
+            l_ValueField.Width = 0;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            l_TextField.Caption = "STATUS";
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+
+            combo.Value = sStatusKey.ToString();
+
+        }
+
+        protected void InventAnalStatus_Init(object sender, EventArgs e)
+        {
+            DataTable dtRecord = AccountClass.UserStatusTable();
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "CODE";
+            l_ValueField.Width = 0;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            l_TextField.Caption = "STATUS";
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+
+            combo.Value = sInventAnalStatusKey.ToString();
+
+        }
+
+        protected void SCMHeadStatus_Init(object sender, EventArgs e)
+        {
+            DataTable dtRecord = AccountClass.UserStatusTable();
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "CODE";
+            l_ValueField.Width = 0;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            l_TextField.Caption = "STATUS";
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+
+            combo.Value = sHeadStatusKey.ToString();
+
         }
     }
 }

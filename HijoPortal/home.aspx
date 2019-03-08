@@ -30,7 +30,7 @@
                 <dx:ASPxGridView ID="HomeGrid" runat="server" Theme="Office2010Blue" Width="100%">
                     <Columns>
                         <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
-                        <dx:GridViewDataHyperLinkColumn FieldName="DocNumber" Width="200px">
+                        <dx:GridViewDataHyperLinkColumn FieldName="DocNumber" Width="140px">
                             <DataItemTemplate>
                                 <dx:ASPxHyperLink OnInit="DocNumBtn_Init" ID="DocNumBtn" runat="server" Text='<%#Eval("DocNumber")%>' Theme="Office2010Blue">
                                 </dx:ASPxHyperLink>

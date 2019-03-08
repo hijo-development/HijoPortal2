@@ -85,13 +85,13 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
         
         /// <summary>
-        /// PopupSubmit control.
+        /// PopupSubmitMRPList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPopupControl PopupSubmit;
+        protected global::DevExpress.Web.ASPxPopupControl PopupSubmitMRPList;
         
         /// <summary>
         /// OK_SUBMIT control.

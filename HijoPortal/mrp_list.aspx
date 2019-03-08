@@ -44,7 +44,7 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="PopupSubmit" ClientInstanceName="PopupSubmit" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="PopupSubmitMRPList" ClientInstanceName="PopupSubmitMRPList" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <table style="width: 100%;" border="0">
@@ -55,11 +55,11 @@
                     </tr>
                     <tr>
                         <td style="text-align: right;">
-                            <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Office2010Blue" AutoPostBack="false">
+                            <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Office2010Blue" AutoPostBack="false" OnClick="OK_SUBMIT_Click">
                                 <%--<ClientSideEvents Click="OK_DELETE" />--%>
                             </dx:ASPxButton>
                             <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
-                                <ClientSideEvents Click="function(s,e){PopupSubmit.Hide();}" />
+                                <ClientSideEvents Click="function(s,e){PopupSubmitMRPList.Hide();}" />
                             </dx:ASPxButton>
                         </td>
                     </tr>
@@ -106,7 +106,7 @@
 
                     </dx:GridViewCommandColumn>
                     <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="DocNumber" Caption="MRP Number" VisibleIndex="2" SortOrder="Descending"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="DocNumber" Caption="MRP Number" VisibleIndex="2" SortOrder="Descending" Width="140px" ></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="EntityCode" Visible="false" VisibleIndex="3"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity" VisibleIndex="4"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="BUCode" Visible="false" VisibleIndex="5"></dx:GridViewDataColumn>

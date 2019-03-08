@@ -5,7 +5,7 @@
     <div id="dvContentWrapper" runat="server" class ="ContentWrapper">
         <div id="dvHeader" style="height: 30px;">
             <h1>M O P  List (Inventory Analyst)</h1>
-            <asp:Label ID="msgTrans" runat="server" Visible="false"></asp:Label>
+            <%--<asp:Label ID="msgTrans" runat="server" Visible="false"></asp:Label>--%>
         </div>
         <div>
             <dx:ASPxGridView ID="grdMRPListInventAnalyst" ClientInstanceName="grdMRPListInventAnalystDirect" runat="server" 
@@ -19,7 +19,7 @@
                         </CustomButtons>
                     </dx:GridViewCommandColumn>
                     <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="DocNumber" Caption="MRP Number" VisibleIndex="2" SortOrder="Descending"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="DocNumber" Caption="MRP Number" VisibleIndex="2" Width="140px" SortOrder="Descending"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity" VisibleIndex="3"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="BU / Department" VisibleIndex="4"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month" VisibleIndex="5"></dx:GridViewDataColumn>

@@ -35,6 +35,30 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
+    <dx:ASPxPopupControl ID="PopupSubmitAppPreview" ClientInstanceName="PopupSubmitAppPreview" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <table style="width: 100%;" border="0">
+                    <tr>
+                        <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
+                            <dx:ASPxLabel runat="server" Text="Are you sure you want to submit this document?" Theme="Office2010Blue"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Office2010Blue" OnClick="Submit_Click" AutoPostBack="false">
+                                <%--<ClientSideEvents Click="OK_DELETE" />--%>
+                            </dx:ASPxButton>
+                            <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                                <ClientSideEvents Click="function(s,e){PopupSubmitAppPreview.Hide();}" />
+                            </dx:ASPxButton>
+                        </td>
+                    </tr>
+                </table>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 150px; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
             <h1>M R P  Preview</h1>
@@ -51,7 +75,8 @@
                         <div style="display: none;">
                             <dx:ASPxHiddenField ID="StatusHidden" runat="server" ClientInstanceName="StatusHiddenPrevApp"></dx:ASPxHiddenField>
                         </div>
-                        <dx:ASPxButton ID="Submit" runat="server" Text="Approved" AutoPostBack="false" Theme="Office2010Blue" OnClick="Submit_Click">
+                        <%--OnClick="Submit_Click"--%>
+                        <dx:ASPxButton ID="Submit" runat="server" Text="Approved" AutoPostBack="false" Theme="Office2010Blue">
                             <ClientSideEvents Click="PreviewForApproval_Submit_Click" />
                         </dx:ASPxButton>
                     </td>
@@ -208,7 +233,7 @@
                                         <asp:Label ID="Label6" runat="server"
                                             Text='<%# Eval("ApprovedTotalCost") %>' />
                                     </td>
-                                    <td>
+                                    <td style="text-align:right; ">
                                         <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
                                     </td>
                                 </tr>
@@ -315,7 +340,7 @@
                                         <asp:Label ID="Label6" runat="server"
                                             Text='<%# Eval("ApprovedTotalCost") %>' />
                                     </td>
-                                    <td>
+                                    <td style="text-align:right; ">
                                         <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
                                     </td>
                                 </tr>
@@ -421,7 +446,7 @@
                                         <asp:Label ID="Label6" runat="server"
                                             Text='<%# Eval("ApprovedTotalCost") %>' />
                                     </td>
-                                    <td>
+                                    <td style="text-align:right; ">
                                         <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
                                     </td>
                                 </tr>
@@ -527,7 +552,7 @@
                                         <asp:Label ID="Label6" runat="server"
                                             Text='<%# Eval("ApprovedTotalCost") %>' />
                                     </td>
-                                    <td>
+                                    <td style="text-align:right; ">
 
                                         <%--<asp:LinkButton ID="LinkButton1" runat="server" CommandName="Link" EnableViewState="false">LinkButton</asp:LinkButton>--%>
                                         <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
@@ -603,7 +628,7 @@
                                         <asp:Label ID="RevTotalPrize" runat="server"
                                             Text='<%# Eval("TotalPrize") %>' />
                                     </td>
-                                    <td>
+                                    <td style="text-align:right; ">
 
                                         <%--<asp:LinkButton ID="LinkButton1" runat="server" CommandName="Link" EnableViewState="false">LinkButton</asp:LinkButton>
                                         <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/Images/comment-black.png" Width="20px" Height="20px" />

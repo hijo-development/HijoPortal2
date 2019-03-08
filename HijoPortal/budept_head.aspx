@@ -16,7 +16,7 @@
                 OnRowInserting="BUDeptListGrid_RowInserting"
                 OnRowDeleting="BUDeptListGrid_RowDeleting"
                 OnStartRowEditing="BUDeptListGrid_StartRowEditing"
-                OnRowUpdating="BUDeptListGrid_RowUpdating" 
+                OnRowUpdating="BUDeptListGrid_RowUpdating"
                 OnBeforeGetCallbackResult="BUDeptListGrid_BeforeGetCallbackResult">
                 <SettingsBehavior AllowSort="true" SortMode="Value" />
 
@@ -31,6 +31,8 @@
                     <dx:GridViewDataColumn FieldName="BUDeptCodeDesc" Caption="BU / Department" VisibleIndex="7"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="UserKey" Visible="false" VisibleIndex="8"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="UserCompleteName" Caption="Head" VisibleIndex="9"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="10"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="StatusDesc" Caption="Status" VisibleIndex="11"></dx:GridViewDataColumn>
                 </Columns>
 
                 <SettingsCommandButton>
@@ -112,10 +114,25 @@
                                                         </td>
                                                         <td>:</td>
                                                         <td style="padding: 3px 2px 3px;">
-                                                            <dx:ASPxDateEdit ID="EffectDate" ClientInstanceName="EffectDateHeadDirect" runat="server" Value='<%#Eval("EffectDate")%>' Theme="Office2010Blue" AllowUserInput="false"
-                                                                ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true">
-                                                                <ClientSideEvents GotFocus="function(s, e) { s.ShowDropDown(); }" />
-                                                            </dx:ASPxDateEdit>
+                                                            <table style="width:100%;" cellpadding="0" >
+                                                                <tr>
+                                                                    <td style="width:35%;">
+                                                                        <dx:ASPxDateEdit ID="EffectDate" ClientInstanceName="EffectDateHeadDirect" runat="server" Value='<%#Eval("EffectDate")%>' Theme="Office2010Blue" AllowUserInput="false"
+                                                                            ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
+                                                                            <ClientSideEvents GotFocus="function(s, e) { s.ShowDropDown(); }" />
+                                                                        </dx:ASPxDateEdit>
+                                                                    </td>
+                                                                    <td style="width:20%; text-align:right;">
+                                                                        <dx:ASPxLabel runat="server" Text="Status : " Theme="Office2010Blue" Width="100%" />
+                                                                    </td>
+                                                                    <td style="width:35%;">
+                                                                        <dx:ASPxComboBox ID="BUHeadStatus" runat="server" ClientInstanceName="BUHeadStatusDirect" OnInit="BUHeadStatus_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
+                                                                            ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
+                                                                            <ClientSideEvents SelectedIndexChanged="" />
+                                                                        </dx:ASPxComboBox>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
                                                         </td>
                                                         <td></td>
                                                     </tr>
