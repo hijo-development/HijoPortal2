@@ -16,32 +16,32 @@
         <div style="background-color: #fff">
             <div id="dvHeaderPO" style="height: auto; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
                 <h1>List of AUTO PO</h1>
-                <table border="1" style="width: 100%;">
+                <table border="0" style="width: 100%;">
                     <tr>
-                        <td style="width: 20%;">
+                        <td>
                             <dx:ASPxLabel runat="server" Text="DocNumber #" Theme="Office2010Blue"></dx:ASPxLabel>
                         </td>
                         <td>:</td>
-                        <td>
+                        <td style="width: 20%;">
                             <dx:ASPxComboBox ID="DocNumber" runat="server" ClientInstanceName="PODocNumber" OnInit="DocNumber_Init" ValueType="System.String" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="ImageWithText"
                                 ValidationSettings-RequiredField-IsRequired="true">
                                 <ClientSideEvents SelectedIndexChanged="PODocNumber_SelectedIndexChanged" />
                             </dx:ASPxComboBox>
                         </td>
-                        <td style="width: 20%;">
+                        <td>
                             <dx:ASPxLabel runat="server" Text="Expected Delivery" Theme="Office2010Blue"></dx:ASPxLabel>
                             <label class="asterisk">*</label>
                         </td>
                         <td>:</td>
-                        <td>
+                        <td style="width: 20%;">
                             <dx:ASPxDateEdit ID="ExpDelivery" runat="server" ClientInstanceName="POExpDelivery" Theme="Office2010Blue" AllowUserInput="false"
                                 ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                 <ClientSideEvents GotFocus="function(s, e) { s.ShowDropDown(); }" />
                             </dx:ASPxDateEdit>
                         </td>
+                        <td></td>
+                        <td></td>
                         <td style="width: 20%;"></td>
-                        <td></td>
-                        <td></td>
                     </tr>
                     <tr>
                         <td>

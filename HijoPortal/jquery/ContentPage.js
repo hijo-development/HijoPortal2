@@ -2361,7 +2361,7 @@ function PreviewForApproval_Submit_Click(s, e) {
     }
 }
 
-
+//mrp_poaddedit.aspx
 function PODocNumber_SelectedIndexChanged(s, e) {
     if (PODocNumber.GetText().length > 0) {
         POExpDelivery.SetEnabled(true);
@@ -2374,6 +2374,58 @@ function PODocNumber_SelectedIndexChanged(s, e) {
         POProCategory.SetEnabled(true);
         POAddEditGrid.PerformCallback();
     }
-
 }
+
+//mrp_pocreatededit.aspx
+function itemcode_SelectedIndexChanged(s, e) {
+
+    var qty = s.GetSelectedItem().GetColumnText("Qty").toString();
+    var cost = s.GetSelectedItem().GetColumnText("Cost").toString();
+    var total = s.GetSelectedItem().GetColumnText("TotalCost").toString();
+
+    POCreatedQty.SetText(qty);
+    POCreatedCost.SetText(cost);
+    POCreatedTotal.SetText(total);
+
+    localStorage.setItem('AvailPO', qty);
+}
+
+function POCreatedQty_KeyUp(s, e) {
+    //var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var qty = parseFloat(POCreatedQty.GetText()).toFixed(2);
+    var avail_qty = parseFloat(localStorage.getItem('AvailPO')).toFixed(2);
+    var cost = parseFloat(accounting.unformat(POCreatedCost.GetText()));
+    var total = 0;
+    if (Math.round(POCreatedQty.GetText()) <= Math.round(localStorage.getItem('AvailPO'))) {
+        if (qty > 0) {
+            if (cost > 0) {
+                total = cost * qty;
+                POCreatedTotal.SetText(parseFloat(total).toFixed(2));
+            }
+        } else {
+            POCreatedTotal.SetText("");
+        }
+    } else {
+        s.SetText(avail_qty);
+        if (cost > 0) {
+            total = cost * avail_qty;
+            POCreatedTotal.SetText(parseFloat(total).toFixed(2));
+        }
+    }
+}
+
+function POCreatedCost_KeyUp(s, e) {
+    var cost = parseFloat(s.GetText()).toFixed(2);
+    var qty = accounting.unformat(POCreatedQty.GetText());
+    var total = 0;
+    if (qty > 0) {
+        if (cost > 0) {
+            total = cost * qty;
+            POCreatedTotal.SetText(parseFloat(total).toFixed(2));
+        }
+    } else {
+        POCreatedTotal.SetText("");
+    }
+}
+
 

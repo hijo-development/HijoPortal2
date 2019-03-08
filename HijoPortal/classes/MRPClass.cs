@@ -2292,6 +2292,11 @@ namespace HijoPortal.classes
             return "[hijo_portal].[dbo].[tbl_POCreation]";
         }
 
+        public static string POCreationTableName()
+        {
+            return "[hijo_portal].[dbo].[tbl_POCreation_Details]";
+        }
+
         public static string DocNumberTableName()
         {
             return "[hijo_portal].[dbo].[tbl_DocumentNumber]";
@@ -3313,6 +3318,141 @@ namespace HijoPortal.classes
             dtable.Clear();
             conn.Close();
             return aprvLineStat;
+        }
+
+        public static DataTable PO_ItemCodes()
+        {
+            DataTable dtTable = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp, adp2;
+            DataTable dtable = new DataTable();
+            DataTable dtable2 = new DataTable();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("TableIdentifier", typeof(string));
+                dtTable.Columns.Add("ItemCode", typeof(string));
+                dtTable.Columns.Add("Description", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+                dtTable.Columns.Add("Type", typeof(string));
+            }
+            dtTable.Clear();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+            string qry = "SELECT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.UOM, dbo.tbl_MRP_List_OPEX.ApprovedCost, dbo.tbl_MRP_List_OPEX.AvailForPO FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum WHERE(dbo.tbl_MRP_List.DocNumber = '0000-0119MRP-000019') AND(dbo.tbl_MRP_List_OPEX.AvailForPO > '0')";
+
+            string qry2 = "SELECT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.UOM, dbo.tbl_MRP_List_DirectMaterials.ApprovedCost, dbo.tbl_MRP_List_DirectMaterials.AvailForPO FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum WHERE(dbo.tbl_MRP_List.DocNumber = '0000-0119MRP-000019') AND (dbo.tbl_MRP_List_DirectMaterials.AvailForPO > '0')";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtable.Rows)
+                {
+                    DataRow rowAdd = dtTable.NewRow();
+                    rowAdd["PK"] = row["PK"].ToString();
+                    rowAdd["TableIdentifier"] = row["TableIdentifier"].ToString();
+                    rowAdd["ItemCode"] = row["ItemCode"].ToString();
+                    rowAdd["Description"] = row["Description"].ToString();
+                    rowAdd["UOM"] = row["UOM"].ToString();
+                    rowAdd["Cost"] = row["ApprovedCost"].ToString();
+                    rowAdd["Qty"] = row["AvailForPO"].ToString();
+                    rowAdd["TotalCost"] = (Convert.ToDouble(row["AvailForPO"].ToString()) * Convert.ToDouble(row["ApprovedCost"].ToString())).ToString();
+                    rowAdd["Type"] = "OPEX";
+                    dtTable.Rows.Add(rowAdd);
+                }
+            }
+
+            cmd = new SqlCommand(qry2);
+            cmd.Connection = conn;
+            adp2 = new SqlDataAdapter(cmd);
+            adp2.Fill(dtable2);
+            if (dtable2.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtable2.Rows)
+                {
+                    DataRow rowAdd = dtTable.NewRow();
+                    rowAdd["PK"] = row["PK"].ToString();
+                    rowAdd["TableIdentifier"] = row["TableIdentifier"].ToString();
+                    rowAdd["ItemCode"] = row["ItemCode"].ToString();
+                    rowAdd["Description"] = row["ItemDescription"].ToString();
+                    rowAdd["UOM"] = row["UOM"].ToString();
+                    rowAdd["Cost"] = row["ApprovedCost"].ToString();
+                    rowAdd["Qty"] = row["AvailForPO"].ToString();
+                    rowAdd["TotalCost"] = (Convert.ToDouble(row["AvailForPO"].ToString()) * Convert.ToDouble(row["ApprovedCost"].ToString())).ToString();
+                    rowAdd["Type"] = "Direct Materials";
+                    dtTable.Rows.Add(rowAdd);
+                }
+            }
+
+
+            dtable.Clear();
+
+            conn.Close();
+
+            return dtTable;
+        }
+
+
+        public static DataTable PO_Creation_Details(string ponumber)
+        {
+            DataTable dtTable = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp, adp2;
+            DataTable dtable = new DataTable();
+            DataTable dtable2 = new DataTable();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("ItemCode", typeof(string));
+                dtTable.Columns.Add("TaxGroup", typeof(string));
+                dtTable.Columns.Add("TaxItemGroup", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+            }
+            dtTable.Clear();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            string qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PONumber] = '" + ponumber + "'";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtable.Rows)
+                {
+                    DataRow rowAdd = dtTable.NewRow();
+                    rowAdd["PK"] = row["PK"].ToString();
+                    rowAdd["ItemCode"] = row["ItemCode"].ToString();
+                    rowAdd["TaxGroup"] = row["TaxGroup"].ToString();
+                    rowAdd["TaxItemGroup"] = row["TaxItemGroup"].ToString();
+                    rowAdd["UOM"] = "UOM";
+                    rowAdd["Cost"] = row["Cost"].ToString();
+                    rowAdd["Qty"] = row["Qty"].ToString();
+                    rowAdd["TotalCost"] = row["TotalCost"].ToString(); ;
+                    dtTable.Rows.Add(rowAdd);
+                }
+            }
+
+            dtable.Clear();
+
+            conn.Close();
+
+            return dtTable;
         }
     }
 }
