@@ -14,6 +14,10 @@ namespace HijoPortal
 {
     public partial class mrp_list : System.Web.UI.Page
     {
+
+        private static string docNum = "", PK = "0", entCode="" , buCode="";
+        private static int StatusKey = 0;
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -40,7 +44,7 @@ namespace HijoPortal
         {
             if (Session["CreatorKey"] == null)
             {
-                MRPClass.PrintString(Page.IsCallback.ToString());
+                //MRPClass.PrintString(Page.IsCallback.ToString());
                 if (Page.IsCallback)
                     ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
                 else
@@ -76,11 +80,11 @@ namespace HijoPortal
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
-            string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
-            string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
-            string entCode = MainTable.GetRowValues(MainTable.FocusedRowIndex, "EntityCode").ToString();
-            string buCode = MainTable.GetRowValues(MainTable.FocusedRowIndex, "BUCode").ToString();
-            int StatusKey = Convert.ToInt32(MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString());
+            docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
+            PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
+            entCode = MainTable.GetRowValues(MainTable.FocusedRowIndex, "EntityCode").ToString();
+            buCode = MainTable.GetRowValues(MainTable.FocusedRowIndex, "BUCode").ToString();
+            StatusKey = Convert.ToInt32(MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString());
             string query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "' AND PK = '" + PK + "'";
 
             SqlCommand comm = new SqlCommand(query, conn);
@@ -150,7 +154,7 @@ namespace HijoPortal
                             //PopupSubmit.HeaderText = "Alert";
                             //PopupSubmit.ShowOnPageLoad = true;
 
-                            MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+                            //MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
                             //BindMRP();
 
@@ -169,8 +173,8 @@ namespace HijoPortal
                 //msgTrans.Text = "Pass Preview";
                 //string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
 
-                Response.RedirectLocation = "mrp_previewforapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
-                //Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                //Response.RedirectLocation = "mrp_previewforapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
                 //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
                 //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
@@ -498,6 +502,13 @@ namespace HijoPortal
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "CheckEnt", "AddMOPCheckEntity();", true);
                 }
             }
+        }
+
+        protected void OK_SUBMIT_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+            BindMRP();
         }
     }
 }

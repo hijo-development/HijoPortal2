@@ -48,49 +48,7 @@ namespace HijoPortal
 
                     //ASPxSplitter1.Height = 661 - 10;
 
-                    SqlCommand cmd = null;
-                    SqlDataAdapter adp;
-                    DataTable dtable = new DataTable();
-
-                    using (SqlConnection con = new SqlConnection(GlobalClass.SQLConnString()))
-                    {
-                        con.Open();
-                        string qry = "SELECT tbl_System_SideNav.* " +
-                                     " FROM tbl_System_SideNav " +
-                                     " ORDER BY Sort";
-                        cmd = new SqlCommand(qry);
-                        cmd.Connection = con;
-                        adp = new SqlDataAdapter(cmd);
-                        adp.Fill(dtable);
-                        if (dtable.Rows.Count>0)
-                        {
-                            var sb = new StringBuilder();
-                            sb.Append("<ul>");
-                            foreach (DataRow row in dtable.Rows)
-                            {
-                                if (Convert.ToInt32(Session["isAdmin"]) == 1)
-                                {
-                                    sb.Append("<li>");
-                                    sb.Append(row["MenuScript"].ToString());
-                                    sb.Append("</li>");
-                                } else
-                                {
-                                    if (Convert.ToInt32(row["forAdminOnly"]) != 1)
-                                    {
-                                        sb.Append("<li>");
-                                        sb.Append(row["MenuScript"].ToString());
-                                        sb.Append("</li>");
-                                        
-                                    }
-                                }
-                            }
-                            sb.Append("</ul>");
-                            System.Diagnostics.Debug.Write(sb.ToString());
-                            dvSideNav.InnerHtml = sb.ToString();
-                        }
-                        dtable.Clear();
-                        con.Close();
-                    }
+                    Load_Menu(Convert.ToInt32(Session["CreatorKey"]));
 
                 }
                 else
@@ -98,6 +56,233 @@ namespace HijoPortal
                     Response.Redirect("default.aspx");
                 }
 
+            }
+        }
+
+        private void Load_Menu(int usrKey)
+        {
+            string qry = "";
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dtable = new DataTable();
+
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+            DataTable dtable1 = new DataTable();
+
+            using (SqlConnection con = new SqlConnection(GlobalClass.SQLConnString()))
+            {
+                con.Open();
+                qry = "SELECT tbl_System_SideNav.* " +
+                      " FROM tbl_System_SideNav " +
+                      " ORDER BY Sort";
+                cmd = new SqlCommand(qry);
+                cmd.Connection = con;
+                adp = new SqlDataAdapter(cmd);
+                adp.Fill(dtable);
+                if (dtable.Rows.Count > 0)
+                {
+                    var sb = new StringBuilder();
+                    sb.Append("<ul>");
+                    foreach (DataRow row in dtable.Rows)
+                    {
+                        if (Convert.ToInt32(Session["isAdmin"]) == 1)
+                        {
+                            //sb.Append("<li>");
+                            //sb.Append(row["MenuScript"].ToString());
+                            //sb.Append("</li>");
+                            if (row["ModuleName"].ToString().Trim() != "")
+                            {
+                                switch (row["ModuleName"].ToString().Trim())
+                                {
+                                    case "MOPInventoryAnalyst":
+                                        {
+                                            qry = "SELECT dbo.tbl_System_SCMInventoryAnalyst.* " +
+                                                  " FROM dbo.tbl_System_SCMInventoryAnalyst " +
+                                                  " WHERE(UserKey = " + usrKey + ") " +
+                                                  " AND (StatusKey = 1)";
+                                            cmd1 = new SqlCommand(qry);
+                                            cmd1.Connection = con;
+                                            adp1 = new SqlDataAdapter(cmd1);
+                                            adp1.Fill(dtable1);
+                                            if (dtable1.Rows.Count > 0)
+                                            {
+                                                sb.Append("<li>");
+                                                sb.Append(row["MenuScript"].ToString());
+                                                sb.Append("</li>");
+                                            }
+                                            dtable1.Clear();
+                                            break;
+                                        }
+                                    case "MOPBudget":
+                                        {
+                                            qry = "SELECT dbo.tbl_System_FinanceBudget.* " +
+                                                  " FROM dbo.tbl_System_FinanceBudget " +
+                                                  " WHERE(UserKey = " + usrKey + ") " +
+                                                  " AND (StatusKey = 1)";
+                                            cmd1 = new SqlCommand(qry);
+                                            cmd1.Connection = con;
+                                            adp1 = new SqlDataAdapter(cmd1);
+                                            adp1.Fill(dtable1);
+                                            if (dtable1.Rows.Count > 0)
+                                            {
+                                                sb.Append("<li>");
+                                                sb.Append(row["MenuScript"].ToString());
+                                                sb.Append("</li>");
+                                            }
+                                            dtable1.Clear();
+                                            break;
+                                        }
+                                    case "MOPInventoryOfficer":
+                                        {
+                                            qry = "SELECT dbo.tbl_System_FinanceInventoryOfficer.* " +
+                                                  " FROM dbo.tbl_System_FinanceInventoryOfficer " +
+                                                  " WHERE(UserKey = " + usrKey + ") " +
+                                                  " AND (StatusKey = 1)";
+                                            cmd1 = new SqlCommand(qry);
+                                            cmd1.Connection = con;
+                                            adp1 = new SqlDataAdapter(cmd1);
+                                            adp1.Fill(dtable1);
+                                            if (dtable1.Rows.Count > 0)
+                                            {
+                                                sb.Append("<li>");
+                                                sb.Append(row["MenuScript"].ToString());
+                                                sb.Append("</li>");
+                                            }
+                                            dtable1.Clear();
+                                            break;
+                                        }
+                                    case "MOPProcurementOfficer":
+                                        {
+                                            qry = "SELECT dbo.tbl_System_SCMProcurementOfficer.* " +
+                                                  " FROM dbo.tbl_System_SCMProcurementOfficer " +
+                                                  " WHERE(UserKey = " + usrKey + ") " +
+                                                  " AND (StatusKey = 1)";
+                                            cmd1 = new SqlCommand(qry);
+                                            cmd1.Connection = con;
+                                            adp1 = new SqlDataAdapter(cmd1);
+                                            adp1.Fill(dtable1);
+                                            if (dtable1.Rows.Count > 0)
+                                            {
+                                                sb.Append("<li>");
+                                                sb.Append(row["MenuScript"].ToString());
+                                                sb.Append("</li>");
+                                            }
+                                            dtable1.Clear();
+                                            break;
+                                        }
+                                }
+
+                            }
+                            else
+                            {
+                                sb.Append("<li>");
+                                sb.Append(row["MenuScript"].ToString());
+                                sb.Append("</li>");
+                            }
+                        }
+                        else
+                        {
+                            if (Convert.ToInt32(row["forAdminOnly"]) != 1)
+                            {
+                                if (row["ModuleName"].ToString().Trim() != "")
+                                {
+                                    switch (row["ModuleName"].ToString().Trim())
+                                    {
+                                        case "MOPInventoryAnalyst":
+                                            {
+                                                qry = "SELECT dbo.tbl_System_SCMInventoryAnalyst.* " +
+                                                      " FROM dbo.tbl_System_SCMInventoryAnalyst " +
+                                                      " WHERE(UserKey = " + usrKey + ") " +
+                                                      " AND (StatusKey = 1)";
+                                                cmd1 = new SqlCommand(qry);
+                                                cmd1.Connection = con;
+                                                adp1 = new SqlDataAdapter(cmd1);
+                                                adp1.Fill(dtable1);
+                                                if (dtable1.Rows.Count > 0)
+                                                {
+                                                    sb.Append("<li>");
+                                                    sb.Append(row["MenuScript"].ToString());
+                                                    sb.Append("</li>");
+                                                }
+                                                dtable1.Clear();
+                                                break;
+                                            }
+                                        case "MOPBudget":
+                                            {
+                                                qry = "SELECT dbo.tbl_System_FinanceBudget.* " +
+                                                      " FROM dbo.tbl_System_FinanceBudget " +
+                                                      " WHERE(UserKey = " + usrKey + ") " +
+                                                      " AND (StatusKey = 1)";
+                                                cmd1 = new SqlCommand(qry);
+                                                cmd1.Connection = con;
+                                                adp1 = new SqlDataAdapter(cmd1);
+                                                adp1.Fill(dtable1);
+                                                if (dtable1.Rows.Count > 0)
+                                                {
+                                                    sb.Append("<li>");
+                                                    sb.Append(row["MenuScript"].ToString());
+                                                    sb.Append("</li>");
+                                                }
+                                                dtable1.Clear();
+                                                break;
+                                            }
+                                        case "MOPInventoryOfficer":
+                                            {
+                                                qry = "SELECT dbo.tbl_System_FinanceInventoryOfficer.* " +
+                                                      " FROM dbo.tbl_System_FinanceInventoryOfficer " +
+                                                      " WHERE(UserKey = " + usrKey + ") " +
+                                                      " AND (StatusKey = 1)";
+                                                cmd1 = new SqlCommand(qry);
+                                                cmd1.Connection = con;
+                                                adp1 = new SqlDataAdapter(cmd1);
+                                                adp1.Fill(dtable1);
+                                                if (dtable1.Rows.Count > 0)
+                                                {
+                                                    sb.Append("<li>");
+                                                    sb.Append(row["MenuScript"].ToString());
+                                                    sb.Append("</li>");
+                                                }
+                                                dtable1.Clear();
+                                                break;
+                                            }
+                                        case "MOPProcurementOfficer":
+                                            {
+                                                qry = "SELECT dbo.tbl_System_SCMProcurementOfficer.* " +
+                                                      " FROM dbo.tbl_System_SCMProcurementOfficer " +
+                                                      " WHERE(UserKey = " + usrKey + ") " +
+                                                      " AND (StatusKey = 1)";
+                                                cmd1 = new SqlCommand(qry);
+                                                cmd1.Connection = con;
+                                                adp1 = new SqlDataAdapter(cmd1);
+                                                adp1.Fill(dtable1);
+                                                if (dtable1.Rows.Count > 0)
+                                                {
+                                                    sb.Append("<li>");
+                                                    sb.Append(row["MenuScript"].ToString());
+                                                    sb.Append("</li>");
+                                                }
+                                                dtable1.Clear();
+                                                break;
+                                            }
+                                    }
+
+                                }
+                                else
+                                {
+                                    sb.Append("<li>");
+                                    sb.Append(row["MenuScript"].ToString());
+                                    sb.Append("</li>");
+                                }
+                            }
+                        }
+                    }
+                    sb.Append("</ul>");
+                    System.Diagnostics.Debug.Write(sb.ToString());
+                    dvSideNav.InnerHtml = sb.ToString();
+                }
+                dtable.Clear();
+                con.Close();
             }
         }
 

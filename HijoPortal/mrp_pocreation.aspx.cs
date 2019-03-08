@@ -66,7 +66,7 @@ namespace HijoPortal
                         string query_po = "SELECT COUNT(*) FROM[hijo_portal].[dbo].[tbl_POCreation_Details] WHERE PONumber = '" + poNumber + "'";
                         SqlCommand cmd = new SqlCommand(query_po, conn);
                         int result_po = Convert.ToInt32(cmd.ExecuteScalar());
-                        MRPClass.PrintString(":" + result_po);
+                        //MRPClass.PrintString(":" + result_po);
                         if (result_po > 0)
                             text["hidden_value"] = "AlreadyPO";
                         else

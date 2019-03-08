@@ -86,6 +86,7 @@ namespace HijoPortal
             ASPxCallbackPanel callBackPanel = pageControl.FindControl("BUCallBackPanel") as ASPxCallbackPanel;
             ASPxComboBox buCode = callBackPanel.FindControl("BUCode") as ASPxComboBox;
             ASPxComboBox buHead = pageControl.FindControl("BUHead") as ASPxComboBox;
+            ASPxComboBox buHeadStatus = pageControl.FindControl("BUHeadStatus") as ASPxComboBox;
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -99,8 +100,8 @@ namespace HijoPortal
                 sbuCode = buCode.Value.ToString();
             }
 
-            string insert = "INSERT INTO tbl_System_BUDeptHead ([Ctrl], [EffectDate], [EntityCode], [BUDeptCode], [UserKey], [LastModified]) " +
-                            " VALUES (@Ctrl, @EffectDate, @EntityCode, @BUDeptCode, @UserKey, @LastModified)";
+            string insert = "INSERT INTO tbl_System_BUDeptHead ([Ctrl], [EffectDate], [EntityCode], [BUDeptCode], [UserKey], [StatusKey], [LastModified]) " +
+                            " VALUES (@Ctrl, @EffectDate, @EntityCode, @BUDeptCode, @UserKey, @StatusKey, @LastModified)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@Ctrl", sCtrlNum);
@@ -108,6 +109,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@EntityCode", entCode.Value.ToString());
             cmd.Parameters.AddWithValue("@BUDeptCode", sbuCode.ToString());
             cmd.Parameters.AddWithValue("@UserKey", buHead.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", buHeadStatus.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -169,6 +171,7 @@ namespace HijoPortal
             ASPxCallbackPanel callBackPanel = pageControl.FindControl("BUCallBackPanel") as ASPxCallbackPanel;
             ASPxComboBox buCode = callBackPanel.FindControl("BUCode") as ASPxComboBox;
             ASPxComboBox buHead = pageControl.FindControl("BUHead") as ASPxComboBox;
+            ASPxComboBox buHeadStatus = pageControl.FindControl("BUHeadStatus") as ASPxComboBox;
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -185,6 +188,7 @@ namespace HijoPortal
                                 " [EntityCode] = @EntCode, " +
                                 " [BUDeptCode] = @BUCode, " +
                                 " [UserKey]= @BUHead, " +
+                                " [StatusKey] = @StatusKey, " +
                                 " [LastModified] = @LastModified " +
                                 " WHERE [PK] = @PK";
 
@@ -194,6 +198,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@EntCode", entCode.Value.ToString());
             cmd.Parameters.AddWithValue("@BUCode", sbuCode.ToString());
             cmd.Parameters.AddWithValue("@BUHead", buHead.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", buHeadStatus.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -317,6 +322,35 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.SetBehaviorGrid(grid);
+        }
+
+        protected void BUHeadStatus_Init(object sender, EventArgs e)
+        {
+            DataTable dtRecord = AccountClass.UserStatusTable();
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "CODE";
+            l_ValueField.Width = 0;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            l_TextField.Caption = "STATUS";
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+
+            GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+            //MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
+            if (!container.Grid.IsNewRowEditing)
+            {
+                combo.Value = DataBinder.Eval(container.DataItem, "StatusKey").ToString();
+            }
         }
     }
 }

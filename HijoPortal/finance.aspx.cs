@@ -22,6 +22,10 @@ namespace HijoPortal
         private static string sBudgetKey = "";
         private static string sBudgetDetEnt = "";
         private static string sBudgetDetBU = "";
+        private static string sBudgetStatusKey = "";
+        private static string sInventOffStatusKey = "";
+        private static string sFinanceHeadStatusKey = "";
+
         private static int iMasterKey = 0;
 
 
@@ -160,6 +164,7 @@ namespace HijoPortal
         {
             bindHeadList = false;
             sHeadKey = "";
+            sFinanceHeadStatusKey = "";
 
             ASPxLabel ctrlNum = grdFinanceHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceHead.Columns["Ctrl"], "ASPxCtrlTextBox") as ASPxLabel;
             ASPxDateEdit effectDate = grdFinanceHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceHead.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
@@ -176,6 +181,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdFinanceHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceHead.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
             ASPxComboBox financeHead = grdFinanceHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceHead.Columns["UserCompleteName"], "FinanceHead") as ASPxComboBox;
+            ASPxComboBox financeHeadStatus = grdFinanceHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceHead.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sCtrlNum = GlobalClass.GetControl_DocNum("Finance_Head", Convert.ToDateTime(effectDate.Value.ToString()));
             string sLastModified = DateTime.Now.ToString();
@@ -183,13 +189,14 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO tbl_System_FinanceHead ([Ctrl], [EffectDate], [UserKey], [LastModified]) " +
-                            " VALUES (@Ctrl, @EffectDate, @UserKey, @LastModified)";
+            string insert = "INSERT INTO tbl_System_FinanceHead ([Ctrl], [EffectDate], [UserKey], [StatusKey], [LastModified]) " +
+                            " VALUES (@Ctrl, @EffectDate, @UserKey, @StatusKey, @LastModified)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@Ctrl", sCtrlNum);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@UserKey", financeHead.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", financeHeadStatus.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -217,6 +224,7 @@ namespace HijoPortal
         {
             bindHeadList = false;
             sHeadKey = grdFinanceHead.GetRowValues(grdFinanceHead.FocusedRowIndex, "UserKey").ToString();
+            sFinanceHeadStatusKey = grdFinanceHead.GetRowValues(grdFinanceHead.FocusedRowIndex, "StatusKey").ToString();
         }
 
         protected void grdFinanceHead_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
@@ -224,6 +232,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdFinanceHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceHead.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
             ASPxComboBox financeHead = grdFinanceHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceHead.Columns["UserCompleteName"], "FinanceHead") as ASPxComboBox;
+            ASPxComboBox financeHeadStatus = grdFinanceHead.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceHead.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sLastModified = DateTime.Now.ToString();
             string PK = e.Keys[0].ToString();
@@ -234,6 +243,7 @@ namespace HijoPortal
             string update_MRP = "UPDATE tbl_System_FinanceHead " +
                                 " SET [EffectDate] = @EffectDate, " +
                                 " [UserKey]= @BUHead, " +
+                                " [StatusKey] = @StatusKey, " +
                                 " [LastModified] = @LastModified " +
                                 " WHERE [PK] = @PK";
 
@@ -241,6 +251,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@BUHead", financeHead.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", financeHeadStatus.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -294,6 +305,7 @@ namespace HijoPortal
         {
             bindBudgetList = false;
             sBudgetKey = "";
+            sBudgetStatusKey = "";
 
             ASPxLabel ctrlNum = grdFinanceBudget.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceBudget.Columns["Ctrl"], "ASPxCtrlTextBoxBud") as ASPxLabel;
             ASPxDateEdit effectDate = grdFinanceBudget.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceBudget.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
@@ -310,6 +322,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdFinanceBudget.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceBudget.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
             ASPxComboBox financeHead = grdFinanceBudget.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceBudget.Columns["UserCompleteName"], "FinanceBudget") as ASPxComboBox;
+            ASPxComboBox financeBudStat = grdFinanceBudget.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceBudget.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sCtrlNum = GlobalClass.GetControl_DocNum("Finance_Budget", Convert.ToDateTime(effectDate.Value.ToString()));
             string sLastModified = DateTime.Now.ToString();
@@ -317,13 +330,14 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO tbl_System_FinanceBudget ([Ctrl], [EffectDate], [UserKey], [LastModified]) " +
-                            " VALUES (@Ctrl, @EffectDate, @UserKey, @LastModified)";
+            string insert = "INSERT INTO tbl_System_FinanceBudget ([Ctrl], [EffectDate], [UserKey], [StatusKey], [LastModified]) " +
+                            " VALUES (@Ctrl, @EffectDate, @UserKey, @StatusKey, @LastModified)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@Ctrl", sCtrlNum);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@UserKey", financeHead.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", financeBudStat.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -351,6 +365,7 @@ namespace HijoPortal
         {
             bindBudgetList = false;
             sBudgetKey = grdFinanceBudget.GetRowValues(grdFinanceBudget.FocusedRowIndex, "UserKey").ToString();
+            sBudgetStatusKey = grdFinanceBudget.GetRowValues(grdFinanceBudget.FocusedRowIndex, "StatusKey").ToString();
         }
 
         protected void grdFinanceBudget_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
@@ -358,6 +373,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdFinanceBudget.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceBudget.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
             ASPxComboBox financeHead = grdFinanceBudget.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceBudget.Columns["UserCompleteName"], "FinanceBudget") as ASPxComboBox;
+            ASPxComboBox financeBudStat = grdFinanceBudget.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceBudget.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sLastModified = DateTime.Now.ToString();
             string PK = e.Keys[0].ToString();
@@ -368,6 +384,7 @@ namespace HijoPortal
             string update_MRP = "UPDATE tbl_System_FinanceBudget " +
                                 " SET [EffectDate] = @EffectDate, " +
                                 " [UserKey]= @BUHead, " +
+                                " [StatusKey] = @StatusKey, " +
                                 " [LastModified] = @LastModified " +
                                 " WHERE [PK] = @PK";
 
@@ -375,6 +392,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@BUHead", financeHead.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", financeBudStat.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -725,6 +743,7 @@ namespace HijoPortal
         {
             bindFinanceInventList = false;
             sApprovalKey = "";
+            sInventOffStatusKey = "";
 
             ASPxLabel ctrlNum = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["Ctrl"], "ASPxCtrlTextBoxApp") as ASPxLabel;
             ASPxDateEdit effectDate = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
@@ -741,6 +760,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
             ASPxComboBox approval = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["UserCompleteName"], "Approval") as ASPxComboBox;
+            ASPxComboBox InventOff = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sCtrlNum = GlobalClass.GetControl_DocNum("Finance_Inventory_Officer", Convert.ToDateTime(effectDate.Value.ToString()));
             string sLastModified = DateTime.Now.ToString();
@@ -748,13 +768,14 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO tbl_System_FinanceInventoryOfficer ([Ctrl], [EffectDate], [UserKey], [LastModified]) " +
-                            " VALUES (@Ctrl, @EffectDate, @UserKey, @LastModified)";
+            string insert = "INSERT INTO tbl_System_FinanceInventoryOfficer ([Ctrl], [EffectDate], [UserKey], [StatusKey] [LastModified]) " +
+                            " VALUES (@Ctrl, @EffectDate, @UserKey, @StatusKey, @LastModified)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@Ctrl", sCtrlNum);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@UserKey", approval.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", InventOff.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -782,6 +803,7 @@ namespace HijoPortal
         {
             bindFinanceInventList = false;
             sApprovalKey = grdFinanceApproval.GetRowValues(grdFinanceApproval.FocusedRowIndex, "UserKey").ToString();
+            sInventOffStatusKey = grdFinanceApproval.GetRowValues(grdFinanceApproval.FocusedRowIndex, "StatusKey").ToString();
         }
 
         protected void grdFinanceApproval_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
@@ -789,6 +811,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
             ASPxComboBox approval = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["UserCompleteName"], "Approval") as ASPxComboBox;
+            ASPxComboBox InventOff = grdFinanceApproval.FindEditRowCellTemplateControl((GridViewDataColumn)grdFinanceApproval.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sLastModified = DateTime.Now.ToString();
             string PK = e.Keys[0].ToString();
@@ -799,6 +822,7 @@ namespace HijoPortal
             string update_MRP = "UPDATE tbl_System_FinanceInventoryOfficer " +
                                 " SET [EffectDate] = @EffectDate, " +
                                 " [UserKey]= @BUHead, " +
+                                " [StatusKey] = @StatusKey, " +
                                 " [LastModified] = @LastModified " +
                                 " WHERE [PK] = @PK";
 
@@ -806,6 +830,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@BUHead", approval.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", InventOff.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -855,6 +880,78 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.SetBehaviorGrid(grid);
+        }
+
+        protected void Status_Init(object sender, EventArgs e)
+        {
+            DataTable dtRecord = AccountClass.UserStatusTable();
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "CODE";
+            l_ValueField.Width = 0;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            l_TextField.Caption = "STATUS";
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+
+            combo.Value = sBudgetStatusKey.ToString();
+        }
+
+        protected void InventOffStatus_Init(object sender, EventArgs e)
+        {
+            DataTable dtRecord = AccountClass.UserStatusTable();
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "CODE";
+            l_ValueField.Width = 0;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            l_TextField.Caption = "STATUS";
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+
+            combo.Value = sInventOffStatusKey.ToString();
+        }
+
+        protected void FinanceHeadStatus_Init(object sender, EventArgs e)
+        {
+            DataTable dtRecord = AccountClass.UserStatusTable();
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "CODE";
+            l_ValueField.Width = 0;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            l_TextField.Caption = "STATUS";
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+
+            combo.Value = sFinanceHeadStatusKey.ToString();
         }
     }
 }
