@@ -353,30 +353,20 @@ namespace HijoPortal
 
         protected void Create_Click(object sender, EventArgs e)
         {
+            CheckCreatorKey();
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string update_po = "UPDATE [hijo_portal].[dbo].[tbl_POCreation] SET [ExpectedDate] = @expdate, [VendorCode] = @vendor, [PaymentTerms] = @terms, [CurrencyCode] = @currency, [InventSite] = @site, [InventSiteWarehouse] = @warehouse,[InventSiteWarehouseLocation] = @location WHERE [PONumber] = @ponumber";
-
-            string terms = "";
-            if (Terms.Value != null)
-                terms = Terms.Value.ToString();
-
-            SqlCommand cmd_po = new SqlCommand(update_po, conn);
-            cmd_po.Parameters.AddWithValue("@expdate", ExpDelivery.Value.ToString());
-            cmd_po.Parameters.AddWithValue("@vendor", Vendor.Value.ToString());
-            cmd_po.Parameters.AddWithValue("@terms", terms);
-            cmd_po.Parameters.AddWithValue("@currency", Currency.Value.ToString());
-            cmd_po.Parameters.AddWithValue("@site", Site.Value.ToString());
-            cmd_po.Parameters.AddWithValue("@warehouse", WareHouse.Value.ToString());
-            cmd_po.Parameters.AddWithValue("@location", Location.Value.ToString());
-            //cmd_po.Parameters.AddWithValue("@ponumber", POnumber.Text);
-            cmd_po.CommandType = CommandType.Text;
-            int result = cmd_po.ExecuteNonQuery();
-            if (result > 0)
+            if (DocNumber.Value != null)
             {
-                Send.Enabled = true;
-                Create.Text = "Update";
+                ExpDelivery.ClientEnabled = true;
+                Vendor.ClientEnabled = true;
+                Currency.ClientEnabled = true;
+                Site.ClientEnabled = true;
+                Terms.ClientEnabled = true;
+                WareHouse.ClientEnabled = true;
+                Location.ClientEnabled = true;
+                ProCategory.ClientEnabled = true;
             }
 
             List<object> selectedValues = POAddEditGrid.GetSelectedFieldValues(new string[] { "PK", "TableIdentifier", "MRPCategory", "Item", "Qty", "UOM", "Cost", "TotalCost", "POQty", "POCost", "POTotalCost", "TaxGroup", "TaxItemGroup" }) as List<object>;
@@ -388,79 +378,153 @@ namespace HijoPortal
                 ItemsEmpty.ShowOnPageLoad = true;
             }
 
-            //foreach (object[] obj in selectedValues)
-            //{
-            //    string pk = obj[0].ToString();
-            //    string identifier = obj[1].ToString();
-            //    string category = obj[2].ToString();
-            //    string item = obj[3].ToString();
-            //    int slashIndex = item.IndexOf("/");
-            //    string item_code = item.Substring(0, slashIndex);
-            //    string qty = obj[4].ToString();
-            //    string uom = obj[5].ToString();
-            //    string cost = obj[6].ToString();
-            //    string total = obj[7].ToString();
-            //    string po_qty = obj[8].ToString();
-            //    string po_cost = obj[9].ToString();
-            //    string po_total = obj[10].ToString();
-            //    string taxgroup = obj[11].ToString();
-            //    string taxitem = obj[12].ToString();
+            foreach (object[] obj in selectedValues)
+            {
+                string pk = obj[0].ToString();
+                string identifier = obj[1].ToString();
+                string category = obj[2].ToString();
+                string item = obj[3].ToString();
+                int slashIndex = item.IndexOf("/");
+                string item_code = item.Substring(0, slashIndex);
+                string qty = obj[4].ToString();
+                string uom = obj[5].ToString();
+                string cost = obj[6].ToString();
+                string total = obj[7].ToString();
+                string po_qty = obj[8].ToString();
+                string po_cost = obj[9].ToString();
+                string po_total = obj[10].ToString();
+                string taxgroup = obj[11].ToString();
+                string taxitem = obj[12].ToString();
 
-            //    if (!string.IsNullOrEmpty(pk) && !string.IsNullOrEmpty(identifier) && !string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(item) && !string.IsNullOrEmpty(qty) && !string.IsNullOrEmpty(uom) && !string.IsNullOrEmpty(cost) && !string.IsNullOrEmpty(total) && !string.IsNullOrEmpty(po_qty) && !string.IsNullOrEmpty(po_cost) && !string.IsNullOrEmpty(po_total) && !string.IsNullOrEmpty(taxgroup) && !string.IsNullOrEmpty(taxitem))
-            //    {
-            //        conn.Open();
+                if (!string.IsNullOrEmpty(pk) && !string.IsNullOrEmpty(identifier) && !string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(item) && !string.IsNullOrEmpty(qty) && !string.IsNullOrEmpty(uom) && !string.IsNullOrEmpty(cost) && !string.IsNullOrEmpty(total) && !string.IsNullOrEmpty(po_qty) && !string.IsNullOrEmpty(po_cost) && !string.IsNullOrEmpty(po_total) && !string.IsNullOrEmpty(taxgroup) && !string.IsNullOrEmpty(taxitem))
+                {
+                    //CREATE PO NUMBER
 
-            //        switch (identifier)
-            //        {
-            //            case "1"://Direct Materials
-            //                string update_materials = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] SET [QtyPO] = '" + po_qty + "' WHERE [PK] = '" + pk + "'";
-            //                SqlCommand cmd_mat = new SqlCommand(update_materials, conn);
-            //                cmd_mat.ExecuteNonQuery();
+                    //Declare Variables
+                    string DocPref = "", strDocNum = "";
+                    int DocNum = 0;
 
-            //                string insert_mat_po = "INSERT [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[ItemCode],[TaxGroup],[TaxItemGroup],[Qty],[Cost],[TotalCost]) VALUES (@ponumber, @code, @taxgroup, @taxitem, @poqty, @pocost, @pototal)";
+                    //QUERY PO NUMBER TO START TO...
+                    string query = "SELECT [DocumentPrefix],[DocumentNum] FROM " + MRPClass.DocNumberTableName() + " where DocumentPrefix = 'PO'";
 
-            //                SqlCommand cmd_mat_po = new SqlCommand(insert_mat_po, conn);
-            //                cmd_mat_po.Parameters.AddWithValue("@ponumber", POnumber.Text);
-            //                cmd_mat_po.Parameters.AddWithValue("@code", item_code);
-            //                cmd_mat_po.Parameters.AddWithValue("@taxgroup", taxgroup);
-            //                cmd_mat_po.Parameters.AddWithValue("@taxitem", taxitem);
-            //                cmd_mat_po.Parameters.AddWithValue("@poqty", Convert.ToDouble(po_qty));
-            //                cmd_mat_po.Parameters.AddWithValue("@pocost", Convert.ToDouble(po_cost));
-            //                cmd_mat_po.Parameters.AddWithValue("@pototal", Convert.ToDouble(po_total));
-            //                cmd_mat_po.CommandType = CommandType.Text;
-            //                cmd_mat_po.ExecuteNonQuery();
-            //                break;
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        //GET DATA...
+                        DocPref = reader[0].ToString();
+                        DocNum = Convert.ToInt32(reader[1].ToString());
+                    }
+                    reader.Close();
 
-            //            case "2"://Opex
-            //                string update_opex = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_OPEX] SET [QtyPO] = '" + po_qty + "' WHERE [PK] = '" + pk + "'";
-            //                SqlCommand cmd_opex = new SqlCommand(update_opex, conn);
-            //                cmd_opex.ExecuteNonQuery();
+                    //INCREASE IN DOCNUMBER INTEGER (SEE SQL DATABASE FOR CLARIFICATION)
+                    DocNum += 1;
+                    strDocNum = DocNum.ToString("00000000#");
+                    //CREATED PO NUMBER
+                    string PONumber = DocPref + "-" + Session["EntityCode"].ToString() + "-" + strDocNum;
+                    string MRPnumber = DocNumber.Value.ToString();
 
-            //                string insert_opex_po = "INSERT [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[ItemCode],[TaxGroup],[TaxItemGroup],[Qty],[Cost],[TotalCost]) VALUES (@ponumber, @code, @taxgroup, @taxitem, @poqty, @pocost, @pototal)";
+                    //UPDATE PO NUMBER IS INCREASE (SEE SQL DATABASE FOR CLARIFICATION)
+                    string update = "UPDATE " + MRPClass.DocNumberTableName() + " SET [DocumentNum] = '" + DocNum + "' WHERE [DocumentPrefix] = 'PO'";
+                    cmd = new SqlCommand(update, conn);
+                    int result = cmd.ExecuteNonQuery();
 
-            //                SqlCommand cmd_opex_po = new SqlCommand(insert_opex_po, conn);
-            //                cmd_opex_po.Parameters.AddWithValue("@ponumber", POnumber.Text);
-            //                cmd_opex_po.Parameters.AddWithValue("@code", item_code);
-            //                cmd_opex_po.Parameters.AddWithValue("@taxgroup", taxgroup);
-            //                cmd_opex_po.Parameters.AddWithValue("@taxitem", taxitem);
-            //                cmd_opex_po.Parameters.AddWithValue("@poqty", Convert.ToDouble(po_qty));
-            //                cmd_opex_po.Parameters.AddWithValue("@pocost", Convert.ToDouble(po_cost));
-            //                cmd_opex_po.Parameters.AddWithValue("@pototal", Convert.ToDouble(po_total));
-            //                cmd_opex_po.CommandType = CommandType.Text;
-            //                cmd_opex_po.ExecuteNonQuery();
-            //                break;
-            //        }
+                    if (result == 0)
+                        return;
 
-            //        conn.Close();
-            //        Server.Transfer("mrp_pocreation.aspx");
-            //    }
-            //    else
-            //    {
-            //        ItemsEmpty.HeaderText = "Alert";
-            //        ItemsEmptyLabel.Text = "Some selected items are empty";
-            //        ItemsEmpty.ShowOnPageLoad = true;
-            //    }
-            //}
+                    string terms = "";
+                    if (Terms.Value != null)//IF TERMS COMBOBOX NULL/EMPTY VALUE
+                        terms = Terms.Value.ToString();
+
+                    //INSERT INFO IN PO CREATION TABLE
+                    string insert = "INSERT INTO " + MRPClass.POTableName() + " ([MRPNumber],[PONumber],[CreatorKey], [ExpectedDate] ,[VendorCode], [PaymentTerms], [CurrencyCode], [InventSite], [InventSiteWarehouse], [InventSiteWarehouseLocation]) VALUES (@MRPNumber, @PONumber, @CreatorKey, @expdate, @vendor, @terms, @currency, @site, @warehouse, @location)";
+                    cmd = new SqlCommand(insert, conn);
+                    cmd.Parameters.AddWithValue("MRPNumber", MRPnumber);
+                    cmd.Parameters.AddWithValue("PONumber", PONumber);
+                    cmd.Parameters.AddWithValue("CreatorKey", Session["CreatorKey"].ToString());
+                    cmd.Parameters.AddWithValue("@expdate", ExpDelivery.Value.ToString());
+                    cmd.Parameters.AddWithValue("@vendor", Vendor.Value.ToString());
+                    cmd.Parameters.AddWithValue("@terms", terms);
+                    cmd.Parameters.AddWithValue("@currency", Currency.Value.ToString());
+                    cmd.Parameters.AddWithValue("@site", Site.Value.ToString());
+                    cmd.Parameters.AddWithValue("@warehouse", WareHouse.Value.ToString());
+                    cmd.Parameters.AddWithValue("@location", Location.Value.ToString());
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
+
+                    //string update_po = "UPDATE [hijo_portal].[dbo].[tbl_POCreation] SET [ExpectedDate] = @expdate, [VendorCode] = @vendor, [PaymentTerms] = @terms, [CurrencyCode] = @currency, [InventSite] = @site, [InventSiteWarehouse] = @warehouse,[InventSiteWarehouseLocation] = @location WHERE [PONumber] = @ponumber";
+
+                    //string terms = "";
+                    //if (Terms.Value != null)
+                    //    terms = Terms.Value.ToString();
+
+                    //SqlCommand cmd_po = new SqlCommand(update_po, conn);
+                    //cmd_po.Parameters.AddWithValue("@expdate", ExpDelivery.Value.ToString());
+                    //cmd_po.Parameters.AddWithValue("@vendor", Vendor.Value.ToString());
+                    //cmd_po.Parameters.AddWithValue("@terms", terms);
+                    //cmd_po.Parameters.AddWithValue("@currency", Currency.Value.ToString());
+                    //cmd_po.Parameters.AddWithValue("@site", Site.Value.ToString());
+                    //cmd_po.Parameters.AddWithValue("@warehouse", WareHouse.Value.ToString());
+                    //cmd_po.Parameters.AddWithValue("@location", Location.Value.ToString());
+                    ////cmd_po.Parameters.AddWithValue("@ponumber", POnumber.Text);
+                    //cmd_po.CommandType = CommandType.Text;
+                    //if (cmd_po.ExecuteNonQuery() > 0)
+                    //{
+                    //    Send.Enabled = true;
+                    //    Create.Text = "Update";
+                    //}
+
+                    switch (identifier)
+                    {
+                        case "1"://Direct Materials
+                            string update_materials = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] SET [QtyPO] = '" + po_qty + "' WHERE [PK] = '" + pk + "'";
+                            SqlCommand cmd_mat = new SqlCommand(update_materials, conn);
+                            cmd_mat.ExecuteNonQuery();
+
+                            string insert_mat_po = "INSERT [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[ItemCode],[TaxGroup],[TaxItemGroup],[Qty],[Cost],[TotalCost]) VALUES (@ponumber, @code, @taxgroup, @taxitem, @poqty, @pocost, @pototal)";
+
+                            SqlCommand cmd_mat_po = new SqlCommand(insert_mat_po, conn);
+                            cmd_mat_po.Parameters.AddWithValue("@ponumber", PONumber);
+                            cmd_mat_po.Parameters.AddWithValue("@code", item_code);
+                            cmd_mat_po.Parameters.AddWithValue("@taxgroup", taxgroup);
+                            cmd_mat_po.Parameters.AddWithValue("@taxitem", taxitem);
+                            cmd_mat_po.Parameters.AddWithValue("@poqty", Convert.ToDouble(po_qty));
+                            cmd_mat_po.Parameters.AddWithValue("@pocost", Convert.ToDouble(po_cost));
+                            cmd_mat_po.Parameters.AddWithValue("@pototal", Convert.ToDouble(po_total));
+                            cmd_mat_po.CommandType = CommandType.Text;
+                            cmd_mat_po.ExecuteNonQuery();
+                            break;
+
+                        case "2"://Opex
+                            string update_opex = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_OPEX] SET [QtyPO] = '" + po_qty + "' WHERE [PK] = '" + pk + "'";
+                            SqlCommand cmd_opex = new SqlCommand(update_opex, conn);
+                            cmd_opex.ExecuteNonQuery();
+
+                            string insert_opex_po = "INSERT [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[ItemCode],[TaxGroup],[TaxItemGroup],[Qty],[Cost],[TotalCost]) VALUES (@ponumber, @code, @taxgroup, @taxitem, @poqty, @pocost, @pototal)";
+
+                            SqlCommand cmd_opex_po = new SqlCommand(insert_opex_po, conn);
+                            cmd_opex_po.Parameters.AddWithValue("@ponumber", PONumber);
+                            cmd_opex_po.Parameters.AddWithValue("@code", item_code);
+                            cmd_opex_po.Parameters.AddWithValue("@taxgroup", taxgroup);
+                            cmd_opex_po.Parameters.AddWithValue("@taxitem", taxitem);
+                            cmd_opex_po.Parameters.AddWithValue("@poqty", Convert.ToDouble(po_qty));
+                            cmd_opex_po.Parameters.AddWithValue("@pocost", Convert.ToDouble(po_cost));
+                            cmd_opex_po.Parameters.AddWithValue("@pototal", Convert.ToDouble(po_total));
+                            cmd_opex_po.CommandType = CommandType.Text;
+                            cmd_opex_po.ExecuteNonQuery();
+                            break;
+                    }
+
+                    conn.Close();
+                    Server.Transfer("mrp_pocreation.aspx");
+                }
+                else
+                {
+                    ItemsEmpty.HeaderText = "Alert";
+                    ItemsEmptyLabel.Text = "Some selected items are empty";
+                    ItemsEmpty.ShowOnPageLoad = true;
+                }
+            }
 
             conn.Close();
         }
