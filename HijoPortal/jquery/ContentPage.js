@@ -2394,10 +2394,16 @@ function itemcode_SelectedIndexChanged(s, e) {
     var qty = s.GetSelectedItem().GetColumnText("Qty").toString();
     var cost = s.GetSelectedItem().GetColumnText("Cost").toString();
     var total = s.GetSelectedItem().GetColumnText("TotalCost").toString();
+    var uom = s.GetSelectedItem().GetColumnText("UOM").toString();
+    var pk = s.GetSelectedItem().GetColumnText("PK").toString();
+    var identifier = s.GetSelectedItem().GetColumnText("Identifier").toString();
 
     POCreatedQty.SetText(qty);
     POCreatedCost.SetText(cost);
     POCreatedTotal.SetText(total);
+    POCreatedUOM.SetText(uom);
+    pk_identifier.Set('hidden_pk', pk);
+    pk_identifier.Set('hidden_identifier', identifier);
 
     localStorage.setItem('AvailPO', qty);
 }
