@@ -29,7 +29,7 @@ namespace HijoPortal.classes
             mat_edited_total = 0,
             mat_approved_total = 0,
             manpower_total_amount = 0,
-            man_edited_total =0,
+            man_edited_total = 0,
             man_approved_total = 0,
             revenue_total_amount = 0;
 
@@ -2494,7 +2494,7 @@ namespace HijoPortal.classes
 
             conn.Close();
             return mrpLineStat;
-        }       
+        }
 
         public static void Approve_MRP(string docNum, int MRPKey, int AprvLine)
         {
@@ -2535,11 +2535,11 @@ namespace HijoPortal.classes
             adp.Fill(dtable);
             if (dtable.Rows.Count > 0)
             {
-                foreach(DataRow row in dtable.Rows)
+                foreach (DataRow row in dtable.Rows)
                 {
                     sEmail = EncryptionClass.Decrypt(row["Email"].ToString());
                     sEmailCR = EncryptionClass.Decrypt(row["CreatorEmail"].ToString());
-                    
+
                     int AprvLineB4 = AprvLine - 1;
 
                     if (Convert.ToInt32(row["CreatorGender"]) == 1)
@@ -2636,16 +2636,17 @@ namespace HijoPortal.classes
                         sbBodyCR.Append("</html>");
 
                         bool msgSendToCreator = GlobalClass.IsMailSent(sEmailCR, sSubjectCR, sbBodyCR.ToString());
-                    } 
+                    }
                 }
-            } else
+            }
+            else
             {
                 // back to workflow
                 qry = "SELECT dbo.tbl_MRP_List.CreatorKey, dbo.tbl_Users.Lastname, " +
                       " dbo.tbl_Users.Gender, dbo.tbl_Users.Email " +
                       " FROM dbo.tbl_MRP_List LEFT OUTER JOIN " +
                       " dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK " +
-                      " WHERE(dbo.tbl_MRP_List.PK = "+ MRPKey + ")";
+                      " WHERE(dbo.tbl_MRP_List.PK = " + MRPKey + ")";
                 cmd1 = new SqlCommand(qry);
                 cmd1.Connection = conn;
                 adp1 = new SqlDataAdapter(cmd1);
@@ -2713,7 +2714,8 @@ namespace HijoPortal.classes
                           " AND (Line = 6)";
                     cmdUp = new SqlCommand(qry, conn);
                     cmdUp.ExecuteNonQuery();
-                } else
+                }
+                else
                 {
                     qry = "UPDATE tbl_MRP_List_Workflow " +
                           " SET Visible = 0, " +
@@ -2922,13 +2924,13 @@ namespace HijoPortal.classes
                     }
 
                     bool msgSendToCreator = GlobalClass.IsMailSent(sEmailCR, sSubjectCR, sbBodyCR.ToString());
-                    
+
                     //Update user assigned to me
                     qry = "UPDATE tbl_Users_Assigned " +
                            " SET Attended = 1 " +
                            " WHERE (MRPKey = " + MRPKey + ") " +
                            " AND (WorkFlowLine = " + wrkflwlnB4 + ") " +
-                           " AND (UserKey = "+ usrKey + ") " +
+                           " AND (UserKey = " + usrKey + ") " +
                            " AND (WorkFlowType = 1)";
                     cmdUp = new SqlCommand(qry, conn);
                     cmdUp.ExecuteNonQuery();
@@ -3331,7 +3333,7 @@ namespace HijoPortal.classes
             if (dtTable.Columns.Count == 0)
             {
                 dtTable.Columns.Add("PK", typeof(string));
-                dtTable.Columns.Add("TableIdentifier", typeof(string));
+                dtTable.Columns.Add("Identifier", typeof(string));
                 dtTable.Columns.Add("ItemCode", typeof(string));
                 dtTable.Columns.Add("Description", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
@@ -3358,7 +3360,7 @@ namespace HijoPortal.classes
                 {
                     DataRow rowAdd = dtTable.NewRow();
                     rowAdd["PK"] = row["PK"].ToString();
-                    rowAdd["TableIdentifier"] = row["TableIdentifier"].ToString();
+                    rowAdd["Identifier"] = row["TableIdentifier"].ToString();
                     rowAdd["ItemCode"] = row["ItemCode"].ToString();
                     rowAdd["Description"] = row["Description"].ToString();
                     rowAdd["UOM"] = row["UOM"].ToString();
@@ -3380,7 +3382,7 @@ namespace HijoPortal.classes
                 {
                     DataRow rowAdd = dtTable.NewRow();
                     rowAdd["PK"] = row["PK"].ToString();
-                    rowAdd["TableIdentifier"] = row["TableIdentifier"].ToString();
+                    rowAdd["Identifier"] = row["TableIdentifier"].ToString();
                     rowAdd["ItemCode"] = row["ItemCode"].ToString();
                     rowAdd["Description"] = row["ItemDescription"].ToString();
                     rowAdd["UOM"] = row["UOM"].ToString();
@@ -3405,13 +3407,15 @@ namespace HijoPortal.classes
         {
             DataTable dtTable = new DataTable();
             SqlCommand cmd = null;
-            SqlDataAdapter adp, adp2;
+            SqlDataAdapter adp;
             DataTable dtable = new DataTable();
             DataTable dtable2 = new DataTable();
 
             if (dtTable.Columns.Count == 0)
             {
                 dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("ItemPK", typeof(string));
+                dtTable.Columns.Add("Identifier", typeof(string));
                 dtTable.Columns.Add("ItemCode", typeof(string));
                 dtTable.Columns.Add("TaxGroup", typeof(string));
                 dtTable.Columns.Add("TaxItemGroup", typeof(string));
@@ -3425,7 +3429,9 @@ namespace HijoPortal.classes
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PONumber] = '" + ponumber + "'";
+            //string qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PONumber] = '" + ponumber + "'";
+
+            string qry = "SELECT dbo.tbl_POCreation_Details.*, dbo.tbl_MRP_List_DirectMaterials.UOM AS DM_UOM, dbo.tbl_MRP_List_OPEX.UOM AS OP_UOM FROM   dbo.tbl_POCreation INNER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_POCreation.PONumber = dbo.tbl_POCreation_Details.PONumber LEFT OUTER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_OPEX.PK AND dbo.tbl_POCreation_Details.Identifier = dbo.tbl_MRP_List_OPEX.TableIdentifier LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_DirectMaterials.PK AND dbo.tbl_POCreation_Details.Identifier = dbo.tbl_MRP_List_DirectMaterials.TableIdentifier";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
@@ -3437,13 +3443,19 @@ namespace HijoPortal.classes
                 {
                     DataRow rowAdd = dtTable.NewRow();
                     rowAdd["PK"] = row["PK"].ToString();
+                    rowAdd["ItemPK"] = row["ItemPK"].ToString();
+                    rowAdd["Identifier"] = row["Identifier"].ToString();
                     rowAdd["ItemCode"] = row["ItemCode"].ToString();
                     rowAdd["TaxGroup"] = row["TaxGroup"].ToString();
                     rowAdd["TaxItemGroup"] = row["TaxItemGroup"].ToString();
-                    rowAdd["UOM"] = "UOM";
                     rowAdd["Cost"] = row["Cost"].ToString();
                     rowAdd["Qty"] = row["Qty"].ToString();
-                    rowAdd["TotalCost"] = row["TotalCost"].ToString(); ;
+                    rowAdd["TotalCost"] = row["TotalCost"].ToString();
+                    System.Diagnostics.Debug.Write("string:" + row["DM_UOM"].ToString());
+                    if (string.IsNullOrEmpty(row["DM_UOM"].ToString()))
+                        rowAdd["UOM"] = row["OP_UOM"].ToString();
+                    else
+                        rowAdd["UOM"] = row["DM_UOM"].ToString();
                     dtTable.Rows.Add(rowAdd);
                 }
             }

@@ -278,7 +278,6 @@ namespace HijoPortal
                         }
                     }
                     sb.Append("</ul>");
-                    System.Diagnostics.Debug.Write(sb.ToString());
                     dvSideNav.InnerHtml = sb.ToString();
                 }
                 dtable.Clear();
