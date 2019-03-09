@@ -31,7 +31,7 @@
                                                 OnRowInserting="grdFinanceHead_RowInserting"
                                                 OnStartRowEditing="grdFinanceHead_StartRowEditing"
                                                 OnRowUpdating="grdFinanceHead_RowUpdating"
-                                                OnRowDeleting="grdFinanceHead_RowDeleting" 
+                                                OnRowDeleting="grdFinanceHead_RowDeleting"
                                                 OnBeforeGetCallbackResult="grdFinanceHead_BeforeGetCallbackResult">
 
                                                 <SettingsBehavior AllowSort="true" SortMode="Value" />
@@ -62,7 +62,16 @@
                                                             </dx:ASPxComboBox>
                                                         </EditItemTemplate>
                                                     </dx:GridViewDataColumn>
-                                                    <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="7">
+                                                    <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="7"></dx:GridViewDataColumn>
+                                                    <dx:GridViewDataColumn FieldName="StatusDesc" Caption="Status" VisibleIndex="8">
+                                                        <EditItemTemplate>
+                                                            <dx:ASPxComboBox ID="Status" runat="server" ClientInstanceName="StatusDirect" OnInit="FinanceHeadStatus_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
+                                                                ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
+                                                                <ClientSideEvents SelectedIndexChanged="" />
+                                                            </dx:ASPxComboBox>
+                                                        </EditItemTemplate>
+                                                    </dx:GridViewDataColumn>
+                                                    <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="9">
                                                         <EditItemTemplate>
                                                             <%--<dx:ASPxTextBox ID="ASPxLastModifiedTextBox" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
                                                             <dx:ASPxLabel ID="ASPxLastModifiedTextBox" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue"></dx:ASPxLabel>
@@ -102,7 +111,7 @@
                                     </dx:SplitterContentControl>
                                 </ContentCollection>
                             </dx:SplitterPane>
-                            <dx:SplitterPane  ScrollBars="Auto">
+                            <dx:SplitterPane ScrollBars="Auto">
                                 <ContentCollection>
                                     <dx:SplitterContentControl runat="server">
                                         <%--Finance Inventory Officer--%>
@@ -115,12 +124,12 @@
                                                 Width="100%"
                                                 EnableCallBacks="true"
                                                 KeyFieldName="PK"
-                                                Theme="Office2010Blue" 
-                                                OnInitNewRow="grdFinanceApproval_InitNewRow" 
-                                                OnRowInserting="grdFinanceApproval_RowInserting" 
-                                                OnStartRowEditing="grdFinanceApproval_StartRowEditing" 
-                                                OnRowUpdating="grdFinanceApproval_RowUpdating" 
-                                                OnRowDeleting="grdFinanceApproval_RowDeleting" 
+                                                Theme="Office2010Blue"
+                                                OnInitNewRow="grdFinanceApproval_InitNewRow"
+                                                OnRowInserting="grdFinanceApproval_RowInserting"
+                                                OnStartRowEditing="grdFinanceApproval_StartRowEditing"
+                                                OnRowUpdating="grdFinanceApproval_RowUpdating"
+                                                OnRowDeleting="grdFinanceApproval_RowDeleting"
                                                 OnBeforeGetCallbackResult="grdFinanceApproval_BeforeGetCallbackResult">
 
                                                 <SettingsBehavior AllowSort="true" SortMode="Value" />
@@ -151,7 +160,16 @@
                                                             </dx:ASPxComboBox>
                                                         </EditItemTemplate>
                                                     </dx:GridViewDataColumn>
-                                                    <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="7">
+                                                    <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="7"></dx:GridViewDataColumn>
+                                                    <dx:GridViewDataColumn FieldName="StatusDesc" Caption="Status" VisibleIndex="8">
+                                                        <EditItemTemplate>
+                                                            <dx:ASPxComboBox ID="Status" runat="server" ClientInstanceName="StatusDirect" OnInit="InventOffStatus_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
+                                                                ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
+                                                                <ClientSideEvents SelectedIndexChanged="" />
+                                                            </dx:ASPxComboBox>
+                                                        </EditItemTemplate>
+                                                    </dx:GridViewDataColumn>
+                                                    <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="9">
                                                         <EditItemTemplate>
                                                             <%--<dx:ASPxTextBox ID="ASPxLastModifiedTextBox" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
                                                             <dx:ASPxLabel ID="ASPxLastModifiedTextBoxApp" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue"></dx:ASPxLabel>
@@ -213,7 +231,7 @@
                                                 OnRowInserting="grdFinanceBudget_RowInserting"
                                                 OnStartRowEditing="grdFinanceBudget_StartRowEditing"
                                                 OnRowUpdating="grdFinanceBudget_RowUpdating"
-                                                OnRowDeleting="grdFinanceBudget_RowDeleting" 
+                                                OnRowDeleting="grdFinanceBudget_RowDeleting"
                                                 OnBeforeGetCallbackResult="grdFinanceBudget_BeforeGetCallbackResult">
 
                                                 <%--RowClick="OnGridFocusedRowChangedFinBud"--%>
@@ -251,7 +269,16 @@
                                                             </dx:ASPxComboBox>
                                                         </EditItemTemplate>
                                                     </dx:GridViewDataColumn>
-                                                    <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="7">
+                                                    <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="7"></dx:GridViewDataColumn>
+                                                    <dx:GridViewDataColumn FieldName="StatusDesc" Caption="Status" VisibleIndex="8">
+                                                        <EditItemTemplate>
+                                                            <dx:ASPxComboBox ID="Status" runat="server" ClientInstanceName="StatusDirect" OnInit="Status_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
+                                                                ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
+                                                                <ClientSideEvents SelectedIndexChanged="" />
+                                                            </dx:ASPxComboBox>
+                                                        </EditItemTemplate>
+                                                    </dx:GridViewDataColumn>
+                                                    <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="9">
                                                         <EditItemTemplate>
                                                             <%--<dx:ASPxTextBox ID="ASPxLastModifiedTextBox" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
                                                             <dx:ASPxLabel ID="ASPxLastModifiedTextBoxBud" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue"></dx:ASPxLabel>
@@ -312,7 +339,7 @@
                                                 OnStartRowEditing="grdFinanceBudgetDet_StartRowEditing"
                                                 OnRowUpdating="grdFinanceBudgetDet_RowUpdating"
                                                 OnRowDeleting="grdFinanceBudgetDet_RowDeleting"
-                                                OnCustomCallback="grdFinanceBudgetDet_CustomCallback" 
+                                                OnCustomCallback="grdFinanceBudgetDet_CustomCallback"
                                                 OnBeforeGetCallbackResult="grdFinanceBudgetDet_BeforeGetCallbackResult">
 
                                                 <ClientSideEvents

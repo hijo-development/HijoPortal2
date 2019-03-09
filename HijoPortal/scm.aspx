@@ -34,7 +34,7 @@
                                                             OnRowInserting="grdSCMHead_RowInserting"
                                                             OnStartRowEditing="grdSCMHead_StartRowEditing"
                                                             OnRowUpdating="grdSCMHead_RowUpdating"
-                                                            OnRowDeleting="grdSCMHead_RowDeleting" 
+                                                            OnRowDeleting="grdSCMHead_RowDeleting"
                                                             OnBeforeGetCallbackResult="grdSCMHead_BeforeGetCallbackResult">
 
                                                             <SettingsBehavior AllowSort="true" SortMode="Value" />
@@ -65,7 +65,16 @@
                                                                         </dx:ASPxComboBox>
                                                                     </EditItemTemplate>
                                                                 </dx:GridViewDataColumn>
-                                                                <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="7">
+                                                                <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="7"></dx:GridViewDataColumn>
+                                                                <dx:GridViewDataColumn FieldName="StatusDesc" Caption="Status" VisibleIndex="8">
+                                                                    <EditItemTemplate>
+                                                                        <dx:ASPxComboBox ID="Status" runat="server" ClientInstanceName="StatusDirect" OnInit="SCMHeadStatus_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
+                                                                            ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
+                                                                            <ClientSideEvents SelectedIndexChanged="" />
+                                                                        </dx:ASPxComboBox>
+                                                                    </EditItemTemplate>
+                                                                </dx:GridViewDataColumn>
+                                                                <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="9">
                                                                     <EditItemTemplate>
                                                                         <%--<dx:ASPxTextBox ID="ASPxLastModifiedTextBox" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
                                                                         <dx:ASPxLabel ID="ASPxLastModifiedTextBox" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue"></dx:ASPxLabel>
@@ -123,7 +132,7 @@
                                                             OnRowInserting="grdSCMInventoryAnal_RowInserting"
                                                             OnStartRowEditing="grdSCMInventoryAnal_StartRowEditing"
                                                             OnRowUpdating="grdSCMInventoryAnal_RowUpdating"
-                                                            OnRowDeleting="grdSCMInventoryAnal_RowDeleting" 
+                                                            OnRowDeleting="grdSCMInventoryAnal_RowDeleting"
                                                             OnBeforeGetCallbackResult="grdSCMInventoryAnal_BeforeGetCallbackResult">
 
                                                             <SettingsBehavior AllowSort="true" SortMode="Value" />
@@ -154,7 +163,16 @@
                                                                         </dx:ASPxComboBox>
                                                                     </EditItemTemplate>
                                                                 </dx:GridViewDataColumn>
-                                                                <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="7">
+                                                                <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="7"></dx:GridViewDataColumn>
+                                                                <dx:GridViewDataColumn FieldName="StatusDesc" Caption="Status" VisibleIndex="8">
+                                                                    <EditItemTemplate>
+                                                                        <dx:ASPxComboBox ID="Status" runat="server" ClientInstanceName="StatusDirect" OnInit="InventAnalStatus_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
+                                                                            ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
+                                                                            <ClientSideEvents SelectedIndexChanged="" />
+                                                                        </dx:ASPxComboBox>
+                                                                    </EditItemTemplate>
+                                                                </dx:GridViewDataColumn>
+                                                                <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="9">
                                                                     <EditItemTemplate>
                                                                         <%--<dx:ASPxTextBox ID="ASPxLastModifiedTextBoxAnal" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
                                                                         <dx:ASPxLabel ID="ASPxLastModifiedTextBoxAnal" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue"></dx:ASPxLabel>
@@ -222,7 +240,7 @@
                                                             OnRowInserting="grdSCMProcurementOff_RowInserting"
                                                             OnStartRowEditing="grdSCMProcurementOff_StartRowEditing"
                                                             OnRowUpdating="grdSCMProcurementOff_RowUpdating"
-                                                            OnRowDeleting="grdSCMProcurementOff_RowDeleting" 
+                                                            OnRowDeleting="grdSCMProcurementOff_RowDeleting"
                                                             OnBeforeGetCallbackResult="grdSCMProcurementOff_BeforeGetCallbackResult">
 
                                                             <SettingsBehavior AllowSort="true" SortMode="Value" />
@@ -262,7 +280,16 @@
                                                                         </dx:ASPxComboBox>
                                                                     </EditItemTemplate>
                                                                 </dx:GridViewDataColumn>
-                                                                <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="7">
+                                                                <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="6"></dx:GridViewDataColumn>
+                                                                <dx:GridViewDataColumn FieldName="StatusDesc" Caption="Status" VisibleIndex="7">
+                                                                    <EditItemTemplate>
+                                                                        <dx:ASPxComboBox ID="Status" runat="server" ClientInstanceName="StatusDirect" OnInit="Status_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
+                                                                            ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
+                                                                            <ClientSideEvents SelectedIndexChanged="" />
+                                                                        </dx:ASPxComboBox>
+                                                                    </EditItemTemplate>
+                                                                </dx:GridViewDataColumn>
+                                                                <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="8">
                                                                     <EditItemTemplate>
                                                                         <%--<dx:ASPxTextBox ID="ASPxLastModifiedTextBoxProcOff" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
                                                                         <dx:ASPxLabel ID="ASPxLastModifiedTextBoxProcOff" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue"></dx:ASPxLabel>
@@ -322,7 +349,7 @@
                                                             OnRowInserting="grdSCMProcurementOffDetails_RowInserting"
                                                             OnStartRowEditing="grdSCMProcurementOffDetails_StartRowEditing"
                                                             OnRowUpdating="grdSCMProcurementOffDetails_RowUpdating"
-                                                            OnRowDeleting="grdSCMProcurementOffDetails_RowDeleting" 
+                                                            OnRowDeleting="grdSCMProcurementOffDetails_RowDeleting"
                                                             OnBeforeGetCallbackResult="grdSCMProcurementOffDetails_BeforeGetCallbackResult">
 
                                                             <ClientSideEvents

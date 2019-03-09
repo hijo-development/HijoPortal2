@@ -189,8 +189,11 @@ function CustomButtonClick(s, e) {
         e.processOnServer = true;
     } else if (button == "Preview") {
         e.processOnServer = true;
-    } else if (button == "Submit") {
-        e.processOnServer = true;
+    } else if (button == "Submit")
+    {
+        PopupSubmitMRPList.SetHeaderText("Confirm");
+        PopupSubmitMRPList.Show();
+        //e.processOnServer = true;
     }
 }
 
@@ -1462,8 +1465,9 @@ function updateBUDeptHeadList(s, e) {
     var endCode = EntityCodeHeadDirect.GetText();
     var headCode = BUHeadDirect.GetText();
     var effectDate = EffectDateHeadDirect.GetText();
+    var Status = BUHeadStatusDirect.GetText();
 
-    if (endCode.length > 0 && headCode.length > 0 && effectDate.length > 0) {
+    if (endCode.length > 0 && headCode.length > 0 && effectDate.length > 0 && Status.length > 0) {
         BUDeptListGridDirect.UpdateEdit();
     }
 }
@@ -2265,7 +2269,11 @@ function Preview_Submit_Click(s, e) {
     var stat = StatusHidden.Get("hidden_preview_iStatusKey");
     var workline = StatusHidden.Get("hidden_preview_wrkflwln");
     if (stat == "0")//0 
-        e.processOnServer = true;
+    {
+        PopupSubmitPreview.SetHeaderText('Confirm');
+        PopupSubmitPreview.Show();
+        //e.processOnServer = true;
+    }        
     else {//1 submitted
         if (workline == "0") {
             MRPNotificationMessage.SetText("Document already submitted to BU / SSU Lead for review.");
@@ -2281,7 +2289,7 @@ function Preview_Submit_Click(s, e) {
             MRPNotify.Show();
         }
 
-        e.processOnServer = false;
+        //e.processOnServer = false;
     }
 }
 
@@ -2338,10 +2346,14 @@ function ListForApprovalGrid_CustomButtonClick(s, e) {
 function PreviewForApproval_Submit_Click(s, e) {
     var stat = StatusHiddenPrevApp.Get("hidden_preview_iStatusKey");
     var workline = StatusHiddenPrevApp.Get("hidden_preview_wrkflwln");
-    console.log(stat);
-    console.log(workline);
+    //console.log(stat);
+    //console.log(workline);
     if (stat == "0")//0 
-        e.processOnServer = true;
+    {
+        PopupSubmitAppPreview.SetHeaderText('Confirm');
+        PopupSubmitAppPreview.Show();
+        //e.processOnServer = true;
+    }
     else {//1 submitted
         if (workline == "1") {
             MRPNotifyMsgPrevApp.SetText("Document already approved by SCM Lead.");
@@ -2357,7 +2369,7 @@ function PreviewForApproval_Submit_Click(s, e) {
             MRPNotifyPrevApp.Show();
         }
 
-        e.processOnServer = false;
+        //e.processOnServer = false;
     }
 }
 

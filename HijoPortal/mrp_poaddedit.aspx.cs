@@ -153,7 +153,7 @@ namespace HijoPortal
 
             while (enumerator.MoveNext())
             {
-                MRPClass.PrintString(enumerator.Key.ToString());
+                //MRPClass.PrintString(enumerator.Key.ToString());
                 row[enumerator.Key.ToString()] = enumerator.Value.ToString();
             }
             gridView.CancelEdit();
@@ -537,7 +537,7 @@ namespace HijoPortal
                 if (dataColumn == null) continue;
                 if (e.NewValues[dataColumn.FieldName] == null)
                 {
-                    MRPClass.PrintString(dataColumn.FieldName);
+                    //MRPClass.PrintString(dataColumn.FieldName);
                     if (dataColumn.FieldName == "TaxGroup" || dataColumn.FieldName == "TaxItemGroup")
                         e.Errors[dataColumn] = "Value cannot be null.";
                 }

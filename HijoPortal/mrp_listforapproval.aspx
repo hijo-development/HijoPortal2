@@ -17,8 +17,8 @@
                         </CustomButtons>
                     </dx:GridViewCommandColumn>
                     <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="DocNumber"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="DateCreated"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="DocNumber" Caption="Document #" Width="140px" SortOrder="Descending"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="DateCreated" Caption="Date Created"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="BU / Department"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month"></dx:GridViewDataColumn>

@@ -517,13 +517,15 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("BUDeptCodeDesc", typeof(string));
                 dtTable.Columns.Add("UserKey", typeof(string));
                 dtTable.Columns.Add("UserCompleteName", typeof(string));
+                dtTable.Columns.Add("StatusKey", typeof(string));
+                dtTable.Columns.Add("StatusDesc", typeof(string));
             }
 
             string qry = "SELECT dbo.tbl_System_BUDeptHead.PK, dbo.tbl_System_BUDeptHead.Ctrl, " +
                          " dbo.tbl_System_BUDeptHead.EffectDate, dbo.tbl_System_BUDeptHead.EntityCode, " +
                          " dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, dbo.tbl_System_BUDeptHead.BUDeptCode, " +
                          " dbo.vw_AXOperatingUnitTable.NAME AS BUDeptCodeDesc, dbo.tbl_System_BUDeptHead.UserKey, " +
-                         " dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname " +
+                         " dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname, dbo.tbl_System_BUDeptHead.StatusKey " +
                          " FROM dbo.tbl_System_BUDeptHead LEFT OUTER JOIN " +
                          " dbo.tbl_Users ON dbo.tbl_System_BUDeptHead.UserKey = dbo.tbl_Users.PK LEFT OUTER JOIN " +
                          " dbo.vw_AXOperatingUnitTable ON dbo.tbl_System_BUDeptHead.BUDeptCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
@@ -547,6 +549,15 @@ namespace HijoPortal.classes
                     dtRow["BUDeptCodeDesc"] = row["BUDeptCodeDesc"].ToString();
                     dtRow["UserKey"] = row["UserKey"].ToString();
                     dtRow["UserCompleteName"] = EncryptionClass.Decrypt(row["Lastname"].ToString()) + ",  " + EncryptionClass.Decrypt(row["Firstname"].ToString());
+                    dtRow["StatusKey"] = row["StatusKey"].ToString();
+                    if (Convert.ToInt32(row["StatusKey"]) == 1)
+                    {
+                        dtRow["StatusDesc"] = "Active";
+                    }
+                    else
+                    {
+                        dtRow["StatusDesc"] = "Inactive";
+                    }
                     dtTable.Rows.Add(dtRow);
                 }
             }

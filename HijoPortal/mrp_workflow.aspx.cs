@@ -59,7 +59,7 @@ namespace HijoPortal
 
         private void BindWorkflow()
         {
-            MRPClass.PrintString("Workflow is bind");
+            //MRPClass.PrintString("Workflow is bind");
             DataTable dtRecord = WorkflowClass.WorkflowMasterTable();
             grdWorkflowMaster.DataSource = dtRecord;
             grdWorkflowMaster.KeyFieldName = "PK";
@@ -87,7 +87,7 @@ namespace HijoPortal
             combo.DataBind();
 
             GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
-            MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
+            //MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
             if (!container.Grid.IsNewRowEditing)
             {
                 combo.Value = DataBinder.Eval(container.DataItem, "EntCode").ToString();
@@ -114,7 +114,7 @@ namespace HijoPortal
             combo.DataBind();
 
             GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
-            MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
+            //MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
             if (!container.Grid.IsNewRowEditing)
             {
                 combo.Value = DataBinder.Eval(container.DataItem, "BUCode").ToString();
@@ -142,7 +142,7 @@ namespace HijoPortal
             combo.DataBind();
 
             GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
-            MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
+            //MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
             if (!container.Grid.IsNewRowEditing)
             {
                 combo.Value = DataBinder.Eval(container.DataItem, "BUHead").ToString();

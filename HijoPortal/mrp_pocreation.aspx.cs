@@ -63,6 +63,7 @@ namespace HijoPortal
                         Session["MRP_Number"] = docNum;
 
                         //query if po number already PO
+
                         //string query_po = "SELECT COUNT(*) FROM[hijo_portal].[dbo].[tbl_POCreation_Details] WHERE PONumber = '" + poNumber + "'";
                         //SqlCommand cmd = new SqlCommand(query_po, conn);
                         //int result_po = Convert.ToInt32(cmd.ExecuteScalar());
@@ -71,6 +72,15 @@ namespace HijoPortal
                         //    text["hidden_value"] = "AlreadyPO";
                         //else
                         Response.RedirectLocation = "mrp_pocreatededit.aspx?PONum=" + poNumber.ToString();
+
+//                         string query_po = "SELECT COUNT(*) FROM[hijo_portal].[dbo].[tbl_POCreation_Details] WHERE PONumber = '" + poNumber + "'";
+//                         SqlCommand cmd = new SqlCommand(query_po, conn);
+//                         int result_po = Convert.ToInt32(cmd.ExecuteScalar());
+//                         //MRPClass.PrintString(":" + result_po);
+//                         if (result_po > 0)
+//                             text["hidden_value"] = "AlreadyPO";
+//                         else
+//                             Response.RedirectLocation = "mrp_poaddedit.aspx?DocNum=" + docNum.ToString();
                     }
                 }
 

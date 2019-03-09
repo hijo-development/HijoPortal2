@@ -149,7 +149,7 @@ namespace HijoPortal
 
         private void HideHeader(object sender)
         {
-            MRPClass.PrintString("hideheader");
+            //MRPClass.PrintString("hideheader");
             if (entitycode != MRPClass.train_entity)
             {
                 ListView listview = sender as ListView;
@@ -198,7 +198,7 @@ namespace HijoPortal
                 DocNum.Text = Request.Params["DocNum"].ToString();
                 docnumber = Request.Params["DocNum"].ToString();
                 wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
-                MRPClass.PrintString("wrk:" + wrkflwln);
+                //MRPClass.PrintString("wrk:" + wrkflwln);
 
                 string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
                               " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
@@ -238,7 +238,7 @@ namespace HijoPortal
                 StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
                 StatusHidden["hidden_preview_wrkflwln"] = wrkflwln;
 
-                MRPClass.PrintString("ispostback");
+                //MRPClass.PrintString("ispostback");
                 DataTable table = MRPClass.MRP_CAPEX(DocNum.Text.ToString(), entitycode);
                 CapexListview.DataSource = table;
                 CapexListview.DataBind();
@@ -308,7 +308,7 @@ namespace HijoPortal
             conn.Open();
             SqlCommand comm = new SqlCommand(query, conn);
             int count = Convert.ToInt32(comm.ExecuteScalar());
-            MRPClass.PrintString(tablename + PK + count + LogsMemo.Text);
+            //MRPClass.PrintString(tablename + PK + count + LogsMemo.Text);
             if (count > 0)//edit
             {
                 string update = "UPDATE " + tablename + " SET [Remarks] = @Remarks WHERE [MasterKey] = '" + PK + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
@@ -382,8 +382,8 @@ namespace HijoPortal
 
                 string query = "SELECT [Remarks] FROM " + MRPClass.MaterialsTableLogs() + " WHERE MasterKey = '" + PK_MAT + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
 
-                MRPClass.PrintString("CreatorKey: " + Session["CreatorKey"].ToString());
-                MRPClass.PrintString("PK_MAT: " + PK_MAT.ToString());
+                //MRPClass.PrintString("CreatorKey: " + Session["CreatorKey"].ToString());
+                //MRPClass.PrintString("PK_MAT: " + PK_MAT.ToString());
 
                 SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
                 conn.Open();

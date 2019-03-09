@@ -86,8 +86,11 @@ namespace HijoPortal
                 {
                     page = "mrp_preview.aspx";
                 }
+            } else if (wrkflowtype == 2)
+            {
+                page = "mrp_previewforapproval.aspx";
             }
-            
+
             ASPxHyperLink link = sender as ASPxHyperLink;
             GridViewDataItemTemplateContainer container = link.NamingContainer as GridViewDataItemTemplateContainer;
             object value = container.Grid.GetRowValues(container.VisibleIndex, "DocNumber");
