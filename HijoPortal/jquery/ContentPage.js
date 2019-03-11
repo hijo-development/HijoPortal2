@@ -189,8 +189,7 @@ function CustomButtonClick(s, e) {
         e.processOnServer = true;
     } else if (button == "Preview") {
         e.processOnServer = true;
-    } else if (button == "Submit")
-    {
+    } else if (button == "Submit") {
         PopupSubmitMRPList.SetHeaderText("Confirm");
         PopupSubmitMRPList.Show();
         //e.processOnServer = true;
@@ -2273,7 +2272,7 @@ function Preview_Submit_Click(s, e) {
         PopupSubmitPreview.SetHeaderText('Confirm');
         PopupSubmitPreview.Show();
         //e.processOnServer = true;
-    }        
+    }
     else {//1 submitted
         if (workline == "0") {
             MRPNotificationMessage.SetText("Document already submitted to BU / SSU Lead for review.");
@@ -2402,8 +2401,8 @@ function itemcode_SelectedIndexChanged(s, e) {
     POCreatedCost.SetText(cost);
     POCreatedTotal.SetText(total);
     POCreatedUOM.SetText(uom);
-    pk_identifier.Set('hidden_pk', pk);
-    pk_identifier.Set('hidden_identifier', identifier);
+    pk_identifier_ingrid.Set('hidden_pk', pk);
+    pk_identifier_ingrid.Set('hidden_identifier', identifier);
 
     localStorage.setItem('AvailPO', qty);
 }
@@ -2419,9 +2418,11 @@ function POCreatedQty_KeyUp(s, e) {
             if (cost > 0) {
                 total = cost * qty;
                 POCreatedTotal.SetText(parseFloat(total).toFixed(2));
+                POCreatedTotal.SetIsValid(true);
             }
         } else {
             POCreatedTotal.SetText("");
+            POCreatedTotal.SetIsValid(false);
         }
     } else {
         s.SetText(avail_qty);
@@ -2440,10 +2441,133 @@ function POCreatedCost_KeyUp(s, e) {
         if (cost > 0) {
             total = cost * qty;
             POCreatedTotal.SetText(parseFloat(total).toFixed(2));
+            POCreatedTotal.SetIsValid(true);
         }
     } else {
         POCreatedTotal.SetText("");
+        POCreatedTotal.SetIsValid(false);
     }
 }
 
+function POCreatedGrid_CustomButtonClick(s, e) {
+    console.log(e.buttonID);
+    var button = e.buttonID;
+    if (button == "POCreatedGrid_Cancel") {
+        POCreatedGridCIN.CancelEdit();
+    } else if (button == "POCreatedGrid_UpdateBtn") {
+        var itemcode = POCreatedGrid_ItemCode.GetValue();
+        var taxgroup = POCreatedGrid_TaxGroup.GetValue();
+        var taxitem = POCreatedGrid_TaxItemGroup.GetValue();
+        var qty = POCreatedQty.GetValue();
+        var cost = POCreatedCost.GetValue();
+        var total = POCreatedTotal.GetValue();
+        if (itemcode != null && taxgroup != null && taxitem != null && qty != null && cost != null && total != null)
+            POCreatedGridCIN.UpdateEdit();
 
+        if (itemcode == null) POCreatedGrid_ItemCode.SetIsValid(false);
+        if (taxgroup == null) POCreatedGrid_TaxGroup.SetIsValid(false);
+        if (taxitem == null) POCreatedGrid_TaxItemGroup.SetIsValid(false);
+        if (qty == null) POCreatedQty.SetIsValid(false);
+        if (cost == null) POCreatedCost.SetIsValid(false);
+        if (total == null) POCreatedTotal.SetIsValid(false);
+
+    } else if (button == "POCreatedGrid_DeleteBtn") {
+        POCreatedGrid_DeletePopup.SetHeaderText("Confirm");
+        POCreatedGrid_DeletePopup.Show();
+        
+    }
+}
+
+function POCreatedGrid_FocusedRowChanged(s, e) {
+    s.GetRowValues(s.GetFocusedRowIndex(), 'AvailForPO;Qty', POCreatedGrid_OnGetRowValues);
+}
+
+function POCreatedGrid_OnGetRowValues(values) {
+    var availpo = values[0];
+    var qty = values[1];
+    var availpo_updated = Math.abs(Math.round(availpo) - Math.round(qty));
+    localStorage.setItem('AvailPO', availpo_updated);
+}
+
+
+//POCREATEDEDIT Vendor
+var pocreatededit_postponedCallbackRequiredCurrency = false;
+var pocreatededit_postponedCallbackRequiredTerms = false;
+function pocreatededit_Vendor_SelectedIndexChanged(s, e) {
+    if (pocreatededit_currency_callback.InCallback()) {
+        pocreatededit_postponedCallbackRequiredCurrency = true;
+        pocreatededit_postponedCallbackRequiredTerms = true;
+    }
+    else {
+        pocreatededit_currency_callback.PerformCallback();
+        pocreatededit_terms_callback.PerformCallback();
+    }
+}
+
+function pocreatededit_currency_EndCallback(s, e) {
+    if (pocreatededit_postponedCallbackRequiredCurrency) {
+        pocreatededit_currency_callback.PerformCallback();
+        pocreatededit_postponedCallbackRequiredCurrency = false;
+    }
+}
+
+function pocreatededit_terms_EndCallback(s, e) {
+    if (pocreatededit_postponedCallbackRequiredTerms) {
+        pocreatededit_terms_callback.PerformCallback();
+        pocreatededit_postponedCallbackRequiredTerms = false;
+    }
+}
+
+//Site
+var pocreatededit_postponedCallbackRequiredWarehouse = false;
+var pocreatededit_postponedCallbackRequiredLocation = false;
+function pocreatededit_Site_SelectedIndexChanged(s, e){
+    if (pocreatededit_warehouse_callback.InCallback()) {
+        pocreatededit_postponedCallbackRequiredWarehouse = true;
+        pocreatededit_postponedCallbackRequiredLocation = true;
+    }
+    else {
+        pocreatededit_warehouse_callback.PerformCallback();
+        pocreatededit_location_callback.PerformCallback();
+    }
+}
+
+function pocreatededit_warehouse_EndCallback(s, e) {
+    if (pocreatededit_postponedCallbackRequiredWarehouse) {
+        pocreatededit_warehouse_callback.PerformCallback();
+        pocreatededit_postponedCallbackRequiredWarehouse = false;
+    }
+}
+
+function pocreatededit_location_EndCallback(s, e) {
+    if (pocreatededit_postponedCallbackRequiredLocation) {
+        pocreatededit_location_callback.PerformCallback();
+        pocreatededit_postponedCallbackRequiredLocation = false;
+    }
+}
+
+//Location
+function pocreatededit_Warehouse_SelectedIndexChanged(s, e) {
+    //Location.SetText("");
+    if (pocreatededit_location_callback.InCallback())
+        pocreatededit_postponedCallbackRequiredLocation = true;
+    else
+        pocreatededit_location_callback.PerformCallback();
+}
+
+
+//var postponedCallbackRequiredLocation = false;
+//function warehouse_indexchanged(s, e) {
+//    Location.SetText("");
+//    if (LocationCallback.InCallback())
+//        postponedCallbackRequiredLocation = true;
+//    else
+//        LocationCallback.PerformCallback();
+//}
+
+//function location_endcallback(s, e) {
+//    if (postponedCallbackRequiredLocation) {
+//        LocationCallback.PerformCallback();
+//        postponedCallbackRequiredLocation = false;
+//    }
+//}

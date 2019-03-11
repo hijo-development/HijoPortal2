@@ -111,7 +111,7 @@ namespace HijoPortal {
         /// </remarks>
         protected global::DevExpress.Web.ASPxGridView POCreatedGrid;
 
-        protected global::DevExpress.Web.ASPxComboBox ExpectedDate;
+        protected global::DevExpress.Web.ASPxDateEdit ExpectedDate;
         protected global::DevExpress.Web.ASPxComboBox Currency;
     }
 }
