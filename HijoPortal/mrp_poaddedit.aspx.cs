@@ -30,6 +30,18 @@ namespace HijoPortal
                 Location.ClientEnabled = false;
                 ProCategory.ClientEnabled = false;
             }
+            
+            if (DocNumber.Value != null)
+            {
+                string s = ProCategory.Value.ToString();
+                string docnum = DocNumber.Value.ToString();
+
+                if (s == "ALL") s = "ITEMGROUPID";
+
+                BindPOAddEdit(docnum, s);
+            }
+            
+
             //if (!Page.IsPostBack)
             //{
             //    string query = "SELECT * FROM " + MRPClass.POTableName() + " WHERE [PK] = '" + Session["PO_PK"].ToString() + "'";
@@ -203,8 +215,7 @@ namespace HijoPortal
         protected void Site_Init(object sender, EventArgs e)
         {
             ASPxComboBox combo = sender as ASPxComboBox;
-            DataTable dtRecord = MRPClass.InventSiteTable();
-            combo.DataSource = dtRecord;
+            combo.DataSource = MRPClass.InventSiteTable();
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "SITEID";

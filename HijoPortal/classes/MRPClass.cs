@@ -3407,7 +3407,7 @@ namespace HijoPortal.classes
         {
             DataTable dtTable = new DataTable();
             SqlCommand cmd = null;
-            SqlDataAdapter adp;
+            SqlDataAdapter adp, adp2;
             DataTable dtable = new DataTable();
             DataTable dtable2 = new DataTable();
 
@@ -3423,15 +3423,16 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Cost", typeof(string));
                 dtTable.Columns.Add("Qty", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
+                dtTable.Columns.Add("AvailForPO", typeof(string));
             }
             dtTable.Clear();
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            //string qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PONumber] = '" + ponumber + "'";
+            //string qry = "SELECT dbo.tbl_POCreation_Details.*, dbo.tbl_MRP_List_DirectMaterials.UOM AS DM_UOM, dbo.tbl_MRP_List_OPEX.UOM AS OP_UOM FROM   dbo.tbl_POCreation INNER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_POCreation.PONumber = dbo.tbl_POCreation_Details.PONumber LEFT OUTER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_OPEX.PK AND dbo.tbl_POCreation_Details.Identifier = dbo.tbl_MRP_List_OPEX.TableIdentifier LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_DirectMaterials.PK AND dbo.tbl_POCreation_Details.Identifier = dbo.tbl_MRP_List_DirectMaterials.TableIdentifier";
 
-            string qry = "SELECT dbo.tbl_POCreation_Details.*, dbo.tbl_MRP_List_DirectMaterials.UOM AS DM_UOM, dbo.tbl_MRP_List_OPEX.UOM AS OP_UOM FROM   dbo.tbl_POCreation INNER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_POCreation.PONumber = dbo.tbl_POCreation_Details.PONumber LEFT OUTER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_OPEX.PK AND dbo.tbl_POCreation_Details.Identifier = dbo.tbl_MRP_List_OPEX.TableIdentifier LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_DirectMaterials.PK AND dbo.tbl_POCreation_Details.Identifier = dbo.tbl_MRP_List_DirectMaterials.TableIdentifier";
+            string qry = "SELECT dbo.tbl_POCreation_Details.*, dbo.tbl_MRP_List_DirectMaterials.UOM, dbo.tbl_MRP_List_DirectMaterials.AvailForPO FROM dbo.tbl_POCreation_Details INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_DirectMaterials.PK CROSS JOIN dbo.tbl_MRP_List_OPEX";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
@@ -3451,11 +3452,42 @@ namespace HijoPortal.classes
                     rowAdd["Cost"] = row["Cost"].ToString();
                     rowAdd["Qty"] = row["Qty"].ToString();
                     rowAdd["TotalCost"] = row["TotalCost"].ToString();
-                    System.Diagnostics.Debug.Write("string:" + row["DM_UOM"].ToString());
-                    if (string.IsNullOrEmpty(row["DM_UOM"].ToString()))
-                        rowAdd["UOM"] = row["OP_UOM"].ToString();
-                    else
-                        rowAdd["UOM"] = row["DM_UOM"].ToString();
+                    rowAdd["AvailForPO"] = row["AvailForPO"].ToString();
+                    rowAdd["UOM"] = row["UOM"].ToString();
+                    //if (string.IsNullOrEmpty(row["DM_UOM"].ToString()))
+                    //    rowAdd["UOM"] = row["OP_UOM"].ToString();
+                    //else
+                    //    rowAdd["UOM"] = row["DM_UOM"].ToString();
+                    dtTable.Rows.Add(rowAdd);
+                }
+            }
+
+            string qry2 = "SELECT dbo.tbl_MRP_List_OPEX.AvailForPO, dbo.tbl_POCreation_Details.*, dbo.tbl_MRP_List_OPEX.UOM FROM dbo.tbl_POCreation_Details INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_OPEX.PK";
+
+            cmd = new SqlCommand(qry2);
+            cmd.Connection = conn;
+            adp2 = new SqlDataAdapter(cmd);
+            adp2.Fill(dtable2);
+            if (dtable2.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtable2.Rows)
+                {
+                    DataRow rowAdd = dtTable.NewRow();
+                    rowAdd["PK"] = row["PK"].ToString();
+                    rowAdd["ItemPK"] = row["ItemPK"].ToString();
+                    rowAdd["Identifier"] = row["Identifier"].ToString();
+                    rowAdd["ItemCode"] = row["ItemCode"].ToString();
+                    rowAdd["TaxGroup"] = row["TaxGroup"].ToString();
+                    rowAdd["TaxItemGroup"] = row["TaxItemGroup"].ToString();
+                    rowAdd["Cost"] = row["Cost"].ToString();
+                    rowAdd["Qty"] = row["Qty"].ToString();
+                    rowAdd["TotalCost"] = row["TotalCost"].ToString();
+                    rowAdd["AvailForPO"] = row["AvailForPO"].ToString();
+                    rowAdd["UOM"] = row["UOM"].ToString();
+                    //if (string.IsNullOrEmpty(row["DM_UOM"].ToString()))
+                    //    rowAdd["UOM"] = row["OP_UOM"].ToString();
+                    //else
+                    //    rowAdd["UOM"] = row["DM_UOM"].ToString();
                     dtTable.Rows.Add(rowAdd);
                 }
             }
