@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_finance.aspx.cs" Inherits="HijoPortal.mrp_finance" %>
+﻿<%@ Page Title="Budget" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_finance.aspx.cs" Inherits="HijoPortal.mrp_finance" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>

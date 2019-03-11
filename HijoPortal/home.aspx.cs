@@ -53,9 +53,7 @@ namespace HijoPortal
                 {
                     divWelcome.Visible = true;
                 }
-
             }
-
             
         }
 
