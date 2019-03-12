@@ -680,5 +680,13 @@ namespace HijoPortal.classes
             cn.Close();
             return sDocNum;
         }
+
+        public static bool IsAllowed(int usrKey, string sModuleName)
+        {
+            bool isAllowed = false;
+
+
+            return isAllowed;
+        }
     }
 }

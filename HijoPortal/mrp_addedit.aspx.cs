@@ -243,6 +243,7 @@ namespace HijoPortal
 
             ListBoxColumn l_TextField = new ListBoxColumn();
             l_TextField.FieldName = "DESCRIPTION";
+            l_TextField.Width = 300;
             combo.Columns.Add(l_TextField);
 
             combo.ValueField = "VALUE";
@@ -294,6 +295,7 @@ namespace HijoPortal
 
             ListBoxColumn l_text = new ListBoxColumn();
             l_text.FieldName = "NAME";
+            l_text.Width = 300;
             combo.Columns.Add(l_text);
 
             ListBoxColumn l_text2 = new ListBoxColumn();
@@ -1323,6 +1325,8 @@ namespace HijoPortal
                     BindManPower(docnumber);
                     BindCAPEX(docnumber);
                     BindRevenue(docnumber);
+
+                    PopupSubmit.ShowOnPageLoad = false;
                 } else
                 {
 
@@ -1347,6 +1351,8 @@ namespace HijoPortal
                     BindManPower(docnumber);
                     BindCAPEX(docnumber);
                     BindRevenue(docnumber);
+
+                    PopupSubmit.ShowOnPageLoad = false;
                 } else
                 {
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);

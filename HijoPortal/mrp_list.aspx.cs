@@ -108,9 +108,9 @@ namespace HijoPortal
 
                         //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
 
-                        //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                        Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
-                        Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                        //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                         //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_finance.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_inventoryanalyst_forapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
@@ -376,6 +376,7 @@ namespace HijoPortal
                                     " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
                                     " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
                                     " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + DataFlowKey + ") " +
+                                    " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
                                     " ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
                 cmdA = new SqlCommand(query_DataFlowAdd);
                 cmdA.Connection = conn;
@@ -429,6 +430,7 @@ namespace HijoPortal
                                     " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
                                     " dbo.tbl_System_Approval ON dbo.tbl_System_Approval_Details.MasterKey = dbo.tbl_System_Approval.PK " +
                                     " WHERE(dbo.tbl_System_Approval_Details.MasterKey = "+ AppFlowKey + ") " +
+                                    " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
                                     " ORDER BY dbo.tbl_System_Approval_Details.Line";
                 cmdA = new SqlCommand(query_DataFlowAdd);
                 cmdA.Connection = conn;

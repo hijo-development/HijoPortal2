@@ -132,6 +132,12 @@ namespace HijoPortal
             }
         }
 
+        protected void btAddEdit_Click(object sender, EventArgs e)
+        {
+            //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString();
+            Response.Redirect("mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+        }
+
         protected void CapexListview_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
@@ -193,12 +199,19 @@ namespace HijoPortal
             if (!IsPostBack)
             {
                 //lblMRPDocNum.Text = Request.Params["DocNum"].ToString();
-                
 
+
+                btAddEdit.Visible = false;
                 DocNum.Text = Request.Params["DocNum"].ToString();
                 docnumber = Request.Params["DocNum"].ToString();
                 wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
                 //MRPClass.PrintString("wrk:" + wrkflwln);
+
+                if (wrkflwln == 0 || wrkflwln == 1)
+                {
+                    btAddEdit.Visible = true;
+                }
+                
 
                 string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
                               " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
