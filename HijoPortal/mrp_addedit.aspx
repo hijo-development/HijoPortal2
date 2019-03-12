@@ -15,7 +15,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: right;">
-                            <dx:ASPxButton ID="OK_DELETE" runat="server" Text="OK" Theme="Office2010Blue" OnClick="Submit_Click" AutoPostBack="false">
+                            <dx:ASPxButton ID="OK_DELETE" runat="server" Text="OK" Theme="Office2010Blue" AutoPostBack="false">
                                 <ClientSideEvents Click="OK_DELETE" />
                             </dx:ASPxButton>
                             <dx:ASPxButton ID="CANCEL_DELETE" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
@@ -155,13 +155,13 @@
                 <tr>
                     <td colspan="7" style="text-align: right">
                         <%--OnClick="Submit_Click"--%>
+                        <dx:ASPxButton ID="MRPList" runat="server" Text="List" AutoPostBack="false" Theme="Office2010Blue" OnClick="MRPList_Click"></dx:ASPxButton>
+                        &nbsp
+                            <dx:ASPxButton ID="Preview" runat="server" Text="Preview" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click"></dx:ASPxButton>
+                        &nbsp
                         <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
                             <ClientSideEvents Click="function(s,e){PopupSubmit.SetHeaderText('Confirm'); PopupSubmit.Show();}" />
                         </dx:ASPxButton>
-                        &nbsp
-                            <dx:ASPxButton ID="MRPList" runat="server" Text="MOP LIST" AutoPostBack="false" Theme="Office2010Blue" OnClick="MRPList_Click"></dx:ASPxButton>
-                        &nbsp
-                            <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click"></dx:ASPxButton>
                     </td>
                 </tr>
             </table>
@@ -179,7 +179,7 @@
                             <%--<div id="dvDetails" class="scroll">--%>
                             <table style="width: 100%; padding: 25px;" border="0">
                                 <tr>
-                                    <td colspan="5">                                        
+                                    <td colspan="5">
                                         <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
                                             <PanelCollection>
                                                 <dx:PanelContent>
@@ -226,8 +226,8 @@
                                                             <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10" CellStyle-HorizontalAlign="Right">
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
                                                             </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="WrkLine" Visible="false" VisibleIndex="11"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="12"></dx:GridViewDataColumn>
+                                                            <%--<dx:GridViewDataColumn FieldName="WrkLine" Visible="false" VisibleIndex="11"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="12"></dx:GridViewDataColumn>--%>
                                                         </Columns>
 
                                                         <SettingsCommandButton>
