@@ -3322,7 +3322,7 @@ namespace HijoPortal.classes
             return aprvLineStat;
         }
 
-        public static DataTable PO_ItemCodes()
+        public static DataTable PO_ItemCodes(string docnumber)
         {
             DataTable dtTable = new DataTable();
             SqlCommand cmd = null;
@@ -3346,9 +3346,9 @@ namespace HijoPortal.classes
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
-            string qry = "SELECT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.UOM, dbo.tbl_MRP_List_OPEX.ApprovedCost, dbo.tbl_MRP_List_OPEX.AvailForPO FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum WHERE(dbo.tbl_MRP_List.DocNumber = '0000-0119MRP-000019') AND(dbo.tbl_MRP_List_OPEX.AvailForPO > '0')";
+            string qry = "SELECT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.UOM, dbo.tbl_MRP_List_OPEX.ApprovedCost, dbo.tbl_MRP_List_OPEX.AvailForPO FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum WHERE(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_OPEX.AvailForPO > '0')";
 
-            string qry2 = "SELECT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.UOM, dbo.tbl_MRP_List_DirectMaterials.ApprovedCost, dbo.tbl_MRP_List_DirectMaterials.AvailForPO FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum WHERE(dbo.tbl_MRP_List.DocNumber = '0000-0119MRP-000019') AND (dbo.tbl_MRP_List_DirectMaterials.AvailForPO > '0')";
+            string qry2 = "SELECT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.UOM, dbo.tbl_MRP_List_DirectMaterials.ApprovedCost, dbo.tbl_MRP_List_DirectMaterials.AvailForPO FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum WHERE(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND (dbo.tbl_MRP_List_DirectMaterials.AvailForPO > '0')";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
