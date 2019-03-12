@@ -12,7 +12,7 @@ namespace HijoPortal
 {
     public partial class mrp_pocreatededit : System.Web.UI.Page
     {
-        private static string ponumber = "";
+        private static string ponumber = "", docnumber = "";
         private static bool bind = true;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -34,7 +34,8 @@ namespace HijoPortal
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    DocNumber.Value = reader["MRPNumber"].ToString();
+                    docnumber = reader["MRPNumber"].ToString();
+                    DocNumber.Value = docnumber;
                     DateCreated.Value = Convert.ToDateTime(reader["DateCreated"].ToString()).ToString("MM/dd/yyyy");
                     ExpectedDate.Value = reader["ExpectedDate"].ToString();
                     Vendor.Value = reader["VendorCode"].ToString();
@@ -65,7 +66,7 @@ namespace HijoPortal
         protected void itemcode_Init(object sender, EventArgs e)
         {
             ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = MRPClass.PO_ItemCodes();
+            combo.DataSource = MRPClass.PO_ItemCodes(docnumber);
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "ItemCode";
