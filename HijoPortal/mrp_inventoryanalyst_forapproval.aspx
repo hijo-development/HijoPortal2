@@ -136,6 +136,7 @@
                     <ContentCollection>
                         <dx:ContentControl>
                             <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" ClientInstanceName="DMGridInvAppRoundPanel" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                <ClientSideEvents CollapsedChanging="DMGridInvAppRoundPanel_CollapsedChanging" />
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="DMGridInventApproval" runat="server" ClientInstanceName="DMGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
@@ -237,6 +238,7 @@
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
                             <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" ClientInstanceName="OPGridInvAppRoundPanel" HeaderText="OPEX" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                <ClientSideEvents CollapsedChanging="OPGridInvAppRoundPanel_CollapsedChanging" />
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="OPGridInventApproval" runat="server" ClientInstanceName="OPGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
@@ -337,6 +339,7 @@
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
                             <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" ClientInstanceName="MANGridInvAppRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                <ClientSideEvents CollapsedChanging="MANGridInvAppRoundPanel_CollapsedChanging" />
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="MANGridInventApproval" runat="server" ClientInstanceName="MANGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
@@ -437,6 +440,7 @@
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
                             <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" ClientInstanceName="CAGridInvAppRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                <ClientSideEvents CollapsedChanging="CAGridInvAppRoundPanel_CollapsedChanging" />
                                 <PanelCollection>
                                     <dx:PanelContent>
                                         <dx:ASPxGridView ID="CAGridInventApproval" runat="server" ClientInstanceName="CAGridInventApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"

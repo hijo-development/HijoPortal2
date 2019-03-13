@@ -78,26 +78,10 @@ namespace HijoPortal
                     MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
                     MRPNotify.HeaderText = "Info";
                     MRPNotify.ShowOnPageLoad = true;
-
-                    //Load_MRP(docnumber);
-                    //BindDirectMaterials(docnumber);
-                    //BindOPEX(docnumber);
-                    //BindManPower(docnumber);
-                    //BindCAPEX(docnumber);
-                    //BindRevenue(docnumber);
                 }
                 else
                 {
-
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-                    
-                    //MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
-                    //MRPNotify.HeaderText = "Alert";
-                    //MRPNotify.ShowOnPageLoad = true;
-
-
-
-                    //MRPNotify.
                 }
             }
             else
@@ -142,21 +126,11 @@ namespace HijoPortal
                         MRPNotify.HeaderText = "Info";
                         MRPNotify.ShowOnPageLoad = true;
                     }
-                    
-                    //Load_MRP(docnumber);
-                    //BindDirectMaterials(docnumber);
-                    //BindOPEX(docnumber);
-                    //BindManPower(docnumber);
-                    //BindCAPEX(docnumber);
-                    //BindRevenue(docnumber);
                 }
                 else
                 {
                     //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
-                    //MRPNotificationMessage.Text = "Document already submitted to Inventory Analyst for review.";
-                    //MRPNotify.HeaderText = "Alert";
-                    //MRPNotify.ShowOnPageLoad = true;
                 }
 
             }
@@ -164,7 +138,6 @@ namespace HijoPortal
 
         protected void btAddEdit_Click(object sender, EventArgs e)
         {
-            //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString();
             Response.Redirect("mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
         }
 
@@ -307,6 +280,9 @@ namespace HijoPortal
                 RevListview.DataSource = tableRevenue;
                 RevListview.DataBind();
                 TARevenue.InnerText = MRPClass.revenue_total().ToString("N");
+
+                PreviewListSummary.DataSource = MRPClass.MRP_PrevTotalSummary(DocNum.Text.ToString(), entitycode);
+                PreviewListSummary.DataBind();
             }
 
 

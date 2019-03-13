@@ -126,6 +126,7 @@
                 <ContentCollection>
                     <dx:ContentControl>
                         <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" ClientInstanceName="DMGridAppRoundPanel" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <ClientSideEvents CollapsedChanging="DMGridAppRoundPanel_CollapsedChanging" />
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="DMGridApproval" runat="server" ClientInstanceName="DMGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
@@ -242,6 +243,7 @@
                             </PanelCollection>
                         </dx:ASPxRoundPanel>
                         <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" ClientInstanceName="OPGridAppRoundPanel" HeaderText="OPEX" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <ClientSideEvents CollapsedChanging="OPGridAppRoundPanel_CollapsedChanging" />
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="OpexGridApproval" runat="server" ClientInstanceName="OpexGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
@@ -358,6 +360,7 @@
                             </PanelCollection>
                         </dx:ASPxRoundPanel>
                         <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" ClientInstanceName="MANGridAppRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <ClientSideEvents CollapsedChanging="MANGridAppRoundPanel_CollapsedChanging" />
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="ManPowerGridApproval" runat="server" ClientInstanceName="ManPowerGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
@@ -473,6 +476,7 @@
                             </PanelCollection>
                         </dx:ASPxRoundPanel>
                         <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" ClientInstanceName="CAGridAppRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <ClientSideEvents CollapsedChanging="CAGridAppRoundPanel_CollapsedChanging" />
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="CapexGridApproval" runat="server" ClientInstanceName="CapexGridApproval" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"

@@ -392,7 +392,6 @@ ul li {
     -webkit-box-shadow: 1px 1px 3px 2px #87cefa;
     box-shadow: 1px 1px 3px 2px #87cefa;
     overflow-x: auto;
-    
     /*overflow-y: auto;*/
 }
 
@@ -438,6 +437,26 @@ hide-tr {
 }
 
 .notification_class {
-    font-size:medium;
-    color:red;
+    font-size: medium;
+    color: red;
 }
+
+.main_prev_table {
+    width: 98%;
+    border-color: mediumspringgreen;
+    border-style: groove;
+    border-width: thick;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.prev_table {
+    width: 100%;
+    /*border-collapse:collapse;
+    border-color:lawngreen;*/
+}
+
+    .prev_table td {
+        border-width: thin;
+        padding-left: 5px;
+    }

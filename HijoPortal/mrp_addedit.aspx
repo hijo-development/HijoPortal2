@@ -279,7 +279,7 @@
                                                                                                             </td>
                                                                                                             <td style="width: 70%;">
                                                                                                                 <dx:ASPxComboBox ID="ActivityCode" runat="server" ClientInstanceName="ActivityCodeDirect" OnInit="ActivityCode_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue">
-                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                    <%--<ValidationSettings ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>--%>
                                                                                                                     <ClientSideEvents SelectedIndexChanged="ActivityCodeIndexChange" />
                                                                                                                 </dx:ASPxComboBox>
                                                                                                             </td>
