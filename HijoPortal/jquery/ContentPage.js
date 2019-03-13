@@ -488,7 +488,7 @@ function CAPEXGrid_CustomButtonClick(s, e) {
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
     if (button == "CAEdit") {
-        
+
         CAPEXGrid_HandleCollapse();
 
         if (wrkflowLine === "0") {
@@ -772,7 +772,7 @@ function updateDirectMat(s, e) {
         }
     }
 
-    var actCode = ActivityCodeDirect.GetText();
+    //var actCode = ActivityCodeDirect.GetText();
     var itemCode = ItemCodeDirect.GetText();
     var itemDesc = ItemDescriptionDirect.GetText();
     var uom = UOMDirect.GetText();
@@ -780,7 +780,7 @@ function updateDirectMat(s, e) {
     var qty = QtyDirect.GetText();
     var totalcost = TotalCostDirect.GetText();
 
-    if (actCode.length > 0 && itemCode.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool) {
+    if (itemCode.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool) {
         DirectMaterialsGrid.UpdateEdit();
     }
 }
@@ -1966,101 +1966,129 @@ function OnKeyUpInvAppEditCostCA(s, e) {//OnChange
 function DMGridInventApproval_CustomButtonClick(s, e) {
     var button = e.buttonID;
     if (button == "DMInvEdit") {
-        if (OPGridInventApproval.IsEditing() || OPGridInventApproval.IsNewRowEditing())
-            OPGridInventApproval.CancelEdit();
-
-        if (!OPGridInvAppRoundPanel.GetCollapsed())
-            OPGridInvAppRoundPanel.SetCollapsed(true);
-
-        if (MANGridInventApproval.IsEditing() || MANGridInventApproval.IsNewRowEditing())
-            MANGridInventApproval.CancelEdit();
-
-        if (!MANGridInvAppRoundPanel.GetCollapsed())
-            MANGridInvAppRoundPanel.SetCollapsed(true);
-
-        if (CAGridInventApproval.IsEditing() || CAGridInventApproval.IsNewRowEditing())
-            CAGridInventApproval.CancelEdit();
-
-        if (!CAGridInvAppRoundPanel.GetCollapsed())
-            CAGridInvAppRoundPanel.SetCollapsed(true);
-
+        DMGridInventApproval_HandleCollapse();
         s.StartEditRow(e.visibleIndex);
     }
+}
+
+function DMGridInvAppRoundPanel_CollapsedChanging(s, e) {
+    DMGridInventApproval_HandleCollapse();
+}
+
+function DMGridInventApproval_HandleCollapse() {
+    if (OPGridInventApproval.IsEditing() || OPGridInventApproval.IsNewRowEditing())
+        OPGridInventApproval.CancelEdit();
+
+    if (!OPGridInvAppRoundPanel.GetCollapsed())
+        OPGridInvAppRoundPanel.SetCollapsed(true);
+
+    if (MANGridInventApproval.IsEditing() || MANGridInventApproval.IsNewRowEditing())
+        MANGridInventApproval.CancelEdit();
+
+    if (!MANGridInvAppRoundPanel.GetCollapsed())
+        MANGridInvAppRoundPanel.SetCollapsed(true);
+
+    if (CAGridInventApproval.IsEditing() || CAGridInventApproval.IsNewRowEditing())
+        CAGridInventApproval.CancelEdit();
+
+    if (!CAGridInvAppRoundPanel.GetCollapsed())
+        CAGridInvAppRoundPanel.SetCollapsed(true);
 }
 
 function OPGridInventApproval_CustomButtonClick(s, e) {
     var button = e.buttonID;
     if (button == "OPInvEdit") {
-        if (DMGridInventApproval.IsEditing() || DMGridInventApproval.IsNewRowEditing())
-            DMGridInventApproval.CancelEdit();
-
-        if (!DMGridInvAppRoundPanel.GetCollapsed())
-            DMGridInvAppRoundPanel.SetCollapsed(true);
-
-        if (MANGridInventApproval.IsEditing() || MANGridInventApproval.IsNewRowEditing())
-            MANGridInventApproval.CancelEdit();
-
-        if (!MANGridInvAppRoundPanel.GetCollapsed())
-            MANGridInvAppRoundPanel.SetCollapsed(true);
-
-        if (CAGridInventApproval.IsEditing() || CAGridInventApproval.IsNewRowEditing())
-            CAGridInventApproval.CancelEdit();
-
-        if (!CAGridInvAppRoundPanel.GetCollapsed())
-            CAGridInvAppRoundPanel.SetCollapsed(true);
-
+        OPGridInventApproval_HandleCollapse();
         s.StartEditRow(e.visibleIndex);
     }
+}
+
+function OPGridInvAppRoundPanel_CollapsedChanging(s, e) {
+    OPGridInventApproval_HandleCollapse();
+}
+
+function OPGridInventApproval_HandleCollapse() {
+    if (DMGridInventApproval.IsEditing() || DMGridInventApproval.IsNewRowEditing())
+        DMGridInventApproval.CancelEdit();
+
+    if (!DMGridInvAppRoundPanel.GetCollapsed())
+        DMGridInvAppRoundPanel.SetCollapsed(true);
+
+    if (MANGridInventApproval.IsEditing() || MANGridInventApproval.IsNewRowEditing())
+        MANGridInventApproval.CancelEdit();
+
+    if (!MANGridInvAppRoundPanel.GetCollapsed())
+        MANGridInvAppRoundPanel.SetCollapsed(true);
+
+    if (CAGridInventApproval.IsEditing() || CAGridInventApproval.IsNewRowEditing())
+        CAGridInventApproval.CancelEdit();
+
+    if (!CAGridInvAppRoundPanel.GetCollapsed())
+        CAGridInvAppRoundPanel.SetCollapsed(true);
 }
 
 function MANGridInventApproval_CustomButtonClick(s, e) {
     var button = e.buttonID;
     if (button == "MANInvEdit") {
-        if (DMGridInventApproval.IsEditing() || DMGridInventApproval.IsNewRowEditing())
-            DMGridInventApproval.CancelEdit();
-
-        if (!DMGridInvAppRoundPanel.GetCollapsed())
-            DMGridInvAppRoundPanel.SetCollapsed(true);
-
-        if (OPGridInventApproval.IsEditing() || OPGridInventApproval.IsNewRowEditing())
-            OPGridInventApproval.CancelEdit();
-
-        if (!OPGridInvAppRoundPanel.GetCollapsed())
-            OPGridInvAppRoundPanel.SetCollapsed(true);
-
-        if (CAGridInventApproval.IsEditing() || CAGridInventApproval.IsNewRowEditing())
-            CAGridInventApproval.CancelEdit();
-
-        if (!CAGridInvAppRoundPanel.GetCollapsed())
-            CAGridInvAppRoundPanel.SetCollapsed(true);
-
+        MANGridInventApproval_HandleCollapse();
         s.StartEditRow(e.visibleIndex);
     }
+}
+
+function MANGridInvAppRoundPanel_CollapsedChanging(s, e) {
+    MANGridInventApproval_HandleCollapse();
+}
+
+function MANGridInventApproval_HandleCollapse() {
+    if (DMGridInventApproval.IsEditing() || DMGridInventApproval.IsNewRowEditing())
+        DMGridInventApproval.CancelEdit();
+
+    if (!DMGridInvAppRoundPanel.GetCollapsed())
+        DMGridInvAppRoundPanel.SetCollapsed(true);
+
+    if (OPGridInventApproval.IsEditing() || OPGridInventApproval.IsNewRowEditing())
+        OPGridInventApproval.CancelEdit();
+
+    if (!OPGridInvAppRoundPanel.GetCollapsed())
+        OPGridInvAppRoundPanel.SetCollapsed(true);
+
+    if (CAGridInventApproval.IsEditing() || CAGridInventApproval.IsNewRowEditing())
+        CAGridInventApproval.CancelEdit();
+
+    if (!CAGridInvAppRoundPanel.GetCollapsed())
+        CAGridInvAppRoundPanel.SetCollapsed(true);
 }
 
 function CAGridInventApproval_CustomButtonClick(s, e) {
     var button = e.buttonID;
     if (button == "CAInvEdit") {
-        if (DMGridInventApproval.IsEditing() || DMGridInventApproval.IsNewRowEditing())
-            DMGridInventApproval.CancelEdit();
-
-        if (!DMGridInvAppRoundPanel.GetCollapsed())
-            DMGridInvAppRoundPanel.SetCollapsed(true);
-
-        if (OPGridInventApproval.IsEditing() || OPGridInventApproval.IsNewRowEditing())
-            OPGridInventApproval.CancelEdit();
-
-        if (!OPGridInvAppRoundPanel.GetCollapsed())
-            OPGridInvAppRoundPanel.SetCollapsed(true);
-
-        if (MANGridInventApproval.IsEditing() || MANGridInventApproval.IsNewRowEditing())
-            MANGridInventApproval.CancelEdit();
-
-        if (!MANGridInvAppRoundPanel.GetCollapsed())
-            MANGridInvAppRoundPanel.SetCollapsed(true);
-
+        CAGridInventApproval_HandleCollapse();
         s.StartEditRow(e.visibleIndex);
     }
+}
+
+function CAGridInvAppRoundPanel_CollapsedChanging(s, e) {
+    CAGridInventApproval_HandleCollapse();
+}
+
+function CAGridInventApproval_HandleCollapse() {
+    if (DMGridInventApproval.IsEditing() || DMGridInventApproval.IsNewRowEditing())
+        DMGridInventApproval.CancelEdit();
+
+    if (!DMGridInvAppRoundPanel.GetCollapsed())
+        DMGridInvAppRoundPanel.SetCollapsed(true);
+
+    if (OPGridInventApproval.IsEditing() || OPGridInventApproval.IsNewRowEditing())
+        OPGridInventApproval.CancelEdit();
+
+    if (!OPGridInvAppRoundPanel.GetCollapsed())
+        OPGridInvAppRoundPanel.SetCollapsed(true);
+
+    if (MANGridInventApproval.IsEditing() || MANGridInventApproval.IsNewRowEditing())
+        MANGridInventApproval.CancelEdit();
+
+    if (!MANGridInvAppRoundPanel.GetCollapsed())
+        MANGridInvAppRoundPanel.SetCollapsed(true);
 }
 //...END OF...mrp_inventoryanalyst_forapproval
 
@@ -2072,25 +2100,7 @@ function DMGrid_CustomButtonClick(s, e) {
     var statusKey = StatusKeyTxtInventAnal.GetText();
 
     if (button == "DMGridEdit") {
-        if (OpGrid.IsEditing() || OpGrid.IsNewRowEditing())
-            OpGrid.CancelEdit();
-
-        if (!OPGridRoundPanel.GetCollapsed())
-            OPGridRoundPanel.SetCollapsed(true);
-
-        if (ManPoGrid.IsEditing() || ManPoGrid.IsNewRowEditing())
-            ManPoGrid.CancelEdit();
-
-        if (!MANGridRoundPanel.GetCollapsed())
-            MANGridRoundPanel.SetCollapsed(true);
-
-        if (CapGrid.IsEditing() || CapGrid.IsNewRowEditing())
-            CapGrid.CancelEdit();
-
-        if (!CAGridRoundPanel.GetCollapsed())
-            CAGridRoundPanel.SetCollapsed(true);
-
-
+        DMGrid_HandleCollapse();
         if (statusKey === "0") {
             s.StartEditRow(e.visibleIndex);
         } else {
@@ -2102,30 +2112,37 @@ function DMGrid_CustomButtonClick(s, e) {
 
         //s.StartEditRow(e.visibleIndex);
     }
+}
+
+function DMGridRoundPanel_CollapsedChanging(s, e) {
+    DMGrid_HandleCollapse();
+}
+
+function DMGrid_HandleCollapse() {
+    if (OpGrid.IsEditing() || OpGrid.IsNewRowEditing())
+        OpGrid.CancelEdit();
+
+    if (!OPGridRoundPanel.GetCollapsed())
+        OPGridRoundPanel.SetCollapsed(true);
+
+    if (ManPoGrid.IsEditing() || ManPoGrid.IsNewRowEditing())
+        ManPoGrid.CancelEdit();
+
+    if (!MANGridRoundPanel.GetCollapsed())
+        MANGridRoundPanel.SetCollapsed(true);
+
+    if (CapGrid.IsEditing() || CapGrid.IsNewRowEditing())
+        CapGrid.CancelEdit();
+
+    if (!CAGridRoundPanel.GetCollapsed())
+        CAGridRoundPanel.SetCollapsed(true);
 }
 
 function OpGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var statusKey = StatusKeyTxtInventAnal.GetText();
     if (button == "OPGridEdit") {
-        if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
-            DMGrid.CancelEdit();
-
-        if (!DMGridRoundPanel.GetCollapsed())
-            DMGridRoundPanel.SetCollapsed(true);
-
-        if (ManPoGrid.IsEditing() || ManPoGrid.IsNewRowEditing())
-            ManPoGrid.CancelEdit();
-
-        if (!MANGridRoundPanel.GetCollapsed())
-            MANGridRoundPanel.SetCollapsed(true);
-
-        if (CapGrid.IsEditing() || CapGrid.IsNewRowEditing())
-            CapGrid.CancelEdit();
-
-        if (!CAGridRoundPanel.GetCollapsed())
-            CAGridRoundPanel.SetCollapsed(true);
-
+        OpGrid_HandleCollapse();
         if (statusKey === "0") {
             s.StartEditRow(e.visibleIndex);
         } else {
@@ -2136,30 +2153,37 @@ function OpGrid_CustomButtonClick(s, e) {
 
         //s.StartEditRow(e.visibleIndex);
     }
+}
+
+function OPGridRoundPanel_CollapsedChanging(s, e) {
+    OpGrid_HandleCollapse();
+}
+
+function OpGrid_HandleCollapse() {
+    if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
+        DMGrid.CancelEdit();
+
+    if (!DMGridRoundPanel.GetCollapsed())
+        DMGridRoundPanel.SetCollapsed(true);
+
+    if (ManPoGrid.IsEditing() || ManPoGrid.IsNewRowEditing())
+        ManPoGrid.CancelEdit();
+
+    if (!MANGridRoundPanel.GetCollapsed())
+        MANGridRoundPanel.SetCollapsed(true);
+
+    if (CapGrid.IsEditing() || CapGrid.IsNewRowEditing())
+        CapGrid.CancelEdit();
+
+    if (!CAGridRoundPanel.GetCollapsed())
+        CAGridRoundPanel.SetCollapsed(true);
 }
 
 function ManPoGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var statusKey = StatusKeyTxtInventAnal.GetText();
     if (button == "MANGridEdit") {
-        if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
-            DMGrid.CancelEdit();
-
-        if (!DMGridRoundPanel.GetCollapsed())
-            DMGridRoundPanel.SetCollapsed(true);
-
-        if (OpGrid.IsEditing() || OpGrid.IsNewRowEditing())
-            OpGrid.CancelEdit();
-
-        if (!OPGridRoundPanel.GetCollapsed())
-            OPGridRoundPanel.SetCollapsed(true);
-
-        if (CapGrid.IsEditing() || CapGrid.IsNewRowEditing())
-            CapGrid.CancelEdit();
-
-        if (!CAGridRoundPanel.GetCollapsed())
-            CAGridRoundPanel.SetCollapsed(true);
-
+        ManPoGrid_HandleCollapse();
         if (statusKey === "0") {
             s.StartEditRow(e.visibleIndex);
         } else {
@@ -2172,28 +2196,35 @@ function ManPoGrid_CustomButtonClick(s, e) {
     }
 }
 
+function MANGridRoundPanel_CollapsedChanging(s, e) {
+    ManPoGrid_HandleCollapse();
+}
+
+function ManPoGrid_HandleCollapse() {
+    if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
+        DMGrid.CancelEdit();
+
+    if (!DMGridRoundPanel.GetCollapsed())
+        DMGridRoundPanel.SetCollapsed(true);
+
+    if (OpGrid.IsEditing() || OpGrid.IsNewRowEditing())
+        OpGrid.CancelEdit();
+
+    if (!OPGridRoundPanel.GetCollapsed())
+        OPGridRoundPanel.SetCollapsed(true);
+
+    if (CapGrid.IsEditing() || CapGrid.IsNewRowEditing())
+        CapGrid.CancelEdit();
+
+    if (!CAGridRoundPanel.GetCollapsed())
+        CAGridRoundPanel.SetCollapsed(true);
+}
+
 function CapGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var statusKey = StatusKeyTxtInventAnal.GetText();
     if (button == "CAGridEdit") {
-        if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
-            DMGrid.CancelEdit();
-
-        if (!DMGridRoundPanel.GetCollapsed())
-            DMGridRoundPanel.SetCollapsed(true);
-
-        if (ManPoGrid.IsEditing() || ManPoGrid.IsNewRowEditing())
-            ManPoGrid.CancelEdit();
-
-        if (!MANGridRoundPanel.GetCollapsed())
-            MANGridRoundPanel.SetCollapsed(true);
-
-        if (OpGrid.IsEditing() || OpGrid.IsNewRowEditing())
-            OpGrid.CancelEdit();
-
-        if (!OPGridRoundPanel.GetCollapsed())
-            OPGridRoundPanel.SetCollapsed(true);
-
+        CapGrid_HandleCollapse();
         if (statusKey === "0") {
             s.StartEditRow(e.visibleIndex);
         } else {
@@ -2204,6 +2235,30 @@ function CapGrid_CustomButtonClick(s, e) {
 
         //s.StartEditRow(e.visibleIndex);
     }
+}
+
+function CAGridRoundPanel_CollapsedChanging(s, e) {
+    CapGrid_HandleCollapse();
+}
+
+function CapGrid_HandleCollapse() {
+    if (DMGrid.IsEditing() || DMGrid.IsNewRowEditing())
+        DMGrid.CancelEdit();
+
+    if (!DMGridRoundPanel.GetCollapsed())
+        DMGridRoundPanel.SetCollapsed(true);
+
+    if (ManPoGrid.IsEditing() || ManPoGrid.IsNewRowEditing())
+        ManPoGrid.CancelEdit();
+
+    if (!MANGridRoundPanel.GetCollapsed())
+        MANGridRoundPanel.SetCollapsed(true);
+
+    if (OpGrid.IsEditing() || OpGrid.IsNewRowEditing())
+        OpGrid.CancelEdit();
+
+    if (!OPGridRoundPanel.GetCollapsed())
+        OPGridRoundPanel.SetCollapsed(true);
 }
 //...END OF...mrp_inventanalyst
 
@@ -2211,101 +2266,129 @@ function CapGrid_CustomButtonClick(s, e) {
 function DMGridApproval_CustomButtonClick(s, e) {
     var button = e.buttonID;
     if (button == "DMAppEdit") {
-        if (OpexGridApproval.IsEditing() || OpexGridApproval.IsNewRowEditing())
-            OpexGridApproval.CancelEdit();
-
-        if (!OPGridAppRoundPanel.GetCollapsed())
-            OPGridAppRoundPanel.SetCollapsed(true);
-
-        if (ManPowerGridApproval.IsEditing() || ManPowerGridApproval.IsNewRowEditing())
-            ManPowerGridApproval.CancelEdit();
-
-        if (!MANGridAppRoundPanel.GetCollapsed())
-            MANGridAppRoundPanel.SetCollapsed(true);
-
-        if (CapexGridApproval.IsEditing() || CapexGridApproval.IsNewRowEditing())
-            CapexGridApproval.CancelEdit();
-
-        if (!CAGridAppRoundPanel.GetCollapsed())
-            CAGridAppRoundPanel.SetCollapsed(true);
-
+        DMGridApproval_HandleCollapse();
         s.StartEditRow(e.visibleIndex);
     }
+}
+
+function DMGridAppRoundPanel_CollapsedChanging(s, e) {
+    DMGridApproval_HandleCollapse();
+}
+
+function DMGridApproval_HandleCollapse() {
+    if (OpexGridApproval.IsEditing() || OpexGridApproval.IsNewRowEditing())
+        OpexGridApproval.CancelEdit();
+
+    if (!OPGridAppRoundPanel.GetCollapsed())
+        OPGridAppRoundPanel.SetCollapsed(true);
+
+    if (ManPowerGridApproval.IsEditing() || ManPowerGridApproval.IsNewRowEditing())
+        ManPowerGridApproval.CancelEdit();
+
+    if (!MANGridAppRoundPanel.GetCollapsed())
+        MANGridAppRoundPanel.SetCollapsed(true);
+
+    if (CapexGridApproval.IsEditing() || CapexGridApproval.IsNewRowEditing())
+        CapexGridApproval.CancelEdit();
+
+    if (!CAGridAppRoundPanel.GetCollapsed())
+        CAGridAppRoundPanel.SetCollapsed(true);
 }
 
 function OpexGridApproval_CustomButtonClick(s, e) {
     var button = e.buttonID;
     if (button == "OPAppEdit") {
-        if (DMGridApproval.IsEditing() || DMGridApproval.IsNewRowEditing())
-            DMGridApproval.CancelEdit();
-
-        if (!DMGridAppRoundPanel.GetCollapsed())
-            DMGridAppRoundPanel.SetCollapsed(true);
-
-        if (ManPowerGridApproval.IsEditing() || ManPowerGridApproval.IsNewRowEditing())
-            ManPowerGridApproval.CancelEdit();
-
-        if (!MANGridAppRoundPanel.GetCollapsed())
-            MANGridAppRoundPanel.SetCollapsed(true);
-
-        if (CapexGridApproval.IsEditing() || CapexGridApproval.IsNewRowEditing())
-            CapexGridApproval.CancelEdit();
-
-        if (!CAGridAppRoundPanel.GetCollapsed())
-            CAGridAppRoundPanel.SetCollapsed(true);
-
+        OpexGridApproval_HandleCollapse();
         s.StartEditRow(e.visibleIndex);
     }
+}
+
+function OPGridAppRoundPanel_CollapsedChanging(s, e) {
+    OpexGridApproval_HandleCollapse();
+}
+
+function OpexGridApproval_HandleCollapse() {
+    if (DMGridApproval.IsEditing() || DMGridApproval.IsNewRowEditing())
+        DMGridApproval.CancelEdit();
+
+    if (!DMGridAppRoundPanel.GetCollapsed())
+        DMGridAppRoundPanel.SetCollapsed(true);
+
+    if (ManPowerGridApproval.IsEditing() || ManPowerGridApproval.IsNewRowEditing())
+        ManPowerGridApproval.CancelEdit();
+
+    if (!MANGridAppRoundPanel.GetCollapsed())
+        MANGridAppRoundPanel.SetCollapsed(true);
+
+    if (CapexGridApproval.IsEditing() || CapexGridApproval.IsNewRowEditing())
+        CapexGridApproval.CancelEdit();
+
+    if (!CAGridAppRoundPanel.GetCollapsed())
+        CAGridAppRoundPanel.SetCollapsed(true);
 }
 
 function ManPowerGridApproval_CustomButtonClick(s, e) {
     var button = e.buttonID;
     if (button == "MANAppEdit") {
-        if (DMGridApproval.IsEditing() || DMGridApproval.IsNewRowEditing())
-            DMGridApproval.CancelEdit();
-
-        if (!DMGridAppRoundPanel.GetCollapsed())
-            DMGridAppRoundPanel.SetCollapsed(true);
-
-        if (OpexGridApproval.IsEditing() || OpexGridApproval.IsNewRowEditing())
-            OpexGridApproval.CancelEdit();
-
-        if (!OPGridAppRoundPanel.GetCollapsed())
-            OPGridAppRoundPanel.SetCollapsed(true);
-
-        if (CapexGridApproval.IsEditing() || CapexGridApproval.IsNewRowEditing())
-            CapexGridApproval.CancelEdit();
-
-        if (!CAGridAppRoundPanel.GetCollapsed())
-            CAGridAppRoundPanel.SetCollapsed(true);
-
+        ManPowerGridApproval_HandleCollapse();
         s.StartEditRow(e.visibleIndex);
     }
+}
+
+function MANGridAppRoundPanel_CollapsedChanging(s, e) {
+    ManPowerGridApproval_HandleCollapse();
+}
+
+function ManPowerGridApproval_HandleCollapse() {
+    if (DMGridApproval.IsEditing() || DMGridApproval.IsNewRowEditing())
+        DMGridApproval.CancelEdit();
+
+    if (!DMGridAppRoundPanel.GetCollapsed())
+        DMGridAppRoundPanel.SetCollapsed(true);
+
+    if (OpexGridApproval.IsEditing() || OpexGridApproval.IsNewRowEditing())
+        OpexGridApproval.CancelEdit();
+
+    if (!OPGridAppRoundPanel.GetCollapsed())
+        OPGridAppRoundPanel.SetCollapsed(true);
+
+    if (CapexGridApproval.IsEditing() || CapexGridApproval.IsNewRowEditing())
+        CapexGridApproval.CancelEdit();
+
+    if (!CAGridAppRoundPanel.GetCollapsed())
+        CAGridAppRoundPanel.SetCollapsed(true);
 }
 
 function CapexGridApproval_CustomButtonClick(s, e) {
     var button = e.buttonID;
     if (button == "CAAppEdit") {
-        if (OpexGridApproval.IsEditing() || OpexGridApproval.IsNewRowEditing())
-            OpexGridApproval.CancelEdit();
-
-        if (!OPGridAppRoundPanel.GetCollapsed())
-            OPGridAppRoundPanel.SetCollapsed(true);
-
-        if (ManPowerGridApproval.IsEditing() || ManPowerGridApproval.IsNewRowEditing())
-            ManPowerGridApproval.CancelEdit();
-
-        if (!MANGridAppRoundPanel.GetCollapsed())
-            MANGridAppRoundPanel.SetCollapsed(true);
-
-        if (DMGridApproval.IsEditing() || DMGridApproval.IsNewRowEditing())
-            DMGridApproval.CancelEdit();
-
-        if (!DMGridAppRoundPanel.GetCollapsed())
-            DMGridAppRoundPanel.SetCollapsed(true);
-
+        CapexGridApproval_HandleCollapse();
         s.StartEditRow(e.visibleIndex);
     }
+}
+
+function CAGridAppRoundPanel_CollapsedChanging(s, e) {
+    CapexGridApproval_HandleCollapse();
+}
+
+function CapexGridApproval_HandleCollapse() {
+    if (OpexGridApproval.IsEditing() || OpexGridApproval.IsNewRowEditing())
+        OpexGridApproval.CancelEdit();
+
+    if (!OPGridAppRoundPanel.GetCollapsed())
+        OPGridAppRoundPanel.SetCollapsed(true);
+
+    if (ManPowerGridApproval.IsEditing() || ManPowerGridApproval.IsNewRowEditing())
+        ManPowerGridApproval.CancelEdit();
+
+    if (!MANGridAppRoundPanel.GetCollapsed())
+        MANGridAppRoundPanel.SetCollapsed(true);
+
+    if (DMGridApproval.IsEditing() || DMGridApproval.IsNewRowEditing())
+        DMGridApproval.CancelEdit();
+
+    if (!DMGridAppRoundPanel.GetCollapsed())
+        DMGridAppRoundPanel.SetCollapsed(true);
 }
 
 

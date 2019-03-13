@@ -427,13 +427,17 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
+            string activity_code = "";
+            if (actCode.Value != null)
+                activity_code = actCode.Value.ToString();
+
 
             string insert = "INSERT INTO " + MRPClass.DirectMatTable() + " ([HeaderDocNum], [ActivityCode], [ItemCode], [ItemDescription], [UOM], [Cost], [Qty], [TotalCost], [OprUnit]) VALUES (@HeaderDocNum, @ActivityCode, @ItemCode, @ItemDesc, @UOM, @Cost, @Qty, @TotalCost, @OprUnit)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ActivityCode", actCode.Value.ToString());
+            cmd.Parameters.AddWithValue("@ActivityCode", activity_code);
             cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemDesc", itemDesc.Value.ToString());
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());

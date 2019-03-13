@@ -126,7 +126,7 @@
                 <tr>
                     <td colspan="7" style="text-align: right">
                         <%--OnClick="Submit_Click"--%>
-                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue" >
+                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
                             <ClientSideEvents Click="function(s,e){PopupSubmit.SetHeaderText('Confirm'); PopupSubmit.Show();}" />
                         </dx:ASPxButton>
                         &nbsp
@@ -137,7 +137,7 @@
                 </tr>
             </table>
         </div>
-         
+
         <dx:ASPxPageControl ID="ASPxPageControl1" runat="server" Width="100%" ActiveTabIndex="0" EnableHierarchyRecreation="true" Theme="Office2010Blue">
             <TabPages>
                 <dx:TabPage Text="MRP">
@@ -148,12 +148,13 @@
                             <dx:ASPxHiddenField ID="ASPxHiddenFieldDMStatusKeyInventAnal" ClientInstanceName="ASPxHiddenFieldDMStatusKeyInventAnalDirect" runat="server"></dx:ASPxHiddenField>
 
                             <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" ClientInstanceName="DMGridRoundPanel" runat="server" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                <ClientSideEvents CollapsedChanging="DMGridRoundPanel_CollapsedChanging" />
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxGridView ID="DMGrid" runat="server" ClientInstanceName="DMGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
-                                            OnStartRowEditing="DMGrid_StartRowEditing" 
-                                            OnRowUpdating="DMGrid_RowUpdating" 
-                                            OnBeforeGetCallbackResult="DMGrid_BeforeGetCallbackResult" 
+                                        <dx:ASPxGridView ID="DMGrid" runat="server" ClientInstanceName="DMGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
+                                            OnStartRowEditing="DMGrid_StartRowEditing"
+                                            OnRowUpdating="DMGrid_RowUpdating"
+                                            OnBeforeGetCallbackResult="DMGrid_BeforeGetCallbackResult"
                                             OnDataBound="DMGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
                                             <ClientSideEvents CustomButtonClick="DMGrid_CustomButtonClick" />
@@ -242,18 +243,19 @@
                                             <SettingsPager PageSize="10"></SettingsPager>
                                             <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
-                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false"/>
+                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
                             <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" ClientInstanceName="OPGridRoundPanel" HeaderText="OPEX" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                <ClientSideEvents CollapsedChanging="OPGridRoundPanel_CollapsedChanging" />
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxGridView ID="OpGrid" runat="server" ClientInstanceName="OpGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
-                                            OnStartRowEditing="OpGrid_StartRowEditing" 
-                                            OnRowUpdating="OpGrid_RowUpdating" 
-                                            OnBeforeGetCallbackResult="OpGrid_BeforeGetCallbackResult" 
+                                        <dx:ASPxGridView ID="OpGrid" runat="server" ClientInstanceName="OpGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
+                                            OnStartRowEditing="OpGrid_StartRowEditing"
+                                            OnRowUpdating="OpGrid_RowUpdating"
+                                            OnBeforeGetCallbackResult="OpGrid_BeforeGetCallbackResult"
                                             OnDataBound="OpGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
                                             <ClientSideEvents CustomButtonClick="OpGrid_CustomButtonClick" />
@@ -273,7 +275,7 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("ExpenseCodeName")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                 <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="4">
+                                                <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="4">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
@@ -342,18 +344,19 @@
                                             <SettingsPager PageSize="10"></SettingsPager>
                                             <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
-                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false"/>
+                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
                             <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" ClientInstanceName="MANGridRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                <ClientSideEvents CollapsedChanging="MANGridRoundPanel_CollapsedChanging" />
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxGridView ID="ManPoGrid" runat="server" ClientInstanceName="ManPoGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
-                                            OnStartRowEditing="ManPoGrid_StartRowEditing" 
-                                            OnRowUpdating="ManPoGrid_RowUpdating" 
-                                            OnBeforeGetCallbackResult="ManPoGrid_BeforeGetCallbackResult" 
+                                        <dx:ASPxGridView ID="ManPoGrid" runat="server" ClientInstanceName="ManPoGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
+                                            OnStartRowEditing="ManPoGrid_StartRowEditing"
+                                            OnRowUpdating="ManPoGrid_RowUpdating"
+                                            OnBeforeGetCallbackResult="ManPoGrid_BeforeGetCallbackResult"
                                             OnDataBound="ManPoGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
                                             <ClientSideEvents CustomButtonClick="ManPoGrid_CustomButtonClick" />
@@ -442,18 +445,19 @@
                                             <SettingsPager PageSize="10"></SettingsPager>
                                             <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
-                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false"/>
+                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxRoundPanel>
-                             <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" ClientInstanceName="CAGridRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" ClientInstanceName="CAGridRoundPanel" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                <ClientSideEvents CollapsedChanging="CAGridRoundPanel_CollapsedChanging" />
                                 <PanelCollection>
                                     <dx:PanelContent>
-                                        <dx:ASPxGridView ID="CapGrid" runat="server" ClientInstanceName="CapGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue" 
-                                            OnStartRowEditing="CapGrid_StartRowEditing" 
-                                            OnRowUpdating="CapGrid_RowUpdating" 
-                                            OnBeforeGetCallbackResult="CapGrid_BeforeGetCallbackResult" 
+                                        <dx:ASPxGridView ID="CapGrid" runat="server" ClientInstanceName="CapGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
+                                            OnStartRowEditing="CapGrid_StartRowEditing"
+                                            OnRowUpdating="CapGrid_RowUpdating"
+                                            OnBeforeGetCallbackResult="CapGrid_BeforeGetCallbackResult"
                                             OnDataBound="CapGrid_DataBound">
                                             <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
                                             <ClientSideEvents CustomButtonClick="CapGrid_CustomButtonClick" />
@@ -532,7 +536,7 @@
                                             <SettingsPager PageSize="10"></SettingsPager>
                                             <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
-                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false"/>
+                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>
                                     </dx:PanelContent>
                                 </PanelCollection>

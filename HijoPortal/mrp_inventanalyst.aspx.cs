@@ -27,7 +27,8 @@ namespace HijoPortal
                 if (isAllowed == false)
                 {
                     Response.Redirect("home.aspx");
-                } else
+                }
+                else
                 {
                     DirectMaterialsRoundPanel.Font.Bold = true;
                     OpexRoundPanel.Font.Bold = true;
@@ -50,10 +51,10 @@ namespace HijoPortal
 
                     Load_MRP(docnumber);
 
-                    DirectMaterialsRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Direct Materials";
-                    OpexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Operational Expense";
-                    ManpowerRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Man Power";
-                    CapexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Capital Expenditure";
+                    DirectMaterialsRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] " + Constants.DM_string();
+                    OpexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] " + Constants.OP_string();
+                    ManpowerRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] " + Constants.MAN_string();
+                    CapexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] " + Constants.CA_string();
 
                     DirectMaterialsRoundPanel.Font.Bold = true;
                     OpexRoundPanel.Font.Bold = true;
@@ -69,7 +70,7 @@ namespace HijoPortal
                     ASPxPageControl1.Font.Size = 12;
                 }
 
-                
+
             }
 
             //MRPClass.PrintString(bindDM.ToString());
@@ -314,7 +315,7 @@ namespace HijoPortal
 
         }
 
-        
+
 
         protected void ManPoGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
@@ -349,7 +350,8 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
-            if (result > 0) {
+            if (result > 0)
+            {
                 MRPClass.UpdateLastModified(conn, docnumber);
                 string remarks = MRPClass.manpower_logs + "-" + MRPClass.edit_logs;
                 MRPClass.AddLogsMOPList(conn, mrp_key, remarks);

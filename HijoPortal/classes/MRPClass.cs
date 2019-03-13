@@ -3530,5 +3530,76 @@ namespace HijoPortal.classes
 
             return dtTable;
         }
+
+        public static DataTable MRP_PrevTotalSummary(string DOC_NUMBER, string entitycode)
+        {
+            DataTable dtTable = new DataTable();
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlDataAdapter adp;
+
+            cn.Open();
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("Name", typeof(string));
+                dtTable.Columns.Add("Total", typeof(string));
+
+            }
+            string name = "";
+            SqlCommand com = null;
+
+            for (int i = 0; i < 4; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        name = Constants.DM_string();
+                        string query_1 = "SELECT SUM(TotalCost) AS Total FROM " + DirectMatTable() + " WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
+                        com = new SqlCommand(query_1, cn);
+                        break;
+
+                    case 1:
+                        name = Constants.OP_string();
+                        string query_2 = "SELECT SUM(TotalCost) AS Total FROM " + OpexTable() + " WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
+                        com = new SqlCommand(query_2, cn);
+                        break;
+
+                    case 2:
+                        name = Constants.MAN_string();
+                        string query_3 = "SELECT SUM(TotalCost) AS Total FROM " + ManPowerTable() + " WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
+                        com = new SqlCommand(query_3, cn);
+                        break;
+
+                    case 3:
+                        name = Constants.CA_string();
+                        string query_4 = "SELECT SUM(TotalCost) AS Total FROM " + CapexTable() + " WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
+                        com = new SqlCommand(query_4, cn);
+                        break;
+                }
+
+                dt.Clear();
+                com.Connection = cn;
+                adp = new SqlDataAdapter(com);
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        DataRow dtRow = dtTable.NewRow();
+                        dtRow["Name"] = name;
+                        dtRow["Total"] = Convert.ToDouble(row[0].ToString()).ToString("N");
+                        dtTable.Rows.Add(dtRow);
+                    }
+                }
+            }
+
+
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+        }
     }
+
+
 }
