@@ -17,6 +17,8 @@ namespace HijoPortal.classes
         public static string EmailError = "";
         public static string sEmailSignature = "";
 
+        public static string WorkFlowSetupMsg = "";
+
         public static object ContextType { get; private set; }
 
         public static string UpperCaseFirstLetter(string s)
@@ -709,7 +711,7 @@ namespace HijoPortal.classes
             return isAdmin;
         }
 
-        public static bool IsAllowed(int usrKey, string sModuleName, DateTime dtEffect, string sEntCode = "", string sBUCode = "")
+        public static bool IsAllowed(int usrKey, string sModuleName, DateTime dtEffect, string sEntCode = "", string sBUCode = "", string ProcCat ="")
         {
             bool isAllowed = false;
 
@@ -762,7 +764,19 @@ namespace HijoPortal.classes
                     }
                 case "MOPExecutive":
                     {
-                        isAllowed = true;
+                        qry = "SELECT UserKey, StatusKey " +
+                              " FROM dbo.tbl_System_Executive " +
+                              " WHERE(UserKey = "+ usrKey + ") " +
+                              " AND(StatusKey = 1)";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            isAllowed = true;
+                        }
+                        dtable.Clear();
                         break;
                     }
                 case "MOPBULead":
@@ -876,6 +890,27 @@ namespace HijoPortal.classes
                         dtable.Clear();
                         break;
                     }
+                case "MOPProcurementOfficer_ProcCat":
+                    {
+                        qry = "SELECT dbo.tbl_System_SCMProcurementOfficer.UserKey, " +
+                              " dbo.tbl_System_SCMProcurementOfficer_Details.ProcCat, " +
+                              " dbo.tbl_System_SCMProcurementOfficer.StatusKey " +
+                              " FROM dbo.tbl_System_SCMProcurementOfficer_Details LEFT OUTER JOIN " +
+                              " dbo.tbl_System_SCMProcurementOfficer ON dbo.tbl_System_SCMProcurementOfficer_Details.MasterKey = dbo.tbl_System_SCMProcurementOfficer.PK " +
+                              " WHERE(dbo.tbl_System_SCMProcurementOfficer.UserKey = " + usrKey + ") " +
+                              " AND(dbo.tbl_System_SCMProcurementOfficer_Details.ProcCat = '"+ ProcCat + "') " +
+                              " AND(dbo.tbl_System_SCMProcurementOfficer.StatusKey = 1)";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            isAllowed = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
                 case "":
                     {
                         isAllowed = true;
@@ -886,7 +921,7 @@ namespace HijoPortal.classes
             return isAllowed;
         }
 
-        public static bool CheckWorkFlowSetup(string wrkFlow, DateTime dtEffect, string sEntCode = "", string sBUCode = "")
+        public static bool CheckWorkFlowSetup(DateTime dtEffect, string sEntCode = "", string sBUCode = "")
         {
             bool workFlowSetup = false;
             string qry = "";
@@ -895,79 +930,152 @@ namespace HijoPortal.classes
             SqlCommand cmd = null;
             SqlDataAdapter adp;
 
+            DataTable dtable1 = new DataTable();
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+
+            DataTable dtable2 = new DataTable();
+            SqlCommand cmd2 = null;
+            SqlDataAdapter adp2;
+
+            DataTable dtable3 = new DataTable();
+            SqlCommand cmd3 = null;
+            SqlDataAdapter adp3;
+
+            DataTable dtable4 = new DataTable();
+            SqlCommand cmd4 = null;
+            SqlDataAdapter adp4;
+
             cn.Open();
-            switch (wrkFlow)
+            WorkFlowSetupMsg = "";
+
+            qry = "SELECT TOP (1) PK, EffectDate " +
+                  " FROM dbo.tbl_System_MOP_DataFlow " +
+                  " WHERE(EffectDate <= '"+ dtEffect + "') " +
+                  " ORDER BY EffectDate DESC";
+            cmd2 = new SqlCommand(qry);
+            cmd2.Connection = cn;
+            adp2 = new SqlDataAdapter(cmd2);
+            adp2.Fill(dtable2);
+            if (dtable2.Rows.Count > 0)
             {
-                case "BUSSULead":
+                foreach(DataRow row2 in dtable2.Rows) {
+                    qry = "SELECT dbo.tbl_System_MOP_DataFlow_Details.Line, " +
+                          " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey, " +
+                          " dbo.tbl_System_Approval_Position.PositionName, " +
+                          " dbo.tbl_System_Approval_Position.SQLQuery " +
+                          " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
+                          " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+                          " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = "+ Convert.ToInt32(row2["PK"]) +") " +
+                          " ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
+                    cmd1 = new SqlCommand(qry);
+                    cmd1.Connection = cn;
+                    adp1 = new SqlDataAdapter(cmd1);
+                    adp1.Fill(dtable1);
+                    if (dtable1.Rows.Count > 0)
                     {
-                        qry = "SELECT TOP (1) UserKey " +
-                              " FROM dbo.tbl_System_BUDeptHead " +
-                              " WHERE(StatusKey = 1) " +
-                              " AND(EntityCode = '" + sEntCode + "') " +
-                              " AND(BUDeptCode = '" + sBUCode + "') " +
-                              " AND(EffectDate <= '" + dtEffect + "') " +
-                              " ORDER BY EffectDate DESC"; 
-                        cmd = new SqlCommand(qry);
-                        cmd.Connection = cn;
-                        adp = new SqlDataAdapter(cmd);
-                        adp.Fill(dtable);
-                        if (dtable.Rows.Count > 0)
+                        foreach (DataRow row1 in dtable1.Rows)
                         {
-                            workFlowSetup = true;
+                            if (row1["SQLQuery"].ToString().Trim() != "")
+                            {
+                                qry = row1["SQLQuery"].ToString() + " '" + sEntCode + "', '" + sBUCode + "', '" + dtEffect + "'";
+                                cmd = new SqlCommand(qry);
+                                cmd.Connection = cn;
+                                adp = new SqlDataAdapter(cmd);
+                                adp.Fill(dtable);
+                                if (dtable.Rows.Count > 0)
+                                {
+                                    workFlowSetup = true;
+                                    //dtable.Clear();
+                                    goto ReturnValue;
+                                } else
+                                {
+                                    WorkFlowSetupMsg = "No current " + row1["PositionName"].ToString() + " setup!";
+                                    workFlowSetup = false;
+                                    //dtable.Clear();
+                                    goto ReturnValue;
+                                }
+                            } else
+                            {
+                                if (Convert.ToInt32(row1["PositionNameKey"]) == 9)
+                                {
+                                    qry = "SELECT TOP (1) PK, EffectDate " +
+                                          " FROM dbo.tbl_System_Approval " +
+                                          " WHERE(EffectDate <= '" + dtEffect + "') " +
+                                          " ORDER BY EffectDate";
+                                    cmd3 = new SqlCommand(qry);
+                                    cmd3.Connection = cn;
+                                    adp3 = new SqlDataAdapter(cmd3);
+                                    adp3.Fill(dtable3);
+                                    if (dtable3.Rows.Count > 0)
+                                    {
+                                        foreach (DataRow row3 in dtable3.Rows)
+                                        {
+                                            qry = "SELECT dbo.tbl_System_Approval_Details.PositionNameKey, " +
+                                                  " dbo.tbl_System_Approval_Position.PositionName, " +
+                                                  " dbo.tbl_System_Approval_Position.SQLQuery " +
+                                                  " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
+                                                  " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+                                                  " WHERE(dbo.tbl_System_Approval_Details.MasterKey = "+ Convert.ToInt32(row3["PK"]) +") " +
+                                                  " ORDER BY dbo.tbl_System_Approval_Details.Line";
+                                            cmd4 = new SqlCommand(qry);
+                                            cmd4.Connection = cn;
+                                            adp4 = new SqlDataAdapter(cmd4);
+                                            adp4.Fill(dtable4);
+                                            if (dtable4.Rows.Count > 0)
+                                            {
+                                                foreach (DataRow row4 in dtable4.Rows)
+                                                {
+                                                    qry = row4["SQLQuery"].ToString() + " '" + sEntCode + "', '" + sBUCode + "', '" + dtEffect + "'";
+                                                    cmd = new SqlCommand(qry);
+                                                    cmd.Connection = cn;
+                                                    adp = new SqlDataAdapter(cmd);
+                                                    adp.Fill(dtable);
+                                                    if (dtable.Rows.Count > 0)
+                                                    {
+                                                        workFlowSetup = true;
+                                                        //dtable.Clear();
+                                                        goto ReturnValue;
+                                                    }
+                                                    else
+                                                    {
+                                                        WorkFlowSetupMsg = "No current " + row4["PositionName"].ToString() + " setup!";
+                                                        workFlowSetup = false;
+                                                        //dtable.Clear();
+                                                        goto ReturnValue;
+                                                    }
+                                                }
+                                            }
+                                            //dtable4.Clear();
+                                        }
+                                    } else
+                                    {
+                                        WorkFlowSetupMsg = "No current " + row1["PositionName"].ToString() + " setup!";
+                                        workFlowSetup = false;
+                                        //dtable3.Clear();
+                                        goto ReturnValue;
+                                    }
+                                }
+                            }
                         }
-                        dtable.Clear();
-                        break;
                     }
-                case "SMCInventoryAnalyst":
-                    {
-                        qry = "SELECT dbo.tbl_System_SCMInventoryAnalyst.* " +
-                              " FROM dbo.tbl_System_SCMInventoryAnalyst " +
-                              " WHERE (StatusKey = 1) " +
-                              " AND (EffectDate <= '" + dtEffect + "')";
-                        cmd = new SqlCommand(qry);
-                        cmd.Connection = cn;
-                        adp = new SqlDataAdapter(cmd);
-                        adp.Fill(dtable);
-                        if (dtable.Rows.Count > 0)
-                        {
-                            workFlowSetup = true;
-                        }
-                        dtable.Clear();
-                        break;
-                    }
-                case "SCMLead":
-                    {
-
-                        break;
-                    }
-                case "FinanceBudget":
-                    {
-                        qry = "SELECT TOP (1) dbo.tbl_System_FinanceBudget.UserKey " +
-                              " FROM dbo.tbl_System_FinanceBudget_Details LEFT OUTER JOIN " +
-                              " dbo.tbl_System_FinanceBudget ON dbo.tbl_System_FinanceBudget_Details.MasterKey = dbo.tbl_System_FinanceBudget.PK " +
-                              " WHERE(dbo.tbl_System_FinanceBudget.EffectDate <= '" + dtEffect + "') " +
-                              " AND(dbo.tbl_System_FinanceBudget_Details.EntityCode = '" + sEntCode + "') " +
-                              " AND(dbo.tbl_System_FinanceBudget_Details.BUSSUCode = '" + sBUCode + "') " +
-                              " AND(dbo.tbl_System_FinanceBudget.StatusKey = 1) " +
-                              " ORDER BY dbo.tbl_System_FinanceBudget.EffectDate DESC";
-                        cmd = new SqlCommand(qry);
-                        cmd.Connection = cn;
-                        adp = new SqlDataAdapter(cmd);
-                        adp.Fill(dtable);
-                        if (dtable.Rows.Count > 0)
-                        {
-                            workFlowSetup = true;
-                        }
-                        dtable.Clear();
-                        break;
-                    }
-                case "FinanceLead":
-                    {
-
-                        break;
-                    }
+                    //dtable1.Clear();
+                }
+            } else
+            {
+                WorkFlowSetupMsg = "No current workflow setup!";
+                workFlowSetup = false;
+                goto ReturnValue;
             }
+            //dtable2.Clear();
             cn.Close();
+
+            ReturnValue:
+            dtable.Clear();
+            dtable1.Clear();
+            dtable2.Clear();
+            dtable3.Clear();
+            dtable4.Clear();
             return workFlowSetup;
         }
     }

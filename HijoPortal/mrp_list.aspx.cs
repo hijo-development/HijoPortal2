@@ -187,10 +187,19 @@ namespace HijoPortal
         {
             CheckCreatorKey();
 
-            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            if (GlobalClass.CheckWorkFlowSetup( DateTime.Now, Session["EntityCode"].ToString(), Session["BUCode"].ToString()) == true)
+            {
+                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                PopUpControl.HeaderText = "MRP";
+                PopUpControl.ShowOnPageLoad = true;
 
-            PopUpControl.HeaderText = "MRP";
-            PopUpControl.ShowOnPageLoad = true;
+            } else
+            {
+                WarningText.Text = GlobalClass.WorkFlowSetupMsg;
+                WarningText.ForeColor = System.Drawing.Color.Red;
+                WarningPopUp.HeaderText = "Alert";
+                WarningPopUp.ShowOnPageLoad = true;
+            }
         }
 
         protected void Month_Init(object sender, EventArgs e)
