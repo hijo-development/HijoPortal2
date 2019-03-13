@@ -23,6 +23,7 @@ namespace HijoPortal
             PK_REV = 0;
         private static string itemcommand = "", entitycode = "", buCode = "", docnum = "";
         private const string matstring = "Materials", opexstring = "Opex", manstring = "Manpower", capexstring = "Capex", revstring = "Revenue";
+        private static DateTime dateCreated;
 
         protected void MatListview_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
@@ -297,20 +298,49 @@ namespace HijoPortal
 
                 //MRPClass.Submit_MRP(docnum, mrp_key, appflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
-                MRPClass.Approve_MRP(docnum, mrp_key, appflwln);
+                bool isAllowed = false;
+                switch (appflwln)
+                {
+                    case 1:
+                        {
+                            isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPSCMLead", dateCreated);
+                            break;
+                        }
+                    case 2:
+                        {
+                            isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPFinanceLead", dateCreated);
+                            break;
+                        }
+                    case 3:
+                        {
+                            isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPExecutive", dateCreated);
+                            break;
+                        }
+                }
+                if (isAllowed == true)
+                {
+                    MRPClass.Approve_MRP(docnum, mrp_key, appflwln);
 
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-                Submit.Enabled = false;
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    Submit.Enabled = false;
 
-                MRPNotifyMsgPrevApp.Text = MRPClass.successfully_approved;
-                MRPNotifyMsgPrevApp.ForeColor = System.Drawing.Color.Black;
-                MRPNotifyPrevApp.HeaderText = "Info";
-                MRPNotifyPrevApp.ShowOnPageLoad = true;
+                    MRPNotifyMsgPrevApp.Text = MRPClass.successfully_approved;
+                    MRPNotifyMsgPrevApp.ForeColor = System.Drawing.Color.Black;
+                    MRPNotifyPrevApp.HeaderText = "Info";
+                    MRPNotifyPrevApp.ShowOnPageLoad = true;
+                } else
+                {
+                    MRPNotifyMsgPrevApp.Text = "You have no permission to perform this command!" + Environment.NewLine + "Access Denied!";
+                    MRPNotifyMsgPrevApp.ForeColor = System.Drawing.Color.Red;
+                    MRPNotifyPrevApp.HeaderText = "Info";
+                    MRPNotifyPrevApp.ShowOnPageLoad = true;
+                }
+                
             }
             else
             {
 
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 //MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
                 //MRPNotify.HeaderText = "Alert";
@@ -402,6 +432,7 @@ namespace HijoPortal
                 {
                     //DocNum.Text = reader["DocNumber"].ToString();
                     //DateCreated.Text = reader["DateCreated"].ToString();
+                    dateCreated = Convert.ToDateTime(reader["DateCreated"]);
                     mrp_key = Convert.ToInt32(reader["PK"]);
                     entitycode = reader["EntityCode"].ToString();
                     EntityCode.Text = reader["EntityCodeDesc"].ToString();

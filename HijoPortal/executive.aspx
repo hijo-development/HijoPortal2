@@ -16,12 +16,12 @@
                     Width="100%"
                     EnableCallBacks="true"
                     KeyFieldName="PK"
-                    Theme="Office2010Blue" 
-                    OnInitNewRow="grdExecutive_InitNewRow" 
-                    OnRowInserting="grdExecutive_RowInserting" 
-                    OnStartRowEditing="grdExecutive_StartRowEditing" 
-                    OnRowUpdating="grdExecutive_RowUpdating" 
-                    OnRowDeleting="grdExecutive_RowDeleting" 
+                    Theme="Office2010Blue"
+                    OnInitNewRow="grdExecutive_InitNewRow"
+                    OnRowInserting="grdExecutive_RowInserting"
+                    OnStartRowEditing="grdExecutive_StartRowEditing"
+                    OnRowUpdating="grdExecutive_RowUpdating"
+                    OnRowDeleting="grdExecutive_RowDeleting"
                     OnBeforeGetCallbackResult="grdExecutive_BeforeGetCallbackResult">
 
                     <SettingsBehavior AllowSort="true" SortMode="Value" />
@@ -44,7 +44,7 @@
                             </EditItemTemplate>
                         </dx:GridViewDataColumn>
                         <dx:GridViewDataColumn FieldName="UserKey" Visible="false" VisibleIndex="5"></dx:GridViewDataColumn>
-                        <dx:GridViewDataColumn FieldName="UserCompleteName" Caption="Head" VisibleIndex="6">
+                        <dx:GridViewDataColumn FieldName="UserCompleteName" Caption="Name" VisibleIndex="6">
                             <EditItemTemplate>
                                 <dx:ASPxComboBox ID="Executive" runat="server" ClientInstanceName="ExecutiveDirect" OnInit="Executive_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
                                     ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
@@ -52,7 +52,16 @@
                                 </dx:ASPxComboBox>
                             </EditItemTemplate>
                         </dx:GridViewDataColumn>
-                        <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="7">
+                        <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="7"></dx:GridViewDataColumn>
+                        <dx:GridViewDataColumn FieldName="StatusDesc" Caption="Status" VisibleIndex="8">
+                            <EditItemTemplate>
+                                <dx:ASPxComboBox ID="Status" runat="server" ClientInstanceName="StatusDirect" OnInit="ExecutiveStatus_Init" AutoResizeWithContainer="false" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue"
+                                    ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
+                                    <ClientSideEvents SelectedIndexChanged="" />
+                                </dx:ASPxComboBox>
+                            </EditItemTemplate>
+                        </dx:GridViewDataColumn>
+                        <dx:GridViewDataColumn FieldName="LastModified" Caption="Last Modified" VisibleIndex="9">
                             <EditItemTemplate>
                                 <%--<dx:ASPxTextBox ID="ASPxLastModifiedTextBox" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue" Enabled="false"></dx:ASPxTextBox>--%>
                                 <dx:ASPxLabel ID="ASPxLastModifiedTextBox" runat="server" Width="100%" Text='<%#Eval("LastModified")%>' Theme="Office2010Blue"></dx:ASPxLabel>

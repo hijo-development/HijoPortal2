@@ -18,9 +18,18 @@ namespace HijoPortal
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckCreatorKey();
-            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            
             if (!Page.IsPostBack)
             {
+                bool isAllowed = false;
+                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPProcurementOfficer", DateTime.Now);
+                if (isAllowed == false)
+                {
+                    Response.Redirect("home.aspx");
+                } else
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                }
             }
             BindPO();
         }

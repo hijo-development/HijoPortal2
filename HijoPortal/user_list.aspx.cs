@@ -37,7 +37,13 @@ namespace HijoPortal
 
             if (!Page.IsPostBack)
             {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                if (GlobalClass.IsAdmin(Convert.ToInt32(Session["CreatorKey"])) == false)
+                {
+                    Response.Redirect("home.aspx");
+                } else
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                }                
             }
 
             if (bindUserList)

@@ -23,7 +23,7 @@ namespace HijoPortal
         private static int mrp_key = 0, wrkflwln = 0, iStatusKey = 0;
         private static string docnumber = "", entitycode = "", buCode = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true, bindRevenue = true;
-
+        private static DateTime dateCreated;
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckCreatorKey();
@@ -127,6 +127,7 @@ namespace HijoPortal
             while (reader.Read())
             {
                 mrp_key = Convert.ToInt32(reader["PK"].ToString());
+                dateCreated = Convert.ToDateTime(reader["DateCreated"]);
                 entitycode = reader["EntityCode"].ToString();
                 DocNum.Text = reader["DocNumber"].ToString();
                 DateCreated.Text = reader["DateCreated"].ToString();
@@ -1341,21 +1342,33 @@ namespace HijoPortal
             {
                 if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
                 {
-                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+                    bool isAllowed = false;
+                    isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dateCreated, entitycode, buCode);
+                    if (isAllowed == true)
+                    {
+                        MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                        //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
-                    Load_MRP(docnumber);
-                    BindDirectMaterials(docnumber);
-                    BindOPEX(docnumber);
-                    BindManPower(docnumber);
-                    BindCAPEX(docnumber);
-                    BindRevenue(docnumber);
+                        Load_MRP(docnumber);
+                        BindDirectMaterials(docnumber);
+                        BindOPEX(docnumber);
+                        BindManPower(docnumber);
+                        BindCAPEX(docnumber);
+                        BindRevenue(docnumber);
 
-                    PopupSubmit.ShowOnPageLoad = false;
+                        PopupSubmit.ShowOnPageLoad = false;
+                    } else
+                    {
+                        MRPNotificationMessage.Text = "You have no permission to perform this command!" + Environment.NewLine + "Access Denied!";
+                        MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
+                        MRPNotify.HeaderText = "Info";
+                        MRPNotify.ShowOnPageLoad = true;
+                    }
+                    
                 } else
                 {
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                     MRPNotificationMessage.Text = "Document already submitted to Inventory Analyst for review.";
                     MRPNotify.HeaderText = "Alert";
