@@ -16,41 +16,67 @@ namespace HijoPortal
         private static bool bind = true;
         protected void Page_Load(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            CheckCreatorKey();
 
             if (!Page.IsPostBack)
             {
-                ponumber = Request.Params["PONum"].ToString();
 
-                if (string.IsNullOrEmpty(ponumber))
-                    return;
-
-                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-                conn.Open();
-
-                //QUERY DETAILS
-                string query = "SELECT * FROM " + MRPClass.POTableName() + " WHERE [PONumber] = '" + ponumber + "'";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                bool isAllowed = false;
+                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPProcurementOfficer", DateTime.Now);
+                if (isAllowed == false)
                 {
-                    docnumber = reader["MRPNumber"].ToString();
-                    DocNumber.Value = docnumber;
-                    DateCreated.Value = Convert.ToDateTime(reader["DateCreated"].ToString()).ToString("MM/dd/yyyy");
-                    ExpectedDate.Value = reader["ExpectedDate"].ToString();
-                    Vendor.Value = reader["VendorCode"].ToString();
-                    Terms.Value = reader["PaymentTerms"].ToString();
-                    Currency.Value = reader["CurrencyCode"].ToString();
-                    Site.Value = reader["InventSite"].ToString();
-                    Warehouse.Value = reader["InventSiteWarehouse"].ToString();
-                    Location.Value = reader["InventSiteWarehouseLocation"].ToString();
+                    Response.Redirect("home.aspx");
+                } else
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                    ponumber = Request.Params["PONum"].ToString();
+
+                    if (string.IsNullOrEmpty(ponumber))
+                        return;
+
+                    SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+                    conn.Open();
+
+                    //QUERY DETAILS
+                    string query = "SELECT * FROM " + MRPClass.POTableName() + " WHERE [PONumber] = '" + ponumber + "'";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        docnumber = reader["MRPNumber"].ToString();
+                        DocNumber.Value = docnumber;
+                        DateCreated.Value = Convert.ToDateTime(reader["DateCreated"].ToString()).ToString("MM/dd/yyyy");
+                        ExpectedDate.Value = reader["ExpectedDate"].ToString();
+                        Vendor.Value = reader["VendorCode"].ToString();
+                        Terms.Value = reader["PaymentTerms"].ToString();
+                        Currency.Value = reader["CurrencyCode"].ToString();
+                        Site.Value = reader["InventSite"].ToString();
+                        Warehouse.Value = reader["InventSiteWarehouse"].ToString();
+                        Location.Value = reader["InventSiteWarehouseLocation"].ToString();
+                    }
+
+                    PONumber.Value = ponumber;
                 }
 
-                PONumber.Value = ponumber;
+                
 
             }
             if (bind) BindGrid();
             else bind = true;
+        }
+
+        private void CheckCreatorKey()
+        {
+            if (Session["CreatorKey"] == null)
+            {
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
+                return;
+            }
         }
 
         private void BindGrid()

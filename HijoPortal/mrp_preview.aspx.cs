@@ -24,6 +24,7 @@ namespace HijoPortal
             PK_REV = 0;
         private static string itemcommand = "", entitycode = "", buCode = "", docnumber ="";
         private const string matstring = "Materials", opexstring = "Opex", manstring = "Manpower", capexstring = "Capex", revstring = "Revenue";
+        private static DateTime dateCreated;
 
         protected void MatListview_DataBound(object sender, EventArgs e)
         {
@@ -103,16 +104,45 @@ namespace HijoPortal
             {
                 if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
                 {
-                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+                    bool isAllowed = false;
+                    switch (wrkflwln)
+                    {
+                        case 1:
+                            {
+                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dateCreated, entitycode, buCode);
+                                break;
+                            }
+                        case 2:
+                            {
+                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", dateCreated);
+                                break;
+                            }
+                        case 3:
+                            {
+                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBudget_PerEntBU", dateCreated, entitycode, buCode);
+                                break;
+                            }
+                    }
 
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-                    Submit.Enabled = false;
+                    if (isAllowed == true)
+                    {
+                        MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
-                    MRPNotificationMessage.Text = MRPClass.successfully_submitted;
-                    MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
-                    MRPNotify.HeaderText = "Info";
-                    MRPNotify.ShowOnPageLoad = true;
+                        //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                        Submit.Enabled = false;
 
+                        MRPNotificationMessage.Text = MRPClass.successfully_submitted;
+                        MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
+                        MRPNotify.HeaderText = "Info";
+                        MRPNotify.ShowOnPageLoad = true;
+                    } else
+                    {
+                        MRPNotificationMessage.Text = "You have no permission to perform this command!" + Environment.NewLine + "Access Denied!";
+                        MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
+                        MRPNotify.HeaderText = "Info";
+                        MRPNotify.ShowOnPageLoad = true;
+                    }
+                    
                     //Load_MRP(docnumber);
                     //BindDirectMaterials(docnumber);
                     //BindOPEX(docnumber);
@@ -122,7 +152,7 @@ namespace HijoPortal
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                     //MRPNotificationMessage.Text = "Document already submitted to Inventory Analyst for review.";
                     //MRPNotify.HeaderText = "Alert";
@@ -236,6 +266,7 @@ namespace HijoPortal
                     //DateCreated.Text = reader["DateCreated"].ToString();
                     mrp_key = Convert.ToInt32(reader["PK"]);
                     entitycode = reader["EntityCode"].ToString();
+                    dateCreated = Convert.ToDateTime(reader["DateCreated"]);
                     EntityCode.Text = reader["EntityCodeDesc"].ToString();
                     buCode = reader["BUCode"].ToString();
                     BUCode.Text = reader["BUCodeDesc"].ToString();

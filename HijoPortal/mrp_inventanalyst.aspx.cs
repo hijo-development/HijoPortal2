@@ -22,74 +22,54 @@ namespace HijoPortal
             CheckCreatorKey();
             if (!Page.IsPostBack)
             {
+                bool isAllowed = false;
+                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", DateTime.Now);
+                if (isAllowed == false)
+                {
+                    Response.Redirect("home.aspx");
+                } else
+                {
+                    DirectMaterialsRoundPanel.Font.Bold = true;
+                    OpexRoundPanel.Font.Bold = true;
+                    ManpowerRoundPanel.Font.Bold = true;
+                    CapexRoundPanel.Font.Bold = true;
 
-                DirectMaterialsRoundPanel.Font.Bold = true;
-                OpexRoundPanel.Font.Bold = true;
-                ManpowerRoundPanel.Font.Bold = true;
-                CapexRoundPanel.Font.Bold = true;
+                    DirectMaterialsRoundPanel.Collapsed = true;
+                    OpexRoundPanel.Collapsed = true;
+                    ManpowerRoundPanel.Collapsed = true;
+                    CapexRoundPanel.Collapsed = true;
 
-                DirectMaterialsRoundPanel.Collapsed = true;
-                OpexRoundPanel.Collapsed = true;
-                ManpowerRoundPanel.Collapsed = true;
-                CapexRoundPanel.Collapsed = true;
+                    ASPxPageControl1.Font.Bold = true;
+                    ASPxPageControl1.Font.Size = 12;
 
-                ASPxPageControl1.Font.Bold = true;
-                ASPxPageControl1.Font.Size = 12;
+                    //Rsize
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
-                //Rsize
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    docnumber = Request.Params["DocNum"].ToString();
+                    wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
 
-                docnumber = Request.Params["DocNum"].ToString();
-                wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
+                    Load_MRP(docnumber);
 
-                Load_MRP(docnumber);
+                    DirectMaterialsRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Direct Materials";
+                    OpexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Operational Expense";
+                    ManpowerRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Man Power";
+                    CapexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Capital Expenditure";
 
-                //string query = "SELECT TOP (100) PERCENT  tbl_MRP_List.*, vw_AXEntityTable.NAME AS EntityCodeDesc, vw_AXOperatingUnitTable.NAME AS BUCodeDesc, tbl_MRP_Status.StatusName, tbl_Users.Lastname, tbl_Users.Firstname FROM   tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
+                    DirectMaterialsRoundPanel.Font.Bold = true;
+                    OpexRoundPanel.Font.Bold = true;
+                    ManpowerRoundPanel.Font.Bold = true;
+                    CapexRoundPanel.Font.Bold = true;
 
-                //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-                //conn.Open();
+                    DirectMaterialsRoundPanel.Collapsed = true;
+                    OpexRoundPanel.Collapsed = true;
+                    ManpowerRoundPanel.Collapsed = true;
+                    CapexRoundPanel.Collapsed = true;
 
-                //string firstname = "", lastname = "";
+                    ASPxPageControl1.Font.Bold = true;
+                    ASPxPageControl1.Font.Size = 12;
+                }
 
-                //SqlCommand cmd = new SqlCommand(query, conn);
-                //SqlDataReader reader = cmd.ExecuteReader();
-                //while (reader.Read())
-                //{
-                //    mrp_key = Convert.ToInt32(reader["PK"].ToString());
-                //    entitycode = reader["EntityCode"].ToString();
-                //    DocNum.Text = reader["DocNumber"].ToString();
-                //    DateCreated.Text = reader["DateCreated"].ToString();
-                //    EntityCode.Text = reader["EntityCodeDesc"].ToString();
-                //    BUCode.Text = reader["BUCodeDesc"].ToString();
-                //    Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
-                //    Year.Text = reader["MRPYear"].ToString();
-                //    Status.Text = reader["StatusName"].ToString();
-                //    firstname = reader["Firstname"].ToString();
-                //    lastname = reader["Lastname"].ToString();
-
-                //}
-                //reader.Close();
-                //conn.Close();
-
-                //Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
-
-                DirectMaterialsRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Direct Materials";
-                OpexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Operational Expense";
-                ManpowerRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Man Power";
-                CapexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Capital Expenditure";
-
-                DirectMaterialsRoundPanel.Font.Bold = true;
-                OpexRoundPanel.Font.Bold = true;
-                ManpowerRoundPanel.Font.Bold = true;
-                CapexRoundPanel.Font.Bold = true;
-
-                DirectMaterialsRoundPanel.Collapsed = true;
-                OpexRoundPanel.Collapsed = true;
-                ManpowerRoundPanel.Collapsed = true;
-                CapexRoundPanel.Collapsed = true;
-
-                ASPxPageControl1.Font.Bold = true;
-                ASPxPageControl1.Font.Size = 12;
+                
             }
 
             //MRPClass.PrintString(bindDM.ToString());

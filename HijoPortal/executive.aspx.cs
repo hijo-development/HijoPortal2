@@ -15,6 +15,7 @@ namespace HijoPortal
     {
         private static bool bindExecutiveList = true;
         private static string sExecutiveKey = "";
+        private static string sExecutiveStatusKey = "";  
 
         private void CheckCreatorKey()
         {
@@ -49,7 +50,14 @@ namespace HijoPortal
 
             if (!Page.IsPostBack)
             {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                if (GlobalClass.IsAdmin(Convert.ToInt32(Session["CreatorKey"])) == false)
+                {
+                    Response.Redirect("home.aspx");
+                } else
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                }
+                
             }
 
             if (bindExecutiveList)
@@ -88,6 +96,7 @@ namespace HijoPortal
         {
             bindExecutiveList = false;
             sExecutiveKey = "";
+            sExecutiveStatusKey = "";
 
             ASPxLabel ctrlNum = grdExecutive.FindEditRowCellTemplateControl((GridViewDataColumn)grdExecutive.Columns["Ctrl"], "ASPxCtrlTextBox") as ASPxLabel;
             ASPxDateEdit effectDate = grdExecutive.FindEditRowCellTemplateControl((GridViewDataColumn)grdExecutive.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
@@ -104,6 +113,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdExecutive.FindEditRowCellTemplateControl((GridViewDataColumn)grdExecutive.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
             ASPxComboBox financeHead = grdExecutive.FindEditRowCellTemplateControl((GridViewDataColumn)grdExecutive.Columns["UserCompleteName"], "Executive") as ASPxComboBox;
+            ASPxComboBox excutiveStat = grdExecutive.FindEditRowCellTemplateControl((GridViewDataColumn)grdExecutive.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sCtrlNum = GlobalClass.GetControl_DocNum("Finance_Head", Convert.ToDateTime(effectDate.Value.ToString()));
             string sLastModified = DateTime.Now.ToString();
@@ -111,13 +121,14 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO tbl_System_Executive ([Ctrl], [EffectDate], [UserKey], [LastModified]) " +
-                            " VALUES (@Ctrl, @EffectDate, @UserKey, @LastModified)";
+            string insert = "INSERT INTO tbl_System_Executive ([Ctrl], [EffectDate], [UserKey], [StatusKey], [LastModified]) " +
+                            " VALUES (@Ctrl, @EffectDate, @UserKey, @StatusKey, @LastModified)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@Ctrl", sCtrlNum);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@UserKey", financeHead.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", excutiveStat.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -145,6 +156,7 @@ namespace HijoPortal
         {
             bindExecutiveList = false;
             sExecutiveKey = grdExecutive.GetRowValues(grdExecutive.FocusedRowIndex, "UserKey").ToString();
+            sExecutiveStatusKey = grdExecutive.GetRowValues(grdExecutive.FocusedRowIndex, "StatusKey").ToString();
         }
 
         protected void grdExecutive_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
@@ -152,6 +164,7 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxDateEdit effectDate = grdExecutive.FindEditRowCellTemplateControl((GridViewDataColumn)grdExecutive.Columns["EffectDate"], "EffectDate") as ASPxDateEdit;
             ASPxComboBox financeHead = grdExecutive.FindEditRowCellTemplateControl((GridViewDataColumn)grdExecutive.Columns["UserCompleteName"], "Executive") as ASPxComboBox;
+            ASPxComboBox excutiveStat = grdExecutive.FindEditRowCellTemplateControl((GridViewDataColumn)grdExecutive.Columns["StatusDesc"], "Status") as ASPxComboBox;
 
             string sLastModified = DateTime.Now.ToString();
             string PK = e.Keys[0].ToString();
@@ -162,6 +175,7 @@ namespace HijoPortal
             string update_MRP = "UPDATE tbl_System_Executive " +
                                 " SET [EffectDate] = @EffectDate, " +
                                 " [UserKey]= @BUHead, " +
+                                " [StatusKey] = @StatusKey, " +
                                 " [LastModified] = @LastModified " +
                                 " WHERE [PK] = @PK";
 
@@ -169,6 +183,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@EffectDate", effectDate.Value.ToString());
             cmd.Parameters.AddWithValue("@BUHead", financeHead.Value.ToString());
+            cmd.Parameters.AddWithValue("@StatusKey", excutiveStat.Value.ToString());
             cmd.Parameters.AddWithValue("@LastModified", sLastModified);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -200,6 +215,30 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.SetBehaviorGrid(grid);
+        }
+
+        protected void ExecutiveStatus_Init(object sender, EventArgs e)
+        {
+            DataTable dtRecord = AccountClass.UserStatusTable();
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "CODE";
+            l_ValueField.Width = 0;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            l_TextField.Caption = "STATUS";
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+
+            combo.Value = sExecutiveStatusKey.ToString();
         }
     }
 }

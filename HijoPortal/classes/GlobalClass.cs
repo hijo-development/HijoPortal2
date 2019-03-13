@@ -371,7 +371,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable] WHERE (entity = '"+ entCode + "')";
+            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable] WHERE (entity = '" + entCode + "')";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -529,7 +529,7 @@ namespace HijoPortal.classes
                          " FROM dbo.tbl_System_BUDeptHead LEFT OUTER JOIN " +
                          " dbo.tbl_Users ON dbo.tbl_System_BUDeptHead.UserKey = dbo.tbl_Users.PK LEFT OUTER JOIN " +
                          " dbo.vw_AXOperatingUnitTable ON dbo.tbl_System_BUDeptHead.BUDeptCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
-                         " dbo.vw_AXEntityTable ON dbo.tbl_System_BUDeptHead.EntityCode = dbo.vw_AXEntityTable.ID"; 
+                         " dbo.vw_AXEntityTable ON dbo.tbl_System_BUDeptHead.EntityCode = dbo.vw_AXEntityTable.ID";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -583,7 +583,7 @@ namespace HijoPortal.classes
                     {
                         qry = "SELECT TOP (1) Ctrl " +
                               " FROM tbl_System_BUDeptHead " +
-                              " WHERE (Year(EffectDate) = "+ dEffectDate.Year + ") " +
+                              " WHERE (Year(EffectDate) = " + dEffectDate.Year + ") " +
                               " ORDER BY Ctrl DESC";
                         break;
                     }
@@ -660,7 +660,7 @@ namespace HijoPortal.classes
                         break;
                     }
             }
-            
+
             if (qry == "") { return sDocNum; }
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -672,7 +672,8 @@ namespace HijoPortal.classes
                 {
                     sDocNum = Convert.ToString(Convert.ToDouble(row["Ctrl"]) + 1);
                 }
-            } else
+            }
+            else
             {
                 sDocNum = dEffectDate.ToString("yyyy") + "0000";
             }
@@ -681,12 +682,293 @@ namespace HijoPortal.classes
             return sDocNum;
         }
 
-        public static bool IsAllowed(int usrKey, string sModuleName)
+        public static bool IsAdmin(int usrKey)
+        {
+            bool isAdmin = false;
+            string qry = "";
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dtable = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            cn.Open();
+            qry = "SELECT PK, UserLevelKey, Active " +
+                   " FROM dbo.tbl_Users " +
+                   " WHERE(PK = "+ usrKey + ") " +
+                   " AND(UserLevelKey = 1) " +
+                   " AND(Active = 1)";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count > 0)
+            {
+                isAdmin = true;
+            }
+            dtable.Clear();
+            cn.Close();
+            return isAdmin;
+        }
+
+        public static bool IsAllowed(int usrKey, string sModuleName, DateTime dtEffect, string sEntCode = "", string sBUCode = "")
         {
             bool isAllowed = false;
 
+            string qry = "";
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dtable = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
 
+            cn.Open();
+            switch (sModuleName)
+            {
+                case "MOPSCMLead":
+                    {
+                        qry = "SELECT TOP (1) UserKey, StatusKey, EffectDate " +
+                              " FROM dbo.tbl_System_SCMHead " +
+                              " WHERE(UserKey = "+ usrKey + ") " +
+                              " AND(StatusKey = 1) " +
+                              " AND(EffectDate <= '"+ dtEffect + "') " +
+                              " ORDER BY EffectDate";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            isAllowed = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
+                case "MOPFinanceLead":
+                    {
+                        qry = "SELECT TOP (1) UserKey, StatusKey, EffectDate " +
+                              " FROM dbo.tbl_System_FinanceHead " +
+                              " WHERE(UserKey = " + usrKey + ") " +
+                              " AND(StatusKey = 1) " +
+                              " AND(EffectDate <= '" + dtEffect + "') " +
+                              " ORDER BY EffectDate";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            isAllowed = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
+                case "MOPExecutive":
+                    {
+                        isAllowed = true;
+                        break;
+                    }
+                case "MOPBULead":
+                    {
+                        qry = "SELECT TOP (1) UserKey " +
+                            " FROM dbo.tbl_System_BUDeptHead " +
+                            " WHERE(StatusKey = 1) " +
+                            " AND(EntityCode = '"+ sEntCode + "') " +
+                            " AND(BUDeptCode = '"+ sBUCode + "') " +
+                            " AND(EffectDate <= '"+ dtEffect + "') " +
+                            " AND(UserKey = " + usrKey + ") " +
+                            " ORDER BY EffectDate DESC";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            isAllowed = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
+                case "MOPInventoryAnalyst":
+                    {
+                        qry = "SELECT dbo.tbl_System_SCMInventoryAnalyst.* " +
+                              " FROM dbo.tbl_System_SCMInventoryAnalyst " +
+                              " WHERE(UserKey = " + usrKey + ") " +
+                              " AND (StatusKey = 1)";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            isAllowed = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
+                case "MOPBudget":
+                    {
+                        qry = "SELECT dbo.tbl_System_FinanceBudget.* " +
+                              " FROM dbo.tbl_System_FinanceBudget " +
+                              " WHERE(UserKey = " + usrKey + ") " +
+                              " AND (StatusKey = 1)";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            isAllowed = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
+                case "MOPBudget_PerEntBU":
+                    {
+                        qry = "SELECT TOP (1) dbo.tbl_System_FinanceBudget.UserKey " +
+                              " FROM dbo.tbl_System_FinanceBudget_Details LEFT OUTER JOIN " +
+                              " dbo.tbl_System_FinanceBudget ON dbo.tbl_System_FinanceBudget_Details.MasterKey = dbo.tbl_System_FinanceBudget.PK " +
+                              " WHERE(dbo.tbl_System_FinanceBudget.EffectDate <= '" + dtEffect + "') " +
+                              " AND(dbo.tbl_System_FinanceBudget_Details.EntityCode = '" + sEntCode + "') " +
+                              " AND(dbo.tbl_System_FinanceBudget_Details.BUSSUCode = '" + sBUCode + "') " +
+                              " AND(UserKey = " + usrKey + ") " +
+                              " AND(dbo.tbl_System_FinanceBudget.StatusKey = 1) " +
+                              " ORDER BY dbo.tbl_System_FinanceBudget.EffectDate DESC";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            isAllowed = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
+                case "MOPInventoryOfficer":
+                    {
+                        qry = "SELECT dbo.tbl_System_FinanceInventoryOfficer.* " +
+                              " FROM dbo.tbl_System_FinanceInventoryOfficer " +
+                              " WHERE(UserKey = " + usrKey + ") " +
+                              " AND (StatusKey = 1)";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            isAllowed = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
+                case "MOPProcurementOfficer":
+                    {
+                        qry = "SELECT dbo.tbl_System_SCMProcurementOfficer.* " +
+                              " FROM dbo.tbl_System_SCMProcurementOfficer " +
+                              " WHERE(UserKey = " + usrKey + ") " +
+                              " AND (StatusKey = 1)";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            isAllowed = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
+                case "":
+                    {
+                        isAllowed = true;
+                        break;
+                    }
+            }
+            cn.Close();
             return isAllowed;
+        }
+
+        public static bool CheckWorkFlowSetup(string wrkFlow, DateTime dtEffect, string sEntCode = "", string sBUCode = "")
+        {
+            bool workFlowSetup = false;
+            string qry = "";
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dtable = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+            switch (wrkFlow)
+            {
+                case "BUSSULead":
+                    {
+                        qry = "SELECT TOP (1) UserKey " +
+                              " FROM dbo.tbl_System_BUDeptHead " +
+                              " WHERE(StatusKey = 1) " +
+                              " AND(EntityCode = '" + sEntCode + "') " +
+                              " AND(BUDeptCode = '" + sBUCode + "') " +
+                              " AND(EffectDate <= '" + dtEffect + "') " +
+                              " ORDER BY EffectDate DESC"; 
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            workFlowSetup = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
+                case "SMCInventoryAnalyst":
+                    {
+                        qry = "SELECT dbo.tbl_System_SCMInventoryAnalyst.* " +
+                              " FROM dbo.tbl_System_SCMInventoryAnalyst " +
+                              " WHERE (StatusKey = 1) " +
+                              " AND (EffectDate <= '" + dtEffect + "')";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            workFlowSetup = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
+                case "SCMLead":
+                    {
+
+                        break;
+                    }
+                case "FinanceBudget":
+                    {
+                        qry = "SELECT TOP (1) dbo.tbl_System_FinanceBudget.UserKey " +
+                              " FROM dbo.tbl_System_FinanceBudget_Details LEFT OUTER JOIN " +
+                              " dbo.tbl_System_FinanceBudget ON dbo.tbl_System_FinanceBudget_Details.MasterKey = dbo.tbl_System_FinanceBudget.PK " +
+                              " WHERE(dbo.tbl_System_FinanceBudget.EffectDate <= '" + dtEffect + "') " +
+                              " AND(dbo.tbl_System_FinanceBudget_Details.EntityCode = '" + sEntCode + "') " +
+                              " AND(dbo.tbl_System_FinanceBudget_Details.BUSSUCode = '" + sBUCode + "') " +
+                              " AND(dbo.tbl_System_FinanceBudget.StatusKey = 1) " +
+                              " ORDER BY dbo.tbl_System_FinanceBudget.EffectDate DESC";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dtable);
+                        if (dtable.Rows.Count > 0)
+                        {
+                            workFlowSetup = true;
+                        }
+                        dtable.Clear();
+                        break;
+                    }
+                case "FinanceLead":
+                    {
+
+                        break;
+                    }
+            }
+            cn.Close();
+            return workFlowSetup;
         }
     }
 }

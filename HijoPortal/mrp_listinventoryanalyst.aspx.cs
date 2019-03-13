@@ -38,10 +38,20 @@ namespace HijoPortal
             CheckCreatorKey();
             if (!Page.IsPostBack)
             {
-                //Rsize
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                bool isAllowed = false;
+                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", DateTime.Now);
+                if (isAllowed == false)
+                {
+                    Response.Redirect("home.aspx");
+                } else
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
-                Bind_MRP_InventAnalyst();
+                    Bind_MRP_InventAnalyst();
+                }
+
+                //Rsize
+                
             }
         }
 
