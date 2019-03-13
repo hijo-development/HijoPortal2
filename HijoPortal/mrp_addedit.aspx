@@ -180,7 +180,8 @@
                             <table style="width: 100%; padding: 25px;" border="0">
                                 <tr>
                                     <td colspan="5">
-                                        <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                        <dx:ASPxRoundPanel ID="DirectMaterialsRoundPanel" runat="server" ClientInstanceName="DMRoundPanel" HeaderText="DIRECT MATERIALS" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                            <ClientSideEvents CollapsedChanging="DMRoundPanel_CollapsedChanging" />
                                             <PanelCollection>
                                                 <dx:PanelContent>
                                                     <dx:ASPxGridView ID="DirectMaterialsGrid" runat="server" ClientInstanceName="DirectMaterialsGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
@@ -402,7 +403,8 @@
                                 </tr>
                                 <tr>
                                     <td colspan="5">
-                                        <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" HeaderText="OPEX" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                        <dx:ASPxRoundPanel ID="OpexRoundPanel" runat="server" ClientInstanceName="OpRoundPanel" HeaderText="OPEX" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                            <ClientSideEvents CollapsedChanging="OpRoundPanel_CollapsedChanging" />
                                             <PanelCollection>
                                                 <dx:PanelContent>
                                                     <dx:ASPxGridView ID="OPEXGrid" runat="server" ClientInstanceName="OPEXGrid" Width="100%" Theme="Office2010Blue"
@@ -630,7 +632,8 @@
                                 </tr>
                                 <tr>
                                     <td colspan="5">
-                                        <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" HeaderText="MANPOWER" EnableAnimation="true" ClientInstanceNam="ManpowerRoundPanel" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                        <dx:ASPxRoundPanel ID="ManpowerRoundPanel" runat="server" ClientInstanceName="ManRoundPanel" HeaderText="MANPOWER" EnableAnimation="true" ClientInstanceNam="ManpowerRoundPanel" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                            <ClientSideEvents CollapsedChanging="ManRoundPanel_CollapsedChanging" />
                                             <PanelCollection>
                                                 <dx:PanelContent>
                                                     <dx:ASPxGridView ID="ManPowerGrid" runat="server" ClientInstanceName="ManPowerGrid" Width="100%" Theme="Office2010Blue"
@@ -842,7 +845,8 @@
                                 </tr>
                                 <tr>
                                     <td colspan="5">
-                                        <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" HeaderText="CAPEX" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                        <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" ClientInstanceName="CaRoundPanel" HeaderText="CAPEX" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                            <ClientSideEvents CollapsedChanging="CaRoundPanel_CollapsedChanging" />
                                             <PanelCollection>
                                                 <dx:PanelContent>
                                                     <dx:ASPxGridView ID="CAPEXGrid" runat="server" ClientInstanceName="CAPEXGrid" Width="100%" Theme="Office2010Blue"
@@ -1037,7 +1041,8 @@
                             <table style="width: 100%">
                                 <tr>
                                     <td>
-                                        <dx:ASPxRoundPanel ID="RevenueRoundPanel" runat="server" HeaderText="REVENUE & ASSUMPTIONS" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                        <dx:ASPxRoundPanel ID="RevenueRoundPanel" runat="server" ClientInstanceName="RevRoundPanel" HeaderText="REVENUE & ASSUMPTIONS" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
+                                            <ClientSideEvents CollapsedChanging="RevRoundPanel_CollapsedChanging" />
                                             <PanelCollection>
                                                 <dx:PanelContent>
                                                     <dx:ASPxGridView ID="RevenueGrid" runat="server" ClientInstanceName="RevenueGrid" Width="100%" Theme="Office2010Blue"

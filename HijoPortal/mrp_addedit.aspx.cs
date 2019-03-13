@@ -154,11 +154,11 @@ namespace HijoPortal
 
             Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
 
-            DirectMaterialsRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Direct Materials";
-            OpexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Operational Expense";
-            ManpowerRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Man Power";
-            CapexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Capital Expenditure";
-            RevenueRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] Revenue & Assumptions";
+            DirectMaterialsRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] " + Constants.DM_string();
+            OpexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] " + Constants.OP_string();
+            ManpowerRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] " + Constants.MAN_string();
+            CapexRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] " + Constants.CA_string();
+            RevenueRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] " + Constants.REV_string();
 
             //ASPxPageControl pageControl = grid.FindEditFormTemplateControl("RevenuePageControl") as ASPxPageControl;
             ASPxHiddenField hfwrkLine = ASPxPageControl1.FindControl("ASPxHiddenFieldDMWrkFlwLn") as ASPxHiddenField;
@@ -231,13 +231,13 @@ namespace HijoPortal
 
         protected void ActivityCode_Init(object sender, EventArgs e)
         {
-
-            DataTable dtRecord = MRPClass.ActivityCodeTable();
             ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = dtRecord;
+            combo.DataSource = MRPClass.ActivityCodeTable();
+            combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+
             ListBoxColumn l_ValueField = new ListBoxColumn();
             l_ValueField.FieldName = "VALUE";
-            l_ValueField.Caption = "ID";
+            l_ValueField.Caption = "Code";
             l_ValueField.Width = 50;
             combo.Columns.Add(l_ValueField);
 
@@ -261,6 +261,7 @@ namespace HijoPortal
         {
             ASPxComboBox combo = sender as ASPxComboBox;
             combo.DataSource = MRPClass.UOMTable();
+            combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "SYMBOL";
@@ -288,6 +289,7 @@ namespace HijoPortal
         {
             ASPxComboBox combo = sender as ASPxComboBox;
             combo.DataSource = MRPClass.ExpenseCodeTable();
+            combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "MAINACCOUNTID";
@@ -320,6 +322,7 @@ namespace HijoPortal
         {
             ASPxComboBox combo = sender as ASPxComboBox;
             combo.DataSource = MRPClass.OperatingUnitTable(entitycode);
+            combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "VALUE";

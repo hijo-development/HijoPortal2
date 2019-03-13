@@ -163,6 +163,7 @@
       <DependentUpon>change_pw.aspx</DependentUpon>
     </Compile>
     <Compile Include="classes\AccountClass.cs" />
+    <Compile Include="classes\Constants.cs" />
     <Compile Include="classes\DataFlowClass.cs" />
     <Compile Include="classes\EncryptionClass.cs" />
     <Compile Include="classes\FinanceClass.cs" />

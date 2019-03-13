@@ -268,17 +268,7 @@ function DirectMaterialsGrid_CustomButtonClick(s, e) {
     var statusKey = StatusKeyTxt.GetText();
 
     if (button == "DMEdit") {
-        if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
-            OPEXGrid.CancelEdit();
-
-        if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
-            ManPowerGrid.CancelEdit();
-
-        if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
-            CAPEXGrid.CancelEdit();
-
-        if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
-            RevenueGrid.CancelEdit();
+        DirectMaterialsGrid_HandleCollapse();
 
         if (wrkflowLine === "0") {
             if (statusKey === "1") {
@@ -317,22 +307,42 @@ function DirectMaterialsGrid_CustomButtonClick(s, e) {
     }
 }
 
+function DMRoundPanel_CollapsedChanging(s, e) {
+    DirectMaterialsGrid_HandleCollapse();
+}
+
+function DirectMaterialsGrid_HandleCollapse() {
+    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+        OPEXGrid.CancelEdit();
+
+    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+        ManPowerGrid.CancelEdit();
+
+    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+        CAPEXGrid.CancelEdit();
+
+    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+        RevenueGrid.CancelEdit();
+
+    if (!OpRoundPanel.GetCollapsed())
+        OpRoundPanel.SetCollapsed(true);
+
+    if (!ManRoundPanel.GetCollapsed())
+        ManRoundPanel.SetCollapsed(true);
+
+    if (!CaRoundPanel.GetCollapsed())
+        CaRoundPanel.SetCollapsed(true);
+
+    if (!RevRoundPanel.GetCollapsed())
+        RevRoundPanel.SetCollapsed(true);
+}
+
 function OPEXGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
     if (button == "OPEdit") {
-        if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
-            DirectMaterialsGrid.CancelEdit();
-
-        if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
-            ManPowerGrid.CancelEdit();
-
-        if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
-            CAPEXGrid.CancelEdit();
-
-        if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
-            RevenueGrid.CancelEdit();
+        OPEXGrid_HandleCollapse();
 
         if (wrkflowLine === "0") {
             if (statusKey === "1") {
@@ -370,22 +380,42 @@ function OPEXGrid_CustomButtonClick(s, e) {
     }
 }
 
+function OpRoundPanel_CollapsedChanging(s, e) {
+    OPEXGrid_HandleCollapse();
+}
+
+function OPEXGrid_HandleCollapse() {
+    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+        DirectMaterialsGrid.CancelEdit();
+
+    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+        ManPowerGrid.CancelEdit();
+
+    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+        CAPEXGrid.CancelEdit();
+
+    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+        RevenueGrid.CancelEdit();
+
+    if (!DMRoundPanel.GetCollapsed())
+        DMRoundPanel.SetCollapsed(true);
+
+    if (!ManRoundPanel.GetCollapsed())
+        ManRoundPanel.SetCollapsed(true);
+
+    if (!CaRoundPanel.GetCollapsed())
+        CaRoundPanel.SetCollapsed(true);
+
+    if (!RevRoundPanel.GetCollapsed())
+        RevRoundPanel.SetCollapsed(true);
+}
+
 function ManPowerGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
     if (button == "MANEdit") {
-        if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
-            DirectMaterialsGrid.CancelEdit();
-
-        if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
-            OPEXGrid.CancelEdit();
-
-        if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
-            CAPEXGrid.CancelEdit();
-
-        if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
-            RevenueGrid.CancelEdit();
+        ManPowerGrid_HandleCollapse();
 
         if (wrkflowLine === "0") {
             if (statusKey === "1") {
@@ -423,22 +453,43 @@ function ManPowerGrid_CustomButtonClick(s, e) {
     }
 }
 
+function ManRoundPanel_CollapsedChanging(s, e) {
+    ManPowerGrid_HandleCollapse();
+}
+
+function ManPowerGrid_HandleCollapse() {
+    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+        DirectMaterialsGrid.CancelEdit();
+
+    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+        OPEXGrid.CancelEdit();
+
+    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+        CAPEXGrid.CancelEdit();
+
+    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+        RevenueGrid.CancelEdit();
+
+    if (!DMRoundPanel.GetCollapsed())
+        DMRoundPanel.SetCollapsed(true);
+
+    if (!OpRoundPanel.GetCollapsed())
+        OpRoundPanel.SetCollapsed(true);
+
+    if (!CaRoundPanel.GetCollapsed())
+        CaRoundPanel.SetCollapsed(true);
+
+    if (!RevRoundPanel.GetCollapsed())
+        RevRoundPanel.SetCollapsed(true);
+}
+
 function CAPEXGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
     if (button == "CAEdit") {
-        if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
-            DirectMaterialsGrid.CancelEdit();
-
-        if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
-            OPEXGrid.CancelEdit();
-
-        if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
-            ManPowerGrid.CancelEdit();
-
-        if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
-            RevenueGrid.CancelEdit();
+        
+        CAPEXGrid_HandleCollapse();
 
         if (wrkflowLine === "0") {
             if (statusKey === "1") {
@@ -477,22 +528,42 @@ function CAPEXGrid_CustomButtonClick(s, e) {
     }
 }
 
+function CaRoundPanel_CollapsedChanging(s, e) {
+    CAPEXGrid_HandleCollapse();
+}
+
+function CAPEXGrid_HandleCollapse() {
+    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+        DirectMaterialsGrid.CancelEdit();
+
+    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+        OPEXGrid.CancelEdit();
+
+    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+        ManPowerGrid.CancelEdit();
+
+    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
+        RevenueGrid.CancelEdit();
+
+    if (!DMRoundPanel.GetCollapsed())
+        DMRoundPanel.SetCollapsed(true);
+
+    if (!OpRoundPanel.GetCollapsed())
+        OpRoundPanel.SetCollapsed(true);
+
+    if (!ManRoundPanel.GetCollapsed())
+        ManRoundPanel.SetCollapsed(true);
+
+    if (!RevRoundPanel.GetCollapsed())
+        RevRoundPanel.SetCollapsed(true);
+}
+
 function RevenueGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
     if (button == "REVEdit") {
-        if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
-            DirectMaterialsGrid.CancelEdit();
-
-        if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
-            OPEXGrid.CancelEdit();
-
-        if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
-            ManPowerGrid.CancelEdit();
-
-        if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
-            CAPEXGrid.CancelEdit();
+        RevenueGrid_HandleCollapse();
 
         if (wrkflowLine === "0") {
             if (statusKey === "1") {
@@ -530,6 +601,36 @@ function RevenueGrid_CustomButtonClick(s, e) {
     }
 }
 
+function RevRoundPanel_CollapsedChanging(s, e) {
+    RevenueGrid_HandleCollapse();
+}
+
+function RevenueGrid_HandleCollapse() {
+    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
+        DirectMaterialsGrid.CancelEdit();
+
+    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
+        OPEXGrid.CancelEdit();
+
+    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
+        ManPowerGrid.CancelEdit();
+
+    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
+        CAPEXGrid.CancelEdit();
+
+    if (!DMRoundPanel.GetCollapsed())
+        DMRoundPanel.SetCollapsed(true);
+
+    if (!OpRoundPanel.GetCollapsed())
+        OpRoundPanel.SetCollapsed(true);
+
+    if (!ManRoundPanel.GetCollapsed())
+        ManRoundPanel.SetCollapsed(true);
+
+    if (!CaRoundPanel.GetCollapsed())
+        CaRoundPanel.SetCollapsed(true);
+}
+
 function OK_DELETE(s, e) {
     switch (typeCustomDelete) {
         case DM_string:
@@ -562,17 +663,7 @@ function DirectMaterialsGrid_Add(s, e) {
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
 
-    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
-        OPEXGrid.CancelEdit();
-
-    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
-        ManPowerGrid.CancelEdit();
-
-    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
-        CAPEXGrid.CancelEdit();
-
-    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
-        RevenueGrid.CancelEdit();
+    DirectMaterialsGrid_HandleCollapse();
 
     if (wrkflowLine === "0") {
         if (statusKey === "1") {
@@ -591,17 +682,8 @@ function DirectMaterialsGrid_Add(s, e) {
 function OPEXGrid_Add(s, e) {
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
-    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
-        DirectMaterialsGrid.CancelEdit();
 
-    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
-        ManPowerGrid.CancelEdit();
-
-    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
-        CAPEXGrid.CancelEdit();
-
-    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
-        RevenueGrid.CancelEdit();
+    OPEXGrid_HandleCollapse();
 
     if (wrkflowLine === "0") {
         if (statusKey === "1") {
@@ -620,17 +702,7 @@ function ManPowerGrid_Add(s, e) {
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
 
-    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
-        DirectMaterialsGrid.CancelEdit();
-
-    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
-        OPEXGrid.CancelEdit();
-
-    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
-        CAPEXGrid.CancelEdit();
-
-    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
-        RevenueGrid.CancelEdit();
+    ManPowerGrid_HandleCollapse();
 
     if (wrkflowLine === "0") {
         if (statusKey === "1") {
@@ -649,17 +721,8 @@ function ManPowerGrid_Add(s, e) {
 function CAPEXGrid_Add(s, e) {
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
-    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
-        DirectMaterialsGrid.CancelEdit();
 
-    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
-        OPEXGrid.CancelEdit();
-
-    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
-        ManPowerGrid.CancelEdit();
-
-    if (RevenueGrid.IsEditing() || RevenueGrid.IsNewRowEditing())
-        RevenueGrid.CancelEdit();
+    CAPEXGrid_HandleCollapse();
 
     if (wrkflowLine === "0") {
         if (statusKey === "1") {
@@ -678,17 +741,9 @@ function CAPEXGrid_Add(s, e) {
 function RevenueGrid_Add(s, e) {
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
-    if (DirectMaterialsGrid.IsEditing() || DirectMaterialsGrid.IsNewRowEditing())
-        DirectMaterialsGrid.CancelEdit();
 
-    if (OPEXGrid.IsEditing() || OPEXGrid.IsNewRowEditing())
-        OPEXGrid.CancelEdit();
+    RevenueGrid_HandleCollapse();
 
-    if (ManPowerGrid.IsEditing() || ManPowerGrid.IsNewRowEditing())
-        ManPowerGrid.CancelEdit();
-
-    if (CAPEXGrid.IsEditing() || CAPEXGrid.IsNewRowEditing())
-        CAPEXGrid.CancelEdit();
     if (wrkflowLine === "0") {
         if (statusKey === "1") {
             RevenueGrid.AddNewRow();
@@ -2474,7 +2529,7 @@ function POCreatedGrid_CustomButtonClick(s, e) {
     } else if (button == "POCreatedGrid_DeleteBtn") {
         POCreatedGrid_DeletePopup.SetHeaderText("Confirm");
         POCreatedGrid_DeletePopup.Show();
-        
+
     }
 }
 
@@ -2521,7 +2576,7 @@ function pocreatededit_terms_EndCallback(s, e) {
 //Site
 var pocreatededit_postponedCallbackRequiredWarehouse = false;
 var pocreatededit_postponedCallbackRequiredLocation = false;
-function pocreatededit_Site_SelectedIndexChanged(s, e){
+function pocreatededit_Site_SelectedIndexChanged(s, e) {
     if (pocreatededit_warehouse_callback.InCallback()) {
         pocreatededit_postponedCallbackRequiredWarehouse = true;
         pocreatededit_postponedCallbackRequiredLocation = true;
@@ -2555,19 +2610,4 @@ function pocreatededit_Warehouse_SelectedIndexChanged(s, e) {
         pocreatededit_location_callback.PerformCallback();
 }
 
-
-//var postponedCallbackRequiredLocation = false;
-//function warehouse_indexchanged(s, e) {
-//    Location.SetText("");
-//    if (LocationCallback.InCallback())
-//        postponedCallbackRequiredLocation = true;
-//    else
-//        LocationCallback.PerformCallback();
-//}
-
-//function location_endcallback(s, e) {
-//    if (postponedCallbackRequiredLocation) {
-//        LocationCallback.PerformCallback();
-//        postponedCallbackRequiredLocation = false;
-//    }
-//}
+//mrp_addedit.aspx
