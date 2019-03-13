@@ -113,7 +113,7 @@
                     <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="Department" VisibleIndex="6"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month" VisibleIndex="7"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="MRPYear" Caption="Year" VisibleIndex="8"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="Amount" VisibleIndex="9"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="Amount" VisibleIndex="9" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="10"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="11"></dx:GridViewDataColumn>
                     <dx:GridViewCommandColumn VisibleIndex="12" ButtonRenderMode="Image" Width="20">

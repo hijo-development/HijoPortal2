@@ -62,7 +62,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("MRPMonth", typeof(Int32));
                 dtTable.Columns.Add("MRPMonthDesc", typeof(string));
                 dtTable.Columns.Add("MRPYear", typeof(Int32));
-                dtTable.Columns.Add("Amount", typeof(Double));
+                dtTable.Columns.Add("Amount", typeof(string));
                 dtTable.Columns.Add("StatusKey", typeof(string));
                 dtTable.Columns.Add("StatusKeyDesc", typeof(string));
                 dtTable.Columns.Add("CreatorKey", typeof(Int32));
@@ -100,7 +100,39 @@ namespace HijoPortal.classes
                     dtRow["MRPMonth"] = Convert.ToInt32(row["MRPMonth"]);
                     dtRow["MRPMonthDesc"] = Month_Name(Convert.ToInt32(row["MRPMonth"]));
                     dtRow["MRPYear"] = Convert.ToInt32(row["MRPYear"]);
-                    dtRow["Amount"] = Convert.ToDouble(dummy);
+
+                    string docnum = row["DocNumber"].ToString();
+                    double amount = 0;
+
+                    string query_1 = "SELECT SUM(TotalCost) AS Total FROM " + DirectMatTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
+                    SqlCommand com = new SqlCommand(query_1, cn);
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                        amount += Convert.ToDouble(reader[0].ToString());
+                    reader.Close();
+
+                    string query_2 = "SELECT SUM(TotalCost) AS Total FROM " + OpexTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
+                    com = new SqlCommand(query_2, cn);
+                    reader = com.ExecuteReader();
+                    while (reader.Read())
+                        amount += Convert.ToDouble(reader[0].ToString());
+                    reader.Close();
+
+                    string query_3 = "SELECT SUM(TotalCost) AS Total FROM " + ManPowerTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
+                    com = new SqlCommand(query_3, cn);
+                    reader = com.ExecuteReader();
+                    while (reader.Read())
+                        amount += Convert.ToDouble(reader[0].ToString());
+                    reader.Close();
+
+                    string query_4 = "SELECT SUM(TotalCost) AS Total FROM " + CapexTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
+                    com = new SqlCommand(query_4, cn);
+                    reader = com.ExecuteReader();
+                    while (reader.Read())
+                        amount += Convert.ToDouble(reader[0].ToString());
+                    reader.Close();
+
+                    dtRow["Amount"] = String.Format("{0:n}", amount);
                     dtRow["StatusKey"] = row["StatusKey"].ToString();
                     dtRow["StatusKeyDesc"] = row["StatusName"].ToString();
                     dtRow["CreatorKey"] = Convert.ToInt32(row["CreatorKey"]);
