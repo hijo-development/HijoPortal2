@@ -72,11 +72,12 @@ namespace HijoPortal
                 return;
 
             ASPxHiddenField text = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenVal") as ASPxHiddenField;
+            ASPxHiddenField Status = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenValStatus") as ASPxHiddenField;
+            
+            //if (e.ButtonID == "Add")
+            //{
 
-            if (e.ButtonID == "Add")
-            {
-
-            }
+            //}
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -92,6 +93,7 @@ namespace HijoPortal
 
             if (count > 0)
             {
+                text["hidden_value"] = "Creator";
                 //if (StatusKey != 1)
                 //{
                 //    text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
@@ -108,9 +110,9 @@ namespace HijoPortal
 
                         //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
 
-                        //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                        Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
-                        Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                        //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                         //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_finance.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_inventoryanalyst_forapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
@@ -125,7 +127,12 @@ namespace HijoPortal
                     {
                         if (StatusKey != 1)
                         {
-                            text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+                            //text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+                            Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+                            //MRPNotificationMessage.Text = "Already submitted to BU / SSU Lead for review!";
+                            //MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
+                            //MRPNotify.HeaderText = "Alert";
+                            //MRPNotify.ShowOnPageLoad = true;
                         }
                         else
                         {
@@ -143,12 +150,28 @@ namespace HijoPortal
                 {
                     if (MainTable.FocusedRowIndex > -1)
                     {
+                        //MRPClass.PrintString(StatusKey.ToString());
+
                         if (StatusKey != 1)
                         {
-                            text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+
+                            //MRPClass.PrintString("pass");
+                            //text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+                            Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+
+                            //PopupSubmitMRPList.HeaderText = "Confirm";
+                            //PopupSubmitMRPList.ShowOnPageLoad = true;
+
+                            //MRPNotificationMessage.Text = "Already submitted to BU / SSU Lead for review!";
+                            //MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
+                            //MRPNotify.HeaderText = "Alert";
+                            //MRPNotify.ShowOnPageLoad = true;
                         }
                         else
                         {
+                            //PopupSubmitMRPList.HeaderText = "Confirm";
+                            //PopupSubmitMRPList.ShowOnPageLoad = true;
+
                             text["hidden_value"] = "submitted";
 
                             //PopupSubmit.HeaderText = "Alert";
@@ -520,6 +543,8 @@ namespace HijoPortal
             ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
             BindMRP();
+            ASPxHiddenField text = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenVal") as ASPxHiddenField;
+            text["hidden_value"] = "submitted";
         }
     }
 }
