@@ -8,6 +8,7 @@ using System.Globalization;
 using DevExpress.Web;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Collections;
 
 namespace HijoPortal.classes
 {
@@ -31,7 +32,8 @@ namespace HijoPortal.classes
             manpower_total_amount = 0,
             man_edited_total = 0,
             man_approved_total = 0,
-            revenue_total_amount = 0;
+            revenue_total_amount = 0,
+            prev_summary = 0;
 
         public static string Month_Name(int iMonth)
         {
@@ -3588,7 +3590,9 @@ namespace HijoPortal.classes
                     {
                         DataRow dtRow = dtTable.NewRow();
                         dtRow["Name"] = name;
-                        dtRow["Total"] = Convert.ToDouble(row[0].ToString()).ToString("N");
+                        Double total = Convert.ToDouble(row[0].ToString());
+                        dtRow["Total"] = total.ToString("N");
+                        prev_summary += total;
                         dtTable.Rows.Add(dtRow);
                     }
                 }
@@ -3599,7 +3603,178 @@ namespace HijoPortal.classes
             cn.Close();
             return dtTable;
         }
+
+        public static string Prev_Summary_Total()
+        {
+            return prev_summary.ToString("N");
+        }
+
+        public static void trial()
+        {
+            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '0000-0119MRP-000019' ORDER BY ActivityCode ASC";
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand(query_arraycode, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            ArrayList list = new ArrayList();
+            while (reader.Read())
+            {
+                list.Add(reader[0].ToString());
+            }
+            reader.Close();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                string query = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '0000-0119MRP-000019' AND ActivityCode = '" + list[i] + "' ";
+
+                cmd = new SqlCommand(query, conn);
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    PrintString("array list:" + list[i]);
+                    PrintString(reader["ActivityCode"].ToString() + ": " + reader["ItemCode"].ToString() + "---" + reader["ItemDescription"].ToString());
+                }
+                reader.Close();
+
+            }
+        }
+
+        public static DataTable trial_2(string DOC_NUMBER, string entity)
+        {
+            DataTable dtTable = new DataTable();
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            materials_total_amount = 0;
+
+            cn.Open();
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("HeaderDocNum", typeof(string));
+                dtTable.Columns.Add("ActivityCode", typeof(string));
+                dtTable.Columns.Add("ItemCode", typeof(string));
+                dtTable.Columns.Add("ItemDescription", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(Double));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+                dtTable.Columns.Add("VALUE", typeof(string));
+                dtTable.Columns.Add("RevDesc", typeof(string));
+            }
+
+
+            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '0000-0119MRP-000019' ORDER BY ActivityCode ASC";
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            cmd = new SqlCommand(query_arraycode, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            ArrayList list = new ArrayList();
+            while (reader.Read())
+            {
+                list.Add(reader[0].ToString());
+            }
+            reader.Close();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                string query = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE HeaderDocNum = '0000-0119MRP-000019' AND ActivityCode = '" + list[i] + "' ";
+
+                cmd = new SqlCommand(query);
+                cmd.Connection = cn;
+                adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        if (row == dt.Rows[0])
+                        {
+                            PrintString("FIRST HERE....");
+                            DataRow dtRow = dtTable.NewRow();
+                            dtRow["ActivityCode"] = row["DESCRIPTION"].ToString();
+                            dtTable.Rows.Add(dtRow);
+
+                            dtRow = dtTable.NewRow();
+                            dtRow["PK"] = row["PK"].ToString();
+                            dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
+                            dtRow["ActivityCode"] = "";
+                            dtRow["ItemCode"] = row["ItemCode"].ToString();
+                            dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+                            dtRow["UOM"] = row["UOM"].ToString();
+                            dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
+                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                            dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
+
+                            if (/*entity == "0101"*/false)
+                            {
+                                dtRow["VALUE"] = row["VALUE"].ToString();
+                                dtRow["RevDesc"] = row["RevDesc"].ToString();
+                            }
+                            else
+                            {
+                                dtRow["VALUE"] = "";
+                                dtRow["RevDesc"] = "";
+                            }
+                            //dtRow["WrkLine"] = WrkLine.ToString();
+                            //dtRow["StatusKey"] = StatusKey.ToString();
+                            dtTable.Rows.Add(dtRow);
+                        }
+                        else{
+                            DataRow dtRow = dtTable.NewRow();
+                            dtRow["PK"] = row["PK"].ToString();
+                            dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
+                            dtRow["ActivityCode"] = "";
+                            dtRow["ItemCode"] = row["ItemCode"].ToString();
+                            dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+                            dtRow["UOM"] = row["UOM"].ToString();
+                            dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
+                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                            dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
+
+                            if (/*entity == "0101"*/false)
+                            {
+                                dtRow["VALUE"] = row["VALUE"].ToString();
+                                dtRow["RevDesc"] = row["RevDesc"].ToString();
+                            }
+                            else
+                            {
+                                dtRow["VALUE"] = "";
+                                dtRow["RevDesc"] = "";
+                            }
+                            //dtRow["WrkLine"] = WrkLine.ToString();
+                            //dtRow["StatusKey"] = StatusKey.ToString();
+                            dtTable.Rows.Add(dtRow);
+                        }
+                        //materials_total_amount += Convert.ToDouble(row["TotalCost"]);
+                    }
+                }
+                dt.Clear();
+
+                //cmd = new SqlCommand(query, conn);
+                //reader = cmd.ExecuteReader();
+                //while (reader.Read())
+                //{
+                //    PrintString("array list:" + list[i]);
+                //    PrintString(reader["ActivityCode"].ToString() + ": " + reader["ItemCode"].ToString() + "---" + reader["ItemDescription"].ToString());
+                //}
+                //reader.Close();
+
+            }
+
+            //if (entity == train_entity) cmd = new SqlCommand(query_1);
+            //else cmd = new SqlCommand(query_2);
+
+
+            cn.Close();
+            return dtTable;
+        }
+
     }
-
-
 }
