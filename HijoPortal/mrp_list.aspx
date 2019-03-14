@@ -95,6 +95,7 @@
                                 </dx:ASPxButton>
                                 <dx:ASPxHiddenField ID="MRPHiddenVal" ClientInstanceName="MRPHiddenVal" runat="server"></dx:ASPxHiddenField>
                                 <dx:ASPxHiddenField ID="ASPxHiddenFieldEnt" ClientInstanceName="ASPxHiddenFieldEntDirect" runat="server"></dx:ASPxHiddenField>
+                                <dx:ASPxHiddenField ID="MRPHiddenValStatus" ClientInstanceName="MRPHiddenValStatus" runat="server"></dx:ASPxHiddenField>
 
                             </div>
                         </HeaderTemplate>

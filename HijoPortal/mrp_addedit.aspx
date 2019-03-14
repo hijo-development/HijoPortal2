@@ -147,6 +147,7 @@
                         <div style="display: none;">
                             <dx:ASPxTextBox ID="WorkFlowLineTxt" ClientInstanceName="WorkFlowLineTxt" runat="server" Width="170px"></dx:ASPxTextBox>
                             <dx:ASPxTextBox ID="StatusKeyTxt" ClientInstanceName="StatusKeyTxt" runat="server" Width="170px"></dx:ASPxTextBox>
+                            <dx:ASPxTextBox ID="WorkFlowLineStatusTxt" ClientInstanceName="WorkFlowLineStatusTxt" runat="server" Width="170px"></dx:ASPxTextBox>
                             <dx:ASPxLabel ID="WorkFlowLineLbl" ClientInstanceName="WorkFlowLineLblDirect" runat="server" Text=""></dx:ASPxLabel>
                             <dx:ASPxLabel ID="StatusKeyLbl" ClientInstanceName="StatusKeyLblDirect" runat="server" Text=""></dx:ASPxLabel>
                         </div>
@@ -160,7 +161,8 @@
                             <dx:ASPxButton ID="Preview" runat="server" Text="Preview" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click"></dx:ASPxButton>
                         &nbsp
                         <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
-                            <ClientSideEvents Click="function(s,e){PopupSubmit.SetHeaderText('Confirm'); PopupSubmit.Show();}" />
+                            <%--<ClientSideEvents Click="function(s,e){PopupSubmit.SetHeaderText('Confirm'); PopupSubmit.Show();}" />--%>
+                            <ClientSideEvents Click="mrp_addedit_submit" />
                         </dx:ASPxButton>
                     </td>
                 </tr>

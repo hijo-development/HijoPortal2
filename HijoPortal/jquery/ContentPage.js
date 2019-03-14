@@ -181,6 +181,9 @@ function CorrectValue(str, type) {
 // Master mrp_list.aspx
 function CustomButtonClick(s, e) {
     var button = e.buttonID;
+    var hidden_val = MRPHiddenVal.Get('hidden_value');
+    //var hidden_val_Stat = MRPHiddenValStatus.Get('hidden_value');
+    console.log(hidden_val);
     if (button == "Delete") {
         var result = confirm("Delete this row?");
         if (result)
@@ -190,26 +193,51 @@ function CustomButtonClick(s, e) {
     } else if (button == "Preview") {
         e.processOnServer = true;
     } else if (button == "Submit") {
-        PopupSubmitMRPList.SetHeaderText("Confirm");
-        PopupSubmitMRPList.Show();
-        //e.processOnServer = true;
+        //e.GetColumnText();
+        //if (hidden_val == "InvalidCreator") {
+        //    MRPNotificationMessage.SetText("You are not authorized to access this item!");
+        //    MRPNotify.SetHeaderText("Alert");
+        //    MRPNotify.Show();
+        //    MRPHiddenVal.Set('hidden_value', ' ');
+        //} else {
+        //    if (hidden_val_Stat === "1") {
+                //PopupSubmitMRPList.SetHeaderText("Confirm");
+                //PopupSubmitMRPList.Show();
+        //    } else {
+        //        MRPNotificationMessage.SetText("Already submitted to BU / SSU Lead for review!");
+        //        MRPNotify.SetHeaderText("Alert");
+        //        MRPNotify.Show();
+        //        MRPHiddenValStatus.Set('hidden_value', ' ');
+        //    }
+        //}
+        
+        e.processOnServer = true;
     }
 }
 
 function MainTableEndCallback(s, e) {
     //MainTable.InCallback();
     var hidden_val = MRPHiddenVal.Get('hidden_value');
-    console.log(hidden_val);
+    var hidden_val_Stat = MRPHiddenValStatus.Get('hidden_value');
+    var button = e.buttonID;
+    //console.log(hidden_val);
     if (hidden_val == "InvalidCreator") {
         MRPNotificationMessage.SetText("You are not authorized to access this item!");
         MRPNotify.SetHeaderText("Alert");
         MRPNotify.Show();
         MRPHiddenVal.Set('hidden_value', ' ');
-    } else if (hidden_val == "2") {
-        MRPNotificationMessage.SetText("This MRP is in review!");
-        MRPNotify.SetHeaderText("Alert");
-        MRPNotify.Show();
-        MRPHiddenVal.Set('hidden_value', ' ');
+    } else if (hidden_val == "Creator") {
+        if (hidden_val_Stat == "2") {
+            MRPNotificationMessage.SetText("Already submitted to BU / SSU Lead for review!");
+            MRPNotify.SetHeaderText("Alert");
+            MRPNotify.Show();
+            MRPHiddenValStatus.Set('hidden_value', ' ');
+        } else {
+            if (button == "Submit") {
+                PopupSubmitMRPList.SetHeaderText("Confirm");
+                PopupSubmitMRPList.Show();
+            }
+        }
     } else if (hidden_val == "submitted") {
         MRPNotificationMessage.SetText("Successfully Submitted");
         MRPNotify.SetHeaderText("Info");
@@ -266,6 +294,7 @@ function DirectMaterialsGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
+    var wrklineStatus = WorkFlowLineStatusTxt.GetText();
 
     if (button == "DMEdit") {
         DirectMaterialsGrid_HandleCollapse();
@@ -279,7 +308,13 @@ function DirectMaterialsGrid_CustomButtonClick(s, e) {
                 Add_Edit_MRPNotify.Show();
             }
         } else {
-            s.StartEditRow(e.visibleIndex);
+            if (wrklineStatus === "0") {
+                s.StartEditRow(e.visibleIndex);
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to Inventory Analyst for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
         }
 
         //s.StartEditRow(e.visibleIndex);
@@ -296,9 +331,15 @@ function DirectMaterialsGrid_CustomButtonClick(s, e) {
                 Add_Edit_MRPNotify.Show();
             }
         } else {
-            typeCustomDelete = DM_string;
-            PopUpDelete.SetHeaderText("Alert");
-            PopUpDelete.Show();
+            if (wrklineStatus === "0") {
+                typeCustomDelete = DM_string;
+                PopUpDelete.SetHeaderText("Alert");
+                PopUpDelete.Show();
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to Inventory Analyst for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
         }
 
         //typeCustomDelete = DM_string;
@@ -341,6 +382,8 @@ function OPEXGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
+    var wrklineStatus = WorkFlowLineStatusTxt.GetText();
+
     if (button == "OPEdit") {
         OPEXGrid_HandleCollapse();
 
@@ -353,7 +396,13 @@ function OPEXGrid_CustomButtonClick(s, e) {
                 Add_Edit_MRPNotify.Show();
             }
         } else {
-            s.StartEditRow(e.visibleIndex);
+            if (wrklineStatus === "0") {
+                s.StartEditRow(e.visibleIndex);
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to Inventory Analyst for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
         }
         //s.StartEditRow(e.visibleIndex);
     } else if (button == "OPDelete") {
@@ -369,9 +418,15 @@ function OPEXGrid_CustomButtonClick(s, e) {
                 Add_Edit_MRPNotify.Show();
             }
         } else {
-            typeCustomDelete = OP_string;
-            PopUpDelete.SetHeaderText("Alert");
-            PopUpDelete.Show();
+            if (wrklineStatus === "0") {
+                typeCustomDelete = OP_string;
+                PopUpDelete.SetHeaderText("Alert");
+                PopUpDelete.Show();
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to Inventory Analyst for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
         }
 
         //typeCustomDelete = OP_string;
@@ -414,6 +469,8 @@ function ManPowerGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
+    var wrklineStatus = WorkFlowLineStatusTxt.GetText();
+
     if (button == "MANEdit") {
         ManPowerGrid_HandleCollapse();
 
@@ -426,7 +483,14 @@ function ManPowerGrid_CustomButtonClick(s, e) {
                 Add_Edit_MRPNotify.Show();
             }
         } else {
-            s.StartEditRow(e.visibleIndex);
+            if (wrklineStatus === "0") {
+                s.StartEditRow(e.visibleIndex);
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to Inventory Analyst for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
+            
         }
         //s.StartEditRow(e.visibleIndex);
     } else if (button == "MANDelete") {
@@ -442,9 +506,15 @@ function ManPowerGrid_CustomButtonClick(s, e) {
                 Add_Edit_MRPNotify.Show();
             }
         } else {
-            typeCustomDelete = MAN_string;
-            PopUpDelete.SetHeaderText("Alert");
-            PopUpDelete.Show();
+            if (wrklineStatus === "0") {
+                typeCustomDelete = MAN_string;
+                PopUpDelete.SetHeaderText("Alert");
+                PopUpDelete.Show();
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to Inventory Analyst for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
         }
 
         //typeCustomDelete = MAN_string;
@@ -487,6 +557,8 @@ function CAPEXGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
+    var wrklineStatus = WorkFlowLineStatusTxt.GetText();
+
     if (button == "CAEdit") {
 
         CAPEXGrid_HandleCollapse();
@@ -500,7 +572,13 @@ function CAPEXGrid_CustomButtonClick(s, e) {
                 Add_Edit_MRPNotify.Show();
             }
         } else {
-            s.StartEditRow(e.visibleIndex);
+            if (wrklineStatus === "0") {
+                s.StartEditRow(e.visibleIndex);
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to Inventory Analyst for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
         }
 
         //s.StartEditRow(e.visibleIndex);
@@ -517,9 +595,15 @@ function CAPEXGrid_CustomButtonClick(s, e) {
                 Add_Edit_MRPNotify.Show();
             }
         } else {
-            typeCustomDelete = CA_string;
-            PopUpDelete.SetHeaderText("Alert");
-            PopUpDelete.Show();
+            if (wrklineStatus === "0") {
+                typeCustomDelete = CA_string;
+                PopUpDelete.SetHeaderText("Alert");
+                PopUpDelete.Show();
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to Inventory Analyst for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
         }
 
         //typeCustomDelete = CA_string;
@@ -562,6 +646,8 @@ function RevenueGrid_CustomButtonClick(s, e) {
     var button = e.buttonID;
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
+    var wrklineStatus = WorkFlowLineStatusTxt.GetText();
+
     if (button == "REVEdit") {
         RevenueGrid_HandleCollapse();
 
@@ -574,7 +660,13 @@ function RevenueGrid_CustomButtonClick(s, e) {
                 Add_Edit_MRPNotify.Show();
             }
         } else {
-            s.StartEditRow(e.visibleIndex);
+            if (wrklineStatus === "0") {
+                s.StartEditRow(e.visibleIndex);
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to Inventory Analyst for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
         }
         //s.StartEditRow(e.visibleIndex);
     } else if (button == "REVDelete") {
@@ -590,9 +682,15 @@ function RevenueGrid_CustomButtonClick(s, e) {
                 Add_Edit_MRPNotify.Show();
             }
         } else {
-            typeCustomDelete = REV_string;
-            PopUpDelete.SetHeaderText("Alert");
-            PopUpDelete.Show();
+            if (wrklineStatus === "0") {
+                typeCustomDelete = REV_string;
+                PopUpDelete.SetHeaderText("Alert");
+                PopUpDelete.Show();
+            } else {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to Inventory Analyst for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            }
         }
 
         //typeCustomDelete = REV_string;
@@ -662,6 +760,7 @@ function DirectMaterialsGrid_Add(s, e) {
 
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
+    var wrklineStatus = WorkFlowLineStatusTxt.GetText();
 
     DirectMaterialsGrid_HandleCollapse();
 
@@ -674,7 +773,13 @@ function DirectMaterialsGrid_Add(s, e) {
             Add_Edit_MRPNotify.Show();
         }
     } else {
-        DirectMaterialsGrid.AddNewRow();
+        if (wrklineStatus === "0") {
+            DirectMaterialsGrid.AddNewRow();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to Inventory Analyst for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
     }
 
 }
@@ -682,6 +787,7 @@ function DirectMaterialsGrid_Add(s, e) {
 function OPEXGrid_Add(s, e) {
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
+    var wrklineStatus = WorkFlowLineStatusTxt.GetText();
 
     OPEXGrid_HandleCollapse();
 
@@ -694,13 +800,20 @@ function OPEXGrid_Add(s, e) {
             Add_Edit_MRPNotify.Show();
         }
     } else {
-        OPEXGrid.AddNewRow();
+        if (wrklineStatus === "0") {
+            OPEXGrid.AddNewRow();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to Inventory Analyst for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
     }
 }
 
 function ManPowerGrid_Add(s, e) {
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
+    var wrklineStatus = WorkFlowLineStatusTxt.GetText();
 
     ManPowerGrid_HandleCollapse();
 
@@ -713,7 +826,13 @@ function ManPowerGrid_Add(s, e) {
             Add_Edit_MRPNotify.Show();
         }
     } else {
-        ManPowerGrid.AddNewRow();
+        if (wrklineStatus === "0") {
+            ManPowerGrid.AddNewRow();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to Inventory Analyst for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
     }
     //ManPowerGrid.AddNewRow();
 }
@@ -721,6 +840,7 @@ function ManPowerGrid_Add(s, e) {
 function CAPEXGrid_Add(s, e) {
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
+    var wrklineStatus = WorkFlowLineStatusTxt.GetText();
 
     CAPEXGrid_HandleCollapse();
 
@@ -733,7 +853,13 @@ function CAPEXGrid_Add(s, e) {
             Add_Edit_MRPNotify.Show();
         }
     } else {
-        CAPEXGrid.AddNewRow();
+        if (wrklineStatus === "1") {
+            CAPEXGrid.AddNewRow();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to Inventory Analyst for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
     }
     //CAPEXGrid.AddNewRow();
 }
@@ -741,6 +867,7 @@ function CAPEXGrid_Add(s, e) {
 function RevenueGrid_Add(s, e) {
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
+    var wrklineStatus = WorkFlowLineStatusTxt.GetText();
 
     RevenueGrid_HandleCollapse();
 
@@ -753,7 +880,13 @@ function RevenueGrid_Add(s, e) {
             Add_Edit_MRPNotify.Show();
         }
     } else {
-        RevenueGrid.AddNewRow();
+        if (wrklineStatus === "0") {
+            RevenueGrid.AddNewRow();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to Inventory Analyst for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
     }
     //RevenueGrid.AddNewRow();
 }
@@ -2693,4 +2826,28 @@ function pocreatededit_Warehouse_SelectedIndexChanged(s, e) {
         pocreatededit_location_callback.PerformCallback();
 }
 
-//mrp_addedit.aspx
+//mrp_addedit.aspx Submit Button
+function mrp_addedit_submit(s, e) {
+    var wrkflowLine = WorkFlowLineTxt.GetText();
+    var statusKey = StatusKeyTxt.GetText();
+    var wrklineStatus = WorkFlowLineStatusTxt.GetText();
+    if (wrkflowLine === "0") {
+        if (statusKey === "1") {
+            PopupSubmit.SetHeaderText('Confirm');
+            PopupSubmit.Show();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
+    } else {
+        if (wrklineStatus === "0") {
+            PopupSubmit.SetHeaderText('Confirm');
+            PopupSubmit.Show();
+        } else {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to Inventory Analyst for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        }
+    }
+}

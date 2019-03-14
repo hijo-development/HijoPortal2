@@ -24,6 +24,7 @@ namespace HijoPortal
         private static string docnumber = "", entitycode = "", buCode = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true, bindRevenue = true;
         private static DateTime dateCreated;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckCreatorKey();
@@ -152,6 +153,10 @@ namespace HijoPortal
             WorkFlowLineTxt.Text = wrkflwln.ToString();
             StatusKeyLbl.Text = iStatusKey.ToString();
             StatusKeyTxt.Text = iStatusKey.ToString();
+
+            WorkFlowLineStatusTxt.Text = "0";
+
+            WorkFlowLineStatusTxt.Text = MRPClass.MRP_Line_Status(mrp_key, wrkflwln).ToString();
 
             Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
 
