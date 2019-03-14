@@ -208,7 +208,7 @@
                             <LayoutTemplate>
                                 <table class="prev_table" runat="server" border="1">
                                     <tr class="headerRow">
-                                        <th style="width: 15%; padding-left: 5px; text-align:left;"></th>
+                                        <th style="width: 15%; padding-left: 5px; text-align: left;"></th>
                                         <th style="width: 85%;"></th>
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" />
@@ -216,7 +216,7 @@
                             </LayoutTemplate>
                             <ItemTemplate>
                                 <tr>
-                                    <td style="text-align: right;">
+                                    <td>
                                         <asp:Label ID="SummaryDesc" Text='<%#Eval("Name") %>' runat="server" />
                                     </td>
                                     <td style="text-align: right; padding-right: 5px;">
@@ -228,9 +228,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 75%; border-right-width: 0px; padding-left: 5px;">Total</td>
-                    <td id="TotalAmountSummary" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px;"></td>
-                    <td style="border-left-width: 0px;"></td>
+                    <td style="width: 15%; border-right-width: 0px; padding-left: 5px; font-weight: bold;">Total</td>
+                    <td id="TotalAmountSummary" runat="server" style="width: 85%; font-weight: bold; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px;"></td>
                 </tr>
             </table>
 
@@ -241,8 +240,27 @@
                 <tr>
                     <td colspan="4">
                         <asp:ListView ID="MatListview" runat="server" OnItemCommand="MatListview_ItemCommand" OnDataBound="MatListview_DataBound" OnItemDataBound="MatListview_ItemDataBound">
+                            <%--<LayoutTemplate>
+                                <table class="prev_table" id="prev" runat="server" border="1">
+                                    <tr class="headerRow">
+                                        <th id="pk_header" runat="server" style="width: 0px;"></th>
+                                        <th>Activity</th>
+                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
+                                        <th style="width: 10%;">UOM</th>
+                                        <th style="width: 5%;">Qty</th>
+                                        <th style="width: 15%;">Est. Cost/Unit</th>
+                                        <th style="width: 15%;">Total</th>
+                                        <th style="width: 10%;"></th>
+                                    </tr>
+                                    <tr runat="server" id="itemPlaceholder" />
+                                </table>
+                            </LayoutTemplate>--%>
+                            <%--<ItemTemplate>
+
+                            </ItemTemplate>--%>
                             <LayoutTemplate>
-                                <table class="prev_table" runat="server" border="1">
+                                <table class="prev_table" runat="server" border="0">
                                     <tr class="headerRow">
                                         <th id="pk_header" runat="server" style="width: 0px;"></th>
                                         <th>Activity</th>
@@ -258,12 +276,12 @@
                                 </table>
                             </LayoutTemplate>
                             <ItemTemplate>
-                                <tr>
+                                <tr id="prev" runat="server">
                                     <td id="pk_td" runat="server" style="width: 0px;">
                                         <asp:Label ID="MatID" runat="server"
                                             Text='<%# Eval("PK") %>' Visible="false" />
                                     </td>
-                                    <td>
+                                    <td id="act" runat="server">
                                         <asp:Label runat="server" Text='<%#Eval("ActivityCode")%>'></asp:Label>
                                     </td>
                                     <td>
@@ -291,8 +309,8 @@
                                         <asp:Label ID="MatTotalCost" runat="server"
                                             Text='<%# Eval("TotalCost") %>' />
                                     </td>
-                                    <td style="text-align: right;">
-                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
+                                    <td id="pin" runat="server" style="text-align: right;">
+                                        <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
                                     </td>
                                 </tr>
                             </ItemTemplate>

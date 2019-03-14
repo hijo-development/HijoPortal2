@@ -22,7 +22,7 @@ namespace HijoPortal
             PK_MAN = 0,
             PK_CAPEX = 0,
             PK_REV = 0;
-        private static string itemcommand = "", entitycode = "", buCode = "", docnumber ="";
+        private static string itemcommand = "", entitycode = "", buCode = "", docnumber = "";
         private const string matstring = "Materials", opexstring = "Opex", manstring = "Manpower", capexstring = "Capex", revstring = "Revenue";
         private static DateTime dateCreated;
 
@@ -34,6 +34,34 @@ namespace HijoPortal
         protected void MatListview_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
+                //Get the Name values
+                string policyid = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode");
+                // if value is "Name4" then change the color or Row
+                MRPClass.PrintString(policyid);
+                if (!string.IsNullOrEmpty(policyid))
+                {
+                    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+                    //Change the Back ground color
+                    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
+                    td.ColSpan = 2;
+                    td.Style.Add("font-weight", "bold");
+                    td.Style.Add("font-style", "italic");
+                    HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
+                    ImageButton pinImg = (ImageButton)td_last.FindControl("pinImg");
+                    pinImg.Visible = false;
+
+                }
+                else
+                {
+                    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+                    //Change the Back ground color
+                    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
+                    //td.ColSpan = 2;
+                }
+            }
 
         }
 
@@ -119,7 +147,8 @@ namespace HijoPortal
                         MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
                         MRPNotify.HeaderText = "Info";
                         MRPNotify.ShowOnPageLoad = true;
-                    } else
+                    }
+                    else
                     {
                         MRPNotificationMessage.Text = "You have no permission to perform this command!" + Environment.NewLine + "Access Denied!";
                         MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
@@ -164,11 +193,11 @@ namespace HijoPortal
                 ListView listview = sender as ListView;
                 HtmlTableCell th = (HtmlTableCell)listview.FindControl("tableHeaderRevDesc");
                 if (th != null)
-                th.Visible = false;
+                    th.Visible = false;
 
                 HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
-                if(th != null)
-                pk_th.Visible = false;
+                if (th != null)
+                    pk_th.Visible = false;
             }
         }
 
@@ -214,7 +243,7 @@ namespace HijoPortal
                 {
                     btAddEdit.Visible = true;
                 }
-                
+
 
                 string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
                               " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
@@ -261,7 +290,18 @@ namespace HijoPortal
                 CapexListview.DataBind();
                 TotalAmountTD.InnerText = MRPClass.capex_total().ToString("N");
 
-                DataTable tableMat = MRPClass.MRP_Direct_Materials(DocNum.Text.ToString(), entitycode);
+                //System.Web.UI.HtmlControls.HtmlTableRow r = new System.Web.UI.HtmlControls.HtmlTableRow();
+                //System.Web.UI.HtmlControls.HtmlTableCell c = new System.Web.UI.HtmlControls.HtmlTableCell();
+                //c.InnerText = "New Cell";
+                //r.Cells.Add(c);
+
+                //HtmlTable T = (HtmlTable)MatListview.Items[0].FindControl("prev");
+                //T.Controls.Add(r);
+
+
+
+                //DataTable tableMat = MRPClass.MRP_Direct_Materials(DocNum.Text.ToString(), entitycode);
+                DataTable tableMat = MRPClass.trial_2(DocNum.Text.ToString(), entitycode);
                 MatListview.DataSource = tableMat;
                 MatListview.DataBind();
                 TAMat.InnerText = MRPClass.materials_total().ToString("N");
@@ -283,6 +323,9 @@ namespace HijoPortal
 
                 PreviewListSummary.DataSource = MRPClass.MRP_PrevTotalSummary(DocNum.Text.ToString(), entitycode);
                 PreviewListSummary.DataBind();
+                TotalAmountSummary.InnerText = MRPClass.Prev_Summary_Total();
+
+                MRPClass.trial();
             }
 
 
