@@ -2807,7 +2807,12 @@ namespace HijoPortal.classes
             {
                 foreach (DataRow row in dtable.Rows)
                 {
-                    sEmail = EncryptionClass.Decrypt(row["Email"].ToString());
+                    sEmail = "";
+                    if (row["Email"].ToString().Trim() != "")
+                    {
+                        sEmail = EncryptionClass.Decrypt(row["Email"].ToString());
+                    }
+                    
                     sEmailCR = EncryptionClass.Decrypt(row["CreatorEmail"].ToString());
                     var sbBody = new StringBuilder();
                     var sbBodyCR = new StringBuilder();
@@ -3668,7 +3673,7 @@ namespace HijoPortal.classes
             }
 
 
-            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '0000-0119MRP-000019' ORDER BY ActivityCode ASC";
+            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ActivityCode ASC";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -3684,7 +3689,7 @@ namespace HijoPortal.classes
 
             for (int i = 0; i < list.Count; i++)
             {
-                string query = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE HeaderDocNum = '0000-0119MRP-000019' AND ActivityCode = '" + list[i] + "' ";
+                string query = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE HeaderDocNum = '"+ DOC_NUMBER + "' AND ActivityCode = '" + list[i] + "' ";
 
                 cmd = new SqlCommand(query);
                 cmd.Connection = cn;
