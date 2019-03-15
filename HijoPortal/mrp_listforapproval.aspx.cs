@@ -33,7 +33,8 @@ namespace HijoPortal
             {
                 string doc_number = ListForApprovalGrid.GetRowValues(ListForApprovalGrid.FocusedRowIndex, "DocNumber").ToString();
                 string work_line = ListForApprovalGrid.GetRowValues(ListForApprovalGrid.FocusedRowIndex, "WorkLine").ToString();
-                ASPxWebControl.RedirectOnCallback("mrp_inventoryanalyst_forapproval.aspx?DocNum=" + doc_number.ToString() + "&WrkFlwLn=" + work_line.ToString());
+                //ASPxWebControl.RedirectOnCallback("mrp_inventoryanalyst_forapproval.aspx?DocNum=" + doc_number.ToString() + "&WrkFlwLn=" + work_line.ToString());
+                ASPxWebControl.RedirectOnCallback("mrp_inventanalyst.aspx?DocNum=" + doc_number.ToString() + "&WrkFlwLn=" + work_line.ToString());
             }
         }
 

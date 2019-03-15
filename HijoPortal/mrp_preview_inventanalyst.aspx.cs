@@ -103,6 +103,95 @@ namespace HijoPortal
             HideHeader(sender);
         }
 
+        protected void OK_SUBMIT_Click(object sender, EventArgs e)
+        {
+            //if (wrkflwln == 0)
+            //{
+            //    if (iStatusKey == 1)
+            //    {
+
+            //        //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+
+            //        PopupSubmitPreviewAnal.ShowOnPageLoad = false;
+
+            //        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+            //        MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+
+            //        Submit.Enabled = false;
+
+            //        MRPNotificationMessage.Text = MRPClass.successfully_submitted;
+            //        MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
+            //        MRPNotify.HeaderText = "Info";
+            //        MRPNotify.ShowOnPageLoad = true;
+            //    }
+            //    else
+            //    {
+            //        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            //    }
+            //}
+            //else
+            //{
+                if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
+                {
+                    bool isAllowed = false;
+                    switch (wrkflwln)
+                    {
+                        case 1:
+                            {
+                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dateCreated, entitycode, buCode);
+                                break;
+                            }
+                        case 2:
+                            {
+                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", dateCreated);
+                                break;
+                            }
+                        case 3:
+                            {
+                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBudget_PerEntBU", dateCreated, entitycode, buCode);
+                                break;
+                            }
+                        case 4:
+                            {
+                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", dateCreated);
+                                break;
+                            }
+                    }
+
+                    if (isAllowed == true)
+                    {
+                        PopupSubmitPreviewAnal.ShowOnPageLoad = false;
+                        //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+
+                        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                        MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+
+                        Submit.Enabled = false;
+
+                        MRPNotificationMessage.Text = MRPClass.successfully_submitted;
+                        MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
+                        MRPNotify.HeaderText = "Info";
+                        MRPNotify.ShowOnPageLoad = true;
+                    }
+                    else
+                    {
+                        MRPNotificationMessage.Text = "You have no permission to perform this command!" + Environment.NewLine + "Access Denied!";
+                        MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
+                        MRPNotify.HeaderText = "Info";
+                        MRPNotify.ShowOnPageLoad = true;
+                    }
+                }
+                else
+                {
+                    //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                }
+
+            //}
+        }
+
         private void HideTableData(ListViewItemEventArgs e)
         {
             if (entitycode != MRPClass.train_entity)
@@ -159,18 +248,43 @@ namespace HijoPortal
                 docnumber = Request.Params["DocNum"].ToString();
                 wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
 
-                string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
-                              " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
-                              " dbo.tbl_MRP_List.BUCode, dbo.vw_AXOperatingUnitTable.NAME AS BUCodeDesc, dbo.tbl_MRP_List.MRPMonth, " +
-                              " dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.StatusKey, dbo.tbl_MRP_Status.StatusName, " +
-                              " dbo.tbl_MRP_List.CreatorKey, dbo.tbl_MRP_List.LastModified " +
-                              " FROM  dbo.tbl_MRP_List LEFT OUTER JOIN " +
-                              " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
-                              " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK LEFT OUTER JOIN " +
-                              " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID " +
-                              " WHERE(dbo.tbl_MRP_List.DocNumber = '" + DocNum.Text.ToString().Trim() + "') " +
-                              " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
+                if (wrkflwln == 2)
+                {
+                    mrpHead.InnerText = "M O P Preview (Inventory Analyst)";
+                }
+                if (wrkflwln == 3)
+                {
+                    mrpHead.InnerText = "M O P Preview (Finance - Budget)";
+                }
+                if (wrkflwln == 4)
+                {
+                    mrpHead.InnerText = "M O P Preview (Deliberation)";
+                }
 
+                //string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
+                //              " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
+                //              " dbo.tbl_MRP_List.BUCode, dbo.vw_AXOperatingUnitTable.NAME AS BUCodeDesc, dbo.tbl_MRP_List.MRPMonth, " +
+                //              " dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.StatusKey, dbo.tbl_MRP_Status.StatusName, " +
+                //              " dbo.tbl_MRP_List.CreatorKey, dbo.tbl_MRP_List.LastModified " +
+                //              " FROM  dbo.tbl_MRP_List LEFT OUTER JOIN " +
+                //              " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
+                //              " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK LEFT OUTER JOIN " +
+                //              " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID " +
+                //              " WHERE(dbo.tbl_MRP_List.DocNumber = '" + DocNum.Text.ToString().Trim() + "') " +
+                //              " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
+
+                string query = "SELECT tbl_MRP_List.*, " +
+                           " vw_AXEntityTable.NAME AS EntityCodeDesc, " +
+                           " vw_AXOperatingUnitTable.NAME AS BUCodeDesc, " +
+                           " tbl_MRP_Status.StatusName, tbl_Users.Lastname, " +
+                           " tbl_Users.Firstname, tbl_MRP_List.EntityCode, " +
+                           " tbl_MRP_List.BUCode " +
+                           " FROM tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK " +
+                           " LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
+                           " LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK " +
+                           " LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID " +
+                           " WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' " +
+                           " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
                 SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
                 conn.Open();
 
@@ -188,11 +302,16 @@ namespace HijoPortal
                     BUCode.Text = reader["BUCodeDesc"].ToString();
                     Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
                     Year.Text = reader["MRPYear"].ToString();
+                    Creator.Text = EncryptionClass.Decrypt(reader["Firstname"].ToString()) + " " + EncryptionClass.Decrypt(reader["Lastname"].ToString());
+                    Status.Text = reader["StatusName"].ToString();
                     //Status.Text = reader["StatusName"].ToString();
                 }
                 reader.Close();
                 conn.Close();
 
+                iStatusKey = MRPClass.MRP_Line_Status(mrp_key, wrkflwln);
+                StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
+                WrkFlowHidden["hidden_preview_wrkflwln"] = wrkflwln;
 
                 MRPClass.PrintString(entitycode);
                 RevListView.DataSource = MRPClass.MRP_Revenue(DocNum.Text.ToString(), entitycode);

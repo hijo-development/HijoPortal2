@@ -12,6 +12,8 @@ namespace HijoPortal {
     
     public partial class mrp_inventanalyst {
 
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mrpHead;
+
         protected global::DevExpress.Web.ASPxTextBox WorkFlowLineTxt;
 
         protected global::DevExpress.Web.ASPxTextBox StatusKeyTxt;

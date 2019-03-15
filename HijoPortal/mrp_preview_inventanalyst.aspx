@@ -2,10 +2,45 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="MRPNotificationMessage" runat="server" Text="" Theme="Office2010Blue" ForeColor="Red"></dx:ASPxLabel>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
+    <dx:ASPxPopupControl ID="PopupSubmitPreviewAnal" ClientInstanceName="PopupSubmitPreviewAnal" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <table style="width: 100%;" border="0">
+                    <tr>
+                        <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
+                            <dx:ASPxLabel runat="server" Text="Are you sure you want to submit this document?" Theme="Office2010Blue"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Office2010Blue" OnClick="OK_SUBMIT_Click" AutoPostBack="false">
+                                <%--<ClientSideEvents Click="OK_DELETE" />--%>
+                            </dx:ASPxButton>
+                            <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                                <ClientSideEvents Click="function(s,e){PopupSubmitPreviewAnal.Hide();}" />
+                            </dx:ASPxButton>
+                        </td>
+                    </tr>
+                </table>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 150px; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
-            <h1>M R P  Preview</h1>
+            <%--<h1>M O P  Preview (Inventory Analyst)</h1>--%>
+            <h1 id="mrpHead" runat="server"></h1>
             <table style="width: 100%; margin: auto;" border="0">
                 <tr>
                     <td style="width: 12%">
@@ -17,11 +52,12 @@
                     </td>
                     <td rowspan="3" style="width: 40%; text-align: right; vertical-align: bottom;">
                         <div style="display: none;">
-                            <dx:ASPxHiddenField ID="StatusHidden" runat="server" ClientInstanceName="StatusHidden"></dx:ASPxHiddenField>
+                            <dx:ASPxHiddenField ID="WrkFlowHidden" runat="server" ClientInstanceName="WrkFlowHiddenAnal"></dx:ASPxHiddenField>
+                            <dx:ASPxHiddenField ID="StatusHidden" runat="server" ClientInstanceName="StatusHiddenAnal"></dx:ASPxHiddenField>
                         </div>
-                        <dx:ASPxButton ID="btAddEdit" runat="server" Text="Add/Edit" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                        <%--<dx:ASPxButton ID="btAddEdit" runat="server" Text="Add/Edit" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>--%>
                         <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
-                            <%--<ClientSideEvents Click="Preview_Submit_Click" />--%>
+                            <ClientSideEvents Click="Preview_Submit_Analyst_Click" />
                         </dx:ASPxButton>
                     </td>
                 </tr>
@@ -55,6 +91,22 @@
                     <td>:</td>
                     <td>
                         <dx:ASPxLabel ID="BUCode" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <dx:ASPxLabel runat="server" Text="Creator" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <dx:ASPxLabel ID="Creator" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td>
+                        <dx:ASPxLabel runat="server" Text="Status" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <dx:ASPxLabel ID="Status" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                 </tr>
             </table>
@@ -116,7 +168,7 @@
                                         <asp:Label ID="RevTotalPrize" runat="server"
                                             Text='<%# Eval("TotalPrize") %>' />
                                     </td>
-                                    <td style="text-align: right;border-color: transparent">
+                                    <td style="text-align: right; border-color: transparent">
 
                                         <asp:ImageButton ID="pin" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
                                     </td>
@@ -183,7 +235,7 @@
                                         <th>Activity</th>
                                         <th style="width: 15%; text-align: left; padding-left: 5px;">Description</th>
                                         <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
-                                       <th style="width: 5%;">UOM</th>
+                                        <th style="width: 5%;">UOM</th>
                                         <th style="width: 5%;">Qty</th>
                                         <th style="width: 10%;">Est. Cost/Unit</th>
                                         <th style="width: 15%;">Total</th>
@@ -243,7 +295,7 @@
                                             Text='<%# Eval("ATotalCost") %>' />
                                     </td>
 
-                                    <td id="pin" runat="server" style="text-align: right;border-color: transparent">
+                                    <td id="pin" runat="server" style="text-align: right; border-color: transparent">
                                         <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
                                     </td>
                                 </tr>
@@ -427,7 +479,7 @@
                                             Text='<%# Eval("ATotalCost") %>' />
                                     </td>
 
-                                    <td id="pin" runat="server" style="text-align: right;border-color: transparent">
+                                    <td id="pin" runat="server" style="text-align: right; border-color: transparent">
                                         <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
                                     </td>
                                 </tr>
@@ -503,7 +555,7 @@
                                             Text='<%# Eval("TotalCost") %>' />
                                     </td>
 
-                                     <td style="text-align: right; padding-right: 5px;">
+                                    <td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label1" runat="server"
                                             Text='<%# Eval("AQty") %>' />
                                     </td>
@@ -516,7 +568,7 @@
                                             Text='<%# Eval("ATotalCost") %>' />
                                     </td>
 
-                                    <td style="text-align: right;border-color: transparent;">
+                                    <td style="text-align: right; border-color: transparent;">
                                         <%--<asp:LinkButton ID="LinkButton1" runat="server" CommandName="Link" EnableViewState="false">LinkButton</asp:LinkButton>--%>
                                         <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
                                     </td>

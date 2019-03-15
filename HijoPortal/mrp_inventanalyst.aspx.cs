@@ -50,6 +50,15 @@ namespace HijoPortal
                     docnumber = Request.Params["DocNum"].ToString();
                     wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
 
+                    if (wrkflwln == 2)
+                    {
+                        mrpHead.InnerText = "M O P  Details (Inventory Analyst)";
+                    }
+                    if (wrkflwln == 4)
+                    {
+                        mrpHead.InnerText = "M O P  Deliberation";
+                    }
+
                     Load_MRP(docnumber);
 
                     DirectMaterialsRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] " + Constants.DM_string();
@@ -502,7 +511,9 @@ namespace HijoPortal
         protected void Preview_Click(object sender, EventArgs e)
         {
             //Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+            //Response.Redirect("mrp_preview_inventanalyst.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
             Response.Redirect("mrp_preview_inventanalyst.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+            //mrp_preview_inventanalyst.aspx
         }
 
         protected void DMGrid_DataBound(object sender, EventArgs e)

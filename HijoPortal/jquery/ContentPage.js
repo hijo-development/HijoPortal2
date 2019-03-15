@@ -2532,7 +2532,7 @@ function ListBudgetGrid_CustomButtonClick(s, e) {
 //mrp_preview
 function Preview_Submit_Click(s, e) {
     var stat = StatusHidden.Get("hidden_preview_iStatusKey");
-    var workline = StatusHidden.Get("hidden_preview_wrkflwln");
+    var workline = WrkFlowHidden.Get("hidden_preview_wrkflwln");
     if (stat == "0")//0 
     {
         PopupSubmitPreview.SetHeaderText('Confirm');
@@ -2555,6 +2555,28 @@ function Preview_Submit_Click(s, e) {
         }
 
         //e.processOnServer = false;
+    }
+}
+
+//mrp_preview_analyst
+function Preview_Submit_Analyst_Click(s, e) {
+    var stat = StatusHiddenAnal.Get("hidden_preview_iStatusKey");
+    var workline = WrkFlowHiddenAnal.Get("hidden_preview_wrkflwln");
+    if (stat == "0")//0 
+    {
+        PopupSubmitPreviewAnal.SetHeaderText('Confirm');
+        PopupSubmitPreviewAnal.Show();
+        //e.processOnServer = true;
+    } else {
+        if (workline == "3") {
+            MRPNotificationMessage.SetText("Document already submitted to Finance - Budget for review.");
+            MRPNotify.SetHeaderText("Alert");
+            MRPNotify.Show();
+        } else if (workline == "4") {
+            MRPNotificationMessage.SetText("Document already submitted for Deliberation.");
+            MRPNotify.SetHeaderText("Alert");
+            MRPNotify.Show();
+        }
     }
 }
 
