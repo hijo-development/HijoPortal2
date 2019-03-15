@@ -30,6 +30,33 @@ namespace HijoPortal.classes
             return char.ToUpper(s[0]) + s.Substring(1);
         }
 
+        public static string Email_Redirect()
+        {
+            string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            string EmailRedirectPath = sWebRoot + @"config\email_redirect.txt";
+            string emailRedirect = "";
+
+            try
+            {
+                if (File.Exists(EmailRedirectPath))
+                {
+                    using (StreamReader sr = new StreamReader(EmailRedirectPath))
+                    {
+                        while (sr.Peek() >= 0)
+                        {
+                            emailRedirect = sr.ReadLine();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                emailRedirect = "";
+            }
+
+            return emailRedirect;
+        }
+
         public static string SQLConnString()
         {
             string sConnString = "";

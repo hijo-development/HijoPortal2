@@ -45,6 +45,30 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
+    <dx:ASPxPopupControl ID="PopupDeleteMRPList" ClientInstanceName="PopupDeleteMRPList" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <table style="width: 100%;" border="0">
+                    <tr>
+                        <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
+                            <dx:ASPxLabel runat="server" Text="Are you sure you want to delete this document?" Theme="Office2010Blue"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <dx:ASPxButton ID="OK_DELETE" runat="server" Text="DELETE" Theme="Office2010Blue" AutoPostBack="false" OnClick="OK_DELETE_Click">
+                                <%--<ClientSideEvents Click="OK_DELETE" />--%>
+                            </dx:ASPxButton>
+                            <dx:ASPxButton ID="CANCEL_DELETE" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                                <ClientSideEvents Click="function(s,e){PopupDeleteMRPList.Hide();}" />
+                            </dx:ASPxButton>
+                        </td>
+                    </tr>
+                </table>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <dx:ASPxPopupControl ID="PopupSubmitMRPList" ClientInstanceName="PopupSubmitMRPList" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -75,11 +99,13 @@
             <asp:Label ID="msgTrans" runat="server" Visible="false"></asp:Label>
         </div>
         <div>
+
+            <%--OnCustomCallback="MainTable_CustomCallback"--%>
+
             <dx:ASPxGridView ID="MainTable" runat="server" ClientInstanceName="MainTable"
                 EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
                 Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
-                OnCustomButtonCallback="MainTable_CustomButtonCallback"
-                OnCustomCallback="MainTable_CustomCallback">
+                OnCustomButtonCallback="MainTable_CustomButtonCallback">
                 <ClientSideEvents CustomButtonClick="CustomButtonClick" />
                 <ClientSideEvents EndCallback="MainTableEndCallback" />
                 <SettingsBehavior AllowSort="true" SortMode="Value" />
@@ -118,6 +144,7 @@
                     <dx:GridViewDataColumn FieldName="Amount" VisibleIndex="9" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="10"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="11"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="DateCreated" Visible="false" VisibleIndex="12"></dx:GridViewDataColumn>
                     <dx:GridViewCommandColumn VisibleIndex="12" ButtonRenderMode="Image" Width="20">
                         <CustomButtons>
                             <dx:GridViewCommandColumnCustomButton ID="Submit" Text="" Image-Url="Images/Submit.ico" Image-ToolTip="Submit Row" Image-Width="15px">
@@ -149,7 +176,7 @@
 
                 <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                     AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />
-                <SettingsText ConfirmDelete="Delete This Item?" />
+                <%--<SettingsText ConfirmDelete="Delete This Item?" />--%>
                 <Styles>
                     <SelectedRow Font-Bold="False" Font-Italic="False">
                     </SelectedRow>

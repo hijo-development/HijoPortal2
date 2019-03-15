@@ -17,6 +17,7 @@ namespace HijoPortal
 
         private static string docNum = "", PK = "0", entCode="" , buCode="";
         private static int StatusKey = 0;
+        private static DateTime dteCreated;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -86,6 +87,7 @@ namespace HijoPortal
             entCode = MainTable.GetRowValues(MainTable.FocusedRowIndex, "EntityCode").ToString();
             buCode = MainTable.GetRowValues(MainTable.FocusedRowIndex, "BUCode").ToString();
             StatusKey = Convert.ToInt32(MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString());
+            dteCreated = Convert.ToDateTime(MainTable.GetRowValues(MainTable.FocusedRowIndex, "DateCreated").ToString());
             string query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "' AND PK = '" + PK + "'";
 
             SqlCommand comm = new SqlCommand(query, conn);
@@ -94,15 +96,8 @@ namespace HijoPortal
             if (count > 0)
             {
                 text["hidden_value"] = "Creator";
-                //if (StatusKey != 1)
-                //{
-                //    text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
-                //    //MRPClass.PrintString(MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString());
-                //} else
-                //{
                 if (e.ButtonID == "Edit")
                 {
-                    //msgTrans.Text = "Pass Edit";
                     if (MainTable.FocusedRowIndex > -1)
                     {
                         //Session["DocNumber"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
@@ -125,23 +120,7 @@ namespace HijoPortal
                     //msgTrans.Text = "Pass Delete";
                     if (MainTable.FocusedRowIndex > -1)
                     {
-                        if (StatusKey != 1)
-                        {
-                            //text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
-                            Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
-                            //MRPNotificationMessage.Text = "Already submitted to BU / SSU Lead for review!";
-                            //MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
-                            //MRPNotify.HeaderText = "Alert";
-                            //MRPNotify.ShowOnPageLoad = true;
-                        }
-                        else
-                        {
-                            //string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
-                            string delete = "DELETE FROM [dbo].[tbl_MRP_List] WHERE [PK] ='" + PK + "'";
-                            SqlCommand cmd = new SqlCommand(delete, conn);
-                            cmd.ExecuteNonQuery();
-                            BindMRP();
-                        }
+                        Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
 
                     }
                 }
@@ -152,55 +131,22 @@ namespace HijoPortal
                     {
                         //MRPClass.PrintString(StatusKey.ToString());
 
-                        if (StatusKey != 1)
-                        {
+                        Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
 
-                            //MRPClass.PrintString("pass");
-                            //text["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
-                            Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
-
-                            //PopupSubmitMRPList.HeaderText = "Confirm";
-                            //PopupSubmitMRPList.ShowOnPageLoad = true;
-
-                            //MRPNotificationMessage.Text = "Already submitted to BU / SSU Lead for review!";
-                            //MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
-                            //MRPNotify.HeaderText = "Alert";
-                            //MRPNotify.ShowOnPageLoad = true;
-                        }
-                        else
-                        {
-                            //PopupSubmitMRPList.HeaderText = "Confirm";
-                            //PopupSubmitMRPList.ShowOnPageLoad = true;
-
-                            text["hidden_value"] = "submitted";
-
-                            //PopupSubmit.HeaderText = "Alert";
-                            //PopupSubmit.ShowOnPageLoad = true;
-
-                            //MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
-
-                            //BindMRP();
-
-                        }
+                        
                     }
                 }
+
+                if (e.ButtonID == "Preview")
+                {
+                    Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                }
+
             }
             else
             {
-                if (e.ButtonID == "Edit" || e.ButtonID == "Submit" || e.ButtonID == "Delete")
+                if (e.ButtonID == "Edit" || e.ButtonID == "Submit" || e.ButtonID == "Delete" || e.ButtonID == "Preview")
                     text["hidden_value"] = "InvalidCreator";
-            }
-
-            if (e.ButtonID == "Preview")
-            {
-                //msgTrans.Text = "Pass Preview";
-                //string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
-
-                //Response.RedirectLocation = "mrp_previewforapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
-                Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
-
-                //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
-                //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
             }
 
             conn.Close();
@@ -540,11 +486,45 @@ namespace HijoPortal
 
         protected void OK_SUBMIT_Click(object sender, EventArgs e)
         {
+            PopupSubmitMRPList.ShowOnPageLoad = false;
             ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-            MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+            //MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+
+            MRPSubmitClass.MRP_Submit(docNum.ToString(), Convert.ToInt32(PK), dteCreated, 0, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+
+            
             BindMRP();
-            ASPxHiddenField text = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenVal") as ASPxHiddenField;
-            text["hidden_value"] = "submitted";
+
+            MRPNotify.HeaderText = "Info";
+            MRPNotificationMessage.Text = "Successfully Submitted!";
+            MRPNotify.ShowOnPageLoad = true;
+
+            //ASPxHiddenField text = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenVal") as ASPxHiddenField;
+            //text["hidden_value"] = "submitted";
+        }
+
+        protected void OK_DELETE_Click(object sender, EventArgs e)
+        {
+            PopupDeleteMRPList.ShowOnPageLoad = false;
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+            string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
+            string delete = "DELETE FROM [dbo].[tbl_MRP_List] WHERE [PK] ='" + PK + "'";
+            SqlCommand cmd = new SqlCommand(delete, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+            
+
+            BindMRP();
+
+            MRPNotify.HeaderText = "Info";
+            MRPNotificationMessage.Text = "Successfully Deleted!";
+            MRPNotify.ShowOnPageLoad = true;
+
+            //ASPxHiddenField text = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenVal") as ASPxHiddenField;
+            //text["hidden_value"] = "deleted";
         }
     }
 }

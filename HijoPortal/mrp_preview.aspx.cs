@@ -97,9 +97,14 @@ namespace HijoPortal
                 if (iStatusKey == 1)
                 {
 
-                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+                    //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+
+                    PopupSubmitPreview.ShowOnPageLoad = false;
 
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                    MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+
                     Submit.Enabled = false;
 
                     MRPNotificationMessage.Text = MRPClass.successfully_submitted;
@@ -138,9 +143,13 @@ namespace HijoPortal
 
                     if (isAllowed == true)
                     {
-                        MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+                        PopupSubmitPreview.ShowOnPageLoad = false;
+                        //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
-                        //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                        MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+
                         Submit.Enabled = false;
 
                         MRPNotificationMessage.Text = MRPClass.successfully_submitted;
@@ -232,6 +241,7 @@ namespace HijoPortal
             {
                 //lblMRPDocNum.Text = Request.Params["DocNum"].ToString();
 
+                mrpHead.InnerText = "M O P  Preview";
 
                 btAddEdit.Visible = false;
                 DocNum.Text = Request.Params["DocNum"].ToString();
@@ -241,22 +251,35 @@ namespace HijoPortal
 
                 if (wrkflwln == 0 || wrkflwln == 1)
                 {
+                    
                     btAddEdit.Visible = true;
-                }
+                } 
 
 
-                string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
-                              " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
-                              " dbo.tbl_MRP_List.BUCode, dbo.vw_AXOperatingUnitTable.NAME AS BUCodeDesc, dbo.tbl_MRP_List.MRPMonth, " +
-                              " dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.StatusKey, dbo.tbl_MRP_Status.StatusName, " +
-                              " dbo.tbl_MRP_List.CreatorKey, dbo.tbl_MRP_List.LastModified " +
-                              " FROM  dbo.tbl_MRP_List LEFT OUTER JOIN " +
-                              " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
-                              " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK LEFT OUTER JOIN " +
-                              " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID " +
-                              " WHERE(dbo.tbl_MRP_List.DocNumber = '" + DocNum.Text.ToString().Trim() + "') " +
-                              " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
+                //string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
+                //              " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
+                //              " dbo.tbl_MRP_List.BUCode, dbo.vw_AXOperatingUnitTable.NAME AS BUCodeDesc, dbo.tbl_MRP_List.MRPMonth, " +
+                //              " dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.StatusKey, dbo.tbl_MRP_Status.StatusName, " +
+                //              " dbo.tbl_MRP_List.CreatorKey, dbo.tbl_MRP_List.LastModified " +
+                //              " FROM  dbo.tbl_MRP_List LEFT OUTER JOIN " +
+                //              " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
+                //              " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK LEFT OUTER JOIN " +
+                //              " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID " +
+                //              " WHERE(dbo.tbl_MRP_List.DocNumber = '" + DocNum.Text.ToString().Trim() + "') " +
+                //              " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
 
+                string query =  "SELECT tbl_MRP_List.*, " +
+                               " vw_AXEntityTable.NAME AS EntityCodeDesc, " +
+                               " vw_AXOperatingUnitTable.NAME AS BUCodeDesc, " +
+                               " tbl_MRP_Status.StatusName, tbl_Users.Lastname, " +
+                               " tbl_Users.Firstname, tbl_MRP_List.EntityCode, " +
+                               " tbl_MRP_List.BUCode " +
+                               " FROM tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK " +
+                               " LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
+                               " LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK " +
+                               " LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID " +
+                               " WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' " +
+                               " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
                 SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
                 conn.Open();
 
@@ -274,6 +297,8 @@ namespace HijoPortal
                     BUCode.Text = reader["BUCodeDesc"].ToString();
                     Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
                     Year.Text = reader["MRPYear"].ToString();
+                    Creator.Text = EncryptionClass.Decrypt(reader["Firstname"].ToString()) + " " + EncryptionClass.Decrypt(reader["Lastname"].ToString()) ;
+                    Status.Text = reader["StatusName"].ToString();
                     //Status.Text = reader["StatusName"].ToString();
                 }
                 reader.Close();

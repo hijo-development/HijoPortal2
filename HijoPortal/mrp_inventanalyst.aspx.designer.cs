@@ -24,6 +24,8 @@ namespace HijoPortal {
 
         protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
 
+        protected global::DevExpress.Web.ASPxPopupControl PopupSubmit;
+
         /// <summary>
         /// dvContentWrapper control.
         /// </summary>

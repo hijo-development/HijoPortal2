@@ -11,7 +11,7 @@ namespace HijoPortal {
     
     
     public partial class mrp_preview {
-        
+
         /// <summary>
         /// LogsPopup control.
         /// </summary>
@@ -19,7 +19,12 @@ namespace HijoPortal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
+        /// 
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mrpHead;
+
         protected global::DevExpress.Web.ASPxPopupControl LogsPopup;
+
+        protected global::DevExpress.Web.ASPxPopupControl PopupSubmitPreview;
         
         /// <summary>
         /// LogsMemo control.
@@ -58,7 +63,11 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxLabel DocNum;
-        
+
+        protected global::DevExpress.Web.ASPxLabel Creator;
+
+        protected global::DevExpress.Web.ASPxLabel Status;
+
         /// <summary>
         /// Month control.
         /// </summary>
