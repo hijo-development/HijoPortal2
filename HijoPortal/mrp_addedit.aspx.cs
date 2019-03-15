@@ -187,6 +187,12 @@ namespace HijoPortal
 
                 return;
             }
+
+            MRPClass.PrintString(Session["mrp_creator"].ToString() + "==" + Session["CreatorKey"].ToString());
+            if (Session["mrp_creator"].ToString() != Session["CreatorKey"].ToString())
+            {
+                Response.Redirect("mrp_list.aspx");
+            }
         }
 
         private void BindDirectMaterials(string DOC_NUMBER)
