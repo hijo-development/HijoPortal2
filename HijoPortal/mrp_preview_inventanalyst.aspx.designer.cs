@@ -13,7 +13,10 @@ namespace HijoPortal
 
     public partial class mrp_preview_inventanalyst
     {
+        protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
+        protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
 
+        protected global::DevExpress.Web.ASPxPopupControl PopupSubmitPreviewAnal;
         /// <summary>
         /// dvContentWrapper control.
         /// </summary>
@@ -21,6 +24,8 @@ namespace HijoPortal
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mrpHead;
+
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvContentWrapper;
 
         /// <summary>
@@ -32,6 +37,9 @@ namespace HijoPortal
         /// </remarks>
         protected global::DevExpress.Web.ASPxLabel DocNum;
 
+        protected global::DevExpress.Web.ASPxLabel Creator;
+
+        protected global::DevExpress.Web.ASPxLabel Status;
         /// <summary>
         /// StatusHidden control.
         /// </summary>
@@ -40,6 +48,7 @@ namespace HijoPortal
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
+        protected global::DevExpress.Web.ASPxHiddenField WrkFlowHidden;
 
         /// <summary>
         /// btAddEdit control.

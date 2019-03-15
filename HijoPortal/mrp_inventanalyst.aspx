@@ -38,7 +38,8 @@
 
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader">
-            <h1>M O P  Details (Inventory Analyst)</h1>
+            <h1 id="mrpHead" runat="server"></h1>
+            <%--<h1>M O P  Details (Inventory Analyst)</h1>--%>
             <%--<table class="mrp-add-form-table" style="width: 100%; padding: 25px; margin-bottom: 5px;" border="0">--%>
             <table border="0">
                 <tr>

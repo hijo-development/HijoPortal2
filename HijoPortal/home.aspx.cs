@@ -110,7 +110,12 @@ namespace HijoPortal
                 }
                 if (Convert.ToInt32(wrklineval) == 3)
                 {
-                    page = "mrp_preview.aspx";
+                    page = "mrp_preview_inventanalyst.aspx";
+                }
+                if (Convert.ToInt32(wrklineval) == 4)
+                {
+                    //page = "mrp_preview_inventanalyst.aspx";
+                    page = "mrp_inventanalyst.aspx";
                 }
             }
             else if (Convert.ToInt32(wrkflowtypeval) == 2)

@@ -387,7 +387,6 @@ namespace HijoPortal
 
                 if (wrkflwln == 0 || wrkflwln == 1)
                 {
-                    
                     btAddEdit.Visible = true;
                 } 
 
@@ -443,7 +442,7 @@ namespace HijoPortal
 
                 iStatusKey = MRPClass.MRP_Line_Status(mrp_key, wrkflwln);
                 StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
-                StatusHidden["hidden_preview_wrkflwln"] = wrkflwln;
+                WrkFlowHidden["hidden_preview_wrkflwln"] = wrkflwln;
 
                 //MRPClass.PrintString("ispostback");
                 DataTable table = MRPClass.MRP_CAPEX(DocNum.Text.ToString(), entitycode);

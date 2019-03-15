@@ -267,6 +267,7 @@ namespace HijoPortal {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue;
 
         protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
+        protected global::DevExpress.Web.ASPxHiddenField WrkFlowHidden;
         protected global::DevExpress.Web.ASPxButton Submit;
         protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
         protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
