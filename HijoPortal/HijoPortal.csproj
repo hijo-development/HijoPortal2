@@ -147,6 +147,7 @@
     <Content Include="mrp_pocreation.aspx" />
     <Content Include="mrp_preview.aspx" />
     <Content Include="mrp_previewforapproval.aspx" />
+    <Content Include="mrp_preview_inventanalyst.aspx" />
     <Content Include="mrp_workflow.aspx" />
     <Content Include="scm.aspx" />
     <Content Include="userlist.aspx" />
@@ -347,6 +348,13 @@
     </Compile>
     <Compile Include="mrp_previewforapproval.aspx.designer.cs">
       <DependentUpon>mrp_previewforapproval.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mrp_preview_inventanalyst.aspx.cs">
+      <DependentUpon>mrp_preview_inventanalyst.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_preview_inventanalyst.aspx.designer.cs">
+      <DependentUpon>mrp_preview_inventanalyst.aspx</DependentUpon>
     </Compile>
     <Compile Include="mrp_workflow.aspx.cs">
       <DependentUpon>mrp_workflow.aspx</DependentUpon>

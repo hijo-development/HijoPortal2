@@ -501,7 +501,8 @@ namespace HijoPortal
 
         protected void Preview_Click(object sender, EventArgs e)
         {
-            Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+            //Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+            Response.Redirect("mrp_preview_inventanalyst.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
         }
 
         protected void DMGrid_DataBound(object sender, EventArgs e)
