@@ -95,6 +95,7 @@
     <Content Include="change_pw.aspx" />
     <Content Include="config\cn.txt" />
     <Content Include="config\email.txt" />
+    <Content Include="config\email_redirect.txt" />
     <Content Include="config\Key.txt" />
     <Content Include="createaccount.aspx" />
     <Content Include="create_account.aspx" />
@@ -182,7 +183,9 @@
     <Compile Include="classes\EncryptionClass.cs" />
     <Compile Include="classes\FinanceClass.cs" />
     <Compile Include="classes\GlobalClass.cs" />
+    <Compile Include="classes\MRPApproveClass.cs" />
     <Compile Include="classes\MRPClass.cs" />
+    <Compile Include="classes\MRPSubmitClass.cs" />
     <Compile Include="classes\SCMClass.cs" />
     <Compile Include="classes\WorkflowClass.cs" />
     <Compile Include="createaccount.aspx.cs">
