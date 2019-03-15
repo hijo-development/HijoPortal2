@@ -179,73 +179,68 @@ function CorrectValue(str, type) {
 //END OF REUSABLE FUNCTION
 
 // Master mrp_list.aspx
+var MRPListButton;
 function CustomButtonClick(s, e) {
     var button = e.buttonID;
-    var hidden_val = MRPHiddenVal.Get('hidden_value');
+    //var hidden_val = MRPHiddenVal.Get('hidden_value');
     //var hidden_val_Stat = MRPHiddenValStatus.Get('hidden_value');
-    console.log(hidden_val);
+    //console.log(hidden_val);
+    MRPListButton = button;
     if (button == "Delete") {
-        var result = confirm("Delete this row?");
-        if (result)
-            e.processOnServer = true;
+        //var result = confirm("Delete this row?");
+        //if (result)
+        e.processOnServer = true;
     } else if (button == "Edit") {
         e.processOnServer = true;
     } else if (button == "Preview") {
         e.processOnServer = true;
     } else if (button == "Submit") {
-        //e.GetColumnText();
-        //if (hidden_val == "InvalidCreator") {
-        //    MRPNotificationMessage.SetText("You are not authorized to access this item!");
-        //    MRPNotify.SetHeaderText("Alert");
-        //    MRPNotify.Show();
-        //    MRPHiddenVal.Set('hidden_value', ' ');
-        //} else {
-        //    if (hidden_val_Stat === "1") {
-                //PopupSubmitMRPList.SetHeaderText("Confirm");
-                //PopupSubmitMRPList.Show();
-        //    } else {
-        //        MRPNotificationMessage.SetText("Already submitted to BU / SSU Lead for review!");
-        //        MRPNotify.SetHeaderText("Alert");
-        //        MRPNotify.Show();
-        //        MRPHiddenValStatus.Set('hidden_value', ' ');
-        //    }
-        //}
-        
         e.processOnServer = true;
     }
 }
 
 function MainTableEndCallback(s, e) {
-    //MainTable.InCallback();
     var hidden_val = MRPHiddenVal.Get('hidden_value');
     var hidden_val_Stat = MRPHiddenValStatus.Get('hidden_value');
-    var button = e.buttonID;
+    //console.log(MRPListButton);
     //console.log(hidden_val);
-    if (hidden_val == "InvalidCreator") {
+    //console.log(hidden_val_Stat);
+    if (hidden_val === "InvalidCreator") {
         MRPNotificationMessage.SetText("You are not authorized to access this item!");
         MRPNotify.SetHeaderText("Alert");
         MRPNotify.Show();
         MRPHiddenVal.Set('hidden_value', ' ');
-    } else if (hidden_val == "Creator") {
-        if (hidden_val_Stat == "2") {
+    } else if (hidden_val === "Creator") {
+        if (hidden_val_Stat === "2") {
             MRPNotificationMessage.SetText("Already submitted to BU / SSU Lead for review!");
             MRPNotify.SetHeaderText("Alert");
             MRPNotify.Show();
             MRPHiddenValStatus.Set('hidden_value', ' ');
         } else {
-            if (button == "Submit") {
+            if (MRPListButton === "Delete") {
+                PopupDeleteMRPList.SetHeaderText("Confirm");
+                PopupDeleteMRPList.Show();
+            } else if (MRPListButton === "Submit") {
                 PopupSubmitMRPList.SetHeaderText("Confirm");
                 PopupSubmitMRPList.Show();
             }
         }
-    } else if (hidden_val == "submitted") {
+    } else if (hidden_val === "submitted") {
         MRPNotificationMessage.SetText("Successfully Submitted");
+        MRPNotify.SetHeaderText("Info");
+        MRPNotify.Show();
+        MRPHiddenVal.Set('hidden_value', ' ');
+        MainTable.Refresh();//refresh Grid
+    } else if (hidden_val === "deleted") {
+        MRPNotificationMessage.SetText("Successfully Deleted");
         MRPNotify.SetHeaderText("Info");
         MRPNotify.Show();
         MRPHiddenVal.Set('hidden_value', ' ');
         MainTable.Refresh();//refresh Grid
     }
 }
+
+
 
 
 // MRPAddForm Script

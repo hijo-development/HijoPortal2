@@ -44,6 +44,8 @@ namespace HijoPortal
         /// </remarks>
         protected global::DevExpress.Web.ASPxPopupControl LogsPopup;
 
+        protected global::DevExpress.Web.ASPxPopupControl PopupSubmitAppPreview;
+        
         /// <summary>
         /// LogsMemo control.
         /// </summary>

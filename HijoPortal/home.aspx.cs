@@ -68,31 +68,57 @@ namespace HijoPortal
         {
 
             string page = "";
-            int wrkline = Convert.ToInt32(HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "LevelLine").ToString());
-            int wrkflowtype = Convert.ToInt32(HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "WorkflowType").ToString());
-            if (wrkflowtype == 1)
-            {
-                if (wrkline == 1)
-                {
-                    page = "mrp_addedit.aspx";
-                }
-                if (wrkline == 2)
-                {
-                    page = "mrp_inventanalyst.aspx";
-                }
-                if (wrkline == 3)
-                {
-                    page = "mrp_preview.aspx";
-                }
-            } else if (wrkflowtype == 2)
-            {
-                page = "mrp_previewforapproval.aspx";
-            }
+            //int wrkline = Convert.ToInt32(HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "LevelLine").ToString());
+            //int wrkflowtype = Convert.ToInt32(HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "WorkflowType").ToString());
+
+            //MRPClass.PrintString(wrkline.ToString());
+
+            //if (wrkflowtype == 1)
+            //{
+            //    if (wrkline == 1)
+            //    {
+            //        page = "mrp_addedit.aspx";
+            //    }
+            //    if (wrkline == 2)
+            //    {
+            //        page = "mrp_inventanalyst.aspx";
+            //    }
+            //    if (wrkline == 3)
+            //    {
+            //        page = "mrp_preview.aspx";
+            //    }
+            //} else if (wrkflowtype == 2)
+            //{
+            //    page = "mrp_previewforapproval.aspx";
+            //}
 
             ASPxHyperLink link = sender as ASPxHyperLink;
             GridViewDataItemTemplateContainer container = link.NamingContainer as GridViewDataItemTemplateContainer;
             object value = container.Grid.GetRowValues(container.VisibleIndex, "DocNumber");
-            link.NavigateUrl = page+ "?DocNum=" + value.ToString() + "&WrkFlwLn="+ wrkline.ToString();
+            object wrklineval = container.Grid.GetRowValues(container.VisibleIndex, "LevelLine");
+            object wrkflowtypeval = container.Grid.GetRowValues(container.VisibleIndex, "WorkflowType");
+
+            if (Convert.ToInt32(wrkflowtypeval) == 1)
+            {
+                if (Convert.ToInt32(wrklineval) == 1)
+                {
+                    page = "mrp_addedit.aspx";
+                }
+                if (Convert.ToInt32(wrklineval) == 2)
+                {
+                    page = "mrp_inventanalyst.aspx";
+                }
+                if (Convert.ToInt32(wrklineval) == 3)
+                {
+                    page = "mrp_preview.aspx";
+                }
+            }
+            else if (Convert.ToInt32(wrkflowtypeval) == 2)
+            {
+                page = "mrp_previewforapproval.aspx";
+            }
+
+            link.NavigateUrl = page+ "?DocNum=" + value.ToString() + "&WrkFlwLn="+ wrklineval.ToString();
         }
 
     }

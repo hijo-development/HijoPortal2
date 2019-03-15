@@ -319,9 +319,10 @@ namespace HijoPortal
                 }
                 if (isAllowed == true)
                 {
-                    MRPClass.Approve_MRP(docnum, mrp_key, appflwln);
-
+                    //MRPClass.Approve_MRP(docnum, mrp_key, appflwln);
+                    PopupSubmitAppPreview.ShowOnPageLoad = false;
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    MRPApproveClass.MRP_Approve(docnum.ToString(), mrp_key, dateCreated, appflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
                     Submit.Enabled = false;
 
                     MRPNotifyMsgPrevApp.Text = MRPClass.successfully_approved;

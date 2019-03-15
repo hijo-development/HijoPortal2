@@ -58,13 +58,13 @@ namespace HijoPortal
 
                 //WorkFlowLine["hidden_value"] = wrkflwln.ToString();
 
-                if (wrkflwln == 1)
-                {
-                    MRPList.Visible = false;
-                } else
-                {
-                    MRPList.Visible = true;
-                }
+                //if (wrkflwln == 1)
+                //{
+                //    MRPList.Visible = false;
+                //} else
+                //{
+                //    MRPList.Visible = true;
+                //}
 
                 Load_MRP(docnumber);
             }
@@ -1328,9 +1328,11 @@ namespace HijoPortal
                 if (iStatusKey == 1)
                 {
 
-                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
-
+                    //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+                    PopupSubmit.ShowOnPageLoad = false;
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                    MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
                     Load_MRP(docnumber);
                     BindDirectMaterials(docnumber);
@@ -1339,7 +1341,10 @@ namespace HijoPortal
                     BindCAPEX(docnumber);
                     BindRevenue(docnumber);
 
-                    PopupSubmit.ShowOnPageLoad = false;
+                    MRPNotify.HeaderText = "Info";
+                    MRPNotificationMessage.Text = "Successfully Submitted!";
+                    MRPNotify.ShowOnPageLoad = true;
+
                 } else
                 {
 
@@ -1358,10 +1363,10 @@ namespace HijoPortal
                     isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dateCreated, entitycode, buCode);
                     if (isAllowed == true)
                     {
-                        MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
-
-                        //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-
+                        //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+                        PopupSubmit.ShowOnPageLoad = false;
+                        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                        MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
                         Load_MRP(docnumber);
                         BindDirectMaterials(docnumber);
                         BindOPEX(docnumber);
@@ -1369,7 +1374,10 @@ namespace HijoPortal
                         BindCAPEX(docnumber);
                         BindRevenue(docnumber);
 
-                        PopupSubmit.ShowOnPageLoad = false;
+                        MRPNotify.HeaderText = "Info";
+                        MRPNotificationMessage.Text = "Successfully Submitted!";
+                        MRPNotify.ShowOnPageLoad = true;
+
                     } else
                     {
                         MRPNotificationMessage.Text = "You have no permission to perform this command!" + Environment.NewLine + "Access Denied!";

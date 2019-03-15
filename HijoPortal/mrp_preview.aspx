@@ -63,7 +63,7 @@
 
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 150px; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
-            <h1>M R P  Preview</h1>
+            <h1 id="mrpHead" runat="server"></h1>
             <table style="width: 100%; margin: auto;" border="0">
                 <tr>
                     <td style="width: 12%">
@@ -114,6 +114,22 @@
                     <td>:</td>
                     <td>
                         <dx:ASPxLabel ID="BUCode" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <dx:ASPxLabel runat="server" Text="Creator" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <dx:ASPxLabel ID="Creator" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td>
+                        <dx:ASPxLabel runat="server" Text="Status" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <dx:ASPxLabel ID="Status" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                 </tr>
             </table>
