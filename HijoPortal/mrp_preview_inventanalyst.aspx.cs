@@ -42,7 +42,6 @@ namespace HijoPortal
                 if (!string.IsNullOrEmpty(code))
                 {
                     HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-                    //Change the Back ground color
                     HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
                     td.ColSpan = 10;
                     td.Style.Add("font-weight", "bold");
@@ -91,9 +90,7 @@ namespace HijoPortal
                 else
                 {
                     HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-                    //Change the Back ground color
                     HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
-                    //td.ColSpan = 2;
                 }
             }
         }

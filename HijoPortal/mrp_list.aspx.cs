@@ -92,7 +92,6 @@ namespace HijoPortal
 
             SqlCommand comm = new SqlCommand(query, conn);
             int count = Convert.ToInt32(comm.ExecuteScalar());
-
             if (count > 0)
             {
                 text["hidden_value"] = "Creator";
@@ -102,9 +101,10 @@ namespace HijoPortal
                     {
                         //Session["DocNumber"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
                         string mrp_pk = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
+                        string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
 
                         //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
-
+                        Session["mrp_creator"] = mrp_creator;
                         Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
                         //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
