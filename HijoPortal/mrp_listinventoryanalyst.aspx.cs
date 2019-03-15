@@ -61,7 +61,7 @@ namespace HijoPortal
             {
                 string docNum = grdMRPListInventAnalyst.GetRowValues(grdMRPListInventAnalyst.FocusedRowIndex, "DocNumber").ToString();
 
-                Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=3";
+                Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=2";
             }
         }
     }

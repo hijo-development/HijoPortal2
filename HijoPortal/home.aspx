@@ -42,7 +42,7 @@
                         <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="BU/ Department"></dx:GridViewDataColumn>
                         <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month"></dx:GridViewDataColumn>
                         <dx:GridViewDataColumn FieldName="MRPYear" Caption="Year"></dx:GridViewDataColumn>
-                        <dx:GridViewDataColumn FieldName="LevelLine" Visible="false"></dx:GridViewDataColumn>
+                        <dx:GridViewDataColumn FieldName="LevelLine" Visible="true"></dx:GridViewDataColumn>
                         <dx:GridViewDataColumn FieldName="LevelPosition" Caption="Workflow Level"></dx:GridViewDataColumn>
                         <dx:GridViewDataColumn FieldName="Status" Caption="Status"></dx:GridViewDataColumn>
                         <dx:GridViewDataColumn FieldName="WorkflowType" Visible="false"></dx:GridViewDataColumn>

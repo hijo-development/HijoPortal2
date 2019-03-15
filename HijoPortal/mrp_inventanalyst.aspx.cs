@@ -16,6 +16,7 @@ namespace HijoPortal
         private static int mrp_key = 0, wrkflwln = 0, iStatusKey = 0;
         private static string docnumber = "", entitycode = "", buCode = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true;
+        private static DateTime dateCreated;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -110,6 +111,7 @@ namespace HijoPortal
                 entitycode = reader["EntityCode"].ToString();
                 DocNum.Text = reader["DocNumber"].ToString();
                 DateCreated.Text = reader["DateCreated"].ToString();
+                dateCreated = Convert.ToDateTime(reader["DateCreated"]);
                 EntityCode.Text = reader["EntityCodeDesc"].ToString();
                 BUCode.Text = reader["BUCodeDesc"].ToString();
                 Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
@@ -242,7 +244,10 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string update = "UPDATE " + MRPClass.DirectMatTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            string update = "UPDATE " + MRPClass.DirectMatTable() + 
+                            " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, " +
+                            " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " +
+                            " WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@QTY", qty_float);
@@ -290,7 +295,10 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string update = "UPDATE " + MRPClass.OpexTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            string update = "UPDATE " + MRPClass.OpexTable() + 
+                            " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittedTotalCost] = @TOTAL, " +
+                            " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " +
+                            " WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@QTY", qty_float);
@@ -341,7 +349,10 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string update = "UPDATE " + MRPClass.ManPowerTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            string update = "UPDATE " + MRPClass.ManPowerTable() + 
+                            " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, " +
+                            " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " + 
+                            " WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@QTY", qty_float);
@@ -387,7 +398,10 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string update = "UPDATE " + MRPClass.CapexTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            string update = "UPDATE " + MRPClass.CapexTable() + 
+                            " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, " +
+                            " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " +
+                            " WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@QTY", qty_float);
@@ -424,16 +438,21 @@ namespace HijoPortal
                 if (iStatusKey == 1)
                 {
 
-                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
-
+                    //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+                    PopupSubmit.ShowOnPageLoad = false;
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
+                    MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
                     Load_MRP(docnumber);
 
                     BindDirectMaterials(docnumber);
                     BindOpex(docnumber);
                     BindManPower(docnumber);
                     BindCapex(docnumber);
+
+                    MRPNotificationMessage.Text = "Successfully Submitted";
+                    MRPNotify.HeaderText = "Info";
+                    MRPNotify.ShowOnPageLoad = true;
 
                 }
                 else
@@ -451,9 +470,11 @@ namespace HijoPortal
             {
                 if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
                 {
-                    MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
-
+                    //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+                    PopupSubmit.ShowOnPageLoad = false;
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                    MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
                     Load_MRP(docnumber);
                     BindDirectMaterials(docnumber);
@@ -461,6 +482,10 @@ namespace HijoPortal
                     BindManPower(docnumber);
                     BindCapex(docnumber);
                     //BindRevenue(docnumber);
+
+                    MRPNotificationMessage.Text = "Successfully Submitted";
+                    MRPNotify.HeaderText = "Info";
+                    MRPNotify.ShowOnPageLoad = true;
                 }
                 else
                 {

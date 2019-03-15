@@ -156,8 +156,8 @@
                 <tr>
                     <td colspan="7" style="text-align: right">
                         <%--OnClick="Submit_Click"--%>
-                        <dx:ASPxButton ID="MRPList" runat="server" Text="List" AutoPostBack="false" Theme="Office2010Blue" OnClick="MRPList_Click"></dx:ASPxButton>
-                        &nbsp
+                        <%--<dx:ASPxButton ID="MRPList" runat="server" Text="List" AutoPostBack="false" Theme="Office2010Blue" OnClick="MRPList_Click"></dx:ASPxButton>
+                        &nbsp--%>
                             <dx:ASPxButton ID="Preview" runat="server" Text="Preview" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click"></dx:ASPxButton>
                         &nbsp
                         <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">

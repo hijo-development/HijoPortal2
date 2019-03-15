@@ -24,18 +24,19 @@
                     <dx:GridViewDataColumn FieldName="LastName" Caption="Last Name" VisibleIndex="2" SortOrder="Ascending"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="FirstName" Caption="First Name" VisibleIndex="3"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="Gender" Caption="Gender" VisibleIndex="4"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="Email" Caption="Email" VisibleIndex="5"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="UserType" Visible="false" VisibleIndex="6"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="UserTypeDesc" Caption="User Type" VisibleIndex="7"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="UserLevelKey" Visible="false" VisibleIndex="8"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="UserLevelDesc" Caption="User Level" VisibleIndex="9"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="DomainAccount" Caption="Domain Account" VisibleIndex="10"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="EntityCode" Visible="false" VisibleIndex="11"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity" VisibleIndex="12"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="BUCode" Visible="false" VisibleIndex="13"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="BU / SSU" VisibleIndex="14"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="15"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="StatusDesc" Caption="Status" VisibleIndex="16"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="UserName" Caption="UserName" VisibleIndex="5"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="Email" Caption="Email" VisibleIndex="6"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="UserType" Visible="false" VisibleIndex="7"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="UserTypeDesc" Caption="User Type" VisibleIndex="8"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="UserLevelKey" Visible="false" VisibleIndex="9"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="UserLevelDesc" Caption="User Level" VisibleIndex="10"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="DomainAccount" Caption="Domain Account" VisibleIndex="11"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="EntityCode" Visible="false" VisibleIndex="12"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity" VisibleIndex="13"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="BUCode" Visible="false" VisibleIndex="14"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="BU / SSU" VisibleIndex="15"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="16"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="StatusDesc" Caption="Status" VisibleIndex="17"></dx:GridViewDataColumn>
                 </Columns>
 
                 <SettingsCommandButton>
@@ -60,8 +61,16 @@
                                                             <dx:ASPxLabel runat="server" Text="Complete Name " Theme="Office2010Blue" />
                                                         </td>
                                                         <td style="padding: 0px 0px 10px;">:</td>
-                                                        <td colspan="4" style="padding: 3px 3px 10px;">
+                                                        <td style="padding: 3px 3px 10px;">
                                                             <dx:ASPxLabel runat="server" Text='<%#Eval("CompleteName")%>' Theme="Office2010Blue" Font-Bold="true" />
+                                                        </td>
+                                                        <td></td>
+                                                        <td>
+                                                            <dx:ASPxLabel runat="server" Text="UserName " Theme="Office2010Blue" />
+                                                        </td>
+                                                        <td>:</td>
+                                                        <td style="padding: 3px 3px 10px;">
+                                                            <dx:ASPxLabel runat="server" Text='<%#Eval("UserName")%>' Theme="Office2010Blue" Font-Bold="true" />
                                                         </td>
                                                         <td></td>
                                                         <td rowspan="4" style="width:15%; text-align:right; ">
