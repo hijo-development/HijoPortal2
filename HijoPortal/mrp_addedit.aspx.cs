@@ -31,6 +31,7 @@ namespace HijoPortal
 
             if (!Page.IsPostBack)
             {
+
                 DirectMaterialsRoundPanel.Font.Bold = true;
                 OpexRoundPanel.Font.Bold = true;
                 ManpowerRoundPanel.Font.Bold = true;
@@ -50,6 +51,14 @@ namespace HijoPortal
 
                 docnumber = Request.Params["DocNum"].ToString();  //Session["DocNumber"].ToString();
                 wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
+
+                if (wrkflwln == 0)
+                {
+                    Submit.Text = "Submit";
+                } else
+                {
+                    Submit.Text = "Submit & Approve";
+                }
 
                 
 
@@ -1101,7 +1110,22 @@ namespace HijoPortal
             ASPxPageControl pageControl = DirectMaterialsGrid.FindEditFormTemplateControl("DirectPageControl") as ASPxPageControl;
             ASPxListBox listbox = pageControl.FindControl("listbox") as ASPxListBox;
             listbox.Visible = true;
-            listbox.DataSource = MRPClass.AXInventTable(e.Parameter);
+            listbox.DataSource = MRPClass.AXInventTable(e.Parameter, entitycode);
+
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "ITEMID";
+            //listbox.Columns.Add(l_value);
+
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "NAMEALIAS";
+            //l_text.Width = 300;
+            //listbox.Columns.Add(l_text);
+
+            //ListBoxColumn l_text2 = new ListBoxColumn();
+            //l_text2.FieldName = "UOM";
+            //l_text2.Width = 150;
+            //listbox.Columns.Add(l_text2);
+
             listbox.ValueField = "ITEMID";
             listbox.TextField = "NAMEALIAS";
             listbox.DataBind();
@@ -1114,9 +1138,25 @@ namespace HijoPortal
             ASPxPageControl pageControl = OPEXGrid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
             ASPxListBox listbox = pageControl.FindControl("listboxOPEX") as ASPxListBox;
             listbox.Visible = true;
-            listbox.DataSource = MRPClass.AXInventTable(e.Parameter);
-            listbox.ValueField = "ITEMID";
+            listbox.DataSource = MRPClass.AXInventTable(e.Parameter, entitycode);
+
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "ITEMID";
+            //listbox.Columns.Add(l_value);
+
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "NAMEALIAS";
+            ////l_text.Width = 300;
+            //listbox.Columns.Add(l_text);
+
+            //ListBoxColumn l_text2 = new ListBoxColumn();
+            //l_text2.FieldName = "UOM";
+            ////l_text2.Width = 150;
+            //listbox.Columns.Add(l_text2);
+
+            //listbox.ValueField = "ITEMID";
             listbox.TextField = "NAMEALIAS";
+            //listbox.Columns.Add();
             listbox.DataBind();
         }
 

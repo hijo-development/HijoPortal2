@@ -469,6 +469,7 @@ namespace HijoPortal
                 if (result > 0) MRPClass.AddLogsMOPList(conn, pk_latest, remarks);
 
                 //Session["DocNumber"] = DOC_NUMBER;
+                Session["mrp_creator"] = Session["CreatorKey"].ToString();
                 string docNum = DOC_NUMBER;
                 PopUpControl.ShowOnPageLoad = false;
                 Response.Redirect("mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0");

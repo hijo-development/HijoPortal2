@@ -1258,10 +1258,15 @@ function ItemCodeOPEX_KeyPress(s, e) {
 function listbox_selectedOPEX(s, e) {
     var selValue = s.GetSelectedItem().value;
     var selText = s.GetSelectedItem().text;
+    var arrTextItem = selText.split(';');
     ItemCodeOPEX.SetText(selValue);
-    DescriptionOPEX.SetText(selText);
+    //DescriptionOPEX.SetText(selText);
+    DescriptionOPEX.SetText(arrTextItem[1].trim());
     DescriptionOPEX.SetIsValid(true);
+    UOMOPEX.SetText(arrTextItem[2].trim());
+    CostOPEX.SetText(arrTextItem[3].trim());
     listboxOPEX.SetVisible(false);
+    QtyOPEX.Focus();
 }
 
 function ActivityCodeIndexChangeMAN(s, e) {
@@ -1350,10 +1355,14 @@ function updateUserList(s, e) {
 function listbox_selected(s, e) {
     var selValue = s.GetSelectedItem().value;
     var selText = s.GetSelectedItem().text;
+    var arrSelText = selText.split(';');
     ItemCodeDirect.SetText(selValue);
-    ItemDescriptionDirect.SetText(selText);
+    ItemDescriptionDirect.SetText(arrSelText[1].trim());
     ItemDescriptionDirect.SetIsValid(true);
+    UOMDirect.SetText(arrSelText[2].trim());
+    CostDirect.SetText(arrSelText[3].trim());
     listbox.SetVisible(false);
+    QtyDirect.Focus();
 }
 
 function ItemCodeDirect_KeyPress(s, e) {

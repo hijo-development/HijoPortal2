@@ -238,6 +238,7 @@ namespace HijoPortal
                     MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
                     Submit.Enabled = false;
+                    Load_MRP(docnumber);
 
                     MRPNotificationMessage.Text = MRPClass.successfully_submitted;
                     MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
@@ -283,6 +284,7 @@ namespace HijoPortal
                         MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
                         Submit.Enabled = false;
+                        Load_MRP(docnumber);
 
                         MRPNotificationMessage.Text = MRPClass.successfully_submitted;
                         MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
@@ -366,6 +368,93 @@ namespace HijoPortal
         }
 
 
+        private void Load_MRP(string docnumber)
+        {
+            string query = "SELECT tbl_MRP_List.*, " +
+                               " vw_AXEntityTable.NAME AS EntityCodeDesc, " +
+                               " vw_AXOperatingUnitTable.NAME AS BUCodeDesc, " +
+                               " tbl_MRP_Status.StatusName, tbl_Users.Lastname, " +
+                               " tbl_Users.Firstname, tbl_MRP_List.EntityCode, " +
+                               " tbl_MRP_List.BUCode " +
+                               " FROM tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK " +
+                               " LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
+                               " LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK " +
+                               " LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID " +
+                               " WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' " +
+                               " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand(query, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                //DocNum.Text = reader["DocNumber"].ToString();
+                //DateCreated.Text = reader["DateCreated"].ToString();
+                mrp_key = Convert.ToInt32(reader["PK"]);
+                entitycode = reader["EntityCode"].ToString();
+                dateCreated = Convert.ToDateTime(reader["DateCreated"]);
+                EntityCode.Text = reader["EntityCodeDesc"].ToString();
+                buCode = reader["BUCode"].ToString();
+                BUCode.Text = reader["BUCodeDesc"].ToString();
+                Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
+                Year.Text = reader["MRPYear"].ToString();
+                Creator.Text = EncryptionClass.Decrypt(reader["Firstname"].ToString()) + " " + EncryptionClass.Decrypt(reader["Lastname"].ToString());
+                Status.Text = reader["StatusName"].ToString();
+                //Status.Text = reader["StatusName"].ToString();
+            }
+            reader.Close();
+            conn.Close();
+
+
+            iStatusKey = MRPClass.MRP_Line_Status(mrp_key, wrkflwln);
+            StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
+            WrkFlowHidden["hidden_preview_wrkflwln"] = wrkflwln;
+
+            //MRPClass.PrintString("ispostback");
+            DataTable table = MRPClass.MRP_CAPEX(DocNum.Text.ToString(), entitycode);
+            CapexListview.DataSource = table;
+            CapexListview.DataBind();
+            TotalAmountTD.InnerText = MRPClass.capex_total().ToString("N");
+
+            //System.Web.UI.HtmlControls.HtmlTableRow r = new System.Web.UI.HtmlControls.HtmlTableRow();
+            //System.Web.UI.HtmlControls.HtmlTableCell c = new System.Web.UI.HtmlControls.HtmlTableCell();
+            //c.InnerText = "New Cell";
+            //r.Cells.Add(c);
+
+            //HtmlTable T = (HtmlTable)MatListview.Items[0].FindControl("prev");
+            //T.Controls.Add(r);
+
+
+
+            //DataTable tableMat = MRPClass.MRP_Direct_Materials(DocNum.Text.ToString(), entitycode);
+            DataTable tableMat = MRPClass.Preview_DM(DocNum.Text.ToString(), entitycode);
+            MatListview.DataSource = tableMat;
+            MatListview.DataBind();
+            TAMat.InnerText = MRPClass.materials_total().ToString("N");
+
+            DataTable tableOpex = MRPClass.Preview_OP(DocNum.Text.ToString(), entitycode);
+            OpexListiview.DataSource = tableOpex;
+            OpexListiview.DataBind();
+            TAOpex.InnerText = MRPClass.opex_total().ToString("N");
+
+            DataTable tableManpower = MRPClass.Preview_MAN(DocNum.Text.ToString(), entitycode);
+            ManListview.DataSource = tableManpower;
+            ManListview.DataBind();
+            TAManpower.InnerText = MRPClass.manpower_total().ToString("N");
+
+            DataTable tableRevenue = MRPClass.MRP_Revenue(DocNum.Text.ToString(), entitycode);
+            RevListview.DataSource = tableRevenue;
+            RevListview.DataBind();
+            TARevenue.InnerText = MRPClass.revenue_total().ToString("N");
+
+            PreviewListSummary.DataSource = MRPClass.MRP_PrevTotalSummary(DocNum.Text.ToString(), entitycode);
+            PreviewListSummary.DataBind();
+            TotalAmountSummary.InnerText = MRPClass.Prev_Summary_Total();
+
+            MRPClass.trial();
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -388,8 +477,18 @@ namespace HijoPortal
                 if (wrkflwln == 0 || wrkflwln == 1)
                 {
                     btAddEdit.Visible = true;
-                } 
+                }
 
+                if (wrkflwln == 0)
+                {
+                    Submit.Text = "Submit";
+                }
+                else
+                {
+                    Submit.Text = "Submit & Approve";
+                }
+
+                Load_MRP(docnumber);
 
                 //string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
                 //              " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
@@ -403,89 +502,7 @@ namespace HijoPortal
                 //              " WHERE(dbo.tbl_MRP_List.DocNumber = '" + DocNum.Text.ToString().Trim() + "') " +
                 //              " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
 
-                string query =  "SELECT tbl_MRP_List.*, " +
-                               " vw_AXEntityTable.NAME AS EntityCodeDesc, " +
-                               " vw_AXOperatingUnitTable.NAME AS BUCodeDesc, " +
-                               " tbl_MRP_Status.StatusName, tbl_Users.Lastname, " +
-                               " tbl_Users.Firstname, tbl_MRP_List.EntityCode, " +
-                               " tbl_MRP_List.BUCode " +
-                               " FROM tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK " +
-                               " LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
-                               " LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK " +
-                               " LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID " +
-                               " WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' " +
-                               " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
-                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-                conn.Open();
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    //DocNum.Text = reader["DocNumber"].ToString();
-                    //DateCreated.Text = reader["DateCreated"].ToString();
-                    mrp_key = Convert.ToInt32(reader["PK"]);
-                    entitycode = reader["EntityCode"].ToString();
-                    dateCreated = Convert.ToDateTime(reader["DateCreated"]);
-                    EntityCode.Text = reader["EntityCodeDesc"].ToString();
-                    buCode = reader["BUCode"].ToString();
-                    BUCode.Text = reader["BUCodeDesc"].ToString();
-                    Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
-                    Year.Text = reader["MRPYear"].ToString();
-                    Creator.Text = EncryptionClass.Decrypt(reader["Firstname"].ToString()) + " " + EncryptionClass.Decrypt(reader["Lastname"].ToString()) ;
-                    Status.Text = reader["StatusName"].ToString();
-                    //Status.Text = reader["StatusName"].ToString();
-                }
-                reader.Close();
-                conn.Close();
-
-
-                iStatusKey = MRPClass.MRP_Line_Status(mrp_key, wrkflwln);
-                StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
-                WrkFlowHidden["hidden_preview_wrkflwln"] = wrkflwln;
-
-                //MRPClass.PrintString("ispostback");
-                DataTable table = MRPClass.MRP_CAPEX(DocNum.Text.ToString(), entitycode);
-                CapexListview.DataSource = table;
-                CapexListview.DataBind();
-                TotalAmountTD.InnerText = MRPClass.capex_total().ToString("N");
-
-                //System.Web.UI.HtmlControls.HtmlTableRow r = new System.Web.UI.HtmlControls.HtmlTableRow();
-                //System.Web.UI.HtmlControls.HtmlTableCell c = new System.Web.UI.HtmlControls.HtmlTableCell();
-                //c.InnerText = "New Cell";
-                //r.Cells.Add(c);
-
-                //HtmlTable T = (HtmlTable)MatListview.Items[0].FindControl("prev");
-                //T.Controls.Add(r);
-
-
-
-                //DataTable tableMat = MRPClass.MRP_Direct_Materials(DocNum.Text.ToString(), entitycode);
-                DataTable tableMat = MRPClass.Preview_DM(DocNum.Text.ToString(), entitycode);
-                MatListview.DataSource = tableMat;
-                MatListview.DataBind();
-                TAMat.InnerText = MRPClass.materials_total().ToString("N");
-
-                DataTable tableOpex = MRPClass.Preview_OP(DocNum.Text.ToString(), entitycode);
-                OpexListiview.DataSource = tableOpex;
-                OpexListiview.DataBind();
-                TAOpex.InnerText = MRPClass.opex_total().ToString("N");
-
-                DataTable tableManpower = MRPClass.Preview_MAN(DocNum.Text.ToString(), entitycode);
-                ManListview.DataSource = tableManpower;
-                ManListview.DataBind();
-                TAManpower.InnerText = MRPClass.manpower_total().ToString("N");
-
-                DataTable tableRevenue = MRPClass.MRP_Revenue(DocNum.Text.ToString(), entitycode);
-                RevListview.DataSource = tableRevenue;
-                RevListview.DataBind();
-                TARevenue.InnerText = MRPClass.revenue_total().ToString("N");
-
-                PreviewListSummary.DataSource = MRPClass.MRP_PrevTotalSummary(DocNum.Text.ToString(), entitycode);
-                PreviewListSummary.DataBind();
-                TotalAmountSummary.InnerText = MRPClass.Prev_Summary_Total();
-
-                MRPClass.trial();
             }
 
 

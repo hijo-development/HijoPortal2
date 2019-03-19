@@ -59,6 +59,15 @@ namespace HijoPortal
                         mrpHead.InnerText = "M O P  Deliberation";
                     }
 
+                    if (wrkflwln == 0)
+                    {
+                        Submit.Text = "Submit";
+                    }
+                    else
+                    {
+                        Submit.Text = "Submit & Approve";
+                    }
+
                     Load_MRP(docnumber);
 
                     DirectMaterialsRoundPanel.HeaderText = "[" + DocNum.Text.ToString().Trim() + "] " + Constants.DM_string();

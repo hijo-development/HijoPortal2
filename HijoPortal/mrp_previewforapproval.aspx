@@ -113,6 +113,22 @@
                         <dx:ASPxLabel ID="BUCode" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <dx:ASPxLabel runat="server" Text="Creator" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <dx:ASPxLabel ID="Creator" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td>
+                        <dx:ASPxLabel runat="server" Text="Status" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <dx:ASPxLabel ID="Status" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                </tr>
             </table>
         </div>
         <div style="background-color: #ffffff; padding: 0px 0px 10px 0px;">
