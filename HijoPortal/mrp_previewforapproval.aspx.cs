@@ -28,6 +28,65 @@ namespace HijoPortal
         protected void MatListview_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
+                //Get the Name values
+                string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode");
+                if (!string.IsNullOrEmpty(code))
+                {
+                    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+                    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
+                    td.ColSpan = 10;
+                    td.Style.Add("font-weight", "bold");
+                    td.Style.Add("font-style", "italic");
+                    td.Style.Add("border-right-color", "transparent");
+
+                    HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
+                    sec.Style.Add("display", "none");
+
+                    HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
+                    third.Style.Add("display", "none");
+
+                    HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
+                    fourth.Style.Add("display", "none");
+
+                    HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fifth");
+                    fifth.Style.Add("display", "none");
+
+                    HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
+                    six.Style.Add("display", "none");
+
+                    HtmlTableCell sev = (HtmlTableCell)cell.FindControl("sev");
+                    sev.Style.Add("display", "none");
+
+                    HtmlTableCell eight = (HtmlTableCell)cell.FindControl("eight");
+                    eight.Style.Add("display", "none");
+
+                    HtmlTableCell nine = (HtmlTableCell)cell.FindControl("nine");
+                    nine.Style.Add("display", "none");
+
+                    HtmlTableCell pin = (HtmlTableCell)cell.FindControl("pin");
+                    pin.Style.Add("display", "none");
+
+                    if (entitycode == Constants.TRAIN_CODE())
+                    {
+                        HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
+                        tableDataRevDesc.Style.Add("display", "none");
+                    }
+
+                    HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
+                    ImageButton pinImg = (ImageButton)td_last.FindControl("pinImg");
+                    pinImg.Visible = false;
+                    td_last.Style.Add("border-right-color", "transparent");
+
+                }
+                else
+                {
+                    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+                    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
+                }
+            }
         }
 
         protected void MatListview_DataBound(object sender, EventArgs e)
@@ -58,8 +117,115 @@ namespace HijoPortal
         protected void OpexListiview_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
+                //Get the Name values
+                string code = (string)DataBinder.Eval(dataitem.DataItem, "ExpenseCodeName");
+                if (!string.IsNullOrEmpty(code))
+                {
+                    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+                    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
+                    td.ColSpan = 10;
+                    td.Style.Add("font-weight", "bold");
+                    td.Style.Add("font-style", "italic");
+                    td.Style.Add("border-right-color", "transparent");
+
+                    HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
+                    sec.Style.Add("display", "none");
+
+                    HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
+                    third.Style.Add("display", "none");
+
+                    HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
+                    fourth.Style.Add("display", "none");
+
+                    HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fifth");
+                    fifth.Style.Add("display", "none");
+
+                    HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
+                    six.Style.Add("display", "none");
+
+                    HtmlTableCell sev = (HtmlTableCell)cell.FindControl("sev");
+                    sev.Style.Add("display", "none");
+
+                    HtmlTableCell eight = (HtmlTableCell)cell.FindControl("eight");
+                    eight.Style.Add("display", "none");
+
+                    HtmlTableCell nine = (HtmlTableCell)cell.FindControl("nine");
+                    nine.Style.Add("display", "none");
+
+                    HtmlTableCell pin = (HtmlTableCell)cell.FindControl("pin");
+                    pin.Style.Add("display", "none");
+
+                    if (entitycode == Constants.TRAIN_CODE())
+                    {
+                        HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
+                        tableDataRevDesc.Style.Add("display", "none");
+                    }
+
+                    HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
+                    ImageButton pinImg = (ImageButton)td_last.FindControl("pinImg");
+                    pinImg.Visible = false;
+                    td_last.Style.Add("border-right-color", "transparent");
+
+                }
+                else
+                {
+                    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+                    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
+                }
+            }
         }
         protected void ManListview_DataBound(object sender, EventArgs e)
+        {
+            HideHeader(sender);
+        }
+
+        protected void RevListView_ItemCommand(object sender, ListViewCommandEventArgs e)
+        {
+
+        }
+
+        protected void RevListView_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            HideTableData(e);
+            if(entitycode != Constants.TRAIN_CODE())
+            {
+                HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+                HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
+                sec.Style.Add("width", "30%");
+                //HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
+                HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
+                third.Style.Add("width", "8%");
+                HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
+                fourth.Style.Add("width", "20%");
+                HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fourth");
+                fifth.Style.Add("width", "20%");
+                HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
+                six.Style.Add("width", "20%");
+
+                LabelTARev.Style.Add("width", "68%");
+            }
+            //HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+            //HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
+            //HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
+            //HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
+            //HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
+            //HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fourth");
+            //HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
+
+            //MRPClass.PrintString("Trial: " + cell.Cells[3].Width);
+            //int w1 = sec.Width + tableDataRevDesc.Width + third.Width + fourth.Width;
+            //LabelTARev.Style.Add("width", "");
+
+            //ListView listview = sender as ListView;
+            //HtmlTableCell th = (HtmlTableCell)listview.FindControl("tableHeaderRevDesc");
+            //if (th != null)
+            //    th.Visible = false;
+        }
+
+        protected void RevListView_DataBound(object sender, EventArgs e)
         {
             HideHeader(sender);
         }
@@ -67,6 +233,65 @@ namespace HijoPortal
         protected void ManListview_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
+                //Get the Name values
+                string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode");
+                if (!string.IsNullOrEmpty(code))
+                {
+                    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+                    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
+                    td.ColSpan = 10;
+                    td.Style.Add("font-weight", "bold");
+                    td.Style.Add("font-style", "italic");
+                    td.Style.Add("border-right-color", "transparent");
+
+                    HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
+                    sec.Style.Add("display", "none");
+
+                    HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
+                    third.Style.Add("display", "none");
+
+                    HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
+                    fourth.Style.Add("display", "none");
+
+                    HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fifth");
+                    fifth.Style.Add("display", "none");
+
+                    HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
+                    six.Style.Add("display", "none");
+
+                    HtmlTableCell sev = (HtmlTableCell)cell.FindControl("sev");
+                    sev.Style.Add("display", "none");
+
+                    HtmlTableCell eight = (HtmlTableCell)cell.FindControl("eight");
+                    eight.Style.Add("display", "none");
+
+                    HtmlTableCell nine = (HtmlTableCell)cell.FindControl("nine");
+                    nine.Style.Add("display", "none");
+
+                    HtmlTableCell pin = (HtmlTableCell)cell.FindControl("pin");
+                    pin.Style.Add("display", "none");
+
+                    if (entitycode == Constants.TRAIN_CODE())
+                    {
+                        HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
+                        tableDataRevDesc.Style.Add("display", "none");
+                    }
+
+                    HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
+                    ImageButton pinImg = (ImageButton)td_last.FindControl("pinImg");
+                    pinImg.Visible = false;
+                    td_last.Style.Add("border-right-color", "transparent");
+
+                }
+                else
+                {
+                    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+                    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
+                }
+            }
         }
 
         protected void CapexListview_DataBound(object sender, EventArgs e)
@@ -328,16 +553,29 @@ namespace HijoPortal
                     MRPNotifyMsgPrevApp.ForeColor = System.Drawing.Color.Black;
                     MRPNotifyPrevApp.HeaderText = "Info";
                     MRPNotifyPrevApp.ShowOnPageLoad = true;
-                } else
+                }
+                else
                 {
                     MRPNotifyMsgPrevApp.Text = "You have no permission to perform this command!" + Environment.NewLine + "Access Denied!";
                     MRPNotifyMsgPrevApp.ForeColor = System.Drawing.Color.Red;
                     MRPNotifyPrevApp.HeaderText = "Info";
                     MRPNotifyPrevApp.ShowOnPageLoad = true;
                 }
-                
+
             }
-            
+
+            else
+            {
+
+                //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                //MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
+                //MRPNotify.HeaderText = "Alert";
+                //MRPNotify.ShowOnPageLoad = true;
+
+            }
+
+
         }
 
         private void HideTableData(ListViewItemEventArgs e)
@@ -355,7 +593,11 @@ namespace HijoPortal
                 extraOPTD.Visible = false;
                 extraMANTD.Visible = false;
                 extraCATD.Visible = false;
-                //extraRevTD.Visible = false;
+
+                HtmlTableCell sec = (HtmlTableCell)e.Item.FindControl("sec");
+                if (sec != null)
+                    sec.Style.Add("width", "45%");
+
             }
         }
 
@@ -419,7 +661,7 @@ namespace HijoPortal
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckCreatorKey();
-            
+
             if (!Page.IsPostBack)
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
@@ -439,29 +681,37 @@ namespace HijoPortal
 
         private void BindAll()
         {
-            MatListview.DataSource = MRPClass.MRPApproval_Direct_Materials(docnum, entitycode);
+            MatListview.DataSource = MRPClass.Preview_DM(docnum, entitycode);
             MatListview.DataBind();
             TAMat.InnerText = MRPClass.materials_total().ToString("N");
             ETAMat.InnerText = MRPClass.material_edited_total().ToString("N");
-            ATAMat.InnerText = MRPClass.material_approved_total().ToString("N");
+            //ATAMat.InnerText = MRPClass.material_approved_total().ToString("N");
 
-            OpexListiview.DataSource = MRPClass.MRPApproval_OPEX(docnum, entitycode);
+            OpexListiview.DataSource = MRPClass.Preview_OP(docnum, entitycode);
             OpexListiview.DataBind();
             TAOpex.InnerText = MRPClass.opex_total().ToString("N");
             ETAOpex.InnerText = MRPClass.opex_edited_total().ToString("N");
             ATAOpex.InnerText = MRPClass.opex_approved_total().ToString("N");
 
-            ManListview.DataSource = MRPClass.MRPApproval_ManPower(docnum, entitycode);
+            ManListview.DataSource = MRPClass.Preview_MAN(docnum, entitycode);
             ManListview.DataBind();
             TAManpower.InnerText = MRPClass.manpower_total().ToString("N");
             ETAManpower.InnerText = MRPClass.manpower_edited_total().ToString("N");
             ATAManpower.InnerText = MRPClass.manpower_approved_total().ToString("N");
 
-            CapexListview.DataSource = MRPClass.MRPApproval_CAPEX(docnum, entitycode);
+            CapexListview.DataSource = MRPClass.Preview_CA(docnum, entitycode);
             CapexListview.DataBind();
             TotalAmountTD.InnerText = MRPClass.capex_total().ToString("N");
             ETotalAmountTD.InnerText = MRPClass.capex_edited_total().ToString("N");
             ATotalAmountTD.InnerText = MRPClass.capex_approved_total().ToString("N");
+
+            RevListview.DataSource = MRPClass.MRP_Revenue(DocNum.Text.ToString(), entitycode);
+            RevListview.DataBind();
+            TARevenue.InnerText = MRPClass.revenue_total().ToString("N");
+
+            PreviewListSummary.DataSource = MRPClass.MRP_PrevTotalSummary(DocNum.Text.ToString(), entitycode);
+            PreviewListSummary.DataBind();
+            TotalAmountSummary.InnerText = MRPClass.Prev_Summary_Total();
         }
 
         private void CheckCreatorKey()

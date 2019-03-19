@@ -44,7 +44,7 @@ namespace HijoPortal
                     HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
                     //Change the Back ground color
                     HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
-                    td.ColSpan = 8;
+                    td.ColSpan = 7;
                     td.Style.Add("font-weight", "bold");
                     td.Style.Add("font-style", "italic");
                     td.Style.Add("border-right-color", "transparent");
@@ -108,7 +108,7 @@ namespace HijoPortal
                     HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
                     //Change the Back ground color
                     HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
-                    td.ColSpan = 8;
+                    td.ColSpan = 7;
                     td.Style.Add("font-weight", "bold");
                     td.Style.Add("font-style", "italic");
                     td.Style.Add("border-right-color", "transparent");

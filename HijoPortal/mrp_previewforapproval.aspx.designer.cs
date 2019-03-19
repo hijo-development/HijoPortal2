@@ -281,7 +281,7 @@ namespace HijoPortal
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue, LabelTARev;
 
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAMat;
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ATAMat;

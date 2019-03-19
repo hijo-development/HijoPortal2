@@ -155,15 +155,15 @@ namespace HijoPortal
                 //msgTrans.Text = "Pass Preview";
                 //string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
 
-                //Response.RedirectLocation = "mrp_previewforapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
-                Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                Response.RedirectLocation = "mrp_previewforapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                //Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                 //Response.RedirectLocation = "mrp_preview_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
                 //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
                 //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
             }
 
-           conn.Close();
+            conn.Close();
         }
 
         protected void Add_Click(object sender, EventArgs e)

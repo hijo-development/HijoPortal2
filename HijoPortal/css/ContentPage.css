@@ -458,9 +458,11 @@ hide-tr {
 
     .prev_table td {
         border-width: 1px;
-        border-color:black;
-        border-style:solid;
+        border-color: black;
+        border-style: solid;
         padding-left: 5px;
-        
-        
     }
+
+.first_child_prev tr:nth-child(2) td {
+    border-top-color: transparent;
+}
