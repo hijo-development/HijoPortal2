@@ -33,7 +33,10 @@ namespace HijoPortal
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
-        
+
+        protected global::DevExpress.Web.ASPxLabel Creator;
+        protected global::DevExpress.Web.ASPxLabel Status;
+
         /// <summary>
         /// dvContentWrapper control.
 

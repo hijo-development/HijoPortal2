@@ -1105,5 +1105,25 @@ namespace HijoPortal.classes
             dtable4.Clear();
             return workFlowSetup;
         }
+
+        public static string Delete_Data(string sTableName, int PK)
+        {
+            string sDeleted = "";
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+            string qry = "DELETE FROM " + sTableName + " WHERE (PK = " + PK + ")";
+            try
+            {
+                SqlCommand cmd = new SqlCommand(qry, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                sDeleted = "Successfully Deleted!";
+            } catch (SqlException ex)
+            {
+                conn.Close();
+                sDeleted = ex.ToString();
+            }
+            return sDeleted;
+        }
     }
 }
