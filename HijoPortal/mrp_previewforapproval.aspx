@@ -116,7 +116,84 @@
             </table>
         </div>
         <div style="background-color: #ffffff; padding: 0px 0px 10px 0px;">
-            <table id="tblSummCost" runat="server" style="width: 95%; margin: auto; margin-bottom: 10px;" border="1">
+
+             <table runat="server" class="main_prev_table" border="0">
+                <tr>
+                    <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="4">REVENUE ASSUMPTIONS</td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <asp:ListView ID="RevListview" runat="server" OnItemDataBound="RevListView_ItemDataBound" OnDataBound="RevListView_DataBound" OnItemCommand="RevListView_ItemCommand">
+                            <LayoutTemplate>
+                                <table class="prev_table first_child_prev" runat="server" border="0" rule="cols">
+                                    <tr class="headerRow">
+                                        <th id="pk_header" runat="server" style="width: 0px; display: none;"></th>
+                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Product</th>
+                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
+                                        <th style="width: 10%;">Farm Name</th>
+                                        <th style="width: 5%;">Volume</th>
+                                        <th style="width: 15%;">Prize</th>
+                                        <th style="width: 15%;">Total Prize</th>
+                                        <th style="width: 2%;"></th>
+                                    </tr>
+                                    <tr runat="server" id="itemPlaceholder" />
+                                </table>
+                            </LayoutTemplate>
+                            <ItemTemplate>
+                                <%--<tr>
+                                    <td>Triall</td>
+                                </tr>--%>
+                                <tr id="prev" runat="server">
+                                    <td id="pk_td" runat="server" style="width: 0px; display: none;">
+                                        <asp:Label ID="RevID" runat="server"
+                                            Text='<%# Eval("PK") %>' Visible="false" />
+                                    </td>
+                                    <td id="sec" style="padding-left: 5px;">
+                                        <asp:Label ID="RevProduct" runat="server"
+                                            Text='<%# Eval("ProductName") %>' />
+                                    </td>
+                                    <td id="tableDataRevDesc" runat="server" style="text-align: center;">
+                                        <asp:Label ID="RevOpr" runat="server"
+                                            Text='<%# Eval("RevDesc") %>' />
+
+                                    </td>
+                                    <td id="third" style="text-align: center;">
+                                        <asp:Label ID="RevFarm" runat="server"
+                                            Text='<%# Eval("FarmName") %>' />
+                                    </td>
+
+                                    <td id="fourth" style="text-align: right;">
+                                        <asp:Label ID="RevVolume" runat="server"
+                                            Text='<%# Eval("Volume") %>' />
+                                    </td>
+                                    <td id="fifth" style="text-align: right;">
+                                        <asp:Label ID="RevPrize" runat="server"
+                                            Text='<%# Eval("Prize") %>' />
+                                    </td>
+                                    <td id="six" style="text-align: right; padding-right: 5px;border-right-color:transparent;">
+                                        <asp:Label ID="RevTotalPrize" runat="server"
+                                            Text='<%# Eval("TotalPrize") %>' />
+                                    </td>
+                                    <td id="pin" style="text-align: right;border-color:transparent;">
+
+                                        <%--<asp:LinkButton ID="LinkButton1" runat="server" CommandName="Link" EnableViewState="false">LinkButton</asp:LinkButton>--%>
+                                        <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:ListView>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="LabelTARev" runat="server" style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td id="extraRevTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
+                    <td id="TARevenue" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
+                    <td style="border-left-width: 0px; width: 2%"></td>
+                </tr>
+            </table>
+
+
+            <table id="tblSummCost" runat="server" class="main_prev_table" border="1">
                 <%--<table id="tblSummCost" runat="server">--%>
                 <tr>
                     <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;"
@@ -131,26 +208,33 @@
                                 </table>
                             </LayoutTemplate>
                             <ItemTemplate>
-                                <tr>
+                                 <tr>
+                                    <td style="border-right-color: transparent;">
+                                        <asp:Label ID="SummaryDesc" Text='<%#Eval("Name") %>' runat="server" />
+                                    </td>
+                                    <td style="text-align: right; padding-right: 5px; border-left-color: transparent;">
+                                        <asp:Label ID="SummaryTotal" Text='<%#Eval("Total") %>' runat="server" />
+                                    </td>
+                                </tr>
+                                <%--<tr>
                                     <td style="text-align: right;">
                                         <asp:Label ID="SummaryDesc" runat="server" />
                                     </td>
                                     <td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="SummaryTotal" runat="server" />
                                     </td>
-                                </tr>
+                                </tr>--%>
                             </ItemTemplate>
                         </asp:ListView>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 75%; border-right-width: 0px; padding-left: 5px;">Total</td>
-                    <td id="TotalAmountSummary" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px;"></td>
-                    <td style="border-left-width: 0px;"></td>
+                    <td style="width: 15%; border-right-width: 0px; padding-left: 5px;font-weight:bold;">Total</td>
+                    <td id="TotalAmountSummary" runat="server" style="width: 85%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px;font-weight:bold;"></td>
                 </tr>
             </table>
 
-            <table runat="server" style="width: 95%; margin: auto; margin-bottom: 10px;" border="1">
+            <table runat="server" class="main_prev_table" border="0">
                 <tr>
                     <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="13">DIRECT MATERIALS</td>
                 </tr>
@@ -158,33 +242,36 @@
                     <td colspan="13">
                         <asp:ListView ID="MatListview" runat="server" OnItemCommand="MatListview_ItemCommand" OnDataBound="MatListview_DataBound" OnItemDataBound="MatListview_ItemDataBound">
                             <LayoutTemplate>
-                                <table class="table1" style="width: 100%" runat="server" border="0">
+                                <table class="prev_table" style="width: 100%" runat="server" border="0" rule="cols">
                                     <tr class="headerRow">
-                                        <th id="pk_header" runat="server" style="width: 0px;"></th>
-                                        <th style="width: 20%; text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="pk_header" runat="server" style="width: 0px; display: none"></th>
+                                        <th>Activity</th>
+                                        <th style="width: 15%; text-align: left; padding-left: 5px;">Description</th>
                                         <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
-                                        <th style="width: 7%;">UOM</th>
-                                        <th style="width: 6%;">Qty</th>
-                                        <th style="width: 7%;">Est. Cost/Unit</th>
-                                        <th style="width: 7%;">Total</th>
-                                        <th style="width: 5%;">Editted Qty</th>
-                                        <th style="width: 7%;">Editted Cost</th>
-                                        <th style="width: 7%;">Editted Total Cost</th>
-                                        <th style="width: 5%;">Approved Qty</th>
-                                        <th style="width: 7%;">Approved Cost</th>
-                                        <th style="width: 7%;">Approved Total Cost</th>
-                                        <th style="width: 5%;"></th>
+                                        <th style="width: 5%;">UOM</th>
+                                        <th style="width: 5%;">Qty</th>
+                                        <th style="width: 10%;">Est. Cost/Unit</th>
+                                        <th style="width: 15%;">Total</th>
+                                        <th style="width: 5%;">Recommended Qty</th>
+                                        <th style="width: 10%;">Recommended Cost/Unit</th>
+                                        <th style="width: 15%;">Recommended Total</th>
+                                        <th style="width: 2%;"></th>
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" />
                                 </table>
                             </LayoutTemplate>
                             <ItemTemplate>
-                                <tr>
-                                    <td id="pk_td" runat="server" style="width: 0px;">
+                                <tr id="prev" runat="server">
+                                    <td id="pk_td" runat="server" style="width: 0px; display: none;">
                                         <asp:Label ID="MatID" runat="server"
                                             Text='<%# Eval("PK") %>' Visible="false" />
                                     </td>
-                                    <td style="padding-left: 5px;">
+
+                                    <td id="act" runat="server" style="border-color: transparent;">
+                                        <asp:Label runat="server" Text='<%#Eval("ActivityCode")%>'></asp:Label>
+                                    </td>
+
+                                    <td id="sec" style="padding-left: 5px;">
                                         <asp:Label ID="MatDescription" runat="server"
                                             Text='<%# Eval("ItemDescription") %>' />
                                     </td>
@@ -192,69 +279,70 @@
                                         <asp:Label ID="MatOpr" runat="server"
                                             Text='<%# Eval("RevDesc") %>' />
                                     </td>
-                                    <td style="text-align: center;">
+                                    <td id="third" style="text-align: center;">
                                         <asp:Label ID="MatUOM" runat="server"
                                             Text='<%# Eval("UOM") %>' />
                                     </td>
 
-                                    <td style="text-align: right;">
+                                    <td id="fourth" style="text-align: right;">
                                         <asp:Label ID="MatQty" runat="server"
                                             Text='<%# Eval("Qty") %>' />
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td id="fifth" style="text-align: right;">
                                         <asp:Label ID="MatCost" runat="server"
                                             Text='<%# Eval("Cost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="six" style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="MatTotalCost" runat="server"
                                             Text='<%# Eval("TotalCost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="sev" style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label1" runat="server"
-                                            Text='<%# Eval("EdittedQty") %>' />
+                                            Text='<%# Eval("AQty") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="eight" style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label2" runat="server"
-                                            Text='<%# Eval("EdittedCost") %>' />
+                                            Text='<%# Eval("ACost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="nine" style="text-align: right; padding-right: 5px; border-right-color: transparent;">
                                         <asp:Label ID="Label3" runat="server"
-                                            Text='<%# Eval("EdittiedTotalCost") %>' />
+                                            Text='<%# Eval("ATotalCost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label4" runat="server"
                                             Text='<%# Eval("ApprovedQty") %>' />
-                                    </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    </td>--%>
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label5" runat="server"
                                             Text='<%# Eval("ApprovedCost") %>' />
-                                    </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    </td>--%>
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label6" runat="server"
                                             Text='<%# Eval("ApprovedTotalCost") %>' />
-                                    </td>
-                                    <td style="text-align:right; ">
-                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
+                                    </td>--%>
+                                    <td id="pin" style="text-align: right; border-color: transparent;">
+                                        <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
                                     </td>
                                 </tr>
-                                        
+
                             </ItemTemplate>
                         </asp:ListView>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 40%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td style="width: 45%"></td>
                     <td id="extraDMTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="TAMat" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="width: 12%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="ETAMat" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="width: 12%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="ATAMat" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px; width: 5%;"></td>
+                    <td id="TAMat" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
+                    <td style="width: 30%; border-right-width: 0px; border-left-width: 0px;"></td>
+                    <td id="ETAMat" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
+                    <td style="width: 2%; border-right-width: 0px; border-left-width: 0px;"></td>
+                    <%--<td id="ATAMat" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>--%>
+                    <%--<td style="border-left-width: 0px; width: 5%;"></td>--%>
                 </tr>
             </table>
 
-            <table runat="server" style="width: 95%; margin: auto; margin-bottom: 10px;" border="1">
+            <table runat="server" class="main_prev_table" border="0">
                 <tr>
                     <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="13">OPEX</td>
                 </tr>
@@ -262,34 +350,36 @@
                     <td colspan="13">
                         <asp:ListView ID="OpexListiview" runat="server" OnItemCommand="OpexListiview_ItemCommand" OnDataBound="OpexListiview_DataBound" OnItemDataBound="OpexListiview_ItemDataBound">
                             <LayoutTemplate>
-                                <table class="table1" style="width: 100%" runat="server" border="0">
+                                <table class="prev_table" style="width: 100%" runat="server" rule="cols" border="0">
                                     <tr class="headerRow">
-                                        <th id="pk_header" runat="server" style="width: 0px"></th>
-                                        <th style="width: 20%; text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="pk_header" runat="server" style="width: 0px; display: none"></th>
+                                        <th>Expense</th>
+                                        <th style="width: 15%; text-align: left; padding-left: 5px;">Description</th>
                                         <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
-                                        <th style="width: 7%;">UOM</th>
-                                        <th style="width: 6%;">Qty</th>
-                                        <th style="width: 7%;">Est. Cost/Unit</th>
-                                        <th style="width: 7%;">Total</th>
-                                        <th style="width: 5%;">Editted Qty</th>
-                                        <th style="width: 7%;">Editted Cost</th>
-                                        <th style="width: 7%;">Editted Total Cost</th>
-                                        <th style="width: 5%;">Approved Qty</th>
-                                        <th style="width: 7%;">Approved Cost</th>
-                                        <th style="width: 7%;">Approved Total Cost</th>
-                                        <th style="width: 5%;"></th>
+                                        <th style="width: 5%;">UOM</th>
+                                        <th style="width: 5%;">Qty</th>
+                                        <th style="width: 10%;">Est. Cost/Unit</th>
+                                        <th style="width: 15%;">Total</th>
+                                        <th style="width: 5%;">Recommended Qty</th>
+                                        <th style="width: 10%;">Recommended Cost/Unit</th>
+                                        <th style="width: 15%;">Recommended Total</th>
+                                        <th style="width: 2%;"></th>
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" />
                                 </table>
                             </LayoutTemplate>
                             <ItemTemplate>
-                                <tr>
-                                    <td id="pk_td" runat="server" style="width: 0px">
+                                <tr id="prev" runat="server">
+                                    <td id="pk_td" runat="server" style="width: 0px; display: none;">
                                         <asp:Label ID="OpexID" runat="server"
                                             Text='<%# Eval("PK") %>' Visible="false" />
                                     </td>
 
-                                    <td style="padding-left: 5px;">
+                                    <td id="act" runat="server" style="border-color: transparent;">
+                                        <asp:Label runat="server" Text='<%#Eval("ExpenseCodeName") %>'></asp:Label>
+                                    </td>
+
+                                    <td id="sec" style="padding-left: 5px;">
                                         <asp:Label ID="OpexDescription" runat="server"
                                             Text='<%# Eval("Description") %>' />
                                     </td>
@@ -299,49 +389,49 @@
                                             Text='<%# Eval("RevDesc") %>' />
 
                                     </td>
-                                    <td style="text-align: center;">
+                                    <td id="third" style="text-align: center;">
                                         <asp:Label ID="OpexUOM" runat="server"
                                             Text='<%# Eval("UOM") %>' />
                                     </td>
 
-                                    <td style="text-align: right;">
+                                    <td id="fourth" style="text-align: right;">
                                         <asp:Label ID="OpexQty" runat="server"
                                             Text='<%# Eval("Qty") %>' />
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td id="fifth" style="text-align: right;">
                                         <asp:Label ID="OpexCost" runat="server"
                                             Text='<%# Eval("Cost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="six" style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="OpexTotalCost" runat="server"
                                             Text='<%# Eval("TotalCost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="sev" style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label1" runat="server"
-                                            Text='<%# Eval("EdittedQty") %>' />
+                                            Text='<%# Eval("AQty") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="eight" style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label2" runat="server"
-                                            Text='<%# Eval("EdittedCost") %>' />
+                                            Text='<%# Eval("ACost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="nine" style="text-align: right; padding-right: 5px; border-right-color: transparent;">
                                         <asp:Label ID="Label3" runat="server"
-                                            Text='<%# Eval("EdittedTotalCost") %>' />
+                                            Text='<%# Eval("ATotalCost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label4" runat="server"
                                             Text='<%# Eval("ApprovedQty") %>' />
-                                    </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    </td>--%>
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label5" runat="server"
                                             Text='<%# Eval("ApprovedCost") %>' />
-                                    </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    </td>--%>
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label6" runat="server"
                                             Text='<%# Eval("ApprovedTotalCost") %>' />
-                                    </td>
-                                    <td style="text-align:right; ">
-                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
+                                    </td>--%>
+                                    <td id="pin" style="text-align: right; border-color: transparent;">
+                                        <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
                                     </td>
                                 </tr>
                             </ItemTemplate>
@@ -359,9 +449,9 @@
                     <td style="border-left-width: 0px; width: 5%;"></td>
                 </tr>
             </table>
-            
 
-            <table runat="server" style="width: 95%; margin: auto; margin-bottom: 10px;" border="1">
+
+            <table runat="server" class="main_prev_table" border="0">
                 <tr>
                     <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="13">MANPOWER</td>
                 </tr>
@@ -369,33 +459,36 @@
                     <td colspan="13">
                         <asp:ListView ID="ManListview" runat="server" OnItemCommand="ManListview_ItemCommand" OnDataBound="ManListview_DataBound" OnItemDataBound="ManListview_ItemDataBound">
                             <LayoutTemplate>
-                                <table class="table1" style="width: 100%" runat="server">
+                                <table class="prev_table" style="width: 100%" rule="cols" runat="server">
                                     <tr class="headerRow">
-                                        <th id="pk_header" runat="server" style="width: 0px"></th>
-                                        <th style="width: 20%; text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="pk_header" runat="server" style="width: 0px; display: none"></th>
+                                        <th>Activity</th>
+                                        <th style="width: 15%; text-align: left; padding-left: 5px;">Description</th>
                                         <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
-                                        <th style="width: 7%;">UOM</th>
-                                        <th style="width: 6%;">Qty</th>
-                                        <th style="width: 7%;">Est. Cost/Unit</th>
-                                        <th style="width: 7%;">Total</th>
-                                        <th style="width: 5%;">Editted Qty</th>
-                                        <th style="width: 7%;">Editted Cost</th>
-                                        <th style="width: 7%;">Editted Total Cost</th>
-                                        <th style="width: 5%;">Approved Qty</th>
-                                        <th style="width: 7%;">Approved Cost</th>
-                                        <th style="width: 7%;">Approved Total Cost</th>
-                                        <th style="width: 5%;"></th>
+                                        <th style="width: 5%;">UOM</th>
+                                        <th style="width: 5%;">Qty</th>
+                                        <th style="width: 10%;">Est. Cost/Unit</th>
+                                        <th style="width: 15%;">Total</th>
+                                        <th style="width: 5%;">Recommended Qty</th>
+                                        <th style="width: 10%;">Recommended Cost/Unit</th>
+                                        <th style="width: 15%;">Recommended Total</th>
+                                        <th style="width: 2%;"></th>
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" />
                                 </table>
                             </LayoutTemplate>
                             <ItemTemplate>
-                                <tr>
-                                    <td id="pk_td" runat="server" style="width: 0px">
+                                <tr id="prev" runat="server">
+                                    <td id="pk_td" runat="server" style="width: 0px; display: none;">
                                         <asp:Label ID="ManID" runat="server"
                                             Text='<%# Eval("PK") %>' Visible="false" />
                                     </td>
-                                    <td style="padding-left: 5px;">
+
+                                    <td id="act" runat="server" style="border-color: transparent;">
+                                        <asp:Label runat="server" Text='<%#Eval("ActivityCode")%>'></asp:Label>
+                                    </td>
+
+                                    <td id="sec" style="padding-left: 5px;">
                                         <asp:Label ID="ManDescription" runat="server"
                                             Text='<%# Eval("Description") %>' />
                                     </td>
@@ -405,49 +498,49 @@
                                             Text='<%# Eval("RevDesc") %>' />
 
                                     </td>
-                                    <td style="text-align: center;">
+                                    <td id="third" style="text-align: center;">
                                         <asp:Label ID="ManUOM" runat="server"
                                             Text='<%# Eval("UOM") %>' />
                                     </td>
 
-                                    <td style="text-align: right;">
+                                    <td id="fourth" style="text-align: right;">
                                         <asp:Label ID="ManQty" runat="server"
                                             Text='<%# Eval("Qty") %>' />
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td id="fifth" style="text-align: right;">
                                         <asp:Label ID="ManCost" runat="server"
                                             Text='<%# Eval("Cost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="six" style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="ManTotalCost" runat="server"
                                             Text='<%# Eval("TotalCost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="sev" style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label1" runat="server"
-                                            Text='<%# Eval("EdittedQty") %>' />
+                                            Text='<%# Eval("AQty") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="eight" style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label2" runat="server"
-                                            Text='<%# Eval("EdittedCost") %>' />
+                                            Text='<%# Eval("ACost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td id="nine" style="text-align: right; padding-right: 5px; border-right-color: transparent;">
                                         <asp:Label ID="Label3" runat="server"
-                                            Text='<%# Eval("EdittiedTotalCost") %>' />
+                                            Text='<%# Eval("ATotalCost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label4" runat="server"
                                             Text='<%# Eval("ApprovedQty") %>' />
-                                    </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    </td>--%>
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label5" runat="server"
                                             Text='<%# Eval("ApprovedCost") %>' />
-                                    </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    </td>--%>
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label6" runat="server"
                                             Text='<%# Eval("ApprovedTotalCost") %>' />
-                                    </td>
-                                    <td style="text-align:right; ">
-                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
+                                    </td>--%>
+                                    <td id="pin" style="text-align: right; border-color: transparent;">
+                                        <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
                                     </td>
                                 </tr>
                             </ItemTemplate>
@@ -467,7 +560,7 @@
             </table>
 
 
-            <table runat="server" style="width: 95%; margin: auto; margin-bottom: 10px;" border="1">
+            <table runat="server" class="main_prev_table" border="0">
                 <tr>
                     <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="13">CAPEX</td>
                 </tr>
@@ -475,28 +568,25 @@
                     <td colspan="13">
                         <asp:ListView ID="CapexListview" runat="server" OnItemCommand="CapexListview_ItemCommand" OnDataBound="CapexListview_DataBound" OnItemDataBound="CapexListview_ItemDataBound">
                             <LayoutTemplate>
-                                <table class="table1" style="width: 100%" runat="server">
+                                <table class="prev_table first_child_prev" rule="cols" runat="server">
                                     <tr class="headerRow">
-                                        <th id="pk_header" runat="server" style="width: 0px"></th>
-                                        <th style="width: 20%; text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="pk_header" runat="server" style="width: 0px; display: none"></th>
+                                        <th style="width: 15%; text-align: left; padding-left: 5px;">Description</th>
                                         <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
-                                        <th style="width: 7%;">UOM</th>
-                                        <th style="width: 6%;">Qty</th>
-                                        <th style="width: 7%;">Est. Cost/Unit</th>
-                                        <th style="width: 7%;">Total</th>
-                                        <th style="width: 5%;">Editted Qty</th>
-                                        <th style="width: 7%;">Editted Cost</th>
-                                        <th style="width: 7%;">Editted Total Cost</th>
-                                        <th style="width: 5%;">Approved Qty</th>
-                                        <th style="width: 7%;">Approved Cost</th>
-                                        <th style="width: 7%;">Approved Total Cost</th>
-                                        <th style="width: 5%;"></th>
+                                        <th style="width: 5%;">UOM</th>
+                                        <th style="width: 5%;">Qty</th>
+                                        <th style="width: 10%;">Est. Cost/Unit</th>
+                                        <th style="width: 15%;">Total</th>
+                                        <th style="width: 5%;">Recommended Qty</th>
+                                        <th style="width: 10%;">Recommended Cost/Unit</th>
+                                        <th style="width: 15%;">Recommended Total</th>
+                                        <th style="width: 2%;"></th>
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" />
                                 </table>
                             </LayoutTemplate>
                             <ItemTemplate>
-                                <tr>
+                                <tr id="prev" runat="server">
                                     <td id="pk_td" runat="server" style="width: 0px">
                                         <asp:Label ID="CapexID" runat="server"
                                             Text='<%# Eval("PK") %>' Visible="false" />
@@ -530,32 +620,32 @@
                                     </td>
                                     <td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label1" runat="server"
-                                            Text='<%# Eval("EdittedQty") %>' />
+                                            Text='<%# Eval("AQty") %>' />
                                     </td>
                                     <td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label2" runat="server"
-                                            Text='<%# Eval("EdittedCost") %>' />
+                                            Text='<%# Eval("ACost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <td style="text-align: right; padding-right: 5px; border-right-color: transparent;">
                                         <asp:Label ID="Label3" runat="server"
-                                            Text='<%# Eval("EdittiedTotalCost") %>' />
+                                            Text='<%# Eval("ATotalCost") %>' />
                                     </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label4" runat="server"
                                             Text='<%# Eval("ApprovedQty") %>' />
-                                    </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    </td>--%>
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label5" runat="server"
                                             Text='<%# Eval("ApprovedCost") %>' />
-                                    </td>
-                                    <td style="text-align: right; padding-right: 5px;">
+                                    </td>--%>
+                                    <%--<td style="text-align: right; padding-right: 5px;">
                                         <asp:Label ID="Label6" runat="server"
                                             Text='<%# Eval("ApprovedTotalCost") %>' />
-                                    </td>
-                                    <td style="text-align:right; ">
+                                    </td>--%>
+                                    <td id="pin" style="text-align: right; border-color: transparent">
 
                                         <%--<asp:LinkButton ID="LinkButton1" runat="server" CommandName="Link" EnableViewState="false">LinkButton</asp:LinkButton>--%>
-                                        <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="20px" Height="20px" />
+                                        <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
                                     </td>
                                 </tr>
                             </ItemTemplate>
