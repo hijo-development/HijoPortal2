@@ -1327,7 +1327,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable AXInventTable(string str)
+        public static DataTable AXInventTable(string str, string EntCode)
         {
 
             DataTable dtTable = new DataTable();
@@ -1339,6 +1339,10 @@ namespace HijoPortal.classes
             SqlCommand cmd = null;
             SqlDataAdapter adp;
 
+            DataTable dt1 = new DataTable();
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+
             cn.Open();
 
             if (dtTable.Columns.Count == 0)
@@ -1346,9 +1350,14 @@ namespace HijoPortal.classes
                 //Columns for AspxGridview
                 dtTable.Columns.Add("ITEMID", typeof(string));
                 dtTable.Columns.Add("NAMEALIAS", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("LastCost", typeof(string));
             }
 
-            string qry = "SELECT [ITEMID],[NAMEALIAS] FROM [hijo_portal].[dbo].[vw_AXInventTable] WHERE [NAMEALIAS] LIKE '%" + str + "%'";
+            string qry = "SELECT [ITEMID],[NAMEALIAS], [UNITID] " +
+                          " FROM [hijo_portal].[dbo].[vw_AXInventTable] " +
+                          " WHERE [NAMEALIAS] LIKE '%" + str + "%'" +
+                          " AND DATAAREAID = '"+ EntCode + "'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -1359,8 +1368,29 @@ namespace HijoPortal.classes
                 foreach (DataRow row in dt.Rows)
                 {
                     DataRow dtRow = dtTable.NewRow();
-                    dtRow["ITEMID"] = row["ITEMID"].ToString();
+                    dtRow["ITEMID"] = row["ITEMID"].ToString(); 
                     dtRow["NAMEALIAS"] = row["NAMEALIAS"].ToString();
+                    dtRow["UOM"] = row["UNITID"].ToString();
+
+                    string qry1 = "SELECT lastprice " +
+                                  " FROM dbo.vw_AXInventTablePrice " +
+                                  " WHERE(DATAAREAID = '" + EntCode + "') " +
+                                  " AND(ITEMID = '"+ row["ITEMID"].ToString() + "')";
+                    cmd1 = new SqlCommand(qry1);
+                    cmd1.Connection = cn;
+                    adp1 = new SqlDataAdapter(cmd1);
+                    adp1.Fill(dt1);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        foreach (DataRow row1 in dt1.Rows)
+                        {
+                            dtRow["LastCost"] = Convert.ToDouble(row1["lastprice"]).ToString("#,##0.00");
+                        }
+                    } else
+                    {
+                        dtRow["LastCost"] = "0";
+                    }
+                    dt1.Clear();
                     dtTable.Rows.Add(dtRow);
                 }
             }

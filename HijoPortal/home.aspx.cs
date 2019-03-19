@@ -117,13 +117,17 @@ namespace HijoPortal
                     //page = "mrp_preview_inventanalyst.aspx";
                     page = "mrp_inventanalyst.aspx";
                 }
+
+                link.NavigateUrl = page + "?DocNum=" + value.ToString() + "&WrkFlwLn=" + wrklineval.ToString();
             }
             else if (Convert.ToInt32(wrkflowtypeval) == 2)
             {
                 page = "mrp_previewforapproval.aspx";
+
+                link.NavigateUrl = page + "?DocNum=" + value.ToString() + "&ApprvLn=" + wrklineval.ToString();
             }
 
-            link.NavigateUrl = page+ "?DocNum=" + value.ToString() + "&WrkFlwLn="+ wrklineval.ToString();
+            
         }
 
     }

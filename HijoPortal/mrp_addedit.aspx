@@ -314,9 +314,15 @@
                                                                                                         <tr>
                                                                                                             <td></td>
                                                                                                             <td>
-                                                                                                                <div style="overflow-x: auto; width: 300px;">
-                                                                                                                    <dx:ASPxListBox ID="listbox" ClientInstanceName="listbox" runat="server" ValueType="System.String" OnCallback="listbox_Callback" ClientVisible="false" Theme="Office2010Blue">
+                                                                                                                <div style="overflow-x: auto; width: 500px;">
+                                                                                                                    <dx:ASPxListBox ID="listbox" ClientInstanceName="listbox" runat="server" ValueType="System.String" OnCallback="listbox_Callback" ValueField="ITEMID" ClientVisible="false" Width="500px" Theme="Office2010Blue">
                                                                                                                         <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                        <Columns>
+                                                                                                                            <dx:ListBoxColumn FieldName ="ITEMID" Caption ="Item Code" Width="80px"></dx:ListBoxColumn>
+                                                                                                                            <dx:ListBoxColumn FieldName ="NAMEALIAS" Caption ="Description"></dx:ListBoxColumn>
+                                                                                                                            <dx:ListBoxColumn FieldName ="UOM" Caption ="UOM" Width="50px"></dx:ListBoxColumn>
+                                                                                                                            <dx:ListBoxColumn FieldName ="LastCost" Caption ="Last Price" Width="80px"></dx:ListBoxColumn>
+                                                                                                                        </Columns>
                                                                                                                         <ClientSideEvents SelectedIndexChanged="listbox_selected" />
                                                                                                                     </dx:ASPxListBox>
                                                                                                                 </div>
@@ -534,9 +540,17 @@
                                                                                                         <tr>
                                                                                                             <td style="width: 20%;"></td>
                                                                                                             <td>
-                                                                                                                <div style="overflow-x: auto; width: 300px;">
-                                                                                                                    <dx:ASPxListBox ID="listboxOPEX" ClientInstanceName="listboxOPEX" runat="server" ValueType="System.String" OnCallback="listboxOPEX_Callback" ClientVisible="false" Theme="Office2010Blue">
+                                                                                                                <div style="overflow-x: auto; width: 500px;">
+                                                                                                                    <dx:ASPxListBox ID="listboxOPEX" ClientInstanceName="listboxOPEX" runat="server" ValueType="System.String" 
+                                                                                                                        ValueField="ITEMID" OnCallback="listboxOPEX_Callback" ClientVisible="false" Theme="Office2010Blue" Width="500px">
+                                                                                                                        <Columns>
+                                                                                                                            <dx:ListBoxColumn FieldName ="ITEMID" Caption ="Item Code" Width="80px"></dx:ListBoxColumn>
+                                                                                                                            <dx:ListBoxColumn FieldName ="NAMEALIAS" Caption ="Description"></dx:ListBoxColumn>
+                                                                                                                            <dx:ListBoxColumn FieldName ="UOM" Caption ="UOM" Width="50px"></dx:ListBoxColumn>
+                                                                                                                            <dx:ListBoxColumn FieldName ="LastCost" Caption ="Last Price" Width="80px"></dx:ListBoxColumn>
+                                                                                                                        </Columns>
                                                                                                                         <ClientSideEvents SelectedIndexChanged="listbox_selectedOPEX" />
+
                                                                                                                     </dx:ASPxListBox>
                                                                                                                 </div>
                                                                                                             </td>
