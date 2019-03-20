@@ -253,6 +253,11 @@ namespace HijoPortal
             bindManPower = false;
         }
 
+        protected void MRPList_Click(object sender, EventArgs e)
+        {
+
+        }
+
         protected void MANGridInventApproval_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {
             ASPxGridView grid = sender as ASPxGridView;

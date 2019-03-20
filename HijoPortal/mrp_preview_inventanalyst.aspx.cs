@@ -409,6 +409,11 @@ namespace HijoPortal
             }
         }
 
+        protected void btAddEdit_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("mrp_inventanalyst.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+        }
+
         private void HideHeader(object sender)
         {
             //MRPClass.PrintString("hideheader");

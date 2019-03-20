@@ -151,6 +151,7 @@ namespace HijoPortal
                 lastname = reader["Lastname"].ToString();
 
                 entitycode = reader["EntityCode"].ToString();
+                Entity.Text = reader["EntityCode"].ToString();
                 buCode = reader["BUCode"].ToString();
 
 
@@ -197,11 +198,12 @@ namespace HijoPortal
                 return;
             }
 
-            MRPClass.PrintString(Session["mrp_creator"].ToString() + "==" + Session["CreatorKey"].ToString());
-            if (Session["mrp_creator"].ToString() != Session["CreatorKey"].ToString())
-            {
-                Response.Redirect("mrp_list.aspx");
-            }
+            //entitycode = "", buCode = ""
+            //MRPClass.PrintString(Session["mrp_creator"].ToString() + "==" + Session["CreatorKey"].ToString());
+            //if (Session["mrp_creator"].ToString() != Session["CreatorKey"].ToString())
+            //{
+            //    Response.Redirect("mrp_list.aspx");
+            //}
         }
 
         private void BindDirectMaterials(string DOC_NUMBER)
@@ -452,7 +454,14 @@ namespace HijoPortal
                 activity_code = actCode.Value.ToString();
 
 
-            string insert = "INSERT INTO " + MRPClass.DirectMatTable() + " ([HeaderDocNum], [ActivityCode], [ItemCode], [ItemDescription], [UOM], [Cost], [Qty], [TotalCost], [OprUnit]) VALUES (@HeaderDocNum, @ActivityCode, @ItemCode, @ItemDesc, @UOM, @Cost, @Qty, @TotalCost, @OprUnit)";
+            string insert = "INSERT INTO " + MRPClass.DirectMatTable() + 
+                            " ([HeaderDocNum], [ActivityCode], [ItemCode], [ItemDescription], [UOM], " +
+                            " [Cost], [Qty], [TotalCost], [OprUnit], " +
+                            " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
+                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
+                            " VALUES (@HeaderDocNum, @ActivityCode, @ItemCode, @ItemDesc, @UOM, " +
+                            " @Cost, @Qty, @TotalCost, @OprUnit, " +
+                            " @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
@@ -520,7 +529,13 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.DirectMatTable() + " SET [ActivityCode] = @ActivityCode, [ItemCode] = @ItemCode ,[ItemDescription] = @ItemDescription, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit WHERE [PK] = @PK";
+            string update_MRP = "UPDATE " + MRPClass.DirectMatTable() + 
+                                " SET [ActivityCode] = @ActivityCode, [ItemCode] = @ItemCode , " +
+                                " [ItemDescription] = @ItemDescription, [UOM]= @UOM, " +
+                                " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
+                                " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
+                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " +
+                                " WHERE [PK] = @PK";
 
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
@@ -627,7 +642,14 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO " + MRPClass.OpexTable() + " ([HeaderDocNum], [ExpenseCode], [ItemCode], [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit]) VALUES (@HeaderDocNum, @ExpenseCode, @ItemCode, @Description, @UOM, @Cost, @Qty, @TotalCost, @OprUnit)";
+            string insert = "INSERT INTO " + MRPClass.OpexTable() + 
+                            " ([HeaderDocNum], [ExpenseCode], [ItemCode], [Description], [UOM], " +
+                            " [Cost], [Qty], [TotalCost], [OprUnit], " +
+                            " [EdittedQty], [EdittedCost], [EdittedTotalCost], " +
+                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
+                            " VALUES (@HeaderDocNum, @ExpenseCode, @ItemCode, @Description, @UOM, " +
+                            " @Cost, @Qty, @TotalCost, @OprUnit, @Qty, @Cost, @TotalCost, " +
+                            " @Qty, @Cost, @TotalCost)";
 
             string code = "";
             if (itemCode.Value != null) code = itemCode.Value.ToString();
@@ -723,7 +745,13 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.OpexTable() + " SET [ExpenseCode] = @ExpenseCode, [ItemCode] = @ItemCode ,[Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit WHERE [PK] = @PK";
+            string update_MRP = "UPDATE " + MRPClass.OpexTable() + 
+                                " SET [ExpenseCode] = @ExpenseCode, [ItemCode] = @ItemCode , " +
+                                " [Description] = @Description, [UOM]= @UOM, " +
+                                " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
+                                " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittedTotalCost] = @TotalCost, " +
+                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " +
+                                " WHERE [PK] = @PK";
 
             string code = "";
             if (itemCode.Value != null) code = itemCode.Value.ToString();
@@ -821,7 +849,14 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string insert = "INSERT INTO " + MRPClass.ManPowerTable() + " ([HeaderDocNum], [ActivityCode], [ManPowerTypeKey], [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit]) VALUES (@HeaderDocNum, @ActivityCode, @ManPowerTypeKey, @Description, @UOM, @Cost, @Qty, @TotalCost, @OprUnit)";
+            string insert = "INSERT INTO " + MRPClass.ManPowerTable() + 
+                            " ([HeaderDocNum], [ActivityCode], [ManPowerTypeKey], " +
+                            " [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit], " +
+                            " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
+                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
+                            " VALUES (@HeaderDocNum, @ActivityCode, @ManPowerTypeKey, " +
+                            " @Description, @UOM, @Cost, @Qty, @TotalCost, @OprUnit, " +
+                            " @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
@@ -918,7 +953,13 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.ManPowerTable() + " SET [ActivityCode] = @ActivityCode, [ManPowerTypeKey] = @ManPowerTypeKey ,[Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit WHERE [PK] = @PK";
+            string update_MRP = "UPDATE " + MRPClass.ManPowerTable() + 
+                                " SET [ActivityCode] = @ActivityCode, [ManPowerTypeKey] = @ManPowerTypeKey, " +
+                                " [Description] = @Description, [UOM]= @UOM, " +
+                                " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
+                                " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
+                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " +
+                                " WHERE [PK] = @PK";
 
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
@@ -996,7 +1037,15 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string insert = "INSERT INTO " + MRPClass.CapexTable() + " ([HeaderDocNum], [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit]) VALUES (@HeaderDocNum, @Description, @UOM, @Cost, @Qty, @TotalCost, @OprUnit)";
+            string insert = "INSERT INTO " + MRPClass.CapexTable() + 
+                            " ([HeaderDocNum], [Description], [UOM], " +
+                            " [Cost], [Qty], [TotalCost], [OprUnit], " +
+                            " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
+                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
+                            " VALUES (@HeaderDocNum, @Description, @UOM, " +
+                            " @Cost, @Qty, @TotalCost, @OprUnit, " +
+                            " @Qty, @Cost, @TotalCost, " +
+                            " @Qty, @Cost, @TotalCost)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
@@ -1078,7 +1127,12 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.CapexTable() + " SET [Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit WHERE [PK] = @PK";
+            string update_MRP = "UPDATE " + MRPClass.CapexTable() +
+                                " SET [Description] = @Description, [UOM]= @UOM, [OprUnit] = @OprUnit, " +
+                                " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, " +
+                                " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
+                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " + 
+                                " WHERE [PK] = @PK";
 
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);

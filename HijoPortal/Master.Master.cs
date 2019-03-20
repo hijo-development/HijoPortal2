@@ -119,8 +119,16 @@ namespace HijoPortal
 
         protected void FloatCallbackPanel_Callback(object sender, CallbackEventArgsBase e)
         {
-            string type = e.Parameter.Substring(0, e.Parameter.IndexOf("-"));
-            int PK = Convert.ToInt32(e.Parameter.Substring(e.Parameter.IndexOf("-") + 1, e.Parameter.Length - (e.Parameter.IndexOf("-") + 1)));
+            //string type = e.Parameter.Substring(0, e.Parameter.IndexOf("-"));
+            //int PK = Convert.ToInt32(e.Parameter.Substring(e.Parameter.IndexOf("-") + 1, e.Parameter.Length - (e.Parameter.IndexOf("-") + 1)));
+
+            string param = e.Parameter;
+
+            string[] arrParam = param.Split('-');
+            string type = arrParam[0].ToString();
+            int PK = Convert.ToInt32(arrParam[1]);
+            string sEntCode = arrParam[2].ToString();
+
             List<object> fieldValues = new List<object>();
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
@@ -147,12 +155,18 @@ namespace HijoPortal
 
                     ASPxGridView grid = (ASPxGridView)ContentPlaceHolder1.FindControl("DirectMaterialsGrid");
 
-                    query_1 = "SELECT [ItemDescription] FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] where [PK] = '" + PK + "'";
+                    query_1 = "SELECT [ItemDescription], [ItemCode] FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] where [PK] = '" + PK + "'";
                     cmd = new SqlCommand(query_1, conn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         descdata = reader[0].ToString();
+                        lblItemCode.Text = reader[1].ToString();
+                        lblDescription.Text = reader[0].ToString();
+
+                        DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
+                        grdOnHand.DataSource = dtRecord;
+                        grdOnHand.DataBind();
                     }
 
                     reader.Close();
@@ -172,12 +186,14 @@ namespace HijoPortal
 
                     break;
                 case opexIdentifier:
-                    query_1 = "SELECT [Description] FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] where [PK] = '" + PK + "'";
+                    query_1 = "SELECT [Description], [ItemCode] FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] where [PK] = '" + PK + "'";
                     cmd = new SqlCommand(query_1, conn);
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         descdata = reader[0].ToString();
+                        lblItemCode.Text = reader[1].ToString();
+                        lblDescription.Text = reader[0].ToString();
                     }
 
                     reader.Close();
@@ -202,6 +218,8 @@ namespace HijoPortal
                     while (reader.Read())
                     {
                         descdata = reader[0].ToString();
+                        lblItemCode.Text = ""; //reader[1].ToString();
+                        lblDescription.Text = reader[0].ToString();
                     }
 
                     reader.Close();
@@ -226,6 +244,8 @@ namespace HijoPortal
                     while (reader.Read())
                     {
                         descdata = reader[0].ToString();
+                        lblItemCode.Text = ""; //reader[1].ToString();
+                        lblDescription.Text = reader[0].ToString();
                     }
 
                     reader.Close();
@@ -277,64 +297,64 @@ namespace HijoPortal
                 loggersLastName[i] = lname;
             }
 
-            for (int i = 0; i < 1; i++)//table row forloop
-            {
-                HtmlTableRow tr = new HtmlTableRow();
-                HtmlTableCell td = new HtmlTableCell();
-                for (int i2 = 0; i2 < 2; i2++)//table data forloop
-                {
-                    td = new HtmlTableCell();
-                    if (i2 == 0)//first column
-                    {
-                        td.InnerText = description;
-                        td.Attributes.Add("style", "width:25%");
-                        tr.Cells.Add(td);
-                    }
-                    else//second column
-                    {
-                        td.InnerText = descdata;
-                        td.Attributes.Add("style", "width:75%");
-                        td.Attributes.Add("style", "padding:0px 5px 0px 0px");
-                        tr.Cells.Add(td);
-                    }
-                }
-                warehousetable.Controls.Add(tr);
-            }
+            //for (int i = 0; i < 1; i++)//table row forloop
+            //{
+            //    HtmlTableRow tr = new HtmlTableRow();
+            //    HtmlTableCell td = new HtmlTableCell();
+            //    for (int i2 = 0; i2 < 2; i2++)//table data forloop
+            //    {
+            //        td = new HtmlTableCell();
+            //        if (i2 == 0)//first column
+            //        {
+            //            td.InnerText = description;
+            //            td.Attributes.Add("style", "width:25%");
+            //            tr.Cells.Add(td);
+            //        }
+            //        else//second column
+            //        {
+            //            td.InnerText = descdata;
+            //            td.Attributes.Add("style", "width:75%");
+            //            td.Attributes.Add("style", "padding:0px 5px 0px 0px");
+            //            tr.Cells.Add(td);
+            //        }
+            //    }
+            //    warehousetable.Controls.Add(tr);
+            //}
 
 
-            for (int i = 0; i < logsArr.Count; i++)//table row forloop
-            {
-                HtmlTableRow tr = new HtmlTableRow();
-                HtmlTableCell td = new HtmlTableCell();
-                for (int i2 = 0; i2 < 2; i2++)//table data forloop
-                {
-                    td = new HtmlTableCell();
-                    if (i2 == 0)//first column
-                    {
+            //for (int i = 0; i < logsArr.Count; i++)//table row forloop
+            //{
+            //    HtmlTableRow tr = new HtmlTableRow();
+            //    HtmlTableCell td = new HtmlTableCell();
+            //    for (int i2 = 0; i2 < 2; i2++)//table data forloop
+            //    {
+            //        td = new HtmlTableCell();
+            //        if (i2 == 0)//first column
+            //        {
 
-                        td.InnerText = loggersFirstName[i].ToString() + " " + loggersLastName[i].ToString();
-                        td.Attributes.Add("style", "width:25%;");
-                        td.ColSpan = 2;
-                        tr.Cells.Add(td);
-                        commentstable.Controls.Add(tr);
-                    }
-                    else
-                    {
-                        tr = new HtmlTableRow();
-                        td = new HtmlTableCell();
-                        td.Style.Add("width", "5%");
-                        tr.Cells.Add(td);
+            //            td.InnerText = loggersFirstName[i].ToString() + " " + loggersLastName[i].ToString();
+            //            td.Attributes.Add("style", "width:25%;");
+            //            td.ColSpan = 2;
+            //            tr.Cells.Add(td);
+            //            commentstable.Controls.Add(tr);
+            //        }
+            //        else
+            //        {
+            //            tr = new HtmlTableRow();
+            //            td = new HtmlTableCell();
+            //            td.Style.Add("width", "5%");
+            //            tr.Cells.Add(td);
 
-                        td = new HtmlTableCell();
-                        td.InnerText = logsArr[i].ToString();
-                        td.Attributes.Add("style", "width:75%");
-                        td.Attributes.Add("style", "padding:0px 5px 0px 0px");
-                        tr.Cells.Add(td);
+            //            td = new HtmlTableCell();
+            //            td.InnerText = logsArr[i].ToString();
+            //            td.Attributes.Add("style", "width:75%");
+            //            td.Attributes.Add("style", "padding:0px 5px 0px 0px");
+            //            tr.Cells.Add(td);
 
-                    }
-                }
-                commentstable.Controls.Add(tr);
-            }
+            //        }
+            //    }
+            //    commentstable.Controls.Add(tr);
+            //}
 
             conn.Close();
 

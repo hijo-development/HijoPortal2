@@ -178,6 +178,7 @@ namespace HijoPortal
 
             } else
             {
+                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                 WarningText.Text = GlobalClass.WorkFlowSetupMsg;
                 WarningText.ForeColor = System.Drawing.Color.Red;
                 WarningPopUp.HeaderText = "Alert";
@@ -229,6 +230,9 @@ namespace HijoPortal
 
             if (monthIndex <= Convert.ToInt32(DateTime.Now.Month.ToString("00")) && yearInteger <= Convert.ToInt32(DateTime.Now.Year.ToString()))
             {
+
+                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
                 WarningPopUp.HeaderText = month + " " + year;
                 WarningPopUp.ShowOnPageLoad = true;
                 WarningText.Text = "Month and Year behind current date";
@@ -250,6 +254,8 @@ namespace HijoPortal
             int count = Convert.ToInt32(cmd.ExecuteScalar());
             if (count > 0)
             {
+                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
                 WarningPopUp.HeaderText = month + " " + year;
                 WarningPopUp.ShowOnPageLoad = true;
                 WarningText.Text = "Month and Year Already Exist";
@@ -526,17 +532,36 @@ namespace HijoPortal
             conn.Open();
             string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
             string delete = "DELETE FROM [dbo].[tbl_MRP_List] WHERE [PK] ='" + PK + "'";
-            SqlCommand cmd = new SqlCommand(delete, conn);
-            cmd.ExecuteNonQuery();
-            conn.Close();
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand(delete, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+                BindMRP();
+
+                MRPNotify.HeaderText = "Info";
+                MRPNotificationMessage.Text = "Successfully Deleted!";
+                MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
+                MRPNotify.ShowOnPageLoad = true;
+
+            } catch (SqlException ex)
+            {
+                conn.Close();
+
+                MRPNotify.HeaderText = "Error";
+                MRPNotificationMessage.Text = ex.ToString();
+                MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
+                MRPNotify.ShowOnPageLoad = true;
+            }
+            
 
             
 
-            BindMRP();
+            
 
-            MRPNotify.HeaderText = "Info";
-            MRPNotificationMessage.Text = "Successfully Deleted!";
-            MRPNotify.ShowOnPageLoad = true;
+            
 
             //ASPxHiddenField text = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenVal") as ASPxHiddenField;
             //text["hidden_value"] = "deleted";
