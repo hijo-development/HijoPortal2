@@ -157,22 +157,67 @@ namespace HijoPortal {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvItemSidePanel;
         
         /// <summary>
-        /// warehousetable control.
+        /// ASPxLabel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable warehousetable;
+        protected global::DevExpress.Web.ASPxLabel ASPxLabel1;
         
         /// <summary>
-        /// commentstable control.
+        /// lblItemCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable commentstable;
+        protected global::DevExpress.Web.ASPxLabel lblItemCode;
+        
+        /// <summary>
+        /// ASPxLabel2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel ASPxLabel2;
+        
+        /// <summary>
+        /// lblDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel lblDescription;
+        
+        /// <summary>
+        /// grdOnHand control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxGridView grdOnHand;
+        
+        /// <summary>
+        /// grdPendingPO control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxGridView grdPendingPO;
+        
+        /// <summary>
+        /// grdInventMovement control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxGridView grdInventMovement;
         
         /// <summary>
         /// footer control.

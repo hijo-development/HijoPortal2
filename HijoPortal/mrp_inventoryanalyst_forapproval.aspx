@@ -118,6 +118,8 @@
                 <tr>
                     <td colspan="7" style="text-align: right">
                         <%--OnClick="Submit_Click"--%>
+                        <dx:ASPxButton ID="MRPList" runat="server" Text="MOP Details" OnClick="MRPList_Click" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                        &nbsp
                         <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue" >
                             <ClientSideEvents Click="function(s,e){PopupSubmit.SetHeaderText('Confirm'); PopupSubmit.Show();}" />
                         </dx:ASPxButton>

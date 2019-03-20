@@ -101,7 +101,8 @@
                                     <PanelCollection>
                                         <dx:PanelContent>
                                             <div id="dvItemSidePanel" runat="server">
-                                                <table id="warehousetable" border="0" runat="server" style="margin: 5px; width: 90%; background-color: white;">
+                                                <h3>Item Information</h3>
+                                                <%--<table id="warehousetable" border="0" runat="server" style="margin: 5px; width: 90%; background-color: white;">
                                                     <tr>
                                                         <th colspan="2">INFO</th>
                                                     </tr>
@@ -110,7 +111,110 @@
                                                     <tr>
                                                         <th colspan="2">COMMENT/SUGGESTION</th>
                                                     </tr>
+                                                </table>--%>
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="ItemCode"></dx:ASPxLabel>
+                                                        </td>
+                                                        <td>:</td>
+                                                        <td>
+                                                            <dx:ASPxLabel ID="lblItemCode" runat="server" Text=""></dx:ASPxLabel>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Description"></dx:ASPxLabel>
+                                                        </td>
+                                                        <td>:</td>
+                                                        <td>
+                                                            <dx:ASPxLabel ID="lblDescription" runat="server" Text=""></dx:ASPxLabel>
+                                                        </td>
+                                                    </tr>
                                                 </table>
+                                                <div style="margin: 3px;">
+                                                    <h4>On Hand Inventory</h4>
+                                                    <dx:ASPxGridView ID="grdOnHand" runat="server"
+                                                        ClientInstanceName="grdOnHandDirect"
+                                                        EnableTheming="True"
+                                                        KeyboardSupport="true" Style="margin: 0 auto;"
+                                                        Width="100%" Theme="Office2010Blue"
+                                                        EnableCallBacks="true">
+                                                        <Columns>
+                                                            <dx:GridViewDataColumn FieldName="LocationID" Caption="Loc. ID" VisibleIndex="0">
+                                                                <HeaderStyle Font-Bold="true" />
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="InventLocationID" Caption="Invent. Loc. ID" VisibleIndex="1">
+                                                                <HeaderStyle Font-Bold="true" />
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Quantity" Caption="Quantity" VisibleIndex="2">
+                                                                <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                        </Columns>
+                                                        <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
+                                                        <Styles>
+                                                            <SelectedRow Font-Bold="False" Font-Italic="False">
+                                                            </SelectedRow>
+                                                            <FocusedRow Font-Bold="False" Font-Italic="False">
+                                                            </FocusedRow>
+                                                        </Styles>
+                                                    </dx:ASPxGridView>
+                                                    <h4>Pending Purchase Order</h4>
+                                                    <dx:ASPxGridView ID="grdPendingPO" runat="server"
+                                                        ClientInstanceName="grdPendingPODirect"
+                                                        EnableTheming="True"
+                                                        KeyboardSupport="true" Style="margin: 0 auto;"
+                                                        Width="100%" Theme="Office2010Blue"
+                                                        EnableCallBacks="true">
+                                                        <Columns>
+                                                            <dx:GridViewDataColumn Caption="PO #" VisibleIndex="0">
+                                                                <HeaderStyle Font-Bold="true" />
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn Caption="Quantity" VisibleIndex="1">
+                                                                <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn Caption="Status" VisibleIndex="2">
+                                                                <HeaderStyle Font-Bold="true" />
+                                                            </dx:GridViewDataColumn>
+                                                        </Columns>
+                                                        <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
+                                                        <Styles>
+                                                            <SelectedRow Font-Bold="False" Font-Italic="False">
+                                                            </SelectedRow>
+                                                            <FocusedRow Font-Bold="False" Font-Italic="False">
+                                                            </FocusedRow>
+                                                        </Styles>
+                                                    </dx:ASPxGridView>
+                                                    <h4>Inventory Movement</h4>
+                                                    <dx:ASPxGridView ID="grdInventMovement" runat="server"
+                                                        ClientInstanceName="grdInventMovementDirect"
+                                                        EnableTheming="True"
+                                                        KeyboardSupport="true" Style="margin: 0 auto;"
+                                                        Width="100%" Theme="Office2010Blue"
+                                                        EnableCallBacks="true">
+                                                        <Columns>
+                                                            <dx:GridViewDataColumn Caption="IMJ #" VisibleIndex="0">
+                                                                <HeaderStyle Font-Bold="true" />
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn Caption="Quantity" VisibleIndex="1">
+                                                                <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
+                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                            </dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn Caption="Status" VisibleIndex="2">
+                                                                <HeaderStyle Font-Bold="true" />
+                                                            </dx:GridViewDataColumn>
+                                                        </Columns>
+                                                        <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
+                                                        <Styles>
+                                                            <SelectedRow Font-Bold="False" Font-Italic="False">
+                                                            </SelectedRow>
+                                                            <FocusedRow Font-Bold="False" Font-Italic="False">
+                                                            </FocusedRow>
+                                                        </Styles>
+                                                    </dx:ASPxGridView>
+                                                </div>
                                             </div>
                                         </dx:PanelContent>
                                     </PanelCollection>

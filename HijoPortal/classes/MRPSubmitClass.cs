@@ -12,8 +12,12 @@ namespace HijoPortal.classes
 {
     public class MRPSubmitClass
     {
+        public static string SubmitStatusRes = "";
+
         public static void MRP_Submit(string docNum, int MRPKey, DateTime dteCreated, int WorkFlowLine, string EntCode, string BuCode, int usrKey)
         {
+            SubmitStatusRes = "";
+
             switch (WorkFlowLine)
             {
                 case 0: //At source

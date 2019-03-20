@@ -1356,6 +1356,7 @@ function listbox_selected(s, e) {
     var selValue = s.GetSelectedItem().value;
     var selText = s.GetSelectedItem().text;
     var arrSelText = selText.split(';');
+
     ItemCodeDirect.SetText(selValue);
     ItemDescriptionDirect.SetText(arrSelText[1].trim());
     ItemDescriptionDirect.SetIsValid(true);
@@ -1379,9 +1380,9 @@ function ItemCodeDirect_KeyPress(s, e) {
 var postponedCallbackRequired = false;
 var params = "";
 function focused(s, e, type) {
-    var pk = s.GetRowKey(e.visibleIndex);;
-    params = type + "-" + pk;
-
+    var pk = s.GetRowKey(e.visibleIndex);
+    var entCode = EntityCodeAddEditDirect.GetText();
+    params = type + "-" + pk + "-" + entCode;
     if (FloatCallbackPanel.InCallback())
         postponedCallbackRequired = true;
     else

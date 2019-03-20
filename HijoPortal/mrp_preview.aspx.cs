@@ -238,6 +238,7 @@ namespace HijoPortal
                     MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
                     Submit.Enabled = false;
+                    //btAddEdit.Enabled = false;
                     Load_MRP(docnumber);
 
                     MRPNotificationMessage.Text = MRPClass.successfully_submitted;
@@ -310,7 +311,16 @@ namespace HijoPortal
 
         protected void btAddEdit_Click(object sender, EventArgs e)
         {
-            Response.Redirect("mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+            //if (wrkflwln == 0 || wrkflwln == 1)
+            //{
+                Response.Redirect("mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+            //} else
+            //{
+            //    Response.Redirect("mrp_inventanalyst.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+            //}
+            
+
+
         }
 
         protected void CapexListview_ItemDataBound(object sender, ListViewItemEventArgs e)
