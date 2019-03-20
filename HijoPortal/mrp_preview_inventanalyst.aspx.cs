@@ -325,7 +325,10 @@ namespace HijoPortal
 
         protected void CapexListView_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
-
+            if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
+            {
+                bool isAllowed = false;
+                switch (wrkflwln)
                 {
                     case 1:
                         {

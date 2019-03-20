@@ -24,7 +24,7 @@ namespace HijoPortal
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-            
+
         /// <summary>
         /// MRPNotificationMessage control.
         /// </summary>
@@ -48,7 +48,7 @@ namespace HijoPortal
         protected global::DevExpress.Web.ASPxPopupControl LogsPopup;
 
         protected global::DevExpress.Web.ASPxPopupControl PopupSubmitAppPreview;
-        
+
         /// <summary>
         /// LogsMemo control.
         /// </summary>
@@ -283,8 +283,7 @@ namespace HijoPortal
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue, LabelTARev;
 
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAMat;
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell ATAMat;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAMat, LabelTotalDM, LabelTotalEDM, ATAMat;
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAOpex;
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ATAOpex;
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAManpower;

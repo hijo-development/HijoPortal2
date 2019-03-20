@@ -250,7 +250,7 @@
                 </tr>
             </table>
 
-            <table runat="server" class="main_prev_table" border="0">
+            <table runat="server" class="main_prev_table" border="1">
                 <tr>
                     <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="13">DIRECT MATERIALS</td>
                 </tr>
@@ -346,11 +346,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                    <td style="width: 45%"></td>
+                    <td id="LabelTotalDM" style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
                     <td id="extraDMTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
                     <td id="TAMat" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="width: 30%; border-right-width: 0px; border-left-width: 0px;"></td>
+                    <td id="LabelTotalEDM" style="border-right-width: 0px; border-left-width: 0px;"></td>
                     <td id="ETAMat" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
                     <td style="width: 2%; border-right-width: 0px; border-left-width: 0px;"></td>
                     <%--<td id="ATAMat" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>--%>

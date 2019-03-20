@@ -31,51 +31,48 @@ namespace HijoPortal
             if (e.Item.ItemType == ListViewItemType.DataItem)
             {
                 ListViewDataItem dataitem = (ListViewDataItem)e.Item;
+
+                HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+                HtmlTableCell act = (HtmlTableCell)cell.FindControl("act");
+                HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
+                HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
+                HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
+                HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
+                HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fourth");
+                HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
+                HtmlTableCell sev = (HtmlTableCell)cell.FindControl("sev");
+                HtmlTableCell eight = (HtmlTableCell)cell.FindControl("eight");
+                HtmlTableCell nine = (HtmlTableCell)cell.FindControl("nine");
+                HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
+
                 //Get the Name values
                 string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode");
                 if (!string.IsNullOrEmpty(code))
                 {
-                    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
                     HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
-                    td.ColSpan = 10;
+                    td.ColSpan = 11;
                     td.Style.Add("font-weight", "bold");
                     td.Style.Add("font-style", "italic");
-                    td.Style.Add("border-right-color", "transparent");
+                    td.Style.Add("border-color", "transparent");
 
-                    HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
                     sec.Style.Add("display", "none");
-
-                    HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
                     third.Style.Add("display", "none");
-
-                    HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
                     fourth.Style.Add("display", "none");
-
-                    HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fifth");
                     fifth.Style.Add("display", "none");
-
-                    HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
                     six.Style.Add("display", "none");
-
-                    HtmlTableCell sev = (HtmlTableCell)cell.FindControl("sev");
                     sev.Style.Add("display", "none");
-
-                    HtmlTableCell eight = (HtmlTableCell)cell.FindControl("eight");
                     eight.Style.Add("display", "none");
-
-                    HtmlTableCell nine = (HtmlTableCell)cell.FindControl("nine");
                     nine.Style.Add("display", "none");
+                    td_last.Style.Add("display", "none");
 
                     HtmlTableCell pin = (HtmlTableCell)cell.FindControl("pin");
                     pin.Style.Add("display", "none");
 
                     if (entitycode == Constants.TRAIN_CODE())
                     {
-                        HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
                         tableDataRevDesc.Style.Add("display", "none");
                     }
 
-                    HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
                     ImageButton pinImg = (ImageButton)td_last.FindControl("pinImg");
                     pinImg.Visible = false;
                     td_last.Style.Add("border-right-color", "transparent");
@@ -83,8 +80,37 @@ namespace HijoPortal
                 }
                 else
                 {
-                    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
                     HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
+                }
+
+                
+                if (entitycode != Constants.TRAIN_CODE())
+                {
+                    act.Style.Add("width", "7%");
+                    sec.Style.Add("width", "35%");
+                    third.Style.Add("width", "7%");
+                    fourth.Style.Add("width", "7%");
+                    fifth.Style.Add("width", "7.5%");
+                    six.Style.Add("width", "10%");
+                    sev.Style.Add("width", "7%");
+                    eight.Style.Add("width", "7.5%");
+                    nine.Style.Add("width", "10%");
+                    td_last.Style.Add("width", "2%");
+
+                    LabelTotalDM.Style.Add("width", "63.5%");
+                    TAMat.Style.Add("width", "10%");
+                    LabelTotalEDM.Style.Add("width", "14.5%");
+                    ETAMat.Style.Add("width", "10%");
+                }
+                else
+                {
+                    //sec.Style.Add("width", "30%");
+                    //third.Style.Add("width", "8%");
+                    //fourth.Style.Add("width", "20%");
+                    //fifth.Style.Add("width", "20%");
+                    //six.Style.Add("width", "20%");
+
+                    //LabelTARev.Style.Add("width", "68%");
                 }
             }
         }
@@ -190,39 +216,33 @@ namespace HijoPortal
         protected void RevListView_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
-            if(entitycode != Constants.TRAIN_CODE())
+            HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+            HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
+            HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
+            HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
+            HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
+            HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fourth");
+            HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
+            if (entitycode != Constants.TRAIN_CODE())
             {
-                HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-                HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
                 sec.Style.Add("width", "30%");
-                //HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
-                HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
                 third.Style.Add("width", "8%");
-                HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
                 fourth.Style.Add("width", "20%");
-                HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fourth");
                 fifth.Style.Add("width", "20%");
-                HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
                 six.Style.Add("width", "20%");
 
                 LabelTARev.Style.Add("width", "68%");
             }
-            //HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-            //HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
-            //HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
-            //HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
-            //HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
-            //HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fourth");
-            //HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
+            else
+            {
+                sec.Style.Add("width", "30%");
+                third.Style.Add("width", "8%");
+                fourth.Style.Add("width", "20%");
+                fifth.Style.Add("width", "20%");
+                six.Style.Add("width", "20%");
 
-            //MRPClass.PrintString("Trial: " + cell.Cells[3].Width);
-            //int w1 = sec.Width + tableDataRevDesc.Width + third.Width + fourth.Width;
-            //LabelTARev.Style.Add("width", "");
-
-            //ListView listview = sender as ListView;
-            //HtmlTableCell th = (HtmlTableCell)listview.FindControl("tableHeaderRevDesc");
-            //if (th != null)
-            //    th.Visible = false;
+                LabelTARev.Style.Add("width", "68%");
+            }
         }
 
         protected void RevListView_DataBound(object sender, EventArgs e)
@@ -291,6 +311,8 @@ namespace HijoPortal
                     HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
                     HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
                 }
+
+
             }
         }
 
@@ -667,7 +689,7 @@ namespace HijoPortal
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 docnum = Request.Params["DocNum"].ToString();
-                appflwln = Convert.ToInt32(Request.Params["ApprvLn"].ToString());
+                //appflwln = Convert.ToInt32(Request.Params["ApprvLn"].ToString());
 
                 DocNum.Text = Request.Params["DocNum"].ToString();
 
