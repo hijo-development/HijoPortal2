@@ -4044,7 +4044,7 @@ namespace HijoPortal.classes
                         if (row == dt.Rows[0])
                         {
                             DataRow dtRow = dtTable.NewRow();
-                            dtRow["ExpenseCodeName"] = row["DESCRIPTION"].ToString();
+                            dtRow["ExpenseCodeName"] = row["NAME"].ToString();
                             dtTable.Rows.Add(dtRow);
 
                             dtRow = dtTable.NewRow();

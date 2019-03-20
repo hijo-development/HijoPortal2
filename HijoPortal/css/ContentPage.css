@@ -461,8 +461,31 @@ hide-tr {
         border-color: black;
         border-style: solid;
         padding-left: 5px;
+        /*word-wrap: break-word;*/
     }
 
 .first_child_prev tr:nth-child(2) td {
     border-top-color: transparent;
+}
+
+.no_border td {
+    /*border-color:transparent;*/
+}
+
+.rev_prev_table {
+    width: 98%;
+    margin-bottom: 10px;
+    margin: auto;
+}
+
+    .rev_prev_table td {
+        vertical-align: top;
+    }
+
+.rev_sub_prev_table {
+    width: 100%;
+    border-color: mediumspringgreen;
+    border-style: groove;
+    border-width: thick;
+    margin-bottom: 10px;
 }
