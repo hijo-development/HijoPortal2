@@ -57,10 +57,8 @@ namespace HijoPortal
                     Submit.Text = "Submit";
                 } else
                 {
-                    Submit.Text = "Submit & Approve";
+                    Submit.Text = "Submit & Confirm";
                 }
-
-                
 
                 //ASPxHiddenField hidWorkflowLine = Page.FindControl("WorkFlowLine") as ASPxHiddenField;
                 //hidWorkflowLine["hidden_value"] = wrkflwln.ToString();

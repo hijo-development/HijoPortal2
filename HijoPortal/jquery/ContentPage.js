@@ -1279,8 +1279,14 @@ function listbox_selectedOPEX(s, e) {
 
     QtyOPEX.Focus();
 
-    var pane = MainSplitterClient.GetPaneByName("SideMenu");
-    pane.Expand();
+    var paneSide = MainSplitterClient.GetPaneByName("SideMenu");
+    paneSide.Expand();
+
+    var paneMenu = MainSplitterClient.GetPaneByName("containMenu");
+    if (paneMenu.IsCollapsed() === false) {
+        paneMenu.Collapse(true);
+    }
+    
 
 }
 
@@ -1300,7 +1306,7 @@ function EntityCodeIndexChange(s, e) {
     var selectedString = s.GetSelectedItem().text;
     EntityCodeDirect.SetText(selectedString.toString());
 
-    console.log("pass callback");
+    //console.log("pass callback");
 
     if (BUCodeCallbackPanelDirect.InCallback()) {
         postponedCallbackEntitytoBU = true;
@@ -1393,8 +1399,12 @@ function listbox_selected(s, e) {
 
     QtyDirect.Focus();
 
-    var pane = MainSplitterClient.GetPaneByName("SideMenu");
-    pane.Expand();
+    var paneSide = MainSplitterClient.GetPaneByName("SideMenu");
+    paneSide.Expand();
+
+    var paneMenu = MainSplitterClient.GetPaneByName("containMenu");
+    paneMenu.Collapse(true);
+
 }
 
 function ItemCodeDirect_KeyPress(s, e) {
@@ -1421,8 +1431,15 @@ function focused(s, e, type) {
         FloatCallbackPanel.PerformCallback(params);
 }
 
-function ItemCodeListSelected(s, e, type) {
-
+function focusedInventAnal(s, e, type) {
+    var pk = s.GetRowKey(e.visibleIndex);
+    var entCode = EntityCodeInventDirect.GetText();
+    var buCode = BUCodeInventDirect.GetText();
+    params = type + "^" + pk + "^" + entCode + "^" + buCode;
+    if (FloatCallbackPanel.InCallback())
+        postponedCallbackRequired = true;
+    else
+        FloatCallbackPanel.PerformCallback(params);
 }
 
 //Floating SideBar

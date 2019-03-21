@@ -142,6 +142,8 @@ namespace HijoPortal
                 lastname = reader["Lastname"].ToString();
 
                 entitycode = reader["EntityCode"].ToString();
+                Entity.Text = reader["EntityCode"].ToString();
+                BU.Text = reader["BUCode"].ToString();
                 buCode = reader["BUCode"].ToString();
 
                 Creator.Text = EncryptionClass.Decrypt(firstname) + " " + EncryptionClass.Decrypt(lastname);
