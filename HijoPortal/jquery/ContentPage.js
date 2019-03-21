@@ -889,7 +889,7 @@ function RevenueGrid_Add(s, e) {
 function updateDirectMat(s, e) {
     var entityval = entityhidden.Get('hidden_value');
     var bool = true;
-    console.log(entityval);
+    console.log("This is debug:"+entityval);
     if (entityval == "display") {
         if (OperatingUnit.GetText().length == 0) {
             OperatingUnit.SetIsValid(false);

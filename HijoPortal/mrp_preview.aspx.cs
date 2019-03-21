@@ -39,23 +39,29 @@ namespace HijoPortal
 
             if (entitycode != Constants.TRAIN_CODE())
             {
-                revth.Visible = false;
-                actTH.Width = "7%";
-                desc.Width = "35%";
-                uom.Width = "7%";
-                qty.Width = "16%";
-                cost.Width = "15%";
-                total.Width = "20%";
+                if (revth != null)
+                {
+                    revth.Visible = false;
+                    actTH.Width = "7%";
+                    desc.Width = "35%";
+                    uom.Width = "7%";
+                    qty.Width = "16%";
+                    cost.Width = "15%";
+                    total.Width = "20%";
+                }
             }
             else
             {
-                actTH.Width = "7%";
-                desc.Width = "25%";
-                revth.Width = "10%";
-                uom.Width = "7%";
-                qty.Width = "16%";
-                cost.Width = "15%";
-                total.Width = "20%";
+                if (revth != null)
+                {
+                    actTH.Width = "7%";
+                    desc.Width = "25%";
+                    revth.Width = "10%";
+                    uom.Width = "7%";
+                    qty.Width = "16%";
+                    cost.Width = "15%";
+                    total.Width = "20%";
+                }
             }
 
             HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
@@ -122,23 +128,29 @@ namespace HijoPortal
 
             if (entitycode != Constants.TRAIN_CODE())
             {
-                revth.Visible = false;
-                expTH.Width = "7%";
-                desc.Width = "35%";
-                uom.Width = "7%";
-                qty.Width = "16%";
-                cost.Width = "15%";
-                total.Width = "20%";
+                if (revth != null)
+                {
+                    revth.Visible = false;
+                    expTH.Width = "7%";
+                    desc.Width = "35%";
+                    uom.Width = "7%";
+                    qty.Width = "16%";
+                    cost.Width = "15%";
+                    total.Width = "20%";
+                }
             }
             else
             {
-                expTH.Width = "7%";
-                desc.Width = "25%";
-                revth.Width = "10%";
-                uom.Width = "7%";
-                qty.Width = "16%";
-                cost.Width = "15%";
-                total.Width = "20%";
+                if (revth != null)
+                {
+                    expTH.Width = "7%";
+                    desc.Width = "25%";
+                    revth.Width = "10%";
+                    uom.Width = "7%";
+                    qty.Width = "16%";
+                    cost.Width = "15%";
+                    total.Width = "20%";
+                }
             }
 
             HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
@@ -204,23 +216,29 @@ namespace HijoPortal
 
             if (entitycode != Constants.TRAIN_CODE())
             {
-                revth.Visible = false;
-                actTH.Width = "7%";
-                desc.Width = "35%";
-                uom.Width = "7%";
-                qty.Width = "16%";
-                cost.Width = "15%";
-                total.Width = "20%";
+                if (revth != null)
+                {
+                    revth.Visible = false;
+                    actTH.Width = "7%";
+                    desc.Width = "35%";
+                    uom.Width = "7%";
+                    qty.Width = "16%";
+                    cost.Width = "15%";
+                    total.Width = "20%";
+                }
             }
             else
             {
-                actTH.Width = "7%";
-                desc.Width = "25%";
-                revth.Width = "10%";
-                uom.Width = "7%";
-                qty.Width = "16%";
-                cost.Width = "15%";
-                total.Width = "20%";
+                if (revth != null)
+                {
+                    actTH.Width = "7%";
+                    desc.Width = "25%";
+                    revth.Width = "10%";
+                    uom.Width = "7%";
+                    qty.Width = "16%";
+                    cost.Width = "15%";
+                    total.Width = "20%";
+                }
             }
 
             HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
@@ -287,21 +305,27 @@ namespace HijoPortal
 
             if (entitycode != Constants.TRAIN_CODE())
             {
-                revth.Visible = false;
-                desc.Width = "42%";
-                uom.Width = "7%";
-                qty.Width = "16%";
-                cost.Width = "15%";
-                total.Width = "20%";
+                if (revth != null)
+                {
+                    revth.Visible = false;
+                    desc.Width = "42%";
+                    uom.Width = "7%";
+                    qty.Width = "16%";
+                    cost.Width = "15%";
+                    total.Width = "20%";
+                }
             }
             else
             {
-                desc.Width = "32%";
-                revth.Width = "10%";
-                uom.Width = "7%";
-                qty.Width = "16%";
-                cost.Width = "15%";
-                total.Width = "20%";
+                if (revth != null)
+                {
+                    desc.Width = "32%";
+                    revth.Width = "10%";
+                    uom.Width = "7%";
+                    qty.Width = "16%";
+                    cost.Width = "15%";
+                    total.Width = "20%";
+                }
             }
 
             HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
@@ -403,12 +427,12 @@ namespace HijoPortal
         {
             //if (wrkflwln == 0 || wrkflwln == 1)
             //{
-                Response.Redirect("mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+            Response.Redirect("mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
             //} else
             //{
             //    Response.Redirect("mrp_inventanalyst.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
             //}
-            
+
 
 
         }
@@ -430,21 +454,27 @@ namespace HijoPortal
 
             if (entitycode != Constants.TRAIN_CODE())
             {
-                revth.Visible = false;
-                prod.Width = "40%";
-                name.Width = "15";
-                volume.Width = "15%";
-                prize.Width = "15%";
-                total.Width = "15%";
+                if (revth != null)
+                {
+                    revth.Visible = false;
+                    prod.Width = "40%";
+                    name.Width = "15";
+                    volume.Width = "15%";
+                    prize.Width = "15%";
+                    total.Width = "15%";
+                }
             }
             else
             {
-                prod.Width = "30%";
-                revth.Width = "10%";
-                name.Width = "15%";
-                volume.Width = "15%";
-                prize.Width = "15%";
-                total.Width = "15%";
+                if (revth != null)
+                {
+                    prod.Width = "30%";
+                    revth.Width = "10%";
+                    name.Width = "15%";
+                    volume.Width = "15%";
+                    prize.Width = "15%";
+                    total.Width = "15%";
+                }
             }
 
             HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");

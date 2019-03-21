@@ -91,29 +91,35 @@ namespace HijoPortal
 
             if (entitycode != Constants.TRAIN_CODE())
             {
-                revth.Visible = false;
-                actTH.Width = "7%";
-                desc.Width = "35%";
-                uom.Width = "7%";
-                qty.Width = "8%";
-                cost.Width = "7.5%";
-                total.Width = "10%";
-                recqty.Width = "8%";
-                cost_two.Width = "7.5%";
-                total_two.Width = "10%";
+                if (revth != null)
+                {
+                    revth.Visible = false;
+                    actTH.Width = "7%";
+                    desc.Width = "35%";
+                    uom.Width = "7%";
+                    qty.Width = "8%";
+                    cost.Width = "7.5%";
+                    total.Width = "10%";
+                    recqty.Width = "8%";
+                    cost_two.Width = "7.5%";
+                    total_two.Width = "10%";
+                }
             }
             else
             {
-                actTH.Width = "7%";
-                desc.Width = "25%";
-                revth.Width = "10%";
-                uom.Width = "7%";
-                qty.Width = "8%";
-                cost.Width = "7.5%";
-                total.Width = "10%";
-                recqty.Width = "8%";
-                cost_two.Width = "7.5%";
-                total_two.Width = "10%";
+                if (revth != null)
+                {
+                    actTH.Width = "7%";
+                    desc.Width = "25%";
+                    revth.Width = "10%";
+                    uom.Width = "7%";
+                    qty.Width = "8%";
+                    cost.Width = "7.5%";
+                    total.Width = "10%";
+                    recqty.Width = "8%";
+                    cost_two.Width = "7.5%";
+                    total_two.Width = "10%";
+                }
             }
 
             HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
@@ -147,29 +153,35 @@ namespace HijoPortal
 
             if (entitycode != Constants.TRAIN_CODE())
             {
-                revth.Visible = false;
-                expTH.Width = "7%";
-                desc.Width = "35%";
-                uom.Width = "7%";
-                qty.Width = "8%";
-                cost.Width = "7.5%";
-                total.Width = "10%";
-                recqty.Width = "8%";
-                cost_two.Width = "7.5%";
-                total_two.Width = "10%";
+                if (revth != null)
+                {
+                    revth.Visible = false;
+                    expTH.Width = "7%";
+                    desc.Width = "35%";
+                    uom.Width = "7%";
+                    qty.Width = "8%";
+                    cost.Width = "7.5%";
+                    total.Width = "10%";
+                    recqty.Width = "8%";
+                    cost_two.Width = "7.5%";
+                    total_two.Width = "10%";
+                }
             }
             else
             {
-                expTH.Width = "7%";
-                desc.Width = "25%";
-                revth.Width = "10%";
-                uom.Width = "7%";
-                qty.Width = "8%";
-                cost.Width = "7.5%";
-                total.Width = "10%";
-                recqty.Width = "8%";
-                cost_two.Width = "7.5%";
-                total_two.Width = "10%";
+                if (revth != null)
+                {
+                    expTH.Width = "7%";
+                    desc.Width = "25%";
+                    revth.Width = "10%";
+                    uom.Width = "7%";
+                    qty.Width = "8%";
+                    cost.Width = "7.5%";
+                    total.Width = "10%";
+                    recqty.Width = "8%";
+                    cost_two.Width = "7.5%";
+                    total_two.Width = "10%";
+                }
             }
 
             HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
@@ -302,29 +314,35 @@ namespace HijoPortal
 
             if (entitycode != Constants.TRAIN_CODE())
             {
-                revth.Visible = false;
-                actTH.Width = "7%";
-                desc.Width = "35%";
-                uom.Width = "7%";
-                qty.Width = "8%";
-                cost.Width = "7.5%";
-                total.Width = "10%";
-                recqty.Width = "8%";
-                cost_two.Width = "7.5%";
-                total_two.Width = "10%";
+                if (revth != null)
+                {
+                    revth.Visible = false;
+                    actTH.Width = "7%";
+                    desc.Width = "35%";
+                    uom.Width = "7%";
+                    qty.Width = "8%";
+                    cost.Width = "7.5%";
+                    total.Width = "10%";
+                    recqty.Width = "8%";
+                    cost_two.Width = "7.5%";
+                    total_two.Width = "10%";
+                }
             }
             else
             {
-                actTH.Width = "7%";
-                desc.Width = "25%";
-                revth.Width = "10%";
-                uom.Width = "7%";
-                qty.Width = "8%";
-                cost.Width = "7.5%";
-                total.Width = "10%";
-                recqty.Width = "8%";
-                cost_two.Width = "7.5%";
-                total_two.Width = "10%";
+                if (revth != null)
+                {
+                    actTH.Width = "7%";
+                    desc.Width = "25%";
+                    revth.Width = "10%";
+                    uom.Width = "7%";
+                    qty.Width = "8%";
+                    cost.Width = "7.5%";
+                    total.Width = "10%";
+                    recqty.Width = "8%";
+                    cost_two.Width = "7.5%";
+                    total_two.Width = "10%";
+                }
             }
 
             HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
@@ -359,21 +377,27 @@ namespace HijoPortal
 
             if (entitycode != Constants.TRAIN_CODE())
             {
-                revth.Visible = false;
-                prod.Width = "40%";
-                name.Width = "15";
-                volume.Width = "15%";
-                prize.Width = "15%";
-                total.Width = "15%";
+                if (revth != null)
+                {
+                    revth.Visible = false;
+                    prod.Width = "40%";
+                    name.Width = "15";
+                    volume.Width = "15%";
+                    prize.Width = "15%";
+                    total.Width = "15%";
+                }
             }
             else
             {
-                prod.Width = "30%";
-                revth.Width = "10%";
-                name.Width = "15%";
-                volume.Width = "15%";
-                prize.Width = "15%";
-                total.Width = "15%";
+                if (revth != null)
+                {
+                    prod.Width = "30%";
+                    revth.Width = "10%";
+                    name.Width = "15%";
+                    volume.Width = "15%";
+                    prize.Width = "15%";
+                    total.Width = "15%";
+                }
             }
 
             HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
@@ -516,27 +540,33 @@ namespace HijoPortal
 
             if (entitycode != Constants.TRAIN_CODE())
             {
-                revth.Visible = false;
-                desc.Width = "42%";
-                uom.Width = "7%";
-                qty.Width = "8%";
-                cost.Width = "7.5%";
-                total.Width = "10%";
-                recqty.Width = "8%";
-                cost_two.Width = "7.5%";
-                total_two.Width = "10%";
+                if (revth != null)
+                {
+                    revth.Visible = false;
+                    desc.Width = "42%";
+                    uom.Width = "7%";
+                    qty.Width = "8%";
+                    cost.Width = "7.5%";
+                    total.Width = "10%";
+                    recqty.Width = "8%";
+                    cost_two.Width = "7.5%";
+                    total_two.Width = "10%";
+                }
             }
             else
             {
-                desc.Width = "32%";
-                revth.Width = "10%";
-                uom.Width = "7%";
-                qty.Width = "8%";
-                cost.Width = "7.5%";
-                total.Width = "10%";
-                recqty.Width = "8%";
-                cost_two.Width = "7.5%";
-                total_two.Width = "10%";
+                if (revth != null)
+                {
+                    desc.Width = "32%";
+                    revth.Width = "10%";
+                    uom.Width = "7%";
+                    qty.Width = "8%";
+                    cost.Width = "7.5%";
+                    total.Width = "10%";
+                    recqty.Width = "8%";
+                    cost_two.Width = "7.5%";
+                    total_two.Width = "10%";
+                }
             }
 
             HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");

@@ -243,7 +243,7 @@
                                         <th id="desc" style="text-align: left; padding-left: 5px;">Description</th>
                                         <th id="tableHeaderRevDesc" runat="server">Operating Unit</th>
                                         <th id="uom">UOM</th>
-                                        <th id="qty">Qty</th>
+                                        <th id="qty">Requested Qty</th>
                                         <th id="cost">Est. Cost/Unit</th>
                                         <th id="total">Total</th>
                                         <th id="recqty">Recommended Qty</th>
@@ -333,7 +333,7 @@
                                         <th id="desc" style="text-align: left; padding-left: 5px;">Description</th>
                                         <th id="tableHeaderRevDesc" runat="server">Operating Unit</th>
                                         <th id="uom">UOM</th>
-                                        <th id="qty">Qty</th>
+                                        <th id="qty">Requested Qty</th>
                                         <th id="cost">Est. Cost/Unit</th>
                                         <th id="total">Total</th>
                                         <th id="recqty">Recommended Qty</th>
@@ -424,7 +424,7 @@
                                         <th id="desc" style="text-align: left; padding-left: 5px;">Description</th>
                                         <th id="tableHeaderRevDesc" runat="server">Operating Unit</th>
                                         <th id="uom">UOM</th>
-                                        <th id="qty">Qty</th>
+                                        <th id="qty">Requested Qty</th>
                                         <th id="cost">Est. Cost/Unit</th>
                                         <th id="total">Total</th>
                                         <th id="recqty">Recommended Qty</th>
@@ -515,7 +515,7 @@
                                         <th id="desc" style="text-align: left; padding-left: 5px;">Description</th>
                                         <th id="tableHeaderRevDesc" runat="server">Operating Unit</th>
                                         <th id="uom">UOM</th>
-                                        <th id="qty">Qty</th>
+                                        <th id="qty">Requested Qty</th>
                                         <th id="cost">Est. Cost/Unit</th>
                                         <th id="total">Total</th>
                                         <th id="recqty">Recommended Qty</th>

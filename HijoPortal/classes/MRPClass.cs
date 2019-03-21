@@ -2554,10 +2554,12 @@ namespace HijoPortal.classes
 
         public static void VisibilityRevDesc(ASPxGridView grid, string entitycode)
         {
-            if (entitycode == train_entity)
+            if (entitycode == Constants.TRAIN_CODE())
                 grid.Columns["RevDesc"].Visible = true;
             else
                 grid.Columns["RevDesc"].Visible = false;
+
+            
         }
 
         public static int MRP_Line_Status(int masterKey, int line)
@@ -3759,10 +3761,10 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("ItemDescription", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(Double));
+                dtTable.Columns.Add("Qty", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
                 dtTable.Columns.Add("ACost", typeof(string));
-                dtTable.Columns.Add("AQty", typeof(Double));
+                dtTable.Columns.Add("AQty", typeof(string));
                 dtTable.Columns.Add("ATotalCost", typeof(string));
                 dtTable.Columns.Add("VALUE", typeof(string));
                 dtTable.Columns.Add("RevDesc", typeof(string));
@@ -3818,11 +3820,11 @@ namespace HijoPortal.classes
                             dtRow["ItemDescription"] = row["ItemDescription"].ToString();
                             dtRow["UOM"] = row["UOM"].ToString();
                             dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                             dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
 
                             dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
+                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
 
                             materials_total_amount += Convert.ToDouble(row["TotalCost"]);
@@ -3850,10 +3852,10 @@ namespace HijoPortal.classes
                             dtRow["ItemDescription"] = row["ItemDescription"].ToString();
                             dtRow["UOM"] = row["UOM"].ToString();
                             dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                             dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
                             dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
+                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
 
                             materials_total_amount += Convert.ToDouble(row["TotalCost"]);
@@ -3905,10 +3907,10 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Description", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(Double));
+                dtTable.Columns.Add("Qty", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
                 dtTable.Columns.Add("ACost", typeof(string));
-                dtTable.Columns.Add("AQty", typeof(Double));
+                dtTable.Columns.Add("AQty", typeof(string));
                 dtTable.Columns.Add("ATotalCost", typeof(string));
                 dtTable.Columns.Add("VALUE", typeof(string));
                 dtTable.Columns.Add("RevDesc", typeof(string));
@@ -3962,11 +3964,11 @@ namespace HijoPortal.classes
                             dtRow["Description"] = row["Description"].ToString();
                             dtRow["UOM"] = row["UOM"].ToString();
                             dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                             dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
 
                             dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
+                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
 
                             manpower_total_amount += Convert.ToDouble(row["TotalCost"]);
@@ -3995,11 +3997,11 @@ namespace HijoPortal.classes
                             dtRow["Description"] = row["Description"].ToString();
                             dtRow["UOM"] = row["UOM"].ToString();
                             dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                             dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
 
                             dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
+                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
 
                             manpower_total_amount += Convert.ToDouble(row["TotalCost"]);
@@ -4049,10 +4051,10 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Description", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(Double));
+                dtTable.Columns.Add("Qty", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
                 dtTable.Columns.Add("ACost", typeof(string));
-                dtTable.Columns.Add("AQty", typeof(Double));
+                dtTable.Columns.Add("AQty", typeof(string));
                 dtTable.Columns.Add("ATotalCost", typeof(string));
                 dtTable.Columns.Add("VALUE", typeof(string));
                 dtTable.Columns.Add("RevDesc", typeof(string));
@@ -4116,11 +4118,11 @@ namespace HijoPortal.classes
                             dtRow["Description"] = row["Description"].ToString();
                             dtRow["UOM"] = row["UOM"].ToString();
                             dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                             dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
 
                             dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
+                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittedTotalCost"]).ToString("N");
 
                             opex_total_amount += Convert.ToDouble(row["TotalCost"]);
@@ -4147,10 +4149,10 @@ namespace HijoPortal.classes
                             dtRow["Description"] = row["Description"].ToString();
                             dtRow["UOM"] = row["UOM"].ToString();
                             dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                             dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
                             dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
+                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittedTotalCost"]).ToString("N");
 
                             opex_total_amount += Convert.ToDouble(row["TotalCost"]);
@@ -4194,10 +4196,10 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Description", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(Double));
+                dtTable.Columns.Add("Qty", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
                 dtTable.Columns.Add("ACost", typeof(string));
-                dtTable.Columns.Add("AQty", typeof(Double));
+                dtTable.Columns.Add("AQty", typeof(string));
                 dtTable.Columns.Add("ATotalCost", typeof(string));
                 dtTable.Columns.Add("VALUE", typeof(string));
                 dtTable.Columns.Add("RevDesc", typeof(string));
@@ -4226,11 +4228,11 @@ namespace HijoPortal.classes
                     dtRow["Description"] = row["Description"].ToString();
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
 
                     dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                    dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
+                    dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
                     dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
 
                     if (execute)
