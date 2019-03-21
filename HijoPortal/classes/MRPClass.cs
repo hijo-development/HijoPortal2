@@ -1417,7 +1417,7 @@ namespace HijoPortal.classes
             string qry = "SELECT [ITEMID],[NAMEALIAS], [UNITID] " +
                           " FROM [hijo_portal].[dbo].[vw_AXInventTable] " +
                           " WHERE [NAMEALIAS] LIKE '%" + str + "%'" +
-                          " AND DATAAREAID = '"+ EntCode + "'";
+                          " AND DATAAREAID = '" + EntCode + "'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -1428,14 +1428,14 @@ namespace HijoPortal.classes
                 foreach (DataRow row in dt.Rows)
                 {
                     DataRow dtRow = dtTable.NewRow();
-                    dtRow["ITEMID"] = row["ITEMID"].ToString(); 
+                    dtRow["ITEMID"] = row["ITEMID"].ToString();
                     dtRow["NAMEALIAS"] = row["NAMEALIAS"].ToString();
                     dtRow["UOM"] = row["UNITID"].ToString();
 
                     string qry1 = "SELECT lastprice " +
                                   " FROM dbo.vw_AXInventTablePrice " +
                                   " WHERE(DATAAREAID = '" + EntCode + "') " +
-                                  " AND(ITEMID = '"+ row["ITEMID"].ToString() + "')";
+                                  " AND(ITEMID = '" + row["ITEMID"].ToString() + "')";
                     cmd1 = new SqlCommand(qry1);
                     cmd1.Connection = cn;
                     adp1 = new SqlDataAdapter(cmd1);
@@ -1446,7 +1446,8 @@ namespace HijoPortal.classes
                         {
                             dtRow["LastCost"] = Convert.ToDouble(row1["lastprice"]).ToString("#,##0.00");
                         }
-                    } else
+                    }
+                    else
                     {
                         dtRow["LastCost"] = "0";
                     }
@@ -2902,7 +2903,7 @@ namespace HijoPortal.classes
                     {
                         sEmail = EncryptionClass.Decrypt(row["Email"].ToString());
                     }
-                    
+
                     sEmailCR = EncryptionClass.Decrypt(row["CreatorEmail"].ToString());
                     var sbBody = new StringBuilder();
                     var sbBodyCR = new StringBuilder();
@@ -3744,7 +3745,8 @@ namespace HijoPortal.classes
             DataTable dt = new DataTable();
             SqlCommand cmd = null;
             SqlDataAdapter adp;
-            materials_total_amount = 0;
+            materials_total_amount =0;
+            mat_edited_total =0;
 
             cn.Open();
             if (dtTable.Columns.Count == 0)
@@ -3823,6 +3825,9 @@ namespace HijoPortal.classes
                             dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
 
+                            materials_total_amount += Convert.ToDouble(row["TotalCost"]);
+                            mat_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
+
                             if (entity == train_entity)
                             {
                                 dtRow["VALUE"] = row["VALUE"].ToString();
@@ -3835,7 +3840,8 @@ namespace HijoPortal.classes
                             }
                             dtTable.Rows.Add(dtRow);
                         }
-                        else{
+                        else
+                        {
                             DataRow dtRow = dtTable.NewRow();
                             dtRow["PK"] = row["PK"].ToString();
                             dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
@@ -3849,6 +3855,9 @@ namespace HijoPortal.classes
                             dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
                             dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
+
+                            materials_total_amount += Convert.ToDouble(row["TotalCost"]);
+                            mat_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
 
 
                             if (entity == train_entity)
@@ -3865,25 +3874,10 @@ namespace HijoPortal.classes
                             //dtRow["StatusKey"] = StatusKey.ToString();
                             dtTable.Rows.Add(dtRow);
                         }
-                        //materials_total_amount += Convert.ToDouble(row["TotalCost"]);
                     }
                 }
                 dt.Clear();
-
-                //cmd = new SqlCommand(query, conn);
-                //reader = cmd.ExecuteReader();
-                //while (reader.Read())
-                //{
-                //    PrintString("array list:" + list[i]);
-                //    PrintString(reader["ActivityCode"].ToString() + ": " + reader["ItemCode"].ToString() + "---" + reader["ItemDescription"].ToString());
-                //}
-                //reader.Close();
-
             }
-
-            //if (entity == train_entity) cmd = new SqlCommand(query_1);
-            //else cmd = new SqlCommand(query_2);
-
 
             cn.Close();
             return dtTable;
@@ -3896,7 +3890,8 @@ namespace HijoPortal.classes
             DataTable dt = new DataTable();
             SqlCommand cmd = null;
             SqlDataAdapter adp;
-            materials_total_amount = 0;
+            manpower_total_amount = 0;
+            man_edited_total = 0;
 
             cn.Open();
             if (dtTable.Columns.Count == 0)
@@ -3974,6 +3969,9 @@ namespace HijoPortal.classes
                             dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
 
+                            manpower_total_amount += Convert.ToDouble(row["TotalCost"]);
+                            man_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
+
                             if (entity == train_entity)
                             {
                                 dtRow["VALUE"] = row["VALUE"].ToString();
@@ -4004,6 +4002,9 @@ namespace HijoPortal.classes
                             dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
 
+                            manpower_total_amount += Convert.ToDouble(row["TotalCost"]);
+                            man_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
+
                             if (entity == train_entity)
                             {
                                 dtRow["VALUE"] = row["VALUE"].ToString();
@@ -4016,7 +4017,6 @@ namespace HijoPortal.classes
                             }
                             dtTable.Rows.Add(dtRow);
                         }
-                        //materials_total_amount += Convert.ToDouble(row["TotalCost"]);
                     }
                 }
                 dt.Clear();
@@ -4034,7 +4034,9 @@ namespace HijoPortal.classes
             DataTable dt = new DataTable();
             SqlCommand cmd = null;
             SqlDataAdapter adp;
-            materials_total_amount = 0;
+
+            opex_total_amount = 0;
+            op_edited_total = 0;
 
             cn.Open();
             if (dtTable.Columns.Count == 0)
@@ -4121,6 +4123,9 @@ namespace HijoPortal.classes
                             dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittedTotalCost"]).ToString("N");
 
+                            opex_total_amount += Convert.ToDouble(row["TotalCost"]);
+                            op_edited_total += Convert.ToDouble(row["EdittedTotalCost"]);
+
                             if (entity == train_entity)
                             {
                                 dtRow["VALUE"] = row["VALUE"].ToString();
@@ -4148,6 +4153,9 @@ namespace HijoPortal.classes
                             dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]);
                             dtRow["ATotalCost"] = Convert.ToDouble(row["EdittedTotalCost"]).ToString("N");
 
+                            opex_total_amount += Convert.ToDouble(row["TotalCost"]);
+                            op_edited_total += Convert.ToDouble(row["EdittedTotalCost"]);
+
                             if (entity == train_entity)
                             {
                                 dtRow["VALUE"] = row["VALUE"].ToString();
@@ -4160,13 +4168,10 @@ namespace HijoPortal.classes
                             }
                             dtTable.Rows.Add(dtRow);
                         }
-                        //materials_total_amount += Convert.ToDouble(row["TotalCost"]);
                     }
                 }
                 dt.Clear();
-
             }
-
             cn.Close();
             return dtTable;
         }

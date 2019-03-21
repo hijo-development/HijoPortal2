@@ -284,12 +284,10 @@ namespace HijoPortal
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue, LabelTARev;
 
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAMat, LabelTotalDM, LabelTotalEDM, ATAMat;
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAOpex;
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell ATAOpex;
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAManpower;
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell ATAManpower;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAOpex, LabelTotalOP, LabelTotalEOP, ATAOpex;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAManpower, LabelTotalMan, LabelTotalEMan, ATAManpower;
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ETotalAmountTD;
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell ATotalAmountTD;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETACapex, LabelTotalCA, LabelTotalECA, TACapex;//CAPEX
 
         protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
         protected global::DevExpress.Web.ASPxButton Submit;

@@ -156,7 +156,7 @@ namespace HijoPortal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAMat;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAMat, LabelTotalDM;
         
         /// <summary>
         /// OpexListiview control.
@@ -183,7 +183,7 @@ namespace HijoPortal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAOpex;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAOpex, LabelTotalOP;
         
         /// <summary>
         /// ManListview control.
@@ -210,7 +210,7 @@ namespace HijoPortal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAManpower;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAManpower, LabelTotalManpower;
         
         /// <summary>
         /// CapexListview control.
@@ -237,7 +237,7 @@ namespace HijoPortal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TotalAmountTD;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TotalAmountTD, LabelTotalCapex;
         
         /// <summary>
         /// RevListview control.
@@ -249,22 +249,13 @@ namespace HijoPortal {
         protected global::System.Web.UI.WebControls.ListView RevListview;
         
         /// <summary>
-        /// extraRevTD control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell extraRevTD;
-        
-        /// <summary>
         /// TARevenue control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue, LabelTARev;
 
         protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
         protected global::DevExpress.Web.ASPxHiddenField WrkFlowHidden;

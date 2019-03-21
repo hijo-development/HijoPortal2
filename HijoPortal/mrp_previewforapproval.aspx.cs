@@ -176,10 +176,10 @@ namespace HijoPortal
             if (pk_th != null)
                 pk_th.Visible = false;
 
-            //LabelTotalDM.Style.Add("width", "64.5%");
-            //TAMat.Style.Add("width", "10%");
-            //LabelTotalEDM.Style.Add("width", "15.5%");
-            //ETAMat.Style.Add("width", "10%");
+            LabelTotalOP.Style.Add("width", "64.5%");
+            TAOpex.Style.Add("width", "10%");
+            LabelTotalEOP.Style.Add("width", "15.5%");
+            ETAOpex.Style.Add("width", "10%");
         }
 
         protected void OpexListiview_ItemDataBound(object sender, ListViewItemEventArgs e)
@@ -331,10 +331,10 @@ namespace HijoPortal
             if (pk_th != null)
                 pk_th.Visible = false;
 
-            //LabelTotalDM.Style.Add("width", "64.5%");
-            //TAMat.Style.Add("width", "10%");
-            //LabelTotalEDM.Style.Add("width", "15.5%");
-            //ETAMat.Style.Add("width", "10%");
+            LabelTotalMan.Style.Add("width", "64.5%");
+            TAManpower.Style.Add("width", "10%");
+            LabelTotalEMan.Style.Add("width", "15.5%");
+            ETAManpower.Style.Add("width", "10%");
         }
 
         protected void RevListView_ItemCommand(object sender, ListViewCommandEventArgs e)
@@ -380,10 +380,17 @@ namespace HijoPortal
             if (pk_th != null)
                 pk_th.Visible = false;
 
-            //LabelTotalDM.Style.Add("width", "64.5%");
-            //TAMat.Style.Add("width", "10%");
-            //LabelTotalEDM.Style.Add("width", "15.5%");
-            //ETAMat.Style.Add("width", "10%");
+            if(entitycode != Constants.TRAIN_CODE())
+            {
+                LabelTARev.Style.Add("width", "40.%");
+                TARevenue.Style.Add("width", "60%");
+            }
+            else
+            {
+                LabelTARev.Style.Add("width", "30.%");
+                TARevenue.Style.Add("width", "70%");
+            }
+           
         }
 
         protected void ManListview_ItemDataBound(object sender, ListViewItemEventArgs e)
@@ -536,47 +543,14 @@ namespace HijoPortal
             if (pk_th != null)
                 pk_th.Visible = false;
 
-            //LabelTotalDM.Style.Add("width", "64.5%");
-            //TAMat.Style.Add("width", "10%");
-            //LabelTotalEDM.Style.Add("width", "15.5%");
-            //ETAMat.Style.Add("width", "10%");
+            LabelTotalCA.Style.Add("width", "64.5%");
+            TACapex.Style.Add("width", "10%");
+            LabelTotalECA.Style.Add("width", "15.5%");
+            ETACapex.Style.Add("width", "10%");
         }
         protected void CapexListview_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
-            if (e.Item.ItemType == ListViewItemType.DataItem)
-            {
-                //ListViewDataItem dataitem = (ListViewDataItem)e.Item;
-                //HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-
-                //HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
-                //HtmlTableCell desc = (HtmlTableCell)cell.FindControl("sec");
-                //HtmlTableCell uom = (HtmlTableCell)cell.FindControl("third");
-                //HtmlTableCell qty = (HtmlTableCell)cell.FindControl("fourth");
-                //HtmlTableCell cost = (HtmlTableCell)cell.FindControl("fifth");
-                //HtmlTableCell total_one = (HtmlTableCell)cell.FindControl("six");
-                //HtmlTableCell qty_rec = (HtmlTableCell)cell.FindControl("sev");
-                //HtmlTableCell cost_two = (HtmlTableCell)cell.FindControl("eight");
-                //HtmlTableCell total_two = (HtmlTableCell)cell.FindControl("nine");
-                //HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
-
-                //Get the Name values
-                //string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode");
-                //if (!string.IsNullOrEmpty(code))
-                //{
-                //    if (entitycode == Constants.TRAIN_CODE())
-                //        tableDataRevDesc.Style.Add("display", "none");
-
-                //    desc.Style.Add("display", "none");
-                //    uom.Style.Add("display", "none");
-                //    qty.Style.Add("display", "none");
-                //    cost.Style.Add("display", "none");
-                //    total_one.Style.Add("display", "none");
-                //    qty_rec.Style.Add("display", "none");
-                //    cost_two.Style.Add("display", "none");
-                //    total_two.Style.Add("display", "none");
-                //}
-            }
         }
         protected void MatListview_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
@@ -860,25 +834,9 @@ namespace HijoPortal
             {
                 HtmlTableCell td = (HtmlTableCell)e.Item.FindControl("tableDataRevDesc");
                 td.Visible = false;
-                //visibility:hidden
 
                 HtmlTableCell pk_td = (HtmlTableCell)e.Item.FindControl("pk_td");
                 pk_td.Visible = false;
-
-                extraDMTD.Visible = false;
-                extraOPTD.Visible = false;
-                extraMANTD.Visible = false;
-                extraCATD.Visible = false;
-
-                HtmlTableCell sec = (HtmlTableCell)e.Item.FindControl("sec");
-                if (sec != null)
-                {
-                    if (entitycode != Constants.TRAIN_CODE())
-                        sec.Style.Add("width", "35%");
-                    else
-                        sec.Style.Add("width", "25%");
-                }
-
             }
         }
 
@@ -978,13 +936,12 @@ namespace HijoPortal
             ManListview.DataBind();
             TAManpower.InnerText = MRPClass.manpower_total().ToString("N");
             ETAManpower.InnerText = MRPClass.manpower_edited_total().ToString("N");
-            ATAManpower.InnerText = MRPClass.manpower_approved_total().ToString("N");
+            //ATAManpower.InnerText = MRPClass.manpower_approved_total().ToString("N");
 
             CapexListview.DataSource = MRPClass.Preview_CA(docnum, entitycode);
             CapexListview.DataBind();
-            TotalAmountTD.InnerText = MRPClass.capex_total().ToString("N");
-            ETotalAmountTD.InnerText = MRPClass.capex_edited_total().ToString("N");
-            ATotalAmountTD.InnerText = MRPClass.capex_approved_total().ToString("N");
+            TACapex.InnerText = MRPClass.capex_total().ToString("N");
+            ETACapex.InnerText = MRPClass.capex_edited_total().ToString("N");
 
             RevListview.DataSource = MRPClass.MRP_Revenue(DocNum.Text.ToString(), entitycode);
             RevListview.DataBind();
