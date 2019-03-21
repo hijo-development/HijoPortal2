@@ -513,11 +513,16 @@ namespace HijoPortal.classes
             cmdUp.ExecuteNonQuery();
 
             //Update Workflow After Executive Approval
+            //qry = "UPDATE tbl_MRP_List_Workflow " +
+            //       " SET Visible = 0, " +
+            //       " Status = 1 " +
+            //       " WHERE (MasterKey = " + MRPKey + ") " +
+            //       " AND (Line = 5)";
             qry = "UPDATE tbl_MRP_List_Workflow " +
                    " SET Visible = 0, " +
                    " Status = 1 " +
                    " WHERE (MasterKey = " + MRPKey + ") " +
-                   " AND (Line = 5)";
+                   " AND (Line = 4)";
             cmdUp = new SqlCommand(qry, conn);
             cmdUp.ExecuteNonQuery();
 

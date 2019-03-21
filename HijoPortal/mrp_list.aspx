@@ -144,8 +144,9 @@
                     <dx:GridViewDataColumn FieldName="Amount" VisibleIndex="9" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="10"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="11"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="DateCreated" Visible="false" VisibleIndex="12"></dx:GridViewDataColumn>
-                    <dx:GridViewCommandColumn VisibleIndex="12" ButtonRenderMode="Image" Width="20">
+                    <dx:GridViewDataColumn FieldName="WorkflowStatus" Caption="Worflow Level" VisibleIndex="12"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="DateCreated" Visible="false" VisibleIndex="13"></dx:GridViewDataColumn>
+                    <dx:GridViewCommandColumn VisibleIndex="13" ButtonRenderMode="Image" Width="20">
                         <CustomButtons>
                             <dx:GridViewCommandColumnCustomButton ID="Submit" Text="" Image-Url="Images/Submit.ico" Image-ToolTip="Submit Row" Image-Width="15px">
                             </dx:GridViewCommandColumnCustomButton>
@@ -171,8 +172,8 @@
                     </EditForm>
                 </SettingsPopup>
 
-                <%--<SettingsPager Mode="ShowPager" PageSize="5" AlwaysShowPager="true">
-                    </SettingsPager>--%>
+                <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="false">
+                </SettingsPager>
 
                 <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                     AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />

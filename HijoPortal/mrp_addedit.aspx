@@ -112,8 +112,8 @@
                         <dx:ASPxLabel ID="EntityCode" runat="server" Text="" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
                         <div style="display:none;">
                             <dx:ASPxLabel ID="Entity" runat="server" Text="" ClientInstanceName="EntityCodeAddEditDirect" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="BU" runat="server" Text="" ClientInstanceName="BUCodeAddEditDirect" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
                         </div>
-                        
                     </td>
 
                 </tr>
@@ -769,7 +769,7 @@
                                                                                                             </td>
                                                                                                             <td>
                                                                                                                 <dx:ASPxComboBox ID="ActivityCode" runat="server" ClientInstanceName="ActivityCodeMAN" OnInit="ActivityCode_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue">
-                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="false"></ValidationSettings>
                                                                                                                     <%--<ClientSideEvents SelectedIndexChanged="ActivityCodeIndexChangeMAN" />--%>
                                                                                                                 </dx:ASPxComboBox>
                                                                                                             </td>
