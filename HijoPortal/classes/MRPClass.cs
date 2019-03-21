@@ -50,6 +50,12 @@ namespace HijoPortal.classes
             SqlCommand cmd = null;
             SqlDataAdapter adp;
 
+            DataTable dt1 = new DataTable();
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+
+            string qry = "";
+
             cn.Open();
             if (dtTable.Columns.Count == 0)
             {
@@ -67,6 +73,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Amount", typeof(string));
                 dtTable.Columns.Add("StatusKey", typeof(string));
                 dtTable.Columns.Add("StatusKeyDesc", typeof(string));
+                dtTable.Columns.Add("WorkflowStatus", typeof(string));
                 dtTable.Columns.Add("CreatorKey", typeof(Int32));
                 dtTable.Columns.Add("LastModified", typeof(string));
             }
@@ -86,7 +93,7 @@ namespace HijoPortal.classes
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dt);
-            double dummy = 12.2;
+            //double dummy = 12.2;
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
@@ -139,6 +146,59 @@ namespace HijoPortal.classes
                     dtRow["StatusKeyDesc"] = row["StatusName"].ToString();
                     dtRow["CreatorKey"] = Convert.ToInt32(row["CreatorKey"]);
                     dtRow["LastModified"] = row["LastModified"].ToString();
+
+                    
+
+                    if (Convert.ToInt32(row["StatusKey"]) == 1 )
+                    {
+                        dtRow["WorkflowStatus"] = "At Source";
+                    }
+                    else if (Convert.ToInt32(row["StatusKey"]) == 2)
+                    {
+                        qry = "SELECT dbo.tbl_System_Approval_Position.PositionName " +
+                              " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
+                              " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+                              " WHERE(dbo.tbl_MRP_List_Workflow.MasterKey = "+ row["PK"] +") " +
+                              " AND(dbo.tbl_MRP_List_Workflow.Status = 0) " +
+                              " AND(dbo.tbl_MRP_List_Workflow.Visible = 1)";
+                        cmd1 = new SqlCommand(qry);
+                        cmd1.Connection = cn;
+                        adp1 = new SqlDataAdapter(cmd1);
+                        adp1.Fill(dt1);
+                        if (dt1.Rows.Count > 0)
+                        {
+                            foreach (DataRow row1 in dt1.Rows)
+                            {
+                                dtRow["WorkflowStatus"] = row1["PositionName"].ToString();
+                            }
+                        }
+                        dt1.Clear();
+                    }
+                    else if (Convert.ToInt32(row["StatusKey"]) == 3)
+                    {
+                        qry = "SELECT dbo.tbl_System_Approval_Position.PositionName " +
+                              " FROM dbo.tbl_MRP_List_Approval LEFT OUTER JOIN " +
+                              " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Approval.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+                              " WHERE(dbo.tbl_MRP_List_Approval.MasterKey = " + row["PK"] + ") " +
+                              " AND(dbo.tbl_MRP_List_Approval.Status = 0) " +
+                              " AND(dbo.tbl_MRP_List_Approval.Visible = 1)";
+                        cmd1 = new SqlCommand(qry);
+                        cmd1.Connection = cn;
+                        adp1 = new SqlDataAdapter(cmd1);
+                        adp1.Fill(dt1);
+                        if (dt1.Rows.Count > 0)
+                        {
+                            foreach (DataRow row1 in dt1.Rows)
+                            {
+                                dtRow["WorkflowStatus"] = row1["PositionName"].ToString();
+                            }
+                        }
+                        dt1.Clear();
+                    }
+                    else
+                    {
+                        dtRow["WorkflowStatus"] = "Approved";
+                    }
                     dtTable.Rows.Add(dtRow);
                 }
             }

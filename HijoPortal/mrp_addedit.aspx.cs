@@ -152,6 +152,7 @@ namespace HijoPortal
 
                 entitycode = reader["EntityCode"].ToString();
                 Entity.Text = reader["EntityCode"].ToString();
+                BU.Text = reader["BUCode"].ToString();
                 buCode = reader["BUCode"].ToString();
 
 
@@ -182,6 +183,13 @@ namespace HijoPortal
             hfwrkLine["hidden_value"] = wrkflwln.ToString();
             hfstatKey["hidden_value"] = iStatusKey.ToString();
 
+            if (Session["mrp_creator"].ToString() != Session["CreatorKey"].ToString())
+            {
+                if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dateCreated, entitycode, buCode) == false)
+                {
+                    Response.Redirect("mrp_list.aspx");
+                }
+            }
 
         }
 

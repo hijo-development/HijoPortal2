@@ -35,12 +35,12 @@ namespace HijoPortal.classes
                         MRP_Submit_InventoryAnalyst(docNum, MRPKey, dteCreated, WorkFlowLine, EntCode, BuCode);
                         break;
                     }
-                case 3: //Finance Budget
-                    {
-                        MRP_Submit_FinanceBudget(docNum, MRPKey, dteCreated, WorkFlowLine, EntCode, BuCode);
-                        break;
-                    }
-                case 4: //Deliberation proceed to approval
+                //case 3: //Finance Budget
+                //    {
+                //        MRP_Submit_FinanceBudget(docNum, MRPKey, dteCreated, WorkFlowLine, EntCode, BuCode);
+                //        break;
+                //    }
+                case 3: //Deliberation proceed to approval
                     {
                         MRP_Submit_Deliberation(docNum, MRPKey, dteCreated, WorkFlowLine, EntCode, BuCode);
                         break;

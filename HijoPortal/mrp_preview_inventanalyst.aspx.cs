@@ -119,12 +119,12 @@ namespace HijoPortal
                             isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", dateCreated);
                             break;
                         }
+                    //case 3:
+                    //    {
+                    //        isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBudget_PerEntBU", dateCreated, entitycode, buCode);
+                    //        break;
+                    //    }
                     case 3:
-                        {
-                            isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBudget_PerEntBU", dateCreated, entitycode, buCode);
-                            break;
-                        }
-                    case 4:
                         {
                             isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", dateCreated);
                             break;
@@ -340,12 +340,12 @@ namespace HijoPortal
                             isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", dateCreated);
                             break;
                         }
+                    //case 3:
+                    //    {
+                    //        isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBudget_PerEntBU", dateCreated, entitycode, buCode);
+                    //        break;
+                    //    }
                     case 3:
-                        {
-                            isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBudget_PerEntBU", dateCreated, entitycode, buCode);
-                            break;
-                        }
-                    case 4:
                         {
                             isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", dateCreated);
                             break;
@@ -523,22 +523,22 @@ namespace HijoPortal
                 {
                     mrpHead.InnerText = "M O P Preview (Inventory Analyst)";
                 }
+                //if (wrkflwln == 3)
+                //{
+                //    mrpHead.InnerText = "M O P Preview (Finance - Budget)";
+                //}
                 if (wrkflwln == 3)
-                {
-                    mrpHead.InnerText = "M O P Preview (Finance - Budget)";
-                }
-                if (wrkflwln == 4)
                 {
                     mrpHead.InnerText = "M O P Preview (Deliberation)";
                 }
 
-                if (wrkflwln == 0)
+                if (wrkflwln == 2)
                 {
-                    Submit.Text = "Submit";
-                }
-                else
+                    //Submit.Text = "Submit";
+                    Submit.Text = "Submit for Deliberation";
+                } else if (wrkflwln == 3)
                 {
-                    Submit.Text = "Submit & Approve";
+                    Submit.Text = "Submit for Approval";
                 }
 
                 Load_MRP(docnumber);

@@ -54,18 +54,20 @@ namespace HijoPortal
                     {
                         mrpHead.InnerText = "M O P  Details (Inventory Analyst)";
                     }
-                    if (wrkflwln == 4)
+                    //if (wrkflwln == 4)
+                    if (wrkflwln == 3)
                     {
                         mrpHead.InnerText = "M O P  Deliberation";
                     }
 
-                    if (wrkflwln == 0)
+                    //if (wrkflwln == 0)
+                    if (wrkflwln == 2)
                     {
-                        Submit.Text = "Submit";
+                        Submit.Text = "Submit for Deliberation";
                     }
-                    else
+                    else if (wrkflwln == 3)
                     {
-                        Submit.Text = "Submit & Approve";
+                        Submit.Text = "Submit for Approval";
                     }
 
                     Load_MRP(docnumber);

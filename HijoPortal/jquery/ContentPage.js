@@ -1266,7 +1266,22 @@ function listbox_selectedOPEX(s, e) {
     UOMOPEX.SetText(arrTextItem[2].trim());
     CostOPEX.SetText(arrTextItem[3].trim());
     listboxOPEX.SetVisible(false);
+
+    //SideBarlblItemCode.SetText(selValue);
+    //SideBarlblDescription.SetText(DescriptionOPEX.GetText());
+    var entCode = EntityCodeAddEditDirect.GetText();
+    var buCode = BUCodeAddEditDirect.GetText();
+    params = "OPEX^0^" + entCode + "^" + buCode + "^" + selValue;
+    if (FloatCallbackPanel.InCallback())
+        postponedCallbackRequired = true;
+    else
+        FloatCallbackPanel.PerformCallback(params);
+
     QtyOPEX.Focus();
+
+    var pane = MainSplitterClient.GetPaneByName("SideMenu");
+    pane.Expand();
+
 }
 
 function ActivityCodeIndexChangeMAN(s, e) {
@@ -1362,8 +1377,24 @@ function listbox_selected(s, e) {
     ItemDescriptionDirect.SetIsValid(true);
     UOMDirect.SetText(arrSelText[2].trim());
     CostDirect.SetText(arrSelText[3].trim());
+
+    //SideBarlblItemCode.SetText(selValue);
+    //SideBarDescription.SetText(arrSelText[1].trim());
+
     listbox.SetVisible(false);
+    
+    var entCode = EntityCodeAddEditDirect.GetText();
+    var buCode = BUCodeAddEditDirect.GetText();
+    params = "Materials^0^" + entCode + "^" + buCode +"^" + selValue;
+    if (FloatCallbackPanel.InCallback())
+        postponedCallbackRequired = true;
+    else
+        FloatCallbackPanel.PerformCallback(params);
+
     QtyDirect.Focus();
+
+    var pane = MainSplitterClient.GetPaneByName("SideMenu");
+    pane.Expand();
 }
 
 function ItemCodeDirect_KeyPress(s, e) {
@@ -1382,14 +1413,17 @@ var params = "";
 function focused(s, e, type) {
     var pk = s.GetRowKey(e.visibleIndex);
     var entCode = EntityCodeAddEditDirect.GetText();
-    params = type + "-" + pk + "-" + entCode;
+    var buCode = BUCodeAddEditDirect.GetText();
+    params = type + "^" + pk + "^" + entCode + "^" + buCode;
     if (FloatCallbackPanel.InCallback())
         postponedCallbackRequired = true;
     else
         FloatCallbackPanel.PerformCallback(params);
 }
 
+function ItemCodeListSelected(s, e, type) {
 
+}
 
 //Floating SideBar
 function FloatEndCallback(s, e) {
