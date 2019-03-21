@@ -26,7 +26,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Quantity", typeof(string));
             }
 
-            string query = "SELECT WMSLOCATIONID, INVENTLOCATIONID, Qty " +
+            string query = "SELECT WMSLOCATIONID, INVENTLOCATIONID, Qty, UNITID " +
                            " FROM dbo.vw_AXInventLevel " +
                            " WHERE(DATAAREAID = '"+ EntCode + "') " +
                            " AND(ITEMID = '"+ ItemCode + "')";
@@ -41,6 +41,7 @@ namespace HijoPortal.classes
                     DataRow dtRow = dtTable.NewRow();
                     dtRow["LocationID"] = row["WMSLOCATIONID"].ToString();
                     dtRow["InventLocationID"] = row["INVENTLOCATIONID"].ToString();
+                    dtRow["UOM"] = row["UNITID"].ToString();
                     dtRow["Quantity"] = Convert.ToDouble(row["Qty"]).ToString("#,##0.00");
                     dtTable.Rows.Add(dtRow);
                 }
@@ -70,7 +71,7 @@ namespace HijoPortal.classes
             string query = "SELECT PURCHID, PURCHUNIT, qty, Status " +
                            " FROM dbo.vw_AXPendingPO_F " +
                            " WHERE(DATAAREAID = '"+ EntCode + "') " +
-                           " AND(BU_SSU = N'SSU-006') " +
+                           " AND(BU_SSU = '"+ BuCode + "') " +
                            " AND(ITEMID ='"+ ItemCode + "')";
             cmd = new SqlCommand(query);
             cmd.Connection = cn;

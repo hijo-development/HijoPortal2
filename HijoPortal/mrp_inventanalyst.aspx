@@ -84,6 +84,10 @@
                     <td>:</td>
                     <td colspan="2">
                         <dx:ASPxLabel ID="EntityCode" runat="server" Text="" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                        <div style="display:none;">
+                            <dx:ASPxLabel ID="Entity" runat="server" Text="" ClientInstanceName="EntityCodeInventDirect" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="BU" runat="server" Text="" ClientInstanceName="BUCodeInventDirect" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                        </div>
                     </td>
 
                 </tr>
@@ -157,7 +161,8 @@
                                             OnRowUpdating="DMGrid_RowUpdating"
                                             OnBeforeGetCallbackResult="DMGrid_BeforeGetCallbackResult"
                                             OnDataBound="DMGrid_DataBound">
-                                            <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
+                                            <%--<ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />--%>
+                                            <ClientSideEvents RowClick="function(s,e){focusedInventAnal(s,e,'Materials');}" />
                                             <ClientSideEvents CustomButtonClick="DMGrid_CustomButtonClick" />
 
                                             <Columns>
@@ -270,7 +275,8 @@
                                             OnRowUpdating="OpGrid_RowUpdating"
                                             OnBeforeGetCallbackResult="OpGrid_BeforeGetCallbackResult"
                                             OnDataBound="OpGrid_DataBound">
-                                            <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
+                                            <%--<ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />--%>
+                                            <ClientSideEvents RowClick="function(s,e){focusedInventAnal(s,e,'OPEX');}" />
                                             <ClientSideEvents CustomButtonClick="OpGrid_CustomButtonClick" />
 
                                             <Columns>
@@ -383,7 +389,8 @@
                                             OnRowUpdating="ManPoGrid_RowUpdating"
                                             OnBeforeGetCallbackResult="ManPoGrid_BeforeGetCallbackResult"
                                             OnDataBound="ManPoGrid_DataBound">
-                                            <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
+                                            <%--<ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />--%>
+                                            <ClientSideEvents RowClick="function(s,e){focusedInventAnal(s,e,'Manpower');}" />
                                             <ClientSideEvents CustomButtonClick="ManPoGrid_CustomButtonClick" />
 
                                             <Columns>
@@ -496,7 +503,8 @@
                                             OnRowUpdating="CapGrid_RowUpdating"
                                             OnBeforeGetCallbackResult="CapGrid_BeforeGetCallbackResult"
                                             OnDataBound="CapGrid_DataBound">
-                                            <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
+                                            <%--<ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />--%>
+                                            <ClientSideEvents RowClick="function(s,e){focusedInventAnal(s,e,'CAPEX');}" />
                                             <ClientSideEvents CustomButtonClick="CapGrid_CustomButtonClick" />
 
                                             <Columns>

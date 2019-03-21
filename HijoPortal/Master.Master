@@ -89,7 +89,7 @@
                             </dx:SplitterContentControl>
                         </ContentCollection>
                     </dx:SplitterPane>
-                    <dx:SplitterPane Size="20%" Name="SideMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" PaneStyle-Border-BorderStyle="None" ShowCollapseForwardButton="True" Collapsed="true">
+                    <dx:SplitterPane Size="25%" Name="SideMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" PaneStyle-Border-BorderStyle="None" ShowCollapseForwardButton="True" Collapsed="true">
                         <Separator>
                             <SeparatorStyle BackColor="#0e3f6b" />
                         </Separator>
@@ -147,10 +147,10 @@
                                                             <dx:GridViewDataColumn FieldName="InventLocationID" Caption="Invent. Loc. ID" VisibleIndex="1">
                                                                 <HeaderStyle Font-Bold="true" />
                                                             </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="0">
+                                                            <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="2">
                                                                 <HeaderStyle Font-Bold="true" />
                                                             </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Quantity" Caption="Quantity" VisibleIndex="2">
+                                                            <dx:GridViewDataColumn FieldName="Quantity" Caption="Quantity" VisibleIndex="3">
                                                                 <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
                                                             </dx:GridViewDataColumn>
@@ -171,17 +171,17 @@
                                                         Width="100%" Theme="Office2010Blue"
                                                         EnableCallBacks="true">
                                                         <Columns>
-                                                            <dx:GridViewDataColumn FieldName="PONumber" Caption="PO #" VisibleIndex="0">
+                                                            <dx:GridViewDataColumn FieldName="PONumber" Caption="PO Number" VisibleIndex="0">
                                                                 <HeaderStyle Font-Bold="true" />
                                                             </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="0">
+                                                            <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="1">
                                                                 <HeaderStyle Font-Bold="true" />
                                                             </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Quantity" Caption="Quantity" VisibleIndex="1">
+                                                            <dx:GridViewDataColumn FieldName="Quantity" Caption="Quantity" VisibleIndex="2">
                                                                 <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
                                                             </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Status" Caption="Status" VisibleIndex="2">
+                                                            <dx:GridViewDataColumn FieldName="Status" Caption="Status" VisibleIndex="3">
                                                                 <HeaderStyle Font-Bold="true" />
                                                             </dx:GridViewDataColumn>
                                                         </Columns>
@@ -201,17 +201,17 @@
                                                         Width="100%" Theme="Office2010Blue"
                                                         EnableCallBacks="true">
                                                         <Columns>
-                                                            <dx:GridViewDataColumn Caption="IMJ #" VisibleIndex="0">
+                                                            <dx:GridViewDataColumn Caption="IMJ Number" VisibleIndex="0">
                                                                 <HeaderStyle Font-Bold="true" />
                                                             </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="0">
+                                                            <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="1">
                                                                 <HeaderStyle Font-Bold="true" />
                                                             </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn Caption="Quantity" VisibleIndex="1">
+                                                            <dx:GridViewDataColumn Caption="Quantity" VisibleIndex="2">
                                                                 <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
                                                             </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn Caption="Status" VisibleIndex="2">
+                                                            <dx:GridViewDataColumn Caption="Status" VisibleIndex="3">
                                                                 <HeaderStyle Font-Bold="true" />
                                                             </dx:GridViewDataColumn>
                                                         </Columns>
