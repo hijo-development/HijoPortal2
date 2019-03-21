@@ -103,6 +103,8 @@ namespace HijoPortal
                 BindRevenue(docnumber);
             else
                 bindRevenue = true;
+
+            MRPClass.PrintString("DM:" + bindDM.ToString());
         }
 
         private void Load_MRP(string docnumber)
@@ -396,39 +398,29 @@ namespace HijoPortal
         protected void DirectMaterialsGrid_BeforeGetCallbackResult(object sender, EventArgs e)
         {
             ASPxGridView grid = sender as ASPxGridView;
+            MRPClass.SetBehaviorGrid(grid);
+
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("DirectPageControl") as ASPxPageControl;
-
-            if (wrkflwln == 0)
+            if (pageControl != null)
             {
-                if (iStatusKey != 1)
+                ASPxHiddenField entityhidden = pageControl.FindControl("entityhidden") as ASPxHiddenField;
+                if (entitycode != MRPClass.train_entity)
                 {
-                    //MRPClass.PrintString("pass");
-                    //return;
-                } else
-                {
-                    MRPClass.SetBehaviorGrid(grid);
-                    if (pageControl != null)
-                    {
-                        ASPxHiddenField entityhidden = pageControl.FindControl("entityhidden") as ASPxHiddenField;
-                        if (entitycode != MRPClass.train_entity)
-                        {
-                            HtmlControl div1 = (HtmlControl)pageControl.FindControl("OperatingUnit_label");
-                            div1.Style.Add("display", "none");
-                            HtmlControl div2 = (HtmlControl)pageControl.FindControl("OperatingUnit_combo");
-                            div2.Style.Add("display", "none");
+                    HtmlControl div1 = (HtmlControl)pageControl.FindControl("OperatingUnit_label");
+                    div1.Style.Add("display", "none");
+                    div1.Style.Add("display", "none");
+                    HtmlControl div2 = (HtmlControl)pageControl.FindControl("OperatingUnit_combo");
+                    div2.Style.Add("display", "none");
+                    div2.Style.Add("display", "none");
 
-                            entityhidden["hidden_value"] = "not display";
-                        }
-                        else
-                        {
-                            entityhidden["hidden_value"] = "display";
-                        }
-                    }
+                    entityhidden["hidden_value"] = "not display";
+                    MRPClass.PrintString(".....................trial");
                 }
-                
+                else
+                {
+                    entityhidden["hidden_value"] = "display";
+                }
             }
-            
-            
         }
 
         protected void DirectMaterialsGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)

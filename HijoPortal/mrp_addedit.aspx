@@ -267,7 +267,7 @@
                                                                                         <table style="width: 100%; padding: 10px;" border="0">
                                                                                             <tr>
                                                                                                 <td style="vertical-align: top; width: 30%;">
-                                                                                                    <table style="width: 100%;">
+                                                                                                    <table style="width: 100%;" border="0">
                                                                                                         <tr>
                                                                                                             <td style="width: 30%;">
                                                                                                                 <div id="OperatingUnit_label" runat="server">
@@ -556,15 +556,16 @@
                                                                                                         <tr>
                                                                                                             <td style="width: 20%;"></td>
                                                                                                             <td>
-                                                                                                                <div style="overflow-x: auto; width: 500px;">
+                                                                                                                <div style="overflow-x: auto; width: 450px;">
                                                                                                                     <dx:ASPxListBox ID="listboxOPEX" ClientInstanceName="listboxOPEX" runat="server" ValueType="System.String" 
                                                                                                                         ValueField="ITEMID" OnCallback="listboxOPEX_Callback" ClientVisible="false" Theme="Office2010Blue" Width="500px">
                                                                                                                         <Columns>
                                                                                                                             <dx:ListBoxColumn FieldName ="ITEMID" Caption ="Item Code" Width="80px"></dx:ListBoxColumn>
-                                                                                                                            <dx:ListBoxColumn FieldName ="NAMEALIAS" Caption ="Description"></dx:ListBoxColumn>
+                                                                                                                            <dx:ListBoxColumn FieldName ="NAMEALIAS" Caption ="Description" ToolTip="Item Description"></dx:ListBoxColumn>
                                                                                                                             <dx:ListBoxColumn FieldName ="UOM" Caption ="UOM" Width="50px"></dx:ListBoxColumn>
                                                                                                                             <dx:ListBoxColumn FieldName ="LastCost" Caption ="Last Price" Width="80px"></dx:ListBoxColumn>
                                                                                                                         </Columns>
+                                                                                                                        <ItemStyle Wrap="True" VerticalAlign="Middle" />
                                                                                                                         <ClientSideEvents SelectedIndexChanged="listbox_selectedOPEX" />
 
                                                                                                                     </dx:ASPxListBox>
