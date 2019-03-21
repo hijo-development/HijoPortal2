@@ -152,7 +152,7 @@
                                                     <th id="name" style="width: 10%;">Farm Name</th>
                                                     <th id="volume" style="width: 5%;">Volume</th>
                                                     <th id="prize" style="width: 15%;">Prize</th>
-                                                    <th id="total" style="width: 15%;">Total Amount</th>
+                                                    <th id="total" style="width: 15%; padding:2px;">Total Amount</th>
                                                     <%--<th style="width: 2%;"></th>--%>
                                                 </tr>
                                                 <tr runat="server" id="itemPlaceholder" />
@@ -203,9 +203,9 @@
                             </tr>
                             <tr>
                                 <td id="LabelTARev" runat="server" style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                                <td id="extraRevTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
+                                <%--<td id="extraRevTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>--%>
                                 <td id="TARevenue" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                                <td style="border-left-width: 0px; width: 2%"></td>
+                                <%--<td style="border-left-width: 0px; width: 2%"></td>--%>
                             </tr>
                         </table>
                     </td>
@@ -220,7 +220,7 @@
                                 <td colspan="3">
                                     <asp:ListView ID="PreviewListSummary" runat="server">
                                         <LayoutTemplate>
-                                            <table class="table1" style="width: 100%" runat="server" border="1">
+                                            <table class="prev_table" style="width: 100%" runat="server" border="1">
                                                 <tr runat="server" id="itemPlaceholder" />
                                             </table>
                                         </LayoutTemplate>
@@ -357,10 +357,10 @@
                 </tr>
                 <tr>
                     <td id="LabelTotalDM" runat="server" style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                    <td id="extraDMTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="TAMat" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
+                    <%--<td id="extraDMTD" runat="server" style="border-right-width: 0px; border-left-width: 0px;"></td>--%>
+                    <td id="TAMat" runat="server" style="border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
                     <td id="LabelTotalEDM" runat="server" style="border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="ETAMat" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
+                    <td id="ETAMat" runat="server" style="border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
                     <%--<td style="width: 2%; border-right-width: 0px; border-left-width: 0px;"></td>--%>
                     <%--<td id="ATAMat" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>--%>
                     <%--<td style="border-left-width: 0px; width: 5%;"></td>--%>
@@ -464,12 +464,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 40%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                    <td id="extraOPTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="TAOpex" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="width: 12%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="ETAOpex" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="width: 12%; border-right-width: 0px; border-left-width: 0px;"></td>
+                    <td id="LabelTotalOP" style="width: 40%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <%--<td id="extraOPTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>--%>
+                    <td id="TAOpex" runat="server" style="border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
+                    <td id="LabelTotalEOP" style="border-right-width: 0px; border-left-width: 0px;"></td>
+                    <td id="ETAOpex" runat="server" style="border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
+                    <%--<td style="border-right-width: 0px; border-left-width: 0px;"></td>--%>
                     <%--<td id="ATAOpex" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>--%>
                     <%--<td style="border-left-width: 0px; width: 5%;"></td>--%>
                 </tr>
@@ -573,14 +573,14 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 40%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                    <td id="extraMANTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
+                    <td id="LabelTotalMan" style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <%--<td id="extraMANTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>--%>
                     <td id="TAManpower" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="width: 12%; border-right-width: 0px; border-left-width: 0px;"></td>
+                    <td id="LabelTotalEMan" style="width: 12%; border-right-width: 0px; border-left-width: 0px;"></td>
                     <td id="ETAManpower" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="width: 12%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="ATAManpower" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px; width: 5%;"></td>
+                    <%--<td style="width: 12%; border-right-width: 0px; border-left-width: 0px;"></td>--%>
+                    <%--<td id="ATAManpower" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>--%>
+                    <%--<td style="border-left-width: 0px; width: 5%;"></td>--%>
                 </tr>
             </table>
 
@@ -676,14 +676,14 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 40%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                    <td id="extraCATD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="TotalAmountTD" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="width: 12%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="ETotalAmountTD" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="width: 12%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="ATotalAmountTD" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px; width: 5%;"></td>
+                    <td id="LabelTotalCA" style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <%--<td id="extraCATD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>--%>
+                    <td id="TACapex" runat="server" style="border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
+                    <td id="LabelTotalECA" style="border-right-width: 0px; border-left-width: 0px;"></td>
+                    <td id="ETACapex" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
+                    <%--<td style="width: 12%; border-right-width: 0px; border-left-width: 0px;"></td>--%>
+                    <%--<td id="ATotalAmountTD" runat="server" style="width: 7%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>--%>
+                    <%--<td style="border-left-width: 0px; width: 5%;"></td>--%>
                 </tr>
             </table>
 

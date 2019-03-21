@@ -138,7 +138,10 @@
 
         <div style="background-color: #ffffff; padding: 0px 0px 10px 0px; width: 100%;">
 
-            <table runat="server" class="main_prev_table" border="0">
+            <table class="rev_prev_table">
+                <tr>
+                    <td style="width:50%;">
+                        <table runat="server" class="main_prev_table" border="0">
                 <tr>
                     <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="4">REVENUE ASSUMPTIONS</td>
                 </tr>
@@ -149,13 +152,12 @@
                                 <table class="prev_table first_child_prev" runat="server" border="0" rule="cols">
                                     <tr class="headerRow">
                                         <th id="pk_header" runat="server" style="width: 0px; display: none;"></th>
-                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Product</th>
-                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
-                                        <th style="width: 10%;">Farm Name</th>
-                                        <th style="width: 5%;">Volume</th>
-                                        <th style="width: 15%;">Prize</th>
-                                        <th style="width: 15%;">Total Prize</th>
-                                        <th style="width: 2%;"></th>
+                                        <th id="prod" style="text-align: left; padding-left: 5px;">Product</th>
+                                        <th id="tableHeaderRevDesc" runat="server">Operating Unit</th>
+                                        <th id="name">Farm Name</th>
+                                        <th id="volume">Volume</th>
+                                        <th id="prize">Prize</th>
+                                        <th id="total" style="padding:2px;">Total Amount</th>
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" />
                                 </table>
@@ -195,25 +197,22 @@
                                         <asp:Label ID="RevTotalPrize" runat="server"
                                             Text='<%# Eval("TotalPrize") %>' />
                                     </td>
-                                    <td style="text-align: right;border-color:transparent;">
-
-                                        <%--<asp:LinkButton ID="LinkButton1" runat="server" CommandName="Link" EnableViewState="false">LinkButton</asp:LinkButton>--%>
+                                    <%--<td style="text-align: right;border-color:transparent;">
                                         <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
-                                    </td>
+                                    </td>--%>
                                 </tr>
                             </ItemTemplate>
                         </asp:ListView>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 65%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                    <td id="extraRevTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="TARevenue" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px; width: 10%"></td>
+                    <td id="LabelTARev" runat="server" style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td id="TARevenue" runat="server" class="prev_table_cell"></td>
                 </tr>
             </table>
-
-            <table id="tblSummCost" runat="server" class="main_prev_table" border="1">
+                    </td>
+                    <td style="width:50%;">
+                         <table id="tblSummCost" runat="server" class="main_prev_table" border="1">
                 <%--<table id="tblSummCost" runat="server">--%>
                 <tr>
                     <td style="background-color: mediumspringgreen; border-bottom-color: transparent; text-align: center; font-weight: bold;" colspan="3">Summary of Cost and Expenses</td>
@@ -223,10 +222,6 @@
                         <asp:ListView ID="PreviewListSummary" runat="server">
                             <LayoutTemplate>
                                 <table class="prev_table" runat="server" border="0" rule="rows">
-                                    <tr class="headerRow">
-                                        <th style="width: 15%; padding-left: 5px; text-align: left;"></th>
-                                        <th style="width: 85%;"></th>
-                                    </tr>
                                     <tr runat="server" id="itemPlaceholder" />
                                 </table>
                             </LayoutTemplate>
@@ -248,6 +243,9 @@
                     <td id="TotalAmountSummary" runat="server" style="width: 85%; font-weight: bold; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px;"></td>
                 </tr>
             </table>
+                    </td>
+                </tr>
+            </table>
 
             <table runat="server" class="main_prev_table" border="0">
                 <tr>
@@ -260,14 +258,13 @@
                                 <table class="prev_table" runat="server" border="0" rule="cols">
                                     <tr class="headerRow">
                                         <th id="pk_header" runat="server" style="width: 0px; display: none;"></th>
-                                        <th style="border-color: transparent;">Activity</th>
-                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Description</th>
-                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
-                                        <th style="width: 10%;">UOM</th>
-                                        <th style="width: 5%;">Qty</th>
-                                        <th style="width: 15%;">Est. Cost/Unit</th>
-                                        <th style="width: 15%;">Total</th>
-                                        <th style="width: 2%; border-color:transparent;"></th>
+                                        <th id="actTH" style="border-color: transparent;">Activity</th>
+                                        <th id="desc" style="text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="tableHeaderRevDesc" runat="server">Operating Unit</th>
+                                        <th id="uom" >UOM</th>
+                                        <th id="qty" >Qty</th>
+                                        <th id="cost" >Est. Cost/Unit</th>
+                                        <th id="total" >Total</th>
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" />
                                 </table>
@@ -306,21 +303,17 @@
                                         <asp:Label ID="MatTotalCost" runat="server"
                                             Text='<%# Eval("TotalCost") %>' />
                                     </td>
-                                    <td id="pin" runat="server" style="text-align: right; border-color: transparent;">
+                                    <%--<td id="pin" runat="server" style="text-align: right; border-color: transparent;">
                                         <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
-                                    </td>
+                                    </td>--%>
                                 </tr>
                             </ItemTemplate>
                         </asp:ListView>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 65%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                    <td id="extraDMTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="TAMat" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px; width: 2%;"></td>
-
-
+                    <td id="LabelTotalDM" runat="server" style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td id="TAMat" runat="server" class="prev_table_cell"></td>
                 </tr>
             </table>
 
@@ -336,14 +329,13 @@
                                 <table class="prev_table" runat="server" border="0" rule="cols">
                                     <tr class="headerRow">
                                         <th id="pk_header" runat="server" style="width: 0px; display: none;"></th>
-                                        <th style="width: 8%; border-color:transparent;">Expense</th>
-                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Description</th>
-                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
-                                        <th style="width: 10%;">UOM</th>
-                                        <th style="width: 7%;">Qty</th>
-                                        <th style="width: 15%;">Est. Cost/Unit</th>
-                                        <th style="width: 20%;">Total</th>
-                                        <th style="width: 2%;"></th>
+                                        <th id="expTH" style="border-color:transparent;">Expense</th>
+                                        <th id="desc" style="text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="tableHeaderRevDesc" runat="server">Operating Unit</th>
+                                        <th id="uom" >UOM</th>
+                                        <th id="qty" >Qty</th>
+                                        <th id="cost" >Est. Cost/Unit</th>
+                                        <th id="total" >Total</th>
                                        
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" />
@@ -386,19 +378,17 @@
                                             Text='<%# Eval("TotalCost") %>' />
                                     </td>
 
-                                    <td id="pin" runat="server" style="text-align: right; border-color: transparent">
+                                    <%--<td id="pin" runat="server" style="text-align: right; border-color: transparent">
                                         <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
-                                    </td>
+                                    </td>--%>
                                 </tr>
                             </ItemTemplate>
                         </asp:ListView>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 65%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                    <td id="extraOPTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="TAOpex" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px; width: 2%;"></td>
+                    <td id="LabelTotalOP" runat="server" style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td id="TAOpex" runat="server" class="prev_table_cell" ></td>
                 </tr>
             </table>
 
@@ -413,14 +403,13 @@
                                 <table class="prev_table" runat="server" border="0" rule="cols">
                                     <tr class="headerRow">
                                         <th id="pk_header" runat="server" style="width: 0px; display: none"></th>
-                                        <th style="border-color:transparent;">Activity</th>
-                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Description</th>
-                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
-                                        <th style="width: 10%;">UOM</th>
-                                        <th style="width: 5%;">Qty</th>
-                                        <th style="width: 15%;">Est. Cost/Unit</th>
-                                        <th style="width: 15%;">Total</th>
-                                        <th style="width: 2%; border-color:transparent;"></th>
+                                        <th id="actTH" style="border-color:transparent;">Activity</th>
+                                        <th id="desc" style="text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="tableHeaderRevDesc" runat="server">Operating Unit</th>
+                                        <th id="uom">UOM</th>
+                                        <th id="qty">Qty</th>
+                                        <th id="cost">Est. Cost/Unit</th>
+                                        <th id="total">Total</th>
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" />
                                 </table>
@@ -461,19 +450,17 @@
                                         <asp:Label ID="ManTotalCost" runat="server"
                                             Text='<%# Eval("TotalCost") %>' />
                                     </td>
-                                    <td id="pin" runat="server" style="text-align: right; border-color:transparent;">
+                                    <%--<td id="pin" runat="server" style="text-align: right; border-color:transparent;">
                                         <asp:ImageButton ID="pinImg" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
-                                    </td>
+                                    </td>--%>
                                 </tr>
                             </ItemTemplate>
                         </asp:ListView>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 65%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                    <td id="extraMANTD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="TAManpower" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px; width: 2%;"></td>
+                    <td id="LabelTotalManpower" runat="server" style="width: 65%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td id="TAManpower" runat="server" class="prev_table_cell"></td>
                 </tr>
             </table>
 
@@ -489,13 +476,12 @@
                                 <table class="prev_table first_child_prev" runat="server" border="0" rule="cols">
                                     <tr class="headerRow">
                                         <th id="pk_header" runat="server" style="width: 0px; display: none;"></th>
-                                        <th style="width: 35%; text-align: left; padding-left: 5px;">Description</th>
-                                        <th id="tableHeaderRevDesc" runat="server" style="width: 10%;">Operating Unit</th>
-                                        <th style="width: 10%;">UOM</th>
-                                        <th style="width: 5%;">Qty</th>
-                                        <th style="width: 15%;">Est. Cost/Unit</th>
-                                        <th style="width: 15%;">Total</th>
-                                        <th style="width: 2%;border-color:transparent;"></th>
+                                        <th id="desc" style="text-align: left; padding-left: 5px;">Description</th>
+                                        <th id="tableHeaderRevDesc" runat="server">Operating Unit</th>
+                                        <th id="uom">UOM</th>
+                                        <th id="qty">Qty</th>
+                                        <th id="cost">Est. Cost/Unit</th>
+                                        <th id="total">Total</th>
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" />
                                 </table>
@@ -533,21 +519,17 @@
                                         <asp:Label ID="CapexTotalCost" runat="server"
                                             Text='<%# Eval("TotalCost") %>' />
                                     </td>
-                                    <td style="text-align: right;border-color:transparent;">
-
-                                        <%--<asp:LinkButton ID="LinkButton1" runat="server" CommandName="Link" EnableViewState="false">LinkButton</asp:LinkButton>--%>
+                                    <%--<td style="text-align: right;border-color:transparent;">
                                         <asp:ImageButton ID="ImageButton1" CssClass="link-btn" runat="server" CommandName="Link" ImageUrl="~/images/pin.png" Width="15px" Height="15px" />
-                                    </td>
+                                    </td>--%>
                                 </tr>
                             </ItemTemplate>
                         </asp:ListView>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 65%; border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
-                    <td id="extraCATD" runat="server" style="width: 10%; border-right-width: 0px; border-left-width: 0px;"></td>
-                    <td id="TotalAmountTD" runat="server" style="width: 15%; border-left-width: 0px; border-right-width: 0px; text-align: right; padding-right: 5px; font-weight: bold"></td>
-                    <td style="border-left-width: 0px; width: 2%;"></td>
+                    <td id="LabelTotalCapex" runat="server" style="border-right-width: 0px; padding-left: 5px; font-weight: bold">Total</td>
+                    <td id="TotalAmountTD" runat="server" class="prev_table_cell"></td>
                 </tr>
             </table>
 

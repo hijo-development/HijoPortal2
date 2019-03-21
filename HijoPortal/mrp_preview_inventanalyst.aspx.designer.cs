@@ -133,10 +133,11 @@ namespace HijoPortal
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue, LabelTARev;
         protected global::System.Web.UI.HtmlControls.HtmlTableCell
-            TotalSummary, TotalDM,
-            TotalOpex, TotalCapex,
-            TotalManpower;
+            TotalSummary, TotalDM, LabelTotalDM, LabelTotalEDM, TotalEDM,
+            TotalOpex, LabelTotalOP, LabelTotalEOP, TotalEOpex,
+            TotalCapex, LabelTotalCA, LabelTotalECA, TotalECapex,
+            TotalManpower, LabelTotalMan, LabelTotalEMan, TotalEManpower;
     }
 }
