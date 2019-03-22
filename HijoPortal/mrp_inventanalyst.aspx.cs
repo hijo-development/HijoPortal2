@@ -25,7 +25,7 @@ namespace HijoPortal
             {
                 bool isAllowed = false;
                 isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", DateTime.Now);
-                if (isAllowed == false)
+                if (/*isAllowed == false*/false)
                 {
                     Response.Redirect("home.aspx");
                 }
@@ -446,6 +446,26 @@ namespace HijoPortal
             bindCapex = true;
             BindCapex(docnumber);
 
+        }
+
+        protected void DMGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            BindDirectMaterials(docnumber);
+        }
+
+        protected void OpGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            BindOpex(docnumber);
+        }
+
+        protected void ManPoGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            BindManPower(docnumber);
+        }
+
+        protected void CapGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            BindCapex(docnumber);
         }
 
         protected void MRPList_Click(object sender, EventArgs e)

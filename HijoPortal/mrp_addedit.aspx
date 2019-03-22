@@ -197,7 +197,8 @@
                                                         OnStartRowEditing="DirectMaterialsGrid_StartRowEditing"
                                                         OnRowUpdating="DirectMaterialsGrid_RowUpdating"
                                                         OnBeforeGetCallbackResult="DirectMaterialsGrid_BeforeGetCallbackResult"
-                                                        OnDataBound="DirectMaterialsGrid_DataBound">
+                                                        OnDataBound="DirectMaterialsGrid_DataBound" 
+                                                        OnCancelRowEditing="DirectMaterialsGrid_CancelRowEditing">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
                                                         <ClientSideEvents CustomButtonClick="DirectMaterialsGrid_CustomButtonClick" />
                                                         <Columns>
@@ -230,6 +231,7 @@
                                                             <dx:GridViewDataColumn FieldName="Qty">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="9" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
@@ -238,6 +240,7 @@
                                                             <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <%--<dx:GridViewDataColumn FieldName="WrkLine" Visible="false" VisibleIndex="11"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="12"></dx:GridViewDataColumn>--%>
@@ -254,6 +257,11 @@
                                                                 <Image Width="15px" Url="Images/Add.ico"></Image>
                                                             </NewButton>
                                                         </SettingsCommandButton>
+
+                                                         <TotalSummary>
+                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
+                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty"  DisplayFormat="Total: {0:0,0.00}" />
+                                                        </TotalSummary>
 
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
                                                         <Templates>
@@ -425,8 +433,8 @@
                                                                 </div>
                                                             </EditForm>
                                                         </Templates>
-                                                        <SettingsPager PageSize="10"></SettingsPager>
-                                                        <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                                                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                                        <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" ShowFooter="true" />
                                                         <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                                             AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" ConfirmDelete="true" />
                                                         <SettingsText ConfirmDelete="Delete This Item?" />
@@ -449,7 +457,8 @@
                                                         OnStartRowEditing="OPEXGrid_StartRowEditing"
                                                         OnRowUpdating="OPEXGrid_RowUpdating"
                                                         OnBeforeGetCallbackResult="OPEXGrid_BeforeGetCallbackResult"
-                                                        OnDataBound="OPEXGrid_DataBound">
+                                                        OnDataBound="OPEXGrid_DataBound" 
+                                                        OnCancelRowEditing="OPEXGrid_CancelRowEditing">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
                                                         <ClientSideEvents BeginCallback="OnBeginCallback" />
                                                         <ClientSideEvents CustomButtonClick="OPEXGrid_CustomButtonClick" />
@@ -484,6 +493,7 @@
                                                             <dx:GridViewDataColumn FieldName="Qty" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="9" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
@@ -492,6 +502,7 @@
                                                             <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="ExpenseCode" Visible="false"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="isItem" Visible="false"></dx:GridViewDataColumn>
@@ -509,6 +520,11 @@
                                                             </NewButton>
                                                         </SettingsCommandButton>
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
+
+                                                        <TotalSummary>
+                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
+                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty"  DisplayFormat="Total: {0:0,0.00}" />
+                                                        </TotalSummary>
 
                                                         <Templates>
                                                             <EditForm>
@@ -677,7 +693,8 @@
                                                                 </div>
                                                             </EditForm>
                                                         </Templates>
-                                                        <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                                                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                                        <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" ShowFooter="true" />
                                                         <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                                             AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" ConfirmDelete="true" />
                                                         <SettingsText ConfirmDelete="Delete This Item?" />
@@ -700,7 +717,8 @@
                                                         OnStartRowEditing="ManPowerGrid_StartRowEditing"
                                                         OnRowUpdating="ManPowerGrid_RowUpdating"
                                                         OnBeforeGetCallbackResult="ManPowerGrid_BeforeGetCallbackResult"
-                                                        OnDataBound="ManPowerGrid_DataBound">
+                                                        OnDataBound="ManPowerGrid_DataBound" 
+                                                        OnCancelRowEditing="ManPowerGrid_CancelRowEditing">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
                                                         <ClientSideEvents CustomButtonClick="ManPowerGrid_CustomButtonClick" />
                                                         <Columns>
@@ -733,6 +751,7 @@
                                                             <dx:GridViewDataColumn FieldName="Qty" Caption="Head Count" VisibleIndex="9" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="10" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
@@ -742,6 +761,7 @@
                                                             <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="11" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                         </Columns>
 
@@ -757,6 +777,11 @@
                                                             </NewButton>
                                                         </SettingsCommandButton>
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
+
+                                                         <TotalSummary>
+                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
+                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty"  DisplayFormat="Total: {0:0,0.00}" />
+                                                        </TotalSummary>
 
                                                         <Templates>
                                                             <EditForm>
@@ -895,7 +920,8 @@
                                                                 </div>
                                                             </EditForm>
                                                         </Templates>
-                                                        <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                                                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                                        <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" ShowFooter="true" />
                                                         <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                                             AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" ConfirmDelete="true" />
                                                         <SettingsText ConfirmDelete="Delete This Item?" />
@@ -918,7 +944,8 @@
                                                         OnStartRowEditing="CAPEXGrid_StartRowEditing"
                                                         OnRowUpdating="CAPEXGrid_RowUpdating"
                                                         OnBeforeGetCallbackResult="CAPEXGrid_BeforeGetCallbackResult"
-                                                        OnDataBound="CAPEXGrid_DataBound">
+                                                        OnDataBound="CAPEXGrid_DataBound" 
+                                                        OnCancelRowEditing="CAPEXGrid_CancelRowEditing">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
                                                         <ClientSideEvents CustomButtonClick="CAPEXGrid_CustomButtonClick" />
                                                         <Columns>
@@ -948,6 +975,7 @@
                                                             <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="7" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
@@ -957,6 +985,7 @@
                                                             <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="9" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                         </Columns>
 
@@ -972,6 +1001,11 @@
                                                             </NewButton>
                                                         </SettingsCommandButton>
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
+
+                                                         <TotalSummary>
+                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
+                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty"  DisplayFormat="Total: {0:0,0.00}" />
+                                                        </TotalSummary>
 
                                                         <Templates>
                                                             <EditForm>
@@ -1083,7 +1117,8 @@
                                                                 </div>
                                                             </EditForm>
                                                         </Templates>
-                                                        <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                                                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                                        <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" ShowFooter="true" />
                                                         <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                                             AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" ConfirmDelete="true" />
                                                         <SettingsText ConfirmDelete="Delete This Item?" />
@@ -1119,7 +1154,8 @@
                                                         OnStartRowEditing="RevenueGrid_StartRowEditing"
                                                         OnRowUpdating="RevenueGrid_RowUpdating"
                                                         OnBeforeGetCallbackResult="RevenueGrid_BeforeGetCallbackResult"
-                                                        OnDataBound="RevenueGrid_DataBound">
+                                                        OnDataBound="RevenueGrid_DataBound" 
+                                                        OnCancelRowEditing="RevenueGrid_CancelRowEditing">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Revenue');}" />
                                                         <ClientSideEvents CustomButtonClick="RevenueGrid_CustomButtonClick" />
                                                         <Columns>
@@ -1149,6 +1185,7 @@
                                                             <dx:GridViewDataColumn FieldName="Volume" VisibleIndex="6" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Prize" VisibleIndex="7" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
@@ -1157,6 +1194,7 @@
                                                             <dx:GridViewDataColumn FieldName="TotalPrize" Caption="Total" VisibleIndex="8" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                         </Columns>
 
@@ -1172,6 +1210,11 @@
                                                             </NewButton>
                                                         </SettingsCommandButton>
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
+
+                                                         <TotalSummary>
+                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
+                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty"  DisplayFormat="Total: {0:0,0.00}" />
+                                                        </TotalSummary>
 
                                                         <Templates>
                                                             <EditForm>
@@ -1283,7 +1326,8 @@
                                                                 </div>
                                                             </EditForm>
                                                         </Templates>
-                                                        <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                                                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                                        <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" ShowFooter="true" />
                                                         <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                                             AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" ConfirmDelete="true" />
                                                         <SettingsText ConfirmDelete="Delete This Item?" />

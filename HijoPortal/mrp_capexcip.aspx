@@ -76,12 +76,12 @@
                         <dx:ASPxLabel runat="server" Text='<%#Eval("HeaderDocNum")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
-                <dx:GridViewDataColumn FieldName="CompanyName">
+                <dx:GridViewDataColumn FieldName="CompanyName" Caption="Entity">
                     <EditItemTemplate>
                         <dx:ASPxLabel runat="server" Text='<%#Eval("CompanyName")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
-                <dx:GridViewDataColumn FieldName="BUName" Caption="Business Unit">
+                <dx:GridViewDataColumn FieldName="BUName" Caption="BU/SSU">
                     <EditItemTemplate>
                         <dx:ASPxLabel runat="server" Text='<%#Eval("BUName")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                     </EditItemTemplate>
@@ -101,24 +101,42 @@
                         <dx:ASPxLabel runat="server" Text='<%#Eval("UOM")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
-                <dx:GridViewDataColumn FieldName="ApprovedQty" CellStyle-HorizontalAlign="Right">
+
+                <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty" CellStyle-HorizontalAlign="Right">
+                    <EditItemTemplate>
+                        <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                    </EditItemTemplate>
+                </dx:GridViewDataColumn>
+                <dx:GridViewDataColumn FieldName="Cost" Caption="Cost" CellStyle-HorizontalAlign="Right">
+                    <EditItemTemplate>
+                        <dx:ASPxLabel runat="server" Text='<%#Eval("Cost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                    </EditItemTemplate>
+                </dx:GridViewDataColumn>
+                <dx:GridViewDataColumn FieldName="TotalCost" Caption="Total Cost" CellStyle-HorizontalAlign="Right">
+                    <EditItemTemplate>
+                        <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                    </EditItemTemplate>
+                </dx:GridViewDataColumn>
+
+                <dx:GridViewDataColumn FieldName="ApprovedQty" Caption="Recommended Qty" CellStyle-HorizontalAlign="Right">
                     <EditItemTemplate>
                         <dx:ASPxLabel runat="server" Text='<%#Eval("ApprovedQty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
-                <dx:GridViewDataColumn FieldName="ApprovedCost" CellStyle-HorizontalAlign="Right">
+                <dx:GridViewDataColumn FieldName="ApprovedCost" Caption="Cost" CellStyle-HorizontalAlign="Right">
                     <EditItemTemplate>
                         <dx:ASPxLabel runat="server" Text='<%#Eval("ApprovedCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
-                <dx:GridViewDataColumn FieldName="ApprovedTotalCost" CellStyle-HorizontalAlign="Right">
+                <dx:GridViewDataColumn FieldName="ApprovedTotalCost" Caption="Total Cost" CellStyle-HorizontalAlign="Right">
                     <EditItemTemplate>
                         <dx:ASPxLabel runat="server" Text='<%#Eval("ApprovedTotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
             </Columns>
             <Styles>
-                <Cell Wrap="False"></Cell>
+                <Cell Wrap="false"></Cell>
+                <InlineEditCell Wrap="False"></InlineEditCell>
             </Styles>
             <SettingsCommandButton>
                 <EditButton Image-Url="images/Edit.ico" Image-AlternateText="Edit" Image-ToolTip="Edit Row" RenderMode="Image" Image-Width="15px"></EditButton>
