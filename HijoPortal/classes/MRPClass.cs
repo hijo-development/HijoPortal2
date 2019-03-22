@@ -147,9 +147,9 @@ namespace HijoPortal.classes
                     dtRow["CreatorKey"] = Convert.ToInt32(row["CreatorKey"]);
                     dtRow["LastModified"] = row["LastModified"].ToString();
 
-                    
 
-                    if (Convert.ToInt32(row["StatusKey"]) == 1 )
+
+                    if (Convert.ToInt32(row["StatusKey"]) == 1)
                     {
                         dtRow["WorkflowStatus"] = "At Source";
                     }
@@ -158,7 +158,7 @@ namespace HijoPortal.classes
                         qry = "SELECT dbo.tbl_System_Approval_Position.PositionName " +
                               " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
                               " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                              " WHERE(dbo.tbl_MRP_List_Workflow.MasterKey = "+ row["PK"] +") " +
+                              " WHERE(dbo.tbl_MRP_List_Workflow.MasterKey = " + row["PK"] + ") " +
                               " AND(dbo.tbl_MRP_List_Workflow.Status = 0) " +
                               " AND(dbo.tbl_MRP_List_Workflow.Visible = 1)";
                         cmd1 = new SqlCommand(qry);
@@ -266,9 +266,10 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("ActivityCode", typeof(string));
                 dtTable.Columns.Add("ItemCode", typeof(string));
                 dtTable.Columns.Add("ItemDescription", typeof(string));
+                dtTable.Columns.Add("ItemDescriptionAddl", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(Double));
+                dtTable.Columns.Add("Qty", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
                 dtTable.Columns.Add("VALUE", typeof(string));
                 dtTable.Columns.Add("RevDesc", typeof(string));
@@ -296,9 +297,10 @@ namespace HijoPortal.classes
                     dtRow["ActivityCode"] = row["DESCRIPTION"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
                     dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+                    dtRow["ItemDescriptionAddl"] = row["ItemDescriptionAddl"].ToString();
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
 
                     if (entity == "0101")
@@ -376,7 +378,13 @@ namespace HijoPortal.classes
                     dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
                     dtRow["ActivityCode"] = row["DESCRIPTION"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
-                    dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+
+                    string desc = row["ItemDescriptionAddl"].ToString();
+                    if (!string.IsNullOrEmpty(desc))
+                        dtRow["ItemDescription"] = row["ItemDescription"].ToString() + " (" + desc + ")";
+                    else
+                        dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
@@ -454,7 +462,13 @@ namespace HijoPortal.classes
                     dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
                     dtRow["ActivityCode"] = row["DESCRIPTION"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
-                    dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+
+                    string desc = row["ItemDescriptionAddl"].ToString();
+                    if (!string.IsNullOrEmpty(desc))
+                        dtRow["ItemDescription"] = row["ItemDescription"].ToString() + " (" + desc + ")";
+                    else
+                        dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
@@ -503,9 +517,10 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("isItem", typeof(string));
                 dtTable.Columns.Add("ItemCode", typeof(string));
                 dtTable.Columns.Add("Description", typeof(string));
+                dtTable.Columns.Add("DescriptionAddl", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(Double));
+                dtTable.Columns.Add("Qty", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
                 dtTable.Columns.Add("VALUE", typeof(string));
                 dtTable.Columns.Add("RevDesc", typeof(string));
@@ -513,7 +528,7 @@ namespace HijoPortal.classes
 
             string query_1 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_OPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE INNER JOIN tbl_MRP_List ON tbl_MRP_List_OPEX.HeaderDocNum = tbl_MRP_List.DocNumber WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
-            string query_2 = "SELECT tbl_MRP_List_OPEX.PK, tbl_MRP_List_OPEX.HeaderDocNum, tbl_MRP_List_OPEX.ExpenseCode, tbl_MRP_List_OPEX.ItemCode, tbl_MRP_List_OPEX.Description, tbl_MRP_List_OPEX.UOM, tbl_MRP_List_OPEX.Cost, tbl_MRP_List_OPEX.Qty, tbl_MRP_List_OPEX.TotalCost, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query_2 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             if (entitycode == train_entity)
                 cmd = new SqlCommand(query_1);
@@ -535,9 +550,10 @@ namespace HijoPortal.classes
                     dtRow["isItem"] = row["isItem"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
                     dtRow["Description"] = row["Description"].ToString();
+                    dtRow["DescriptionAddl"] = row["DescriptionAddl"].ToString();
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
                     dtTable.Rows.Add(dtRow);
 
@@ -609,7 +625,13 @@ namespace HijoPortal.classes
                     dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
                     dtRow["ExpenseCodeName"] = row["NAME"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
-                    dtRow["Description"] = row["Description"].ToString();
+
+                    string desc = row["DescriptionAddl"].ToString();
+                    if (!string.IsNullOrEmpty(desc))
+                        dtRow["Description"] = row["Description"].ToString() + " (" + desc + ")";
+                    else
+                        dtRow["Description"] = row["Description"].ToString();
+
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
@@ -688,7 +710,13 @@ namespace HijoPortal.classes
                     dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
                     dtRow["ExpenseCodeName"] = row["NAME"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
-                    dtRow["Description"] = row["Description"].ToString();
+
+                    string desc = row["DescriptionAddl"].ToString();
+                    if (!string.IsNullOrEmpty(desc))
+                        dtRow["Description"] = row["Description"].ToString() + " (" + desc + ")";
+                    else
+                        dtRow["Description"] = row["Description"].ToString();
+
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
@@ -737,7 +765,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Description", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(Double));
+                dtTable.Columns.Add("Qty", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
                 dtTable.Columns.Add("VALUE", typeof(string));
                 dtTable.Columns.Add("RevDesc", typeof(string));
@@ -769,7 +797,7 @@ namespace HijoPortal.classes
                     dtRow["Description"] = row["Description"].ToString();
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
                     if (entitycode == train_entity)
                     {
@@ -972,7 +1000,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("ProductName", typeof(string));
                 dtTable.Columns.Add("FarmName", typeof(string));
                 dtTable.Columns.Add("Prize", typeof(string));
-                dtTable.Columns.Add("Volume", typeof(Double));
+                dtTable.Columns.Add("Volume", typeof(string));
                 dtTable.Columns.Add("TotalPrize", typeof(string));
                 dtTable.Columns.Add("VALUE", typeof(string));
                 dtTable.Columns.Add("RevDesc", typeof(string));
@@ -1001,7 +1029,7 @@ namespace HijoPortal.classes
                     dtRow["ProductName"] = row["ProductName"].ToString();
                     dtRow["FarmName"] = row["FarmName"].ToString();
                     dtRow["Prize"] = Convert.ToDouble(row["Prize"]).ToString("N");
-                    dtRow["Volume"] = Convert.ToDouble(row["Volume"]);
+                    dtRow["Volume"] = Convert.ToDouble(row["Volume"]).ToString("N");
                     dtRow["TotalPrize"] = Convert.ToDouble(row["TotalPrize"]).ToString("N");
                     if (execute)
                     {
@@ -1042,7 +1070,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Description", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(Double));
+                dtTable.Columns.Add("Qty", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
                 dtTable.Columns.Add("VALUE", typeof(string));
                 dtTable.Columns.Add("RevDesc", typeof(string));
@@ -1071,7 +1099,7 @@ namespace HijoPortal.classes
                     dtRow["Description"] = row["Description"].ToString();
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]);
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
 
                     if (execute)
@@ -2559,7 +2587,7 @@ namespace HijoPortal.classes
             else
                 grid.Columns["RevDesc"].Visible = false;
 
-            
+
         }
 
         public static int MRP_Line_Status(int masterKey, int line)
@@ -3747,8 +3775,8 @@ namespace HijoPortal.classes
             DataTable dt = new DataTable();
             SqlCommand cmd = null;
             SqlDataAdapter adp;
-            materials_total_amount =0;
-            mat_edited_total =0;
+            materials_total_amount = 0;
+            mat_edited_total = 0;
 
             cn.Open();
             if (dtTable.Columns.Count == 0)
@@ -3817,7 +3845,13 @@ namespace HijoPortal.classes
                             dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
                             dtRow["ActivityCode"] = "";
                             dtRow["ItemCode"] = row["ItemCode"].ToString();
-                            dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+
+                            string desc = row["ItemDescriptionAddl"].ToString();
+                            if (!string.IsNullOrEmpty(desc))
+                                dtRow["ItemDescription"] = row["ItemDescription"].ToString() + " (" + desc + ")";
+                            else
+                                dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+
                             dtRow["UOM"] = row["UOM"].ToString();
                             dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
                             dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
@@ -4115,7 +4149,13 @@ namespace HijoPortal.classes
                             dtRow["PK"] = row["PK"].ToString();
                             dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
                             dtRow["ExpenseCodeName"] = "";
-                            dtRow["Description"] = row["Description"].ToString();
+
+                            string desc = row["DescriptionAddl"].ToString();
+                            if (!string.IsNullOrEmpty(desc))
+                                dtRow["Description"] = row["Description"].ToString() + " (" + desc + ")";
+                            else
+                                dtRow["Description"] = row["Description"].ToString();
+
                             dtRow["UOM"] = row["UOM"].ToString();
                             dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
                             dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");

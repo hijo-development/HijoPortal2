@@ -89,6 +89,10 @@ namespace HijoPortal
             HtmlTableCell cost_two = (HtmlTableCell)listview.FindControl("cost_two");
             HtmlTableCell total_two = (HtmlTableCell)listview.FindControl("total_two");
 
+
+            qty.InnerText = Constants.Prev_Req_Qty();
+            recqty.InnerText = Constants.Prev_Rec_Qty();
+
             if (entitycode != Constants.TRAIN_CODE())
             {
                 if (revth != null)
@@ -150,6 +154,9 @@ namespace HijoPortal
             HtmlTableCell recqty = (HtmlTableCell)listview.FindControl("recqty");
             HtmlTableCell cost_two = (HtmlTableCell)listview.FindControl("cost_two");
             HtmlTableCell total_two = (HtmlTableCell)listview.FindControl("total_two");
+
+            qty.InnerText = Constants.Prev_Req_Qty();
+            recqty.InnerText = Constants.Prev_Rec_Qty();
 
             if (entitycode != Constants.TRAIN_CODE())
             {
@@ -311,6 +318,9 @@ namespace HijoPortal
             HtmlTableCell recqty = (HtmlTableCell)listview.FindControl("recqty");
             HtmlTableCell cost_two = (HtmlTableCell)listview.FindControl("cost_two");
             HtmlTableCell total_two = (HtmlTableCell)listview.FindControl("total_two");
+
+            qty.InnerText = Constants.Prev_Head_Count();
+            recqty.InnerText = Constants.Prev_Head_Count();
 
             if (entitycode != Constants.TRAIN_CODE())
             {
@@ -537,6 +547,9 @@ namespace HijoPortal
             HtmlTableCell recqty = (HtmlTableCell)listview.FindControl("recqty");
             HtmlTableCell cost_two = (HtmlTableCell)listview.FindControl("cost_two");
             HtmlTableCell total_two = (HtmlTableCell)listview.FindControl("total_two");
+
+            qty.InnerText = Constants.Prev_Req_Qty();
+            recqty.InnerText = Constants.Prev_Rec_Qty();
 
             if (entitycode != Constants.TRAIN_CODE())
             {

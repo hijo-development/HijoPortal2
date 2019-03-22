@@ -547,6 +547,9 @@ namespace HijoPortal
             HtmlTableCell cost_two = (HtmlTableCell)listview.FindControl("cost_two");
             HtmlTableCell total_two = (HtmlTableCell)listview.FindControl("total_two");
 
+            qty.InnerText = Constants.Prev_Head_Count();
+            recqty.InnerText = Constants.Prev_Head_Count();
+
             if (entitycode != Constants.TRAIN_CODE())
             {
                 if (revth != null)
