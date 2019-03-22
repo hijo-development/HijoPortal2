@@ -435,6 +435,7 @@ namespace HijoPortal
             ASPxComboBox actCode = pageControl.FindControl("ActivityCode") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("ItemDescription") as ASPxTextBox;
+            ASPxTextBox itemDesc2 = pageControl.FindControl("ItemDescriptionAddl") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
             ASPxTextBox qty = pageControl.FindControl("Qty") as ASPxTextBox;
@@ -451,15 +452,18 @@ namespace HijoPortal
             if (actCode.Value != null)
                 activity_code = actCode.Value.ToString();
 
+            string desc_two = "";
+            if (itemDesc2.Value != null)
+                desc_two = itemDesc2.Value.ToString();
 
             string insert = "INSERT INTO " + MRPClass.DirectMatTable() + 
                             " ([HeaderDocNum], [ActivityCode], [ItemCode], [ItemDescription], [UOM], " +
                             " [Cost], [Qty], [TotalCost], [OprUnit], " +
                             " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
-                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
+                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost], [ItemDescriptionAddl]) " +
                             " VALUES (@HeaderDocNum, @ActivityCode, @ItemCode, @ItemDesc, @UOM, " +
                             " @Cost, @Qty, @TotalCost, @OprUnit, " +
-                            " @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost)";
+                            " @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost, @itemDesc2)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
@@ -467,6 +471,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@ActivityCode", activity_code);
             cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemDesc", itemDesc.Value.ToString());
+            cmd.Parameters.AddWithValue("@itemDesc2", desc_two);
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -512,6 +517,7 @@ namespace HijoPortal
             ASPxComboBox actCode = pageControl.FindControl("ActivityCode") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("ItemDescription") as ASPxTextBox;
+            ASPxTextBox itemDesc2 = pageControl.FindControl("ItemDescriptionAddl") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
             ASPxTextBox qty = pageControl.FindControl("Qty") as ASPxTextBox;
@@ -527,12 +533,17 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
+            string desc_two = "";
+            if (itemDesc2.Value != null)
+                desc_two = itemDesc2.Value.ToString();
+
+
             string update_MRP = "UPDATE " + MRPClass.DirectMatTable() + 
                                 " SET [ActivityCode] = @ActivityCode, [ItemCode] = @ItemCode , " +
                                 " [ItemDescription] = @ItemDescription, [UOM]= @UOM, " +
                                 " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
                                 " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
-                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " +
+                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost, [ItemDescriptionAddl] = @itemDesc2 " +
                                 " WHERE [PK] = @PK";
 
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
@@ -541,6 +552,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@ActivityCode", actcodeVal);
             cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemDescription", itemDesc.Value.ToString());
+            cmd.Parameters.AddWithValue("@itemDesc2", desc_two);
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -632,6 +644,7 @@ namespace HijoPortal
             ASPxComboBox experseCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
+            ASPxTextBox itemDesc2 = pageControl.FindControl("DescriptionAddl") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
             ASPxTextBox qty = pageControl.FindControl("Qty") as ASPxTextBox;
@@ -644,10 +657,10 @@ namespace HijoPortal
                             " ([HeaderDocNum], [ExpenseCode], [ItemCode], [Description], [UOM], " +
                             " [Cost], [Qty], [TotalCost], [OprUnit], " +
                             " [EdittedQty], [EdittedCost], [EdittedTotalCost], " +
-                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
+                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost], [DescriptionAddl]) " +
                             " VALUES (@HeaderDocNum, @ExpenseCode, @ItemCode, @Description, @UOM, " +
                             " @Cost, @Qty, @TotalCost, @OprUnit, @Qty, @Cost, @TotalCost, " +
-                            " @Qty, @Cost, @TotalCost)";
+                            " @Qty, @Cost, @TotalCost, @itemDesc2)";
 
             string code = "";
             if (itemCode.Value != null) code = itemCode.Value.ToString();
@@ -656,12 +669,17 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
+            string desc_two = "";
+            if (itemDesc2.Value != null)
+                desc_two = itemDesc2.Value.ToString();
+
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ExpenseCode", experseCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemCode", code);
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
+            cmd.Parameters.AddWithValue("@itemDesc2", desc_two);
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -732,6 +750,7 @@ namespace HijoPortal
             ASPxComboBox expenseCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
+            ASPxTextBox itemDesc2 = pageControl.FindControl("DescriptionAddl") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
             ASPxTextBox qty = pageControl.FindControl("Qty") as ASPxTextBox;
@@ -748,7 +767,7 @@ namespace HijoPortal
                                 " [Description] = @Description, [UOM]= @UOM, " +
                                 " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
                                 " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittedTotalCost] = @TotalCost, " +
-                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " +
+                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost, [DescriptionAddl] = @itemDesc2 " +
                                 " WHERE [PK] = @PK";
 
             string code = "";
@@ -758,12 +777,17 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
+            string desc_two = "";
+            if (itemDesc2.Value != null)
+                desc_two = itemDesc2.Value.ToString();
+
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ExpenseCode", expenseCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemCode", code);
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
+            cmd.Parameters.AddWithValue("@itemDesc2", desc_two);
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));

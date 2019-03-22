@@ -127,11 +127,16 @@ function SplitterContentResize(s, e) {
 }
 
 function openNav() {
-    document.getElementById("mySidenav").style.width = "350px";
+    //var pane1 = MainSplitterClient.GetPaneByName("containMenu");
+    //var pane1 = MainSplitterClient.GetPane(0);
+    //pane1.Collapse(pane1);
+    //document.getElementById("mySidenav").style.width = "350px";
 }
 
 function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
+    //var pane1 = MainSplitterClient.GetPaneByName("containMenu");
+    //pane1.CollapseForward();
+    //document.getElementById("mySidenav").style.width = "0";
 }
 
 //REUSABLE FUNCTION START HERE....
@@ -252,7 +257,7 @@ function OperatingUnitDM(s, e) {
         s.SetIsValid(true);
 }
 
-function OperatingUnitOP(s, e) {
+function OperatingUnitOP_SelectedIndexChanged(s, e) {
     var text = s.GetSelectedItem().text;
     if (text.length == 0)
         s.SetIsValid(false);
@@ -889,7 +894,6 @@ function RevenueGrid_Add(s, e) {
 function updateDirectMat(s, e) {
     var entityval = entityhidden.Get('hidden_value');
     var bool = true;
-    console.log("This is debug:"+entityval);
     if (entityval == "display") {
         if (OperatingUnit.GetText().length == 0) {
             OperatingUnit.SetIsValid(false);
@@ -913,7 +917,6 @@ function updateDirectMat(s, e) {
     }
 }
 function updateOpex(s, e) {
-
     var entityval = entityhiddenOP.Get('hidden_value');
     var bool = true;
     if (entityval == "display") {
@@ -940,7 +943,6 @@ function updateOpex(s, e) {
 }
 
 function updateManpower(s, e) {
-
     var entityval = entityhiddenMAN.Get('hidden_value');
     var bool = true;
     if (entityval == "display") {

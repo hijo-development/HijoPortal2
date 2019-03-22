@@ -319,9 +319,9 @@ namespace HijoPortal
                         {
                             foreach (DataRow row in dt.Rows)
                             {
-                                descdata = row["ItemDescription"].ToString();
+                                descdata = row["Description"].ToString();
                                 lblItemCode.Text = row["ItemCode"].ToString();
-                                lblDescription.Text = row["ItemDescription"].ToString();
+                                lblDescription.Text = row["Description"].ToString();
 
                                 DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
                                 grdOnHand.DataSource = dtRecord;
