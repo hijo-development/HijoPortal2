@@ -84,7 +84,7 @@
                     <td>:</td>
                     <td colspan="2">
                         <dx:ASPxLabel ID="EntityCode" runat="server" Text="" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
-                        <div style="display:none;">
+                        <div style="display: none;">
                             <dx:ASPxLabel ID="Entity" runat="server" Text="" ClientInstanceName="EntityCodeInventDirect" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
                             <dx:ASPxLabel ID="BU" runat="server" Text="" ClientInstanceName="BUCodeInventDirect" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
                         </div>
@@ -137,7 +137,7 @@
                         &nbsp
                             <%--<dx:ASPxButton ID="MRPList" runat="server" Text="MOP LIST" AutoPostBack="false" Theme="Office2010Blue" OnClick="MRPList_Click"></dx:ASPxButton>
                         &nbsp--%>
-                            <dx:ASPxButton ID="Preview" runat="server" Text="Preview" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click"></dx:ASPxButton>
+                        <dx:ASPxButton ID="Preview" runat="server" Text="Preview" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click"></dx:ASPxButton>
                     </td>
                 </tr>
             </table>
@@ -160,7 +160,8 @@
                                             OnStartRowEditing="DMGrid_StartRowEditing"
                                             OnRowUpdating="DMGrid_RowUpdating"
                                             OnBeforeGetCallbackResult="DMGrid_BeforeGetCallbackResult"
-                                            OnDataBound="DMGrid_DataBound">
+                                            OnDataBound="DMGrid_DataBound"
+                                            OnCancelRowEditing="DMGrid_CancelRowEditing">
                                             <%--<ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />--%>
                                             <ClientSideEvents RowClick="function(s,e){focusedInventAnal(s,e,'Materials');}" />
                                             <ClientSideEvents CustomButtonClick="DMGrid_CustomButtonClick" />
@@ -203,6 +204,7 @@
                                                 <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty" VisibleIndex="8">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
@@ -217,13 +219,15 @@
                                                 <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption ="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="11">
+                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="11">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittedQty" ClientInstanceName="InvEdittedQty" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -244,6 +248,7 @@
                                                 <dx:GridViewDataColumn FieldName="EdittiedTotalCost" Caption="Total Cost" VisibleIndex="13">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittiedTotalCost" ClientInstanceName="InvEdittiedTotalCost" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                         </dx:ASPxTextBox>
@@ -258,8 +263,15 @@
                                             </SettingsCommandButton>
                                             <SettingsEditing Mode="Inline"></SettingsEditing>
 
-                                            <SettingsPager PageSize="10"></SettingsPager>
-                                            <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                                            <TotalSummary>
+                                                <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="EdittiedTotalCost" SummaryType="Sum" ShowInColumn="EdittiedTotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="EdittedQty" SummaryType="Sum" ShowInColumn="EdittedQty" DisplayFormat="Total: {0:0,0.00}" />
+                                            </TotalSummary>
+
+                                            <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                            <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" ShowFooter="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                                 AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>
@@ -274,7 +286,8 @@
                                             OnStartRowEditing="OpGrid_StartRowEditing"
                                             OnRowUpdating="OpGrid_RowUpdating"
                                             OnBeforeGetCallbackResult="OpGrid_BeforeGetCallbackResult"
-                                            OnDataBound="OpGrid_DataBound">
+                                            OnDataBound="OpGrid_DataBound"
+                                            OnCancelRowEditing="OpGrid_CancelRowEditing">
                                             <%--<ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />--%>
                                             <ClientSideEvents RowClick="function(s,e){focusedInventAnal(s,e,'OPEX');}" />
                                             <ClientSideEvents CustomButtonClick="OpGrid_CustomButtonClick" />
@@ -317,6 +330,7 @@
                                                 <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty" VisibleIndex="8">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
@@ -331,6 +345,7 @@
                                                 <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
@@ -338,6 +353,7 @@
                                                 <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="11">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittedQtyOp" ClientInstanceName="InvEdittedQtyOp" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -358,6 +374,7 @@
                                                 <dx:GridViewDataColumn FieldName="EdittedTotalCost" Caption="Total Cost" VisibleIndex="13">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittiedTotalCostOp" ClientInstanceName="InvEdittiedTotalCostOp" runat="server" Text='<%#Eval("EdittedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                         </dx:ASPxTextBox>
@@ -372,8 +389,15 @@
                                             </SettingsCommandButton>
                                             <SettingsEditing Mode="Inline"></SettingsEditing>
 
-                                            <SettingsPager PageSize="10"></SettingsPager>
-                                            <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                                            <TotalSummary>
+                                                <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="EdittedTotalCost" SummaryType="Sum" ShowInColumn="EdittedTotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="EdittedQty" SummaryType="Sum" ShowInColumn="EdittedQty" DisplayFormat="Total: {0:0,0.00}" />
+                                            </TotalSummary>
+
+                                            <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                            <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" ShowFooter="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                                 AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>
@@ -388,7 +412,8 @@
                                             OnStartRowEditing="ManPoGrid_StartRowEditing"
                                             OnRowUpdating="ManPoGrid_RowUpdating"
                                             OnBeforeGetCallbackResult="ManPoGrid_BeforeGetCallbackResult"
-                                            OnDataBound="ManPoGrid_DataBound">
+                                            OnDataBound="ManPoGrid_DataBound"
+                                            OnCancelRowEditing="ManPoGrid_CancelRowEditing">
                                             <%--<ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />--%>
                                             <ClientSideEvents RowClick="function(s,e){focusedInventAnal(s,e,'Manpower');}" />
                                             <ClientSideEvents CustomButtonClick="ManPoGrid_CustomButtonClick" />
@@ -431,6 +456,7 @@
                                                 <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty" VisibleIndex="8">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
@@ -445,6 +471,7 @@
                                                 <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="10">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
@@ -452,6 +479,7 @@
                                                 <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="11">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittedQtyManPo" ClientInstanceName="InvEdittedQtyManPo" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -472,6 +500,7 @@
                                                 <dx:GridViewDataColumn FieldName="EdittiedTotalCost" Caption="Total Cost" VisibleIndex="13">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittiedTotalCostManPo" ClientInstanceName="InvEdittiedTotalCostManPo" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                         </dx:ASPxTextBox>
@@ -486,8 +515,15 @@
                                             </SettingsCommandButton>
                                             <SettingsEditing Mode="Inline"></SettingsEditing>
 
-                                            <SettingsPager PageSize="10"></SettingsPager>
-                                            <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                                            <TotalSummary>
+                                                <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="EdittiedTotalCost" SummaryType="Sum" ShowInColumn="EdittiedTotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="EdittedQty" SummaryType="Sum" ShowInColumn="EdittedQty" DisplayFormat="Total: {0:0,0.00}" />
+                                            </TotalSummary>
+
+                                            <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                            <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" ShowFooter="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                                 AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>
@@ -502,7 +538,8 @@
                                             OnStartRowEditing="CapGrid_StartRowEditing"
                                             OnRowUpdating="CapGrid_RowUpdating"
                                             OnBeforeGetCallbackResult="CapGrid_BeforeGetCallbackResult"
-                                            OnDataBound="CapGrid_DataBound">
+                                            OnDataBound="CapGrid_DataBound"
+                                            OnCancelRowEditing="CapGrid_CancelRowEditing">
                                             <%--<ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />--%>
                                             <ClientSideEvents RowClick="function(s,e){focusedInventAnal(s,e,'CAPEX');}" />
                                             <ClientSideEvents CustomButtonClick="CapGrid_CustomButtonClick" />
@@ -535,6 +572,7 @@
                                                 <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty" VisibleIndex="7">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
@@ -549,13 +587,15 @@
                                                 <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="9">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc"  VisibleIndex="10">
+                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="10">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittedQtyCapex" ClientInstanceName="InvEdittedQtyCapex" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -576,6 +616,7 @@
                                                 <dx:GridViewDataColumn FieldName="EdittiedTotalCost" Caption="Total Cost" VisibleIndex="12">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                    <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxTextBox ID="InvEdittiedTotalCostCapex" ClientInstanceName="InvEdittiedTotalCostCapex" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                         </dx:ASPxTextBox>
@@ -590,8 +631,15 @@
                                             </SettingsCommandButton>
                                             <SettingsEditing Mode="Inline"></SettingsEditing>
 
-                                            <SettingsPager PageSize="10"></SettingsPager>
-                                            <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                                            <TotalSummary>
+                                                <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="EdittiedTotalCost" SummaryType="Sum" ShowInColumn="EdittiedTotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                <dx:ASPxSummaryItem FieldName="EdittedQty" SummaryType="Sum" ShowInColumn="EdittedQty" DisplayFormat="Total: {0:0,0.00}" />
+                                            </TotalSummary>
+
+                                            <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                            <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" ShowFooter="true" />
                                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                                 AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                                         </dx:ASPxGridView>

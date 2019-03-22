@@ -97,6 +97,7 @@ namespace HijoPortal
             object value = container.Grid.GetRowValues(container.VisibleIndex, "DocNumber");
             object wrklineval = container.Grid.GetRowValues(container.VisibleIndex, "LevelLine");
             object wrkflowtypeval = container.Grid.GetRowValues(container.VisibleIndex, "WorkflowType");
+            Session["mrp_creator"] = container.Grid.GetRowValues(container.VisibleIndex, "CreatorKey");
 
             if (Convert.ToInt32(wrkflowtypeval) == 1)
             {

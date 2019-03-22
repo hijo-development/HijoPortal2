@@ -490,7 +490,7 @@ function ManPowerGrid_CustomButtonClick(s, e) {
                 Add_Edit_MRPNotify.SetHeaderText("Alert");
                 Add_Edit_MRPNotify.Show();
             }
-            
+
         }
         //s.StartEditRow(e.visibleIndex);
     } else if (button == "MANDelete") {
@@ -1288,7 +1288,7 @@ function listbox_selectedOPEX(s, e) {
     if (paneMenu.IsCollapsed() === false) {
         paneMenu.Collapse(true);
     }
-    
+
 
 }
 
@@ -1390,10 +1390,10 @@ function listbox_selected(s, e) {
     //SideBarDescription.SetText(arrSelText[1].trim());
 
     listbox.SetVisible(false);
-    
+
     var entCode = EntityCodeAddEditDirect.GetText();
     var buCode = BUCodeAddEditDirect.GetText();
-    params = "Materials^0^" + entCode + "^" + buCode +"^" + selValue;
+    params = "Materials^0^" + entCode + "^" + buCode + "^" + selValue;
     if (FloatCallbackPanel.InCallback())
         postponedCallbackRequired = true;
     else
@@ -1769,18 +1769,32 @@ function MRPanalystfocused(s, e, type) {
 }
 
 function OnKeyUpQtytInvDirect(s, e) {
+    var avail_qty = DMGrid.GetSelectedItem().GetColumnText("Qty").toString();
+
+    //var avail_qty = parseFloat(localStorage.getItem('InventAnalystQty')).toFixed(2);
     var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
     var qty = parseFloat(accounting.unformat(s.GetText()));
     var cost = parseFloat(InvEdittedCost.GetText()).toFixed(2);
     var total = 0;
-    if (qty > 0) {
+    if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
+        if (qty > 0) {
+            if (cost > 0) {
+                total = cost * qty;
+                InvEdittiedTotalCost.SetText(parseFloat(total).toFixed(2));
+            }
+        } else {
+            InvEdittiedTotalCost.SetText("");
+        }
+    }
+    else {
+        s.SetText(avail_qty);
         if (cost > 0) {
-            total = cost * qty;
+            total = cost * avail_qty;
             InvEdittiedTotalCost.SetText(parseFloat(total).toFixed(2));
         }
-    } else {
-        InvEdittiedTotalCost.SetText("");
     }
+
+
 }
 
 function OnKeyUpCosttInvDirect(s, e) {

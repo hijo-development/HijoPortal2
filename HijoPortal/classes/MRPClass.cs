@@ -1890,6 +1890,9 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("RevDesc", typeof(string));
                 dtTable.Columns.Add("Description", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(Double));
                 dtTable.Columns.Add("ApprovedCost", typeof(string));
                 dtTable.Columns.Add("ApprovedTotalCost", typeof(string));
                 dtTable.Columns.Add("ApprovedQty", typeof(Double));
@@ -1919,9 +1922,14 @@ namespace HijoPortal.classes
                     dtRow["RevDesc"] = row["RevDesc"].ToString();
                     dtRow["Description"] = row["Description"].ToString();
                     dtRow["UOM"] = row["UOM"].ToString();
-                    dtRow["ApprovedCost"] = row["ApprovedCost"].ToString();
-                    dtRow["ApprovedTotalCost"] = row["ApprovedTotalCost"].ToString();
-                    dtRow["ApprovedQty"] = Convert.ToDouble(row["ApprovedQty"].ToString());
+
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+
+                    dtRow["ApprovedCost"] = Convert.ToDouble(row["ApprovedCost"].ToString()).ToString("N");
+                    dtRow["ApprovedTotalCost"] = Convert.ToDouble(row["ApprovedTotalCost"].ToString()).ToString("N");
+                    dtRow["ApprovedQty"] = Convert.ToDouble(row["ApprovedQty"].ToString()).ToString("N");
 
                     dtTable.Rows.Add(dtRow);
                 }
@@ -3190,6 +3198,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("LevelPosition", typeof(string));
                 dtTable.Columns.Add("Status", typeof(string));
                 dtTable.Columns.Add("WorkflowType", typeof(string));
+                dtTable.Columns.Add("CreatorKey", typeof(string));
             }
             dtTable.Clear();
 
@@ -3213,7 +3222,7 @@ namespace HijoPortal.classes
             //             " WHERE(dbo.tbl_MRP_List_Workflow.Visible = 1) " +
             //             " AND(dbo.tbl_MRP_List_Workflow.Status = 0)" +
             //             " AND (dbo.tbl_Users_Assigned.UserKey = " + usrkey + ")";
-            string qry = "SELECT dbo.tbl_Users_Assigned.MRPKey, dbo.tbl_MRP_List.DocNumber, dbo.tbl_MRP_List.DateCreated, dbo.vw_AXEntityTable.NAME AS Entity, " +
+            string qry = "SELECT dbo.tbl_Users_Assigned.MRPKey, dbo.tbl_MRP_List.DocNumber, dbo.tbl_MRP_List.CreatorKey, dbo.tbl_MRP_List.DateCreated, dbo.vw_AXEntityTable.NAME AS Entity, " +
                          " dbo.vw_AXOperatingUnitTable.NAME AS Dept, dbo.tbl_MRP_List.MRPMonth, dbo.tbl_MRP_List.MRPYear, dbo.tbl_Users_Assigned.WorkFlowLine, " +
                          " dbo.tbl_Users_Assigned.PositionNameKey, dbo.tbl_System_Approval_Position.PositionName, dbo.tbl_MRP_List.StatusKey, dbo.tbl_MRP_Status.StatusName, " +
                          " dbo.tbl_Users_Assigned.WorkFlowType, (CASE dbo.tbl_Users_Assigned.WorkFlowType WHEN 1 THEN (SELECT Status FROM  dbo.tbl_MRP_List_Workflow " +
@@ -3253,6 +3262,7 @@ namespace HijoPortal.classes
                     rowAdd["LevelPosition"] = row["PositionName"].ToString();
                     rowAdd["Status"] = row["StatusName"].ToString();
                     rowAdd["WorkflowType"] = row["WorkFlowType"].ToString();
+                    rowAdd["CreatorKey"] = row["CreatorKey"].ToString();
                     dtTable.Rows.Add(rowAdd);
                 }
             }

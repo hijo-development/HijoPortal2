@@ -102,7 +102,6 @@ namespace HijoPortal
             else
                 bindRevenue = true;
 
-            MRPClass.PrintString("DM:" + bindDM.ToString());
         }
 
         private void Load_MRP(string docnumber)
@@ -1356,6 +1355,31 @@ namespace HijoPortal
                 BindRevenue(docnumber);
                 e.Cancel = true;
             }
+        }
+
+        protected void DirectMaterialsGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            BindDirectMaterials(docnumber);
+        }
+
+        protected void OPEXGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            BindOPEX(docnumber);
+        }
+
+        protected void ManPowerGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            BindManPower(docnumber);
+        }
+
+        protected void CAPEXGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            BindCAPEX(docnumber);
+        }
+
+        protected void RevenueGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            BindRevenue(docnumber);
         }
 
         protected void RevenueGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
