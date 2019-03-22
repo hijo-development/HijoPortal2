@@ -225,7 +225,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("MRPMonth", typeof(string));
             }
 
-            string query = "SELECT tbl_MRP_List.DocNumber, tbl_MRP_List.MRPMonth, tbl_MRP_List.MRPYear, vw_AXOperatingUnitTable.NAME, vw_AXEntityTable.NAME AS BU FROM tbl_MRP_List INNER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID ORDER BY DocNumber DESC";
+            string query = "SELECT tbl_MRP_List.DocNumber, tbl_MRP_List.MRPMonth, tbl_MRP_List.MRPYear, vw_AXOperatingUnitTable.NAME, vw_AXEntityTable.NAME AS BU FROM tbl_MRP_List INNER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID WHERE (tbl_MRP_List.StatusKey = 4) ORDER BY DocNumber DESC";
 
             cmd = new SqlCommand(query);
             cmd.Connection = cn;

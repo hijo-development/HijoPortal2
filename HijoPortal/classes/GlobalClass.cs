@@ -753,6 +753,7 @@ namespace HijoPortal.classes
             {
                 case "MOPSCMLead":
                     {
+                        //MRPClass.PrintString("MOPSCMLead");
                         qry = "SELECT TOP (1) UserKey, StatusKey, EffectDate " +
                               " FROM dbo.tbl_System_SCMHead " +
                               " WHERE(UserKey = "+ usrKey + ") " +
@@ -763,6 +764,7 @@ namespace HijoPortal.classes
                         cmd.Connection = cn;
                         adp = new SqlDataAdapter(cmd);
                         adp.Fill(dtable);
+                        //MRPClass.PrintString("MOPSCMLead - " + dtable.Rows.Count.ToString());
                         if (dtable.Rows.Count > 0)
                         {
                             isAllowed = true;

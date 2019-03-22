@@ -41,12 +41,12 @@
                 <table style="width: 100%;" border="0">
                     <tr>
                         <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
-                            <dx:ASPxLabel runat="server" Text="Are you sure you want to submit this document?" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel runat="server" Text="Are you sure you want to approve this document?" Theme="Office2010Blue"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: right;">
-                            <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Office2010Blue" OnClick="Submit_Click" AutoPostBack="false">
+                            <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="APPROVE" Theme="Office2010Blue" OnClick="Submit_Click" AutoPostBack="false">
                                 <%--<ClientSideEvents Click="OK_DELETE" />--%>
                             </dx:ASPxButton>
                             <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
@@ -74,6 +74,7 @@
                     <td rowspan="3" style="width: 40%; text-align: right; vertical-align: bottom;">
                         <div style="display: none;">
                             <dx:ASPxHiddenField ID="StatusHidden" runat="server" ClientInstanceName="StatusHiddenPrevApp"></dx:ASPxHiddenField>
+                            <dx:ASPxHiddenField ID="WorkLineHidden" runat="server" ClientInstanceName="StatusHiddenPrevAppWL"></dx:ASPxHiddenField>
                         </div>
                         <%--OnClick="Submit_Click"--%>
                         <dx:ASPxButton ID="Submit" runat="server" Text="Approved" AutoPostBack="false" Theme="Office2010Blue">

@@ -290,6 +290,7 @@ namespace HijoPortal
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ETACapex, LabelTotalCA, LabelTotalECA, TACapex;//CAPEX
 
         protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
+        protected global::DevExpress.Web.ASPxHiddenField WorkLineHidden;
         protected global::DevExpress.Web.ASPxButton Submit;
         protected global::DevExpress.Web.ASPxPopupControl MRPNotifyPrevApp;
         protected global::DevExpress.Web.ASPxLabel MRPNotifyMsgPrevApp;

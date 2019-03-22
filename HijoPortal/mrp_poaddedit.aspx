@@ -28,17 +28,29 @@
                                 <ClientSideEvents SelectedIndexChanged="PODocNumber_SelectedIndexChanged" />
                             </dx:ASPxComboBox>
                         </td>
-                        <td>
-                            <dx:ASPxLabel runat="server" Text="Expected Delivery" Theme="Office2010Blue"></dx:ASPxLabel>
-                            <label class="asterisk">*</label>
+                        <td colspan="3" rowspan="2" >
+                            <%--<table>
+                                <tr>
+                                    <td><dx:ASPxLabel runat="server" Text="Month/Year" Theme="Office2010Blue"></dx:ASPxLabel></td>
+                                    <td>:</td>
+                                    <td><dx:ASPxLabel ID="MOPMonthYear" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel></td>
+                                </tr>
+                                <tr>
+                                    <td><dx:ASPxLabel runat="server" Text="Entity" Theme="Office2010Blue"></dx:ASPxLabel></td>
+                                    <td>:</td>
+                                    <td><dx:ASPxLabel ID="MOPEntity" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel></td>
+                                </tr>
+                                <tr>
+                                    <td><dx:ASPxLabel runat="server" Text="BU / SSU" Theme="Office2010Blue"></dx:ASPxLabel></td>
+                                    <td>:</td>
+                                    <td><dx:ASPxLabel ID="MOPBUSSU" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel></td>
+                                </tr>
+                            </table>--%>
                         </td>
-                        <td>:</td>
+                        <%--<td>:</td>
                         <td style="width: 20%;">
-                            <dx:ASPxDateEdit ID="ExpDelivery" runat="server" ClientInstanceName="POExpDelivery" Theme="Office2010Blue" AllowUserInput="false"
-                                ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
-                                <ClientSideEvents GotFocus="function(s, e) { s.ShowDropDown(); }" />
-                            </dx:ASPxDateEdit>
-                        </td>
+                            
+                        </td>--%>
                         <td></td>
                         <td></td>
                         <td style="width: 20%;"></td>
@@ -55,23 +67,13 @@
                                 <ClientSideEvents SelectedIndexChanged="vendor_indexchanged" />
                             </dx:ASPxComboBox>
                         </td>
-                        <td>
-                            <dx:ASPxLabel runat="server" Text="Currency" Theme="Office2010Blue"></dx:ASPxLabel>
-                            <label class="asterisk">*</label>
+                        <%--<td>
+                            
                         </td>
                         <td>:</td>
                         <td>
-                            <dx:ASPxCallbackPanel ID="CurrencyCallback" ClientInstanceName="CurrencyCallback" runat="server" Width="200px" OnCallback="CurrencyCallback_Callback">
-                                <ClientSideEvents EndCallback="currency_endcallback" />
-                                <PanelCollection>
-                                    <dx:PanelContent>
-                                        <dx:ASPxComboBox ID="Currency" runat="server" ClientInstanceName="POCurrency" ValueType="System.String" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="ImageWithText"
-                                            ValidationSettings-RequiredField-IsRequired="true">
-                                        </dx:ASPxComboBox>
-                                    </dx:PanelContent>
-                                </PanelCollection>
-                            </dx:ASPxCallbackPanel>
-                        </td>
+                            
+                        </td>--%>
                         <td>
                             <dx:ASPxLabel runat="server" Text="Site" Theme="Office2010Blue"></dx:ASPxLabel>
                             <label class="asterisk">*</label>
@@ -87,10 +89,9 @@
                     <tr>
                         <td style="height: 20px">
                             <dx:ASPxLabel runat="server" Text="Terms" Theme="Office2010Blue"></dx:ASPxLabel>
-
                         </td>
                         <td>:</td>
-                        <td style="padding-left: 5px;" colspan="4">
+                        <td style="padding-left: 5px;">
                             <dx:ASPxCallbackPanel ID="TermsCallback" ClientInstanceName="TermsCallback" runat="server" Width="200px" OnCallback="TermsCallback_Callback">
                                 <ClientSideEvents EndCallback="terms_endcallback" />
                                 <PanelCollection>
@@ -100,6 +101,17 @@
                                     </dx:PanelContent>
                                 </PanelCollection>
                             </dx:ASPxCallbackPanel>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel runat="server" Text="Expected Delivery" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <label class="asterisk">*</label>
+                        </td>
+                        <td>:</td>
+                        <td>
+                            <dx:ASPxDateEdit ID="ExpDelivery" runat="server" ClientInstanceName="POExpDelivery" Theme="Office2010Blue" AllowUserInput="false"
+                                ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
+                                <ClientSideEvents GotFocus="function(s, e) { s.ShowDropDown(); }" />
+                            </dx:ASPxDateEdit>
                         </td>
                         <td>
                             <dx:ASPxLabel runat="server" Text="Warehouse" Theme="Office2010Blue"></dx:ASPxLabel>
@@ -125,11 +137,28 @@
                             <dx:ASPxLabel runat="server" Text="Procurement Category" Theme="Office2010Blue"></dx:ASPxLabel>
                         </td>
                         <td>:</td>
-                        <td colspan="4">
+                        <td>
                             <dx:ASPxComboBox ID="ProCategory" runat="server" ClientInstanceName="POProCategory" ValueType="System.String" Width="170px" Theme="Office2010Blue"
                                 TextFormatString="{0}" OnInit="ProCategory_Init" ValidationSettings-ErrorDisplayMode="ImageWithText" ValidationSettings-RequiredField-IsRequired="true">
                                 <ClientSideEvents SelectedIndexChanged="procategory_indexchange" />
                             </dx:ASPxComboBox>
+                        </td>
+                        <td>
+                            <dx:ASPxLabel runat="server" Text="Currency" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <label class="asterisk">*</label>
+                        </td>
+                        <td>:</td>
+                        <td>
+                            <dx:ASPxCallbackPanel ID="CurrencyCallback" ClientInstanceName="CurrencyCallback" runat="server" Width="200px" OnCallback="CurrencyCallback_Callback">
+                                <ClientSideEvents EndCallback="currency_endcallback" />
+                                <PanelCollection>
+                                    <dx:PanelContent>
+                                        <dx:ASPxComboBox ID="Currency" runat="server" ClientInstanceName="POCurrency" ValueType="System.String" Theme="Office2010Blue" ValidationSettings-ErrorDisplayMode="ImageWithText"
+                                            ValidationSettings-RequiredField-IsRequired="true">
+                                        </dx:ASPxComboBox>
+                                    </dx:PanelContent>
+                                </PanelCollection>
+                            </dx:ASPxCallbackPanel>
                         </td>
                         <td>
                             <dx:ASPxLabel runat="server" Text="Location" Theme="Office2010Blue"></dx:ASPxLabel>
@@ -171,7 +200,7 @@
                                     </dx:GridViewCommandColumn>
                                     <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
                                     <dx:GridViewDataColumn FieldName="TableIdentifier" Visible="false"></dx:GridViewDataColumn>
-                                    <dx:GridViewDataColumn FieldName="MRPCategory" VisibleIndex="2">
+                                    <dx:GridViewDataColumn FieldName="MRPCategory" Caption="Pro Cat" VisibleIndex="2">
                                         <EditItemTemplate>
                                             <dx:ASPxLabel runat="server" Text='<%#Eval("MRPCategory") %>'></dx:ASPxLabel>
                                         </EditItemTemplate>
@@ -187,21 +216,29 @@
                                         </EditItemTemplate>
                                     </dx:GridViewDataColumn>
                                     <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="5">
+                                        <HeaderStyle HorizontalAlign="Right" />
+                                        <CellStyle HorizontalAlign="Right"></CellStyle>
                                         <EditItemTemplate>
                                             <dx:ASPxLabel runat="server" Text='<%#Eval("Qty") %>'></dx:ASPxLabel>
                                         </EditItemTemplate>
                                     </dx:GridViewDataColumn>
                                     <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="6">
+                                        <HeaderStyle HorizontalAlign="Right" />
+                                        <CellStyle HorizontalAlign="Right"></CellStyle>
                                         <EditItemTemplate>
                                             <dx:ASPxLabel runat="server" Text='<%#Eval("Cost") %>'></dx:ASPxLabel>
                                         </EditItemTemplate>
                                     </dx:GridViewDataColumn>
                                     <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="7">
+                                        <HeaderStyle HorizontalAlign="Right" />
+                                        <CellStyle HorizontalAlign="Right"></CellStyle>
                                         <EditItemTemplate>
                                             <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost") %>'></dx:ASPxLabel>
                                         </EditItemTemplate>
                                     </dx:GridViewDataColumn>
                                     <dx:GridViewDataColumn FieldName="POQty" VisibleIndex="8">
+                                        <HeaderStyle HorizontalAlign="Right" />
+                                        <CellStyle HorizontalAlign="Right"></CellStyle>
                                         <EditItemTemplate>
                                             <dx:ASPxTextBox ID="POQty" ClientInstanceName="POQty" Text='<%#Eval("POQty") %>' runat="server" Width="100px">
                                                 <ClientSideEvents ValueChanged="OnValueChangeQty" />
@@ -211,6 +248,8 @@
                                         </EditItemTemplate>
                                     </dx:GridViewDataColumn>
                                     <dx:GridViewDataColumn FieldName="POCost" VisibleIndex="9">
+                                        <HeaderStyle HorizontalAlign="Right" />
+                                        <CellStyle HorizontalAlign="Right"></CellStyle>
                                         <EditItemTemplate>
                                             <dx:ASPxTextBox ID="POCost" ClientInstanceName="POCost" Text='<%#Eval("POCost") %>' runat="server" Width="100px">
                                                 <ClientSideEvents ValueChanged="OnValueChange" />
@@ -220,6 +259,8 @@
                                         </EditItemTemplate>
                                     </dx:GridViewDataColumn>
                                     <dx:GridViewDataColumn FieldName="POTotalCost" VisibleIndex="10">
+                                        <HeaderStyle HorizontalAlign="Right" />
+                                        <CellStyle HorizontalAlign="Right"></CellStyle>
                                         <EditItemTemplate>
                                             <dx:ASPxTextBox ID="POTotalCost" ClientInstanceName="POTotalCost" Text='<%#Eval("POTotalCost") %>' ReadOnly="true" runat="server" Width="100px"></dx:ASPxTextBox>
                                         </EditItemTemplate>

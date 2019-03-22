@@ -798,7 +798,14 @@ namespace HijoPortal
 
         protected void Submit_Click(object sender, EventArgs e)
         {
-            if (iStatusKey == 1)
+            CheckCreatorKey();
+
+            iStatusKey = MRPClass.MRP_ApprvLine_Status(mrp_key, appflwln);
+            StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
+
+            //MRPClass.PrintString(appflwln.ToString());
+
+            if (iStatusKey == 0)
             {
 
                 bool isAllowed = false;
@@ -822,7 +829,7 @@ namespace HijoPortal
                 }
                 if (isAllowed == true)
                 {
-                    //MRPClass.Approve_MRP(docnum, mrp_key, appflwln);
+                    //MRPClass.PrintString("Approved");
                     PopupSubmitAppPreview.ShowOnPageLoad = false;
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                     MRPApproveClass.MRP_Approve(docnum.ToString(), mrp_key, dateCreated, appflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
@@ -844,16 +851,16 @@ namespace HijoPortal
 
             }
 
-            else
-            {
+            //else
+            //{
 
-                //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            //    //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
-                //MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
-                //MRPNotify.HeaderText = "Alert";
-                //MRPNotify.ShowOnPageLoad = true;
+            //    //MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
+            //    //MRPNotify.HeaderText = "Alert";
+            //    //MRPNotify.ShowOnPageLoad = true;
 
-            }
+            //}
 
 
         }
@@ -923,7 +930,7 @@ namespace HijoPortal
 
             iStatusKey = MRPClass.MRP_ApprvLine_Status(mrp_key, appflwln);
             StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
-            StatusHidden["hidden_preview_wrkflwln"] = appflwln;
+            WorkLineHidden["hidden_preview_wrkflwln"] = appflwln;
             BindAll();
         }
 
@@ -936,7 +943,7 @@ namespace HijoPortal
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 docnum = Request.Params["DocNum"].ToString();
-                //appflwln = Convert.ToInt32(Request.Params["ApprvLn"].ToString());
+                appflwln = Convert.ToInt32(Request.Params["ApprvLn"].ToString());
 
                 DocNum.Text = Request.Params["DocNum"].ToString();
 
