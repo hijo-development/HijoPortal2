@@ -139,6 +139,8 @@ namespace HijoPortal
 
                 if (e.ButtonID == "Preview")
                 {
+                    string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
+                    Session["mrp_creator"] = mrp_creator;
                     Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                 }
 
@@ -152,6 +154,8 @@ namespace HijoPortal
 
             if (e.ButtonID == "Preview")
             {
+                string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
+                Session["mrp_creator"] = mrp_creator;
                 //msgTrans.Text = "Pass Preview";
                 //string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
 
