@@ -197,7 +197,7 @@ namespace HijoPortal.classes
                     }
                     else
                     {
-                        dtRow["WorkflowStatus"] = "Approved";
+                        dtRow["WorkflowStatus"] = "Procurement Officer";
                     }
                     dtTable.Rows.Add(dtRow);
                 }

@@ -100,134 +100,172 @@ namespace HijoPortal.classes
             }
             dtable.Clear();
 
-            // Approval
-            qry = "SELECT TOP (1) PK " +
-                  " FROM dbo.tbl_System_Approval " +
-                  " WHERE(EffectDate <= '" + dteCreated + "') " +
-                  " ORDER BY EffectDate DESC";
+            //Update Approval
+            qry = "UPDATE tbl_MRP_List_Approval " +
+                   " SET Visible = 0, " +
+                   " Status = 1 " +
+                   " WHERE (MasterKey = " + MRPKey + ") " +
+                   " AND (Line = " + ApproveLine + ")";
+            cmdUp = new SqlCommand(qry, conn);
+            cmdUp.ExecuteNonQuery();
+
+            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+
+            //Check if Approve All
+            qry = "SELECT COUNT(*) AS RecCnt " +
+                  " FROM dbo.tbl_MRP_List_Approval " +
+                  " WHERE(MasterKey = " + MRPKey + ") " +
+                  " AND(Status = 0)";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dtable);
-            if (dtable.Rows.Count > 0)
+            if (dtable.Rows.Count == 0)
             {
-                foreach (DataRow row in dtable.Rows)
-                {
-                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
-                          " dbo.tbl_System_Approval_Position.SQLQuery, " +
-                          " dbo.tbl_System_Approval_Details.PositionNameKey " +
-                          " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
-                          " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                          " WHERE(dbo.tbl_System_Approval_Details.MasterKey = " + row["PK"] + ") " +
-                          " AND(dbo.tbl_System_Approval_Details.Line = " + ApproveLineNext + ")";
-                    cmd1 = new SqlCommand(qry);
-                    cmd1.Connection = conn;
-                    adp1 = new SqlDataAdapter(cmd1);
-                    adp1.Fill(dtable1);
-                    if (dtable1.Rows.Count > 0)
-                    {
-                        foreach (DataRow row1 in dtable1.Rows)
-                        {
-                            if (row1["SQLQuery"].ToString().Trim() != "")
-                            {
-                                qry = row1["SQLQuery"].ToString() + " '" + EntCode + "', '" + BuCode + "', '" + dteCreated + "'";
-                                cmd2 = new SqlCommand(qry);
-                                cmd2.Connection = conn;
-                                adp2 = new SqlDataAdapter(cmd2);
-                                adp2.Fill(dtable2);
-                                if (dtable2.Rows.Count > 0)
-                                {
-                                    foreach (DataRow row2 in dtable2.Rows)
-                                    {
-                                        sEmail = EncryptionClass.Decrypt(row2["Email"].ToString());
-                                        if (Convert.ToInt32(row2["Gender"]) == 1)
-                                        {
-                                            sGreetings = "Dear Mr. " + EncryptionClass.Decrypt(row2["Lastname"].ToString());
-                                        }
-                                        else
-                                        {
-                                            sGreetings = "Dear Ms. " + EncryptionClass.Decrypt(row2["Lastname"].ToString());
-                                        }
-                                        sSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your approval";
+                qry = "UPDATE tbl_MRP_List " +
+                      " SET StatusKey = 4 " +
+                      " WHERE (PK = " + MRPKey + ")";
+                cmdUp = new SqlCommand(qry, conn);
+                cmdUp.ExecuteNonQuery();
 
-                                        sBody.Append("<!DOCTYPE html>");
-                                        sBody.Append("<html>");
-                                        sBody.Append("<head>");
-                                        sBody.Append("</head>");
-                                        sBody.Append("<body>");
-                                        sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetings + ",</p>");
-                                        sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " is waiting for your approval.</p>");
-                                        sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'><a href=" + GlobalClass.Email_Redirect() + ">Goto System</a></p>");
-                                        sBody.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
-                                        sBody.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
-                                        sBody.Append("</body>");
-                                        sBody.Append("</html>");
-
-                                        bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
-
-                                        //Update Approval
-                                        qry = "UPDATE tbl_MRP_List_Approval " +
-                                               " SET Visible = 0, " +
-                                               " Status = 1 " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + ApproveLine + ")";
-                                        cmdUp = new SqlCommand(qry, conn);
-                                        cmdUp.ExecuteNonQuery();
-
-                                        //Update Approval Next
-                                        qry = "UPDATE tbl_MRP_List_Approval " +
-                                               " SET Visible = 1, " +
-                                               " UserKey = " + row2["UserKey"] + ", " +
-                                               " PositionNameKey = " + row1["PositionNameKey"] + " " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + ApproveLineNext + ")";
-                                        cmdUp = new SqlCommand(qry, conn);
-                                        cmdUp.ExecuteNonQuery();
-
-                                        //Update Assigned to me
-                                        qry = "UPDATE tbl_Users_Assigned " +
-                                               " SET Attended = 1 " +
-                                               " WHERE (UserKey = " + row2["UserKey"] + ") " +
-                                               " AND (MRPKey = " + MRPKey + ") " +
-                                               " AND (WorkFlowLine = " + ApproveLine + ") " +
-                                               " AND (WorkFlowType = 2)";
-                                        cmdUp = new SqlCommand(qry, conn);
-                                        cmdUp.ExecuteNonQuery();
-
-                                        //Insert to Assigned to me
-                                        qry = "SELECT tbl_Users_Assigned.* " +
-                                              " FROM tbl_Users_Assigned " +
-                                              " WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") " +
-                                              " AND (MRPKey = " + MRPKey + ") " +
-                                              " AND (WorkFlowLine = " + ApproveLineNext + ") " +
-                                              " AND (WorkFlowType = 2)";
-                                        cmd3 = new SqlCommand(qry);
-                                        cmd3.Connection = conn;
-                                        adp3 = new SqlDataAdapter(cmd3);
-                                        adp3.Fill(dtable3);
-                                        if (dtable3.Rows.Count == 0)
-                                        {
-                                            qry = "INSERT INTO tbl_Users_Assigned " +
-                                                  " (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) " +
-                                                  " VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " +
-                                                  " " + Convert.ToInt32(row1["PositionNameKey"]) + ", " +
-                                                  " " + MRPKey + ", " + ApproveLineNext + ", 2)";
-                                            cmdIns = new SqlCommand(qry, conn);
-                                            cmdIns.ExecuteNonQuery();
-                                        }
-                                        dtable3.Clear();
-                                    }
-                                }
-                                dtable2.Clear();
-                            }
-
-                            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
-                        }
-                    }
-                    dtable1.Clear();
-                }
+                qry = "UPDATE tbl_MRP_List_Workflow " +
+                      " SET Visible = 0, " +
+                      " Status = 1 " +
+                      " WHERE (MasterKey = " + MRPKey + ") " +
+                      " AND (Line = 4)";
+                cmdUp = new SqlCommand(qry, conn);
+                cmdUp.ExecuteNonQuery();
             }
             dtable.Clear();
+
+            //// Approval
+            //qry = "SELECT TOP (1) PK " +
+            //      " FROM dbo.tbl_System_Approval " +
+            //      " WHERE(EffectDate <= '" + dteCreated + "') " +
+            //      " ORDER BY EffectDate DESC";
+            //cmd = new SqlCommand(qry);
+            //cmd.Connection = conn;
+            //adp = new SqlDataAdapter(cmd);
+            //adp.Fill(dtable);
+            //if (dtable.Rows.Count > 0)
+            //{
+            //    foreach (DataRow row in dtable.Rows)
+            //    {
+            //        qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
+            //              " dbo.tbl_System_Approval_Position.SQLQuery, " +
+            //              " dbo.tbl_System_Approval_Details.PositionNameKey " +
+            //              " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
+            //              " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+            //              " WHERE(dbo.tbl_System_Approval_Details.MasterKey = " + row["PK"] + ") " +
+            //              " AND(dbo.tbl_System_Approval_Details.Line = " + ApproveLineNext + ")";
+            //        cmd1 = new SqlCommand(qry);
+            //        cmd1.Connection = conn;
+            //        adp1 = new SqlDataAdapter(cmd1);
+            //        adp1.Fill(dtable1);
+            //        if (dtable1.Rows.Count > 0)
+            //        {
+            //            foreach (DataRow row1 in dtable1.Rows)
+            //            {
+            //                if (row1["SQLQuery"].ToString().Trim() != "")
+            //                {
+            //                    qry = row1["SQLQuery"].ToString() + " '" + EntCode + "', '" + BuCode + "', '" + dteCreated + "'";
+            //                    cmd2 = new SqlCommand(qry);
+            //                    cmd2.Connection = conn;
+            //                    adp2 = new SqlDataAdapter(cmd2);
+            //                    adp2.Fill(dtable2);
+            //                    if (dtable2.Rows.Count > 0)
+            //                    {
+            //                        foreach (DataRow row2 in dtable2.Rows)
+            //                        {
+            //                            sEmail = EncryptionClass.Decrypt(row2["Email"].ToString());
+            //                            if (Convert.ToInt32(row2["Gender"]) == 1)
+            //                            {
+            //                                sGreetings = "Dear Mr. " + EncryptionClass.Decrypt(row2["Lastname"].ToString());
+            //                            }
+            //                            else
+            //                            {
+            //                                sGreetings = "Dear Ms. " + EncryptionClass.Decrypt(row2["Lastname"].ToString());
+            //                            }
+            //                            sSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your approval";
+
+            //                            sBody.Append("<!DOCTYPE html>");
+            //                            sBody.Append("<html>");
+            //                            sBody.Append("<head>");
+            //                            sBody.Append("</head>");
+            //                            sBody.Append("<body>");
+            //                            sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetings + ",</p>");
+            //                            sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " is waiting for your approval.</p>");
+            //                            sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'><a href=" + GlobalClass.Email_Redirect() + ">Goto System</a></p>");
+            //                            sBody.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
+            //                            sBody.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
+            //                            sBody.Append("</body>");
+            //                            sBody.Append("</html>");
+
+            //                            bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+
+            //                            //Update Approval
+            //                            qry = "UPDATE tbl_MRP_List_Approval " +
+            //                                   " SET Visible = 0, " +
+            //                                   " Status = 1 " +
+            //                                   " WHERE (MasterKey = " + MRPKey + ") " +
+            //                                   " AND (Line = " + ApproveLine + ")";
+            //                            cmdUp = new SqlCommand(qry, conn);
+            //                            cmdUp.ExecuteNonQuery();
+
+            //                            //Update Approval Next
+            //                            qry = "UPDATE tbl_MRP_List_Approval " +
+            //                                   " SET Visible = 1, " +
+            //                                   " UserKey = " + row2["UserKey"] + ", " +
+            //                                   " PositionNameKey = " + row1["PositionNameKey"] + " " +
+            //                                   " WHERE (MasterKey = " + MRPKey + ") " +
+            //                                   " AND (Line = " + ApproveLineNext + ")";
+            //                            cmdUp = new SqlCommand(qry, conn);
+            //                            cmdUp.ExecuteNonQuery();
+
+            //                            //Update Assigned to me
+            //                            qry = "UPDATE tbl_Users_Assigned " +
+            //                                   " SET Attended = 1 " +
+            //                                   " WHERE (UserKey = " + row2["UserKey"] + ") " +
+            //                                   " AND (MRPKey = " + MRPKey + ") " +
+            //                                   " AND (WorkFlowLine = " + ApproveLine + ") " +
+            //                                   " AND (WorkFlowType = 2)";
+            //                            cmdUp = new SqlCommand(qry, conn);
+            //                            cmdUp.ExecuteNonQuery();
+
+            //                            //Insert to Assigned to me
+            //                            qry = "SELECT tbl_Users_Assigned.* " +
+            //                                  " FROM tbl_Users_Assigned " +
+            //                                  " WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") " +
+            //                                  " AND (MRPKey = " + MRPKey + ") " +
+            //                                  " AND (WorkFlowLine = " + ApproveLineNext + ") " +
+            //                                  " AND (WorkFlowType = 2)";
+            //                            cmd3 = new SqlCommand(qry);
+            //                            cmd3.Connection = conn;
+            //                            adp3 = new SqlDataAdapter(cmd3);
+            //                            adp3.Fill(dtable3);
+            //                            if (dtable3.Rows.Count == 0)
+            //                            {
+            //                                qry = "INSERT INTO tbl_Users_Assigned " +
+            //                                      " (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) " +
+            //                                      " VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " +
+            //                                      " " + Convert.ToInt32(row1["PositionNameKey"]) + ", " +
+            //                                      " " + MRPKey + ", " + ApproveLineNext + ", 2)";
+            //                                cmdIns = new SqlCommand(qry, conn);
+            //                                cmdIns.ExecuteNonQuery();
+            //                            }
+            //                            dtable3.Clear();
+            //                        }
+            //                    }
+            //                    dtable2.Clear();
+            //                }
+
+            //                bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+            //            }
+            //        }
+            //        dtable1.Clear();
+            //    }
+            //}
+            //dtable.Clear();
             conn.Close();
         }
 
@@ -299,134 +337,172 @@ namespace HijoPortal.classes
             }
             dtable.Clear();
 
-            // Approval
-            qry = "SELECT TOP (1) PK " +
-                  " FROM dbo.tbl_System_Approval " +
-                  " WHERE(EffectDate <= '" + dteCreated + "') " +
-                  " ORDER BY EffectDate DESC";
+            //Update Approval
+            qry = "UPDATE tbl_MRP_List_Approval " +
+                   " SET Visible = 0, " +
+                   " Status = 1 " +
+                   " WHERE (MasterKey = " + MRPKey + ") " +
+                   " AND (Line = " + ApproveLine + ")";
+            cmdUp = new SqlCommand(qry, conn);
+            cmdUp.ExecuteNonQuery();
+
+            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+
+            //Check if Approve All
+            qry = "SELECT COUNT(*) AS RecCnt " +
+                  " FROM dbo.tbl_MRP_List_Approval " +
+                  " WHERE(MasterKey = " + MRPKey + ") " +
+                  " AND(Status = 0)";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dtable);
-            if (dtable.Rows.Count > 0)
+            if (dtable.Rows.Count == 0)
             {
-                foreach (DataRow row in dtable.Rows)
-                {
-                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
-                          " dbo.tbl_System_Approval_Position.SQLQuery, " +
-                          " dbo.tbl_System_Approval_Details.PositionNameKey " +
-                          " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
-                          " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                          " WHERE(dbo.tbl_System_Approval_Details.MasterKey = " + row["PK"] + ") " +
-                          " AND(dbo.tbl_System_Approval_Details.Line = " + ApproveLineNext + ")";
-                    cmd1 = new SqlCommand(qry);
-                    cmd1.Connection = conn;
-                    adp1 = new SqlDataAdapter(cmd1);
-                    adp1.Fill(dtable1);
-                    if (dtable1.Rows.Count > 0)
-                    {
-                        foreach (DataRow row1 in dtable1.Rows)
-                        {
-                            if (row1["SQLQuery"].ToString().Trim() != "")
-                            {
-                                qry = row1["SQLQuery"].ToString() + " '" + EntCode + "', '" + BuCode + "', '" + dteCreated + "'";
-                                cmd2 = new SqlCommand(qry);
-                                cmd2.Connection = conn;
-                                adp2 = new SqlDataAdapter(cmd2);
-                                adp2.Fill(dtable2);
-                                if (dtable2.Rows.Count > 0)
-                                {
-                                    foreach (DataRow row2 in dtable2.Rows)
-                                    {
-                                        sEmail = EncryptionClass.Decrypt(row2["Email"].ToString());
-                                        if (Convert.ToInt32(row2["Gender"]) == 1)
-                                        {
-                                            sGreetings = "Dear Mr. " + EncryptionClass.Decrypt(row2["Lastname"].ToString());
-                                        }
-                                        else
-                                        {
-                                            sGreetings = "Dear Ms. " + EncryptionClass.Decrypt(row2["Lastname"].ToString());
-                                        }
-                                        sSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your approval";
+                qry = "UPDATE tbl_MRP_List " +
+                      " SET StatusKey = 4 " +
+                      " WHERE (PK = " + MRPKey + ")";
+                cmdUp = new SqlCommand(qry, conn);
+                cmdUp.ExecuteNonQuery();
 
-                                        sBody.Append("<!DOCTYPE html>");
-                                        sBody.Append("<html>");
-                                        sBody.Append("<head>");
-                                        sBody.Append("</head>");
-                                        sBody.Append("<body>");
-                                        sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetings + ",</p>");
-                                        sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " is waiting for your approval.</p>");
-                                        sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'><a href=" + GlobalClass.Email_Redirect() + ">Goto System</a></p>");
-                                        sBody.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
-                                        sBody.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
-                                        sBody.Append("</body>");
-                                        sBody.Append("</html>");
-
-                                        bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
-
-                                        //Update Approval
-                                        qry = "UPDATE tbl_MRP_List_Approval " +
-                                               " SET Visible = 0, " +
-                                               " Status = 1 " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + ApproveLine + ")";
-                                        cmdUp = new SqlCommand(qry, conn);
-                                        cmdUp.ExecuteNonQuery();
-
-                                        //Update Approval Next
-                                        qry = "UPDATE tbl_MRP_List_Approval " +
-                                               " SET Visible = 1, " +
-                                               " UserKey = " + row2["UserKey"] + ", " +
-                                               " PositionNameKey = " + row1["PositionNameKey"] + " " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + ApproveLineNext + ")";
-                                        cmdUp = new SqlCommand(qry, conn);
-                                        cmdUp.ExecuteNonQuery();
-
-                                        //Update Assigned to me
-                                        qry = "UPDATE tbl_Users_Assigned " +
-                                               " SET Attended = 1 " +
-                                               " WHERE (UserKey = " + row2["UserKey"] + ") " +
-                                               " AND (MRPKey = " + MRPKey + ") " +
-                                               " AND (WorkFlowLine = " + ApproveLine + ") " +
-                                               " AND (WorkFlowType = 2)";
-                                        cmdUp = new SqlCommand(qry, conn);
-                                        cmdUp.ExecuteNonQuery();
-
-                                        //Insert to Assigned to me
-                                        qry = "SELECT tbl_Users_Assigned.* " +
-                                              " FROM tbl_Users_Assigned " +
-                                              " WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") " +
-                                              " AND (MRPKey = " + MRPKey + ") " +
-                                              " AND (WorkFlowLine = " + ApproveLineNext + ") " +
-                                              " AND (WorkFlowType = 2)";
-                                        cmd3 = new SqlCommand(qry);
-                                        cmd3.Connection = conn;
-                                        adp3 = new SqlDataAdapter(cmd3);
-                                        adp3.Fill(dtable3);
-                                        if (dtable3.Rows.Count == 0)
-                                        {
-                                            qry = "INSERT INTO tbl_Users_Assigned " +
-                                                  " (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) " +
-                                                  " VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " +
-                                                  " " + Convert.ToInt32(row1["PositionNameKey"]) + ", " +
-                                                  " " + MRPKey + ", " + ApproveLineNext + ", 2)";
-                                            cmdIns = new SqlCommand(qry, conn);
-                                            cmdIns.ExecuteNonQuery();
-                                        }
-                                        dtable3.Clear();
-                                    }
-                                }
-                                dtable2.Clear();
-                            }
-
-                            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
-                        }
-                    }
-                    dtable1.Clear();
-                }
+                qry = "UPDATE tbl_MRP_List_Workflow " +
+                      " SET Visible = 0, " +
+                      " Status = 1 " +
+                      " WHERE (MasterKey = " + MRPKey + ") " +
+                      " AND (Line = 4)";
+                cmdUp = new SqlCommand(qry, conn);
+                cmdUp.ExecuteNonQuery();
             }
             dtable.Clear();
+
+            //// Approval
+            //qry = "SELECT TOP (1) PK " +
+            //      " FROM dbo.tbl_System_Approval " +
+            //      " WHERE(EffectDate <= '" + dteCreated + "') " +
+            //      " ORDER BY EffectDate DESC";
+            //cmd = new SqlCommand(qry);
+            //cmd.Connection = conn;
+            //adp = new SqlDataAdapter(cmd);
+            //adp.Fill(dtable);
+            //if (dtable.Rows.Count > 0)
+            //{
+            //    foreach (DataRow row in dtable.Rows)
+            //    {
+            //        qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
+            //              " dbo.tbl_System_Approval_Position.SQLQuery, " +
+            //              " dbo.tbl_System_Approval_Details.PositionNameKey " +
+            //              " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
+            //              " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+            //              " WHERE(dbo.tbl_System_Approval_Details.MasterKey = " + row["PK"] + ") " +
+            //              " AND(dbo.tbl_System_Approval_Details.Line = " + ApproveLineNext + ")";
+            //        cmd1 = new SqlCommand(qry);
+            //        cmd1.Connection = conn;
+            //        adp1 = new SqlDataAdapter(cmd1);
+            //        adp1.Fill(dtable1);
+            //        if (dtable1.Rows.Count > 0)
+            //        {
+            //            foreach (DataRow row1 in dtable1.Rows)
+            //            {
+            //                if (row1["SQLQuery"].ToString().Trim() != "")
+            //                {
+            //                    qry = row1["SQLQuery"].ToString() + " '" + EntCode + "', '" + BuCode + "', '" + dteCreated + "'";
+            //                    cmd2 = new SqlCommand(qry);
+            //                    cmd2.Connection = conn;
+            //                    adp2 = new SqlDataAdapter(cmd2);
+            //                    adp2.Fill(dtable2);
+            //                    if (dtable2.Rows.Count > 0)
+            //                    {
+            //                        foreach (DataRow row2 in dtable2.Rows)
+            //                        {
+            //                            sEmail = EncryptionClass.Decrypt(row2["Email"].ToString());
+            //                            if (Convert.ToInt32(row2["Gender"]) == 1)
+            //                            {
+            //                                sGreetings = "Dear Mr. " + EncryptionClass.Decrypt(row2["Lastname"].ToString());
+            //                            }
+            //                            else
+            //                            {
+            //                                sGreetings = "Dear Ms. " + EncryptionClass.Decrypt(row2["Lastname"].ToString());
+            //                            }
+            //                            sSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your approval";
+
+            //                            sBody.Append("<!DOCTYPE html>");
+            //                            sBody.Append("<html>");
+            //                            sBody.Append("<head>");
+            //                            sBody.Append("</head>");
+            //                            sBody.Append("<body>");
+            //                            sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetings + ",</p>");
+            //                            sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " is waiting for your approval.</p>");
+            //                            sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'><a href=" + GlobalClass.Email_Redirect() + ">Goto System</a></p>");
+            //                            sBody.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
+            //                            sBody.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
+            //                            sBody.Append("</body>");
+            //                            sBody.Append("</html>");
+
+            //                            bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+
+            //                            //Update Approval
+            //                            qry = "UPDATE tbl_MRP_List_Approval " +
+            //                                   " SET Visible = 0, " +
+            //                                   " Status = 1 " +
+            //                                   " WHERE (MasterKey = " + MRPKey + ") " +
+            //                                   " AND (Line = " + ApproveLine + ")";
+            //                            cmdUp = new SqlCommand(qry, conn);
+            //                            cmdUp.ExecuteNonQuery();
+
+            //                            //Update Approval Next
+            //                            qry = "UPDATE tbl_MRP_List_Approval " +
+            //                                   " SET Visible = 1, " +
+            //                                   " UserKey = " + row2["UserKey"] + ", " +
+            //                                   " PositionNameKey = " + row1["PositionNameKey"] + " " +
+            //                                   " WHERE (MasterKey = " + MRPKey + ") " +
+            //                                   " AND (Line = " + ApproveLineNext + ")";
+            //                            cmdUp = new SqlCommand(qry, conn);
+            //                            cmdUp.ExecuteNonQuery();
+
+            //                            //Update Assigned to me
+            //                            qry = "UPDATE tbl_Users_Assigned " +
+            //                                   " SET Attended = 1 " +
+            //                                   " WHERE (UserKey = " + row2["UserKey"] + ") " +
+            //                                   " AND (MRPKey = " + MRPKey + ") " +
+            //                                   " AND (WorkFlowLine = " + ApproveLine + ") " +
+            //                                   " AND (WorkFlowType = 2)";
+            //                            cmdUp = new SqlCommand(qry, conn);
+            //                            cmdUp.ExecuteNonQuery();
+
+            //                            //Insert to Assigned to me
+            //                            qry = "SELECT tbl_Users_Assigned.* " +
+            //                                  " FROM tbl_Users_Assigned " +
+            //                                  " WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") " +
+            //                                  " AND (MRPKey = " + MRPKey + ") " +
+            //                                  " AND (WorkFlowLine = " + ApproveLineNext + ") " +
+            //                                  " AND (WorkFlowType = 2)";
+            //                            cmd3 = new SqlCommand(qry);
+            //                            cmd3.Connection = conn;
+            //                            adp3 = new SqlDataAdapter(cmd3);
+            //                            adp3.Fill(dtable3);
+            //                            if (dtable3.Rows.Count == 0)
+            //                            {
+            //                                qry = "INSERT INTO tbl_Users_Assigned " +
+            //                                      " (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) " +
+            //                                      " VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " +
+            //                                      " " + Convert.ToInt32(row1["PositionNameKey"]) + ", " +
+            //                                      " " + MRPKey + ", " + ApproveLineNext + ", 2)";
+            //                                cmdIns = new SqlCommand(qry, conn);
+            //                                cmdIns.ExecuteNonQuery();
+            //                            }
+            //                            dtable3.Clear();
+            //                        }
+            //                    }
+            //                    dtable2.Clear();
+            //                }
+
+            //                bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+            //            }
+            //        }
+            //        dtable1.Clear();
+            //    }
+            //}
+            //dtable.Clear();
             conn.Close();
         }
 
@@ -507,26 +583,64 @@ namespace HijoPortal.classes
             cmdUp = new SqlCommand(qry, conn);
             cmdUp.ExecuteNonQuery();
 
-            //Update MRP Status
-            qry = "UPDATE tbl_MRP_List SET StatusKey = 4 WHERE (PK = " + MRPKey + ")";
-            cmdUp = new SqlCommand(qry, conn);
-            cmdUp.ExecuteNonQuery();
+            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
 
-            //Update Workflow After Executive Approval
+            //Check if Approve All
+            qry = "SELECT COUNT(*) AS RecCnt " +
+                  " FROM dbo.tbl_MRP_List_Approval " +
+                  " WHERE(MasterKey = " + MRPKey + ") " +
+                  " AND(Status = 0)";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count == 0)
+            {
+                qry = "UPDATE tbl_MRP_List " +
+                      " SET StatusKey = 4 " +
+                      " WHERE (PK = " + MRPKey + ")";
+                cmdUp = new SqlCommand(qry, conn);
+                cmdUp.ExecuteNonQuery();
+
+                qry = "UPDATE tbl_MRP_List_Workflow " +
+                      " SET Visible = 0, " +
+                      " Status = 1 " +
+                      " WHERE (MasterKey = " + MRPKey + ") " +
+                      " AND (Line = 4)";
+                cmdUp = new SqlCommand(qry, conn);
+                cmdUp.ExecuteNonQuery();
+            }
+            dtable.Clear();
+
+            ////Update Approval
+            //qry = "UPDATE tbl_MRP_List_Approval " +
+            //       " SET Visible = 0, " +
+            //       " Status = 1 " +
+            //       " WHERE (MasterKey = " + MRPKey + ") " +
+            //       " AND (Line = " + ApproveLine + ")";
+            //cmdUp = new SqlCommand(qry, conn);
+            //cmdUp.ExecuteNonQuery();
+
+            ////Update MRP Status
+            //qry = "UPDATE tbl_MRP_List SET StatusKey = 4 WHERE (PK = " + MRPKey + ")";
+            //cmdUp = new SqlCommand(qry, conn);
+            //cmdUp.ExecuteNonQuery();
+
+            ////Update Workflow After Executive Approval
+            ////qry = "UPDATE tbl_MRP_List_Workflow " +
+            ////       " SET Visible = 0, " +
+            ////       " Status = 1 " +
+            ////       " WHERE (MasterKey = " + MRPKey + ") " +
+            ////       " AND (Line = 5)";
             //qry = "UPDATE tbl_MRP_List_Workflow " +
             //       " SET Visible = 0, " +
             //       " Status = 1 " +
             //       " WHERE (MasterKey = " + MRPKey + ") " +
-            //       " AND (Line = 5)";
-            qry = "UPDATE tbl_MRP_List_Workflow " +
-                   " SET Visible = 0, " +
-                   " Status = 1 " +
-                   " WHERE (MasterKey = " + MRPKey + ") " +
-                   " AND (Line = 4)";
-            cmdUp = new SqlCommand(qry, conn);
-            cmdUp.ExecuteNonQuery();
+            //       " AND (Line = 4)";
+            //cmdUp = new SqlCommand(qry, conn);
+            //cmdUp.ExecuteNonQuery();
 
-            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+            //bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
 
         }
     }

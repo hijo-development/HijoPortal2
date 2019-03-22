@@ -973,13 +973,21 @@ namespace HijoPortal.classes
             {
                 foreach (DataRow row in dtable.Rows)
                 {
+                    //qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
+                    //      " dbo.tbl_System_Approval_Position.SQLQuery, " +
+                    //      " dbo.tbl_System_Approval_Details.PositionNameKey " +
+                    //      " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
+                    //      " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+                    //      " WHERE(dbo.tbl_System_Approval_Details.MasterKey = "+ row["PK"] +") " +
+                    //      " AND(dbo.tbl_System_Approval_Details.Line = "+ ApprovalLine + ")";
                     qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
                           " dbo.tbl_System_Approval_Position.SQLQuery, " +
-                          " dbo.tbl_System_Approval_Details.PositionNameKey " +
+                          " dbo.tbl_System_Approval_Details.PositionNameKey, " +
+                          " dbo.tbl_System_Approval_Details.Line " +
                           " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
                           " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                          " WHERE(dbo.tbl_System_Approval_Details.MasterKey = "+ row["PK"] +") " +
-                          " AND(dbo.tbl_System_Approval_Details.Line = "+ ApprovalLine + ")";
+                          " WHERE(dbo.tbl_System_Approval_Details.MasterKey = " + row["PK"] + ") " +
+                          " ORDER BY dbo.tbl_System_Approval_Details.Line";
                     cmd1 = new SqlCommand(qry);
                     cmd1.Connection = conn;
                     adp1 = new SqlDataAdapter(cmd1);
@@ -988,8 +996,11 @@ namespace HijoPortal.classes
                     {
                         foreach (DataRow row1 in dtable1.Rows)
                         {
+                            
                             if (row1["SQLQuery"].ToString().Trim() != "")
                             {
+                                ApprovalLine = Convert.ToInt32(row1["Line"]);
+
                                 qry = row1["SQLQuery"].ToString() + " '" + EntCode + "', '" + BuCode + "', '" + dteCreated + "'";
                                 cmd2 = new SqlCommand(qry);
                                 cmd2.Connection = conn;
@@ -1024,7 +1035,6 @@ namespace HijoPortal.classes
                                         sBody.Append("</html>");
 
                                         bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
-
 
                                         //Update Approval
                                         qry = "UPDATE tbl_MRP_List_Approval " +
