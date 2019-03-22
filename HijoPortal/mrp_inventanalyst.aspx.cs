@@ -455,41 +455,45 @@ namespace HijoPortal
 
         protected void Submit_Click(object sender, EventArgs e)
         {
-            if (wrkflwln == 0)
-            {
-                if (iStatusKey == 1)
-                {
+            CheckCreatorKey();
 
-                    //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
-                    PopupSubmit.ShowOnPageLoad = false;
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            iStatusKey = MRPClass.MRP_Line_Status(mrp_key, wrkflwln);
 
-                    MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
-                    Load_MRP(docnumber);
+            //if (wrkflwln == 0)
+            //{
+            //    if (iStatusKey == 1)
+            //    {
 
-                    BindDirectMaterials(docnumber);
-                    BindOpex(docnumber);
-                    BindManPower(docnumber);
-                    BindCapex(docnumber);
+            //        //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+            //        PopupSubmit.ShowOnPageLoad = false;
+            //        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
-                    MRPNotificationMessage.Text = "Successfully Submitted";
-                    MRPNotify.HeaderText = "Info";
-                    MRPNotify.ShowOnPageLoad = true;
+            //        MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
+            //        Load_MRP(docnumber);
 
-                }
-                else
-                {
+            //        BindDirectMaterials(docnumber);
+            //        BindOpex(docnumber);
+            //        BindManPower(docnumber);
+            //        BindCapex(docnumber);
 
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            //        MRPNotificationMessage.Text = "Successfully Submitted";
+            //        MRPNotify.HeaderText = "Info";
+            //        MRPNotify.ShowOnPageLoad = true;
 
-                    MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
-                    MRPNotify.HeaderText = "Alert";
-                    MRPNotify.ShowOnPageLoad = true;
-                    //MRPNotify.
-                }
-            }
-            else
-            {
+            //    }
+            //    else
+            //    {
+
+            //        ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+            //        MRPNotificationMessage.Text = "Document already submitted to BU / SSU Lead for review.";
+            //        MRPNotify.HeaderText = "Alert";
+            //        MRPNotify.ShowOnPageLoad = true;
+            //        //MRPNotify.
+            //    }
+            //}
+            //else
+            //{
                 if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
                 {
                     //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
@@ -518,7 +522,7 @@ namespace HijoPortal
                     MRPNotify.ShowOnPageLoad = true;
                 }
 
-            }
+            //}
         }
 
         protected void Preview_Click(object sender, EventArgs e)

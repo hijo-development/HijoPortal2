@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using DevExpress.Web;
 
 namespace HijoPortal
 {
@@ -302,8 +303,24 @@ namespace HijoPortal
             TotalEDM.Style.Add("width", "10%");
         }
 
+        private void CheckCreatorKey()
+        {
+
+            if (Session["CreatorKey"] == null)
+            {
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
+                else
+                    Response.Redirect("default.aspx");
+
+                return;
+            }
+        }
+
         protected void OK_SUBMIT_Click(object sender, EventArgs e)
         {
+
+            CheckCreatorKey();
 
             if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
             {
@@ -885,6 +902,8 @@ namespace HijoPortal
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            CheckCreatorKey();
+
             ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
             if (!Page.IsPostBack)

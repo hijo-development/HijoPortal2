@@ -501,7 +501,7 @@
                                                                     <dx:ASPxPageControl ID="OPEXPageControl" runat="server" Width="100%" Theme="Office2010Blue">
                                                                         <ClientSideEvents Init="pageinit" />
                                                                         <TabPages>
-                                                                            <dx:TabPage Text="OPEX" Visible="true">
+                                                                            <dx:TabPage Text="Operating Expense" Visible="true">
                                                                                 <ContentCollection>
                                                                                     <dx:ContentControl runat="server">
                                                                                         <dx:ASPxHiddenField ID="entityhidden" runat="server" ClientInstanceName="entityhiddenOP"></dx:ASPxHiddenField>
@@ -739,7 +739,7 @@
                                                                 <div style="padding: 4px 3px 4px">
                                                                     <dx:ASPxPageControl ID="ManPowerPageControl" runat="server" Width="100%" Theme="Office2010Blue">
                                                                         <TabPages>
-                                                                            <dx:TabPage Text="ManPower" Visible="true">
+                                                                            <dx:TabPage Text="Manpower" Visible="true">
                                                                                 <ContentCollection>
                                                                                     <dx:ContentControl runat="server">
                                                                                         <dx:ASPxHiddenField ID="entityhidden" runat="server" ClientInstanceName="entityhiddenMAN"></dx:ASPxHiddenField>
@@ -919,7 +919,7 @@
                                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="VALUE" Visible="false"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="3"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Description" VisibleIndex="5"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Description" Width="450px" VisibleIndex="5"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="6"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="7" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
@@ -954,7 +954,7 @@
                                                                 <div style="padding: 4px 3px 4px">
                                                                     <dx:ASPxPageControl ID="CAPEXPageControl" runat="server" Width="100%" Theme="Office2010Blue">
                                                                         <TabPages>
-                                                                            <dx:TabPage Text="CAPEX" Visible="true">
+                                                                            <dx:TabPage Text="Capital Expenditure" Visible="true">
                                                                                 <ContentCollection>
                                                                                     <dx:ContentControl runat="server">
                                                                                         <dx:ASPxHiddenField ID="entityhidden" runat="server" ClientInstanceName="entityhiddenCA"></dx:ASPxHiddenField>
@@ -1120,8 +1120,8 @@
                                                             <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="VALUE" Visible="false"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="3"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="ProductName" VisibleIndex="4"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="FarmName" VisibleIndex="5"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="ProductName" Caption="Product" Width="400px" VisibleIndex="4"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="FarmName" Caption="Location" VisibleIndex="5"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Volume" VisibleIndex="6" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
@@ -1130,7 +1130,7 @@
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
                                                             </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="TotalPrize" VisibleIndex="8" CellStyle-HorizontalAlign="Right">
+                                                            <dx:GridViewDataColumn FieldName="TotalPrize" Caption="Total" VisibleIndex="8" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
                                                             </dx:GridViewDataColumn>
@@ -1190,11 +1190,11 @@
                                                                                                         </tr>
                                                                                                         <tr>
                                                                                                             <td>
-                                                                                                                <dx:ASPxLabel runat="server" Text="Farm Name" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                                <dx:ASPxLabel runat="server" Text="Location" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                             </td>
                                                                                                             <td>
                                                                                                                 <dx:ASPxTextBox ID="FarmName" runat="server" ClientInstanceName="FarmNameRev" Text='<%#Eval("FarmName")%>' Width="300px" Theme="Office2010Blue">
-                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="false"></ValidationSettings>
                                                                                                                 </dx:ASPxTextBox>
                                                                                                             </td>
                                                                                                         </tr>
@@ -1231,7 +1231,7 @@
                                                                                                         
                                                                                                         <tr>
                                                                                                             <td>
-                                                                                                                <dx:ASPxLabel runat="server" Text="Total Prize" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                                <dx:ASPxLabel runat="server" Text="Total" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                             </td>
                                                                                                             <td>
                                                                                                                 <dx:ASPxTextBox ID="TotalPrize" runat="server" ClientInstanceName="TotalPrizeRev" Text='<%#Eval("TotalPrize")%>' Width="300px" HorizontalAlign="Right" Theme="Office2010Blue">

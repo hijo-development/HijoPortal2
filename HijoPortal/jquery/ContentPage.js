@@ -2693,7 +2693,7 @@ function ListForApprovalGrid_CustomButtonClick(s, e) {
 //mrp_previewforapproval
 function PreviewForApproval_Submit_Click(s, e) {
     var stat = StatusHiddenPrevApp.Get("hidden_preview_iStatusKey");
-    var workline = StatusHiddenPrevApp.Get("hidden_preview_wrkflwln");
+    var workline = StatusHiddenPrevAppWL.Get("hidden_preview_wrkflwln");
     //console.log(stat);
     //console.log(workline);
     if (stat == "0")//0 

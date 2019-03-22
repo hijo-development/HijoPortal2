@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -209,8 +210,46 @@ namespace HijoPortal
 
         protected void POAddEditGrid_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
         {
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
             string s = ProCategory.Value.ToString();
             string docnum = DocNumber.Value.ToString();
+
+            //MOPMonthYear.Text = "";
+            //MOPEntity.Text = "";
+            //MOPBUSSU.Text = "";
+
+            MRPClass.PrintString(docnum);
+
+            string qry = "SELECT dbo.vw_AXEntityTable.NAME AS Entity, " +
+                         " dbo.vw_AXOperatingUnitTable.NAME AS BUSSU, " +
+                         " dbo.tbl_MRP_List.MRPMonth, dbo.tbl_MRP_List.MRPYear, " +
+                         " dbo.tbl_MRP_List.DocNumber " +
+                         " FROM dbo.tbl_MRP_List LEFT OUTER JOIN " +
+                         " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
+                         " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
+                         " WHERE(dbo.tbl_MRP_List.DocNumber = '"+ docnum + "')";
+            cn.Open();
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            MRPClass.PrintString(dt.Rows.Count.ToString());
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    MRPClass.PrintString("pass foreach");
+                    //MOPMonthYear.Text = DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(Convert.ToInt32(row["MRPMonth"])) + "-" + row["MRPYear"].ToString(); ;
+                    //MOPEntity.Text = row["Entity"].ToString();
+                    //MOPBUSSU.Text = row["BUSSU"].ToString();
+                }
+            }
+            dt.Clear();
+            cn.Close();
 
             if (s == "ALL") s = "ITEMGROUPID";
 

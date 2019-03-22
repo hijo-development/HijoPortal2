@@ -200,7 +200,7 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("UOM")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="8">
+                                                <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty" VisibleIndex="8">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <EditItemTemplate>
@@ -314,7 +314,7 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("UOM")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="8">
+                                                <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty" VisibleIndex="8">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <EditItemTemplate>
@@ -428,7 +428,7 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("UOM")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="8">
+                                                <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty" VisibleIndex="8">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <EditItemTemplate>
@@ -532,7 +532,7 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("UOM")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="7">
+                                                <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty" VisibleIndex="7">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <EditItemTemplate>
