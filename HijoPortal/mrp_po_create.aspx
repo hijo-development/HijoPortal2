@@ -8,33 +8,51 @@
 
         .table_po_td_label {
             width: 5%;
-            vertical-align: middle;
+            vertical-align: top;
         }
 
         .table_po_td_data {
             width: 25%;
-            vertical-align: middle;
+            vertical-align: top;
         }
 
         .table_po_semi {
             width: 1%;
-            vertical-align: middle;
+            vertical-align: top;
         }
 
         .data_width {
             width: 60%;
         }
+
+        .small_data_width {
+            width: 30%;
+        }
     </style>
     <script type="text/javascript">
         function VendorPO_SelectedIndexChanged(s, e) {
+            var str = s.GetText().split("; ");
+            s.SetText(str[0]);
+            VendorLblClient.SetText(str[1]);
             TermsCallbackPO.PerformCallback();
+
         }
 
         function TermsPO_SelectedIndexChanged(s, e) {
+            var str = s.GetText().split("; ");
+            s.SetText(str[0]);
+            TermsLblClient.SetText(str[1]);
             CurrencyCallbackPO.PerformCallback();
         }
 
+        function CurrencyPO_SelectedIndexChanged(s, e) {
+            var str = s.GetText().split("; ");
+            s.SetText(str[0]);
+            CurrencyLblClient.SetText(str[1]);
+        }
+
         function SitePO_SelectedIndexChanged(s, e) {
+
             WarehouseCallbackPO.PerformCallback();
         }
 
@@ -56,9 +74,10 @@
                     </td>
                     <td class="table_po_semi">:</td>
                     <td class="table_po_td_data">
-                        <dx:ASPxComboBox ID="Vendor" runat="server" OnInit="Vendor_Init" CssClass="data_width" ValueType="System.String" Theme="Office2010Blue">
+                        <dx:ASPxComboBox ID="Vendor" runat="server" OnInit="Vendor_Init" CssClass="small_data_width" ValueType="System.String" Theme="Office2010Blue">
                             <ClientSideEvents SelectedIndexChanged="VendorPO_SelectedIndexChanged" />
                         </dx:ASPxComboBox>
+                        <dx:ASPxLabel ID="VendorLbl" runat="server" ClientInstanceName="VendorLblClient" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                     <td class="table_po_td_label">
                         <dx:ASPxLabel runat="server" Text="Site" Theme="Office2010Blue"></dx:ASPxLabel>
@@ -83,15 +102,26 @@
                     </td>
                     <td class="table_po_semi">:</td>
                     <td class="table_po_td_data">
-                        <dx:ASPxCallbackPanel ID="TermsCallback" runat="server" ClientInstanceName="TermsCallbackPO" OnCallback="TermsCallback_Callback" Width="100%">
-                            <PanelCollection>
-                                <dx:PanelContent>
-                                    <dx:ASPxComboBox ID="Terms" runat="server" CssClass="data_width" ClientEnabled="false" ValueType="System.String" Theme="Office2010Blue">
-                                        <ClientSideEvents SelectedIndexChanged="TermsPO_SelectedIndexChanged" />
-                                    </dx:ASPxComboBox>
-                                </dx:PanelContent>
-                            </PanelCollection>
-                        </dx:ASPxCallbackPanel>
+                        <table style="width: 100%">
+                            <tr>
+                                <td>
+                                    <dx:ASPxCallbackPanel ID="TermsCallback" runat="server" ClientInstanceName="TermsCallbackPO" OnCallback="TermsCallback_Callback" Width="100%">
+                                        <PanelCollection>
+                                            <dx:PanelContent>
+                                                <dx:ASPxComboBox ID="Terms" runat="server" CssClass="small_data_width" ClientEnabled="false" ValueType="System.String" Theme="Office2010Blue">
+                                                    <ClientSideEvents SelectedIndexChanged="TermsPO_SelectedIndexChanged" />
+                                                </dx:ASPxComboBox>
+
+                                            </dx:PanelContent>
+                                        </PanelCollection>
+                                    </dx:ASPxCallbackPanel>
+                                </td>
+                                <td>
+                                    <dx:ASPxLabel ID="TermsLbl" runat="server" ClientInstanceName="TermsLblClient" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                            </tr>
+                        </table>
+
                     </td>
                     <td class="table_po_td_label">
                         <dx:ASPxLabel runat="server" Text="Warehouse" Theme="Office2010Blue"></dx:ASPxLabel>
@@ -126,7 +156,10 @@
                         <dx:ASPxCallbackPanel ID="CurrencyCallback" runat="server" ClientInstanceName="CurrencyCallbackPO" OnCallback="CurrencyCallback_Callback" Width="100%">
                             <PanelCollection>
                                 <dx:PanelContent>
-                                    <dx:ASPxComboBox ID="Currency" runat="server" ClientEnabled="false" CssClass="data_width" ValueType="System.String" Theme="Office2010Blue"></dx:ASPxComboBox>
+                                    <dx:ASPxComboBox ID="Currency" runat="server" ClientEnabled="false" CssClass="small_data_width" ValueType="System.String" Theme="Office2010Blue">
+                                        <ClientSideEvents SelectedIndexChanged="CurrencyPO_SelectedIndexChanged" />
+                                    </dx:ASPxComboBox>
+                                    <dx:ASPxLabel ID="CurrencyLbl" runat="server" ClientInstanceName="CurrencyLblClient" Theme="Office2010Blue"></dx:ASPxLabel>
                                 </dx:PanelContent>
                             </PanelCollection>
                         </dx:ASPxCallbackPanel>
