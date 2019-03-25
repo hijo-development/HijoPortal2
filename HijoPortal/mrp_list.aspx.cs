@@ -107,7 +107,7 @@ namespace HijoPortal
                         Session["mrp_creator"] = mrp_creator;
                         Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
-                        Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                        //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                         //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_finance.aspx?DocNum=" + docNum.ToString();
                         //Response.RedirectLocation = "mrp_inventoryanalyst_forapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";

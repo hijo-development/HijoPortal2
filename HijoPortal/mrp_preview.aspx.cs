@@ -343,7 +343,7 @@ namespace HijoPortal
         {
             if (wrkflwln == 0)
             {
-                if (iStatusKey == 1)
+                if (iStatusKey == 0)
                 {
 
                     //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
@@ -363,10 +363,16 @@ namespace HijoPortal
                     MRPNotify.HeaderText = "Info";
                     MRPNotify.ShowOnPageLoad = true;
                 }
-                else
-                {
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-                }
+                //else
+                //{
+                //    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+                //    MRPNotificationMessage.Text = "You have no permission to perform this command!" + Environment.NewLine + "Access Denied!";
+                //    MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
+                //    MRPNotify.HeaderText = "Info";
+                //    MRPNotify.ShowOnPageLoad = true;
+
+                //}
             }
             else
             {
@@ -641,13 +647,22 @@ namespace HijoPortal
                     btAddEdit.Visible = true;
                 }
 
+                //if (wrkflwln == 0)
+                //{
+                //    Submit.Text = "Submit";
+                //}
+                //else
+                //{
+                //    Submit.Text = "Submit & Approve";
+                //}
+
                 if (wrkflwln == 0)
                 {
                     Submit.Text = "Submit";
                 }
                 else
                 {
-                    Submit.Text = "Submit & Approve";
+                    Submit.Text = "Confirm & Submit";
                 }
 
                 Load_MRP(docnumber);
