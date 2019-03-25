@@ -1769,7 +1769,7 @@ function MRPanalystfocused(s, e, type) {
 }
 
 function OnKeyUpQtytInvDirect(s, e) {
-    var avail_qty = DMGrid.GetSelectedItem().GetColumnText("Qty").toString();
+    var avail_qty = inv_qty_dm.GetText();
 
     //var avail_qty = parseFloat(localStorage.getItem('InventAnalystQty')).toFixed(2);
     var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
@@ -1814,18 +1814,29 @@ function OnKeyUpCosttInvDirect(s, e) {
 
 
 function OnKeyUpQtytInvOpex(s, e) {
+    var avail_qty = inv_qty_op.GetText();
     var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
     var qty = parseFloat(accounting.unformat(s.GetText()));
     var cost = parseFloat(InvEdittedCostOp.GetText()).toFixed(2);
     var total = 0;
-    if (qty > 0) {
+    if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
+        if (qty > 0) {
+            if (cost > 0) {
+                total = cost * qty;
+                InvEdittiedTotalCostOp.SetText(parseFloat(total).toFixed(2));
+            }
+        } else {
+            InvEdittiedTotalCostOp.SetText("");
+        }
+    }
+    else {
+        s.SetText(avail_qty);
         if (cost > 0) {
-            total = cost * qty;
+            total = cost * avail_qty;
             InvEdittiedTotalCostOp.SetText(parseFloat(total).toFixed(2));
         }
-    } else {
-        InvEdittiedTotalCostOp.SetText("");
     }
+
 }
 
 function OnKeyUpCosttInvOpex(s, e) {
@@ -1845,18 +1856,29 @@ function OnKeyUpCosttInvOpex(s, e) {
 
 
 function OnKeyUpQtytInvManPower(s, e) {
+    var avail_qty = inv_qty_man.GetText();
     var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
     var qty = parseFloat(accounting.unformat(s.GetText()));
     var cost = parseFloat(InvEdittedCostManPo.GetText()).toFixed(2);
     var total = 0;
-    if (qty > 0) {
+    if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
+        if (qty > 0) {
+            if (cost > 0) {
+                total = cost * qty;
+                InvEdittiedTotalCostManPo.SetText(parseFloat(total).toFixed(2));
+            }
+        } else {
+            InvEdittiedTotalCostManPo.SetText("");
+        }
+    }
+    else {
+        s.SetText(avail_qty);
         if (cost > 0) {
-            total = cost * qty;
+            total = cost * avail_qty;
             InvEdittiedTotalCostManPo.SetText(parseFloat(total).toFixed(2));
         }
-    } else {
-        InvEdittiedTotalCostManPo.SetText("");
     }
+
 }
 
 function OnKeyUpCosttInvManPower(s, e) {
@@ -1875,17 +1897,27 @@ function OnKeyUpCosttInvManPower(s, e) {
 }
 
 function OnKeyUpQtytInvCapex(s, e) {
+    var avail_qty = inv_qty_ca.GetText();
     var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
     var qty = parseFloat(accounting.unformat(s.GetText()));
     var cost = parseFloat(InvEdittedCostCapex.GetText()).toFixed(2);
     var total = 0;
-    if (qty > 0) {
+    if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
+        if (qty > 0) {
+            if (cost > 0) {
+                total = cost * qty;
+                InvEdittiedTotalCostCapex.SetText(parseFloat(total).toFixed(2));
+            }
+        } else {
+            InvEdittiedTotalCostCapex.SetText("");
+        }
+    }
+    else {
+        s.SetText(avail_qty);
         if (cost > 0) {
-            total = cost * qty;
+            total = cost * avail_qty;
             InvEdittiedTotalCostCapex.SetText(parseFloat(total).toFixed(2));
         }
-    } else {
-        InvEdittiedTotalCostCapex.SetText("");
     }
 }
 

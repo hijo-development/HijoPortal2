@@ -47,7 +47,7 @@ namespace HijoPortal.classes
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dt);
-            if (dt.Rows.Count>0)
+            if (dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {
@@ -103,5 +103,96 @@ namespace HijoPortal.classes
 
             return dtTable;
         }
+
+        public static DataTable MRPMonthYearTable()
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("MRPMonth", typeof(string));
+                dtTable.Columns.Add("MRPYear", typeof(string));
+                //dtTable.Columns.Add("EntityCode", typeof(string));
+            }
+
+            string qry = "SELECT [PK], [MRPMonth], [MRPYear] FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE PK IN(SELECT MAX(PK) FROM [hijo_portal].[dbo].[tbl_MRP_List] GROUP BY MRPMonth, MRPYear) AND StatusKey = '4' ORDER BY MRPMonth, MRPYear ASC";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["MRPMonth"] = Convertion.INDEX_TO_MONTH(Convert.ToInt32(row["MRPMonth"].ToString()));
+                    dtRow["MRPYear"] = row["MRPYear"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
+        public static DataTable DocumentNumber_By_Month_Year(int month, string year)
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("DocumentNumber", typeof(string));
+            }
+
+            string month_string = "'" + month.ToString() + "'";
+            string year_string = "'" + year + "'";
+            if (month == 0)
+            {
+                month_string = "MRPMonth";
+                year_string = "MRPYear";
+            }
+
+            string qry = "SELECT [PK], [DocNumber] FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE MRPMonth = " + month_string + " AND MRPYear = " + year_string + " AND StatusKey = '4' ORDER BY MRPMonth, MRPYear ASC";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["DocumentNumber"] = row["DocNumber"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
     }
 }

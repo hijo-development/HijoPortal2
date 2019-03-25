@@ -206,7 +206,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                        <dx:ASPxLabel ID="inv_qty" runat="server" ClientInstanceName="inv_qty_dm" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="9">
@@ -332,7 +332,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                        <dx:ASPxLabel ID="inv_qty" runat="server" ClientInstanceName="inv_qty_op"  Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="9">
@@ -458,7 +458,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                        <dx:ASPxLabel ID="inv_qty" runat="server" ClientInstanceName="inv_qty_man" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="9">
@@ -574,7 +574,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                        <dx:ASPxLabel ID="inv_qty" runat="server" ClientInstanceName="inv_qty_ca" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
                                                 <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8">
