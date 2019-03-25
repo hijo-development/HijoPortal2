@@ -31,6 +31,15 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxComboBox Vendor;
         
         /// <summary>
+        /// VendorLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel VendorLbl;
+        
+        /// <summary>
         /// Site control.
         /// </summary>
         /// <remarks>
@@ -65,6 +74,15 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxComboBox Terms;
+        
+        /// <summary>
+        /// TermsLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel TermsLbl;
         
         /// <summary>
         /// WarehouseCallback control.
@@ -110,6 +128,15 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxComboBox Currency;
+        
+        /// <summary>
+        /// CurrencyLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel CurrencyLbl;
         
         /// <summary>
         /// LocationCallback control.

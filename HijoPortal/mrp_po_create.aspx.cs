@@ -27,10 +27,12 @@ namespace HijoPortal
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "ACCOUNTNUM";
+            l_value.Caption = "Vendor Code";
             combo.Columns.Add(l_value);
 
             ListBoxColumn l_text = new ListBoxColumn();
             l_text.FieldName = "NAME";
+            l_text.Caption = "Vendor Name";
             l_text.Width = 200;
             combo.Columns.Add(l_text);
 
@@ -38,12 +40,12 @@ namespace HijoPortal
             combo.ValueField = "ACCOUNTNUM";
             combo.TextField = "NAME";
             combo.DataBind();
-            combo.TextFormatString = "{0}";
+            //combo.TextFormatString = "{0}{1}";
         }
 
         protected void TermsCallback_Callback(object sender, CallbackEventArgsBase e)
         {
-            string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Text.ToString() + "'";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -70,21 +72,23 @@ namespace HijoPortal
             Terms.ValueField = "PAYMTERMID";
             Terms.TextField = "DESCRIPTION";
             Terms.DataBind();
-            Terms.TextFormatString = "{0}";
+            //Terms.TextFormatString = "{0}";
             Terms.ClientEnabled = true;
         }
 
         protected void CurrencyCallback_Callback(object sender, CallbackEventArgsBase e)
         {
-            string query = "SELECT VENDGROUP, PAYMTERMID, CURRENCY FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE[ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            string query = "SELECT dbo.vw_AXVendTable.VENDGROUP, dbo.vw_AXVendTable.PAYMTERMID, dbo.vw_AXVendTable.CURRENCY, dbo.vw_AXCurrency.TXT FROM dbo.vw_AXVendTable INNER JOIN dbo.vw_AXCurrency ON dbo.vw_AXVendTable.CURRENCY = dbo.vw_AXCurrency.CURRENCYCODE WHERE[ACCOUNTNUM] = '" + Vendor.Text.ToString() + "'";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
             SqlCommand cmd = new SqlCommand(query, conn);
+            string value = "", text = "";
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                Currency.Value = reader["CURRENCY"].ToString();
+                value = reader["CURRENCY"].ToString();
+                text = reader["TXT"].ToString();
             }
             reader.Close();
             conn.Close();
@@ -105,8 +109,11 @@ namespace HijoPortal
             Currency.ValueField = "CURRENCYCODE";
             Currency.TextField = "TXT";
             Currency.DataBind();
-            Currency.TextFormatString = "{0}";
             Currency.ClientEnabled = true;
+
+            Currency.Value = value;
+            Currency.Text = value;
+            CurrencyLbl.Text = text;
         }
 
         protected void Site_Init(object sender, EventArgs e)
