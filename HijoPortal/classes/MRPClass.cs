@@ -1981,243 +1981,243 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable InventSiteTable()
-        {
-            DataTable dtTable = new DataTable();
+        //public static DataTable InventSiteTable()
+        //{
+        //    DataTable dtTable = new DataTable();
 
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
+        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+        //    DataTable dt = new DataTable();
+        //    SqlCommand cmd = null;
+        //    SqlDataAdapter adp;
 
-            cn.Open();
+        //    cn.Open();
 
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("NAME", typeof(string));
-                dtTable.Columns.Add("SITEID", typeof(string));
-            }
+        //    if (dtTable.Columns.Count == 0)
+        //    {
+        //        //Columns for AspxGridview
+        //        dtTable.Columns.Add("NAME", typeof(string));
+        //        dtTable.Columns.Add("SITEID", typeof(string));
+        //    }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSite] ORDER BY NAME ASC";
+        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSite] ORDER BY NAME ASC";
 
-            cmd = new SqlCommand(qry);
-            cmd.Connection = cn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    DataRow dtRow = dtTable.NewRow();
-                    dtRow["NAME"] = row["NAME"].ToString();
-                    dtRow["SITEID"] = row["SITEID"].ToString();
-                    dtTable.Rows.Add(dtRow);
-                }
-            }
-            dt.Clear();
-            cn.Close();
+        //    cmd = new SqlCommand(qry);
+        //    cmd.Connection = cn;
+        //    adp = new SqlDataAdapter(cmd);
+        //    adp.Fill(dt);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        foreach (DataRow row in dt.Rows)
+        //        {
+        //            DataRow dtRow = dtTable.NewRow();
+        //            dtRow["NAME"] = row["NAME"].ToString();
+        //            dtRow["SITEID"] = row["SITEID"].ToString();
+        //            dtTable.Rows.Add(dtRow);
+        //        }
+        //    }
+        //    dt.Clear();
+        //    cn.Close();
 
-            return dtTable;
-        }
+        //    return dtTable;
+        //}
 
-        public static DataTable InventSiteWarehouseTable(string ID)
-        {
-            DataTable dtTable = new DataTable();
+        //public static DataTable InventSiteWarehouseTable(string ID)
+        //{
+        //    DataTable dtTable = new DataTable();
 
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
+        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+        //    DataTable dt = new DataTable();
+        //    SqlCommand cmd = null;
+        //    SqlDataAdapter adp;
 
-            cn.Open();
+        //    cn.Open();
 
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("warehouse", typeof(string));
-                dtTable.Columns.Add("NAME", typeof(string));
-            }
+        //    if (dtTable.Columns.Count == 0)
+        //    {
+        //        //Columns for AspxGridview
+        //        dtTable.Columns.Add("warehouse", typeof(string));
+        //        dtTable.Columns.Add("NAME", typeof(string));
+        //    }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteWarehouse] WHERE [INVENTSITEID] = '" + ID + "'  ORDER BY NAME ASC";
+        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteWarehouse] WHERE [INVENTSITEID] = '" + ID + "'  ORDER BY NAME ASC";
 
-            cmd = new SqlCommand(qry);
-            cmd.Connection = cn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    DataRow dtRow = dtTable.NewRow();
-                    dtRow["warehouse"] = row["warehouse"].ToString();
-                    dtRow["NAME"] = row["NAME"].ToString();
-                    dtTable.Rows.Add(dtRow);
-                }
-            }
-            dt.Clear();
-            cn.Close();
+        //    cmd = new SqlCommand(qry);
+        //    cmd.Connection = cn;
+        //    adp = new SqlDataAdapter(cmd);
+        //    adp.Fill(dt);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        foreach (DataRow row in dt.Rows)
+        //        {
+        //            DataRow dtRow = dtTable.NewRow();
+        //            dtRow["warehouse"] = row["warehouse"].ToString();
+        //            dtRow["NAME"] = row["NAME"].ToString();
+        //            dtTable.Rows.Add(dtRow);
+        //        }
+        //    }
+        //    dt.Clear();
+        //    cn.Close();
 
-            return dtTable;
-        }
+        //    return dtTable;
+        //}
 
-        public static DataTable InventSiteLocationTable(string warehouse)
-        {
-            DataTable dtTable = new DataTable();
+        //public static DataTable InventSiteLocationTable(string warehouse)
+        //{
+        //    DataTable dtTable = new DataTable();
 
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
+        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+        //    DataTable dt = new DataTable();
+        //    SqlCommand cmd = null;
+        //    SqlDataAdapter adp;
 
-            cn.Open();
+        //    cn.Open();
 
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("LocationCode", typeof(string));
-            }
+        //    if (dtTable.Columns.Count == 0)
+        //    {
+        //        //Columns for AspxGridview
+        //        dtTable.Columns.Add("LocationCode", typeof(string));
+        //    }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteLocation] WHERE [WarehouseCode] = '" + warehouse + "'  ORDER BY WarehouseCode ASC";
+        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteLocation] WHERE [WarehouseCode] = '" + warehouse + "'  ORDER BY WarehouseCode ASC";
 
-            cmd = new SqlCommand(qry);
-            cmd.Connection = cn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    DataRow dtRow = dtTable.NewRow();
-                    dtRow["LocationCode"] = row["LocationCode"].ToString();
-                    dtTable.Rows.Add(dtRow);
-                }
-            }
-            dt.Clear();
-            cn.Close();
+        //    cmd = new SqlCommand(qry);
+        //    cmd.Connection = cn;
+        //    adp = new SqlDataAdapter(cmd);
+        //    adp.Fill(dt);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        foreach (DataRow row in dt.Rows)
+        //        {
+        //            DataRow dtRow = dtTable.NewRow();
+        //            dtRow["LocationCode"] = row["LocationCode"].ToString();
+        //            dtTable.Rows.Add(dtRow);
+        //        }
+        //    }
+        //    dt.Clear();
+        //    cn.Close();
 
-            return dtTable;
-        }
+        //    return dtTable;
+        //}
 
-        public static DataTable VendTableTable()
-        {
-            DataTable dtTable = new DataTable();
+        //public static DataTable VendTableTable()
+        //{
+        //    DataTable dtTable = new DataTable();
 
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
+        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+        //    DataTable dt = new DataTable();
+        //    SqlCommand cmd = null;
+        //    SqlDataAdapter adp;
 
-            cn.Open();
+        //    cn.Open();
 
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("ACCOUNTNUM", typeof(string));
-                dtTable.Columns.Add("NAME", typeof(string));
-            }
+        //    if (dtTable.Columns.Count == 0)
+        //    {
+        //        //Columns for AspxGridview
+        //        dtTable.Columns.Add("ACCOUNTNUM", typeof(string));
+        //        dtTable.Columns.Add("NAME", typeof(string));
+        //    }
 
-            string qry = "SELECT [ACCOUNTNUM],[NAME] FROM [hijo_portal].[dbo].[vw_AXVendTable]";
+        //    string qry = "SELECT [ACCOUNTNUM],[NAME] FROM [hijo_portal].[dbo].[vw_AXVendTable]";
 
-            cmd = new SqlCommand(qry);
-            cmd.Connection = cn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    DataRow dtRow = dtTable.NewRow();
-                    dtRow["ACCOUNTNUM"] = row["ACCOUNTNUM"].ToString();
-                    dtRow["NAME"] = row["NAME"].ToString(); ;
-                    dtTable.Rows.Add(dtRow);
-                }
-            }
-            dt.Clear();
-            cn.Close();
+        //    cmd = new SqlCommand(qry);
+        //    cmd.Connection = cn;
+        //    adp = new SqlDataAdapter(cmd);
+        //    adp.Fill(dt);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        foreach (DataRow row in dt.Rows)
+        //        {
+        //            DataRow dtRow = dtTable.NewRow();
+        //            dtRow["ACCOUNTNUM"] = row["ACCOUNTNUM"].ToString();
+        //            dtRow["NAME"] = row["NAME"].ToString(); ;
+        //            dtTable.Rows.Add(dtRow);
+        //        }
+        //    }
+        //    dt.Clear();
+        //    cn.Close();
 
-            return dtTable;
-        }
+        //    return dtTable;
+        //}
 
-        public static DataTable CurrencyTable()
-        {
-            DataTable dtTable = new DataTable();
+        //public static DataTable CurrencyTable()
+        //{
+        //    DataTable dtTable = new DataTable();
 
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
+        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+        //    DataTable dt = new DataTable();
+        //    SqlCommand cmd = null;
+        //    SqlDataAdapter adp;
 
-            cn.Open();
+        //    cn.Open();
 
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("CURRENCYCODE", typeof(string));
-                dtTable.Columns.Add("TXT", typeof(string));
-            }
+        //    if (dtTable.Columns.Count == 0)
+        //    {
+        //        //Columns for AspxGridview
+        //        dtTable.Columns.Add("CURRENCYCODE", typeof(string));
+        //        dtTable.Columns.Add("TXT", typeof(string));
+        //    }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXCurrency]";
+        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXCurrency]";
 
-            cmd = new SqlCommand(qry);
-            cmd.Connection = cn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    DataRow dtRow = dtTable.NewRow();
-                    dtRow["CURRENCYCODE"] = row["CURRENCYCODE"].ToString();
-                    dtRow["TXT"] = row["TXT"].ToString();
-                    dtTable.Rows.Add(dtRow);
-                }
-            }
-            dt.Clear();
-            cn.Close();
+        //    cmd = new SqlCommand(qry);
+        //    cmd.Connection = cn;
+        //    adp = new SqlDataAdapter(cmd);
+        //    adp.Fill(dt);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        foreach (DataRow row in dt.Rows)
+        //        {
+        //            DataRow dtRow = dtTable.NewRow();
+        //            dtRow["CURRENCYCODE"] = row["CURRENCYCODE"].ToString();
+        //            dtRow["TXT"] = row["TXT"].ToString();
+        //            dtTable.Rows.Add(dtRow);
+        //        }
+        //    }
+        //    dt.Clear();
+        //    cn.Close();
 
-            return dtTable;
-        }
+        //    return dtTable;
+        //}
 
-        public static DataTable PaymTermTable()
-        {
-            DataTable dtTable = new DataTable();
+        //public static DataTable PaymTermTable()
+        //{
+        //    DataTable dtTable = new DataTable();
 
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
+        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+        //    DataTable dt = new DataTable();
+        //    SqlCommand cmd = null;
+        //    SqlDataAdapter adp;
 
-            cn.Open();
+        //    cn.Open();
 
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("PAYMTERMID", typeof(string));
-                dtTable.Columns.Add("DESCRIPTION", typeof(string));
-            }
+        //    if (dtTable.Columns.Count == 0)
+        //    {
+        //        //Columns for AspxGridview
+        //        dtTable.Columns.Add("PAYMTERMID", typeof(string));
+        //        dtTable.Columns.Add("DESCRIPTION", typeof(string));
+        //    }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXPaymTerm]";
+        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXPaymTerm]";
 
-            cmd = new SqlCommand(qry);
-            cmd.Connection = cn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    DataRow dtRow = dtTable.NewRow();
-                    dtRow["PAYMTERMID"] = row["PAYMTERMID"].ToString();
-                    dtRow["DESCRIPTION"] = row["DESCRIPTION"].ToString();
-                    dtTable.Rows.Add(dtRow);
-                }
-            }
-            dt.Clear();
-            cn.Close();
+        //    cmd = new SqlCommand(qry);
+        //    cmd.Connection = cn;
+        //    adp = new SqlDataAdapter(cmd);
+        //    adp.Fill(dt);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        foreach (DataRow row in dt.Rows)
+        //        {
+        //            DataRow dtRow = dtTable.NewRow();
+        //            dtRow["PAYMTERMID"] = row["PAYMTERMID"].ToString();
+        //            dtRow["DESCRIPTION"] = row["DESCRIPTION"].ToString();
+        //            dtTable.Rows.Add(dtRow);
+        //        }
+        //    }
+        //    dt.Clear();
+        //    cn.Close();
 
-            return dtTable;
-        }
+        //    return dtTable;
+        //}
 
         public static DataTable TaxGroupTable()
         {

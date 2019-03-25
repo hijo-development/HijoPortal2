@@ -49,12 +49,30 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxComboBox ProdCategory_Combo;
         
         /// <summary>
-        /// MainGrid control.
+        /// MainGridCallbackPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView MainGrid;
+        protected global::DevExpress.Web.ASPxCallbackPanel MainGridCallbackPanel;
+        
+        /// <summary>
+        /// MainGrid_PO control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxGridView MainGrid_PO;
+        
+        /// <summary>
+        /// Create control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton Create;
     }
 }
