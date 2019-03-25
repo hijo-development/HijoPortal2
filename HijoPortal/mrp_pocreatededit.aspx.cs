@@ -434,272 +434,272 @@ namespace HijoPortal
 
         protected void Vendor_Init(object sender, EventArgs e)
         {
-            ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = MRPClass.VendTableTable(); ;
+            //ASPxComboBox combo = sender as ASPxComboBox;
+            //combo.DataSource = MRPClass.VendTableTable(); ;
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "ACCOUNTNUM";
-            combo.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "ACCOUNTNUM";
+            //combo.Columns.Add(l_value);
 
-            ListBoxColumn l_text = new ListBoxColumn();
-            l_text.FieldName = "NAME";
-            combo.Columns.Add(l_text);
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "NAME";
+            //combo.Columns.Add(l_text);
 
-            combo.ValueField = "ACCOUNTNUM";
-            combo.TextField = "NAME";
-            combo.DataBind();
-            combo.TextFormatString = "{0}";
+            //combo.ValueField = "ACCOUNTNUM";
+            //combo.TextField = "NAME";
+            //combo.DataBind();
+            //combo.TextFormatString = "{0}";
         }
 
         protected void Site_Init(object sender, EventArgs e)
         {
-            ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = MRPClass.InventSiteTable();
+            //ASPxComboBox combo = sender as ASPxComboBox;
+            //combo.DataSource = MRPClass.InventSiteTable();
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "SITEID";
-            l_value.Caption = "Site ID";
-            combo.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "SITEID";
+            //l_value.Caption = "Site ID";
+            //combo.Columns.Add(l_value);
 
-            ListBoxColumn l_text = new ListBoxColumn();
-            l_text.FieldName = "NAME";
-            l_text.Caption = "Name";
-            combo.Columns.Add(l_text);
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "NAME";
+            //l_text.Caption = "Name";
+            //combo.Columns.Add(l_text);
 
-            combo.TextField = "NAME";
-            combo.ValueField = "SITEID";
-            combo.DataBind();
-            combo.TextFormatString = "{0}";
+            //combo.TextField = "NAME";
+            //combo.ValueField = "SITEID";
+            //combo.DataBind();
+            //combo.TextFormatString = "{0}";
         }
 
 
 
         protected void pocreatededit_currency_callback_Callback(object sender, CallbackEventArgsBase e)
         {
-            string query = "SELECT VENDGROUP, PAYMTERMID, CURRENCY FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE[ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            //string query = "SELECT VENDGROUP, PAYMTERMID, CURRENCY FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE[ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
 
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-            SqlCommand cmd = new SqlCommand(query, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                Currency.Value = reader["CURRENCY"].ToString();
-            }
-            reader.Close();
-            conn.Close();
+            //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            //conn.Open();
+            //SqlCommand cmd = new SqlCommand(query, conn);
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    Currency.Value = reader["CURRENCY"].ToString();
+            //}
+            //reader.Close();
+            //conn.Close();
 
-            Currency.DataSource = MRPClass.CurrencyTable(); ;
+            //Currency.DataSource = MRPClass.CurrencyTable(); ;
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "CURRENCYCODE";
-            Currency.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "CURRENCYCODE";
+            //Currency.Columns.Add(l_value);
 
-            ListBoxColumn l_text = new ListBoxColumn();
-            l_text.FieldName = "TXT";
-            Currency.Columns.Add(l_text);
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "TXT";
+            //Currency.Columns.Add(l_text);
 
-            Currency.ValueField = "CURRENCYCODE";
-            Currency.TextField = "TXT";
-            Currency.DataBind();
-            Currency.TextFormatString = "{0}";
-            Currency.ClientEnabled = true;
+            //Currency.ValueField = "CURRENCYCODE";
+            //Currency.TextField = "TXT";
+            //Currency.DataBind();
+            //Currency.TextFormatString = "{0}";
+            //Currency.ClientEnabled = true;
         }
 
         protected void pocreatededit_terms_callback_Callback(object sender, CallbackEventArgsBase e)
         {
-            string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            //string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
 
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-            SqlCommand cmd = new SqlCommand(query, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                Terms.Value = reader["PAYMTERMID"].ToString();
-            }
-            reader.Close();
-            conn.Close();
+            //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            //conn.Open();
+            //SqlCommand cmd = new SqlCommand(query, conn);
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    Terms.Value = reader["PAYMTERMID"].ToString();
+            //}
+            //reader.Close();
+            //conn.Close();
 
-            Terms.DataSource = MRPClass.PaymTermTable(); ;
+            //Terms.DataSource = MRPClass.PaymTermTable(); ;
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "PAYMTERMID";
-            Terms.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "PAYMTERMID";
+            //Terms.Columns.Add(l_value);
 
-            ListBoxColumn l_text = new ListBoxColumn();
-            l_text.FieldName = "DESCRIPTION";
-            Terms.Columns.Add(l_text);
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "DESCRIPTION";
+            //Terms.Columns.Add(l_text);
 
-            Terms.ValueField = "PAYMTERMID";
-            Terms.TextField = "DESCRIPTION";
-            Terms.DataBind();
-            Terms.TextFormatString = "{0}";
-            Terms.ClientEnabled = true;
+            //Terms.ValueField = "PAYMTERMID";
+            //Terms.TextField = "DESCRIPTION";
+            //Terms.DataBind();
+            //Terms.TextFormatString = "{0}";
+            //Terms.ClientEnabled = true;
         }
 
         protected void pocreatededit_warehouse_callback_Callback(object sender, CallbackEventArgsBase e)
         {
-            Warehouse.Value = "";
-            Warehouse.DataSource = MRPClass.InventSiteWarehouseTable(Site.Value.ToString());
+            //Warehouse.Value = "";
+            //Warehouse.DataSource = MRPClass.InventSiteWarehouseTable(Site.Value.ToString());
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "warehouse";
-            l_value.Caption = "Warehouse";
-            Warehouse.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "warehouse";
+            //l_value.Caption = "Warehouse";
+            //Warehouse.Columns.Add(l_value);
 
-            ListBoxColumn l_text = new ListBoxColumn();
-            l_text.FieldName = "NAME";
-            l_text.Caption = "Name";
-            Warehouse.Columns.Add(l_text);
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "NAME";
+            //l_text.Caption = "Name";
+            //Warehouse.Columns.Add(l_text);
 
-            Warehouse.TextField = "NAME";
-            Warehouse.ValueField = "warehouse";
-            Warehouse.TextFormatString = "{0}";
-            Warehouse.DataBind();
-            Warehouse.ClientEnabled = true;
+            //Warehouse.TextField = "NAME";
+            //Warehouse.ValueField = "warehouse";
+            //Warehouse.TextFormatString = "{0}";
+            //Warehouse.DataBind();
+            //Warehouse.ClientEnabled = true;
 
         }
 
         protected void pocreatededit_location_callback_Callback(object sender, CallbackEventArgsBase e)
         {
-            Location.Value = "";
-            if (Warehouse.Value == null)
-                return;
+            //Location.Value = "";
+            //if (Warehouse.Value == null)
+            //    return;
 
-            Location.DataSource = MRPClass.InventSiteLocationTable(Warehouse.Value.ToString());
+            //Location.DataSource = MRPClass.InventSiteLocationTable(Warehouse.Value.ToString());
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "LocationCode";
-            Location.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "LocationCode";
+            //Location.Columns.Add(l_value);
 
-            //ListBoxColumn l_text = new ListBoxColumn();
-            //l_text.FieldName = "NAME";
-            //Location.Columns.Add(l_text);
+            ////ListBoxColumn l_text = new ListBoxColumn();
+            ////l_text.FieldName = "NAME";
+            ////Location.Columns.Add(l_text);
 
-            //Location.TextField = "NAME";
-            Location.ValueField = "LocationCode";
-            Location.DataBind();
-            Location.TextFormatString = "{0}";
-            Location.ClientEnabled = true;
+            ////Location.TextField = "NAME";
+            //Location.ValueField = "LocationCode";
+            //Location.DataBind();
+            //Location.TextFormatString = "{0}";
+            //Location.ClientEnabled = true;
         }
 
         
         protected void Currency_Init(object sender, EventArgs e)
         {
-            if (Vendor.Value == null)
-                return;
+            //if (Vendor.Value == null)
+            //    return;
 
-            string query = "SELECT VENDGROUP, PAYMTERMID, CURRENCY FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE[ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            //string query = "SELECT VENDGROUP, PAYMTERMID, CURRENCY FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE[ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
 
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-            SqlCommand cmd = new SqlCommand(query, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                Currency.Value = reader["CURRENCY"].ToString();
-            }
-            reader.Close();
-            conn.Close();
+            //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            //conn.Open();
+            //SqlCommand cmd = new SqlCommand(query, conn);
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    Currency.Value = reader["CURRENCY"].ToString();
+            //}
+            //reader.Close();
+            //conn.Close();
 
-            Currency.DataSource = MRPClass.CurrencyTable(); ;
+            //Currency.DataSource = MRPClass.CurrencyTable(); ;
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "CURRENCYCODE";
-            Currency.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "CURRENCYCODE";
+            //Currency.Columns.Add(l_value);
 
-            ListBoxColumn l_text = new ListBoxColumn();
-            l_text.FieldName = "TXT";
-            Currency.Columns.Add(l_text);
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "TXT";
+            //Currency.Columns.Add(l_text);
 
-            Currency.ValueField = "CURRENCYCODE";
-            Currency.TextField = "TXT";
-            Currency.DataBind();
-            Currency.TextFormatString = "{0}";
-            Currency.ClientEnabled = true;
+            //Currency.ValueField = "CURRENCYCODE";
+            //Currency.TextField = "TXT";
+            //Currency.DataBind();
+            //Currency.TextFormatString = "{0}";
+            //Currency.ClientEnabled = true;
         }
         protected void Terms_Init(object sender, EventArgs e)
         {
-            if (Vendor.Value == null)
-                return;
+            //if (Vendor.Value == null)
+            //    return;
 
-            string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            //string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
 
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-            SqlCommand cmd = new SqlCommand(query, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                Terms.Value = reader["PAYMTERMID"].ToString();
-            }
-            reader.Close();
-            conn.Close();
+            //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            //conn.Open();
+            //SqlCommand cmd = new SqlCommand(query, conn);
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    Terms.Value = reader["PAYMTERMID"].ToString();
+            //}
+            //reader.Close();
+            //conn.Close();
 
-            Terms.DataSource = MRPClass.PaymTermTable(); ;
+            //Terms.DataSource = MRPClass.PaymTermTable(); ;
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "PAYMTERMID";
-            Terms.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "PAYMTERMID";
+            //Terms.Columns.Add(l_value);
 
-            ListBoxColumn l_text = new ListBoxColumn();
-            l_text.FieldName = "DESCRIPTION";
-            Terms.Columns.Add(l_text);
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "DESCRIPTION";
+            //Terms.Columns.Add(l_text);
 
-            Terms.ValueField = "PAYMTERMID";
-            Terms.TextField = "DESCRIPTION";
-            Terms.DataBind();
-            Terms.TextFormatString = "{0}";
-            Terms.ClientEnabled = true;
+            //Terms.ValueField = "PAYMTERMID";
+            //Terms.TextField = "DESCRIPTION";
+            //Terms.DataBind();
+            //Terms.TextFormatString = "{0}";
+            //Terms.ClientEnabled = true;
         }
 
         protected void Warehouse_Init(object sender, EventArgs e)
         {
-            if (Site.Value == null)
-                return;
+            //if (Site.Value == null)
+            //    return;
 
-            Warehouse.Value = "";
-            Warehouse.DataSource = MRPClass.InventSiteWarehouseTable(Site.Value.ToString());
+            //Warehouse.Value = "";
+            //Warehouse.DataSource = MRPClass.InventSiteWarehouseTable(Site.Value.ToString());
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "warehouse";
-            l_value.Caption = "Warehouse";
-            Warehouse.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "warehouse";
+            //l_value.Caption = "Warehouse";
+            //Warehouse.Columns.Add(l_value);
 
-            ListBoxColumn l_text = new ListBoxColumn();
-            l_text.FieldName = "NAME";
-            l_text.Caption = "Name";
-            Warehouse.Columns.Add(l_text);
+            //ListBoxColumn l_text = new ListBoxColumn();
+            //l_text.FieldName = "NAME";
+            //l_text.Caption = "Name";
+            //Warehouse.Columns.Add(l_text);
 
-            Warehouse.TextField = "NAME";
-            Warehouse.ValueField = "warehouse";
-            Warehouse.TextFormatString = "{0}";
-            Warehouse.DataBind();
-            Warehouse.ClientEnabled = true;
+            //Warehouse.TextField = "NAME";
+            //Warehouse.ValueField = "warehouse";
+            //Warehouse.TextFormatString = "{0}";
+            //Warehouse.DataBind();
+            //Warehouse.ClientEnabled = true;
         }
 
         protected void Location_Init(object sender, EventArgs e)
         {
-            Location.Value = "";
-            if (Warehouse.Value == null)
-                return;
+            //Location.Value = "";
+            //if (Warehouse.Value == null)
+            //    return;
 
-            Location.DataSource = MRPClass.InventSiteLocationTable(Warehouse.Value.ToString());
+            //Location.DataSource = MRPClass.InventSiteLocationTable(Warehouse.Value.ToString());
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "LocationCode";
-            Location.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "LocationCode";
+            //Location.Columns.Add(l_value);
 
-            //ListBoxColumn l_text = new ListBoxColumn();
-            //l_text.FieldName = "NAME";
-            //Location.Columns.Add(l_text);
+            ////ListBoxColumn l_text = new ListBoxColumn();
+            ////l_text.FieldName = "NAME";
+            ////Location.Columns.Add(l_text);
 
-            //Location.TextField = "NAME";
-            Location.ValueField = "LocationCode";
-            Location.DataBind();
-            Location.TextFormatString = "{0}";
-            Location.ClientEnabled = true;
+            ////Location.TextField = "NAME";
+            //Location.ValueField = "LocationCode";
+            //Location.DataBind();
+            //Location.TextFormatString = "{0}";
+            //Location.ClientEnabled = true;
         }
     }
 }
