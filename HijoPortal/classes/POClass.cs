@@ -212,6 +212,8 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("DocumentNumber", typeof(string));
                 dtTable.Columns.Add("Entity", typeof(string));
                 dtTable.Columns.Add("BU", typeof(string));
+                dtTable.Columns.Add("ItemCatCode", typeof(string));
+                dtTable.Columns.Add("ItemCat", typeof(string));
                 dtTable.Columns.Add("ItemCode", typeof(string));
                 dtTable.Columns.Add("ItemDescription", typeof(string));
                 dtTable.Columns.Add("Qty", typeof(string));
@@ -238,8 +240,9 @@ namespace HijoPortal.classes
             if (string.IsNullOrEmpty(groupID) || groupID == "ALL") groupid_string = "dbo.vw_AXInventTable.ITEMGROUPID";
             else groupid_string = "'" + groupID + "'";
 
-            string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_DirectMaterials.ItemCode,  dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.TotalCost FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_DirectMaterials.ItemCode = dbo.vw_AXInventTable.ITEMID WHERE (dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND (dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND (dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND (dbo.tbl_MRP_List.StatusKey = '4') AND (dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
+            //string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_DirectMaterials.ItemCode,  dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.TotalCost FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_DirectMaterials.ItemCode = dbo.vw_AXInventTable.ITEMID WHERE (dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND (dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND (dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND (dbo.tbl_MRP_List.StatusKey = '4') AND (dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
 
+            string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_DirectMaterials.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND(dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND(dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND(dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -254,8 +257,16 @@ namespace HijoPortal.classes
                     dtRow["DocumentNumber"] = row["DocNumber"].ToString();
                     dtRow["Entity"] = row["Entity"].ToString();
                     dtRow["BU"] = row["BU"].ToString();
+                    dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
+                    dtRow["ItemCat"] = row["ItemCat"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
-                    dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+                    if (row["ItemDescriptionAddl"].ToString().Trim() !="")
+                    {
+                        dtRow["ItemDescription"] = row["ItemDescription"].ToString() + " (" + row["ItemDescriptionAddl"].ToString() + ")";
+                    } else
+                    {
+                        dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+                    }                    
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
@@ -264,8 +275,9 @@ namespace HijoPortal.classes
             }
             dt.Clear();
 
-            qry = "SELECT DISTINCT dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description,dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost FROM   dbo.tbl_MRP_List INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_OPEX.ItemCode = dbo.vw_AXInventTable.ITEMID WHERE(dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND(dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND(dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND(dbo.tbl_MRP_List.StatusKey = '4') AND (dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
+            //qry = "SELECT DISTINCT dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description,dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost FROM   dbo.tbl_MRP_List INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_OPEX.ItemCode = dbo.vw_AXInventTable.ITEMID WHERE(dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND(dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND(dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND(dbo.tbl_MRP_List.StatusKey = '4') AND (dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
 
+            qry = "SELECT DISTINCT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN         dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_OPEX.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND(dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND(dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND(dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -280,8 +292,16 @@ namespace HijoPortal.classes
                     dtRow["DocumentNumber"] = row["DocNumber"].ToString();
                     dtRow["Entity"] = row["Entity"].ToString();
                     dtRow["BU"] = row["BU"].ToString();
+                    dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
+                    dtRow["ItemCat"] = row["ItemCat"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
-                    dtRow["ItemDescription"] = row["Description"].ToString();
+                    if (row["DescriptionAddl"].ToString().Trim() !="")
+                    {
+                        dtRow["ItemDescription"] = row["Description"].ToString() +" (" + row["DescriptionAddl"].ToString() + ")";
+                    } else
+                    {
+                        dtRow["ItemDescription"] = row["Description"].ToString();
+                    }
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
