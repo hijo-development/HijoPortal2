@@ -14,8 +14,8 @@ namespace HijoPortal
     public partial class mrp_po_selectitem : System.Web.UI.Page
     {
         private static string doc_static = "", year_static = "", prod_static = "";
-        private static int month_static = 0;
-        private static bool trythis = false;
+        private static int month_static = -1;
+        private bool executebindpageload = false;
         private void CheckCreatorKey()
         {
             if (Session["CreatorKey"] == null)
@@ -38,11 +38,14 @@ namespace HijoPortal
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             }
 
-            //BindTable(doc_static, month_static, year_static);
+
+            BindTable(doc_static, month_static, year_static, prod_static);
         }
 
         private void BindTable(string docnumber, int month, string year, string prod)
         {
+            //if (month == -1) return;
+
             MainGrid_PO.DataSource = POClass.POSelecetedItemTable(docnumber, month, year, prod);
             MainGrid_PO.KeyFieldName = "PK";
             MainGrid_PO.DataBind();
@@ -131,29 +134,48 @@ namespace HijoPortal
 
         protected void Create_Click(object sender, EventArgs e)
         {
-            //List<object> fieldValues = MainGrid_PO.GetSelectedFieldValues(new string[] { "PK", "TableIdentifier", "DocumentNumber", "ItemCode", "ItemDescription", "Qty", "Cost", "TotalCost" }) as List<object>;
+            List<object> fieldValues = MainGrid_PO.GetSelectedFieldValues(new string[] { "PK", "TableIdentifier", "DocumentNumber", "ItemCode", "ItemDescription", "Qty", "Cost", "TotalCost" }) as List<object>;
 
-            //if (fieldValues.Count == 0)
-            //    return;
-            //else
-            //{
-            //    foreach (object[] obj in fieldValues)
-            //    {
-            //        string pk = obj[0].ToString();
-            //        string identifier = obj[1].ToString();
-            //        string docnum = obj[1].ToString();
-            //        string itemcode = obj[1].ToString();
-            //        string itemdesc = obj[1].ToString();
-            //        string qty = obj[1].ToString();
-            //        string cost = obj[1].ToString();
-            //        string totalcost = obj[1].ToString();
+            MRPClass.PrintString("--->>>" + fieldValues.Count.ToString());
+            if (fieldValues.Count == 0)
+                return;
+            else
+            {
+                string userkey = Session["CreatorKey"].ToString();
+                string delete = "DELETE FROM [dbo].[tbl_POCreation_Tmp] WHERE [UserKey] = '" + userkey + "'";
 
-            //        MRPClass.PrintString(pk + "-" + identifier + "-" + docnum);
-            //    }
-            //}
+                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(delete, conn);
+                cmd.ExecuteNonQuery();
 
-            Response.Redirect("mrp_po_create.aspx");
+                foreach (object[] obj in fieldValues)
+                {
+                    string[] arr = obj[0].ToString().Split('-');
+                    string pk = arr[0];
+                    string identifier = obj[1].ToString();
+                    string docnum = obj[2].ToString();
+                    string itemcode = obj[3].ToString();
+                    string itemdesc = obj[4].ToString();
+                    string qty = obj[5].ToString();
+                    string cost = obj[6].ToString();
+                    string totalcost = obj[7].ToString();
 
+                    //MRPClass.PrintString(identifier);
+                    //MRPClass.PrintString(docnum);
+                    //MRPClass.PrintString(itemdesc);
+
+                    string insert = "INSERT INTO [dbo].[tbl_POCreation_Tmp] ([UserKey], [MOPNumber], [ItemPK], [ItemIdentifier]) VALUES (@userkey, @mopnumber, @itempk, @itemidentifier)";
+
+                    cmd = new SqlCommand(insert, conn);
+                    cmd.Parameters.AddWithValue("@userkey", userkey);
+                    cmd.Parameters.AddWithValue("@mopnumber", docnum);
+                    cmd.Parameters.AddWithValue("@itempk", pk);
+                    cmd.Parameters.AddWithValue("@itemidentifier", identifier);
+                    cmd.ExecuteNonQuery();
+                }
+                Response.Redirect("mrp_po_create.aspx");
+            }
         }
 
         protected void ProdCategory_Combo_Init(object sender, EventArgs e)
@@ -199,7 +221,9 @@ namespace HijoPortal
             else
                 prod_static = "";
 
+            executebindpageload = true;
             BindTable(doc_static, month_static, year_static, prod_static);
+
         }
     }
 }

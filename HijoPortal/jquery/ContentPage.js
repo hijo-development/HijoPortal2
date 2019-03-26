@@ -1628,38 +1628,6 @@ function terms_endcallback(s, e) {
     }
 }
 
-//Gridview PO
-function OnKeyUpQtyPO(s, e) {//OnChange
-    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    var qty = parseFloat(s.GetText()).toFixed(2);
-    var cost = parseFloat(accounting.unformat(POCost.GetText()));
-    var total = 0;
-    if (qty > 0) {
-        if (cost > 0) {
-            total = cost * qty;
-            POTotalCost.SetText(parseFloat(total).toFixed(2));
-        }
-    } else {
-        POTotalCost.SetText("");
-    }
-}
-
-function OnKeyUpCostPO(s, e) {//OnChange
-    //var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    var cost = parseFloat(accounting.unformat(s.GetText()));
-    var qty = parseFloat(POQty.GetText()).toFixed(2);
-    var total = 0;
-    if (qty > 0) {
-        if (cost > 0) {
-            total = cost * qty;
-            POTotalCost.SetText(accounting.formatMoney(total));
-        }
-    } else {
-        POTotalCost.SetText("");
-    }
-}
-
-
 //FOR USERLIST
 var postponedCallbackuserBU = false;
 function UserEntity_IndexChanged(s, e) {

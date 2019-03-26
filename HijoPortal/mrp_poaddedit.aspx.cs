@@ -590,29 +590,29 @@ namespace HijoPortal
         }
         protected void ItemsRequestedByFilterCondition_1(object source, ListEditItemsRequestedByFilterConditionEventArgs e)
         {
-            ASPxComboBox comboBox = (ASPxComboBox)source;
-            comboBox.DataSource = MRPClass.TaxGroupTable();
+            //ASPxComboBox comboBox = (ASPxComboBox)source;
+            //comboBox.DataSource = MRPClass.TaxGroupTable();
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "TaxGroup";
-            comboBox.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "TaxGroup";
+            //comboBox.Columns.Add(l_value);
 
-            comboBox.ValueField = "TaxGroup";
-            comboBox.TextField = "TaxGroup";
-            comboBox.DataBind();
+            //comboBox.ValueField = "TaxGroup";
+            //comboBox.TextField = "TaxGroup";
+            //comboBox.DataBind();
         }
         protected void ItemsRequestedByFilterCondition_2(object source, ListEditItemsRequestedByFilterConditionEventArgs e)
         {
-            ASPxComboBox comboBox = (ASPxComboBox)source;
-            comboBox.DataSource = MRPClass.TaxItemGroupTable();
+            //ASPxComboBox comboBox = (ASPxComboBox)source;
+            //comboBox.DataSource = MRPClass.TaxItemGroupTable();
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "TaxItemGroup";
-            comboBox.Columns.Add(l_value);
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "TaxItemGroup";
+            //comboBox.Columns.Add(l_value);
 
-            comboBox.ValueField = "TaxItemGroup";
-            comboBox.TextField = "TaxItemGroup";
-            comboBox.DataBind(); ;
+            //comboBox.ValueField = "TaxItemGroup";
+            //comboBox.TextField = "TaxItemGroup";
+            //comboBox.DataBind(); ;
         }
 
         protected void Send_Click(object sender, EventArgs e)
