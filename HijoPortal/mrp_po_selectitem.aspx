@@ -79,14 +79,25 @@
                                 <dx:GridViewCommandColumn ShowSelectCheckbox="true" SelectAllCheckboxMode="Page"></dx:GridViewCommandColumn>
                                 <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="TableIdentifier" Visible="false"></dx:GridViewDataColumn>
-                                <dx:GridViewDataColumn FieldName="DocumentNumber"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="DocumentNumber" Width="150px"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="Entity"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="BU" Caption="BU/SSU"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="ItemCatCode" Visible="false"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName ="ItemCat" Caption="Item Category"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="ItemCode"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="ItemDescription" Caption="Description"></dx:GridViewDataColumn>
-                                <dx:GridViewDataColumn FieldName="Qty" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                <dx:GridViewDataColumn FieldName="Cost" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                <dx:GridViewDataColumn FieldName="TotalCost" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="Qty">
+                                    <HeaderStyle HorizontalAlign="Right" />
+                                    <CellStyle HorizontalAlign="Right"></CellStyle>
+                                </dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="Cost">
+                                    <HeaderStyle HorizontalAlign="Right" />
+                                    <CellStyle HorizontalAlign="Right"></CellStyle>
+                                </dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="TotalCost">
+                                    <HeaderStyle HorizontalAlign="Right" />
+                                    <CellStyle HorizontalAlign="Right"></CellStyle>
+                                </dx:GridViewDataColumn>
                             </Columns>
                             <SettingsPager Mode="ShowAllRecords"></SettingsPager>
                         </dx:ASPxGridView>
