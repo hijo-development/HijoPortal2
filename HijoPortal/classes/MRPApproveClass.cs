@@ -122,19 +122,25 @@ namespace HijoPortal.classes
             adp.Fill(dtable);
             if (dtable.Rows.Count == 0)
             {
-                qry = "UPDATE tbl_MRP_List " +
-                      " SET StatusKey = 4 " +
-                      " WHERE (PK = " + MRPKey + ")";
-                cmdUp = new SqlCommand(qry, conn);
-                cmdUp.ExecuteNonQuery();
+                foreach (DataRow row in dtable.Rows)
+                {
+                    if (Convert.ToInt32(row["RecCnt"]) == 0)
+                    {
+                        qry = "UPDATE tbl_MRP_List " +
+                              " SET StatusKey = 4 " +
+                              " WHERE (PK = " + MRPKey + ")";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
 
-                qry = "UPDATE tbl_MRP_List_Workflow " +
-                      " SET Visible = 0, " +
-                      " Status = 1 " +
-                      " WHERE (MasterKey = " + MRPKey + ") " +
-                      " AND (Line = 4)";
-                cmdUp = new SqlCommand(qry, conn);
-                cmdUp.ExecuteNonQuery();
+                        qry = "UPDATE tbl_MRP_List_Workflow " +
+                              " SET Visible = 0, " +
+                              " Status = 1 " +
+                              " WHERE (MasterKey = " + MRPKey + ") " +
+                              " AND (Line = 4)";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
+                    }
+                }
             }
             dtable.Clear();
 
@@ -359,19 +365,25 @@ namespace HijoPortal.classes
             adp.Fill(dtable);
             if (dtable.Rows.Count == 0)
             {
-                qry = "UPDATE tbl_MRP_List " +
-                      " SET StatusKey = 4 " +
-                      " WHERE (PK = " + MRPKey + ")";
-                cmdUp = new SqlCommand(qry, conn);
-                cmdUp.ExecuteNonQuery();
+                foreach (DataRow row in dtable.Rows)
+                {
+                    if (Convert.ToInt32(row["RecCnt"]) == 0)
+                    {
+                        qry = "UPDATE tbl_MRP_List " +
+                              " SET StatusKey = 4 " +
+                              " WHERE (PK = " + MRPKey + ")";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
 
-                qry = "UPDATE tbl_MRP_List_Workflow " +
-                      " SET Visible = 0, " +
-                      " Status = 1 " +
-                      " WHERE (MasterKey = " + MRPKey + ") " +
-                      " AND (Line = 4)";
-                cmdUp = new SqlCommand(qry, conn);
-                cmdUp.ExecuteNonQuery();
+                        qry = "UPDATE tbl_MRP_List_Workflow " +
+                              " SET Visible = 0, " +
+                              " Status = 1 " +
+                              " WHERE (MasterKey = " + MRPKey + ") " +
+                              " AND (Line = 4)";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
+                    }
+                }
             }
             dtable.Clear();
 
@@ -594,21 +606,28 @@ namespace HijoPortal.classes
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dtable);
-            if (dtable.Rows.Count == 0)
+            if (dtable.Rows.Count > 0)
             {
-                qry = "UPDATE tbl_MRP_List " +
-                      " SET StatusKey = 4 " +
-                      " WHERE (PK = " + MRPKey + ")";
-                cmdUp = new SqlCommand(qry, conn);
-                cmdUp.ExecuteNonQuery();
+                foreach (DataRow row in dtable.Rows)
+                {
+                    if (Convert.ToInt32(row["RecCnt"]) == 0)
+                    {
+                        qry = "UPDATE tbl_MRP_List " +
+                              " SET StatusKey = 4 " +
+                              " WHERE (PK = " + MRPKey + ")";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
 
-                qry = "UPDATE tbl_MRP_List_Workflow " +
-                      " SET Visible = 0, " +
-                      " Status = 1 " +
-                      " WHERE (MasterKey = " + MRPKey + ") " +
-                      " AND (Line = 4)";
-                cmdUp = new SqlCommand(qry, conn);
-                cmdUp.ExecuteNonQuery();
+                        qry = "UPDATE tbl_MRP_List_Workflow " +
+                              " SET Visible = 0, " +
+                              " Status = 1 " +
+                              " WHERE (MasterKey = " + MRPKey + ") " +
+                              " AND (Line = 4)";
+                        cmdUp = new SqlCommand(qry, conn);
+                        cmdUp.ExecuteNonQuery();
+                    }
+                }
+                
             }
             dtable.Clear();
 

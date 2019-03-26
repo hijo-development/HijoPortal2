@@ -302,8 +302,16 @@ function DirectMaterialsGrid_CustomButtonClick(s, e) {
         if (wrkflowLine === "0") {
             if (statusKey === "1") {
                 s.StartEditRow(e.visibleIndex);
-            } else {
-                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+            } else if (statusKey === "2") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "3") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "4") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
                 Add_Edit_MRPNotify.SetHeaderText("Alert");
                 Add_Edit_MRPNotify.Show();
             }
@@ -325,8 +333,16 @@ function DirectMaterialsGrid_CustomButtonClick(s, e) {
                 typeCustomDelete = DM_string;
                 PopUpDelete.SetHeaderText("Alert");
                 PopUpDelete.Show();
-            } else {
-                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to BU / SSU Lead for review.");
+            } else if (statusKey === "2") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "3") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "4") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
                 Add_Edit_MRPNotify.SetHeaderText("Alert");
                 Add_Edit_MRPNotify.Show();
             }
@@ -390,8 +406,16 @@ function OPEXGrid_CustomButtonClick(s, e) {
         if (wrkflowLine === "0") {
             if (statusKey === "1") {
                 s.StartEditRow(e.visibleIndex);
-            } else {
-                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+            } else if (statusKey === "2") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "3") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "4") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
                 Add_Edit_MRPNotify.SetHeaderText("Alert");
                 Add_Edit_MRPNotify.Show();
             }
@@ -412,8 +436,16 @@ function OPEXGrid_CustomButtonClick(s, e) {
                 typeCustomDelete = OP_string;
                 PopUpDelete.SetHeaderText("Alert");
                 PopUpDelete.Show();
-            } else {
-                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to BU / SSU Lead for review.");
+            } else if (statusKey === "2") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "3") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "4") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
                 Add_Edit_MRPNotify.SetHeaderText("Alert");
                 Add_Edit_MRPNotify.Show();
             }
@@ -477,8 +509,16 @@ function ManPowerGrid_CustomButtonClick(s, e) {
         if (wrkflowLine === "0") {
             if (statusKey === "1") {
                 s.StartEditRow(e.visibleIndex);
-            } else {
-                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+            } else if (statusKey === "2") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "3") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "4") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
                 Add_Edit_MRPNotify.SetHeaderText("Alert");
                 Add_Edit_MRPNotify.Show();
             }
@@ -500,8 +540,16 @@ function ManPowerGrid_CustomButtonClick(s, e) {
                 typeCustomDelete = MAN_string;
                 PopUpDelete.SetHeaderText("Alert");
                 PopUpDelete.Show();
-            } else {
-                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to BU / SSU Lead for review.");
+            } else if (statusKey === "2") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "3") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "4") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
                 Add_Edit_MRPNotify.SetHeaderText("Alert");
                 Add_Edit_MRPNotify.Show();
             }
@@ -566,8 +614,16 @@ function CAPEXGrid_CustomButtonClick(s, e) {
         if (wrkflowLine === "0") {
             if (statusKey === "1") {
                 s.StartEditRow(e.visibleIndex);
-            } else {
-                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+            } else if (statusKey === "2") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "3") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "4") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
                 Add_Edit_MRPNotify.SetHeaderText("Alert");
                 Add_Edit_MRPNotify.Show();
             }
@@ -589,8 +645,16 @@ function CAPEXGrid_CustomButtonClick(s, e) {
                 typeCustomDelete = CA_string;
                 PopUpDelete.SetHeaderText("Alert");
                 PopUpDelete.Show();
-            } else {
-                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to BU / SSU Lead for review.");
+            } else if (statusKey === "2") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "3") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "4") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
                 Add_Edit_MRPNotify.SetHeaderText("Alert");
                 Add_Edit_MRPNotify.Show();
             }
@@ -654,8 +718,16 @@ function RevenueGrid_CustomButtonClick(s, e) {
         if (wrkflowLine === "0") {
             if (statusKey === "1") {
                 s.StartEditRow(e.visibleIndex);
-            } else {
-                Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+            } else if (statusKey === "2") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "3") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "4") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
                 Add_Edit_MRPNotify.SetHeaderText("Alert");
                 Add_Edit_MRPNotify.Show();
             }
@@ -676,8 +748,16 @@ function RevenueGrid_CustomButtonClick(s, e) {
                 typeCustomDelete = REV_string;
                 PopUpDelete.SetHeaderText("Alert");
                 PopUpDelete.Show();
-            } else {
-                Add_Edit_MRPNotificationMessage.SetText("Can't Delete! Document already submitted to BU / SSU Lead for review.");
+            } else if (statusKey === "2") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "3") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+                Add_Edit_MRPNotify.SetHeaderText("Alert");
+                Add_Edit_MRPNotify.Show();
+            } else if (statusKey === "4") {
+                Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
                 Add_Edit_MRPNotify.SetHeaderText("Alert");
                 Add_Edit_MRPNotify.Show();
             }
@@ -767,16 +847,32 @@ function DirectMaterialsGrid_Add(s, e) {
     if (wrkflowLine === "0") {
         if (statusKey === "1") {
             DirectMaterialsGrid.AddNewRow();
-        } else {
+        } else if (statusKey === "2") {
             Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "3") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "4") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
             Add_Edit_MRPNotify.SetHeaderText("Alert");
             Add_Edit_MRPNotify.Show();
         }
     } else {
         if (wrklineStatus === "0") {
             DirectMaterialsGrid.AddNewRow();
-        } else {
-            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to Inventory Analyst for review.");
+        } else if (statusKey === "2") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "3") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "4") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
             Add_Edit_MRPNotify.SetHeaderText("Alert");
             Add_Edit_MRPNotify.Show();
         }
@@ -794,8 +890,16 @@ function OPEXGrid_Add(s, e) {
     if (wrkflowLine === "0") {
         if (statusKey === "1") {
             OPEXGrid.AddNewRow();
-        } else {
+        } else if (statusKey === "2") {
             Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "3") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "4") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
             Add_Edit_MRPNotify.SetHeaderText("Alert");
             Add_Edit_MRPNotify.Show();
         }
@@ -820,8 +924,16 @@ function ManPowerGrid_Add(s, e) {
     if (wrkflowLine === "0") {
         if (statusKey === "1") {
             ManPowerGrid.AddNewRow();
-        } else {
+        } else if (statusKey === "2") {
             Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "3") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "4") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
             Add_Edit_MRPNotify.SetHeaderText("Alert");
             Add_Edit_MRPNotify.Show();
         }
@@ -847,8 +959,16 @@ function CAPEXGrid_Add(s, e) {
     if (wrkflowLine === "0") {
         if (statusKey === "1") {
             CAPEXGrid.AddNewRow();
-        } else {
+        } else if (statusKey === "2") {
             Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "3") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "4") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
             Add_Edit_MRPNotify.SetHeaderText("Alert");
             Add_Edit_MRPNotify.Show();
         }
@@ -874,8 +994,16 @@ function RevenueGrid_Add(s, e) {
     if (wrkflowLine === "0") {
         if (statusKey === "1") {
             RevenueGrid.AddNewRow();
-        } else {
+        } else if (statusKey === "2") {
             Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "3") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted for Approval.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "4") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already Approved.");
             Add_Edit_MRPNotify.SetHeaderText("Alert");
             Add_Edit_MRPNotify.Show();
         }
@@ -1776,7 +1904,7 @@ function OnKeyUpQtytInvDirect(s, e) {
     var qty = parseFloat(accounting.unformat(s.GetText()));
     var cost = parseFloat(InvEdittedCost.GetText()).toFixed(2);
     var total = 0;
-    if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
+    //if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
         if (qty > 0) {
             if (cost > 0) {
                 total = cost * qty;
@@ -1785,14 +1913,14 @@ function OnKeyUpQtytInvDirect(s, e) {
         } else {
             InvEdittiedTotalCost.SetText("");
         }
-    }
-    else {
-        s.SetText(avail_qty);
-        if (cost > 0) {
-            total = cost * avail_qty;
-            InvEdittiedTotalCost.SetText(parseFloat(total).toFixed(2));
-        }
-    }
+    //}
+    //else {
+    //    s.SetText(avail_qty);
+    //    if (cost > 0) {
+    //        total = cost * avail_qty;
+    //        InvEdittiedTotalCost.SetText(parseFloat(total).toFixed(2));
+    //    }
+    //}
 
 
 }
@@ -1819,7 +1947,7 @@ function OnKeyUpQtytInvOpex(s, e) {
     var qty = parseFloat(accounting.unformat(s.GetText()));
     var cost = parseFloat(InvEdittedCostOp.GetText()).toFixed(2);
     var total = 0;
-    if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
+    //if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
         if (qty > 0) {
             if (cost > 0) {
                 total = cost * qty;
@@ -1828,14 +1956,14 @@ function OnKeyUpQtytInvOpex(s, e) {
         } else {
             InvEdittiedTotalCostOp.SetText("");
         }
-    }
-    else {
-        s.SetText(avail_qty);
-        if (cost > 0) {
-            total = cost * avail_qty;
-            InvEdittiedTotalCostOp.SetText(parseFloat(total).toFixed(2));
-        }
-    }
+    //}
+    //else {
+    //    s.SetText(avail_qty);
+    //    if (cost > 0) {
+    //        total = cost * avail_qty;
+    //        InvEdittiedTotalCostOp.SetText(parseFloat(total).toFixed(2));
+    //    }
+    //}
 
 }
 
@@ -1861,7 +1989,7 @@ function OnKeyUpQtytInvManPower(s, e) {
     var qty = parseFloat(accounting.unformat(s.GetText()));
     var cost = parseFloat(InvEdittedCostManPo.GetText()).toFixed(2);
     var total = 0;
-    if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
+    //if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
         if (qty > 0) {
             if (cost > 0) {
                 total = cost * qty;
@@ -1870,14 +1998,14 @@ function OnKeyUpQtytInvManPower(s, e) {
         } else {
             InvEdittiedTotalCostManPo.SetText("");
         }
-    }
-    else {
-        s.SetText(avail_qty);
-        if (cost > 0) {
-            total = cost * avail_qty;
-            InvEdittiedTotalCostManPo.SetText(parseFloat(total).toFixed(2));
-        }
-    }
+    //}
+    //else {
+    //    s.SetText(avail_qty);
+    //    if (cost > 0) {
+    //        total = cost * avail_qty;
+    //        InvEdittiedTotalCostManPo.SetText(parseFloat(total).toFixed(2));
+    //    }
+    //}
 
 }
 
@@ -1902,7 +2030,7 @@ function OnKeyUpQtytInvCapex(s, e) {
     var qty = parseFloat(accounting.unformat(s.GetText()));
     var cost = parseFloat(InvEdittedCostCapex.GetText()).toFixed(2);
     var total = 0;
-    if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
+    //if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
         if (qty > 0) {
             if (cost > 0) {
                 total = cost * qty;
@@ -1911,14 +2039,14 @@ function OnKeyUpQtytInvCapex(s, e) {
         } else {
             InvEdittiedTotalCostCapex.SetText("");
         }
-    }
-    else {
-        s.SetText(avail_qty);
-        if (cost > 0) {
-            total = cost * avail_qty;
-            InvEdittiedTotalCostCapex.SetText(parseFloat(total).toFixed(2));
-        }
-    }
+    //}
+    //else {
+    //    s.SetText(avail_qty);
+    //    if (cost > 0) {
+    //        total = cost * avail_qty;
+    //        InvEdittiedTotalCostCapex.SetText(parseFloat(total).toFixed(2));
+    //    }
+    //}
 }
 
 function OnKeyUpCosttInvCapex(s, e) {

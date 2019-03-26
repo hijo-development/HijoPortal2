@@ -229,7 +229,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittedQty" ClientInstanceName="InvEdittedQty" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <dx:ASPxTextBox ID="InvEdittedQty" ClientInstanceName="InvEdittedQty" runat="server" Text='<%#Eval("EdittedQty") %>' Width="100%" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                                                             <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpQtytInvDirect" />
                                                         </dx:ASPxTextBox>
@@ -239,7 +239,7 @@
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittedCost" ClientInstanceName="InvEdittedCost" runat="server" Text='<%#Eval("EdittedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <dx:ASPxTextBox ID="InvEdittedCost" ClientInstanceName="InvEdittedCost" runat="server" Text='<%#Eval("EdittedCost") %>' Width="100%" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                                                             <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpCosttInvDirect" />
                                                         </dx:ASPxTextBox>
@@ -250,7 +250,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittiedTotalCost" ClientInstanceName="InvEdittiedTotalCost" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
+                                                        <dx:ASPxTextBox ID="InvEdittiedTotalCost" ClientInstanceName="InvEdittiedTotalCost" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="100%" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
@@ -355,7 +355,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittedQtyOp" ClientInstanceName="InvEdittedQtyOp" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <dx:ASPxTextBox ID="InvEdittedQtyOp" ClientInstanceName="InvEdittedQtyOp" runat="server" Text='<%#Eval("EdittedQty") %>' Width="100%" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                                                             <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpQtytInvOpex" />
                                                         </dx:ASPxTextBox>
@@ -365,7 +365,7 @@
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittedCostOp" ClientInstanceName="InvEdittedCostOp" runat="server" Text='<%#Eval("EdittedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <dx:ASPxTextBox ID="InvEdittedCostOp" ClientInstanceName="InvEdittedCostOp" runat="server" Text='<%#Eval("EdittedCost") %>' Width="100%" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                                                             <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpCosttInvOpex" />
                                                         </dx:ASPxTextBox>
@@ -376,7 +376,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittiedTotalCostOp" ClientInstanceName="InvEdittiedTotalCostOp" runat="server" Text='<%#Eval("EdittedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
+                                                        <dx:ASPxTextBox ID="InvEdittiedTotalCostOp" ClientInstanceName="InvEdittiedTotalCostOp" runat="server" Text='<%#Eval("EdittedTotalCost") %>' Width="100%" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
@@ -481,7 +481,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittedQtyManPo" ClientInstanceName="InvEdittedQtyManPo" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <dx:ASPxTextBox ID="InvEdittedQtyManPo" ClientInstanceName="InvEdittedQtyManPo" runat="server" Text='<%#Eval("EdittedQty") %>' Width="100%" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                                                             <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpQtytInvManPower" />
                                                         </dx:ASPxTextBox>
@@ -491,7 +491,7 @@
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittedCostManPo" ClientInstanceName="InvEdittedCostManPo" runat="server" Text='<%#Eval("EdittedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <dx:ASPxTextBox ID="InvEdittedCostManPo" ClientInstanceName="InvEdittedCostManPo" runat="server" Text='<%#Eval("EdittedCost") %>' Width="100%" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                                                             <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpCosttInvManPower" />
                                                         </dx:ASPxTextBox>
@@ -502,7 +502,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittiedTotalCostManPo" ClientInstanceName="InvEdittiedTotalCostManPo" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
+                                                        <dx:ASPxTextBox ID="InvEdittiedTotalCostManPo" ClientInstanceName="InvEdittiedTotalCostManPo" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="100%" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
@@ -597,7 +597,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittedQtyCapex" ClientInstanceName="InvEdittedQtyCapex" runat="server" Text='<%#Eval("EdittedQty") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <dx:ASPxTextBox ID="InvEdittedQtyCapex" ClientInstanceName="InvEdittedQtyCapex" runat="server" Text='<%#Eval("EdittedQty") %>' Width="100%" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                                                             <ClientSideEvents ValueChanged="OnValueChangeQty" KeyPress="FilterDigit" KeyUp="OnKeyUpQtytInvCapex" />
                                                         </dx:ASPxTextBox>
@@ -607,7 +607,7 @@
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittedCostCapex" ClientInstanceName="InvEdittedCostCapex" runat="server" Text='<%#Eval("EdittedCost") %>' Width="120px" Theme="Office2010Blue" HorizontalAlign="Right">
+                                                        <dx:ASPxTextBox ID="InvEdittedCostCapex" ClientInstanceName="InvEdittedCostCapex" runat="server" Text='<%#Eval("EdittedCost") %>' Width="100%" Theme="Office2010Blue" HorizontalAlign="Right">
                                                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                                                             <ClientSideEvents ValueChanged="OnValueChange" KeyPress="FilterDigit" KeyUp="OnKeyUpCosttInvCapex" />
                                                         </dx:ASPxTextBox>
@@ -618,7 +618,7 @@
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                     <EditItemTemplate>
-                                                        <dx:ASPxTextBox ID="InvEdittiedTotalCostCapex" ClientInstanceName="InvEdittiedTotalCostCapex" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="120px" Border-BorderColor="Transparent" Theme="Office2010Blue">
+                                                        <dx:ASPxTextBox ID="InvEdittiedTotalCostCapex" ClientInstanceName="InvEdittiedTotalCostCapex" runat="server" Text='<%#Eval("EdittiedTotalCost") %>' Width="100%" Border-BorderColor="Transparent" Theme="Office2010Blue">
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>

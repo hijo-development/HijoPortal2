@@ -104,7 +104,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 30px;">
-            <h1>Select Items for Purchase Order</h1>
+            <h1>Create Purchase Order</h1>
         </div>
         <div>
             <table class="table_detail" border="0">
