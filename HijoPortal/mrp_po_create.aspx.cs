@@ -112,8 +112,7 @@ namespace HijoPortal
             Currency.ClientEnabled = true;
 
             Currency.Value = value;
-            Currency.Text = value;
-            CurrencyLbl.Text = text;
+            Currency.Text = value + ";" + text;
         }
 
         protected void Site_Init(object sender, EventArgs e)
@@ -136,13 +135,12 @@ namespace HijoPortal
             combo.TextField = "NAME";
             combo.ValueField = "SITEID";
             combo.DataBind();
-            combo.TextFormatString = "{0}";
         }
 
         protected void WarehouseCallback_Callback(object sender, CallbackEventArgsBase e)
         {
             Warehouse.Value = "";
-            Warehouse.DataSource = POClass.InventSiteWarehouseTable(Site.Value.ToString());
+            Warehouse.DataSource = POClass.InventSiteWarehouseTable(Site.Text.ToString());
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "warehouse";
@@ -157,7 +155,6 @@ namespace HijoPortal
             Warehouse.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
             Warehouse.TextField = "NAME";
             Warehouse.ValueField = "warehouse";
-            Warehouse.TextFormatString = "{0}";
             Warehouse.DataBind();
             Warehouse.ClientEnabled = true;
         }
@@ -165,10 +162,8 @@ namespace HijoPortal
         protected void LocationCallback_Callback(object sender, CallbackEventArgsBase e)
         {
             Location.Value = "";
-            if (Warehouse.Value == null)
-                return;
 
-            Location.DataSource = POClass.InventSiteLocationTable(Warehouse.Value.ToString());
+            Location.DataSource = POClass.InventSiteLocationTable(Warehouse.Text.ToString());
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "LocationCode";
@@ -183,6 +178,11 @@ namespace HijoPortal
             Location.DataBind();
             Location.TextFormatString = "{0}";
             Location.ClientEnabled = true;
+        }
+
+        protected void Save_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

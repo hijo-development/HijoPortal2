@@ -49,6 +49,15 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxComboBox Site;
         
         /// <summary>
+        /// SiteLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel SiteLbl;
+        
+        /// <summary>
         /// ExpDel control.
         /// </summary>
         /// <remarks>
@@ -101,6 +110,15 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxComboBox Warehouse;
+        
+        /// <summary>
+        /// WarehouseLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel WarehouseLbl;
         
         /// <summary>
         /// MOPRef control.
@@ -157,6 +175,15 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxComboBox Location;
         
         /// <summary>
+        /// LocationLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel LocationLbl;
+        
+        /// <summary>
         /// POCreateGrid control.
         /// </summary>
         /// <remarks>
@@ -164,6 +191,42 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxGridView POCreateGrid;
+        
+        /// <summary>
+        /// Edit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.GridViewCommandColumnCustomButton Edit;
+        
+        /// <summary>
+        /// Delete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.GridViewCommandColumnCustomButton Delete;
+        
+        /// <summary>
+        /// Update control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.GridViewCommandColumnCustomButton Update;
+        
+        /// <summary>
+        /// Cancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.GridViewCommandColumnCustomButton Cancel;
         
         /// <summary>
         /// Save control.
