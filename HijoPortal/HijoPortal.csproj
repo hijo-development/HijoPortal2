@@ -132,6 +132,7 @@
     <Content Include="jquery\changePW.js" />
     <Content Include="jquery\ContentPage.js" />
     <Content Include="jquery\createAccount.js" />
+    <Content Include="jquery\PO_Create.js" />
     <Content Include="mop_workflow.aspx" />
     <Content Include="mrp_addedit.aspx" />
     <Content Include="mrp_capexcip.aspx" />
@@ -193,7 +194,9 @@
     <Compile Include="classes\MRPApproveClass.cs" />
     <Compile Include="classes\MRPClass.cs" />
     <Compile Include="classes\MRPSubmitClass.cs" />
+    <Compile Include="classes\MRP_Constants.cs" />
     <Compile Include="classes\POClass.cs" />
+    <Compile Include="classes\PO_Constants.cs" />
     <Compile Include="classes\SCMClass.cs" />
     <Compile Include="classes\WorkflowClass.cs" />
     <Compile Include="createaccount.aspx.cs">

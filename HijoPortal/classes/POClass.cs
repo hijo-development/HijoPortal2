@@ -243,6 +243,7 @@ namespace HijoPortal.classes
             //string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_DirectMaterials.ItemCode,  dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.TotalCost FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_DirectMaterials.ItemCode = dbo.vw_AXInventTable.ITEMID WHERE (dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND (dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND (dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND (dbo.tbl_MRP_List.StatusKey = '4') AND (dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
 
             string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_DirectMaterials.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND(dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND(dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND(dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
+
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -252,7 +253,7 @@ namespace HijoPortal.classes
                 foreach (DataRow row in dt.Rows)
                 {
                     DataRow dtRow = dtTable.NewRow();
-                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
                     dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
                     dtRow["DocumentNumber"] = row["DocNumber"].ToString();
                     dtRow["Entity"] = row["Entity"].ToString();
@@ -260,13 +261,14 @@ namespace HijoPortal.classes
                     dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
                     dtRow["ItemCat"] = row["ItemCat"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
-                    if (row["ItemDescriptionAddl"].ToString().Trim() !="")
+                    if (row["ItemDescriptionAddl"].ToString().Trim() != "")
                     {
                         dtRow["ItemDescription"] = row["ItemDescription"].ToString() + " (" + row["ItemDescriptionAddl"].ToString() + ")";
-                    } else
+                    }
+                    else
                     {
                         dtRow["ItemDescription"] = row["ItemDescription"].ToString();
-                    }                    
+                    }
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
@@ -278,6 +280,7 @@ namespace HijoPortal.classes
             //qry = "SELECT DISTINCT dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description,dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost FROM   dbo.tbl_MRP_List INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_OPEX.ItemCode = dbo.vw_AXInventTable.ITEMID WHERE(dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND(dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND(dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND(dbo.tbl_MRP_List.StatusKey = '4') AND (dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
 
             qry = "SELECT DISTINCT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN         dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_OPEX.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND(dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND(dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND(dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
+
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -287,7 +290,7 @@ namespace HijoPortal.classes
                 foreach (DataRow row in dt.Rows)
                 {
                     DataRow dtRow = dtTable.NewRow();
-                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
                     dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
                     dtRow["DocumentNumber"] = row["DocNumber"].ToString();
                     dtRow["Entity"] = row["Entity"].ToString();
@@ -295,10 +298,11 @@ namespace HijoPortal.classes
                     dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
                     dtRow["ItemCat"] = row["ItemCat"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
-                    if (row["DescriptionAddl"].ToString().Trim() !="")
+                    if (row["DescriptionAddl"].ToString().Trim() != "")
                     {
-                        dtRow["ItemDescription"] = row["Description"].ToString() +" (" + row["DescriptionAddl"].ToString() + ")";
-                    } else
+                        dtRow["ItemDescription"] = row["Description"].ToString() + " (" + row["DescriptionAddl"].ToString() + ")";
+                    }
+                    else
                     {
                         dtRow["ItemDescription"] = row["Description"].ToString();
                     }
@@ -552,5 +556,186 @@ namespace HijoPortal.classes
 
             return dtTable;
         }
+
+        public static DataTable POCreate_TmpTable(string creatorkey)
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("ItemPK", typeof(string));
+                dtTable.Columns.Add("TableIdentifier", typeof(string));
+                dtTable.Columns.Add("ItemCode", typeof(string));
+                dtTable.Columns.Add("Description", typeof(string));
+                dtTable.Columns.Add("RequestedQty", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+                dtTable.Columns.Add("POQty", typeof(string));
+                dtTable.Columns.Add("POCost", typeof(string));
+                dtTable.Columns.Add("TotalPOCost", typeof(string));
+                dtTable.Columns.Add("TaxGroup", typeof(string));
+                dtTable.Columns.Add("TaxItemGroup", typeof(string));
+            }
+
+            string qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl FROM   dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_DirectMaterials.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '1'";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["ItemPK"] = row["ItemPK"].ToString();
+                    dtRow["TableIdentifier"] = row["ItemIdentifier"].ToString();
+                    dtRow["ItemCode"] = row["ItemCode"].ToString();
+
+                    string desc = row["ItemDescriptionAddl"].ToString();
+                    if (string.IsNullOrEmpty(desc))
+                        dtRow["Description"] = row["ItemDescription"].ToString();
+                    else
+                        dtRow["Description"] = row["ItemDescription"].ToString() + " (" + desc + ")";
+
+                    dtRow["RequestedQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtRow["TaxGroup"] = "";
+                    dtRow["TaxItemGroup"] = "";
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+
+            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost FROM dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_OPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '2'";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["ItemPK"] = row["ItemPK"].ToString();
+                    dtRow["TableIdentifier"] = row["ItemIdentifier"].ToString();
+                    dtRow["ItemCode"] = row["ItemCode"].ToString();
+
+                    string desc = row["DescriptionAddl"].ToString();
+                    if (string.IsNullOrEmpty(desc))
+                        dtRow["Description"] = row["Description"].ToString();
+                    else
+                        dtRow["Description"] = row["Description"].ToString() + " (" + desc + ")";
+
+                    dtRow["RequestedQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtRow["TaxGroup"] = "";
+                    dtRow["TaxItemGroup"] = "";
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
+
+        public static DataTable TaxGroupTable()
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("TAXGROUP", typeof(string));
+            }
+
+            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXTaxGroup]";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["TAXGROUP"] = row["TAXGROUP"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
+        public static DataTable TaxItemGroupTable()
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("TAXITEMGROUP", typeof(string));
+            }
+
+            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXTaxItemGroup]";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["TAXITEMGROUP"] = row["TAXITEMGROUP"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
     }
 }

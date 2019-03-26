@@ -2219,81 +2219,81 @@ namespace HijoPortal.classes
         //    return dtTable;
         //}
 
-        public static DataTable TaxGroupTable()
-        {
-            DataTable dtTable = new DataTable();
+        //public static DataTable TaxGroupTable()
+        //{
+        //    DataTable dtTable = new DataTable();
 
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
+        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+        //    DataTable dt = new DataTable();
+        //    SqlCommand cmd = null;
+        //    SqlDataAdapter adp;
 
-            cn.Open();
+        //    cn.Open();
 
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("TAXGROUP", typeof(string));
-            }
+        //    if (dtTable.Columns.Count == 0)
+        //    {
+        //        //Columns for AspxGridview
+        //        dtTable.Columns.Add("TAXGROUP", typeof(string));
+        //    }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXTaxGroup]";
+        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXTaxGroup]";
 
-            cmd = new SqlCommand(qry);
-            cmd.Connection = cn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    DataRow dtRow = dtTable.NewRow();
-                    dtRow["TAXGROUP"] = row["TAXGROUP"].ToString();
-                    dtTable.Rows.Add(dtRow);
-                }
-            }
-            dt.Clear();
-            cn.Close();
+        //    cmd = new SqlCommand(qry);
+        //    cmd.Connection = cn;
+        //    adp = new SqlDataAdapter(cmd);
+        //    adp.Fill(dt);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        foreach (DataRow row in dt.Rows)
+        //        {
+        //            DataRow dtRow = dtTable.NewRow();
+        //            dtRow["TAXGROUP"] = row["TAXGROUP"].ToString();
+        //            dtTable.Rows.Add(dtRow);
+        //        }
+        //    }
+        //    dt.Clear();
+        //    cn.Close();
 
-            return dtTable;
-        }
+        //    return dtTable;
+        //}
 
-        public static DataTable TaxItemGroupTable()
-        {
-            DataTable dtTable = new DataTable();
+        //public static DataTable TaxItemGroupTable()
+        //{
+        //    DataTable dtTable = new DataTable();
 
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
+        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+        //    DataTable dt = new DataTable();
+        //    SqlCommand cmd = null;
+        //    SqlDataAdapter adp;
 
-            cn.Open();
+        //    cn.Open();
 
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("TAXITEMGROUP", typeof(string));
-            }
+        //    if (dtTable.Columns.Count == 0)
+        //    {
+        //        //Columns for AspxGridview
+        //        dtTable.Columns.Add("TAXITEMGROUP", typeof(string));
+        //    }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXTaxItemGroup]";
+        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXTaxItemGroup]";
 
-            cmd = new SqlCommand(qry);
-            cmd.Connection = cn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    DataRow dtRow = dtTable.NewRow();
-                    dtRow["TAXITEMGROUP"] = row["TAXITEMGROUP"].ToString();
-                    dtTable.Rows.Add(dtRow);
-                }
-            }
-            dt.Clear();
-            cn.Close();
+        //    cmd = new SqlCommand(qry);
+        //    cmd.Connection = cn;
+        //    adp = new SqlDataAdapter(cmd);
+        //    adp.Fill(dt);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        foreach (DataRow row in dt.Rows)
+        //        {
+        //            DataRow dtRow = dtTable.NewRow();
+        //            dtRow["TAXITEMGROUP"] = row["TAXITEMGROUP"].ToString();
+        //            dtTable.Rows.Add(dtRow);
+        //        }
+        //    }
+        //    dt.Clear();
+        //    cn.Close();
 
-            return dtTable;
-        }
+        //    return dtTable;
+        //}
 
         public static DataTable OperatingUnitTable(string entity)
         {

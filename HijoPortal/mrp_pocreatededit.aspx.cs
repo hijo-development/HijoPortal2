@@ -148,42 +148,42 @@ namespace HijoPortal
 
         protected void taxgroup_Init(object sender, EventArgs e)
         {
-            ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = MRPClass.TaxGroupTable();
+            //ASPxComboBox combo = sender as ASPxComboBox;
+            //combo.DataSource = MRPClass.TaxGroupTable();
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "TAXGROUP";
-            combo.Columns.Add(l_value);
-            combo.TextField = "TAXGROUP";
-            combo.ValueField = "TAXGROUP";
-            combo.DataBind();
-            combo.TextFormatString = "{0}";
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "TAXGROUP";
+            //combo.Columns.Add(l_value);
+            //combo.TextField = "TAXGROUP";
+            //combo.ValueField = "TAXGROUP";
+            //combo.DataBind();
+            //combo.TextFormatString = "{0}";
 
-            GridViewEditItemTemplateContainer container = combo.NamingContainer as GridViewEditItemTemplateContainer;
-            if (!container.Grid.IsNewRowEditing)
-            {
-                combo.Value = DataBinder.Eval(container.DataItem, "TAXGROUP").ToString();
-            }
+            //GridViewEditItemTemplateContainer container = combo.NamingContainer as GridViewEditItemTemplateContainer;
+            //if (!container.Grid.IsNewRowEditing)
+            //{
+            //    combo.Value = DataBinder.Eval(container.DataItem, "TAXGROUP").ToString();
+            //}
         }
 
         protected void taxitemgroup_Init(object sender, EventArgs e)
         {
-            ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = MRPClass.TaxItemGroupTable();
+            //ASPxComboBox combo = sender as ASPxComboBox;
+            //combo.DataSource = MRPClass.TaxItemGroupTable();
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "TAXITEMGROUP";
-            combo.Columns.Add(l_value);
-            combo.TextField = "TAXITEMGROUP";
-            combo.ValueField = "TAXITEMGROUP";
-            combo.DataBind();
-            combo.TextFormatString = "{0}";
+            //ListBoxColumn l_value = new ListBoxColumn();
+            //l_value.FieldName = "TAXITEMGROUP";
+            //combo.Columns.Add(l_value);
+            //combo.TextField = "TAXITEMGROUP";
+            //combo.ValueField = "TAXITEMGROUP";
+            //combo.DataBind();
+            //combo.TextFormatString = "{0}";
 
-            GridViewEditItemTemplateContainer container = combo.NamingContainer as GridViewEditItemTemplateContainer;
-            if (!container.Grid.IsNewRowEditing)
-            {
-                combo.Value = DataBinder.Eval(container.DataItem, "TAXITEMGROUP").ToString();
-            }
+            //GridViewEditItemTemplateContainer container = combo.NamingContainer as GridViewEditItemTemplateContainer;
+            //if (!container.Grid.IsNewRowEditing)
+            //{
+            //    combo.Value = DataBinder.Eval(container.DataItem, "TAXITEMGROUP").ToString();
+            //}
         }
 
         protected void POCreatedGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
