@@ -28,12 +28,13 @@ namespace HijoPortal
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "ACCOUNTNUM";
             l_value.Caption = "Vendor Code";
+            l_value.Width = 100;
             combo.Columns.Add(l_value);
 
             ListBoxColumn l_text = new ListBoxColumn();
             l_text.FieldName = "NAME";
             l_text.Caption = "Vendor Name";
-            l_text.Width = 200;
+            l_text.Width = 350;
             combo.Columns.Add(l_text);
 
             combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
@@ -62,10 +63,12 @@ namespace HijoPortal
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "PAYMTERMID";
+            l_value.Width = 100;
             Terms.Columns.Add(l_value);
 
             ListBoxColumn l_text = new ListBoxColumn();
             l_text.FieldName = "DESCRIPTION";
+            l_text.Width = 250;
             Terms.Columns.Add(l_text);
 
             Terms.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
@@ -98,10 +101,12 @@ namespace HijoPortal
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "CURRENCYCODE";
             l_value.Caption = "Currency Code";
+            l_value.Width = 100;
             Currency.Columns.Add(l_value);
 
             ListBoxColumn l_text = new ListBoxColumn();
             l_text.FieldName = "TXT";
+            l_text.Width = 250;
             l_text.Caption = "Currency Name";
             Currency.Columns.Add(l_text);
 

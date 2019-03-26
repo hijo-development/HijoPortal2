@@ -163,10 +163,13 @@ namespace HijoPortal
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "NAME";
+            l_value.Caption = "CODE";
+            l_value.Width = 100;
             combo.Columns.Add(l_value);
 
             ListBoxColumn l_text = new ListBoxColumn();
             l_text.FieldName = "DESCRIPTION";
+            l_text.Width = 350;
             combo.Columns.Add(l_text);
 
             combo.ValueField = "NAME";
