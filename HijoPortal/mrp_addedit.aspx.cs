@@ -1272,12 +1272,16 @@ namespace HijoPortal
             Response.Redirect("mrp_list.aspx");
         }
 
-
-
         protected void Preview_Click(object sender, EventArgs e)
         {
-            Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn="+ wrkflwln.ToString());
 
+            if (iStatusKey == 4)
+            {
+                Response.Redirect("mrp_preview_approve.aspx?DocNum=" + docnumber.ToString() + "&Source=1");
+            } else
+            {
+                Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+            }            
             //Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docnumber.ToString();
 
         }
