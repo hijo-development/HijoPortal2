@@ -99,22 +99,14 @@ namespace HijoPortal
                 {
                     if (MainTable.FocusedRowIndex > -1)
                     {
-                        //Session["DocNumber"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
                         string mrp_pk = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
                         string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
 
-                        //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
                         Session["mrp_creator"] = mrp_creator;
 
                         //DEBUGGING ONLY
-                        //Response.RedirectLocation = "mrp_po_selectitem.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                         Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
 
-                        //Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
-                        //Response.RedirectLocation = "mrp_forapproval.aspx?DocNum=" + docNum.ToString();
-                        //Response.RedirectLocation = "mrp_finance.aspx?DocNum=" + docNum.ToString();
-                        //Response.RedirectLocation = "mrp_inventoryanalyst_forapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
-                        //Response.RedirectLocation = "mrp_capexcip.aspx?DocNum=" + docNum.ToString();
                     }
                 }
 
@@ -144,32 +136,96 @@ namespace HijoPortal
                 {
                     string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
                     Session["mrp_creator"] = mrp_creator;
-                    Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                    if (StatusKey == 4)
+                    {
+                        Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                    } else
+                    {
+                        Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                    }
+                    
                 }
 
             }
             else
             {
-                if (e.ButtonID == "Edit" || e.ButtonID == "Submit" || e.ButtonID == "Delete" || e.ButtonID == "Preview")
-                    text["hidden_value"] = "InvalidCreator";
+                if (e.ButtonID == "Edit" || e.ButtonID == "Submit" || e.ButtonID == "Delete")
+                {
+                    if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dteCreated, entCode, buCode) == true)
+                    {
+                        if (e.ButtonID == "Edit")
+                        {
+                            if (MainTable.FocusedRowIndex > -1)
+                            {
+                                string mrp_pk = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
+                                string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
+
+                                Session["mrp_creator"] = mrp_creator;
+
+                                //DEBUGGING ONLY
+                                Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                            }
+                        }
+                        if (e.ButtonID == "Delete")
+                        {
+                            //msgTrans.Text = "Pass Delete";
+                            if (MainTable.FocusedRowIndex > -1)
+                            {
+                                Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+
+                            }
+                        }
+                        if (e.ButtonID == "Submit")
+                        {
+                            if (MainTable.FocusedRowIndex > -1)
+                            {
+                                //MRPClass.PrintString(StatusKey.ToString());
+
+                                Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+
+
+                            }
+                        }
+                    } else
+                    {
+                        text["hidden_value"] = "InvalidCreator";
+                    }
+                } else if (e.ButtonID == "Preview")
+                {
+                    string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
+                    Session["mrp_creator"] = mrp_creator;
+                    if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dteCreated, entCode, buCode) == true)
+                    {
+                        if (StatusKey == 4)
+                        {
+                            Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                        }
+                        else
+                        {
+                            Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                        }
+                    }
+                    else
+                    {
+                        if (Session["CreatorKey"] == Session["mrp_creator"])
+                        {
+                            if (StatusKey == 4)
+                            {
+                                Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                            }
+                            else
+                            {
+                                Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                            }
+                        }
+                        else
+                        {
+                            text["hidden_value"] = "InvalidCreator";
+                        }
+                    }
+                }
+                    
             }
-
-
-            if (e.ButtonID == "Preview")
-            {
-                string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
-                Session["mrp_creator"] = mrp_creator;
-                //msgTrans.Text = "Pass Preview";
-                //string docNum = MainTable.GetRowValues(MainTable.FocusedRowIndex, "DocNumber").ToString();
-
-                //Response.RedirectLocation = "mrp_previewforapproval.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
-                Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
-                //Response.RedirectLocation = "mrp_preview_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
-
-                //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
-                //Response.Redirect("mrp_preview.aspx?DocNum=" + docNum.ToString());
-            }
-
             conn.Close();
         }
 

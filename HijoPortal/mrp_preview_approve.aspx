@@ -1,42 +1,7 @@
-﻿<%@ Page Title="MOP Preview" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_preview_inventanalyst.aspx.cs" Inherits="HijoPortal.mrp_preview_inventanalyst" %>
-
+﻿<%@ Page Title="MOP Preview" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_preview_approve.aspx.cs" Inherits="HijoPortal.mrp_preview_approve" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
-        <ContentCollection>
-            <dx:PopupControlContentControl>
-                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="MRPNotificationMessage" runat="server" Text="" Theme="Office2010Blue" ForeColor="Red"></dx:ASPxLabel>
-            </dx:PopupControlContentControl>
-        </ContentCollection>
-    </dx:ASPxPopupControl>
-
-    <dx:ASPxPopupControl ID="PopupSubmitPreviewAnal" ClientInstanceName="PopupSubmitPreviewAnal" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
-        <ContentCollection>
-            <dx:PopupControlContentControl>
-                <table style="width: 100%;" border="0">
-                    <tr>
-                        <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
-                            <dx:ASPxLabel runat="server" Text="Are you sure you want to submit this document?" Theme="Office2010Blue"></dx:ASPxLabel>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;">
-                            <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Office2010Blue" OnClick="OK_SUBMIT_Click" AutoPostBack="false">
-                                <%--<ClientSideEvents Click="OK_DELETE" />--%>
-                            </dx:ASPxButton>
-                            <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
-                                <ClientSideEvents Click="function(s,e){PopupSubmitPreviewAnal.Hide();}" />
-                            </dx:ASPxButton>
-                        </td>
-                    </tr>
-                </table>
-            </dx:PopupControlContentControl>
-        </ContentCollection>
-    </dx:ASPxPopupControl>
-
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 150px; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
             <%--<h1>M O P  Preview (Inventory Analyst)</h1>--%>
@@ -55,10 +20,10 @@
                             <dx:ASPxHiddenField ID="WrkFlowHidden" runat="server" ClientInstanceName="WrkFlowHiddenAnal"></dx:ASPxHiddenField>
                             <dx:ASPxHiddenField ID="StatusHidden" runat="server" ClientInstanceName="StatusHiddenAnal"></dx:ASPxHiddenField>
                         </div>
-                        <dx:ASPxButton ID="btAddEdit" runat="server" Text="MOP Details" OnClick="btAddEdit_Click" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
-                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
+                        <dx:ASPxButton ID="btMOPList" runat="server" Text="M O P List" AutoPostBack="false" OnClick="btMOPList_Click" Theme="Office2010Blue"></dx:ASPxButton>
+                        <%--<dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
                             <ClientSideEvents Click="Preview_Submit_Analyst_Click" />
-                        </dx:ASPxButton>
+                        </dx:ASPxButton>--%>
                     </td>
                 </tr>
                 <tr>
@@ -223,10 +188,6 @@
                     </td>
                 </tr>
             </table>
-
-
-
-
 
             <table class="main_prev_table">
                 <tr>

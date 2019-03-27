@@ -207,9 +207,6 @@ function CustomButtonClick(s, e) {
 function MainTableEndCallback(s, e) {
     var hidden_val = MRPHiddenVal.Get('hidden_value');
     var hidden_val_Stat = MRPHiddenValStatus.Get('hidden_value');
-    //console.log(MRPListButton);
-    //console.log(hidden_val);
-    //console.log(hidden_val_Stat);
     if (hidden_val === "InvalidCreator") {
         MRPNotificationMessage.SetText("You are not authorized to access this item!");
         MRPNotify.SetHeaderText("Alert");
@@ -218,6 +215,16 @@ function MainTableEndCallback(s, e) {
     } else if (hidden_val === "Creator") {
         if (hidden_val_Stat === "2") {
             MRPNotificationMessage.SetText("Already submitted to BU / SSU Lead for review!");
+            MRPNotify.SetHeaderText("Alert");
+            MRPNotify.Show();
+            MRPHiddenValStatus.Set('hidden_value', ' ');
+        } else if (hidden_val_Stat === "3") {
+            MRPNotificationMessage.SetText("Already submitted for Approval!");
+            MRPNotify.SetHeaderText("Alert");
+            MRPNotify.Show();
+            MRPHiddenValStatus.Set('hidden_value', ' ');
+        } else if (hidden_val_Stat === "4") {
+            MRPNotificationMessage.SetText("Already Approved!");
             MRPNotify.SetHeaderText("Alert");
             MRPNotify.Show();
             MRPHiddenValStatus.Set('hidden_value', ' ');
@@ -244,8 +251,6 @@ function MainTableEndCallback(s, e) {
         MainTable.Refresh();//refresh Grid
     }
 }
-
-
 
 
 // MRPAddForm Script
@@ -3057,8 +3062,16 @@ function mrp_addedit_submit(s, e) {
         if (statusKey === "1") {
             PopupSubmit.SetHeaderText('Confirm');
             PopupSubmit.Show();
-        } else {
+        } else if (statusKey === "2") {
             Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted to BU / SSU Lead for review.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "3") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already submitted for Approval.");
+            Add_Edit_MRPNotify.SetHeaderText("Alert");
+            Add_Edit_MRPNotify.Show();
+        } else if (statusKey === "4") {
+            Add_Edit_MRPNotificationMessage.SetText("Can't Edit! Document already Approved.");
             Add_Edit_MRPNotify.SetHeaderText("Alert");
             Add_Edit_MRPNotify.Show();
         }
