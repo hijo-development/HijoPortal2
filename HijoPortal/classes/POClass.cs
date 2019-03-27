@@ -585,7 +585,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("TaxItemGroup", typeof(string));
             }
 
-            string qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl FROM   dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_DirectMaterials.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '1'";
+            string qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost FROM   dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_DirectMaterials.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '1'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -610,17 +610,33 @@ namespace HijoPortal.classes
                     dtRow["RequestedQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-                    dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
-                    dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
-                    dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-                    dtRow["TaxGroup"] = "";
-                    dtRow["TaxItemGroup"] = "";
+
+                    string poqty = row["POQty"].ToString();
+                    string pocost = row["POCost"].ToString();
+                    string pototalcost = row["POTotalCost"].ToString();
+
+
+                    if (Convert.ToDouble(poqty) == 0 && Convert.ToDouble(pocost) == 0 && Convert.ToDouble(pototalcost) == 0)
+                    {
+                        dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                        dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                        dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
+                        dtRow["POQty"] = Convert.ToDouble(poqty).ToString("N");
+                        dtRow["POCost"] = Convert.ToDouble(pocost).ToString("N");
+                        dtRow["TotalPOCost"] = Convert.ToDouble(pototalcost).ToString("N");
+                    }
+
+                    dtRow["TaxGroup"] = row["TaxGroup"].ToString();
+                    dtRow["TaxItemGroup"] = row["TaxItemGroup"].ToString();
                     dtTable.Rows.Add(dtRow);
                 }
             }
             dt.Clear();
 
-            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost FROM dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_OPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '2'";
+            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost FROM   dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_OPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '2'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -645,11 +661,29 @@ namespace HijoPortal.classes
                     dtRow["RequestedQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-                    dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
-                    dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
-                    dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-                    dtRow["TaxGroup"] = "";
-                    dtRow["TaxItemGroup"] = "";
+
+                    string poqty = row["POQty"].ToString();
+                    string pocost = row["POCost"].ToString();
+                    string pototalcost = row["POTotalCost"].ToString();
+
+
+                    MRPClass.PrintString(string.IsNullOrEmpty(poqty).ToString());
+                    MRPClass.PrintString(poqty);
+                    if (Convert.ToDouble(poqty) == 0 && Convert.ToDouble(pocost) == 0 && Convert.ToDouble(pototalcost) == 0)
+                    {
+                        dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                        dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                        dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
+                        dtRow["POQty"] = Convert.ToDouble(poqty).ToString("N");
+                        dtRow["POCost"] = Convert.ToDouble(pocost).ToString("N");
+                        dtRow["TotalPOCost"] = Convert.ToDouble(pototalcost).ToString("N");
+                    }
+
+                    dtRow["TaxGroup"] = row["TaxGroup"].ToString();
+                    dtRow["TaxItemGroup"] = row["TaxItemGroup"].ToString();
                     dtTable.Rows.Add(dtRow);
                 }
             }

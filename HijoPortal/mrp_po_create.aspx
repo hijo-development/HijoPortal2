@@ -45,7 +45,7 @@
             /*padding-left: 5%;*/
         }
     </style>
-    <script type="text/javascript" src="jquery/PO_Create.js"></script>
+    <script type="text/javascript" src="jquery/POCreate.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
@@ -64,7 +64,7 @@
                             <tr>
                                 <td class="innertable_width_thirty">
                                     <dx:ASPxComboBox ID="Vendor" runat="server" OnInit="Vendor_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
-                                        <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"> </ValidationSettings>
+                                        <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                         <ClientSideEvents SelectedIndexChanged="VendorPO_SelectedIndexChanged" />
                                     </dx:ASPxComboBox>
                                 </td>
@@ -83,7 +83,7 @@
                             <tr>
                                 <td class="innertable_width_thirty">
                                     <dx:ASPxComboBox ID="Site" runat="server" OnInit="Site_Init" CssClass="innertable_width_hundred" ValueType="System.String" Theme="Office2010Blue">
-                                        <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"> </ValidationSettings>
+                                        <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                         <ClientSideEvents SelectedIndexChanged="SitePO_SelectedIndexChanged" />
                                     </dx:ASPxComboBox>
                                 </td>
@@ -99,7 +99,7 @@
                     <td class="table_po_semi">:</td>
                     <td class="table_po_td_data" style="width: 10%;">
                         <dx:ASPxDateEdit ID="ExpDel" runat="server" CssClass="innertable_width_hundred" Theme="Office2010Blue" AllowUserInput="false">
-                            <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"> </ValidationSettings>
+                            <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                             <ClientSideEvents GotFocus="function(s, e) { s.ShowDropDown(); }" />
                         </dx:ASPxDateEdit>
                     </td>
@@ -117,7 +117,7 @@
                                         <PanelCollection>
                                             <dx:PanelContent>
                                                 <dx:ASPxComboBox ID="Terms" runat="server" ClientEnabled="false" ValueType="System.String" Theme="Office2010Blue" Width="100%">
-                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"> </ValidationSettings>
+                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="TermsPO_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
 
@@ -144,7 +144,7 @@
                                         <PanelCollection>
                                             <dx:PanelContent>
                                                 <dx:ASPxComboBox ID="Warehouse" runat="server" ClientInstanceName="WarehousePO" ClientEnabled="false" CssClass="innertable_width_hundred" ValueType="System.String" Theme="Office2010Blue">
-                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"> </ValidationSettings>
+                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="WarehousePO_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
                                             </dx:PanelContent>
@@ -181,7 +181,7 @@
                                         <PanelCollection>
                                             <dx:PanelContent>
                                                 <dx:ASPxComboBox ID="Currency" runat="server" ClientInstanceName="CurrencyClient" ClientEnabled="false" CssClass="innertable_width_hundred" ValueType="System.String" Theme="Office2010Blue">
-                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"> </ValidationSettings>
+                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="CurrencyPO_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
 
@@ -204,7 +204,7 @@
                     <td class="table_po_td_data">
                         <table class="innertable_width_hundred">
                             <tr>
-                                <td class="innertable_width_thirty">
+                                <td class="innertable_width_thirty" style="padding-right: 9%;">
                                     <dx:ASPxCallbackPanel ID="LocationCallback" runat="server" ClientInstanceName="LocationCallbackPO" OnCallback="LocationCallback_Callback" Width="100%">
                                         <PanelCollection>
                                             <dx:PanelContent>
@@ -231,7 +231,9 @@
         </div>
 
         <div>
-            <dx:ASPxGridView ID="POCreateGrid" runat="server" Width="100%" Theme="Office2010Blue">
+            <dx:ASPxGridView ID="POCreateGrid" runat="server" Width="100%" Theme="Office2010Blue"
+                OnStartRowEditing="POCreateGrid_StartRowEditing"
+                OnRowUpdating="POCreateGrid_RowUpdating">
                 <ClientSideEvents CustomButtonClick="POCreateGrid_CustomButtonClick" />
                 <Columns>
                     <%--<dx:GridViewCommandColumn ButtonRenderMode="Image">
@@ -242,7 +244,17 @@
                             <dx:GridViewCommandColumnCustomButton ID="Cancel" Image-Url="images/Undo.ico" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                         </CustomButtons>
                     </dx:GridViewCommandColumn>--%>
-                    <dx:GridViewCommandColumn ShowEditButton="true" ShowApplyFilterButton="true" VisibleIndex="0">
+                    <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="30px">
+                        <CellStyle HorizontalAlign="Center" VerticalAlign="Middle">
+                        </CellStyle>
+                        <CustomButtons>
+                            <dx:GridViewCommandColumnCustomButton ID="Edit" Image-Url="Images/Edit.ico" Image-Width="15px">
+                            </dx:GridViewCommandColumnCustomButton>
+                            <dx:GridViewCommandColumnCustomButton ID="Update" Image-Url="images/Save.ico" Image-Width="15px" Visibility="EditableRow">
+                            </dx:GridViewCommandColumnCustomButton>
+                            <dx:GridViewCommandColumnCustomButton ID="Cancel" Image-Url="images/Undo.ico" Image-Width="15px" Visibility="EditableRow">
+                            </dx:GridViewCommandColumnCustomButton>
+                        </CustomButtons>
                     </dx:GridViewCommandColumn>
                     <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="ItemPK" Visible="false"></dx:GridViewDataColumn>
@@ -289,8 +301,10 @@
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="POQty">
                         <HeaderStyle HorizontalAlign="Right" />
+                        <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditItemTemplate>
                             <dx:ASPxTextBox ID="POQty" ClientInstanceName="POQty" Text='<%#Eval("POQty") %>' runat="server" Width="100px" HorizontalAlign="Right" Theme="Office2010Blue">
+                                <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                 <ClientSideEvents ValueChanged="OnValueChangeQty" />
                                 <ClientSideEvents KeyUp="POQty_KeyUp" />
                                 <ClientSideEvents KeyPress="FilterDigit" />
@@ -302,6 +316,7 @@
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditItemTemplate>
                             <dx:ASPxTextBox ID="POCost" ClientInstanceName="POCost" Text='<%#Eval("POCost") %>' runat="server" Width="100px" HorizontalAlign="Right" Theme="Office2010Blue">
+                                <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                                 <ClientSideEvents ValueChanged="OnValueChange" />
                                 <ClientSideEvents KeyUp="POCost_KeyUp" />
                                 <ClientSideEvents KeyPress="FilterDigit" />
@@ -313,32 +328,37 @@
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <EditItemTemplate>
-                            <dx:ASPxLabel ID="TotalPOCost" ClientInstanceName="POTotalCost" Text='<%#Eval("TotalPOCost") %>' runat="server" Width="100px" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxTextBox ID="TotalPOCost" ClientInstanceName="POTotalCost" Text='<%#Eval("TotalPOCost") %>' runat="server" Width="100px" Border-BorderColor="Transparent" Theme="Office2010Blue">
+                                <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
+                            </dx:ASPxTextBox>
+                            <%--<dx:ASPxLabel ID="TotalPOCost" ClientInstanceName="POTotalCost" Text='<%#Eval("TotalPOCost") %>' runat="server" Width="100px" Theme="Office2010Blue">
+                            </dx:ASPxLabel>--%>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataComboBoxColumn FieldName="TaxGroup">
                         <EditItemTemplate>
-                            <dx:ASPxComboBox ID="TaxGroup" runat="server" OnInit="TaxGroup_Init" ValueType="System.String" Width="100px" Theme="Office2010Blue"></dx:ASPxComboBox>
+                            <dx:ASPxComboBox ID="TaxGroup" runat="server" ClientInstanceName="TaxGroupClient" OnInit="TaxGroup_Init" ValueType="System.String" Width="100px" Theme="Office2010Blue">
+                                <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
+                            </dx:ASPxComboBox>
                         </EditItemTemplate>
                         <%--<PropertiesComboBox ValueField="TaxGroup"></PropertiesComboBox>--%>
                     </dx:GridViewDataComboBoxColumn>
                     <dx:GridViewDataComboBoxColumn FieldName="TaxItemGroup">
                         <EditItemTemplate>
-                            <dx:ASPxComboBox ID="TaxItemGroup" runat="server" OnInit="TaxItemGroup_Init" ValueType="System.String" Width="100px" Theme="Office2010Blue"></dx:ASPxComboBox>
+                            <dx:ASPxComboBox ID="TaxItemGroup" runat="server" ClientInstanceName="TaxItemGroupClient" OnInit="TaxItemGroup_Init" ValueType="System.String" Width="100px" Theme="Office2010Blue">
+                                <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
+                            </dx:ASPxComboBox>
                         </EditItemTemplate>
                         <%--<PropertiesComboBox ValueField="TaxItemGroup"></PropertiesComboBox>--%>
                     </dx:GridViewDataComboBoxColumn>
                 </Columns>
+                <Styles>
+                    <CommandColumnItem HorizontalAlign="Center" VerticalAlign="Middle"></CommandColumnItem>
+                    <CommandColumn HorizontalAlign="Center"></CommandColumn>
+                </Styles>
                 <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" />
                 <SettingsBehavior AllowFocusedRow="True" AllowSort="true" AllowDragDrop="false" />
                 <SettingsEditing Mode="Inline"></SettingsEditing>
-                <SettingsCommandButton>
-                    <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px">
-                        <Styles Style-HorizontalAlign="Center" Style-VerticalAlign="Middle"></Styles>
-                    </EditButton>
-                    <CancelButton ButtonType="Image" Image-Url="images/Undo.ico" Image-Width="15px"></CancelButton>
-                    <UpdateButton ButtonType="Image" Image-Url="images/Save.ico" Image-Width="15px"></UpdateButton>
-                </SettingsCommandButton>
                 <SettingsBehavior AllowHeaderFilter="true" AllowAutoFilter="true" />
             </dx:ASPxGridView>
         </div>

@@ -46,7 +46,29 @@ function LocationPO_SelectedIndexChanged(s, e) {
 }
 
 function POCreateGrid_CustomButtonClick(s, e) {
+    var btnID = e.buttonID;
+    switch (btnID) {
+        case 'Edit':
+            s.StartEditRow(e.visibleIndex);
+            break;
+        case 'Update':
+            var tax_group = TaxGroupClient.GetValue() == null;
+            var tax_item_group = TaxItemGroupClient.GetValue() == null;
+            var total = POTotalCost.GetValue() == null;
+            if (tax_group)
+                TaxGroupClient.SetIsValid(false);
+            if (tax_item_group)
+                TaxItemGroupClient.SetIsValid(false);
+            if (total)
+                POTotalCost.SetIsValid(false);
 
+            if (!tax_group && !tax_item_group && !total)
+                s.UpdateEdit();
+            break;
+        case 'Cancel':
+            s.CancelEdit();
+            break;
+    }
 }
 
 function POCost_KeyUp(s, e) {//OnChange
@@ -65,24 +87,27 @@ function POCost_KeyUp(s, e) {//OnChange
 }
 
 function POQty_KeyUp(s, e) {//OnChange
-    var avail_qty = ReqQtyClient.GetText();
+    var avail_qty = accounting.unformat(ReqQtyClient.GetText());
     var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
     var qty = parseFloat(s.GetText()).toFixed(2);
     var cost = parseFloat(accounting.unformat(POCost.GetText()));
     var total = 0;
-    if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
+    if (parseFloat(s.GetText()) <= parseFloat(avail_qty)) {
         if (qty > 0) {
             if (cost > 0) {
                 total = cost * qty;
+                POTotalCost.SetIsValid(true);
                 POTotalCost.SetText(parseFloat(total).toFixed(2));
             }
         } else {
+            POTotalCost.SetIsValid(false);
             POTotalCost.SetText("");
         }
     } else {
         if (cost > 0) {
             s.SetText(avail_qty);
             total = cost * avail_qty;
+            POTotalCost.SetIsValid(true);
             POTotalCost.SetText(parseFloat(total).toFixed(2));
         }
     }

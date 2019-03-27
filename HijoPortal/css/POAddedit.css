@@ -1,0 +1,35 @@
+﻿.table_detail {
+    margin-bottom: 10px;
+}
+
+.table_po_td_label {
+    width: 5%;
+    vertical-align: top;
+}
+
+.table_po_semi {
+    width: 1%;
+    vertical-align: top;
+}
+
+.table_po_td_data {
+    width: 25%;
+    vertical-align: top;
+}
+
+.innertable {
+    width: 100%;
+}
+
+    .innertable tr > td:first-child {
+        width: 50%;
+        vertical-align: top;
+    }
+
+    .innertable tr > td:nth-child(2) {
+        width: 50%;
+    }
+
+.innertable_width {
+    width: 100%;
+}

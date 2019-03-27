@@ -26,5 +26,10 @@ namespace HijoPortal.classes
         public static string Prev_Rec_Qty() { return prev_recqty; }
         public static string Prev_Req_Qty() { return prev_reqqty; }
         public static string Prev_Head_Count() { return prev_head_count; }
+
+        public static string DefaultPage()
+        {
+            return "default.aspx";
+        }
     }
 }

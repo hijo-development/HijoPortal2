@@ -12,9 +12,14 @@ namespace HijoPortal.classes
             return "[hijo_portal].[dbo].[tbl_DocumentNumber]";
         }
 
-        public static string POTableName()
+        public static string POCreation_TableName()
         {
             return "[hijo_portal].[dbo].[tbl_POCreation]";
+        }
+
+        public static string POReference_TableName()
+        {
+            return "[hijo_portal].[dbo].[tbl_POCreation_Ref]";
         }
     }
 }

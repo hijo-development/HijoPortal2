@@ -1,6 +1,7 @@
 ﻿using DevExpress.Web;
 using HijoPortal.classes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,6 +14,8 @@ namespace HijoPortal
 {
     public partial class mrp_po_create : System.Web.UI.Page
     {
+        private static bool bind = true;
+        private static ArrayList mop_ref_arr = new ArrayList();
         private void CheckCreatorKey()
         {
             if (Session["CreatorKey"] == null)
@@ -35,7 +38,13 @@ namespace HijoPortal
 
             ListofRef();
 
-            if (Session["CreatorKey"] != null) BindGrid(Session["CreatorKey"].ToString());
+            if (Session["CreatorKey"] != null)
+            {
+                if (bind)
+                    BindGrid(Session["CreatorKey"].ToString());
+                else
+                    bind = true;
+            }
             else CheckCreatorKey();
 
         }
@@ -49,12 +58,12 @@ namespace HijoPortal
 
             SqlCommand cmd = new SqlCommand(query, conn);
             SqlDataReader reader = cmd.ExecuteReader();
+            mop_ref_arr = new ArrayList();
             while (reader.Read())
             {
+                mop_ref_arr.Add(reader[0].ToString());
                 MOPRef.Items.Add(reader[0].ToString());
             }
-
-
         }
 
         private void BindGrid(string creatorkey)
@@ -277,7 +286,8 @@ namespace HijoPortal
             string warehouse = Warehouse.Text.ToString();
             string location = Location.Text.ToString();
 
-            string insert = "INSERT INTO " + PO_Constants.POTableName() + " ([PONumber],[DateCreated],[CreatorKey], [ExpectedDate], [VendorCode], [PaymentTerms], [CurrencyCode], [InventSite], [InventSiteWarehouse], [InventSiteWarehouseLocation]) VALUES (@PONumber, @DateCreated, @CreatorKey, @ExpectedDate, @VendorCode, @PaymentTerms, @CurrencyCode, @InventSite, @InventSiteWarehouse, @InventSiteWarehouseLocation)";
+            string insert = "INSERT INTO " + PO_Constants.POCreation_TableName() + " ([PONumber],[DateCreated],[CreatorKey], [ExpectedDate], [VendorCode], [PaymentTerms], [CurrencyCode], [InventSite], [InventSiteWarehouse], [InventSiteWarehouseLocation]) VALUES (@PONumber, @DateCreated, @CreatorKey, @ExpectedDate, @VendorCode, @PaymentTerms, @CurrencyCode, @InventSite, @InventSiteWarehouse, @InventSiteWarehouseLocation)";
+
             cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@PONumber", PONumber);
             cmd.Parameters.AddWithValue("@CreatorKey", Session["CreatorKey"].ToString());
@@ -313,7 +323,7 @@ namespace HijoPortal
                 //MRPClass.PrintString(ItemPK.ToString());
                 //MRPClass.PrintString(TableIdentifier.ToString());
 
-                string insert_po_details = "INSET INTO [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber], [ItemPK], [Identifier], [ItemCode], [TaxGroup], [TaxItemGroup], [Qty], [Cost], [TotalCost]) VALUES (@PONumber, @ItemPK, @Identifier, @ItemCode, @TaxGroup, @TaxItemGroup, @Qty, @Cost, @TotalCost)";
+                string insert_po_details = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber], [ItemPK], [Identifier], [ItemCode], [TaxGroup], [TaxItemGroup], [Qty], [Cost], [TotalCost]) VALUES (@PONumber, @ItemPK, @Identifier, @ItemCode, @TaxGroup, @TaxItemGroup, @Qty, @Cost, @TotalCost)";
 
                 cmd = new SqlCommand(insert_po_details, conn);
                 cmd.Parameters.AddWithValue("@PONumber", PONumber);
@@ -322,28 +332,46 @@ namespace HijoPortal
                 cmd.Parameters.AddWithValue("@ItemCode", ItemCode);
                 cmd.Parameters.AddWithValue("@TaxGroup", TaxGroup);
                 cmd.Parameters.AddWithValue("@TaxItemGroup", TaxItemGroup);
-                cmd.Parameters.AddWithValue("@Qty", POQty);
-                cmd.Parameters.AddWithValue("@Cost", POCost);
-                cmd.Parameters.AddWithValue("@TotalCost", TotalPOCost);
+                cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(POQty));
+                cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(POCost));
+                cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(TotalPOCost));
                 cmd.CommandType = CommandType.Text;
                 cmd.ExecuteNonQuery();
 
                 switch (TableIdentifier.ToString())
                 {
                     case "1"://Direct Material
-                        update = "UPDATE " + MRP_Constants.DirectMaterials_TableName() + " SET [QtyPO] = '" + POQty + "' + WHERE [PK] = '" + ItemPK + "'";
+                        update = "UPDATE " + MRP_Constants.DirectMaterials_TableName() + " SET [QtyPO] = '" + Convert.ToDouble(POQty) + "' WHERE [PK] = '" + ItemPK + "'";
                         cmd = new SqlCommand(update, conn);
                         cmd.ExecuteNonQuery();
                         break;
 
                     case "2"://Opex
-                        update = "UPDATE " + MRP_Constants.OperatingExpense_TableName() + " SET [QtyPO] = '" + POQty + "' + WHERE [PK] = '" + ItemPK + "'";
+                        update = "UPDATE " + MRP_Constants.OperatingExpense_TableName() + " SET [QtyPO] = '" + Convert.ToDouble(POQty) + "' WHERE [PK] = '" + ItemPK + "'";
                         cmd = new SqlCommand(update, conn);
                         cmd.ExecuteNonQuery();
                         break;
                 }
             }
+
+            for (int i = 0; i < mop_ref_arr.Count; i++)
+            {
+                string mop_reference = mop_ref_arr[i].ToString();
+                insert = "INSERT INTO " + PO_Constants.POReference_TableName() + " ([PONumber], [MOPNumber]) VALUES (@PONumber, @MOPNumber)";
+                cmd = new SqlCommand(insert, conn);
+                cmd.Parameters.AddWithValue("@PONumber", PONumber);
+                cmd.Parameters.AddWithValue("@MOPNumber", mop_reference);
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+            }
+
+            string delete = "DELETE FROM [dbo].[tbl_POCreation_Tmp] WHERE [UserKey] = '" + Session["CreatorKey"].ToString() + "'";
+            cmd = new SqlCommand(delete, conn);
+            cmd.ExecuteNonQuery();
+
             conn.Close();
+
+            Response.Redirect("mrp_po_addedit.aspx");
         }
 
         protected void TaxItemGroup_Init(object sender, EventArgs e)
@@ -372,6 +400,48 @@ namespace HijoPortal
             comboBox.ValueField = "TaxGroup";
             comboBox.TextField = "TaxGroup";
             comboBox.DataBind();
+        }
+
+        protected void POCreateGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxTextBox POQty = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POQty"], "POQty") as ASPxTextBox;
+            ASPxTextBox POCost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POCost"], "POCost") as ASPxTextBox;
+            ASPxLabel TotalPOCost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TotalPOCost"], "TotalPOCost") as ASPxLabel;
+            ASPxComboBox TaxGroup = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TaxGroup"], "TaxGroup") as ASPxComboBox;
+            ASPxComboBox TaxItemGroup = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TaxItemGroup"], "TaxItemGroup") as ASPxComboBox;
+
+            string PK = e.Keys[0].ToString();
+
+            string update = "UPDATE dbo.tbl_POCreation_Tmp SET [TaxGroup] = @TaxGroup, [TaxItemGroup] = @TaxItemGroup, [POQty] = @POQty, [POCost] = @POCost WHERE [PK] = @PK";
+
+            string qty = POQty.Value.ToString();
+            string cost = POCost.Value.ToString();
+            string total = TotalPOCost.Value.ToString();
+            string tax_group = TaxGroup.Value.ToString();
+            string tax_item_group = TaxItemGroup.Value.ToString();
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(update, conn);
+            cmd.Parameters.AddWithValue("@POQty", qty);
+            cmd.Parameters.AddWithValue("@POCost", cost);
+            //cmd.Parameters.AddWithValue("@POTotalCost", total);
+            cmd.Parameters.AddWithValue("@TaxGroup", tax_group);
+            cmd.Parameters.AddWithValue("@TaxItemGroup", tax_item_group);
+            cmd.Parameters.AddWithValue("@PK", PK);
+            cmd.CommandType = CommandType.Text;
+            cmd.ExecuteNonQuery();
+
+            BindGrid(Session["CreatorKey"].ToString());
+
+            grid.CancelEdit();
+            e.Cancel = true;
+        }
+
+        protected void POCreateGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            bind = false;
         }
     }
 }
