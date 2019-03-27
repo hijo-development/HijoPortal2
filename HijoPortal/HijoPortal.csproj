@@ -103,6 +103,7 @@
     <Content Include="css\ContentPage.css" />
     <Content Include="css\LogIn.css" />
     <Content Include="css\LogInICON.css" />
+    <Content Include="css\POAddedit.css" />
     <Content Include="default.aspx" />
     <Content Include="executive.aspx" />
     <Content Include="finance.aspx" />
@@ -132,7 +133,8 @@
     <Content Include="jquery\changePW.js" />
     <Content Include="jquery\ContentPage.js" />
     <Content Include="jquery\createAccount.js" />
-    <Content Include="jquery\PO_Create.js" />
+    <Content Include="jquery\POAddedit.js" />
+    <Content Include="jquery\POCreate.js" />
     <Content Include="mop_workflow.aspx" />
     <Content Include="mrp_addedit.aspx" />
     <Content Include="mrp_capexcip.aspx" />
