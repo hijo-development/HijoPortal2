@@ -770,6 +770,113 @@ namespace HijoPortal.classes
 
             return dtTable;
         }
+        public static DataTable PO_MOP_Ref(string ponumber)
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("MOPNumber", typeof(string));
+            }
+
+            string qry = "SELECT DISTINCT * FROM [hijo_portal].[dbo].[tbl_POCreation_Ref] WHERE [PONumber] = '" + ponumber + "'";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["MOPNumber"] = row["MOPNumber"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
+        public static DataTable PO_AddEdit_Table(string ponumber)
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("ItemPK", typeof(string));
+                dtTable.Columns.Add("Identifier", typeof(string));
+                dtTable.Columns.Add("ItemCode", typeof(string));
+                dtTable.Columns.Add("Description", typeof(string));
+                dtTable.Columns.Add("RequestedQty", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+                dtTable.Columns.Add("POQty", typeof(string));
+                dtTable.Columns.Add("POCost", typeof(string));
+                dtTable.Columns.Add("TotalPOCost", typeof(string));
+                dtTable.Columns.Add("TaxGroup", typeof(string));
+                dtTable.Columns.Add("TaxItemGroup", typeof(string));
+            }
+
+            string qry = "SELECT dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Cost AS DMCost, dbo.tbl_MRP_List_DirectMaterials.Qty AS DMQty, dbo.tbl_MRP_List_DirectMaterials.TotalCost AS DMTotal, dbo.tbl_POCreation_Details.* FROM   dbo.tbl_MRP_List_DirectMaterials INNER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_MRP_List_DirectMaterials.PK = dbo.tbl_POCreation_Details.ItemPK WHERE (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["ItemPK"] = row["ItemPK"].ToString();
+                    dtRow["Identifier"] = row["Identifier"].ToString();
+                    dtRow["ItemCode"] = row["ItemCode"].ToString();
+
+                    string desc = row["ItemDescriptionAddl"].ToString();
+                    if (!string.IsNullOrEmpty(desc))
+                        dtRow["Description"] = row["ItemDescription"].ToString() + "(" + desc + ")";
+                    else
+                        dtRow["Description"] = row["ItemDescription"].ToString();
+
+                    dtRow["RequestedQty"] = Convert.ToDouble(row["DMQty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["DMCost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["DMTotal"].ToString()).ToString("N");
+                    dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtRow["TaxGroup"] = row["TaxGroup"].ToString();
+                    dtRow["TaxItemGroup"] = row["TaxItemGroup"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
 
     }
 }
