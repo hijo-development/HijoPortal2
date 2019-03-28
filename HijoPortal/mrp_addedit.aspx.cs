@@ -108,11 +108,17 @@ namespace HijoPortal
         {
             ASPxHiddenField hidStatusKey = Page.FindControl("StatusKey") as ASPxHiddenField;
 
+            DataTable dt1 = new DataTable();
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+
             ArrDirectMat.Clear();
             ArrOpex.Clear();
             ArrManPower.Clear();
             ArrCapex.Clear();
             ArrRevenue.Clear();
+
+            string qry = "";
 
             string query = "SELECT tbl_MRP_List.*, " +
                            " vw_AXEntityTable.NAME AS EntityCodeDesc, " +
@@ -154,14 +160,55 @@ namespace HijoPortal
                 BU.Text = reader["BUCode"].ToString();
                 buCode = reader["BUCode"].ToString();
 
+                if (Convert.ToInt32(reader["StatusKey"]) == 1)
+                {
+                    CurrentWorkFlowTxt.Text = "0";
+                }
+                else if (Convert.ToInt32(reader["StatusKey"]) == 2)
+                {
+                    qry = "SELECT dbo.tbl_MRP_List_Workflow.Line, dbo.tbl_System_Approval_Position.PositionName FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_MRP_List_Workflow.MasterKey = " + reader["PK"] + ") AND(dbo.tbl_MRP_List_Workflow.Status = 0) AND(dbo.tbl_MRP_List_Workflow.Visible = 1)";
+                    cmd1 = new SqlCommand(qry);
+                    cmd1.Connection = conn;
+                    adp1 = new SqlDataAdapter(cmd1);
+                    adp1.Fill(dt1);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        foreach (DataRow row1 in dt1.Rows)
+                        {
+                            CurrentWorkFlowTxt.Text = row1["Line"].ToString();
+                        }
+                    }
+                    dt1.Clear();
+                }
+                else if (Convert.ToInt32(reader["StatusKey"]) == 3)
+                {
+                    qry = "SELECT dbo.tbl_MRP_List_Workflow.Line, dbo.tbl_System_Approval_Position.PositionName FROM dbo.tbl_MRP_List_Approval LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Approval.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_MRP_List_Approval.MasterKey = " + reader["PK"] + ") AND(dbo.tbl_MRP_List_Approval.Status = 0) AND(dbo.tbl_MRP_List_Approval.Visible = 1)";
+                    cmd1 = new SqlCommand(qry);
+                    cmd1.Connection = conn;
+                    adp1 = new SqlDataAdapter(cmd1);
+                    adp1.Fill(dt1);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        foreach (DataRow row1 in dt1.Rows)
+                        {
+                            CurrentWorkFlowTxt.Text = row1["Line"].ToString();
+                        }
+                    }
+                    dt1.Clear();
+                } else
+                {
+                    CurrentWorkFlowTxt.Text = "5";
+                }
+
+
 
             }
             reader.Close();
             conn.Close();
 
-            WorkFlowLineLbl.Text = wrkflwln.ToString();
+            //WorkFlowLineLbl.Text = wrkflwln.ToString();
             WorkFlowLineTxt.Text = wrkflwln.ToString();
-            StatusKeyLbl.Text = iStatusKey.ToString();
+            //StatusKeyLbl.Text = iStatusKey.ToString();
             StatusKeyTxt.Text = iStatusKey.ToString();
 
             WorkFlowLineStatusTxt.Text = "0";
@@ -411,7 +458,7 @@ namespace HijoPortal
                     div2.Style.Add("display", "none");
 
                     entityhidden["hidden_value"] = "not display";
-                    MRPClass.PrintString(".....................trial");
+                    //MRPClass.PrintString(".....................trial");
                 }
                 else
                 {
@@ -1278,6 +1325,20 @@ namespace HijoPortal
             if (iStatusKey == 4)
             {
                 Response.Redirect("mrp_preview_approve.aspx?DocNum=" + docnumber.ToString() + "&Source=1");
+            }
+            else if (iStatusKey == 3)
+            {
+                Response.Redirect("mrp_preview_approve.aspx?DocNum=" + docnumber.ToString() + "&Source=1");
+            }
+            else if (iStatusKey == 2)
+            {
+                if (Convert.ToInt32(CurrentWorkFlowTxt.Text.ToString()) == 0 || Convert.ToInt32(CurrentWorkFlowTxt.Text.ToString()) == 1)
+                {
+                    Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+                } else
+                {
+                    Response.Redirect("mrp_preview_approve.aspx?DocNum=" + docnumber.ToString() + "&Source=1");
+                }
             } else
             {
                 Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
