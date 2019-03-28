@@ -190,6 +190,7 @@
     <Compile Include="classes\Constants.cs" />
     <Compile Include="classes\Convertion.cs" />
     <Compile Include="classes\DataFlowClass.cs" />
+    <Compile Include="classes\DesignBehavior.cs" />
     <Compile Include="classes\EncryptionClass.cs" />
     <Compile Include="classes\FinanceClass.cs" />
     <Compile Include="classes\GlobalClass.cs" />
