@@ -32,7 +32,8 @@ namespace HijoPortal {
 
         protected global::DevExpress.Web.ASPxTextBox WorkFlowLineStatusTxt;
         protected global::DevExpress.Web.ASPxTextBox WorkFlowLineTxt;
-
+        protected global::DevExpress.Web.ASPxTextBox CurrentWorkFlowTxt;
+        
         /// <summary>
         /// Month control.
         /// </summary>

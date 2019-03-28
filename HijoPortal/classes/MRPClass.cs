@@ -73,6 +73,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Amount", typeof(string));
                 dtTable.Columns.Add("StatusKey", typeof(string));
                 dtTable.Columns.Add("StatusKeyDesc", typeof(string));
+                dtTable.Columns.Add("WorkflowStatusLine", typeof(string));
                 dtTable.Columns.Add("WorkflowStatus", typeof(string));
                 dtTable.Columns.Add("CreatorKey", typeof(Int32));
                 dtTable.Columns.Add("LastModified", typeof(string));
@@ -151,11 +152,12 @@ namespace HijoPortal.classes
 
                     if (Convert.ToInt32(row["StatusKey"]) == 1)
                     {
+                        dtRow["WorkflowStatusLine"] = "0";
                         dtRow["WorkflowStatus"] = "At Source";
                     }
                     else if (Convert.ToInt32(row["StatusKey"]) == 2)
                     {
-                        qry = "SELECT dbo.tbl_System_Approval_Position.PositionName " +
+                        qry = "SELECT dbo.tbl_MRP_List_Workflow.Line, dbo.tbl_System_Approval_Position.PositionName " +
                               " FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN " +
                               " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
                               " WHERE(dbo.tbl_MRP_List_Workflow.MasterKey = " + row["PK"] + ") " +
@@ -169,6 +171,7 @@ namespace HijoPortal.classes
                         {
                             foreach (DataRow row1 in dt1.Rows)
                             {
+                                dtRow["WorkflowStatusLine"] = row1["Line"].ToString();
                                 dtRow["WorkflowStatus"] = row1["PositionName"].ToString();
                             }
                         }
@@ -176,7 +179,7 @@ namespace HijoPortal.classes
                     }
                     else if (Convert.ToInt32(row["StatusKey"]) == 3)
                     {
-                        qry = "SELECT dbo.tbl_System_Approval_Position.PositionName " +
+                        qry = "SELECT dbo.tbl_MRP_List_Workflow.Line, dbo.tbl_System_Approval_Position.PositionName " +
                               " FROM dbo.tbl_MRP_List_Approval LEFT OUTER JOIN " +
                               " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Approval.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
                               " WHERE(dbo.tbl_MRP_List_Approval.MasterKey = " + row["PK"] + ") " +
@@ -190,6 +193,7 @@ namespace HijoPortal.classes
                         {
                             foreach (DataRow row1 in dt1.Rows)
                             {
+                                dtRow["WorkflowStatusLine"] = row1["Line"].ToString();
                                 dtRow["WorkflowStatus"] = row1["PositionName"].ToString();
                             }
                         }
@@ -197,6 +201,7 @@ namespace HijoPortal.classes
                     }
                     else
                     {
+                        dtRow["WorkflowStatusLine"] = "5";
                         dtRow["WorkflowStatus"] = "Procurement Officer";
                     }
                     dtTable.Rows.Add(dtRow);
@@ -3845,7 +3850,7 @@ namespace HijoPortal.classes
                     {
                         if (row == dt.Rows[0])
                         {
-                            PrintString("FIRST HERE....");
+                            //PrintString("FIRST HERE....");
                             DataRow dtRow = dtTable.NewRow();
                             dtRow["ActivityCode"] = row["DESCRIPTION"].ToString();
                             dtTable.Rows.Add(dtRow);

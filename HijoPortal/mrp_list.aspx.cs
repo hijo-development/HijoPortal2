@@ -16,7 +16,7 @@ namespace HijoPortal
     {
 
         private static string docNum = "", PK = "0", entCode="" , buCode="";
-        private static int StatusKey = 0;
+        private static int StatusKey = 0, CurrentWorkFlow = 0;
         private static DateTime dteCreated;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -74,7 +74,7 @@ namespace HijoPortal
 
             ASPxHiddenField text = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenVal") as ASPxHiddenField;
             ASPxHiddenField Status = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenValStatus") as ASPxHiddenField;
-            
+            ASPxHiddenField StatusLine = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenValStatusLine") as ASPxHiddenField;
             //if (e.ButtonID == "Add")
             //{
 
@@ -88,6 +88,8 @@ namespace HijoPortal
             buCode = MainTable.GetRowValues(MainTable.FocusedRowIndex, "BUCode").ToString();
             StatusKey = Convert.ToInt32(MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString());
             dteCreated = Convert.ToDateTime(MainTable.GetRowValues(MainTable.FocusedRowIndex, "DateCreated").ToString());
+            CurrentWorkFlow = Convert.ToInt32(MainTable.GetRowValues(MainTable.FocusedRowIndex, "WorkflowStatusLine").ToString());
+
             string query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "' AND PK = '" + PK + "'";
 
             SqlCommand comm = new SqlCommand(query, conn);
@@ -139,13 +141,26 @@ namespace HijoPortal
                     if (StatusKey == 4)
                     {
                         Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
-                    } else
+                    }
+                    else if (StatusKey == 3)
+                    {
+                        Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                    }
+                    else if (StatusKey == 2)
+                    {
+                        if (CurrentWorkFlow == 0 || CurrentWorkFlow == 1)
+                        {
+                            Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                        } else
+                        {
+                            Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                        }
+                    }
+                    else
                     {
                         Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                     }
-                    
                 }
-
             }
             else
             {
@@ -200,6 +215,21 @@ namespace HijoPortal
                         {
                             Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
                         }
+                        else if (StatusKey == 3)
+                        {
+                            Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                        }
+                        else if (StatusKey == 2)
+                        {
+                            if (CurrentWorkFlow == 0 || CurrentWorkFlow == 1)
+                            {
+                                Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                            }
+                            else
+                            {
+                                Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                            }
+                        }
                         else
                         {
                             Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
@@ -212,6 +242,21 @@ namespace HijoPortal
                             if (StatusKey == 4)
                             {
                                 Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                            }
+                            else if (StatusKey == 3)
+                            {
+                                Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                            }
+                            else if (StatusKey == 2)
+                            {
+                                if (CurrentWorkFlow == 0 || CurrentWorkFlow == 1)
+                                {
+                                    Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                                }
+                                else
+                                {
+                                    Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                                }
                             }
                             else
                             {

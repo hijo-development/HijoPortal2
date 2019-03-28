@@ -152,8 +152,9 @@
                             <dx:ASPxTextBox ID="WorkFlowLineTxt" ClientInstanceName="WorkFlowLineTxt" runat="server" Width="170px"></dx:ASPxTextBox>
                             <dx:ASPxTextBox ID="StatusKeyTxt" ClientInstanceName="StatusKeyTxt" runat="server" Width="170px"></dx:ASPxTextBox>
                             <dx:ASPxTextBox ID="WorkFlowLineStatusTxt" ClientInstanceName="WorkFlowLineStatusTxt" runat="server" Width="170px"></dx:ASPxTextBox>
-                            <dx:ASPxLabel ID="WorkFlowLineLbl" ClientInstanceName="WorkFlowLineLblDirect" runat="server" Text=""></dx:ASPxLabel>
-                            <dx:ASPxLabel ID="StatusKeyLbl" ClientInstanceName="StatusKeyLblDirect" runat="server" Text=""></dx:ASPxLabel>
+                            <dx:ASPxTextBox ID="CurrentWorkFlowTxt" ClientInstanceName="CurrentWorkFlowTxt" runat="server" Width="170px"></dx:ASPxTextBox>
+                            <%--<dx:ASPxLabel ID="WorkFlowLineLbl" ClientInstanceName="WorkFlowLineLblDirect" runat="server" Text=""></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="StatusKeyLbl" ClientInstanceName="StatusKeyLblDirect" runat="server" Text=""></dx:ASPxLabel>--%>
                         </div>
                     </td>
                 </tr>
