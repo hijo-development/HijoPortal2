@@ -121,13 +121,13 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxLabel WarehouseLbl;
         
         /// <summary>
-        /// MOPRef control.
+        /// MOPReference control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxListBox MOPRef;
+        protected global::DevExpress.Web.ASPxTextBox MOPReference;
         
         /// <summary>
         /// CurrencyCallback control.

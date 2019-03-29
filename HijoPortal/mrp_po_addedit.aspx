@@ -16,8 +16,12 @@
                     </tr>
                     <tr>
                         <td style="text-align: right;">
-                            <dx:ASPxButton ID="OK" runat="server" Text="OK" Theme="Office2010Blue"></dx:ASPxButton>
-                            <dx:ASPxButton ID="CancelPopUp" runat="server" Text="CANCEL" Theme="Office2010Blue"></dx:ASPxButton>
+                            <dx:ASPxButton ID="OK" runat="server" Text="OK" AutoPostBack="false" Theme="Office2010Blue">
+                                <ClientSideEvents Click="DeleteItem" />
+                            </dx:ASPxButton>
+                            <dx:ASPxButton ID="CancelPopUp" runat="server" Text="CANCEL" AutoPostBack="false" Theme="Office2010Blue">
+                                <ClientSideEvents Click="function(s,e){DeletePopupClient.Hide();}" />
+                            </dx:ASPxButton>
                         </td>
                     </tr>
                 </table>
@@ -29,14 +33,21 @@
             <h1>Purchase Order</h1>
         </div>
         <div>
-            <table class="table_detail" border="1">
+            <table class="table_detail" border="0">
                 <tr>
                     <td class="table_po_td_label">
                         <dx:ASPxLabel runat="server" Text="PO Number" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                     <td class="table_po_semi">:</td>
                     <td class="table_po_td_data">
-                        <dx:ASPxLabel ID="PONumberLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                        <table class="innertable" border="0">
+                            <tr>
+                                <td>
+                                    <dx:ASPxLabel ID="PONumberLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
                 <tr>
@@ -48,9 +59,9 @@
                         <table class="innertable" border="0">
                             <tr>
                                 <td>
-                                    <dx:ASPxComboBox ID="VendorCombo" runat="server" CssClass="innertable_width" ValueType="System.String" Theme="Office2010Blue">
+                                    <dx:ASPxComboBox ID="VendorCombo" runat="server" OnInit="VendorCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
                                         <ClientSideEvents SelectedIndexChanged="VendorCombo_SelectedIndexChanged" />
-                                        <%--<ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>--%>
+                                        <ValidationSettings ErrorImage-Width="10px" ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                     </dx:ASPxComboBox>
                                 </td>
                                 <td>
@@ -68,7 +79,8 @@
                         <table class="innertable" border="0">
                             <tr>
                                 <td>
-                                    <dx:ASPxComboBox ID="SiteCombo" runat="server" CssClass="innertable_width" ValueType="System.String" Theme="Office2010Blue">
+                                    <dx:ASPxComboBox ID="SiteCombo" runat="server" OnInit="SiteCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                        <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                         <ClientSideEvents SelectedIndexChanged="SiteCombo_SelectedIndexChanged" />
                                     </dx:ASPxComboBox>
                                 </td>
@@ -85,6 +97,7 @@
                     <td class="table_po_semi">:</td>
                     <td class="table_po_td_data" style="width: 10%;">
                         <dx:ASPxDateEdit ID="ExpDel" runat="server" AllowUserInput="false" CssClass="innertable_width" Theme="Office2010Blue">
+                            <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                             <ClientSideEvents GotFocus="function(s,e){ s.ShowDropDown(); }" />
                         </dx:ASPxDateEdit>
                     </td>
@@ -101,7 +114,8 @@
                                     <dx:ASPxCallbackPanel ID="TermsCallback" runat="server" ClientInstanceName="TermsCallbackClient" OnCallback="TermsCallback_Callback" CssClass="innertable_width">
                                         <PanelCollection>
                                             <dx:PanelContent>
-                                                <dx:ASPxComboBox ID="TermsCombo" runat="server" CssClass="innertable_width" ValueType="System.String" Theme="Office2010Blue">
+                                                <dx:ASPxComboBox ID="TermsCombo" runat="server" OnInit="TermsCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="TermsCombo_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
                                             </dx:PanelContent>
@@ -126,7 +140,8 @@
                                     <dx:ASPxCallbackPanel ID="WarehouseCallback" runat="server" ClientInstanceName="WarehouseCallbackClient" OnCallback="WarehouseCallback_Callback">
                                         <PanelCollection>
                                             <dx:PanelContent>
-                                                <dx:ASPxComboBox ID="WarehouseCombo" runat="server" CssClass="innertable_width" ValueType="System.String" Theme="Office2010Blue">
+                                                <dx:ASPxComboBox ID="WarehouseCombo" runat="server" OnInit="WarehouseCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="WarehouseCombo_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
                                             </dx:PanelContent>
@@ -145,8 +160,9 @@
                         <dx:ASPxLabel runat="server" Text="MOP Reference" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                     <td class="table_po_semi">:</td>
-                    <td style="width: 10%;" rowspan="3">
-                        <dx:ASPxListBox ID="MOPRef" runat="server" ValueType="System.String" Theme="Office2010Blue"></dx:ASPxListBox>
+                    <td style="width: 10%;">
+                        <dx:ASPxTextBox ID="MOPReference" runat="server" Width="170px" ReadOnly="true" BackColor="Transparent" Border-BorderColor="Transparent" Theme="Office2010Blue"></dx:ASPxTextBox>
+                        <%--<dx:ASPxListBox ID="MOPRef" runat="server" ValueType="System.String" Theme="Office2010Blue"></dx:ASPxListBox>--%>
                     </td>
                 </tr>
                 <tr>
@@ -162,7 +178,8 @@
                                         <ClientSideEvents EndCallback="CurrencyCallback_EndCallback" />
                                         <PanelCollection>
                                             <dx:PanelContent>
-                                                <dx:ASPxComboBox ID="CurrencyCombo" runat="server" ClientInstanceName="CurrencyComboClient" CssClass="innertable_width" ValueType="System.String" Theme="Office2010Blue">
+                                                <dx:ASPxComboBox ID="CurrencyCombo" runat="server" ClientInstanceName="CurrencyComboClient" OnInit="CurrencyCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="CurrencyCombo_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
                                             </dx:PanelContent>
@@ -188,7 +205,9 @@
                                     <dx:ASPxCallbackPanel ID="LocationCallback" runat="server" ClientInstanceName="LocationCallbackClient" OnCallback="LocationCallback_Callback">
                                         <PanelCollection>
                                             <dx:PanelContent>
-                                                <dx:ASPxComboBox ID="LocationCombo" runat="server" CssClass="innertable_width" ValueType="System.String" Theme="Office2010Blue"></dx:ASPxComboBox>
+                                                <dx:ASPxComboBox ID="LocationCombo" runat="server" OnInit="LocationCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
+                                                </dx:ASPxComboBox>
                                             </dx:PanelContent>
                                         </PanelCollection>
                                     </dx:ASPxCallbackPanel>
@@ -202,7 +221,7 @@
             </table>
         </div>
         <div>
-            <dx:ASPxGridView ID="POAddEditGrid" runat="server" Width="100%" Theme="Office2010Blue"
+            <dx:ASPxGridView ID="POAddEditGrid" runat="server" ClientInstanceName="POAddEditGridClient" Width="100%" Theme="Office2010Blue"
                 OnStartRowEditing="POAddEditGrid_StartRowEditing"
                 OnRowUpdating="POAddEditGrid_RowUpdating"
                 OnRowDeleting="POAddEditGrid_RowDeleting"
@@ -250,6 +269,13 @@
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <EditItemTemplate>
                             <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost") %>' Theme="Office2010Blue"></dx:ASPxLabel>
+                        </EditItemTemplate>
+                    </dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="POUOM" Caption="PO UOM">
+                        <CellStyle HorizontalAlign="Right"></CellStyle>
+                        <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
+                        <EditItemTemplate>
+                            <dx:ASPxComboBox ID="POUOM" runat="server" ValueType="System.String" OnInit="POUOM_Init" Width="100px" Theme="Office2010Blue"></dx:ASPxComboBox>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="POQty">
@@ -304,6 +330,8 @@
                     <Cell Wrap="True"></Cell>
                 </Styles>
                 <SettingsEditing Mode="Inline"></SettingsEditing>
+                <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
+                    AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" />
                 <%--<SettingsCommandButton>
                     <EditButton Image-Url="images/Edit.ico">
                         <Image Width="15px"></Image>
@@ -324,7 +352,7 @@
             <table class="innertable">
                 <tr>
                     <td style="text-align: right;">
-                        <dx:ASPxButton ID="Save" runat="server" ClientInstanceName="SaveClient" OnClick="Save_Click" Text="SAVE" Theme="Office2010Blue"></dx:ASPxButton>
+                        <dx:ASPxButton ID="Save" runat="server" ClientInstanceName="SaveClient" OnClick="Save_Click" AutoPostBack="false" Text="SAVE" Theme="Office2010Blue"></dx:ASPxButton>
                         <dx:ASPxButton ID="Submit" runat="server" ClientInstanceName="SubmitClient" OnClick="Submit_Click" Text="Submit to AX" Theme="Office2010Blue"></dx:ASPxButton>
                     </td>
                 </tr>

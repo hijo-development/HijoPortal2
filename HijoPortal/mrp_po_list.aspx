@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="List of Created Purchase Order" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_po_list.aspx.cs" Inherits="HijoPortal.mrp_po_list" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+     <script type="text/javascript" src="jquery/POList.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
@@ -9,7 +10,9 @@
         <div>
             <dx:ASPxGridView ID="gridCreatedPO" runat="server" ClientInstanceName="gridCreatedPO"
                 EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
-                Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue">
+                Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue" 
+                 OnCustomButtonCallback="gridCreatedPO_CustomButtonCallback">
+                <ClientSideEvents CustomButtonClick="gridCreatedPO_CustomButtonClick" />
                 
                 <Columns>
                     <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">

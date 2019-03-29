@@ -78,6 +78,17 @@ function POAddEditGrid_CustomButtonClick(s, e) {
     }
 }
 
+function DeleteItem(s, e) {
+    DeletePopupClient.Hide();
+    
+    var index = POAddEditGridClient.GetFocusedRowIndex();
+    console.log(index);
+    POAddEditGridClient.DeleteRow(index);
+    
+    //OPEXGrid.DeleteRow(OPEXGrid.GetFocusedRowIndex());
+    
+}
+
 function POQty_KeyUp(s, e) {
     var avail_qty = accounting.unformat(ReqQtyClient.GetText());
     //var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);

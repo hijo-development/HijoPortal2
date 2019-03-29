@@ -163,8 +163,10 @@
                         <dx:ASPxLabel runat="server" Text="MOP Reference" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                     <td class="table_po_semi">:</td>
-                    <td style="width: 10%;" rowspan="3">
-                        <dx:ASPxListBox ID="MOPRef" runat="server" CssClass="innertable_width_hundred" ValueType="System.String" Theme="Office2010Blue"></dx:ASPxListBox>
+                    <td style="width: 10%;">
+                        <dx:ASPxTextBox ID="MOPReference" runat="server" CssClass="innertable_width_hundred" Width="170px" ReadOnly="true" Border-BorderColor="Transparent" BackColor="Transparent" Theme="Office2010Blue">
+                        </dx:ASPxTextBox>
+                        <%--<dx:ASPxListBox ID="MOPRef" runat="server" CssClass="innertable_width_hundred" ValueType="System.String" Theme="Office2010Blue"></dx:ASPxListBox>--%>
                     </td>
                 </tr>
                 <tr>
@@ -257,6 +259,7 @@
                         </CustomButtons>
                     </dx:GridViewCommandColumn>
                     <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="MOPNumber" Visible="false"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="ItemPK" Visible="false"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="TableIdentifier" Visible="false"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="ItemCode">
@@ -297,6 +300,15 @@
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <EditItemTemplate>
                             <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost") %>' Theme="Office2010Blue"></dx:ASPxLabel>
+                        </EditItemTemplate>
+                    </dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="POUOM" Caption="PO UOM">
+                        <HeaderStyle HorizontalAlign="Right" />
+                        <CellStyle HorizontalAlign="Right"></CellStyle>
+                        <EditItemTemplate>
+                            <dx:ASPxComboBox ID="POUOM" runat="server" ValueType="System.String" OnInit="POUOM_Init" Width="100px" Theme="Office2010Blue">
+                                <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
+                            </dx:ASPxComboBox>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="POQty">
