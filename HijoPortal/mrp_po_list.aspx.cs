@@ -51,6 +51,18 @@ namespace HijoPortal
             }
         }
 
-        
+        protected void gridCreatedPO_CustomButtonCallback(object sender, ASPxGridViewCustomButtonCallbackEventArgs e)
+        {
+            string btnID = e.ButtonID;
+            ASPxGridView grid = sender as ASPxGridView;
+            string ponumber = grid.GetRowValues(grid.FocusedRowIndex, "PONumber").ToString();
+            switch (btnID)
+            {
+                case "Edit":
+                    ASPxWebControl.RedirectOnCallback("mrp_po_addedit.aspx?PONum=" + ponumber);
+                    //Response.RedirectLocation = "mrp_po_addedit.aspx?PONum="+ponumber;
+                    break;
+            }
+        }
     }
 }

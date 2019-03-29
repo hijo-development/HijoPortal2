@@ -135,6 +135,7 @@
     <Content Include="jquery\createAccount.js" />
     <Content Include="jquery\POAddedit.js" />
     <Content Include="jquery\POCreate.js" />
+    <Content Include="jquery\POList.js" />
     <Content Include="mop_workflow.aspx" />
     <Content Include="mrp_addedit.aspx" />
     <Content Include="mrp_capexcip.aspx" />

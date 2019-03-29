@@ -6,6 +6,7 @@
             var text = s.GetSelectedItem().text;
             MOPNum_Combo.PerformCallback();
             MainGridCallbackPanel.PerformCallback();
+            MOPNum_Combo.SetEnabled(true);
 
         }
         function MOPNum_Combo_SelectedIndexChanged(s, e) {
@@ -51,7 +52,7 @@
                     </td>
                     <td>:</td>
                     <td>
-                        <dx:ASPxComboBox ID="MOPNum_Combo" runat="server" ClientInstanceName="MOPNum_Combo" OnInit="MOPNum_Combo_Init" OnCallback="MOPNum_Combo_Callback" ValueType="System.String" Theme="Office2010Blue">
+                        <dx:ASPxComboBox ID="MOPNum_Combo" runat="server" ClientInstanceName="MOPNum_Combo" OnInit="MOPNum_Combo_Init" OnCallback="MOPNum_Combo_Callback" ValueType="System.String" ClientEnabled="false" Theme="Office2010Blue">
                             <ClientSideEvents SelectedIndexChanged="MOPNum_Combo_SelectedIndexChanged" />
                         </dx:ASPxComboBox>
                     </td>

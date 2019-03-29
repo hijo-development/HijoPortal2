@@ -39,7 +39,7 @@ namespace HijoPortal
             }
 
 
-            BindTable(doc_static, month_static, year_static, prod_static);
+            //BindTable(doc_static, month_static, year_static, prod_static);
         }
 
         private void BindTable(string docnumber, int month, string year, string prod)
@@ -225,6 +225,8 @@ namespace HijoPortal
                 prod_static = "";
 
             executebindpageload = true;
+
+            //if (!string.IsNullOrEmpty(doc_static) && !string.IsNullOrEmpty(year_static))
             BindTable(doc_static, month_static, year_static, prod_static);
 
         }

@@ -58,11 +58,12 @@ namespace HijoPortal
 
             SqlCommand cmd = new SqlCommand(query, conn);
             SqlDataReader reader = cmd.ExecuteReader();
-            mop_ref_arr = new ArrayList();
+            //mop_ref_arr = new ArrayList();
             while (reader.Read())
             {
-                mop_ref_arr.Add(reader[0].ToString());
-                MOPRef.Items.Add(reader[0].ToString());
+                MOPReference.Text = reader[0].ToString();
+                //mop_ref_arr.Add(reader[0].ToString());
+                //MOPRef.Items.Add(reader[0].ToString());
             }
         }
 
@@ -286,11 +287,27 @@ namespace HijoPortal
             string warehouse = Warehouse.Text.ToString();
             string location = Location.Text.ToString();
 
-            string insert = "INSERT INTO " + PO_Constants.POCreation_TableName() + " ([PONumber],[DateCreated],[CreatorKey], [ExpectedDate], [VendorCode], [PaymentTerms], [CurrencyCode], [InventSite], [InventSiteWarehouse], [InventSiteWarehouseLocation]) VALUES (@PONumber, @DateCreated, @CreatorKey, @ExpectedDate, @VendorCode, @PaymentTerms, @CurrencyCode, @InventSite, @InventSiteWarehouse, @InventSiteWarehouseLocation)";
+            string mopnumber = MOPReference.Text;
+            string entitycode="", bucode = "";
+
+            query = "SELECT [PK],[EntityCode],[BUCode] FROM[hijo_portal].[dbo].[tbl_MRP_List] WHERE DocNumber = '" + mopnumber + "'";
+            cmd = new SqlCommand(query, conn);
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                entitycode = reader["EntityCode"].ToString();
+                bucode = reader["BUCode"].ToString();
+            }
+            reader.Close();
+
+            string insert = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation] ([PONumber],[DateCreated],[CreatorKey],[MRPNumber], [ExpectedDate], [VendorCode], [PaymentTerms], [CurrencyCode], [InventSite], [InventSiteWarehouse], [InventSiteWarehouseLocation], [EntityCode], [BUSSUCode]) VALUES (@PONumber, @DateCreated, @CreatorKey, @MRPNumber, @ExpectedDate, @VendorCode, @PaymentTerms, @CurrencyCode, @InventSite, @InventSiteWarehouse, @InventSiteWarehouseLocation, @EntityCode, @BUSSUCode)";
 
             cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@PONumber", PONumber);
             cmd.Parameters.AddWithValue("@CreatorKey", Session["CreatorKey"].ToString());
+            cmd.Parameters.AddWithValue("@MRPNumber", mopnumber);
+            cmd.Parameters.AddWithValue("@EntityCode", entitycode);
+            cmd.Parameters.AddWithValue("@BUSSUCode", bucode);
             cmd.Parameters.AddWithValue("@DateCreated", DateTime.Now);
             cmd.Parameters.AddWithValue("@ExpectedDate", ExpDel.Value.ToString());
             cmd.Parameters.AddWithValue("@VendorCode", vendor);
@@ -306,6 +323,7 @@ namespace HijoPortal
             for (int i = 0; i < grid.VisibleRowCount; i++)
             {
                 object PK = grid.GetRowValues(i, "PK");
+                object MOPNumber = grid.GetRowValues(i, "MOPNumber");
                 object ItemPK = grid.GetRowValues(i, "ItemPK");
                 object TableIdentifier = grid.GetRowValues(i, "TableIdentifier");
                 object ItemCode = grid.GetRowValues(i, "ItemCode");
@@ -323,10 +341,11 @@ namespace HijoPortal
                 //MRPClass.PrintString(ItemPK.ToString());
                 //MRPClass.PrintString(TableIdentifier.ToString());
 
-                string insert_po_details = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber], [ItemPK], [Identifier], [ItemCode], [TaxGroup], [TaxItemGroup], [Qty], [Cost], [TotalCost]) VALUES (@PONumber, @ItemPK, @Identifier, @ItemCode, @TaxGroup, @TaxItemGroup, @Qty, @Cost, @TotalCost)";
+                string insert_po_details = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[MOPNumber], [ItemPK], [Identifier], [ItemCode], [TaxGroup], [TaxItemGroup], [Qty], [Cost], [TotalCost]) VALUES (@PONumber,@MOPNumber, @ItemPK, @Identifier, @ItemCode, @TaxGroup, @TaxItemGroup, @Qty, @Cost, @TotalCost)";
 
                 cmd = new SqlCommand(insert_po_details, conn);
                 cmd.Parameters.AddWithValue("@PONumber", PONumber);
+                cmd.Parameters.AddWithValue("@MOPNumber", MOPNumber);
                 cmd.Parameters.AddWithValue("@ItemPK", ItemPK);
                 cmd.Parameters.AddWithValue("@Identifier", TableIdentifier);
                 cmd.Parameters.AddWithValue("@ItemCode", ItemCode);
@@ -354,16 +373,16 @@ namespace HijoPortal
                 }
             }
 
-            for (int i = 0; i < mop_ref_arr.Count; i++)
-            {
-                string mop_reference = mop_ref_arr[i].ToString();
-                insert = "INSERT INTO " + PO_Constants.POReference_TableName() + " ([PONumber], [MOPNumber]) VALUES (@PONumber, @MOPNumber)";
-                cmd = new SqlCommand(insert, conn);
-                cmd.Parameters.AddWithValue("@PONumber", PONumber);
-                cmd.Parameters.AddWithValue("@MOPNumber", mop_reference);
-                cmd.CommandType = CommandType.Text;
-                cmd.ExecuteNonQuery();
-            }
+            //for (int i = 0; i < mop_ref_arr.Count; i++)
+            //{
+            //    string mop_reference = mop_ref_arr[i].ToString();
+            //    insert = "INSERT INTO " + PO_Constants.POReference_TableName() + " ([PONumber], [MOPNumber]) VALUES (@PONumber, @MOPNumber)";
+            //    cmd = new SqlCommand(insert, conn);
+            //    cmd.Parameters.AddWithValue("@PONumber", PONumber);
+            //    cmd.Parameters.AddWithValue("@MOPNumber", mop_reference);
+            //    cmd.CommandType = CommandType.Text;
+            //    cmd.ExecuteNonQuery();
+            //}
 
             string delete = "DELETE FROM [dbo].[tbl_POCreation_Tmp] WHERE [UserKey] = '" + Session["CreatorKey"].ToString() + "'";
             cmd = new SqlCommand(delete, conn);
@@ -371,7 +390,7 @@ namespace HijoPortal
 
             conn.Close();
 
-            Response.Redirect("mrp_po_addedit.aspx");
+            Response.Redirect("mrp_po_addedit.aspx?PONum=" + PONumber);
         }
 
         protected void TaxItemGroup_Init(object sender, EventArgs e)
@@ -399,33 +418,36 @@ namespace HijoPortal
 
             comboBox.ValueField = "TaxGroup";
             comboBox.TextField = "TaxGroup";
-            comboBox.DataBind();
+            comboBox.DataBind(); 
         }
 
         protected void POCreateGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {
             ASPxGridView grid = sender as ASPxGridView;
+            ASPxComboBox POUOM = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POUOM"], "POUOM") as ASPxComboBox;
             ASPxTextBox POQty = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POQty"], "POQty") as ASPxTextBox;
             ASPxTextBox POCost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POCost"], "POCost") as ASPxTextBox;
-            ASPxLabel TotalPOCost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TotalPOCost"], "TotalPOCost") as ASPxLabel;
+            ASPxTextBox TotalPOCost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TotalPOCost"], "TotalPOCost") as ASPxTextBox;
             ASPxComboBox TaxGroup = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TaxGroup"], "TaxGroup") as ASPxComboBox;
             ASPxComboBox TaxItemGroup = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TaxItemGroup"], "TaxItemGroup") as ASPxComboBox;
 
             string PK = e.Keys[0].ToString();
 
-            string update = "UPDATE dbo.tbl_POCreation_Tmp SET [TaxGroup] = @TaxGroup, [TaxItemGroup] = @TaxItemGroup, [POQty] = @POQty, [POCost] = @POCost WHERE [PK] = @PK";
+            string update = "UPDATE dbo.tbl_POCreation_Tmp SET [TaxGroup] = @TaxGroup, [TaxItemGroup] = @TaxItemGroup,[POUOM] = @POUOM, [POQty] = @POQty, [POCost] = @POCost WHERE [PK] = @PK";
 
+            string pouom = POUOM.Value.ToString();
             string qty = POQty.Value.ToString();
             string cost = POCost.Value.ToString();
-            string total = TotalPOCost.Value.ToString();
+            //string total = TotalPOCost.Value.ToString();
             string tax_group = TaxGroup.Value.ToString();
             string tax_item_group = TaxItemGroup.Value.ToString();
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
             SqlCommand cmd = new SqlCommand(update, conn);
-            cmd.Parameters.AddWithValue("@POQty", qty);
-            cmd.Parameters.AddWithValue("@POCost", cost);
+            cmd.Parameters.AddWithValue("@POQty", Convert.ToDouble(qty));
+            cmd.Parameters.AddWithValue("@POUOM", pouom);
+            cmd.Parameters.AddWithValue("@POCost", Convert.ToDouble(cost));
             //cmd.Parameters.AddWithValue("@POTotalCost", total);
             cmd.Parameters.AddWithValue("@TaxGroup", tax_group);
             cmd.Parameters.AddWithValue("@TaxItemGroup", tax_item_group);
@@ -442,6 +464,32 @@ namespace HijoPortal
         protected void POCreateGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
             bind = false;
+        }
+
+        protected void POUOM_Init(object sender, EventArgs e)
+        {
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = MRPClass.UOMTable();
+            combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+
+            ListBoxColumn l_value = new ListBoxColumn();
+            l_value.FieldName = "SYMBOL";
+            combo.Columns.Add(l_value);
+
+            ListBoxColumn l_text = new ListBoxColumn();
+            l_text.FieldName = "description";
+            combo.Columns.Add(l_text);
+
+            combo.ValueField = "SYMBOL";
+            combo.TextField = "description";
+            combo.DataBind();
+            combo.TextFormatString = "{0}";
+
+            GridViewEditItemTemplateContainer container = ((ASPxComboBox)sender).NamingContainer as GridViewEditItemTemplateContainer;
+            if (!container.Grid.IsNewRowEditing)
+            {
+                combo.Value = DataBinder.Eval(container.DataItem, "POUOM").ToString();
+            }
         }
     }
 }

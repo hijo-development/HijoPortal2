@@ -14,6 +14,7 @@ namespace HijoPortal
 {
     public partial class mrp_po_addedit : System.Web.UI.Page
     {
+        private static string vendorCode = "", vendorName = "", termsCode = "", termsName = "", currencyCode = "", currencyName = "", siteName = "", siteCode = "", warehouseCode = "", warehouseName = "", locationCode = "";
         private static string ponumber = "";
         private static bool bind = true;
         private void CheckCreatorKey()
@@ -34,79 +35,7 @@ namespace HijoPortal
             if (!Page.IsPostBack)
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-
-
-                //Response.RedirectLocation = "mrp_po_addedit.aspx?PONum=" + "PO-0000-000000001";
-                //Response.RedirectLocation = "mrp_po_addedit.aspx?PONum=PO-0000-000000001";
-                ponumber = Request.Params["PONum"].ToString();
-
-                PONumberLbl.Text = ponumber;
-
-                string query = "SELECT dbo.tbl_POCreation.*, dbo.vw_AXVendTable.NAME AS VendorName, dbo.vw_AXPaymTerm.DESCRIPTION AS TermsName, dbo.vw_AXCurrency.TXT, dbo.vw_AXInventSite.NAME AS SiteName, dbo.vw_AXInventSiteWarehouse.NAME AS WarehouseName FROM   dbo.tbl_POCreation INNER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM INNER JOIN dbo.vw_AXPaymTerm ON dbo.tbl_POCreation.PaymentTerms = dbo.vw_AXPaymTerm.PAYMTERMID INNER JOIN dbo.vw_AXCurrency ON dbo.tbl_POCreation.CurrencyCode = dbo.vw_AXCurrency.CURRENCYCODE INNER JOIN dbo.vw_AXInventSite ON dbo.tbl_POCreation.InventSite = dbo.vw_AXInventSite.SITEID INNER JOIN dbo.vw_AXInventSiteWarehouse ON dbo.tbl_POCreation.InventSiteWarehouse = dbo.vw_AXInventSiteWarehouse.warehouse WHERE [PONumber] = '" + ponumber + "'";
-
-
-                string vendorCode = "", vendorName = "", termsCode = "", termsName = "", currencyCode = "", currencyName = "", siteName = "", siteCode = "", warehouseCode = "", warehouseName = "", locationCode = "";
-
-                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(query, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    vendorCode = reader["VendorCode"].ToString();
-                    vendorName = reader["VendorName"].ToString();
-
-                    termsCode = reader["PaymentTerms"].ToString();
-                    termsName = reader["TermsName"].ToString();
-
-                    currencyCode = reader["CurrencyCode"].ToString();
-                    currencyName = reader["TXT"].ToString();
-
-                    siteCode = reader["InventSite"].ToString();
-                    siteName = reader["SiteName"].ToString();
-
-                    warehouseCode = reader["InventSiteWarehouse"].ToString();
-                    warehouseName = reader["WarehouseName"].ToString();
-
-                    locationCode = reader["InventSiteWarehouseLocation"].ToString();
-
-                    ExpDel.Value = reader["ExpectedDate"].ToString();
-
-
-                }
-                reader.Close();
-                //VendorCombo.Value = 
-
-                VendorCombo_Data();
-                VendorCombo.Value = vendorCode;
-                VendorCombo.Text = vendorCode;
-                VendorLbl.Text = vendorName;
-
-                TermsCombo_Data();
-                TermsCombo.Value = termsCode;
-                TermsCombo.Text = termsCode;
-                TermsLbl.Text = termsName;
-
-                CurrencyCombo_Data();
-                CurrencyCombo.Value = currencyCode;
-                CurrencyCombo.Text = currencyCode;
-                CurrencyLbl.Text = currencyName;
-
-                SiteCombo_Data();
-                SiteCombo.Value = siteCode;
-                SiteCombo.Text = siteCode;
-                SiteLbl.Text = siteName;
-
-
-                WarehouseCombo_Data();
-                WarehouseCombo.Value = warehouseCode;
-                WarehouseCombo.Text = warehouseCode;
-                WarehouseLbl.Text = warehouseName;
-
-                LocationCombo_Data();
-                LocationCombo.Value = locationCode;
-                LocationCombo.Text = locationCode;
-
+                BindData();
                 ListofRef();
             }
 
@@ -117,25 +46,108 @@ namespace HijoPortal
 
         }
 
+        private void BindData()
+        {
+            //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+
+            //Response.RedirectLocation = "mrp_po_addedit.aspx?PONum=" + "PO-0000-000000001";
+            //Response.RedirectLocation = "mrp_po_addedit.aspx?PONum=PO-0000-000000001";
+            ponumber = Request.Params["PONum"].ToString();
+
+            PONumberLbl.Text = ponumber;
+
+            string query = "SELECT dbo.tbl_POCreation.*, dbo.vw_AXVendTable.NAME AS VendorName, dbo.vw_AXPaymTerm.DESCRIPTION AS TermsName, dbo.vw_AXCurrency.TXT, dbo.vw_AXInventSite.NAME AS SiteName, dbo.vw_AXInventSiteWarehouse.NAME AS WarehouseName FROM   dbo.tbl_POCreation INNER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM INNER JOIN dbo.vw_AXPaymTerm ON dbo.tbl_POCreation.PaymentTerms = dbo.vw_AXPaymTerm.PAYMTERMID INNER JOIN dbo.vw_AXCurrency ON dbo.tbl_POCreation.CurrencyCode = dbo.vw_AXCurrency.CURRENCYCODE INNER JOIN dbo.vw_AXInventSite ON dbo.tbl_POCreation.InventSite = dbo.vw_AXInventSite.SITEID INNER JOIN dbo.vw_AXInventSiteWarehouse ON dbo.tbl_POCreation.InventSiteWarehouse = dbo.vw_AXInventSiteWarehouse.warehouse WHERE [PONumber] = '" + ponumber + "'";
+
+
+
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(query, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                vendorCode = reader["VendorCode"].ToString();
+                vendorName = reader["VendorName"].ToString();
+
+                termsCode = reader["PaymentTerms"].ToString();
+                termsName = reader["TermsName"].ToString();
+
+                currencyCode = reader["CurrencyCode"].ToString();
+                currencyName = reader["TXT"].ToString();
+
+                siteCode = reader["InventSite"].ToString();
+                siteName = reader["SiteName"].ToString();
+
+                warehouseCode = reader["InventSiteWarehouse"].ToString();
+                warehouseName = reader["WarehouseName"].ToString();
+
+                locationCode = reader["InventSiteWarehouseLocation"].ToString();
+
+                ExpDel.Value = reader["ExpectedDate"].ToString();
+                //ExpDel.Text = reader["ExpectedDate"].ToString();
+
+
+            }
+            reader.Close();
+            //VendorCombo.Value = 
+
+            VendorCombo_Data();
+            VendorCombo.Value = vendorCode;
+            VendorCombo.Text = vendorCode;
+            VendorLbl.Text = vendorName;
+            if (!string.IsNullOrEmpty(vendorCode))
+                VendorCombo.IsValid = true;
+
+            TermsCombo_Data();
+            TermsCombo.Value = termsCode;
+            TermsCombo.Text = termsCode;
+            TermsLbl.Text = termsName;
+            if (!string.IsNullOrEmpty(termsCode))
+                TermsCombo.IsValid = true;
+
+            CurrencyCombo_Data();
+            CurrencyCombo.Value = currencyCode;
+            CurrencyCombo.Text = currencyCode;
+            CurrencyLbl.Text = currencyName;
+            if (!string.IsNullOrEmpty(currencyCode))
+                CurrencyCombo.IsValid = true;
+
+            SiteCombo_Data();
+            SiteCombo.Value = siteCode;
+            SiteCombo.Text = siteCode;
+            SiteLbl.Text = siteName;
+            if (!string.IsNullOrEmpty(siteCode))
+                SiteCombo.IsValid = true;
+
+
+            WarehouseCombo_Data();
+            WarehouseCombo.Value = warehouseCode;
+            WarehouseCombo.Text = warehouseCode;
+            WarehouseLbl.Text = warehouseName;
+            if (!string.IsNullOrEmpty(warehouseCode))
+                WarehouseCombo.IsValid = true;
+
+            LocationCombo_Data();
+            LocationCombo.Value = locationCode;
+            LocationCombo.Text = locationCode;
+        }
+
+
         private void ListofRef()
         {
-            MOPRef.DataSource = POClass.PO_MOP_Ref(ponumber);
-            MOPRef.ValueField = "MOPNumber";
-            MOPRef.TextField = "MOPNumber";
-            MOPRef.DataBind();
-            //string query = "SELECT DISTINCT [MOPNumber] FROM [hijo_portal].[dbo].[tbl_POCreation_Tmp] WHERE UserKey = '" + Session["CreatorKey"].ToString() + "'";
+            string query = "SELECT DISTINCT MRPNumber FROM [hijo_portal].[dbo].[tbl_POCreation] WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "'";
 
-            //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            //conn.Open();
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
 
-            //SqlCommand cmd = new SqlCommand(query, conn);
-            //SqlDataReader reader = cmd.ExecuteReader();
-            //mop_ref_arr = new ArrayList();
-            //while (reader.Read())
-            //{
-            //    mop_ref_arr.Add(reader[0].ToString());
-            //    MOPRef.Items.Add(reader[0].ToString());
-            //}
+            SqlCommand cmd = new SqlCommand(query, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                MOPReference.Text = reader[0].ToString();
+            }
         }
 
         private void BindGrid()
@@ -148,6 +160,7 @@ namespace HijoPortal
         private void VendorCombo_Data()
         {
             ASPxComboBox combo = VendorCombo as ASPxComboBox;
+            combo.Columns.Clear();
             combo.DataSource = POClass.VendTableTable(); ;
 
             ListBoxColumn l_value = new ListBoxColumn();
@@ -173,6 +186,7 @@ namespace HijoPortal
             string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + VendorCombo.Text.ToString() + "'";
 
             ASPxComboBox combo = TermsCombo as ASPxComboBox;
+            combo.Columns.Clear();
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -185,6 +199,7 @@ namespace HijoPortal
             reader.Close();
             conn.Close();
 
+            combo.DataSource = null;
             combo.DataSource = POClass.PaymTermTable(); ;
 
             ListBoxColumn l_value = new ListBoxColumn();
@@ -209,6 +224,7 @@ namespace HijoPortal
         private void CurrencyCombo_Data()
         {
             ASPxComboBox combo = CurrencyCombo as ASPxComboBox;
+            combo.Columns.Clear();
 
             string query = "SELECT dbo.vw_AXVendTable.VENDGROUP, dbo.vw_AXVendTable.PAYMTERMID, dbo.vw_AXVendTable.CURRENCY, dbo.vw_AXCurrency.TXT FROM dbo.vw_AXVendTable INNER JOIN dbo.vw_AXCurrency ON dbo.vw_AXVendTable.CURRENCY = dbo.vw_AXCurrency.CURRENCYCODE WHERE[ACCOUNTNUM] = '" + VendorCombo.Text.ToString() + "'";
 
@@ -252,6 +268,7 @@ namespace HijoPortal
         private void SiteCombo_Data()
         {
             ASPxComboBox combo = SiteCombo as ASPxComboBox;
+            combo.Columns.Clear();
             combo.DataSource = POClass.InventSiteTable();
 
             ListBoxColumn l_value = new ListBoxColumn();
@@ -274,6 +291,7 @@ namespace HijoPortal
         private void WarehouseCombo_Data()
         {
             ASPxComboBox combo = WarehouseCombo as ASPxComboBox;
+            combo.Columns.Clear();
 
             combo.Value = "";
             combo.DataSource = POClass.InventSiteWarehouseTable(SiteCombo.Text.ToString());
@@ -298,6 +316,7 @@ namespace HijoPortal
         private void LocationCombo_Data()
         {
             ASPxComboBox combo = LocationCombo as ASPxComboBox;
+            combo.Columns.Clear();
 
             combo.Value = "";
 
@@ -390,16 +409,19 @@ namespace HijoPortal
             conn.Open();
 
             SqlCommand cmd = new SqlCommand(update, conn);
-            cmd.Parameters.AddWithValue("@ExpectedDate", ExpDel.Value.ToString());
-            cmd.Parameters.AddWithValue("@VendorCode", VendorCombo.Value.ToString());
-            cmd.Parameters.AddWithValue("@PaymentTerms", TermsCombo.Value.ToString());
-            cmd.Parameters.AddWithValue("@CurrencyCode", CurrencyCombo.Value.ToString());
-            cmd.Parameters.AddWithValue("@InventSite", SiteCombo.Value.ToString());
-            cmd.Parameters.AddWithValue("@InventSiteWarehouse", WarehouseCombo.Value.ToString());
+            cmd.Parameters.AddWithValue("@ExpectedDate", ExpDel.Text.ToString());
+            cmd.Parameters.AddWithValue("@VendorCode", VendorCombo.Text.ToString());
+            cmd.Parameters.AddWithValue("@PaymentTerms", TermsCombo.Text.ToString());
+            cmd.Parameters.AddWithValue("@CurrencyCode", CurrencyCombo.Text.ToString());
+            cmd.Parameters.AddWithValue("@InventSite", SiteCombo.Text.ToString());
+            cmd.Parameters.AddWithValue("@InventSiteWarehouse", WarehouseCombo.Text.ToString());
             cmd.Parameters.AddWithValue("@InventSiteWarehouseLocation", location);
             cmd.Parameters.AddWithValue("@PONumber", ponumber);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
+
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            BindData();
         }
 
         protected void Submit_Click(object sender, EventArgs e)
@@ -542,6 +564,7 @@ namespace HijoPortal
         protected void POAddEditGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {
             ASPxGridView grid = sender as ASPxGridView;
+            ASPxComboBox POUOM = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POUOM"], "POUOM") as ASPxComboBox;
             ASPxTextBox POQty = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POQty"], "POQty") as ASPxTextBox;
             ASPxTextBox POCost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POCost"], "POCost") as ASPxTextBox;
             ASPxTextBox TotalPOCost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TotalPOCost"], "TotalPOCost") as ASPxTextBox;
@@ -566,8 +589,9 @@ namespace HijoPortal
             }
             reader.Close();
 
-            string update = "UPDATE [hijo_portal].[dbo].[tbl_POCreation_Details] SET [TaxGroup] = @TaxGroup, [TaxItemGroup] = @TaxItemGroup, [Qty] = @Qty, [Cost] = @Cost, [TotalCost] = @TotalCost WHERE [PK] = @PK";
+            string update = "UPDATE [hijo_portal].[dbo].[tbl_POCreation_Details] SET [TaxGroup] = @TaxGroup, [TaxItemGroup] = @TaxItemGroup, [Qty] = @Qty, [Cost] = @Cost, [TotalCost] = @TotalCost, [POUOM] = @POUOM WHERE [PK] = @PK";
 
+            string pouom = POUOM.Value.ToString();
             string qty = POQty.Value.ToString();
             string cost = POCost.Value.ToString();
             string total = TotalPOCost.Value.ToString();
@@ -575,6 +599,7 @@ namespace HijoPortal
             string tax_item_group = TaxItemGroup.Value.ToString();
 
             cmd = new SqlCommand(update, conn);
+            cmd.Parameters.AddWithValue("@POUOM", pouom);
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty));
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(total));
@@ -600,9 +625,6 @@ namespace HijoPortal
                     reader.Close();
                     remaining = original_qty_po - old_qty + Convert.ToDouble(qty);
 
-                    MRPClass.PrintString(remaining.ToString());
-                    MRPClass.PrintString(old_qty.ToString());
-                    MRPClass.PrintString(qty.ToString());
                     update = "UPDATE [dbo].[tbl_MRP_List_DirectMaterials] SET [QtyPO] = '" + remaining + "' WHERE [PK] = '" + ItemPK + "'";
                     cmd = new SqlCommand(update, conn);
                     cmd.ExecuteNonQuery();
@@ -634,11 +656,9 @@ namespace HijoPortal
         protected void POAddEditGrid_RowDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
         {
             string PK = e.Keys[0].ToString();
-            string delete = "DELETE FROM [dbo].[tbl_POCreation_Details] WHERE [PK] = '" + PK + "'";
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
-            SqlCommand cmd = new SqlCommand(delete, conn);
-            cmd.ExecuteNonQuery();
+            SqlCommand cmd = null;
 
             string ItemPK = "", Identifier = "", qty = "";
             string query = "SELECT ItemPK, Identifier, Qty FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PK] = '" + PK + "'";
@@ -652,7 +672,11 @@ namespace HijoPortal
             }
             reader.Close();
 
-            string update = ""; Double qty_po = 0, remaining = 0;
+            string delete = "DELETE FROM [dbo].[tbl_POCreation_Details] WHERE [PK] = '" + PK + "'";
+            cmd = new SqlCommand(delete, conn);
+            cmd.ExecuteNonQuery();
+
+            string update = ""; Double original_qty_po = 0, remaining = 0;
             switch (Identifier)
             {
                 case "1"://DM
@@ -662,10 +686,13 @@ namespace HijoPortal
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        qty_po = Convert.ToDouble(reader["QtyPO"].ToString());
+                        original_qty_po = Convert.ToDouble(reader["QtyPO"].ToString());
                     }
                     reader.Close();
-                    remaining = qty_po - Convert.ToDouble(qty);
+                    remaining = original_qty_po - Convert.ToDouble(qty);
+                    MRPClass.PrintString(remaining.ToString());
+                    MRPClass.PrintString(original_qty_po.ToString());
+                    MRPClass.PrintString(qty.ToString());
 
                     update = "UPDATE [dbo].[tbl_MRP_List_DirectMaterials] SET [QtyPO] = '" + remaining + "' WHERE [PK] = '" + ItemPK + "'";
                     cmd = new SqlCommand(update, conn);
@@ -678,20 +705,25 @@ namespace HijoPortal
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        qty_po = Convert.ToDouble(reader["QtyPO"].ToString());
+                        original_qty_po = Convert.ToDouble(reader["QtyPO"].ToString());
                     }
                     reader.Close();
-                    remaining = qty_po - Convert.ToDouble(qty);
+                    remaining = original_qty_po - Convert.ToDouble(qty);
 
                     update = "UPDATE [dbo].[tbl_MRP_List_OPEX] SET [QtyPO] = '" + remaining + "' WHERE [PK] = '" + ItemPK + "'";
                     cmd = new SqlCommand(update, conn);
                     cmd.ExecuteNonQuery();
                     break;
             }
+
+            //query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE "
+
             conn.Close();
 
-            BindGrid();
+            e.Cancel = true;
 
+            //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            //BindGrid();
 
         }
 
@@ -699,6 +731,79 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             DesignBehavior.SetBehaviorGrid(grid);
+        }
+
+        protected void POUOM_Init(object sender, EventArgs e)
+        {
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = MRPClass.UOMTable();
+            combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+
+            ListBoxColumn l_value = new ListBoxColumn();
+            l_value.FieldName = "SYMBOL";
+            combo.Columns.Add(l_value);
+
+            ListBoxColumn l_text = new ListBoxColumn();
+            l_text.FieldName = "description";
+            combo.Columns.Add(l_text);
+
+            combo.ValueField = "SYMBOL";
+            combo.TextField = "description";
+            combo.DataBind();
+            combo.TextFormatString = "{0}";
+
+            GridViewEditItemTemplateContainer container = ((ASPxComboBox)sender).NamingContainer as GridViewEditItemTemplateContainer;
+            if (!container.Grid.IsNewRowEditing)
+            {
+                combo.Value = DataBinder.Eval(container.DataItem, "POUOM").ToString();
+            }
+        }
+
+        protected void VendorCombo_Init(object sender, EventArgs e)
+        {
+            //VendorCombo_Data();
+            //VendorCombo.Value = vendorCode;
+            //VendorCombo.Text = vendorCode;
+            //VendorLbl.Text = vendorName;
+        }
+
+        protected void TermsCombo_Init(object sender, EventArgs e)
+        {
+            //TermsCombo_Data();
+            //TermsCombo.Value = termsCode;
+            //TermsCombo.Text = termsCode;
+            //TermsLbl.Text = termsName;
+        }
+
+        protected void CurrencyCombo_Init(object sender, EventArgs e)
+        {
+            //CurrencyCombo_Data();
+            //CurrencyCombo.Value = currencyCode;
+            //CurrencyCombo.Text = currencyCode;
+            //CurrencyLbl.Text = currencyName;
+        }
+
+        protected void SiteCombo_Init(object sender, EventArgs e)
+        {
+            //SiteCombo_Data();
+            //SiteCombo.Value = siteCode;
+            //SiteCombo.Text = siteCode;
+            //SiteLbl.Text = siteName;
+        }
+
+        protected void WarehouseCombo_Init(object sender, EventArgs e)
+        {
+            //WarehouseCombo_Data();
+            //WarehouseCombo.Value = warehouseCode;
+            //WarehouseCombo.Text = warehouseCode;
+            //WarehouseLbl.Text = warehouseName;
+        }
+
+        protected void LocationCombo_Init(object sender, EventArgs e)
+        {
+            //LocationCombo_Data();
+            //LocationCombo.Value = locationCode;
+            //LocationCombo.Text = locationCode;
         }
     }
 }
