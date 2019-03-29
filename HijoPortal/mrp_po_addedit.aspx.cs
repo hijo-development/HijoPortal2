@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.IO;
 using System.Web.UI.WebControls;
 
 namespace HijoPortal
@@ -403,7 +404,134 @@ namespace HijoPortal
 
         protected void Submit_Click(object sender, EventArgs e)
         {
+            //ponumber;
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dt1 = new DataTable();
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+            string qry = "";
 
+            string sServerDir = HttpContext.Current.Server.MapPath("~");
+            string sDir = sServerDir + @"\po_file";
+            if (!Directory.Exists(sDir))
+            {
+                Directory.CreateDirectory(sDir);
+            }
+
+            conn.Open();
+            qry = "SELECT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_POCreation.ExpectedDate, dbo.tbl_POCreation.VendorCode, dbo.tbl_POCreation.PaymentTerms, dbo.tbl_POCreation.CurrencyCode,dbo.tbl_POCreation.InventSite, dbo.tbl_POCreation.InventSiteWarehouse, dbo.tbl_POCreation.InventSiteWarehouseLocation, dbo.vw_AXVendTable.NAME, dbo.vw_AXVendTable.VENDGROUP, dbo.vw_AXVendTable.INCLTAX, dbo.vw_AXVendTable.PAYMMODE, dbo.vw_AXVendTable.TAXGROUP, dbo.tbl_POCreation.EntityCode, dbo.tbl_POCreation.BUSSUCode FROM  dbo.tbl_POCreation LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM WHERE(dbo.tbl_POCreation.PONumber = '" + ponumber + "')";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    string sPORemarks = "MOP Number " + row["MRPNumber"].ToString();
+                    string sIncTax = "";
+                    if (Convert.ToInt32(row["INCLTAX"]) == 0)
+                    {
+                        sIncTax = "No";
+                    } else
+                    {
+                        sIncTax = "Yes";
+                    }
+
+                    string sDefaultDimension = "";
+                    if (row["EntityCode"].ToString().Trim() == "0000")
+                    {
+                        sDefaultDimension = row["BUSSUCode"].ToString() + "__";
+                    }
+                    else if (row["EntityCode"].ToString().Trim() == "0303")
+                    {
+                        sDefaultDimension = "_" + row["BUSSUCode"].ToString() + "_";
+                    }
+                    else 
+                    {
+                        sDefaultDimension = "";
+                    }
+
+                    string sFile = sDir + @"\" + row["EntityCode"].ToString() + "_" + row["PONumber"].ToString() + "_H.txt";
+                    if (!File.Exists(sFile))
+                    {
+                        File.Create(sFile);
+                    }
+
+                    if (File.Exists(sFile))
+                    {
+                        using (StreamWriter w = File.AppendText(sFile))
+                        {
+                            w.WriteLine("PurchId|AccountingDate|DeliveryDate|CurrencyCode|OrderAccount|InvoiceAccount|DeliveryName|PurchName|Payment|InclTax|PaymMode|PORemarks|DocumentState|DocumentStatus|InventSiteId|Remarks|VendGroup|TaxGroup|LanguageId|PostingProfile|PurchaseType|PurchPoolId|PurchStatus|DefaultDimension");
+                            w.WriteLine(row["PONumber"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row["CurrencyCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["NAME"].ToString() + "|" + row["NAME"].ToString() + "|" + row["PaymentTerms"].ToString() + "|" + sIncTax + "|" + row["PAYMMODE"].ToString() + "|"+ sPORemarks .ToString() + "|Draft|None|" + row["InventSite"].ToString() + "|" + sPORemarks.ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["TAXGROUP"].ToString() + "|en-us|Gen|Purchase order||Open order|" + sDefaultDimension.ToString());
+                            w.Close();
+                        }
+                    }
+
+                    int iLineNumber = 0;
+                    string sDefaultDimensionLine = "";
+                    qry = "SELECT ItemCode, TaxGroup, TaxItemGroup, Qty, Cost, TotalCost, POUOM, (CASE Identifier WHEN 1 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT OprUnit FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS OprUnit, (CASE Identifier WHEN 1 THEN         (SELECT ItemDescription + (CASE LTRIM(RTRIM(ItemDescriptionAddl)) WHEN '' THEN '' ELSE ' (' + ItemDescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT Description + (CASE LTRIM(RTRIM(DescriptionAddl)) WHEN '' THEN '' ELSE ' (' + DescriptionAddl + ')' END) AS ItemDesc FROM dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS ItemDesc FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + ponumber + "')";
+                    cmd1 = new SqlCommand(qry);
+                    cmd1.Connection = conn;
+                    adp1 = new SqlDataAdapter(cmd1);
+                    adp1.Fill(dt1);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        string sFileD = sDir + @"\" + row["EntityCode"].ToString() + "_" + row["PONumber"].ToString() + "_L.txt";
+                        if (!File.Exists(sFileD))
+                        {
+                            File.Create(sFileD);
+                        }
+
+                        if (File.Exists(sFileD))
+                        {
+                            using (StreamWriter w = File.AppendText(sFileD))
+                            {
+                                w.WriteLine("PurchId|VendAccount|DeliveryName|Name|VendGroup|InventSiteID|InventLocationID|wMSLocationId|Complete|CreateFixedAsset|CurrencyCode|DeliveryDate|IsFinalized|IsPwp|ItemId|PurchQty|PurchUnit|PurchPrice|LineAmount|LineNumber|PriceUnit|MatchingPolicy|OverDeliveryPct|PurchaseType|PurchStatus|TaxGroup|TaxItemGroup|UnderDeliveryPct|VariantId|DefaultDimension");
+                                w.Close();
+                            }
+                        }
+
+                        foreach (DataRow row1 in dt1.Rows)
+                        {
+                            iLineNumber = iLineNumber + 1;
+                            if (File.Exists(sFileD))
+                            {
+
+                                if (row["EntityCode"].ToString().Trim() == "0000")
+                                {
+                                    sDefaultDimensionLine = row["BUSSUCode"].ToString() + "__";
+                                }
+                                else if (row["EntityCode"].ToString().Trim() == "0303")
+                                {
+                                    sDefaultDimensionLine = "_" + row["BUSSUCode"].ToString() + "_";
+                                }
+                                else if (row["EntityCode"].ToString().Trim() == "0101")
+                                {
+                                    sDefaultDimensionLine = "__" + row1["OprUnit"].ToString();
+                                }
+                                else
+                                {
+                                    sDefaultDimensionLine = "";
+                                }
+
+                                using (StreamWriter w = File.AppendText(sFileD))
+                                {
+                                    w.WriteLine(row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|0|0|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|0|0|" + row1["ItemCode"].ToString() + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|1|Three-way matching|0|Purchase order|Open order|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|100||" + sDefaultDimensionLine.ToString());
+                                    w.Close();
+                                }
+                            }
+                        }
+                    }
+                    dt1.Clear();
+                }
+            }
+            dt.Clear();
+
+            conn.Close();
         }
 
         protected void POAddEditGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)

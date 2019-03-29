@@ -24,6 +24,7 @@
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
+
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 30px;">
             <h1>Purchase Order</h1>
@@ -232,6 +233,7 @@
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="RequestedQty">
+                        <HeaderStyle HorizontalAlign="Right" />
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <EditItemTemplate>
@@ -239,6 +241,7 @@
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="Cost">
+                        <HeaderStyle HorizontalAlign="Right" />
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <EditItemTemplate>
@@ -246,6 +249,7 @@
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="TotalCost">
+                        <HeaderStyle HorizontalAlign="Right" />
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <EditItemTemplate>
@@ -253,6 +257,7 @@
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="POQty">
+                        <HeaderStyle HorizontalAlign="Right" />
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <EditItemTemplate>
@@ -265,6 +270,7 @@
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="POCost">
+                        <HeaderStyle HorizontalAlign="Right" />
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <EditItemTemplate>
@@ -277,6 +283,7 @@
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="TotalPOCost">
+                        <HeaderStyle HorizontalAlign="Right" />
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <EditItemTemplate>
