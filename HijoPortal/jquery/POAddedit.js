@@ -135,3 +135,14 @@ function POCost_KeyUp(s, e) {
         TotalPOCostClient.SetIsValid(false);
     }
 }
+
+function POAddEditSubmitBtn_Click(s, e) {
+    var POStatus = txtStatus.GetText();
+    if (POStatus === "1") {
+        POAddEdit_MRPNotify.SetHeaderText("Alert");
+        POAddEdit_MRPNotify.Show();
+    } else {
+        POAddEditPopupSubmit.SetHeaderText("Confirm");
+        POAddEditPopupSubmit.Show();
+    }
+}
