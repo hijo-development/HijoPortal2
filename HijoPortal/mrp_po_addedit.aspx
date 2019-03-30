@@ -29,6 +29,38 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
+    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="POAddEdit_MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue" ContentStyle-Paddings-Padding="20">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="POAddEdit_MRPNotificationMessage" runat="server" Text="" ForeColor="Red" Theme="Office2010Blue"></dx:ASPxLabel>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
+    <dx:ASPxPopupControl ID="PopupSubmit" ClientInstanceName="POAddEditPopupSubmit" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <table style="width: 100%;" border="0">
+                    <tr>
+                        <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
+                            <dx:ASPxLabel runat="server" Text="Are you sure you want to submit this Purchase Order document to AX?" Theme="Office2010Blue"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" OnClick="Submit_Click" Theme="Office2010Blue" AutoPostBack="false">
+                                <%--<ClientSideEvents Click="OK_DELETE" />--%>
+                            </dx:ASPxButton>
+                            <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                                <ClientSideEvents Click="function(s,e){POAddEditPopupSubmit.Hide();}" />
+                            </dx:ASPxButton>
+                        </td>
+                    </tr>
+                </table>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 30px;">
             <h1>Purchase Order</h1>
@@ -38,6 +70,9 @@
                 <tr>
                     <td class="table_po_td_label">
                         <dx:ASPxLabel runat="server" Text="PO Number" Theme="Office2010Blue"></dx:ASPxLabel>
+                        <div style="display:none;">
+                            <dx:ASPxTextBox ID="txtStatus" ClientInstanceName="txtStatus" runat="server" Width="170px"></dx:ASPxTextBox>
+                        </div>
                     </td>
                     <td class="table_po_semi">:</td>
                     <td class="table_po_td_data">
@@ -360,7 +395,9 @@
                 <tr>
                     <td style="text-align: right;">
                         <dx:ASPxButton ID="Save" runat="server" ClientInstanceName="SaveClient" OnClick="Save_Click" AutoPostBack="false" Text="SAVE" Theme="Office2010Blue"></dx:ASPxButton>
-                        <dx:ASPxButton ID="Submit" runat="server" ClientInstanceName="SubmitClient" OnClick="Submit_Click" Text="Submit to AX" Theme="Office2010Blue"></dx:ASPxButton>
+                        <dx:ASPxButton ID="Submit" runat="server" ClientInstanceName="SubmitClient" AutoPostBack="false" Text="Submit to AX" Theme="Office2010Blue">
+                            <ClientSideEvents Click="POAddEditSubmitBtn_Click" />
+                        </dx:ASPxButton>
                     </td>
                 </tr>
             </table>

@@ -87,6 +87,7 @@ namespace HijoPortal
 
                 ExpDel.Value = reader["ExpectedDate"].ToString();
                 //ExpDel.Text = reader["ExpectedDate"].ToString();
+                txtStatus.Text = reader["POStatus"].ToString();
 
 
             }

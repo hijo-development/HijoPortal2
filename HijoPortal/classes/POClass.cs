@@ -33,17 +33,11 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Creator", typeof(string));
                 dtTable.Columns.Add("ExpectedDate", typeof(string));
                 dtTable.Columns.Add("TotalAmount", typeof(string));
+                dtTable.Columns.Add("POStatus", typeof(string));
                 dtTable.Columns.Add("Status", typeof(string));
             }
 
-            string qry = "SELECT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, " +
-                         " dbo.tbl_POCreation.VendorCode, dbo.vw_AXVendTable.NAME AS VendorName, " +
-                         " dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, " +
-                         " dbo.tbl_Users.Firstname, dbo.tbl_Users.Lastname, dbo.tbl_POCreation.ExpectedDate " +
-                         " FROM dbo.tbl_POCreation LEFT OUTER JOIN " +
-                         " dbo.tbl_Users ON dbo.tbl_POCreation.CreatorKey = dbo.tbl_Users.PK LEFT OUTER JOIN " +
-                         " dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM " +
-                         " ORDER BY dbo.tbl_POCreation.PONumber DESC";
+            string qry = "SELECT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.VendorCode, dbo.vw_AXVendTable.NAME AS VendorName, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_Users.Firstname, dbo.tbl_Users.Lastname, dbo.tbl_POCreation.ExpectedDate,  dbo.tbl_POCreation.POStatus FROM dbo.tbl_POCreation LEFT OUTER JOIN dbo.tbl_Users ON dbo.tbl_POCreation.CreatorKey = dbo.tbl_Users.PK LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM ORDER BY dbo.tbl_POCreation.PONumber DESC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -74,7 +68,16 @@ namespace HijoPortal.classes
                     }
                     reader.Close();
 
-                    dtRow["Status"] = "Created";
+                    dtRow["POStatus"] = row["POStatus"].ToString();
+
+                    if (Convert.ToInt32(row["POStatus"]) == 0)
+                    {
+                        dtRow["Status"] = "Created";
+                    } else
+                    {
+                        dtRow["Status"] = "Submitted";
+                    }
+                    
                     dtTable.Rows.Add(dtRow);
                 }
             }
