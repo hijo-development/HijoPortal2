@@ -459,7 +459,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable InventSiteTable()
+        public static DataTable InventSiteTable(string entity)
         {
             DataTable dtTable = new DataTable();
 
@@ -477,7 +477,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("SITEID", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSite] ORDER BY NAME ASC";
+            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSite] WHERE (DATAAREAID = '" + entity + "') ORDER BY NAME ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -517,7 +517,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteWarehouse] WHERE [INVENTSITEID] = '" + ID + "'  ORDER BY NAME ASC";
+            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteWarehouse] WHERE ([INVENTSITEID] = '" + ID + "') AND (NOT (warehouse = 'TRANSIT'))  ORDER BY NAME ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -556,7 +556,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("LocationCode", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteLocation] WHERE [WarehouseCode] = '" + warehouse + "'  ORDER BY WarehouseCode ASC";
+            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteLocation] WHERE ([WarehouseCode] = '" + warehouse + "') AND (NOT (WarehouseCode = 'TRANSIT'))  ORDER BY WarehouseCode ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
