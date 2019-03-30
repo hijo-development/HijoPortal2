@@ -211,6 +211,7 @@
                                         <PanelCollection>
                                             <dx:PanelContent>
                                                 <dx:ASPxComboBox ID="Location" runat="server" ClientEnabled="false" CssClass="innertable_width_hundred" ValueType="System.String" Theme="Office2010Blue">
+                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="LocationPO_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
                                             </dx:PanelContent>

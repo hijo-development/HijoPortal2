@@ -62,6 +62,10 @@ namespace HijoPortal
                     ASPxWebControl.RedirectOnCallback("mrp_po_addedit.aspx?PONum=" + ponumber);
                     //Response.RedirectLocation = "mrp_po_addedit.aspx?PONum="+ponumber;
                     break;
+
+                case "Delete":
+
+                    break;
             }
         }
     }

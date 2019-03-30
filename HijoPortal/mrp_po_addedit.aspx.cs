@@ -14,7 +14,7 @@ namespace HijoPortal
 {
     public partial class mrp_po_addedit : System.Web.UI.Page
     {
-        private static string vendorCode = "", vendorName = "", termsCode = "", termsName = "", currencyCode = "", currencyName = "", siteName = "", siteCode = "", warehouseCode = "", warehouseName = "", locationCode = "";
+        private static string vendorCode = "", vendorName = "", termsCode = "", termsName = "", currencyCode = "", currencyName = "", siteName = "", siteCode = "", warehouseCode = "", warehouseName = "", locationCode = "", entity = "";
         private static string ponumber = "";
         private static bool bind = true;
         private void CheckCreatorKey()
@@ -137,7 +137,7 @@ namespace HijoPortal
 
         private void ListofRef()
         {
-            string query = "SELECT DISTINCT MRPNumber FROM [hijo_portal].[dbo].[tbl_POCreation] WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "'";
+            string query = "SELECT DISTINCT dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_MRP_List.EntityCode FROM dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_POCreation_Tmp.MOPNumber = dbo.tbl_MRP_List.DocNumber WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "'";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -147,6 +147,7 @@ namespace HijoPortal
             while (reader.Read())
             {
                 MOPReference.Text = reader[0].ToString();
+                entity = reader[1].ToString();
             }
         }
 
@@ -269,7 +270,7 @@ namespace HijoPortal
         {
             ASPxComboBox combo = SiteCombo as ASPxComboBox;
             combo.Columns.Clear();
-            combo.DataSource = POClass.InventSiteTable();
+            combo.DataSource = POClass.InventSiteTable(entity);
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "SITEID";
@@ -542,7 +543,7 @@ namespace HijoPortal
 
                                 using (StreamWriter w = File.AppendText(sFileD))
                                 {
-                                    w.WriteLine(row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|0|0|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|0|0|" + row1["ItemCode"].ToString() + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|1|Three-way matching|0|Purchase order|Open order|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|100||" + sDefaultDimensionLine.ToString());
+                                    w.WriteLine(row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|0|0|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|0|0|" + row1["ItemCode"].ToString() + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["OUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|1|Three-way matching|0|Purchase order|Open order|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|100||" + sDefaultDimensionLine.ToString());
                                     w.Close();
                                 }
                             }

@@ -14,6 +14,7 @@ namespace HijoPortal
 {
     public partial class mrp_po_create : System.Web.UI.Page
     {
+        private static string entitycode = "";
         private static bool bind = true;
         private static ArrayList mop_ref_arr = new ArrayList();
         private void CheckCreatorKey()
@@ -51,7 +52,7 @@ namespace HijoPortal
 
         private void ListofRef()
         {
-            string query = "SELECT DISTINCT [MOPNumber] FROM [hijo_portal].[dbo].[tbl_POCreation_Tmp] WHERE UserKey = '" + Session["CreatorKey"].ToString() + "'";
+            string query = "SELECT DISTINCT MOPNumber FROM dbo.tbl_POCreation_Tmp WHERE UserKey = '" + Session["CreatorKey"].ToString() + "'";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -62,8 +63,6 @@ namespace HijoPortal
             while (reader.Read())
             {
                 MOPReference.Text = reader[0].ToString();
-                //mop_ref_arr.Add(reader[0].ToString());
-                //MOPRef.Items.Add(reader[0].ToString());
             }
         }
 
@@ -182,8 +181,20 @@ namespace HijoPortal
 
         protected void Site_Init(object sender, EventArgs e)
         {
+
+            string query = "SELECT DISTINCT dbo.tbl_MRP_List.EntityCode FROM dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_POCreation_Tmp.MOPNumber = dbo.tbl_MRP_List.DocNumber WHERE UserKey = '" + Session["CreatorKey"].ToString() + "'";
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(query, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                entitycode = reader[0].ToString();
+            }
+
             ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = POClass.InventSiteTable();
+            combo.DataSource = POClass.InventSiteTable(entitycode);
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "SITEID";
