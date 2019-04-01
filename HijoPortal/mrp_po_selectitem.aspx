@@ -99,6 +99,7 @@
                                     <HeaderStyle HorizontalAlign="Right" />
                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                 </dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="UOM" Visible="false"></dx:GridViewDataColumn>
                             </Columns>
                             <SettingsPager Mode="ShowAllRecords"></SettingsPager>
                         </dx:ASPxGridView>

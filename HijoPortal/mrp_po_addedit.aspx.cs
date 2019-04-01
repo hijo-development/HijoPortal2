@@ -16,6 +16,7 @@ namespace HijoPortal
     {
         private static string vendorCode = "", vendorName = "", termsCode = "", termsName = "", currencyCode = "", currencyName = "", siteName = "", siteCode = "", warehouseCode = "", warehouseName = "", locationCode = "", entity = "";
         private static string ponumber = "";
+        private static int status = -1;
         private static bool bind = true;
         private void CheckCreatorKey()
         {
@@ -36,31 +37,21 @@ namespace HijoPortal
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                 BindData();
-                ListofRef();
             }
 
             if (bind)
                 BindGrid();
             else
                 bind = true;
-
         }
 
         private void BindData()
         {
-            //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-
-
-            //Response.RedirectLocation = "mrp_po_addedit.aspx?PONum=" + "PO-0000-000000001";
-            //Response.RedirectLocation = "mrp_po_addedit.aspx?PONum=PO-0000-000000001";
             ponumber = Request.Params["PONum"].ToString();
 
             PONumberLbl.Text = ponumber;
 
             string query = "SELECT dbo.tbl_POCreation.*, dbo.vw_AXVendTable.NAME AS VendorName, dbo.vw_AXPaymTerm.DESCRIPTION AS TermsName, dbo.vw_AXCurrency.TXT, dbo.vw_AXInventSite.NAME AS SiteName, dbo.vw_AXInventSiteWarehouse.NAME AS WarehouseName FROM   dbo.tbl_POCreation INNER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM INNER JOIN dbo.vw_AXPaymTerm ON dbo.tbl_POCreation.PaymentTerms = dbo.vw_AXPaymTerm.PAYMTERMID INNER JOIN dbo.vw_AXCurrency ON dbo.tbl_POCreation.CurrencyCode = dbo.vw_AXCurrency.CURRENCYCODE INNER JOIN dbo.vw_AXInventSite ON dbo.tbl_POCreation.InventSite = dbo.vw_AXInventSite.SITEID INNER JOIN dbo.vw_AXInventSiteWarehouse ON dbo.tbl_POCreation.InventSiteWarehouse = dbo.vw_AXInventSiteWarehouse.warehouse WHERE [PONumber] = '" + ponumber + "'";
-
-
-
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -68,6 +59,8 @@ namespace HijoPortal
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
+                entity = reader["EntityCode"].ToString();
+                status = Convert.ToInt32(reader["POStatus"].ToString());
                 vendorCode = reader["VendorCode"].ToString();
                 vendorName = reader["VendorName"].ToString();
 
@@ -89,33 +82,46 @@ namespace HijoPortal
                 //ExpDel.Text = reader["ExpectedDate"].ToString();
                 txtStatus.Text = reader["POStatus"].ToString();
 
+                MOPReference.Value = reader["MRPNumber"].ToString();
+
 
             }
             reader.Close();
             //VendorCombo.Value = 
 
-            VendorCombo_Data();
+            if (status == 0)
+                VendorCombo_Data();
+
             VendorCombo.Value = vendorCode;
             VendorCombo.Text = vendorCode;
             VendorLbl.Text = vendorName;
+
             if (!string.IsNullOrEmpty(vendorCode))
                 VendorCombo.IsValid = true;
 
-            TermsCombo_Data();
+            if (status == 0)
+                TermsCombo_Data();
+
             TermsCombo.Value = termsCode;
             TermsCombo.Text = termsCode;
             TermsLbl.Text = termsName;
+
             if (!string.IsNullOrEmpty(termsCode))
                 TermsCombo.IsValid = true;
 
-            CurrencyCombo_Data();
+            if (status == 0)
+                CurrencyCombo_Data();
+
+
             CurrencyCombo.Value = currencyCode;
             CurrencyCombo.Text = currencyCode;
             CurrencyLbl.Text = currencyName;
             if (!string.IsNullOrEmpty(currencyCode))
                 CurrencyCombo.IsValid = true;
 
-            SiteCombo_Data();
+            if (status == 0)
+                SiteCombo_Data();
+
             SiteCombo.Value = siteCode;
             SiteCombo.Text = siteCode;
             SiteLbl.Text = siteName;
@@ -123,33 +129,37 @@ namespace HijoPortal
                 SiteCombo.IsValid = true;
 
 
-            WarehouseCombo_Data();
+            if (status == 0)
+                WarehouseCombo_Data();
+
             WarehouseCombo.Value = warehouseCode;
             WarehouseCombo.Text = warehouseCode;
             WarehouseLbl.Text = warehouseName;
             if (!string.IsNullOrEmpty(warehouseCode))
                 WarehouseCombo.IsValid = true;
 
-            LocationCombo_Data();
+            if (status == 0)
+                LocationCombo_Data();
+
+
             LocationCombo.Value = locationCode;
             LocationCombo.Text = locationCode;
-        }
 
 
-        private void ListofRef()
-        {
-            string query = "SELECT DISTINCT dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_MRP_List.EntityCode FROM dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_POCreation_Tmp.MOPNumber = dbo.tbl_MRP_List.DocNumber WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "'";
-
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-
-            SqlCommand cmd = new SqlCommand(query, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            if (status == 1)
             {
-                MOPReference.Text = reader[0].ToString();
-                entity = reader[1].ToString();
+                VendorCombo.ReadOnly = true;
+                TermsCombo.ReadOnly = true;
+                CurrencyCombo.ReadOnly = true;
+                SiteCombo.ReadOnly = true;
+                WarehouseCombo.ReadOnly = true;
+                LocationCombo.ReadOnly = true;
+                ExpDel.ReadOnly = true;
+                ExpDel.DropDownButton.ClientVisible = false;
+                Save.ClientEnabled = false;
+                Submit.ClientEnabled = false;
             }
+
         }
 
         private void BindGrid()
@@ -349,6 +359,8 @@ namespace HijoPortal
             CurrencyCombo_Data();
         }
 
+
+
         protected void WarehouseCallback_Callback(object sender, CallbackEventArgsBase e)
         {
             WarehouseCombo_Data();
@@ -428,7 +440,40 @@ namespace HijoPortal
 
         protected void Submit_Click(object sender, EventArgs e)
         {
-            //ponumber;
+            bool cancel = false;
+            ASPxGridView grid = POAddEditGrid as ASPxGridView;
+            for (int i = 0; i < grid.VisibleRowCount; i++)
+            {
+                object taxgroup = grid.GetRowValues(i, "TaxGroup");
+                object taxitemgroup = grid.GetRowValues(i, "TaxItemGroup");
+
+                if (string.IsNullOrEmpty(taxgroup.ToString()) || string.IsNullOrEmpty(taxitemgroup.ToString()))
+                {
+                    cancel = true;
+                    break;
+                }
+            }
+
+            if (cancel)//if empty taxgroup this is true
+            {
+                PONotify.HeaderText = "Alert";
+                PONotifyLbl.Text = "Some selected items are empty.";
+                PONotify.ShowOnPageLoad = true;
+
+
+            }
+            else
+            {
+                if (grid.VisibleRowCount > 0)
+                    Submit_Method();
+            }
+
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            BindData();
+        }
+
+        private void Submit_Method()
+        {
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             DataTable dt = new DataTable();
             SqlCommand cmd = null;
@@ -460,7 +505,8 @@ namespace HijoPortal
                     if (Convert.ToInt32(row["INCLTAX"]) == 0)
                     {
                         sIncTax = "No";
-                    } else
+                    }
+                    else
                     {
                         sIncTax = "Yes";
                     }
@@ -474,7 +520,7 @@ namespace HijoPortal
                     {
                         sDefaultDimension = "_" + row["BUSSUCode"].ToString() + "_";
                     }
-                    else 
+                    else
                     {
                         sDefaultDimension = "";
                     }
@@ -490,7 +536,7 @@ namespace HijoPortal
                         using (StreamWriter w = File.AppendText(sFile))
                         {
                             w.WriteLine("PurchId|AccountingDate|DeliveryDate|CurrencyCode|OrderAccount|InvoiceAccount|DeliveryName|PurchName|Payment|InclTax|PaymMode|PORemarks|DocumentState|DocumentStatus|InventSiteId|Remarks|VendGroup|TaxGroup|LanguageId|PostingProfile|PurchaseType|PurchPoolId|PurchStatus|DefaultDimension");
-                            w.WriteLine(row["PONumber"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row["CurrencyCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["NAME"].ToString() + "|" + row["NAME"].ToString() + "|" + row["PaymentTerms"].ToString() + "|" + sIncTax + "|" + row["PAYMMODE"].ToString() + "|"+ sPORemarks .ToString() + "|Draft|None|" + row["InventSite"].ToString() + "|" + sPORemarks.ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["TAXGROUP"].ToString() + "|en-us|Gen|Purchase order||Open order|" + sDefaultDimension.ToString());
+                            w.WriteLine(row["PONumber"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row["CurrencyCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["NAME"].ToString() + "|" + row["NAME"].ToString() + "|" + row["PaymentTerms"].ToString() + "|" + sIncTax + "|" + row["PAYMMODE"].ToString() + "|" + sPORemarks.ToString() + "|Draft|None|" + row["InventSite"].ToString() + "|" + sPORemarks.ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["TAXGROUP"].ToString() + "|en-us|Gen|Purchase order||Open order|" + sDefaultDimension.ToString());
                             w.Close();
                         }
                     }
@@ -718,15 +764,12 @@ namespace HijoPortal
                     break;
             }
 
-            //query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE "
 
             conn.Close();
-
             e.Cancel = true;
+            BindGrid();
 
-            //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-            //BindGrid();
-
+            
         }
 
         protected void POAddEditGrid_BeforeGetCallbackResult(object sender, EventArgs e)
@@ -761,51 +804,18 @@ namespace HijoPortal
             }
         }
 
-        protected void VendorCombo_Init(object sender, EventArgs e)
+        protected void POAddEditGrid_DataBound(object sender, EventArgs e)
         {
-            //VendorCombo_Data();
-            //VendorCombo.Value = vendorCode;
-            //VendorCombo.Text = vendorCode;
-            //VendorLbl.Text = vendorName;
-        }
+            ASPxGridView grid = sender as ASPxGridView;
+            if (status == 1)
+                POAddEditGrid.Columns[0].Visible = false;
+            else
+                POAddEditGrid.Columns[0].Visible = true;
 
-        protected void TermsCombo_Init(object sender, EventArgs e)
-        {
-            //TermsCombo_Data();
-            //TermsCombo.Value = termsCode;
-            //TermsCombo.Text = termsCode;
-            //TermsLbl.Text = termsName;
-        }
-
-        protected void CurrencyCombo_Init(object sender, EventArgs e)
-        {
-            //CurrencyCombo_Data();
-            //CurrencyCombo.Value = currencyCode;
-            //CurrencyCombo.Text = currencyCode;
-            //CurrencyLbl.Text = currencyName;
-        }
-
-        protected void SiteCombo_Init(object sender, EventArgs e)
-        {
-            //SiteCombo_Data();
-            //SiteCombo.Value = siteCode;
-            //SiteCombo.Text = siteCode;
-            //SiteLbl.Text = siteName;
-        }
-
-        protected void WarehouseCombo_Init(object sender, EventArgs e)
-        {
-            //WarehouseCombo_Data();
-            //WarehouseCombo.Value = warehouseCode;
-            //WarehouseCombo.Text = warehouseCode;
-            //WarehouseLbl.Text = warehouseName;
-        }
-
-        protected void LocationCombo_Init(object sender, EventArgs e)
-        {
-            //LocationCombo_Data();
-            //LocationCombo.Value = locationCode;
-            //LocationCombo.Text = locationCode;
+            if (grid.VisibleRowCount == 0)
+                Submit.ClientEnabled = false;
+            else
+                Submit.ClientEnabled = true;
         }
     }
 }

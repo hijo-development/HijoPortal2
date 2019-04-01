@@ -44,6 +44,24 @@
         .all_label {
             /*padding-left: 5%;*/
         }
+
+        .innertable {
+            width: 100%;
+        }
+
+            .innertable tr > td:first-child {
+                width: 50%;
+                vertical-align: top;
+            }
+
+            .innertable tr > td:nth-child(2) {
+                width: 50%;
+            }
+
+        .grid_style {
+            overflow-x: auto;
+            width: inherit;
+        }
     </style>
     <script type="text/javascript" src="jquery/POCreate.js"></script>
 </asp:Content>
@@ -163,7 +181,7 @@
                         <dx:ASPxLabel runat="server" Text="MOP Reference" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                     <td class="table_po_semi">:</td>
-                    <td style="width: 10%;">
+                    <td style="width: 10%; vertical-align: top;">
                         <dx:ASPxTextBox ID="MOPReference" runat="server" CssClass="innertable_width_hundred" Width="170px" ReadOnly="true" Border-BorderColor="Transparent" BackColor="Transparent" Theme="Office2010Blue">
                         </dx:ASPxTextBox>
                         <%--<dx:ASPxListBox ID="MOPRef" runat="server" CssClass="innertable_width_hundred" ValueType="System.String" Theme="Office2010Blue"></dx:ASPxListBox>--%>
@@ -204,13 +222,13 @@
                     </td>
                     <td class="table_po_semi">:</td>
                     <td class="table_po_td_data">
-                        <table class="innertable_width_hundred">
+                        <table class="innertable">
                             <tr>
-                                <td class="innertable_width_thirty" style="padding-right: 9%;">
+                                <td>
                                     <dx:ASPxCallbackPanel ID="LocationCallback" runat="server" ClientInstanceName="LocationCallbackPO" OnCallback="LocationCallback_Callback" Width="100%">
                                         <PanelCollection>
                                             <dx:PanelContent>
-                                                <dx:ASPxComboBox ID="Location" runat="server" ClientEnabled="false" CssClass="innertable_width_hundred" ValueType="System.String" Theme="Office2010Blue">
+                                                <dx:ASPxComboBox ID="Location" runat="server" ClientEnabled="false" Width="100%" ValueType="System.String" Theme="Office2010Blue">
                                                     <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="LocationPO_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
@@ -218,7 +236,7 @@
                                         </PanelCollection>
                                     </dx:ASPxCallbackPanel>
                                 </td>
-                                <td class="innertable_width_seventy all_label">
+                                <td>
                                     <dx:ASPxLabel ID="LocationLbl" runat="server" ClientInstanceName="LocationLblClient" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
                                 </td>
                             </tr>
@@ -233,10 +251,11 @@
             </table>
         </div>
 
-        <div>
+        <div class="grid_style">
             <dx:ASPxGridView ID="POCreateGrid" runat="server" Width="100%" Theme="Office2010Blue"
                 OnStartRowEditing="POCreateGrid_StartRowEditing"
-                OnRowUpdating="POCreateGrid_RowUpdating">
+                OnRowUpdating="POCreateGrid_RowUpdating"
+                OnBeforeGetCallbackResult="POCreateGrid_BeforeGetCallbackResult">
                 <ClientSideEvents CustomButtonClick="POCreateGrid_CustomButtonClick" />
                 <Columns>
                     <%--<dx:GridViewCommandColumn ButtonRenderMode="Image">

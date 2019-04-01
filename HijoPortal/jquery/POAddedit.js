@@ -78,6 +78,12 @@ function POAddEditGrid_CustomButtonClick(s, e) {
     }
 }
 
+function POAddEditGrid_EndCallback(s, e) {
+    //var rowsCount = POAddEditGrid.GetVisibleRowsOnPage();
+    //console.log(rowsCount);
+
+}
+
 function DeleteItem(s, e) {
     DeletePopupClient.Hide();
     

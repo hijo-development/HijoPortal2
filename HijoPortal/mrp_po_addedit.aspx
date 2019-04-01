@@ -5,6 +5,7 @@
     <script type="text/javascript" src="jquery/POAddedit.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <dx:ASPxLoadingPanel ID="LoadingPanel" runat="server" ClientInstanceName="LoadingPanel" Modal="true" Theme="Office2010Blue"></dx:ASPxLoadingPanel>
     <dx:ASPxPopupControl ID="DeletePopup" runat="server" ClientInstanceName="DeletePopupClient" Modal="true" CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -29,10 +30,10 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="POAddEdit_MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue" ContentStyle-Paddings-Padding="20">
+    <dx:ASPxPopupControl ID="PONotify" ClientInstanceName="POAddEdit_MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue" ContentStyle-Paddings-Padding="20">
         <ContentCollection>
             <dx:PopupControlContentControl>
-                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="POAddEdit_MRPNotificationMessage" runat="server" Text="" ForeColor="Red" Theme="Office2010Blue"></dx:ASPxLabel>
+                <dx:ASPxLabel ID="PONotifyLbl" ClientInstanceName="POAddEdit_MRPNotificationMessage" runat="server" Text="" ForeColor="Red" Theme="Office2010Blue"></dx:ASPxLabel>
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
@@ -49,7 +50,10 @@
                     <tr>
                         <td style="text-align: right;">
                             <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" OnClick="Submit_Click" Theme="Office2010Blue" AutoPostBack="false">
-                                <%--<ClientSideEvents Click="OK_DELETE" />--%>
+                                <ClientSideEvents Click="function(s,e){
+                                    POAddEditPopupSubmit.Hide();
+                                    e.processOnServer = true;
+                                    }" />
                             </dx:ASPxButton>
                             <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
                                 <ClientSideEvents Click="function(s,e){POAddEditPopupSubmit.Hide();}" />
@@ -95,7 +99,7 @@
                         <table class="innertable" border="0">
                             <tr>
                                 <td>
-                                    <dx:ASPxComboBox ID="VendorCombo" runat="server" OnInit="VendorCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                    <dx:ASPxComboBox ID="VendorCombo" runat="server" Width="100%" ValueType="System.String" Theme="Office2010Blue">
                                         <ClientSideEvents SelectedIndexChanged="VendorCombo_SelectedIndexChanged" />
                                         <ValidationSettings ErrorImage-Width="10px" ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                     </dx:ASPxComboBox>
@@ -115,7 +119,7 @@
                         <table class="innertable" border="0">
                             <tr>
                                 <td>
-                                    <dx:ASPxComboBox ID="SiteCombo" runat="server" OnInit="SiteCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                    <dx:ASPxComboBox ID="SiteCombo" runat="server" Width="100%" ValueType="System.String" Theme="Office2010Blue">
                                         <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                         <ClientSideEvents SelectedIndexChanged="SiteCombo_SelectedIndexChanged" />
                                     </dx:ASPxComboBox>
@@ -134,7 +138,7 @@
                     <td class="table_po_td_data" style="width: 10%;">
                         <dx:ASPxDateEdit ID="ExpDel" runat="server" AllowUserInput="false" CssClass="innertable_width" Theme="Office2010Blue">
                             <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
-                            <ClientSideEvents GotFocus="function(s,e){ s.ShowDropDown(); }" />
+                            <%--<ClientSideEvents GotFocus="function(s,e){s.ShowDropDown(); }" />--%>
                         </dx:ASPxDateEdit>
                     </td>
                 </tr>
@@ -150,7 +154,7 @@
                                     <dx:ASPxCallbackPanel ID="TermsCallback" runat="server" ClientInstanceName="TermsCallbackClient" OnCallback="TermsCallback_Callback" CssClass="innertable_width">
                                         <PanelCollection>
                                             <dx:PanelContent>
-                                                <dx:ASPxComboBox ID="TermsCombo" runat="server" OnInit="TermsCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                                <dx:ASPxComboBox ID="TermsCombo" runat="server" Width="100%" ValueType="System.String" Theme="Office2010Blue">
                                                     <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="TermsCombo_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
@@ -176,7 +180,7 @@
                                     <dx:ASPxCallbackPanel ID="WarehouseCallback" runat="server" ClientInstanceName="WarehouseCallbackClient" OnCallback="WarehouseCallback_Callback">
                                         <PanelCollection>
                                             <dx:PanelContent>
-                                                <dx:ASPxComboBox ID="WarehouseCombo" runat="server" OnInit="WarehouseCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                                <dx:ASPxComboBox ID="WarehouseCombo" runat="server" Width="100%" ValueType="System.String" Theme="Office2010Blue">
                                                     <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="WarehouseCombo_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
@@ -196,7 +200,7 @@
                         <dx:ASPxLabel runat="server" Text="MOP Reference" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                     <td class="table_po_semi">:</td>
-                    <td style="width: 10%;">
+                    <td style="width: 10%; vertical-align: top;">
                         <dx:ASPxTextBox ID="MOPReference" runat="server" Width="170px" ReadOnly="true" BackColor="Transparent" Border-BorderColor="Transparent" Theme="Office2010Blue"></dx:ASPxTextBox>
                         <%--<dx:ASPxListBox ID="MOPRef" runat="server" ValueType="System.String" Theme="Office2010Blue"></dx:ASPxListBox>--%>
                     </td>
@@ -214,7 +218,7 @@
                                         <ClientSideEvents EndCallback="CurrencyCallback_EndCallback" />
                                         <PanelCollection>
                                             <dx:PanelContent>
-                                                <dx:ASPxComboBox ID="CurrencyCombo" runat="server" ClientInstanceName="CurrencyComboClient" OnInit="CurrencyCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                                <dx:ASPxComboBox ID="CurrencyCombo" runat="server" ClientInstanceName="CurrencyComboClient" Width="100%" ValueType="System.String" Theme="Office2010Blue">
                                                     <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="CurrencyCombo_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
@@ -241,7 +245,7 @@
                                     <dx:ASPxCallbackPanel ID="LocationCallback" runat="server" ClientInstanceName="LocationCallbackClient" OnCallback="LocationCallback_Callback">
                                         <PanelCollection>
                                             <dx:PanelContent>
-                                                <dx:ASPxComboBox ID="LocationCombo" runat="server" OnInit="LocationCombo_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                                <dx:ASPxComboBox ID="LocationCombo" runat="server" Width="100%" ValueType="System.String" Theme="Office2010Blue">
                                                     <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                 </dx:ASPxComboBox>
                                             </dx:PanelContent>
@@ -256,13 +260,15 @@
                 </tr>
             </table>
         </div>
-        <div>
+        <div class="grid_style">
             <dx:ASPxGridView ID="POAddEditGrid" runat="server" ClientInstanceName="POAddEditGridClient" Width="100%" Theme="Office2010Blue"
                 OnStartRowEditing="POAddEditGrid_StartRowEditing"
                 OnRowUpdating="POAddEditGrid_RowUpdating"
                 OnRowDeleting="POAddEditGrid_RowDeleting"
-                OnBeforeGetCallbackResult="POAddEditGrid_BeforeGetCallbackResult">
+                OnBeforeGetCallbackResult="POAddEditGrid_BeforeGetCallbackResult"
+                OnDataBound="POAddEditGrid_DataBound">
                 <ClientSideEvents CustomButtonClick="POAddEditGrid_CustomButtonClick" />
+                <ClientSideEvents EndCallback="POAddEditGrid_EndCallback" />
                 <Columns>
                     <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="40">
                         <CellStyle HorizontalAlign="Center" VerticalAlign="Middle"></CellStyle>
