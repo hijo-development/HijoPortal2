@@ -15,7 +15,6 @@ namespace HijoPortal
     {
         private static string doc_static = "", year_static = "", prod_static = "";
         private static int month_static = -1;
-        private bool executebindpageload = false;
         private void CheckCreatorKey()
         {
             if (Session["CreatorKey"] == null)
@@ -39,7 +38,7 @@ namespace HijoPortal
             }
 
 
-            //BindTable(doc_static, month_static, year_static, prod_static);
+            BindTable(doc_static, month_static, year_static, prod_static);
         }
 
         private void BindTable(string docnumber, int month, string year, string prod)
@@ -134,7 +133,7 @@ namespace HijoPortal
 
         protected void Create_Click(object sender, EventArgs e)
         {
-            List<object> fieldValues = MainGrid_PO.GetSelectedFieldValues(new string[] { "PK", "TableIdentifier", "DocumentNumber", "ItemCode", "ItemDescription", "Qty", "Cost", "TotalCost" }) as List<object>;
+            List<object> fieldValues = MainGrid_PO.GetSelectedFieldValues(new string[] { "PK", "TableIdentifier", "DocumentNumber", "ItemCode", "ItemDescription", "Qty", "Cost", "TotalCost", "UOM" }) as List<object>;
 
             MRPClass.PrintString("--->>>" + fieldValues.Count.ToString());
             if (fieldValues.Count == 0)
@@ -160,18 +159,16 @@ namespace HijoPortal
                     string qty = obj[5].ToString();
                     string cost = obj[6].ToString();
                     string totalcost = obj[7].ToString();
+                    string uom = obj[8].ToString();
 
-                    //MRPClass.PrintString(identifier);
-                    //MRPClass.PrintString(docnum);
-                    //MRPClass.PrintString(itemdesc);
-
-                    string insert = "INSERT INTO [dbo].[tbl_POCreation_Tmp] ([UserKey], [MOPNumber], [ItemPK], [ItemIdentifier]) VALUES (@userkey, @mopnumber, @itempk, @itemidentifier)";
+                    string insert = "INSERT INTO [dbo].[tbl_POCreation_Tmp] ([UserKey], [MOPNumber], [ItemPK], [ItemIdentifier], [POUOM]) VALUES (@userkey, @mopnumber, @itempk, @itemidentifier, @uom)";
 
                     cmd = new SqlCommand(insert, conn);
                     cmd.Parameters.AddWithValue("@userkey", userkey);
                     cmd.Parameters.AddWithValue("@mopnumber", docnum);
                     cmd.Parameters.AddWithValue("@itempk", pk);
                     cmd.Parameters.AddWithValue("@itemidentifier", identifier);
+                    cmd.Parameters.AddWithValue("@uom", uom);
                     cmd.ExecuteNonQuery();
                 }
                 Response.Redirect("mrp_po_create.aspx");
@@ -223,8 +220,6 @@ namespace HijoPortal
                 prod_static = ProdCategory_Combo.Value.ToString();
             else
                 prod_static = "";
-
-            executebindpageload = true;
 
             //if (!string.IsNullOrEmpty(doc_static) && !string.IsNullOrEmpty(year_static))
             BindTable(doc_static, month_static, year_static, prod_static);

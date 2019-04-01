@@ -13,6 +13,15 @@ namespace HijoPortal {
     public partial class mrp_po_addedit {
         
         /// <summary>
+        /// LoadingPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLoadingPanel LoadingPanel;
+        
+        /// <summary>
         /// DeletePopup control.
         /// </summary>
         /// <remarks>
@@ -49,22 +58,22 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxButton CancelPopUp;
         
         /// <summary>
-        /// MRPNotify control.
+        /// PONotify control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
+        protected global::DevExpress.Web.ASPxPopupControl PONotify;
         
         /// <summary>
-        /// MRPNotificationMessage control.
+        /// PONotifyLbl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
+        protected global::DevExpress.Web.ASPxLabel PONotifyLbl;
         
         /// <summary>
         /// PopupSubmit control.

@@ -502,5 +502,11 @@ namespace HijoPortal
                 combo.Value = DataBinder.Eval(container.DataItem, "POUOM").ToString();
             }
         }
+
+        protected void POCreateGrid_BeforeGetCallbackResult(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            DesignBehavior.SetBehaviorGrid(grid);
+        }
     }
 }

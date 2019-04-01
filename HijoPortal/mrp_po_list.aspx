@@ -1,8 +1,45 @@
 ﻿<%@ Page Title="List of Created Purchase Order" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_po_list.aspx.cs" Inherits="HijoPortal.mrp_po_list" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-     <script type="text/javascript" src="jquery/POList.js"></script>
+    <script type="text/javascript" src="jquery/POList.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <dx:ASPxPopupControl ID="POListPopup" runat="server" ClientInstanceName="POListPopupClient" CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" Theme="Office2010Blue" Modal="true">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <table>
+                    <tr>
+                        <td>
+                            <dx:ASPxLabel ID="DeleteLbl" runat="server" ClientInstanceNam="DeleteLbl" Text="Are you sure you want to delete?" Theme="Office2010Blue"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <dx:ASPxButton ID="OK" runat="server" OnClick="OK_Click" Text="OK" Theme="Office2010Blue">
+                                <ClientSideEvents Click="OK_Click" />
+                            </dx:ASPxButton>
+                            <dx:ASPxButton ID="Cancel" runat="server" Text="Cancel" Theme="Office2010Blue">
+                                <ClientSideEvents Click="function(s,e){POListPopupClient.Hide();}" />
+                            </dx:ASPxButton>
+                        </td>
+                    </tr>
+                </table>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+    <dx:ASPxPopupControl ID="PopupNotAllowed" runat="server" ClientInstanceName="PopupNotAllowed" CloseAction="CloseButton" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <table>
+                    <tr>
+                        <td>
+                            <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Not Allowed to Delete"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                </table>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 30px;">
             <h1>List of Created Purchase Order</h1>
@@ -10,10 +47,10 @@
         <div>
             <dx:ASPxGridView ID="gridCreatedPO" runat="server" ClientInstanceName="gridCreatedPO"
                 EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
-                Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue" 
-                 OnCustomButtonCallback="gridCreatedPO_CustomButtonCallback">
+                Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
+                OnCustomButtonCallback="gridCreatedPO_CustomButtonCallback">
                 <ClientSideEvents CustomButtonClick="gridCreatedPO_CustomButtonClick" />
-                
+
                 <Columns>
                     <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
                         <HeaderTemplate>
@@ -34,13 +71,14 @@
                     <dx:GridViewDataColumn FieldName="VendorName" Caption="Vendor Name" VisibleIndex="4"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="DateCreated" Caption="Date Created" VisibleIndex="5"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="CreatorKey" VisibleIndex="6" Visible="false"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="Creator" Caption ="Creator" VisibleIndex="7"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="ExpectedDate" Caption ="Expected Date" VisibleIndex="8"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="TotalAmount" Caption ="Total Amount" VisibleIndex="9">
+                    <dx:GridViewDataColumn FieldName="Creator" Caption="Creator" VisibleIndex="7"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="ExpectedDate" Caption="Expected Date" VisibleIndex="8"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="TotalAmount" Caption="Total Amount" VisibleIndex="9">
                         <HeaderStyle HorizontalAlign="Right" />
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                     </dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="Status" Caption ="Status" VisibleIndex="10"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="Status" Caption="Status" VisibleIndex="10"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="POStatus" Visible="false"></dx:GridViewDataColumn>
                 </Columns>
                 <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
                 <SettingsPopup>
@@ -51,9 +89,9 @@
 
                 <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="false">
                 </SettingsPager>
-                
+
                 <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
-                    AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />
+                    AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                 <SettingsText ConfirmDelete="Delete This Item?" />
                 <Styles>
                     <SelectedRow Font-Bold="False" Font-Italic="False">

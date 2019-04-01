@@ -33,3 +33,8 @@
 .innertable_width {
     width: 100%;
 }
+
+.grid_style {
+    overflow-x: auto;
+    width: inherit;
+}

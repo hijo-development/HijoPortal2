@@ -50,6 +50,7 @@ function POCreateGrid_CustomButtonClick(s, e) {
     switch (btnID) {
         case 'Edit':
             s.StartEditRow(e.visibleIndex);
+            SavePO.SetEnabled(false);
             break;
         case 'Update':
             var tax_group = TaxGroupClient.GetValue() == null;
@@ -64,9 +65,12 @@ function POCreateGrid_CustomButtonClick(s, e) {
 
             if (!tax_group && !tax_item_group && !total)
                 s.UpdateEdit();
+
+            SavePO.SetEnabled(true);
             break;
         case 'Cancel':
             s.CancelEdit();
+            SavePO.SetEnabled(true);
             break;
     }
 }
