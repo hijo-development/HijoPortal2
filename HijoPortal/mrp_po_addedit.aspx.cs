@@ -481,9 +481,10 @@ namespace HijoPortal
             DataTable dt1 = new DataTable();
             SqlCommand cmd1 = null;
             SqlDataAdapter adp1;
-            string qry = "";
-
-            string sServerDir = HttpContext.Current.Server.MapPath("~");
+            string qry = "", sFiLeName="",sFileNameD = "";
+            string sFile = "", sFileD = "", sFileDest = "", sFileDDest ="";
+            //string sServerDir = HttpContext.Current.Server.MapPath("~");
+            string sServerDir = @"C:";
             string sDir = sServerDir + @"\po_file";
             if (!Directory.Exists(sDir))
             {
@@ -525,17 +526,26 @@ namespace HijoPortal
                         sDefaultDimension = "";
                     }
 
-                    string sFile = sDir + @"\" + row["EntityCode"].ToString() + "_" + row["PONumber"].ToString() + "_H.txt";
-                    if (!File.Exists(sFile))
+                    sFiLeName = row["EntityCode"].ToString() + "_" + row["PONumber"].ToString() + "_H.txt";
+                    sFile = sDir + @"\" + sFiLeName;
+
+                    if (File.Exists(sFile))
                     {
-                        File.Create(sFile);
+                        File.Delete(sFile);
                     }
+                    FileStream fs = File.Create(sFile);
+                    fs.Dispose();
 
                     if (File.Exists(sFile))
                     {
                         using (StreamWriter w = File.AppendText(sFile))
                         {
                             w.WriteLine("PurchId|AccountingDate|DeliveryDate|CurrencyCode|OrderAccount|InvoiceAccount|DeliveryName|PurchName|Payment|InclTax|PaymMode|PORemarks|DocumentState|DocumentStatus|InventSiteId|Remarks|VendGroup|TaxGroup|LanguageId|PostingProfile|PurchaseType|PurchPoolId|PurchStatus|DefaultDimension");
+                            w.Close();
+
+                        }
+                        using (StreamWriter w = File.AppendText(sFile))
+                        {
                             w.WriteLine(row["PONumber"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row["CurrencyCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["NAME"].ToString() + "|" + row["NAME"].ToString() + "|" + row["PaymentTerms"].ToString() + "|" + sIncTax + "|" + row["PAYMMODE"].ToString() + "|" + sPORemarks.ToString() + "|Draft|None|" + row["InventSite"].ToString() + "|" + sPORemarks.ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["TAXGROUP"].ToString() + "|en-us|Gen|Purchase order||Open order|" + sDefaultDimension.ToString());
                             w.Close();
                         }
@@ -550,11 +560,15 @@ namespace HijoPortal
                     adp1.Fill(dt1);
                     if (dt1.Rows.Count > 0)
                     {
-                        string sFileD = sDir + @"\" + row["EntityCode"].ToString() + "_" + row["PONumber"].ToString() + "_L.txt";
-                        if (!File.Exists(sFileD))
+                        sFileNameD = row["EntityCode"].ToString() + "_" + row["PONumber"].ToString() + "_L.txt";
+                        sFileD = sDir + @"\" + sFileNameD;
+
+                        if (File.Exists(sFileD))
                         {
-                            File.Create(sFileD);
+                            File.Delete(sFileD);
                         }
+                        FileStream fsd = File.Create(sFileD);
+                        fsd.Dispose();
 
                         if (File.Exists(sFileD))
                         {
@@ -590,13 +604,76 @@ namespace HijoPortal
 
                                 using (StreamWriter w = File.AppendText(sFileD))
                                 {
-                                    w.WriteLine(row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|0|0|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|0|0|" + row1["ItemCode"].ToString() + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["OUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|1|Three-way matching|0|Purchase order|Open order|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|100||" + sDefaultDimensionLine.ToString());
+                                    w.WriteLine(row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|0|0|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|0|0|" + row1["ItemCode"].ToString() + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|1|Three-way matching|0|Purchase order|Open order|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|100||" + sDefaultDimensionLine.ToString());
                                     w.Close();
                                 }
                             }
                         }
                     }
                     dt1.Clear();
+
+                    string sDomain = "", sUsername = "", sPassword = "";
+
+
+                    qry = "SELECT tbl_AXPOUploadingPath.* FROM tbl_AXPOUploadingPath WHERE ([Entity] = '" + row["EntityCode"].ToString() + "')";
+                    cmd1 = new SqlCommand(qry);
+                    cmd1.Connection = conn;
+                    adp1 = new SqlDataAdapter(cmd1);
+                    adp1.Fill(dt1);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        foreach (DataRow row1 in dt1.Rows)
+                        {
+                            sFileDest = row1["POHeaderPath"].ToString() + sFiLeName;
+                            sFileDDest = row1["POLinePath"].ToString() + sFileNameD;
+                            sDomain = row1["Domain"].ToString();
+                            sUsername = row1["UserName"].ToString();
+                            if (row1["Password"].ToString().Trim() != "")
+                            {
+                                sPassword = EncryptionClass.Decrypt(row1["Password"].ToString());
+                            }
+                            else
+                            {
+                                sPassword = row1["Password"].ToString();
+                            }
+                            //sFileDest = @"\\fileserver\NAStorage\HITS_SSC\ITSS\SoftDev\" + sFiLeName;
+                            //sFileDDest = @"\\fileserver\NAStorage\HITS_SSC\ITSS\SoftDev\" + sFileNameD;
+                        }
+                    }
+                    dt1.Clear();
+
+                    try
+                    {
+                        using (var impersonation = new ImpersonatedUser(sUsername, sDomain, sPassword))
+                        {
+                            if (sFileDest.Trim() != "")
+                            {
+                                if (File.Exists(sFile) == true)
+                                {
+                                    File.Copy(sFile, sFileDest, true);
+                                }
+                            }
+
+                            if (sFileDDest.Trim() != "")
+                            {
+                                if (File.Exists(sFileD) == true)
+                                {
+                                    File.Copy(sFileD, sFileDDest, true);
+                                }
+                            }
+
+
+
+                        }
+                    } catch (Exception ex)
+                    {
+                        PONotifyLbl.ForeColor = System.Drawing.Color.Red;
+                        PONotifyLbl.Text = ex.ToString();
+                        PONotify.HeaderText = "Error";
+                        PONotify.ShowOnPageLoad = true;
+                    }
+
+                                        
                 }
             }
             dt.Clear();

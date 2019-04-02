@@ -54,9 +54,12 @@ function POAddEditGrid_CustomButtonClick(s, e) {
             DeletePopupClient.Show();
             break;
         case 'Update':
+            var po_uom = POUOMClient.GetValue() == null;
             var tax_group = TaxGroupClient.GetValue() == null;
             var tax_item_group = TaxItemGroupClient.GetValue() == null;
             var total = TotalPOCostClient.GetValue() == null;
+            if (po_uom)
+                POUOMClient.SetIsValid(false);
             if (tax_group)
                 TaxGroupClient.SetIsValid(false);
             if (tax_item_group)
@@ -64,7 +67,7 @@ function POAddEditGrid_CustomButtonClick(s, e) {
             if (total)
                 TotalPOCostClient.SetIsValid(false);
 
-            if (!tax_group && !tax_item_group && !total)
+            if (!po_uom && !tax_group && !tax_item_group && !total)
                 s.UpdateEdit();
 
             SaveClient.SetEnabled(true);
