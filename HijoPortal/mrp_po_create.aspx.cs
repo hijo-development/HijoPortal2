@@ -342,6 +342,7 @@ namespace HijoPortal
                 object RequestedQty = grid.GetRowValues(i, "RequestedQty");
                 object Cost = grid.GetRowValues(i, "Cost");
                 object TotalCost = grid.GetRowValues(i, "TotalCost");
+                object POUOM = grid.GetRowValues(i, "POUOM");
                 object POQty = grid.GetRowValues(i, "POQty");
                 object POCost = grid.GetRowValues(i, "POCost");
                 object TotalPOCost = grid.GetRowValues(i, "TotalPOCost");
@@ -352,7 +353,7 @@ namespace HijoPortal
                 //MRPClass.PrintString(ItemPK.ToString());
                 //MRPClass.PrintString(TableIdentifier.ToString());
 
-                string insert_po_details = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[MOPNumber], [ItemPK], [Identifier], [ItemCode], [TaxGroup], [TaxItemGroup], [Qty], [Cost], [TotalCost]) VALUES (@PONumber,@MOPNumber, @ItemPK, @Identifier, @ItemCode, @TaxGroup, @TaxItemGroup, @Qty, @Cost, @TotalCost)";
+                string insert_po_details = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[MOPNumber], [ItemPK], [Identifier], [ItemCode], [TaxGroup], [TaxItemGroup], [Qty], [Cost], [TotalCost], [POUOM]) VALUES (@PONumber,@MOPNumber, @ItemPK, @Identifier, @ItemCode, @TaxGroup, @TaxItemGroup, @Qty, @Cost, @TotalCost, @POUOM)";
 
                 cmd = new SqlCommand(insert_po_details, conn);
                 cmd.Parameters.AddWithValue("@PONumber", PONumber);
@@ -362,6 +363,7 @@ namespace HijoPortal
                 cmd.Parameters.AddWithValue("@ItemCode", ItemCode);
                 cmd.Parameters.AddWithValue("@TaxGroup", TaxGroup);
                 cmd.Parameters.AddWithValue("@TaxItemGroup", TaxItemGroup);
+                cmd.Parameters.AddWithValue("@POUOM", POUOM);
                 cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(POQty));
                 cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(POCost));
                 cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(TotalPOCost));
