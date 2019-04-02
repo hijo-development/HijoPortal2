@@ -32,6 +32,7 @@ namespace HijoPortal
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            LoadingPanel.ShowImage = true;
             CheckCreatorKey();
             if (!Page.IsPostBack)
             {
@@ -84,6 +85,10 @@ namespace HijoPortal
 
                 MOPReference.Value = reader["MRPNumber"].ToString();
 
+                if (Convert.ToInt32(reader["POStatus"]) == 0)
+                    StatusLbl.Text = "Created";
+                else
+                    StatusLbl.Text = "Submitted";
 
             }
             reader.Close();
@@ -371,6 +376,11 @@ namespace HijoPortal
             LocationCombo_Data();
         }
 
+        protected void POAddEditGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+        {
+            BindGrid();
+        }
+
         protected void TaxGroup_Init(object sender, EventArgs e)
         {
             ASPxComboBox combo = (ASPxComboBox)sender;
@@ -466,6 +476,13 @@ namespace HijoPortal
             {
                 if (grid.VisibleRowCount > 0)
                     Submit_Method();
+                else
+                {
+                    Submit.ClientEnabled = false;
+                    PONotify.HeaderText = "Alert";
+                    PONotifyLbl.Text = "No data to submit";
+                    PONotify.ShowOnPageLoad = true;
+                }
             }
 
             ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
@@ -769,7 +786,7 @@ namespace HijoPortal
             e.Cancel = true;
             BindGrid();
 
-            
+
         }
 
         protected void POAddEditGrid_BeforeGetCallbackResult(object sender, EventArgs e)
@@ -812,10 +829,13 @@ namespace HijoPortal
             else
                 POAddEditGrid.Columns[0].Visible = true;
 
-            if (grid.VisibleRowCount == 0)
-                Submit.ClientEnabled = false;
-            else
-                Submit.ClientEnabled = true;
+            if (status == 0)//if not submitted
+            {
+                if (grid.VisibleRowCount == 0)
+                    Submit.ClientEnabled = false;
+                else
+                    Submit.ClientEnabled = true;
+            }
         }
     }
 }

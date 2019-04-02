@@ -79,9 +79,12 @@ function POAddEditGrid_CustomButtonClick(s, e) {
 }
 
 function POAddEditGrid_EndCallback(s, e) {
-    //var rowsCount = POAddEditGrid.GetVisibleRowsOnPage();
-    //console.log(rowsCount);
-
+    var rowCount = POAddEditGridClient.GetVisibleRowsOnPage();
+    if (rowCount == 0) {
+        SubmitClient.SetEnabled(false);
+    } else {
+        SubmitClient.SetEnabled(true);
+    }
 }
 
 function DeleteItem(s, e) {

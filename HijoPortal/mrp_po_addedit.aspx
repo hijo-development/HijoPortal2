@@ -89,6 +89,23 @@
                             </tr>
                         </table>
                     </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <dx:ASPxLabel runat="server" Text="Status" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <table class="innertable" border="0">
+                            <tr>
+                                <td>
+                                    <dx:ASPxLabel ID="StatusLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </td>
                 </tr>
                 <tr>
                     <td class="table_po_td_label">
@@ -265,7 +282,8 @@
                 OnStartRowEditing="POAddEditGrid_StartRowEditing"
                 OnRowUpdating="POAddEditGrid_RowUpdating"
                 OnRowDeleting="POAddEditGrid_RowDeleting"
-                OnBeforeGetCallbackResult="POAddEditGrid_BeforeGetCallbackResult"
+                OnBeforeGetCallbackResult="POAddEditGrid_BeforeGetCallbackResult" 
+                OnCancelRowEditing="POAddEditGrid_CancelRowEditing"
                 OnDataBound="POAddEditGrid_DataBound">
                 <ClientSideEvents CustomButtonClick="POAddEditGrid_CustomButtonClick" />
                 <ClientSideEvents EndCallback="POAddEditGrid_EndCallback" />
@@ -397,7 +415,7 @@
             </dx:ASPxGridView>
         </div>
         <div>
-            <table class="innertable">
+            <table class="innertable" style="margin-top:10px;">
                 <tr>
                     <td style="text-align: right;">
                         <dx:ASPxButton ID="Save" runat="server" ClientInstanceName="SaveClient" OnClick="Save_Click" AutoPostBack="false" Text="SAVE" Theme="Office2010Blue"></dx:ASPxButton>
