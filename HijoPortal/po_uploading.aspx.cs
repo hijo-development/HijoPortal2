@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DevExpress.Web;
+using HijoPortal.classes;
 
 namespace HijoPortal
 {
@@ -15,6 +16,15 @@ namespace HijoPortal
         protected void Page_Load(object sender, EventArgs e)
         {
             ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+            BindGrid();
+        }
+
+        private void BindGrid()
+        {
+            POGrid.DataSource = POClass.PO_Uploading_Table();
+            POGrid.KeyFieldName = "PK";
+            POGrid.DataBind();
         }
     }
 }
