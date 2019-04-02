@@ -1,0 +1,14 @@
+﻿.grid {
+    width: inherit;
+    overflow-x: auto;
+}
+
+.edit_table {
+    width: 100%;
+}
+
+    .edit_table tr td {
+        /*padding-bottom: 5px;
+        padding-left: 5px;
+        vertical-align:top;*/
+    }

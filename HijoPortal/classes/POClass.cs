@@ -955,5 +955,57 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+        public static DataTable PO_Uploading_Table()
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("EntityCode", typeof(string));
+                dtTable.Columns.Add("Entity", typeof(string));
+                dtTable.Columns.Add("HeaderPath", typeof(string));
+                dtTable.Columns.Add("LinePath", typeof(string));
+                dtTable.Columns.Add("Domain", typeof(string));
+                dtTable.Columns.Add("User", typeof(string));
+                dtTable.Columns.Add("PW", typeof(string));
+            }
+
+            string qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_AXPOUploadingPath]";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["EntityCode"] = row["Entity"].ToString();
+                    dtRow["Entity"] = row["Entity Name"].ToString();
+                    dtRow["HeaderPath"] = row["POHeaderPath"].ToString();
+                    dtRow["LinePath"] = row["POLinePath"].ToString();
+                    dtRow["Domain"] = row["Domain"].ToString();
+                    dtRow["User"] = row["UserName"].ToString();
+                    dtRow["PW"] = row["Password"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
     }
 }

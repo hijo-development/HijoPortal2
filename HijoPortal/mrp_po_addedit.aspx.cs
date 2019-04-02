@@ -660,8 +660,6 @@ namespace HijoPortal
                     }
                     dt1.Clear();
 
-                    
-
                     try
                     {
                         using (var impersonation = new ImpersonatedUser(sUsername, sDomain, sPassword))
