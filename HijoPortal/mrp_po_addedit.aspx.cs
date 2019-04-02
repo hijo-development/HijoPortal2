@@ -631,6 +631,8 @@ namespace HijoPortal
 
                     string sDomain = "", sUsername = "", sPassword = "";
 
+                    sDomain = "hijo"; sUsername = "hijoportal_client"; sPassword = "hPortal@2019";
+
                     qry = "SELECT tbl_AXPOUploadingPath.* FROM tbl_AXPOUploadingPath WHERE ([Entity] = '" + row["EntityCode"].ToString() + "')";
                     cmd1 = new SqlCommand(qry);
                     cmd1.Connection = conn;
@@ -664,24 +666,46 @@ namespace HijoPortal
                     {
                         using (var impersonation = new ImpersonatedUser(sUsername, sDomain, sPassword))
                         {
-                            if (sFileDest.Trim() != "")
+                            try
                             {
-                                if (File.Exists(sFile) == true)
+                                if (sFileDest.Trim() != "")
                                 {
-                                    File.Copy(sFile, sFileDest, true);
+                                    if (File.Exists(sFile) == true)
+                                    {
+                                        File.Copy(sFile, sFileDest, true);
+                                    }
                                 }
-                            }
 
-                            if (sFileDDest.Trim() != "")
+                                if (sFileDDest.Trim() != "")
+                                {
+                                    if (File.Exists(sFileD) == true)
+                                    {
+                                        File.Copy(sFileD, sFileDDest, true);
+                                    }
+                                }
+                                
+                                try
+                                {
+                                    qry = "UPDATE tbl_POCreation SET [POStatus] = 1 WHERE ([PONumber] = @PONumber)";
+                                    cmd = new SqlCommand(qry, conn);
+                                    cmd.Parameters.AddWithValue("@PONumber", ponumber);
+                                    cmd.CommandType = CommandType.Text;
+                                    cmd.ExecuteNonQuery();
+                                } catch (SqlException exSQL)
+                                {
+                                    PONotifyLbl.ForeColor = System.Drawing.Color.Red;
+                                    PONotifyLbl.Text = exSQL.ToString();
+                                    PONotify.HeaderText = "Error";
+                                    PONotify.ShowOnPageLoad = true;
+                                }
+                            } catch (Exception ex)
                             {
-                                if (File.Exists(sFileD) == true)
-                                {
-                                    File.Copy(sFileD, sFileDDest, true);
-                                }
+                                PONotifyLbl.ForeColor = System.Drawing.Color.Red;
+                                PONotifyLbl.Text = ex.ToString();
+                                PONotify.HeaderText = "Error";
+                                PONotify.ShowOnPageLoad = true;
                             }
-
-
-
+                            
                         }
                     } catch (Exception ex)
                     {
@@ -689,9 +713,7 @@ namespace HijoPortal
                         PONotifyLbl.Text = ex.ToString();
                         PONotify.HeaderText = "Error";
                         PONotify.ShowOnPageLoad = true;
-                    }
-
-                                        
+                    }                                        
                 }
             }
             dt.Clear();
