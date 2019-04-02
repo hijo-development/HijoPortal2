@@ -500,8 +500,8 @@ namespace HijoPortal
             SqlDataAdapter adp1;
             string qry = "", sFiLeName="",sFileNameD = "";
             string sFile = "", sFileD = "", sFileDest = "", sFileDDest ="";
-            //string sServerDir = HttpContext.Current.Server.MapPath("~");
-            string sServerDir = @"C:";
+            string sServerDir = HttpContext.Current.Server.MapPath("~");
+            //string sServerDir = @"C:";
             string sDir = sServerDir + @"\po_file";
             if (!Directory.Exists(sDir))
             {
@@ -631,7 +631,6 @@ namespace HijoPortal
 
                     string sDomain = "", sUsername = "", sPassword = "";
 
-
                     qry = "SELECT tbl_AXPOUploadingPath.* FROM tbl_AXPOUploadingPath WHERE ([Entity] = '" + row["EntityCode"].ToString() + "')";
                     cmd1 = new SqlCommand(qry);
                     cmd1.Connection = conn;
@@ -641,8 +640,8 @@ namespace HijoPortal
                     {
                         foreach (DataRow row1 in dt1.Rows)
                         {
-                            sFileDest = row1["POHeaderPath"].ToString() + sFiLeName;
-                            sFileDDest = row1["POLinePath"].ToString() + sFileNameD;
+                            sFileDest = row1["POHeaderPath"].ToString() + @"\" + sFiLeName ;
+                            sFileDDest = row1["POLinePath"].ToString() + @"\" + sFileNameD;
                             sDomain = row1["Domain"].ToString();
                             sUsername = row1["UserName"].ToString();
                             if (row1["Password"].ToString().Trim() != "")
@@ -658,6 +657,8 @@ namespace HijoPortal
                         }
                     }
                     dt1.Clear();
+
+                    
 
                     try
                     {
