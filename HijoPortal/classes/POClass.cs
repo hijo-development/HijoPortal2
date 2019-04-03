@@ -73,7 +73,8 @@ namespace HijoPortal.classes
                     if (Convert.ToInt32(row["POStatus"]) == 0)
                     {
                         dtRow["Status"] = "Created";
-                    } else
+                    }
+                    else
                     {
                         dtRow["Status"] = "Submitted";
                     }
@@ -975,7 +976,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("HeaderPath", typeof(string));
                 dtTable.Columns.Add("LinePath", typeof(string));
                 dtTable.Columns.Add("Domain", typeof(string));
-                dtTable.Columns.Add("User", typeof(string));
+                dtTable.Columns.Add("Name", typeof(string));
                 dtTable.Columns.Add("PW", typeof(string));
             }
 
@@ -996,7 +997,7 @@ namespace HijoPortal.classes
                     dtRow["HeaderPath"] = row["POHeaderPath"].ToString();
                     dtRow["LinePath"] = row["POLinePath"].ToString();
                     dtRow["Domain"] = row["Domain"].ToString();
-                    dtRow["User"] = row["UserName"].ToString();
+                    dtRow["Name"] = row["UserName"].ToString();
                     dtRow["PW"] = row["Password"].ToString();
                     dtTable.Rows.Add(dtRow);
                 }
@@ -1006,6 +1007,94 @@ namespace HijoPortal.classes
 
             return dtTable;
         }
+        public static DataTable PO_Info_Table()
+        {
+            DataTable dtTable = new DataTable();
 
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("Code", typeof(string));
+                dtTable.Columns.Add("Entity", typeof(string));
+                dtTable.Columns.Add("Prefix", typeof(string));
+                dtTable.Columns.Add("BeforeSeries", typeof(string));
+                dtTable.Columns.Add("MaxNumber", typeof(string));
+                dtTable.Columns.Add("LastNumber", typeof(string));
+            }
+
+            string qry = "SELECT TOP (1000) dbo.tbl_PONumber.*, dbo.vw_AXEntityTable.NAME AS EntityName FROM dbo.tbl_PONumber INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_PONumber.EntityCode = dbo.vw_AXEntityTable.ID";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["Code"] = row["EntityCode"].ToString();
+                    dtRow["Entity"] = row["EntityName"].ToString();
+                    dtRow["Prefix"] = row["Prefix"].ToString();
+                    dtRow["BeforeSeries"] = row["BeforeSeries"].ToString();
+                    dtRow["MaxNumber"] = row["MaxNumber"].ToString();
+                    dtRow["LastNumber"] = row["LastNumber"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+        public static DataTable PO_EntityCode_Table()
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("ID", typeof(string));
+                dtTable.Columns.Add("NAME", typeof(string));
+            }
+
+            //string qry = "SELECT [ID] ,[NAME] FROM [hijo_portal].[dbo].[vw_AXEntityTable] WHERE [ID] NOT IN(SELECT [EntityCode] FROM [hijo_portal].[dbo].[tbl_PONumber])";
+            string qry = "SELECT [ID] ,[NAME] FROM [hijo_portal].[dbo].[vw_AXEntityTable]";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["ID"] = row["ID"].ToString();
+                    dtRow["NAME"] = row["NAME"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
     }
 }
