@@ -235,7 +235,7 @@
                                                             <dx:GridViewDataColumn FieldName="Qty">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
-                                                                <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="9" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
@@ -263,8 +263,8 @@
                                                         </SettingsCommandButton>
 
                                                          <TotalSummary>
-                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
                                                             <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty"  DisplayFormat="Total: {0:0,0.00}" />
+                                                             <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
                                                         </TotalSummary>
 
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
@@ -497,7 +497,7 @@
                                                             <dx:GridViewDataColumn FieldName="Qty" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
-                                                                <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="9" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
@@ -755,7 +755,7 @@
                                                             <dx:GridViewDataColumn FieldName="Qty" Caption="Head Count" VisibleIndex="9" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
-                                                                <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="10" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
@@ -979,7 +979,7 @@
                                                             <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="7" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
-                                                                <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
@@ -1189,7 +1189,7 @@
                                                             <dx:GridViewDataColumn FieldName="Volume" VisibleIndex="6" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
-                                                                <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
+                                                                <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Prize" VisibleIndex="7" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />

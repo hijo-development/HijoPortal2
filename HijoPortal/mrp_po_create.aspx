@@ -66,6 +66,15 @@
     <script type="text/javascript" src="jquery/POCreate.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <dx:ASPxPopupControl ID="POCreateNotify" ClientInstanceName="POCreate_MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue" ContentStyle-Paddings-Padding="20">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxLabel ID="POCreateNotifyLbl" ClientInstanceName="POCreate_MRPNotificationMessage" runat="server" Text="" ForeColor="Red" Theme="Office2010Blue"></dx:ASPxLabel>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 30px;">
             <h1>Create Purchase Order</h1>

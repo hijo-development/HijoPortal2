@@ -138,7 +138,7 @@ namespace HijoPortal
         {
             List<object> fieldValues = MainGrid_PO.GetSelectedFieldValues(new string[] { "PK", "TableIdentifier", "DocumentNumber", "ItemCode", "ItemDescription", "Qty", "Cost", "TotalCost", "UOM" }) as List<object>;
 
-            MRPClass.PrintString("--->>>" + fieldValues.Count.ToString());
+            //MRPClass.PrintString("--->>>" + fieldValues.Count.ToString());
             if (fieldValues.Count == 0)
                 return;
             else

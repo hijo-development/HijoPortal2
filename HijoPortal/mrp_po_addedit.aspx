@@ -71,11 +71,11 @@
         </div>
         <div>
             <table class="table_detail" border="0">
-                <tr>
+                <tr style="height: 23px;">
                     <td class="table_po_td_label">
                         <dx:ASPxLabel runat="server" Text="PO Number" Theme="Office2010Blue"></dx:ASPxLabel>
-                        <div style="display:none;">
-                            <dx:ASPxTextBox ID="txtStatus" ClientInstanceName="txtStatus" runat="server" Width="170px"></dx:ASPxTextBox>
+                        <div style="display: none;">
+                            <dx:ASPxTextBox ID="txtStatus" ClientInstanceName="txtStatus" runat="server" Width="100%"></dx:ASPxTextBox>
                         </div>
                     </td>
                     <td class="table_po_semi">:</td>
@@ -83,7 +83,7 @@
                         <table class="innertable" border="0">
                             <tr>
                                 <td>
-                                    <dx:ASPxLabel ID="PONumberLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                    <dx:ASPxLabel ID="PONumberLbl" runat="server" Text="" Theme="Office2010Blue" Width="100%" Font-Bold="true"></dx:ASPxLabel>
                                 </td>
                                 <td></td>
                             </tr>
@@ -100,7 +100,7 @@
                         <table class="innertable" border="0">
                             <tr>
                                 <td>
-                                    <dx:ASPxLabel ID="StatusLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                    <dx:ASPxLabel ID="StatusLbl" runat="server" Text="" Theme="Office2010Blue" Width="100%"></dx:ASPxLabel>
                                 </td>
                                 <td></td>
                             </tr>
@@ -282,7 +282,7 @@
                 OnStartRowEditing="POAddEditGrid_StartRowEditing"
                 OnRowUpdating="POAddEditGrid_RowUpdating"
                 OnRowDeleting="POAddEditGrid_RowDeleting"
-                OnBeforeGetCallbackResult="POAddEditGrid_BeforeGetCallbackResult" 
+                OnBeforeGetCallbackResult="POAddEditGrid_BeforeGetCallbackResult"
                 OnCancelRowEditing="POAddEditGrid_CancelRowEditing"
                 OnDataBound="POAddEditGrid_DataBound">
                 <ClientSideEvents CustomButtonClick="POAddEditGrid_CustomButtonClick" />
@@ -339,7 +339,7 @@
                         <CellStyle HorizontalAlign="Left"></CellStyle>
                         <EditCellStyle HorizontalAlign="Left"></EditCellStyle>
                         <EditItemTemplate>
-                            <dx:ASPxComboBox ID="POUOM" runat="server" ClientInstanceName ="POUOMClient" ValueType="System.String" OnInit="POUOM_Init" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxComboBox ID="POUOM" runat="server" ClientInstanceName="POUOMClient" ValueType="System.String" OnInit="POUOM_Init" Width="100%" Theme="Office2010Blue">
                                 <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                             </dx:ASPxComboBox>
                         </EditItemTemplate>
@@ -348,6 +348,7 @@
                         <HeaderStyle HorizontalAlign="Right" />
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
+                        <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                         <EditItemTemplate>
                             <dx:ASPxTextBox ID="POQty" runat="server" ClientInstanceName="POQtyClient" Text='<%#Eval("POQty") %>' HorizontalAlign="Right" Width="100%" Theme="Office2010Blue">
                                 <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -374,6 +375,7 @@
                         <HeaderStyle HorizontalAlign="Right" />
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
+                        <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                         <EditItemTemplate>
                             <dx:ASPxTextBox ID="TotalPOCost" runat="server" ClientInstanceName="TotalPOCostClient" Text='<%#Eval("TotalPOCost") %>' HorizontalAlign="Right" ReadOnly="true" Width="100%" Theme="Office2010Blue">
                                 <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
@@ -401,6 +403,13 @@
                 <SettingsEditing Mode="Inline"></SettingsEditing>
                 <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                     AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" />
+                <Settings ShowFooter="true"  />
+
+                <TotalSummary>
+                    <dx:ASPxSummaryItem FieldName="POQty" SummaryType="Sum" ShowInColumn="POQty" DisplayFormat="Total: {0:0,0.00}" />
+                    <dx:ASPxSummaryItem FieldName="TotalPOCost" SummaryType="Sum" ShowInColumn="TotalPOCost" DisplayFormat="Total: {0:0,0.00}" />
+                </TotalSummary>
+
                 <%--<SettingsCommandButton>
                     <EditButton Image-Url="images/Edit.ico">
                         <Image Width="15px"></Image>
@@ -418,7 +427,7 @@
             </dx:ASPxGridView>
         </div>
         <div>
-            <table class="innertable" style="margin-top:10px;">
+            <table class="innertable" style="margin-top: 10px;">
                 <tr>
                     <td style="text-align: right;">
                         <dx:ASPxButton ID="Save" runat="server" ClientInstanceName="SaveClient" OnClick="Save_Click" AutoPostBack="false" Text="SAVE" Theme="Office2010Blue"></dx:ASPxButton>
