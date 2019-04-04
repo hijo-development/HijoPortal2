@@ -21,7 +21,32 @@
                             <dx:ASPxButton ID="OK" runat="server" Text="OK" Theme="Office2010Blue">
                                 <ClientSideEvents Click="OK_Click" />
                             </dx:ASPxButton>
-                            <dx:ASPxButton ID="CancelPopup" runat="server" Text="Cancel" Theme="Office2010Blue"></dx:ASPxButton>
+                            <dx:ASPxButton ID="CancelPopup" runat="server" AutoPostBack="false" Text="Cancel" Theme="Office2010Blue">
+                                <ClientSideEvents Click="function(s,e){DeletePopUpClient.Hide();}" />
+                            </dx:ASPxButton>
+                        </td>
+                    </tr>
+                </table>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+    <dx:ASPxPopupControl ID="DeletePopup2" runat="server" ClientInstanceName="DeletePopUp2Client" CloseAction="CloseButton" Theme="Office2010Blue" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <table class="delete_table">
+                    <tr>
+                        <td>
+                            <dx:ASPxLabel ID="DeleteLbl2" runat="server" ClientInstanceName="DeleteLbl2Client" Text="Are you sure you want to delete?" Theme="Office2010Blue"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dx:ASPxButton ID="OK2" runat="server" Text="OK" Theme="Office2010Blue">
+                                <ClientSideEvents Click="OK2_Click" />
+                            </dx:ASPxButton>
+                            <dx:ASPxButton ID="ASPxButton2" runat="server" Text="Cancel" AutoPostBack="false" Theme="Office2010Blue">
+                                <ClientSideEvents Click="function(s,e){DeletePopUp2Client.Hide();}" />
+                            </dx:ASPxButton>
                         </td>
                     </tr>
                 </table>
@@ -51,16 +76,26 @@
                     <dx:SplitterPane Size="50%" ScrollBars="Auto">
                         <ContentCollection>
                             <dx:SplitterContentControl>
-                                <dx:ASPxGridView ID="POGrid" runat="server" ClientInstanceName="POGridClient" Theme="Office2010Blue" Width="100%">
+                                <dx:ASPxGridView ID="POGrid" runat="server" ClientInstanceName="POGridClient" Theme="Office2010Blue" Width="100%"
+                                     OnInitNewRow="POGrid_InitNewRow" 
+                                    OnRowInserting="POGrid_RowInserting"
+                                    OnStartRowEditing="POGrid_StartRowEditing"
+                                    OnRowUpdating="POGrid_RowUpdating"
+                                    OnRowDeleting="POGrid_RowDeleting" 
+                                    OnBeforeGetCallbackResult="POGrid_BeforeGetCallbackResult" 
+                                    OnRowValidating="POGrid_RowValidating">
+                                    <ClientSideEvents CustomButtonClick="POGrid_CustomButtonClick" />
                                     <Columns>
-                                        <dx:GridViewCommandColumn ShowEditButton="true" ShowDeleteButton="true" ShowNewButtonInHeader="true" ButtonRenderMode="Image">
-                                            <%--<CustomButtons>
-                                                <dx:GridViewCommandColumnCustomButton ID="Update" Image-Url="images/Save.ico" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
-                                            </CustomButtons>--%>
+                                        <dx:GridViewCommandColumn ShowEditButton="true" ShowNewButtonInHeader="true" ButtonRenderMode="Image">
+                                            <CustomButtons> 
+                                                <dx:GridViewCommandColumnCustomButton ID="DeleteRow" Image-Url="images/Delete.ico" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                                <%--<dx:GridViewCommandColumnCustomButton ID="EditGrid" Image-Url="images/Edit.ico" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>--%>
+                                                <%--<dx:GridViewCommandColumnCustomButton ID="UpdateGrid" Image-Url="images/Save.ico" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>--%>
+                                            </CustomButtons>
                                         </dx:GridViewCommandColumn>
                                         <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
-                                        <dx:GridViewDataColumn FieldName="EntityCode" Visible="false"></dx:GridViewDataColumn>
-                                        <dx:GridViewDataColumn FieldName="Entity"></dx:GridViewDataColumn>
+                                        <dx:GridViewDataColumn FieldName="EntityCode" Caption="Code"></dx:GridViewDataColumn>
+                                        <dx:GridViewDataColumn FieldName="Entity" Caption="Entity Name"></dx:GridViewDataColumn>
                                         <dx:GridViewDataColumn FieldName="HeaderPath"></dx:GridViewDataColumn>
                                         <dx:GridViewDataColumn FieldName="LinePath"></dx:GridViewDataColumn>
                                         <dx:GridViewDataColumn FieldName="Domain"></dx:GridViewDataColumn>
@@ -74,7 +109,7 @@
                                     <Templates>
                                         <EditForm>
                                             <%--<div style="width: 500px; background-color: aquamarine;"></div>--%>
-                                            <dx:ASPxPageControl ID="ASPxPageControl1" runat="server" Width="100%">
+                                            <dx:ASPxPageControl ID="GridPageControl" runat="server" Width="100%">
                                                 <TabPages>
                                                     <dx:TabPage Text="Edit">
                                                         <ContentCollection>
@@ -85,12 +120,13 @@
                                                                             <dx:ASPxLabel runat="server" Text="Entity" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                         </td>
                                                                         <td>
-                                                                            <dx:ASPxComboBox ID="Entity" runat="server" Text='<%#Eval("EntityCode") %>' Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                                                            <dx:ASPxComboBox ID="EntityCode" runat="server" ClientInstanceName="EntityGridClient" OnInit="Entity_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                                                                <ClientSideEvents SelectedIndexChanged="Entity_SelectedIndexChanged" />
                                                                                 <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true" RequiredField-ErrorText="Empty"></ValidationSettings>
                                                                             </dx:ASPxComboBox>
                                                                         </td>
                                                                         <td colspan="4">
-                                                                            <dx:ASPxTextBox ID="EntityName" runat="server" Text='<%#Eval("Entity") %>' ReadOnly="true" Width="100%" Theme="Office2010Blue" Border-BorderColor="Transparent"></dx:ASPxTextBox>
+                                                                            <dx:ASPxTextBox ID="EntityName" runat="server" ClientInstanceName="EntityNameClient" Text='<%#Eval("Entity") %>' ReadOnly="true" Width="100%" Theme="Office2010Blue" Border-BorderColor="Transparent"></dx:ASPxTextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -98,7 +134,7 @@
                                                                             <dx:ASPxLabel runat="server" Text="Header Path" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                         </td>
                                                                         <td colspan="5">
-                                                                            <dx:ASPxTextBox ID="HeaderPath" runat="server" Text='<%#Eval("HeaderPath") %>' Width="100%" Theme="Office2010Blue">
+                                                                            <dx:ASPxTextBox ID="HeaderPath" runat="server" ClientInstanceName="HeaderPathClient" Text='<%#Eval("HeaderPath") %>' Width="100%" Theme="Office2010Blue">
                                                                                 <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true" RequiredField-ErrorText="Empty"></ValidationSettings>
                                                                             </dx:ASPxTextBox>
                                                                         </td>
@@ -108,7 +144,7 @@
                                                                             <dx:ASPxLabel runat="server" Text="Limit Path" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                         </td>
                                                                         <td colspan="5">
-                                                                            <dx:ASPxTextBox ID="LinePath" runat="server" Text='<%#Eval("LinePath") %>' Width="100%" Theme="Office2010Blue">
+                                                                            <dx:ASPxTextBox ID="LinePath" runat="server" ClientInstanceName="LinePathClient" Text='<%#Eval("LinePath") %>' Width="100%" Theme="Office2010Blue">
                                                                                 <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true" RequiredField-ErrorText="Empty"></ValidationSettings>
                                                                             </dx:ASPxTextBox>
                                                                         </td>
@@ -118,7 +154,7 @@
                                                                             <dx:ASPxLabel runat="server" Text="Domain" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                         </td>
                                                                         <td>
-                                                                            <dx:ASPxTextBox ID="Domain" runat="server" Text='<%#Eval("Domain") %>' Width="100%" Theme="Office2010Blue">
+                                                                            <dx:ASPxTextBox ID="Domain" runat="server" ClientInstanceName="DomainClient" Text='<%#Eval("Domain") %>' Width="100%" Theme="Office2010Blue">
                                                                                 <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true" RequiredField-ErrorText="Empty"></ValidationSettings>
                                                                             </dx:ASPxTextBox>
                                                                         </td>
@@ -130,22 +166,43 @@
                                                                             <dx:ASPxLabel runat="server" Text="Username" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                         </td>
                                                                         <td>
-                                                                            <dx:ASPxTextBox ID="Uname" runat="server" Text='<%#Eval("Name") %>' Width="100%" Theme="Office2010Blue">
+                                                                            <dx:ASPxTextBox ID="Uname" runat="server" ClientInstanceName="UnameClient" Text='<%#Eval("Name") %>' Width="100%" Theme="Office2010Blue">
                                                                                 <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true" RequiredField-ErrorText="Empty"></ValidationSettings>
                                                                             </dx:ASPxTextBox>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
-                                                                            <dx:ASPxLabel runat="server" Text="Password" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                            <dx:ASPxCheckBox ID="AllowPassword" runat="server" ClientInstanceName="AllowPasswordClient" ClientVisible="false" Theme="Office2010Blue">
+                                                                                <ClientSideEvents CheckedChanged="AllowPassword_CheckedChanged" />
+                                                                            </dx:ASPxCheckBox>
                                                                         </td>
                                                                         <td>
-                                                                            <dx:ASPxTextBox ID="Pword" runat="server" Text='<%#Eval("PW") %>' OnInit="Pword_Init" Theme="Office2010Blue" Width="100%">
+                                                                            <dx:ASPxLabel ID="AllowLbl" runat="server" ClientInstanceName="AllowLblClient" ClientVisible="false" Text="Change Password" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <dx:ASPxLabel ID="PasswordLbl" runat="server" ClientInstanceName="PasswordLblClient" Text="Password" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                        </td>
+                                                                        <td>
+                                                                            <dx:ASPxTextBox ID="Pword" runat="server" ClientInstanceName="PWordClient" OnInit="Pword_Init" Theme="Office2010Blue" Width="100%">
+                                                                                <%--<ClientSideEvents Init="OnPasswordTextBoxInit" KeyUp="OnPassChanged" Validation="OnPassValidation" />--%>
                                                                                 <BorderLeft BorderColor="Transparent" />
                                                                                 <BorderRight BorderColor="Transparent" />
                                                                                 <BorderTop BorderColor="Transparent" />
                                                                                 <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true" RequiredField-ErrorText="Empty"></ValidationSettings>
                                                                             </dx:ASPxTextBox>
+                                                                            <%--<table>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <dx:ASPxRatingControl ID="ratingControl" runat="server" ReadOnly="true" ItemCount="5" Value="0" ClientInstanceName="ratingControl" />
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <dx:ASPxLabel ID="ratingLabel" runat="server" ClientInstanceName="ratingLabel" Text="Password safety" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>--%>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -167,10 +224,11 @@
                                     </Templates>
                                     <SettingsCommandButton>
                                         <EditButton Image-Url="images/Edit.ico" Image-Width="15px"></EditButton>
-                                        <DeleteButton Image-Url="images/Delete.ico" Image-Width="15px"></DeleteButton>
+                                        <%--<DeleteButton Image-Url="images/Delete.ico" Image-Width="15px"></DeleteButton>--%>
                                         <NewButton Image-Url="images/Add.ico" Image-Width="15px"></NewButton>
                                     </SettingsCommandButton>
                                     <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
+                                    <SettingsBehavior AllowFocusedRow="true" AllowSelectSingleRowOnly="true" />
                                 </dx:ASPxGridView>
                             </dx:SplitterContentControl>
                         </ContentCollection>
@@ -184,7 +242,8 @@
                                     OnRowDeleting="InfoGrid_RowDeleting"
                                     OnInitNewRow="InfoGrid_InitNewRow"
                                     OnRowInserting="InfoGrid_RowInserting"
-                                    OnBeforeGetCallbackResult="InfoGrid_BeforeGetCallbackResult">
+                                    OnBeforeGetCallbackResult="InfoGrid_BeforeGetCallbackResult"
+                                     OnRowValidating="InfoGrid_RowValidating">
                                     <ClientSideEvents CustomButtonClick="InfoGrid_CustomButtonClick" />
                                     <ClientSideEvents EndCallback="InfoGrid_EndCallback" />
                                     <Columns>
@@ -198,6 +257,7 @@
                                         <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
                                         <dx:GridViewDataColumn FieldName="Code">
                                             <EditItemTemplate>
+                                                <dx:ASPxHiddenField ID="ErrorHiddenValue" runat="server" ClientInstanceName="ErrorHiddenValueClient"></dx:ASPxHiddenField>
                                                 <dx:ASPxComboBox ID="Code" runat="server" ClientInstanceName="CodeClient" OnInit="Code_Init" ValueType="System.String" Width="70px" Theme="Office2010Blue">
                                                     <ClientSideEvents SelectedIndexChanged="Code_SelectedIndexChanged" />
                                                     <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Empty"></ValidationSettings>
