@@ -860,6 +860,8 @@ namespace HijoPortal
                     Submit.Enabled = false;
                     Load_MRP(docnum);
 
+                    ModalPopupExtenderLoading.Hide();
+
                     MRPNotifyMsgPrevApp.Text = MRPClass.successfully_approved;
                     MRPNotifyMsgPrevApp.ForeColor = System.Drawing.Color.Black;
                     MRPNotifyPrevApp.HeaderText = "Info";

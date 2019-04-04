@@ -358,6 +358,8 @@ namespace HijoPortal
                     //btAddEdit.Enabled = false;
                     Load_MRP(docnumber);
 
+                    ModalPopupExtenderLoading.Hide();
+
                     MRPNotificationMessage.Text = MRPClass.successfully_submitted;
                     MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
                     MRPNotify.HeaderText = "Info";
@@ -409,6 +411,8 @@ namespace HijoPortal
 
                         Submit.Enabled = false;
                         Load_MRP(docnumber);
+
+                        ModalPopupExtenderLoading.Hide();
 
                         MRPNotificationMessage.Text = MRPClass.successfully_submitted;
                         MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;

@@ -1,11 +1,35 @@
 ﻿<%@ Page Title="Purchase Order" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_po_addedit.aspx.cs" Inherits="HijoPortal.mrp_po_addedit" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="css/POAddedit.css" rel="stylesheet" />
     <script type="text/javascript" src="jquery/POAddedit.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    
     <dx:ASPxLoadingPanel ID="LoadingPanel" runat="server" ClientInstanceName="LoadingPanel" Modal="true" Theme="Office2010Blue"></dx:ASPxLoadingPanel>
+    
+    <asp:TextBox ID="TextBoxLoading" runat="server" Visible="true" Style="display: none;"></asp:TextBox>
+    <ajaxToolkit:ModalPopupExtender runat="server"
+        ID="ModalPopupExtenderLoading"
+        BackgroundCssClass="modalBackground"
+        PopupControlID="PanelLoading"
+        TargetControlID="TextBoxLoading"
+        CancelControlID="ButtonErrorOK1" 
+        ClientIDMode="Static">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PanelLoading" runat="server"
+        CssClass="modalPopupLoading"
+        Height="200px"
+        Width="200px"
+        align="center"
+        Style="display: none;">
+        <img src="images/Loading.gif" style="height: 200px; width: 200px;" />
+        <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
+    </asp:Panel>
+
+    
     <dx:ASPxPopupControl ID="DeletePopup" runat="server" ClientInstanceName="DeletePopupClient" Modal="true" CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -52,6 +76,7 @@
                             <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" OnClick="Submit_Click" Theme="Office2010Blue" AutoPostBack="false">
                                 <ClientSideEvents Click="function(s,e){
                                     POAddEditPopupSubmit.Hide();
+                                    $find('ModalPopupExtenderLoading').show();
                                     e.processOnServer = true;
                                     }" />
                             </dx:ASPxButton>
