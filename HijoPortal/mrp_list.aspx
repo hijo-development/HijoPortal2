@@ -81,7 +81,10 @@
                     <tr>
                         <td style="text-align: right;">
                             <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Office2010Blue" AutoPostBack="false" OnClick="OK_SUBMIT_Click">
-                                <%--<ClientSideEvents Click="OK_DELETE" />--%>
+                                <ClientSideEvents Click ="function(s,e){
+                                    PopupSubmitMRPList.Hide();
+                                    e.processOnServer = true;
+                                    }" />
                             </dx:ASPxButton>
                             <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
                                 <ClientSideEvents Click="function(s,e){PopupSubmitMRPList.Hide();}" />

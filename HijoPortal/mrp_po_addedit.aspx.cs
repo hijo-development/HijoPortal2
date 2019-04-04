@@ -466,11 +466,11 @@ namespace HijoPortal
 
             if (cancel)//if empty taxgroup this is true
             {
+                ModalPopupExtenderLoading.Hide();
+
                 PONotify.HeaderText = "Alert";
                 PONotifyLbl.Text = "Some selected items are empty.";
                 PONotify.ShowOnPageLoad = true;
-
-
             }
             else
             {
@@ -478,6 +478,8 @@ namespace HijoPortal
                     Submit_Method();
                 else
                 {
+                    ModalPopupExtenderLoading.Hide();
+
                     Submit.ClientEnabled = false;
                     PONotify.HeaderText = "Alert";
                     PONotifyLbl.Text = "No data to submit";
@@ -563,14 +565,14 @@ namespace HijoPortal
                         }
                         using (StreamWriter w = File.AppendText(sFile))
                         {
-                            w.WriteLine(row["PONumber"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row["CurrencyCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["NAME"].ToString() + "|" + row["NAME"].ToString() + "|" + row["PaymentTerms"].ToString() + "|" + sIncTax + "|" + row["PAYMMODE"].ToString() + "|" + sPORemarks.ToString() + "|Draft|None|" + row["InventSite"].ToString() + "|" + sPORemarks.ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["TAXGROUP"].ToString() + "|en-us|Gen|Purchase order||Open order|" + sDefaultDimension.ToString());
+                            w.WriteLine(row["PONumber"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row["CurrencyCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["NAME"].ToString() + "|" + row["NAME"].ToString() + "|" + row["PaymentTerms"].ToString() + "|" + sIncTax + "|" + row["PAYMMODE"].ToString() + "|" + sPORemarks.ToString() + "|Draft|Open order|" + row["InventSite"].ToString() + "|" + sPORemarks.ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["TAXGROUP"].ToString() + "|en-us|Gen|Purchase order||Open order|" + sDefaultDimension.ToString());
                             w.Close();
                         }
                     }
 
                     int iLineNumber = 0;
                     string sDefaultDimensionLine = "";
-                    qry = "SELECT ItemCode, TaxGroup, TaxItemGroup, Qty, Cost, TotalCost, POUOM, (CASE Identifier WHEN 1 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT OprUnit FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS OprUnit, (CASE Identifier WHEN 1 THEN         (SELECT ItemDescription + (CASE LTRIM(RTRIM(ItemDescriptionAddl)) WHEN '' THEN '' ELSE ' (' + ItemDescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT Description + (CASE LTRIM(RTRIM(DescriptionAddl)) WHEN '' THEN '' ELSE ' (' + DescriptionAddl + ')' END) AS ItemDesc FROM dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS ItemDesc FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + ponumber + "')";
+                    qry = "SELECT ItemCode, TaxGroup, TaxItemGroup, Qty, Cost, TotalCost, POUOM, (CASE Identifier WHEN 1 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT OprUnit FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS OprUnit, (CASE Identifier WHEN 1 THEN (SELECT ItemDescription + (CASE LTRIM(RTRIM(ItemDescriptionAddl)) WHEN '' THEN '' ELSE ' (' + ItemDescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT Description + (CASE LTRIM(RTRIM(DescriptionAddl)) WHEN '' THEN '' ELSE ' (' + DescriptionAddl + ')' END) AS ItemDesc FROM dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS ItemDesc FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + ponumber + "')";
                     cmd1 = new SqlCommand(qry);
                     cmd1.Connection = conn;
                     adp1 = new SqlDataAdapter(cmd1);
@@ -591,7 +593,7 @@ namespace HijoPortal
                         {
                             using (StreamWriter w = File.AppendText(sFileD))
                             {
-                                w.WriteLine("PurchId|VendAccount|DeliveryName|Name|VendGroup|InventSiteID|InventLocationID|wMSLocationId|Complete|CreateFixedAsset|CurrencyCode|DeliveryDate|IsFinalized|IsPwp|ItemId|PurchQty|PurchUnit|PurchPrice|LineAmount|LineNumber|PriceUnit|MatchingPolicy|OverDeliveryPct|PurchaseType|PurchStatus|TaxGroup|TaxItemGroup|UnderDeliveryPct|VariantId|DefaultDimension");
+                                w.WriteLine("PurchId|VendAccount|DeliveryName|Name|VendGroup|InventSiteID|InventLocationID|wMSLocationId|Complete|CreateFixedAsset|CurrencyCode|DeliveryDate|IsFinalized|IsPwp|ItemId|PurchQty|PurchUnit|PurchPrice|LineAmount|LineNumber|PriceUnit|MatchingPolicy|OverDeliveryPct|PurchaseType|PurchStatus|TaxGroup|TaxItemGroup|UnderDeliveryPct|VariantId|DefaultDimension|WorkflowState");
                                 w.Close();
                             }
                         }
@@ -621,7 +623,7 @@ namespace HijoPortal
 
                                 using (StreamWriter w = File.AppendText(sFileD))
                                 {
-                                    w.WriteLine(row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|0|0|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|0|0|" + row1["ItemCode"].ToString() + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|1|Three-way matching|0|Purchase order|Open order|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|100||" + sDefaultDimensionLine.ToString());
+                                    w.WriteLine(row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|0|0|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|0|0|" + row1["ItemCode"].ToString() + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|1|Three-way matching|0|Purchase order|Open order|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|100||" + sDefaultDimensionLine.ToString() + "|Not submitted");
                                     w.Close();
                                 }
                             }
@@ -630,8 +632,6 @@ namespace HijoPortal
                     dt1.Clear();
 
                     string sDomain = "", sUsername = "", sPassword = "";
-
-                    sDomain = "hijo"; sUsername = "hijoportal_client"; sPassword = "hPortal@2019";
 
                     qry = "SELECT tbl_AXPOUploadingPath.* FROM tbl_AXPOUploadingPath WHERE ([Entity] = '" + row["EntityCode"].ToString() + "')";
                     cmd1 = new SqlCommand(qry);
@@ -654,64 +654,149 @@ namespace HijoPortal
                             {
                                 sPassword = row1["Password"].ToString();
                             }
-                            //sFileDest = @"\\fileserver\NAStorage\HITS_SSC\ITSS\SoftDev\" + sFiLeName;
-                            //sFileDDest = @"\\fileserver\NAStorage\HITS_SSC\ITSS\SoftDev\" + sFileNameD;
-                        }
-                    }
-                    dt1.Clear();
 
-                    try
-                    {
-                        using (var impersonation = new ImpersonatedUser(sUsername, sDomain, sPassword))
-                        {
+                            sDomain = "hijo"; sUsername = "hijoportal_client"; sPassword = "hPortal@2019";
+
                             try
                             {
-                                if (sFileDest.Trim() != "")
+                                using (var impersonation = new ImpersonatedUser(sUsername, sDomain, sPassword))
                                 {
-                                    if (File.Exists(sFile) == true)
+                                    try
                                     {
-                                        File.Copy(sFile, sFileDest, true);
-                                    }
-                                }
+                                        if (sFileDest.Trim() != "")
+                                        {
+                                            if (File.Exists(sFile) == true)
+                                            {
+                                                File.Copy(sFile, sFileDest, true);
+                                            }
+                                        }
+                                        if (sFileDDest.Trim() != "")
+                                        {
+                                            if (File.Exists(sFileD) == true)
+                                            {
+                                                File.Copy(sFileD, sFileDDest, true);
+                                            }
+                                        }
+                                        try
+                                        {
+                                            qry = "UPDATE tbl_POCreation SET [POStatus] = 1 WHERE ([PONumber] = @PONumber)";
+                                            cmd = new SqlCommand(qry, conn);
+                                            cmd.Parameters.AddWithValue("@PONumber", ponumber);
+                                            cmd.CommandType = CommandType.Text;
+                                            cmd.ExecuteNonQuery();
 
-                                if (sFileDDest.Trim() != "")
-                                {
-                                    if (File.Exists(sFileD) == true)
-                                    {
-                                        File.Copy(sFileD, sFileDDest, true);
+                                            ModalPopupExtenderLoading.Hide();
+
+                                            PONotifyLbl.ForeColor = System.Drawing.Color.Black;
+                                            PONotifyLbl.Text = "Sucessfully submitted to AX";
+                                            PONotify.HeaderText = "Info";
+                                            PONotify.ShowOnPageLoad = true;
+
+                                        }
+                                        catch (SqlException exSQL)
+                                        {
+                                            ModalPopupExtenderLoading.Hide();
+                                            PONotifyLbl.ForeColor = System.Drawing.Color.Red;
+                                            PONotifyLbl.Text = exSQL.ToString();
+                                            PONotify.HeaderText = "Error";
+                                            PONotify.ShowOnPageLoad = true;
+                                        }
                                     }
+                                    catch (Exception ex)
+                                    {
+                                        ModalPopupExtenderLoading.Hide();
+                                        PONotifyLbl.ForeColor = System.Drawing.Color.Red;
+                                        PONotifyLbl.Text = ex.ToString();
+                                        PONotify.HeaderText = "Error";
+                                        PONotify.ShowOnPageLoad = true;
+                                    }
+
                                 }
-                                
-                                try
-                                {
-                                    qry = "UPDATE tbl_POCreation SET [POStatus] = 1 WHERE ([PONumber] = @PONumber)";
-                                    cmd = new SqlCommand(qry, conn);
-                                    cmd.Parameters.AddWithValue("@PONumber", ponumber);
-                                    cmd.CommandType = CommandType.Text;
-                                    cmd.ExecuteNonQuery();
-                                } catch (SqlException exSQL)
-                                {
-                                    PONotifyLbl.ForeColor = System.Drawing.Color.Red;
-                                    PONotifyLbl.Text = exSQL.ToString();
-                                    PONotify.HeaderText = "Error";
-                                    PONotify.ShowOnPageLoad = true;
-                                }
-                            } catch (Exception ex)
+                            }
+                            catch (Exception ex)
                             {
+                                ModalPopupExtenderLoading.Hide();
                                 PONotifyLbl.ForeColor = System.Drawing.Color.Red;
                                 PONotifyLbl.Text = ex.ToString();
                                 PONotify.HeaderText = "Error";
                                 PONotify.ShowOnPageLoad = true;
                             }
-                            
                         }
-                    } catch (Exception ex)
+                    } else
                     {
+                        ModalPopupExtenderLoading.Hide();
                         PONotifyLbl.ForeColor = System.Drawing.Color.Red;
-                        PONotifyLbl.Text = ex.ToString();
+                        PONotifyLbl.Text = "Please Call Administrator." + Environment.NewLine + Environment.NewLine + "No PO Destination Path Setup.";
                         PONotify.HeaderText = "Error";
                         PONotify.ShowOnPageLoad = true;
-                    }                                        
+                    }
+                    dt1.Clear();
+
+                    //try
+                    //{
+                    //    try
+                    //    {
+                    //        if (sFileDest.Trim() != "")
+                    //        {
+                    //            if (File.Exists(sFile) == true)
+                    //            {
+                    //                File.Copy(sFile, sFileDest, true);
+                    //            }
+                    //        }
+
+                    //        if (sFileDDest.Trim() != "")
+                    //        {
+                    //            if (File.Exists(sFileD) == true)
+                    //            {
+                    //                File.Copy(sFileD, sFileDDest, true);
+                    //            }
+                    //        }
+
+                    //        try
+                    //        {
+                    //            qry = "UPDATE tbl_POCreation SET [POStatus] = 1 WHERE ([PONumber] = @PONumber)";
+                    //            cmd = new SqlCommand(qry, conn);
+                    //            cmd.Parameters.AddWithValue("@PONumber", ponumber);
+                    //            cmd.CommandType = CommandType.Text;
+                    //            cmd.ExecuteNonQuery();
+
+                    //            ModalPopupExtenderLoading.Hide();
+
+                    //            PONotifyLbl.ForeColor = System.Drawing.Color.Black;
+                    //            PONotifyLbl.Text = "Sucessfully submitted to AX";
+                    //            PONotify.HeaderText = "Info";
+                    //            PONotify.ShowOnPageLoad = true;
+
+                    //        }
+                    //        catch (SqlException exSQL)
+                    //        {
+                    //            ModalPopupExtenderLoading.Hide();
+
+                    //            PONotifyLbl.ForeColor = System.Drawing.Color.Red;
+                    //            PONotifyLbl.Text = exSQL.ToString();
+                    //            PONotify.HeaderText = "Error";
+                    //            PONotify.ShowOnPageLoad = true;
+                    //        }
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        ModalPopupExtenderLoading.Hide();
+
+                    //        PONotifyLbl.ForeColor = System.Drawing.Color.Red;
+                    //        PONotifyLbl.Text = ex.ToString();
+                    //        PONotify.HeaderText = "Error";
+                    //        PONotify.ShowOnPageLoad = true;
+                    //    }
+                    //} catch (Exception ex)
+                    //{
+                    //    ModalPopupExtenderLoading.Hide();
+
+                    //    PONotifyLbl.ForeColor = System.Drawing.Color.Red;
+                    //    PONotifyLbl.Text = ex.ToString();
+                    //    PONotify.HeaderText = "Error";
+                    //    PONotify.ShowOnPageLoad = true;
+                    //}
+                    
                 }
             }
             dt.Clear();

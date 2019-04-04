@@ -1,11 +1,34 @@
 ﻿<%@ Page Title="MOP Add/Edit" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_addedit.aspx.cs" Inherits="HijoPortal.mrp_addedit" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    
 </asp:Content>
 
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <asp:TextBox ID="TextBoxLoading" runat="server" Visible="true" Style="display: none;"></asp:TextBox>
+    <ajaxToolkit:ModalPopupExtender runat="server"
+        ID="ModalPopupExtenderLoading"
+        BackgroundCssClass="modalBackground"
+        PopupControlID="PanelLoading"
+        TargetControlID="TextBoxLoading"
+        CancelControlID="ButtonErrorOK1" 
+        ClientIDMode="Static">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PanelLoading" runat="server"
+        CssClass="modalPopupLoading"
+        Height="200px"
+        Width="200px"
+        align="center"
+        Style="display: none;">
+        <img src="images/Loading.gif" style="height: 200px; width: 200px;" />
+        <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
+    </asp:Panel>
+
 
     <dx:ASPxPopupControl ID="PopUpDelete" ClientInstanceName="PopUpDelete" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
@@ -52,7 +75,11 @@
                     <tr>
                         <td style="text-align: right;">
                             <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Office2010Blue" OnClick="Submit_Click" AutoPostBack="false">
-                                <%--<ClientSideEvents Click="OK_DELETE" />--%>
+                                <ClientSideEvents Click="function(s,e){
+                                    PopupSubmit.Hide();
+                                    $find('ModalPopupExtenderLoading').show();
+                                    e.processOnServer = true;
+                                    }" />
                             </dx:ASPxButton>
                             <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
                                 <ClientSideEvents Click="function(s,e){PopupSubmit.Hide();}" />
@@ -201,7 +228,7 @@
                                                         OnStartRowEditing="DirectMaterialsGrid_StartRowEditing"
                                                         OnRowUpdating="DirectMaterialsGrid_RowUpdating"
                                                         OnBeforeGetCallbackResult="DirectMaterialsGrid_BeforeGetCallbackResult"
-                                                        OnDataBound="DirectMaterialsGrid_DataBound" 
+                                                        OnDataBound="DirectMaterialsGrid_DataBound"
                                                         OnCancelRowEditing="DirectMaterialsGrid_CancelRowEditing">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
                                                         <ClientSideEvents CustomButtonClick="DirectMaterialsGrid_CustomButtonClick" />
@@ -262,9 +289,9 @@
                                                             </NewButton>
                                                         </SettingsCommandButton>
 
-                                                         <TotalSummary>
-                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty"  DisplayFormat="Total: {0:0,0.00}" />
-                                                             <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
+                                                        <TotalSummary>
+                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty" DisplayFormat="Total: {0:0,0.00}" />
+                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
                                                         </TotalSummary>
 
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
@@ -461,7 +488,7 @@
                                                         OnStartRowEditing="OPEXGrid_StartRowEditing"
                                                         OnRowUpdating="OPEXGrid_RowUpdating"
                                                         OnBeforeGetCallbackResult="OPEXGrid_BeforeGetCallbackResult"
-                                                        OnDataBound="OPEXGrid_DataBound" 
+                                                        OnDataBound="OPEXGrid_DataBound"
                                                         OnCancelRowEditing="OPEXGrid_CancelRowEditing">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
                                                         <ClientSideEvents BeginCallback="OnBeginCallback" />
@@ -526,8 +553,8 @@
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
 
                                                         <TotalSummary>
-                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
-                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty"  DisplayFormat="Total: {0:0,0.00}" />
+                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty" DisplayFormat="Total: {0:0,0.00}" />
                                                         </TotalSummary>
 
                                                         <Templates>
@@ -617,7 +644,7 @@
                                                                                                                 </dx:ASPxTextBox>
                                                                                                             </td>
                                                                                                         </tr>
-                                                                                                         <tr>
+                                                                                                        <tr>
                                                                                                             <td style="width: 20%;">
                                                                                                                 <dx:ASPxLabel runat="server" Text="Item Description 2" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                             </td>
@@ -628,7 +655,7 @@
                                                                                                         </tr>
                                                                                                     </table>
                                                                                                 </td>
-                                                                                                <td style="width: 44%;vertical-align:top;">
+                                                                                                <td style="width: 44%; vertical-align: top;">
                                                                                                     <table style="width: 100%;">
                                                                                                         <tr>
                                                                                                             <td style="width: 20%;">
@@ -721,7 +748,7 @@
                                                         OnStartRowEditing="ManPowerGrid_StartRowEditing"
                                                         OnRowUpdating="ManPowerGrid_RowUpdating"
                                                         OnBeforeGetCallbackResult="ManPowerGrid_BeforeGetCallbackResult"
-                                                        OnDataBound="ManPowerGrid_DataBound" 
+                                                        OnDataBound="ManPowerGrid_DataBound"
                                                         OnCancelRowEditing="ManPowerGrid_CancelRowEditing">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
                                                         <ClientSideEvents CustomButtonClick="ManPowerGrid_CustomButtonClick" />
@@ -782,9 +809,9 @@
                                                         </SettingsCommandButton>
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
 
-                                                         <TotalSummary>
-                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
-                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty"  DisplayFormat="Total: {0:0,0.00}" />
+                                                        <TotalSummary>
+                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty" DisplayFormat="Total: {0:0,0.00}" />
                                                         </TotalSummary>
 
                                                         <Templates>
@@ -948,7 +975,7 @@
                                                         OnStartRowEditing="CAPEXGrid_StartRowEditing"
                                                         OnRowUpdating="CAPEXGrid_RowUpdating"
                                                         OnBeforeGetCallbackResult="CAPEXGrid_BeforeGetCallbackResult"
-                                                        OnDataBound="CAPEXGrid_DataBound" 
+                                                        OnDataBound="CAPEXGrid_DataBound"
                                                         OnCancelRowEditing="CAPEXGrid_CancelRowEditing">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
                                                         <ClientSideEvents CustomButtonClick="CAPEXGrid_CustomButtonClick" />
@@ -1006,9 +1033,9 @@
                                                         </SettingsCommandButton>
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
 
-                                                         <TotalSummary>
-                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
-                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty"  DisplayFormat="Total: {0:0,0.00}" />
+                                                        <TotalSummary>
+                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty" DisplayFormat="Total: {0:0,0.00}" />
                                                         </TotalSummary>
 
                                                         <Templates>
@@ -1158,7 +1185,7 @@
                                                         OnStartRowEditing="RevenueGrid_StartRowEditing"
                                                         OnRowUpdating="RevenueGrid_RowUpdating"
                                                         OnBeforeGetCallbackResult="RevenueGrid_BeforeGetCallbackResult"
-                                                        OnDataBound="RevenueGrid_DataBound" 
+                                                        OnDataBound="RevenueGrid_DataBound"
                                                         OnCancelRowEditing="RevenueGrid_CancelRowEditing">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Revenue');}" />
                                                         <ClientSideEvents CustomButtonClick="RevenueGrid_CustomButtonClick" />
@@ -1215,9 +1242,9 @@
                                                         </SettingsCommandButton>
                                                         <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
 
-                                                         <TotalSummary>
-                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}"/>
-                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty"  DisplayFormat="Total: {0:0,0.00}" />
+                                                        <TotalSummary>
+                                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
+                                                            <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty" DisplayFormat="Total: {0:0,0.00}" />
                                                         </TotalSummary>
 
                                                         <Templates>

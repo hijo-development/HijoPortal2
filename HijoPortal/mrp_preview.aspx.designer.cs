@@ -12,6 +12,8 @@ namespace HijoPortal {
     
     public partial class mrp_preview {
 
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupExtenderLoading;
+
         /// <summary>
         /// LogsPopup control.
         /// </summary>

@@ -108,6 +108,10 @@ namespace HijoPortal
         {
             ASPxHiddenField hidStatusKey = Page.FindControl("StatusKey") as ASPxHiddenField;
 
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
             DataTable dt1 = new DataTable();
             SqlCommand cmd1 = null;
             SqlDataAdapter adp1;
@@ -137,73 +141,79 @@ namespace HijoPortal
 
             string firstname = "", lastname = "";
 
-            SqlCommand cmd = new SqlCommand(query, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            //SqlCommand cmd = new SqlCommand(query, conn);
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            cmd = new SqlCommand(query);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0) 
             {
-                mrp_key = Convert.ToInt32(reader["PK"].ToString());
-                dateCreated = Convert.ToDateTime(reader["DateCreated"]);
-                entitycode = reader["EntityCode"].ToString();
-                DocNum.Text = reader["DocNumber"].ToString();
-                DateCreated.Text = reader["DateCreated"].ToString();
-                EntityCode.Text = reader["EntityCodeDesc"].ToString();
-                BUCode.Text = reader["BUCodeDesc"].ToString();
-                Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
-                Year.Text = reader["MRPYear"].ToString();
-                Status.Text = reader["StatusName"].ToString();
-                iStatusKey = Convert.ToInt32(reader["StatusKey"]);
-                firstname = reader["Firstname"].ToString();
-                lastname = reader["Lastname"].ToString();
-
-                entitycode = reader["EntityCode"].ToString();
-                Entity.Text = reader["EntityCode"].ToString();
-                BU.Text = reader["BUCode"].ToString();
-                buCode = reader["BUCode"].ToString();
-
-                if (Convert.ToInt32(reader["StatusKey"]) == 1)
+                foreach (DataRow row in dt.Rows)
                 {
-                    CurrentWorkFlowTxt.Text = "0";
-                }
-                else if (Convert.ToInt32(reader["StatusKey"]) == 2)
-                {
-                    qry = "SELECT dbo.tbl_MRP_List_Workflow.Line, dbo.tbl_System_Approval_Position.PositionName FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_MRP_List_Workflow.MasterKey = " + reader["PK"] + ") AND(dbo.tbl_MRP_List_Workflow.Status = 0) AND(dbo.tbl_MRP_List_Workflow.Visible = 1)";
-                    cmd1 = new SqlCommand(qry);
-                    cmd1.Connection = conn;
-                    adp1 = new SqlDataAdapter(cmd1);
-                    adp1.Fill(dt1);
-                    if (dt1.Rows.Count > 0)
+                    mrp_key = Convert.ToInt32(row["PK"].ToString());
+                    dateCreated = Convert.ToDateTime(row["DateCreated"]);
+                    entitycode = row["EntityCode"].ToString();
+                    DocNum.Text = row["DocNumber"].ToString();
+                    DateCreated.Text = row["DateCreated"].ToString();
+                    EntityCode.Text = row["EntityCodeDesc"].ToString();
+                    BUCode.Text = row["BUCodeDesc"].ToString();
+                    Month.Text = MRPClass.Month_Name(Int32.Parse(row["MRPMonth"].ToString()));
+                    Year.Text = row["MRPYear"].ToString();
+                    Status.Text = row["StatusName"].ToString();
+                    iStatusKey = Convert.ToInt32(row["StatusKey"]);
+                    firstname = row["Firstname"].ToString();
+                    lastname = row["Lastname"].ToString();
+
+                    entitycode = row["EntityCode"].ToString();
+                    Entity.Text = row["EntityCode"].ToString();
+                    BU.Text = row["BUCode"].ToString();
+                    buCode = row["BUCode"].ToString();
+
+                    if (Convert.ToInt32(row["StatusKey"]) == 1)
                     {
-                        foreach (DataRow row1 in dt1.Rows)
-                        {
-                            CurrentWorkFlowTxt.Text = row1["Line"].ToString();
-                        }
+                        CurrentWorkFlowTxt.Text = "0";
                     }
-                    dt1.Clear();
-                }
-                else if (Convert.ToInt32(reader["StatusKey"]) == 3)
-                {
-                    qry = "SELECT dbo.tbl_MRP_List_Workflow.Line, dbo.tbl_System_Approval_Position.PositionName FROM dbo.tbl_MRP_List_Approval LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Approval.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_MRP_List_Approval.MasterKey = " + reader["PK"] + ") AND(dbo.tbl_MRP_List_Approval.Status = 0) AND(dbo.tbl_MRP_List_Approval.Visible = 1)";
-                    cmd1 = new SqlCommand(qry);
-                    cmd1.Connection = conn;
-                    adp1 = new SqlDataAdapter(cmd1);
-                    adp1.Fill(dt1);
-                    if (dt1.Rows.Count > 0)
+                    else if (Convert.ToInt32(row["StatusKey"]) == 2)
                     {
-                        foreach (DataRow row1 in dt1.Rows)
+                        qry = "SELECT dbo.tbl_MRP_List_Workflow.Line, dbo.tbl_System_Approval_Position.PositionName FROM dbo.tbl_MRP_List_Workflow LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Workflow.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_MRP_List_Workflow.MasterKey = " + row["PK"] + ") AND(dbo.tbl_MRP_List_Workflow.Status = 0) AND(dbo.tbl_MRP_List_Workflow.Visible = 1)";
+                        cmd1 = new SqlCommand(qry);
+                        cmd1.Connection = conn;
+                        adp1 = new SqlDataAdapter(cmd1);
+                        adp1.Fill(dt1);
+                        if (dt1.Rows.Count > 0)
                         {
-                            CurrentWorkFlowTxt.Text = row1["Line"].ToString();
+                            foreach (DataRow row1 in dt1.Rows)
+                            {
+                                CurrentWorkFlowTxt.Text = row1["Line"].ToString();
+                            }
                         }
+                        dt1.Clear();
                     }
-                    dt1.Clear();
-                } else
-                {
-                    CurrentWorkFlowTxt.Text = "5";
+                    else if (Convert.ToInt32(row["StatusKey"]) == 3)
+                    {
+                        qry = "SELECT dbo.tbl_MRP_List_Workflow.Line, dbo.tbl_System_Approval_Position.PositionName FROM dbo.tbl_MRP_List_Approval LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Approval.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_MRP_List_Approval.MasterKey = " + row["PK"] + ") AND(dbo.tbl_MRP_List_Approval.Status = 0) AND(dbo.tbl_MRP_List_Approval.Visible = 1)";
+                        cmd1 = new SqlCommand(qry);
+                        cmd1.Connection = conn;
+                        adp1 = new SqlDataAdapter(cmd1);
+                        adp1.Fill(dt1);
+                        if (dt1.Rows.Count > 0)
+                        {
+                            foreach (DataRow row1 in dt1.Rows)
+                            {
+                                CurrentWorkFlowTxt.Text = row1["Line"].ToString();
+                            }
+                        }
+                        dt1.Clear();
+                    }
+                    else
+                    {
+                        CurrentWorkFlowTxt.Text = "5";
+                    }
                 }
-
-
-
             }
-            reader.Close();
+            dt.Clear();
             conn.Close();
 
             //WorkFlowLineLbl.Text = wrkflwln.ToString();
@@ -1552,6 +1562,8 @@ namespace HijoPortal
                     BindCAPEX(docnumber);
                     BindRevenue(docnumber);
 
+                    ModalPopupExtenderLoading.Hide();
+
                     MRPNotify.HeaderText = "Info";
                     MRPNotificationMessage.Text = "Successfully Submitted!";
                     MRPNotify.ShowOnPageLoad = true;
@@ -1584,6 +1596,8 @@ namespace HijoPortal
                         BindManPower(docnumber);
                         BindCAPEX(docnumber);
                         BindRevenue(docnumber);
+
+                        ModalPopupExtenderLoading.Hide();
 
                         MRPNotify.HeaderText = "Info";
                         MRPNotificationMessage.Text = "Successfully Submitted!";

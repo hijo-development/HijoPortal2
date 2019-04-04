@@ -877,7 +877,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("TaxItemGroup", typeof(string));
             }
 
-            string qry = "SELECT dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Cost AS DMCost, dbo.tbl_MRP_List_DirectMaterials.Qty AS DMQty, dbo.tbl_MRP_List_DirectMaterials.TotalCost AS DMTotal, dbo.tbl_POCreation_Details.* FROM   dbo.tbl_MRP_List_DirectMaterials INNER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_MRP_List_DirectMaterials.PK = dbo.tbl_POCreation_Details.ItemPK WHERE (dbo.tbl_POCreation_Details.Identifier = '1') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
+            string qry = "SELECT dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Cost AS DMCost, dbo.tbl_MRP_List_DirectMaterials.Qty AS DMQty, dbo.tbl_MRP_List_DirectMaterials.TotalCost AS DMTotal, dbo.tbl_POCreation_Details.* FROM dbo.tbl_MRP_List_DirectMaterials INNER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_MRP_List_DirectMaterials.PK = dbo.tbl_POCreation_Details.ItemPK WHERE (dbo.tbl_POCreation_Details.Identifier = '1') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -939,6 +939,7 @@ namespace HijoPortal.classes
                     dtRow["RequestedQty"] = Convert.ToDouble(row["OPQty"].ToString()).ToString("N");
                     dtRow["Cost"] = Convert.ToDouble(row["OPCost"].ToString()).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["OPTotal"].ToString()).ToString("N");
+                    dtRow["POUOM"] = row["POUOM"].ToString();
                     dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                     dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                     dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");

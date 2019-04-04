@@ -1,9 +1,67 @@
 ﻿<%@ Page Title="List of Created Purchase Order" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_po_list.aspx.cs" Inherits="HijoPortal.mrp_po_list" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script type="text/javascript" src="jquery/POList.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    
+    <asp:TextBox ID="TextBoxLoading" runat="server" Visible="true" Style="display: none;"></asp:TextBox>
+    <ajaxToolkit:ModalPopupExtender runat="server"
+        ID="ModalPopupExtenderLoading"
+        BackgroundCssClass="modalBackground"
+        PopupControlID="PanelLoading"
+        TargetControlID="TextBoxLoading"
+        CancelControlID="ButtonErrorOK1" 
+        ClientIDMode="Static">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PanelLoading" runat="server"
+        CssClass="modalPopupLoading"
+        Height="200px"
+        Width="200px"
+        align="center"
+        Style="display: none;">
+        <img src="images/Loading.gif" style="height: 200px; width: 200px;" />
+        <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
+    </asp:Panel>
+
+    <dx:ASPxPopupControl ID="PopupSubmit" ClientInstanceName="POListPopupSubmit" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <table style="width: 100%;" border="0">
+                    <tr>
+                        <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
+                            <dx:ASPxLabel runat="server" Text="Are you sure you want to submit this Purchase Order document to AX?" Theme="Office2010Blue"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" OnClick="OK_SUBMIT_Click" Theme="Office2010Blue" AutoPostBack="false">
+                                <ClientSideEvents Click="function(s,e){
+                                    POListPopupSubmit.Hide();
+                                    $find('ModalPopupExtenderLoading').show();
+                                    e.processOnServer = true;
+                                    }" />
+                            </dx:ASPxButton>
+                            <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                                <ClientSideEvents Click="function(s,e){POListPopupSubmit.Hide();}" />
+                            </dx:ASPxButton>
+                        </td>
+                    </tr>
+                </table>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+    
+    <dx:ASPxPopupControl ID="POListNotify" ClientInstanceName="POList_MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue" ContentStyle-Paddings-Padding="20">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxLabel ID="POListNotifyLbl" ClientInstanceName="POList_MRPNotificationMessage" runat="server" Text="" ForeColor="Red" Theme="Office2010Blue"></dx:ASPxLabel>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <dx:ASPxPopupControl ID="POListPopup" runat="server" ClientInstanceName="POListPopupClient" CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" Theme="Office2010Blue" Modal="true">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -27,19 +85,21 @@
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
+    
     <dx:ASPxPopupControl ID="PopupNotAllowed" runat="server" ClientInstanceName="PopupNotAllowed" CloseAction="CloseButton" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <table>
                     <tr>
                         <td>
-                            <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Not Allowed to Delete"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="PopupNotAllowedLabel" ClientInstanceName="PopupNotAllowedLabel" runat="server" Text="Not Allowed to Delete"></dx:ASPxLabel>
                         </td>
                     </tr>
                 </table>
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
+
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 30px;">
             <h1>List of Created Purchase Order</h1>
@@ -62,6 +122,7 @@
                         <CustomButtons>
                             <dx:GridViewCommandColumnCustomButton ID="Edit" Text="" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                             <dx:GridViewCommandColumnCustomButton ID="Delete" Text="" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                            <dx:GridViewCommandColumnCustomButton ID="Submit" Text="" Image-Url="Images/Submit.ico" Image-ToolTip="Submit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                             <%--<dx:GridViewCommandColumnCustomButton ID="Preview" Text="" Image-Url="Images/Refresh.ico" Image-ToolTip="Preview Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>--%>
                         </CustomButtons>
                     </dx:GridViewCommandColumn>

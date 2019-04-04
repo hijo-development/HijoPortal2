@@ -3,11 +3,29 @@
     console.log("stat:" + status);
     switch (status) {
         case "0"://allow to delete
-            POListPopupClient.SetHeaderText("Alert");
+            POListPopupClient.SetHeaderText("Confirm");
             POListPopupClient.Show();
             break;
         case "1"://not allowed to delete
             PopupNotAllowed.SetHeaderText("Alert");
+            PopupNotAllowedLabel.SetText("Not Allowed to Delete");
+            PopupNotAllowed.Show();
+            break;
+
+    }
+}
+
+function OnGetRowValuesSubmit(value) {
+    var status = value[0];
+    console.log("stat:" + status);
+    switch (status) {
+        case "0"://allow to delete
+            POListPopupSubmit.SetHeaderText("Confirm");
+            POListPopupSubmit.Show();
+            break;
+        case "1"://not allowed to delete
+            PopupNotAllowed.SetHeaderText("Alert");
+            PopupNotAllowedLabel.SetText("Not Allowed to Submit");
             PopupNotAllowed.Show();
             break;
 
@@ -22,9 +40,13 @@ function gridCreatedPO_CustomButtonClick(s, e) {
             break;
         case 'Delete':
             var visibleIndex = gridCreatedPO.GetFocusedRowIndex();
-            console.log("stat:....");
+            //console.log("stat:....");
             gridCreatedPO.GetRowValues(visibleIndex, 'POStatus', OnGetRowValues);
-            
+            break;
+        case 'Submit':
+            var visibleIndex = gridCreatedPO.GetFocusedRowIndex();
+            //console.log("stat:....");
+            gridCreatedPO.GetRowValues(visibleIndex, 'POStatus', OnGetRowValuesSubmit);
             break;
     }
 }

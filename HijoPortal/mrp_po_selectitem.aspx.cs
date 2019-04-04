@@ -140,7 +140,10 @@ namespace HijoPortal
 
             //MRPClass.PrintString("--->>>" + fieldValues.Count.ToString());
             if (fieldValues.Count == 0)
+            {
+                ModalPopupExtenderLoading.Hide();
                 return;
+            }
             else
             {
                 string userkey = Session["CreatorKey"].ToString();
@@ -174,6 +177,7 @@ namespace HijoPortal
                     cmd.Parameters.AddWithValue("@uom", uom);
                     cmd.ExecuteNonQuery();
                 }
+                ModalPopupExtenderLoading.Hide();
                 Response.Redirect("mrp_po_create.aspx");
             }
         }

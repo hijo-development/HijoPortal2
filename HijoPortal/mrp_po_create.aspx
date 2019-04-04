@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="Create Purchase Order" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_po_create.aspx.cs" Inherits="HijoPortal.mrp_po_create" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
         .table_detail {
@@ -66,6 +68,25 @@
     <script type="text/javascript" src="jquery/POCreate.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <asp:TextBox ID="TextBoxLoading" runat="server" Visible="true" Style="display: none;"></asp:TextBox>
+    <ajaxToolkit:ModalPopupExtender runat="server"
+        ID="ModalPopupExtenderLoading"
+        BackgroundCssClass="modalBackground"
+        PopupControlID="PanelLoading"
+        TargetControlID="TextBoxLoading"
+        CancelControlID="ButtonErrorOK1" 
+        ClientIDMode="Static">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PanelLoading" runat="server"
+        CssClass="modalPopupLoading"
+        Height="200px"
+        Width="200px"
+        align="center"
+        Style="display: none;">
+        <img src="images/Loading.gif" style="height: 200px; width: 200px;" />
+        <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
+    </asp:Panel>
 
     <dx:ASPxPopupControl ID="POCreateNotify" ClientInstanceName="POCreate_MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue" ContentStyle-Paddings-Padding="20">
         <ContentCollection>
@@ -332,8 +353,8 @@
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="POUOM" Caption="PO UOM">
-                        <HeaderStyle HorizontalAlign="Right" />
-                        <CellStyle HorizontalAlign="Right"></CellStyle>
+                        <HeaderStyle HorizontalAlign="Left" />
+                        <CellStyle HorizontalAlign="Left"></CellStyle>
                         <EditItemTemplate>
                             <dx:ASPxComboBox ID="POUOM" runat="server" ValueType="System.String" OnInit="POUOM_Init" Width="100px" Theme="Office2010Blue">
                                 <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
@@ -407,7 +428,11 @@
             <table style="width: 100%; margin-top: 5px;">
                 <tr>
                     <td style="text-align: right;">
-                        <dx:ASPxButton ID="Save" runat="server" ClientInstanceName="SavePO" OnClick="Save_Click" Text="SAVE" Theme="Office2010Blue">
+                        <dx:ASPxButton ID="Save" runat="server" ClientInstanceName="SavePO" OnClick="Save_Click" Text="Create" Theme="Office2010Blue">
+                            <ClientSideEvents Click="function(s, e) {
+                                $find('ModalPopupExtenderLoading').show();
+                                e.processOnServer = true;
+                                }" />
                         </dx:ASPxButton>
                     </td>
                 </tr>

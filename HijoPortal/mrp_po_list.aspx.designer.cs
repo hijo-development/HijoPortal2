@@ -13,6 +13,87 @@ namespace HijoPortal {
     public partial class mrp_po_list {
         
         /// <summary>
+        /// TextBoxLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxLoading;
+        
+        /// <summary>
+        /// ModalPopupExtenderLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupExtenderLoading;
+        
+        /// <summary>
+        /// PanelLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelLoading;
+        
+        /// <summary>
+        /// ButtonErrorOK1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonErrorOK1;
+        
+        /// <summary>
+        /// PopupSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl PopupSubmit;
+        
+        /// <summary>
+        /// OK_SUBMIT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton OK_SUBMIT;
+        
+        /// <summary>
+        /// CANCEL_SUBMIT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton CANCEL_SUBMIT;
+        
+        /// <summary>
+        /// POListNotify control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl POListNotify;
+        
+        /// <summary>
+        /// POListNotifyLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel POListNotifyLbl;
+        
+        /// <summary>
         /// POListPopup control.
         /// </summary>
         /// <remarks>
@@ -58,13 +139,13 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxPopupControl PopupNotAllowed;
         
         /// <summary>
-        /// ASPxLabel1 control.
+        /// PopupNotAllowedLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel ASPxLabel1;
+        protected global::DevExpress.Web.ASPxLabel PopupNotAllowedLabel;
         
         /// <summary>
         /// dvContentWrapper control.
@@ -101,5 +182,14 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.GridViewCommandColumnCustomButton Delete;
+        
+        /// <summary>
+        /// Submit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.GridViewCommandColumnCustomButton Submit;
     }
 }
