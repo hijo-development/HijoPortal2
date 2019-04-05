@@ -97,6 +97,12 @@
     <Content Include="config\email.txt" />
     <Content Include="config\email_redirect.txt" />
     <Content Include="config\Key.txt" />
+    <Content Include="config\POHeaderColNameDefault.txt" />
+    <Content Include="config\POHeaderColNameFromMOP.txt" />
+    <Content Include="config\POHeaderDefaultValue.txt" />
+    <Content Include="config\POLineColNameDefault.txt" />
+    <Content Include="config\POLineColNameFromMOP.txt" />
+    <Content Include="config\POLineDefaultValue.txt" />
     <Content Include="createaccount.aspx" />
     <Content Include="create_account.aspx" />
     <Content Include="css\Account.css" />

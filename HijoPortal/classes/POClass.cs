@@ -4,6 +4,10 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.IO;
+using DevExpress.Web;
+using AjaxControlToolkit;
+
 
 namespace HijoPortal.classes
 {
@@ -1096,6 +1100,422 @@ namespace HijoPortal.classes
             cn.Close();
 
             return dtTable;
+        }
+
+        public static string POHeaderColumnName()
+        {
+            string sHeader = "";
+            string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            string sFilePath = sWebRoot + @"config\POHeaderColNameFromMOP.txt";
+
+            try
+            {
+                if (File.Exists(sFilePath))
+                {
+                    using (StreamReader sr = new StreamReader(sFilePath))
+                    {
+                        while (sr.Peek() >= 0)
+                        {
+                            sHeader = sr.ReadLine();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sHeader = "";
+            }
+
+            return sHeader;
+        }
+
+        public static string POHeaderColumnNameDefault()
+        {
+            string sHeader = "";
+            string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            string sFilePath = sWebRoot + @"config\POHeaderColNameDefault.txt";
+
+            try
+            {
+                if (File.Exists(sFilePath))
+                {
+                    using (StreamReader sr = new StreamReader(sFilePath))
+                    {
+                        while (sr.Peek() >= 0)
+                        {
+                            sHeader = sr.ReadLine();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sHeader = "";
+            }
+            return sHeader;
+        }
+
+        public static string POHeaderDefaultValue()
+        {
+            string sHeaderDefault = "";
+            string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            string sFilePath = sWebRoot + @"config\POHeaderDefaultValue.txt";
+
+            try
+            {
+                if (File.Exists(sFilePath))
+                {
+                    using (StreamReader sr = new StreamReader(sFilePath))
+                    {
+                        while (sr.Peek() >= 0)
+                        {
+                            sHeaderDefault = sr.ReadLine();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sHeaderDefault = "";
+            }
+            return sHeaderDefault;
+        }
+
+        public static string POLineColumnName()
+        {
+            string sLine = "";
+            string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            string sFilePath = sWebRoot + @"config\POLineColNameFromMOP.txt";
+
+            try
+            {
+                if (File.Exists(sFilePath))
+                {
+                    using (StreamReader sr = new StreamReader(sFilePath))
+                    {
+                        while (sr.Peek() >= 0)
+                        {
+                            sLine = sr.ReadLine();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sLine = "";
+            }
+
+            return sLine;
+        }
+
+        public static string POLineColumnNameDefault()
+        {
+            string sHeader = "";
+            string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            string sFilePath = sWebRoot + @"config\POLineColNameDefault.txt";
+
+            try
+            {
+                if (File.Exists(sFilePath))
+                {
+                    using (StreamReader sr = new StreamReader(sFilePath))
+                    {
+                        while (sr.Peek() >= 0)
+                        {
+                            sHeader = sr.ReadLine();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sHeader = "";
+            }
+            return sHeader;
+        }
+
+        public static string POLineDefaultValue()
+        {
+            string sHeaderDefault = "";
+            string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            string sFilePath = sWebRoot + @"config\POLineDefaultValue.txt";
+
+            try
+            {
+                if (File.Exists(sFilePath))
+                {
+                    using (StreamReader sr = new StreamReader(sFilePath))
+                    {
+                        while (sr.Peek() >= 0)
+                        {
+                            sHeaderDefault = sr.ReadLine();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sHeaderDefault = "";
+            }
+            return sHeaderDefault;
+        }
+
+        public static void SubmitToAX(string poNum, ASPxPopupControl popNotify, ASPxLabel lblNotify, ModalPopupExtender modExtender)
+        {
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dt1 = new DataTable();
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+            string qry = "", sFiLeName = "", sFileNameD = "";
+            string sFile = "", sFileD = "", sFileDest = "", sFileDDest = "";
+
+            string sHeader = "", sDetails = "", sPriceUnit = "", sFixedAsset = "";
+
+            string sServerDir = HttpContext.Current.Server.MapPath("~");
+            string sDir = sServerDir + @"\po_file";
+            if (!Directory.Exists(sDir))
+            {
+                Directory.CreateDirectory(sDir);
+            }
+
+            conn.Open();
+            qry = "SELECT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_POCreation.ExpectedDate, dbo.tbl_POCreation.VendorCode, dbo.tbl_POCreation.PaymentTerms, dbo.tbl_POCreation.CurrencyCode,dbo.tbl_POCreation.InventSite, dbo.tbl_POCreation.InventSiteWarehouse, dbo.tbl_POCreation.InventSiteWarehouseLocation, dbo.vw_AXVendTable.NAME, dbo.vw_AXVendTable.VENDGROUP, dbo.vw_AXVendTable.INCLTAX, dbo.vw_AXVendTable.PAYMMODE, dbo.vw_AXVendTable.TAXGROUP, dbo.tbl_POCreation.EntityCode, dbo.tbl_POCreation.BUSSUCode, dbo.tbl_POCreation.Remarks FROM  dbo.tbl_POCreation LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM WHERE(dbo.tbl_POCreation.PONumber = '" + poNum + "')";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    string sPORemarks = row["MRPNumber"].ToString();
+                    string sIncTax = "";
+                    if (Convert.ToInt32(row["INCLTAX"]) == 0)
+                    {
+                        sIncTax = "No";
+                    }
+                    else
+                    {
+                        sIncTax = "Yes";
+                    }
+
+                    string sDefaultDimension = "";
+                    if (row["EntityCode"].ToString().Trim() == "0000")
+                    {
+                        sDefaultDimension = row["BUSSUCode"].ToString() + "__";
+                    }
+                    else if (row["EntityCode"].ToString().Trim() == "0303")
+                    {
+                        sDefaultDimension = "_" + row["BUSSUCode"].ToString() + "_";
+                    }
+                    else
+                    {
+                        sDefaultDimension = "";
+                    }
+
+                    sFiLeName = row["EntityCode"].ToString() + "_" + row["PONumber"].ToString() + "_H.txt";
+                    sFile = sDir + @"\" + sFiLeName;
+
+                    if (File.Exists(sFile))
+                    {
+                        File.Delete(sFile);
+                    }
+                    FileStream fs = File.Create(sFile);
+                    fs.Dispose();
+
+                    if (File.Exists(sFile))
+                    {
+                        using (StreamWriter w = File.AppendText(sFile))
+                        {
+                            //w.WriteLine("PurchId|AccountingDate|DeliveryDate|CurrencyCode|OrderAccount|InvoiceAccount|DeliveryName|PurchName|Payment|InclTax|PaymMode|PORemarks|DocumentState|DocumentStatus|InventSiteId|Remarks|VendGroup|TaxGroup|LanguageId|PostingProfile|PurchaseType|PurchPoolId|PurchStatus|DefaultDimension");
+                            w.WriteLine(POClass.POHeaderColumnName() + POClass.POHeaderColumnNameDefault());
+                            w.Close();
+
+                        }
+                        using (StreamWriter w = File.AppendText(sFile))
+                        {
+                            sHeader = row["PONumber"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row["CurrencyCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["NAME"].ToString() + "|" + row["NAME"].ToString() + "|" + row["PaymentTerms"].ToString() + "|" + sIncTax + "|" + row["PAYMMODE"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["Remarks"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["TAXGROUP"].ToString() + "|" + sDefaultDimension.ToString() + "|" + sPORemarks + "|";
+
+                            //w.WriteLine(row["PONumber"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row["CurrencyCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["NAME"].ToString() + "|" + row["NAME"].ToString() + "|" + row["PaymentTerms"].ToString() + "|" + sIncTax + "|" + row["PAYMMODE"].ToString() + "|" + sPORemarks.ToString() + "|Draft|Open order|" + row["InventSite"].ToString() + "|" + sPORemarks.ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["TAXGROUP"].ToString() + "|en-us|Gen|Purchase order||Open order|" + sDefaultDimension.ToString());
+                            w.WriteLine(sHeader + POClass.POHeaderDefaultValue());
+                            w.Close();
+                        }
+                    }
+
+                    int iLineNumber = 0;
+                    string sDefaultDimensionLine = "";
+                    qry = "SELECT ItemCode, TaxGroup, TaxItemGroup, Qty, Cost, TotalCost, POUOM, (CASE Identifier WHEN 1 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT OprUnit FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS OprUnit, (CASE Identifier WHEN 1 THEN (SELECT ItemDescription + (CASE LTRIM(RTRIM(ItemDescriptionAddl)) WHEN '' THEN '' ELSE ' (' + ItemDescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT Description + (CASE LTRIM(RTRIM(DescriptionAddl)) WHEN '' THEN '' ELSE ' (' + DescriptionAddl + ')' END) AS ItemDesc FROM dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS ItemDesc FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + poNum + "')";
+                    cmd1 = new SqlCommand(qry);
+                    cmd1.Connection = conn;
+                    adp1 = new SqlDataAdapter(cmd1);
+                    adp1.Fill(dt1);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        sFileNameD = row["EntityCode"].ToString() + "_" + row["PONumber"].ToString() + "_L.txt";
+                        sFileD = sDir + @"\" + sFileNameD;
+
+                        if (File.Exists(sFileD))
+                        {
+                            File.Delete(sFileD);
+                        }
+                        FileStream fsd = File.Create(sFileD);
+                        fsd.Dispose();
+
+                        if (File.Exists(sFileD))
+                        {
+                            using (StreamWriter w = File.AppendText(sFileD))
+                            {
+                                //w.WriteLine("PurchId|VendAccount|DeliveryName|Name|VendGroup|InventSiteID|InventLocationID|wMSLocationId|Complete|CreateFixedAsset|CurrencyCode|DeliveryDate|IsFinalized|IsPwp|ItemId|PurchQty|PurchUnit|PurchPrice|LineAmount|LineNumber|PriceUnit|MatchingPolicy|OverDeliveryPct|PurchaseType|PurchStatus|TaxGroup|TaxItemGroup|UnderDeliveryPct|VariantId|DefaultDimension|WorkflowState");
+                                w.WriteLine(POClass.POLineColumnName() + POClass.POLineColumnNameDefault());
+                                w.Close();
+                            }
+                        }
+
+                        foreach (DataRow row1 in dt1.Rows)
+                        {
+                            iLineNumber = iLineNumber + 1;
+                            if (File.Exists(sFileD))
+                            {
+
+                                if (row["EntityCode"].ToString().Trim() == "0000")
+                                {
+                                    sDefaultDimensionLine = row["BUSSUCode"].ToString() + "__";
+                                }
+                                else if (row["EntityCode"].ToString().Trim() == "0303")
+                                {
+                                    sDefaultDimensionLine = "_" + row["BUSSUCode"].ToString() + "_";
+                                }
+                                else if (row["EntityCode"].ToString().Trim() == "0101")
+                                {
+                                    sDefaultDimensionLine = "__" + row1["OprUnit"].ToString();
+                                }
+                                else
+                                {
+                                    sDefaultDimensionLine = "";
+                                }
+                                sPriceUnit = "1";
+                                sFixedAsset = "No";
+                                using (StreamWriter w = File.AppendText(sFileD))
+                                {
+                                    //w.WriteLine(row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|0|0|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|0|0|" + row1["ItemCode"].ToString() + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|1|Three-way matching|0|Purchase order|Open order|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|100||" + sDefaultDimensionLine.ToString() + "|Not submitted");
+
+                                    sDetails = row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row1["ItemCode"].ToString() + "|" + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|" + sPriceUnit + "|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|" + sDefaultDimensionLine.ToString() + "|" + sFixedAsset + "|";
+                                    w.WriteLine(sDetails + POClass.POLineDefaultValue());
+                                    w.Close();
+                                }
+                            }
+                        }
+                    }
+                    dt1.Clear();
+
+                    string sDomain = "", sUsername = "", sPassword = "";
+
+                    qry = "SELECT tbl_AXPOUploadingPath.* FROM tbl_AXPOUploadingPath WHERE ([Entity] = '" + row["EntityCode"].ToString() + "')";
+                    cmd1 = new SqlCommand(qry);
+                    cmd1.Connection = conn;
+                    adp1 = new SqlDataAdapter(cmd1);
+                    adp1.Fill(dt1);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        foreach (DataRow row1 in dt1.Rows)
+                        {
+                            sFileDest = row1["POHeaderPath"].ToString() + @"\" + sFiLeName;
+                            sFileDDest = row1["POLinePath"].ToString() + @"\" + sFileNameD;
+                            sDomain = row1["Domain"].ToString();
+                            sUsername = row1["UserName"].ToString();
+                            if (row1["Password"].ToString().Trim() != "")
+                            {
+                                sPassword = EncryptionClass.Decrypt(row1["Password"].ToString());
+                            }
+                            else
+                            {
+                                sPassword = row1["Password"].ToString();
+                            }
+
+                            sDomain = "hijo"; sUsername = "hijoportal_client"; sPassword = "hPortal@2019";
+
+                            try
+                            {
+                                using (var impersonation = new ImpersonatedUser(sUsername, sDomain, sPassword))
+                                {
+                                    try
+                                    {
+                                        if (sFileDest.Trim() != "")
+                                        {
+                                            if (File.Exists(sFile) == true)
+                                            {
+                                                File.Copy(sFile, sFileDest, true);
+                                            }
+                                        }
+                                        if (sFileDDest.Trim() != "")
+                                        {
+                                            if (File.Exists(sFileD) == true)
+                                            {
+                                                File.Copy(sFileD, sFileDDest, true);
+                                            }
+                                        }
+                                        try
+                                        {
+                                            qry = "UPDATE tbl_POCreation SET [POStatus] = 1 WHERE ([PONumber] = @PONumber)";
+                                            cmd = new SqlCommand(qry, conn);
+                                            cmd.Parameters.AddWithValue("@PONumber", poNum);
+                                            cmd.CommandType = CommandType.Text;
+                                            cmd.ExecuteNonQuery();
+
+                                            modExtender.Hide();
+
+                                            lblNotify.ForeColor = System.Drawing.Color.Black;
+                                            lblNotify.Text = "Sucessfully submitted to AX";
+                                            popNotify.HeaderText = "Info";
+                                            popNotify.ShowOnPageLoad = true;
+
+                                        }
+                                        catch (SqlException exSQL)
+                                        {
+                                            modExtender.Hide();
+                                            lblNotify.ForeColor = System.Drawing.Color.Red;
+                                            lblNotify.Text = exSQL.ToString();
+                                            popNotify.HeaderText = "Error";
+                                            popNotify.ShowOnPageLoad = true;
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        modExtender.Hide();
+                                        lblNotify.ForeColor = System.Drawing.Color.Red;
+                                        lblNotify.Text = ex.ToString();
+                                        popNotify.HeaderText = "Error";
+                                        popNotify.ShowOnPageLoad = true;
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                modExtender.Hide();
+                                lblNotify.ForeColor = System.Drawing.Color.Red;
+                                lblNotify.Text = ex.ToString();
+                                popNotify.HeaderText = "Error";
+                                popNotify.ShowOnPageLoad = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        modExtender.Hide();
+                        lblNotify.ForeColor = System.Drawing.Color.Red;
+                        lblNotify.Text = "Please Call Administrator." + Environment.NewLine + Environment.NewLine + "No PO Destination Path Setup.";
+                        popNotify.HeaderText = "Error";
+                        popNotify.ShowOnPageLoad = true;
+                    }
+                    dt1.Clear();
+                }
+            }
+            dt.Clear();
+
+            conn.Close();
         }
     }
 }

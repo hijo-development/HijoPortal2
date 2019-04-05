@@ -1,0 +1,1 @@
+PurchId|AccountingDate|DeliveryDate|CurrencyCode|OrderAccount|InvoiceAccount|DeliveryName|PurchName|Payment|InclTax|PaymMode|InventSiteId|Remarks|VendGroup|TaxGroup|DefaultDimension|PORemarks|
