@@ -1,0 +1,1 @@
+DocumentState|DocumentStatus|LanguageId|PostingProfile|PurchaseType|PurchPoolId|PurchStatus

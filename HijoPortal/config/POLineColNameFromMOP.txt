@@ -1,0 +1,1 @@
+PurchId|VendAccount|DeliveryName|NameVendGroup|InventSiteID|InventLocationID|wMSLocationId|CurrencyCode|DeliveryDate|ItemId|PurchQty|PurchUnit|PurchPrice|LineAmount|LineNumber|PriceUnit|TaxGroup|TaxItemGroup|DefaultDimension|CreateFixedAsset|
