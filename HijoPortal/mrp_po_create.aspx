@@ -347,7 +347,6 @@
                     <dx:GridViewDataComboBoxColumn FieldName="TaxGroup">
                         <EditItemTemplate>
                             <dx:ASPxComboBox ID="TaxGroup" runat="server" ClientInstanceName="TaxGroupClient" OnInit="TaxGroup_Init" ValueType="System.String" Width="100px" Theme="Office2010Blue">
-                                <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                             </dx:ASPxComboBox>
                         </EditItemTemplate>
                         <%--<PropertiesComboBox ValueField="TaxGroup"></PropertiesComboBox>--%>
@@ -355,7 +354,6 @@
                     <dx:GridViewDataComboBoxColumn FieldName="TaxItemGroup">
                         <EditItemTemplate>
                             <dx:ASPxComboBox ID="TaxItemGroup" runat="server" ClientInstanceName="TaxItemGroupClient" OnInit="TaxItemGroup_Init" ValueType="System.String" Width="100px" Theme="Office2010Blue">
-                                <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                             </dx:ASPxComboBox>
                         </EditItemTemplate>
                         <%--<PropertiesComboBox ValueField="TaxItemGroup"></PropertiesComboBox>--%>

@@ -117,6 +117,7 @@
     <Content Include="default.aspx" />
     <Content Include="executive.aspx" />
     <Content Include="finance.aspx" />
+    <Content Include="forgotpassword.aspx" />
     <Content Include="Global.asax" />
     <Content Include="home.aspx" />
     <Content Include="images\Add.ico" />
@@ -259,6 +260,13 @@
     </Compile>
     <Compile Include="finance.aspx.designer.cs">
       <DependentUpon>finance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="forgotpassword.aspx.cs">
+      <DependentUpon>forgotpassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forgotpassword.aspx.designer.cs">
+      <DependentUpon>forgotpassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
