@@ -85,6 +85,8 @@ namespace HijoPortal
 
                 MOPReference.Value = reader["MRPNumber"].ToString();
 
+                Remarks.Text = reader["Remarks"].ToString();
+
                 if (Convert.ToInt32(reader["POStatus"]) == 0)
                     StatusLbl.Text = "Created";
                 else
@@ -423,7 +425,7 @@ namespace HijoPortal
 
         protected void Save_Click(object sender, EventArgs e)
         {
-            string update = "UPDATE [dbo].[tbl_POCreation] SET [ExpectedDate] = @ExpectedDate, [VendorCode] = @VendorCode, [PaymentTerms] = @PaymentTerms, [CurrencyCode] = @CurrencyCode, [InventSite] = @InventSite, [InventSiteWarehouse] = @InventSiteWarehouse, [InventSiteWarehouseLocation] = @InventSiteWarehouseLocation WHERE [PONumber] = @PONumber";
+            string update = "UPDATE [dbo].[tbl_POCreation] SET [ExpectedDate] = @ExpectedDate, [VendorCode] = @VendorCode, [PaymentTerms] = @PaymentTerms, [CurrencyCode] = @CurrencyCode, [InventSite] = @InventSite, [InventSiteWarehouse] = @InventSiteWarehouse, [InventSiteWarehouseLocation] = @InventSiteWarehouseLocation, [Remarks] = @Remarks WHERE [PONumber] = @PONumber";
 
             string location = "";
             if (LocationCombo.Value != null)
@@ -440,6 +442,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@InventSite", SiteCombo.Text.ToString());
             cmd.Parameters.AddWithValue("@InventSiteWarehouse", WarehouseCombo.Text.ToString());
             cmd.Parameters.AddWithValue("@InventSiteWarehouseLocation", location);
+            cmd.Parameters.AddWithValue("@Remarks", Remarks.Text.ToString());
             cmd.Parameters.AddWithValue("@PONumber", ponumber);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();

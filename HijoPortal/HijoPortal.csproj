@@ -92,6 +92,7 @@
   <ItemGroup>
     <Content Include="budept_head.aspx" />
     <Content Include="changepw.aspx" />
+    <Content Include="change_password.aspx" />
     <Content Include="change_pw.aspx" />
     <Content Include="config\cn.txt" />
     <Content Include="config\email.txt" />
@@ -106,10 +107,12 @@
     <Content Include="createaccount.aspx" />
     <Content Include="create_account.aspx" />
     <Content Include="css\Account.css" />
+    <Content Include="css\ChangePassword.css" />
     <Content Include="css\ContentPage.css" />
     <Content Include="css\LogIn.css" />
     <Content Include="css\LogInICON.css" />
     <Content Include="css\POAddedit.css" />
+    <Content Include="css\POCreate.css" />
     <Content Include="css\POUploading.css" />
     <Content Include="default.aspx" />
     <Content Include="executive.aspx" />
@@ -189,6 +192,13 @@
     </Compile>
     <Compile Include="changepw.aspx.designer.cs">
       <DependentUpon>changepw.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="change_password.aspx.cs">
+      <DependentUpon>change_password.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="change_password.aspx.designer.cs">
+      <DependentUpon>change_password.aspx</DependentUpon>
     </Compile>
     <Compile Include="change_pw.aspx.cs">
       <DependentUpon>change_pw.aspx</DependentUpon>

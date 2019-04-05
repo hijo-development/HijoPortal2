@@ -7,16 +7,16 @@
     <script type="text/javascript" src="jquery/POAddedit.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    
+
     <dx:ASPxLoadingPanel ID="LoadingPanel" runat="server" ClientInstanceName="LoadingPanel" Modal="true" Theme="Office2010Blue"></dx:ASPxLoadingPanel>
-    
+
     <asp:TextBox ID="TextBoxLoading" runat="server" Visible="true" Style="display: none;"></asp:TextBox>
     <ajaxToolkit:ModalPopupExtender runat="server"
         ID="ModalPopupExtenderLoading"
         BackgroundCssClass="modalBackground"
         PopupControlID="PanelLoading"
         TargetControlID="TextBoxLoading"
-        CancelControlID="ButtonErrorOK1" 
+        CancelControlID="ButtonErrorOK1"
         ClientIDMode="Static">
     </ajaxToolkit:ModalPopupExtender>
     <asp:Panel ID="PanelLoading" runat="server"
@@ -29,7 +29,7 @@
         <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
     </asp:Panel>
 
-    
+
     <dx:ASPxPopupControl ID="DeletePopup" runat="server" ClientInstanceName="DeletePopupClient" Modal="true" CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -178,7 +178,7 @@
                     </td>
                     <td class="table_po_semi">:</td>
                     <td class="table_po_td_data" style="width: 10%;">
-                        <dx:ASPxDateEdit ID="ExpDel" runat="server" AllowUserInput="false" CssClass="innertable_width" Theme="Office2010Blue">
+                        <dx:ASPxDateEdit ID="ExpDel" runat="server" AllowUserInput="false" CssClass="innertable_width" Width="100%" Theme="Office2010Blue">
                             <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                             <%--<ClientSideEvents GotFocus="function(s,e){s.ShowDropDown(); }" />--%>
                         </dx:ASPxDateEdit>
@@ -298,6 +298,17 @@
                             </tr>
                         </table>
 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table_po_td_label" style="vertical-align:middle;">
+                        <dx:ASPxLabel runat="server" Text="Remarks" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td class="table_po_semi" style="vertical-align:middle;">:</td>
+                    <td class="table_po_td_data" colspan="7" style="padding-top:5px;">
+                        <dx:ASPxTextBox ID="Remarks" runat="server" Width="100%" Theme="Office2010Blue">
+                            <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
+                        </dx:ASPxTextBox>
                     </td>
                 </tr>
             </table>
@@ -428,7 +439,7 @@
                 <SettingsEditing Mode="Inline"></SettingsEditing>
                 <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                     AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" />
-                <Settings ShowFooter="true"  />
+                <Settings ShowFooter="true" />
 
                 <TotalSummary>
                     <dx:ASPxSummaryItem FieldName="POQty" SummaryType="Sum" ShowInColumn="POQty" DisplayFormat="Total: {0:0,0.00}" />

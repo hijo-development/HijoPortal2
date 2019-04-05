@@ -117,3 +117,11 @@ function POQty_KeyUp(s, e) {//OnChange
     }
 
 }
+
+function Save_Click(s, e) {
+    var execute = VendorClient.GetIsValid() && SiteClient.GetIsValid() && ExpDelClient.GetIsValid() && TermsClient.GetIsValid() && WarehousePO.GetIsValid() && CurrencyClient.GetIsValid() && LocationClient.GetIsValid() && RemarksClient.GetIsValid();
+    if (execute) {
+        $find('ModalPopupExtenderLoading').show();
+        e.processOnServer = true;
+    }
+}
