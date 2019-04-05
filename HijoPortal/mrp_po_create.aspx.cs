@@ -472,8 +472,8 @@ namespace HijoPortal
             string qty = POQty.Value.ToString();
             string cost = POCost.Value.ToString();
             //string total = TotalPOCost.Value.ToString();
-            string tax_group = TaxGroup.Value.ToString();
-            string tax_item_group = TaxItemGroup.Value.ToString();
+            string tax_group = TaxGroup.Text.ToString();
+            string tax_item_group = TaxItemGroup.Text.ToString();
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();

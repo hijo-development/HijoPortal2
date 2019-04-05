@@ -43,15 +43,13 @@
                         </dx:ASPxComboBox>
                     </td>
                 </tr>
-                <tr>
+                <%--<tr>
                     <td colspan="7" style="text-align: right; padding-right: 5px;">
                         <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
                             <ClientSideEvents Click="function(s,e){PopupSubmit.SetHeaderText('Confirm'); PopupSubmit.Show();}" />
                         </dx:ASPxButton>
-                       <%-- &nbsp
-                        <dx:ASPxButton ID="Preview" runat="server" Text="PREVIEW" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>--%>
                     </td>
-                </tr>
+                </tr>--%>
             </table>
         </div>
 

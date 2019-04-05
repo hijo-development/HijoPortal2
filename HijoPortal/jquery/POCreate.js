@@ -53,17 +53,17 @@ function POCreateGrid_CustomButtonClick(s, e) {
             SavePO.SetEnabled(false);
             break;
         case 'Update':
-            var tax_group = TaxGroupClient.GetValue() == null;
-            var tax_item_group = TaxItemGroupClient.GetValue() == null;
+            //var tax_group = TaxGroupClient.GetValue() == null;
+            //var tax_item_group = TaxItemGroupClient.GetValue() == null;
             var total = POTotalCost.GetValue() == null;
-            if (tax_group)
-                TaxGroupClient.SetIsValid(false);
-            if (tax_item_group)
-                TaxItemGroupClient.SetIsValid(false);
+            //if (tax_group)
+            //    TaxGroupClient.SetIsValid(false);
+            //if (tax_item_group)
+            //    TaxItemGroupClient.SetIsValid(false);
             if (total)
                 POTotalCost.SetIsValid(false);
 
-            if (!tax_group && !tax_item_group && !total)
+            if (!total)
                 s.UpdateEdit();
 
             SavePO.SetEnabled(true);

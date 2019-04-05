@@ -72,5 +72,10 @@ namespace HijoPortal
             }
             
         }
+
+        protected void ResetBtn_Click(object sender, EventArgs e)
+        {
+            string gencode = DateTime.Now.Ticks.ToString("x");
+        }
     }
 }
