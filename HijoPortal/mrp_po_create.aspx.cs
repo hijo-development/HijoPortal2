@@ -313,6 +313,7 @@ namespace HijoPortal
             string site = Site.Text.ToString();
             string warehouse = Warehouse.Text.ToString();
             string location = Location.Text.ToString();
+            string remarks = Remarks.Text.ToString();
 
             query = "SELECT tbl_PONumber.* FROM tbl_PONumber WHERE (EntityCode = '" + entitycode + "')";
             cmd = new SqlCommand(query);
@@ -326,7 +327,7 @@ namespace HijoPortal
                     POSeriesNum = Convert.ToInt32(row["LastNumber"]) + 1;
                     PONumber = row["Prefix"].ToString() + "-" + row["EntityCode"].ToString() + "-" + row["BeforeSeries"].ToString() + POSeriesNum.ToString("0000000#");
 
-                    insert = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation] ([PONumber],[DateCreated],[CreatorKey],[MRPNumber], [ExpectedDate], [VendorCode], [PaymentTerms], [CurrencyCode], [InventSite], [InventSiteWarehouse], [InventSiteWarehouseLocation], [EntityCode], [BUSSUCode]) VALUES (@PONumber, @DateCreated, @CreatorKey, @MRPNumber, @ExpectedDate, @VendorCode, @PaymentTerms, @CurrencyCode, @InventSite, @InventSiteWarehouse, @InventSiteWarehouseLocation, @EntityCode, @BUSSUCode)";
+                    insert = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation] ([PONumber],[DateCreated],[CreatorKey],[MRPNumber], [ExpectedDate], [VendorCode], [PaymentTerms], [CurrencyCode], [InventSite], [InventSiteWarehouse], [InventSiteWarehouseLocation], [EntityCode], [BUSSUCode], [Remarks]) VALUES (@PONumber, @DateCreated, @CreatorKey, @MRPNumber, @ExpectedDate, @VendorCode, @PaymentTerms, @CurrencyCode, @InventSite, @InventSiteWarehouse, @InventSiteWarehouseLocation, @EntityCode, @BUSSUCode, @Remarks)";
 
                     cmd = new SqlCommand(insert, conn);
                     cmd.Parameters.AddWithValue("@PONumber", PONumber);
@@ -342,6 +343,7 @@ namespace HijoPortal
                     cmd.Parameters.AddWithValue("@InventSite", site);
                     cmd.Parameters.AddWithValue("@InventSiteWarehouse", warehouse);
                     cmd.Parameters.AddWithValue("@InventSiteWarehouseLocation", location);
+                    cmd.Parameters.AddWithValue("@Remarks", remarks);
                     cmd.CommandType = CommandType.Text;
                     cmd.ExecuteNonQuery();
 

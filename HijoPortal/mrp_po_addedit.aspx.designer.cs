@@ -328,6 +328,15 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxComboBox LocationCombo;
         
         /// <summary>
+        /// Remarks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox Remarks;
+        
+        /// <summary>
         /// POAddEditGrid control.
         /// </summary>
         /// <remarks>

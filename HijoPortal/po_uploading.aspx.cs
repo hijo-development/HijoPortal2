@@ -387,6 +387,7 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
             SqlCommand cmd = null;
+            SqlDataReader reader = null;
 
             string[] arr = code.Text.ToString().Split(';');
             string entity_string = arr[0];
@@ -411,14 +412,11 @@ namespace HijoPortal
                 string check = "SELECT [EntityCode] FROM [hijo_portal].[dbo].[tbl_PONumber] WHERE [EntityCode] = '" + entity_string + "' EXCEPT(SELECT[EntityCode] FROM[hijo_portal].[dbo].[tbl_PONumber] WHERE[PK] = '" + PK + "')";
 
                 cmd = new SqlCommand(check, conn);
-                Int32 result = Convert.ToInt32(cmd.ExecuteScalar());
-                if (result > 0)
+                reader = cmd.ExecuteReader();
+                bool result = reader.Read();
+                if (result)
                 {
                     e.RowError = "Entity Already Exist";
-                } 
-                else
-                {
-                    e.RowError = ""+cmd.ExecuteScalar();
                 }
             }
             conn.Close();
@@ -432,6 +430,7 @@ namespace HijoPortal
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
+            SqlDataReader reader = null;
 
             string[] arr = entity.Text.ToString().Split(';');
             string entity_string = arr[0];
@@ -457,19 +456,12 @@ namespace HijoPortal
 
                 SqlCommand cmd = new SqlCommand(check1, conn);
                 cmd.CommandType = CommandType.Text;
-                int result = 0;
-                //string res = cmd.ExecuteScalar().ToString();
-                //MRPClass.PrintString(result.ToString() + ".....");
-
-                if (result > 0)
+                reader = cmd.ExecuteReader();
+                bool result = reader.Read();
+                if (result)
                 {
                     e.RowError = "Entity Already Exist";
                 }
-                else
-                {
-                    e.RowError = "result:" + result + " >>> " + cmd.ExecuteScalar();
-                }
-                //MRPClass.PrintString(PK + "....." + entity_string);
             }
             conn.Close();
         }

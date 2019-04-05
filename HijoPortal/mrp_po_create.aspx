@@ -3,68 +3,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style>
-        .table_detail {
-            margin-bottom: 10px;
-        }
-
-        .table_po_td_label {
-            width: 5%;
-            vertical-align: top;
-        }
-
-        .table_po_td_data {
-            width: 25%;
-            vertical-align: top;
-        }
-
-        .table_po_semi {
-            width: 1%;
-            vertical-align: top;
-        }
-
-        .data_width {
-            width: 60%;
-        }
-
-        .small_data_width {
-            width: 70%;
-        }
-
-        .innertable_width_hundred {
-            width: 100%;
-        }
-
-        .innertable_width_thirty {
-            width: 50%;
-        }
-
-        .innertable_width_seventy {
-            width: 50%;
-        }
-
-        .all_label {
-            /*padding-left: 5%;*/
-        }
-
-        .innertable {
-            width: 100%;
-        }
-
-            .innertable tr > td:first-child {
-                width: 50%;
-                vertical-align: top;
-            }
-
-            .innertable tr > td:nth-child(2) {
-                width: 50%;
-            }
-
-        .grid_style {
-            overflow-x: auto;
-            width: inherit;
-        }
-    </style>
+    <link href="css/POCreate.css" rel="stylesheet" />
     <script type="text/javascript" src="jquery/POCreate.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -75,7 +14,7 @@
         BackgroundCssClass="modalBackground"
         PopupControlID="PanelLoading"
         TargetControlID="TextBoxLoading"
-        CancelControlID="ButtonErrorOK1" 
+        CancelControlID="ButtonErrorOK1"
         ClientIDMode="Static">
     </ajaxToolkit:ModalPopupExtender>
     <asp:Panel ID="PanelLoading" runat="server"
@@ -111,7 +50,7 @@
                         <table class="innertable_width_hundred">
                             <tr>
                                 <td class="innertable_width_thirty">
-                                    <dx:ASPxComboBox ID="Vendor" runat="server" OnInit="Vendor_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                    <dx:ASPxComboBox ID="Vendor" runat="server" ClientInstanceName="VendorClient" OnInit="Vendor_Init" Width="100%" ValueType="System.String" Theme="Office2010Blue">
                                         <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                         <ClientSideEvents SelectedIndexChanged="VendorPO_SelectedIndexChanged" />
                                     </dx:ASPxComboBox>
@@ -130,7 +69,7 @@
                         <table class="innertable_width_hundred">
                             <tr>
                                 <td class="innertable_width_thirty">
-                                    <dx:ASPxComboBox ID="Site" runat="server" OnInit="Site_Init" CssClass="innertable_width_hundred" ValueType="System.String" Theme="Office2010Blue">
+                                    <dx:ASPxComboBox ID="Site" runat="server" ClientInstanceName="SiteClient" OnInit="Site_Init" CssClass="innertable_width_hundred" ValueType="System.String" Theme="Office2010Blue">
                                         <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                         <ClientSideEvents SelectedIndexChanged="SitePO_SelectedIndexChanged" />
                                     </dx:ASPxComboBox>
@@ -146,7 +85,7 @@
                     </td>
                     <td class="table_po_semi">:</td>
                     <td class="table_po_td_data" style="width: 10%;">
-                        <dx:ASPxDateEdit ID="ExpDel" runat="server" CssClass="innertable_width_hundred" Theme="Office2010Blue" AllowUserInput="false">
+                        <dx:ASPxDateEdit ID="ExpDel" runat="server" ClientInstanceName="ExpDelClient" CssClass="innertable_width_hundred" Width="100%" Theme="Office2010Blue" AllowUserInput="false">
                             <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                             <ClientSideEvents GotFocus="function(s, e) { s.ShowDropDown(); }" />
                         </dx:ASPxDateEdit>
@@ -164,7 +103,7 @@
                                     <dx:ASPxCallbackPanel ID="TermsCallback" runat="server" ClientInstanceName="TermsCallbackPO" OnCallback="TermsCallback_Callback" Width="100%">
                                         <PanelCollection>
                                             <dx:PanelContent>
-                                                <dx:ASPxComboBox ID="Terms" runat="server" ClientEnabled="false" ValueType="System.String" Theme="Office2010Blue" Width="100%">
+                                                <dx:ASPxComboBox ID="Terms" runat="server" ClientInstanceName="TermsClient" ClientEnabled="false" ValueType="System.String" Theme="Office2010Blue" Width="100%">
                                                     <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="TermsPO_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
@@ -258,7 +197,7 @@
                                     <dx:ASPxCallbackPanel ID="LocationCallback" runat="server" ClientInstanceName="LocationCallbackPO" OnCallback="LocationCallback_Callback" Width="100%">
                                         <PanelCollection>
                                             <dx:PanelContent>
-                                                <dx:ASPxComboBox ID="Location" runat="server" ClientEnabled="false" Width="100%" ValueType="System.String" Theme="Office2010Blue">
+                                                <dx:ASPxComboBox ID="Location" runat="server" ClientInstanceName="LocationClient" ClientEnabled="false" Width="100%" ValueType="System.String" Theme="Office2010Blue">
                                                     <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                     <ClientSideEvents SelectedIndexChanged="LocationPO_SelectedIndexChanged" />
                                                 </dx:ASPxComboBox>
@@ -276,7 +215,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="height: 50px;"></td>
+                    <td class="table_po_td_label" style="vertical-align:middle;">
+                        <dx:ASPxLabel runat="server" Text="Remarks" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td class="table_po_semi" style="vertical-align:middle;">:</td>
+                    <td class="table_po_td_data" colspan="7" style="padding-top:5px;">
+                        <dx:ASPxTextBox ID="Remarks" runat="server" ClientInstanceName="RemarksClient" Width="100%" Theme="Office2010Blue">
+                             <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
+                        </dx:ASPxTextBox>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -429,10 +376,7 @@
                 <tr>
                     <td style="text-align: right;">
                         <dx:ASPxButton ID="Save" runat="server" ClientInstanceName="SavePO" OnClick="Save_Click" Text="Create" Theme="Office2010Blue">
-                            <ClientSideEvents Click="function(s, e) {
-                                $find('ModalPopupExtenderLoading').show();
-                                e.processOnServer = true;
-                                }" />
+                            <ClientSideEvents Click="Save_Click" />
                         </dx:ASPxButton>
                     </td>
                 </tr>
