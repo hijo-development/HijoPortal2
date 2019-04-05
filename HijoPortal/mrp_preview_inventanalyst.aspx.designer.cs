@@ -13,6 +13,9 @@ namespace HijoPortal
 
     public partial class mrp_preview_inventanalyst
     {
+
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupExtenderLoading;
+
         protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
         protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
 

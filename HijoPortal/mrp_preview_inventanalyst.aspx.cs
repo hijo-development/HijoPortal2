@@ -361,6 +361,8 @@ namespace HijoPortal
 
                     Submit.Enabled = false;
 
+                    ModalPopupExtenderLoading.Hide();
+
                     MRPNotificationMessage.Text = MRPClass.successfully_submitted;
                     MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
                     MRPNotify.HeaderText = "Info";

@@ -11,7 +11,8 @@ namespace HijoPortal {
     
     
     public partial class mrp_addedit {
-        
+
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupExtenderLoading;
         /// <summary>
         /// dvContentWrapper control.
         /// </summary>

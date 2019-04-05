@@ -123,6 +123,7 @@
     <Content Include="images\HIJOState.jpg" />
     <Content Include="images\ID.jpg" />
     <Content Include="images\index.png" />
+    <Content Include="images\Loading.gif" />
     <Content Include="images\mountain.jpg" />
     <Content Include="images\pin.png" />
     <Content Include="images\Refresh.ico" />

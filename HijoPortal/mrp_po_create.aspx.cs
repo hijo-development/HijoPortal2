@@ -405,6 +405,8 @@ namespace HijoPortal
                     cmd = new SqlCommand(update, conn);
                     cmd.ExecuteNonQuery();
 
+                    ModalPopupExtenderLoading.Hide();
+
                     Response.Redirect("mrp_po_addedit.aspx?PONum=" + PONumber);
                 }
             }

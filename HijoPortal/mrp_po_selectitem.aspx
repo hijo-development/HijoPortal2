@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="Select Items" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_po_selectitem.aspx.cs" Inherits="HijoPortal.mrp_po_selectitem" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script type="text/javascript">
         function MonthYear_Combo_SelectedIndexChanged(s, e) {
@@ -28,6 +30,26 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    
+    <asp:TextBox ID="TextBoxLoading" runat="server" Visible="true" Style="display: none;"></asp:TextBox>
+    <ajaxToolkit:ModalPopupExtender runat="server"
+        ID="ModalPopupExtenderLoading"
+        BackgroundCssClass="modalBackground"
+        PopupControlID="PanelLoading"
+        TargetControlID="TextBoxLoading"
+        CancelControlID="ButtonErrorOK1" 
+        ClientIDMode="Static">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PanelLoading" runat="server"
+        CssClass="modalPopupLoading"
+        Height="200px"
+        Width="200px"
+        align="center"
+        Style="display: none;">
+        <img src="images/Loading.gif" style="height: 200px; width: 200px;" />
+        <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
+    </asp:Panel>
+    
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 30px;">
             <h1>Select Items for Purchase Order</h1>
@@ -112,7 +134,12 @@
             <table style="width: 100%; margin-top: 5px;">
                 <tr>
                     <td style="text-align: right">
-                        <dx:ASPxButton ID="Create" runat="server" ClientInstanceName="CreatePO" OnClick="Create_Click" Text="CREATE PO" ClientEnabled="false" Theme="Office2010Blue"></dx:ASPxButton>
+                        <dx:ASPxButton ID="Create" runat="server" ClientInstanceName="CreatePO" OnClick="Create_Click" Text="CREATE PO" ClientEnabled="false" Theme="Office2010Blue">
+                            <ClientSideEvents Click="function(s,e){
+                                    $find('ModalPopupExtenderLoading').show();
+                                    e.processOnServer = true;
+                                    }" />
+                        </dx:ASPxButton>
                     </td>
                 </tr>
             </table>

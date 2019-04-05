@@ -13,6 +13,42 @@ namespace HijoPortal {
     public partial class mrp_po_create {
         
         /// <summary>
+        /// TextBoxLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxLoading;
+        
+        /// <summary>
+        /// ModalPopupExtenderLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupExtenderLoading;
+        
+        /// <summary>
+        /// PanelLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelLoading;
+        
+        /// <summary>
+        /// ButtonErrorOK1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonErrorOK1;
+        
+        /// <summary>
         /// POCreateNotify control.
         /// </summary>
         /// <remarks>
