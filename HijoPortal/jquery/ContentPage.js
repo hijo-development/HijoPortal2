@@ -83,6 +83,9 @@ changeWidth = {
         $('#dvWorkflowSetup').height(contentHeight - (HeaderH + 30));
         $('#tblWelcome').height(contentHeight - (HeaderH + 30));
 
+        $('#dvPOUploadingSetup').height(contentHeight - (HeaderH));
+
+
         //$('#divWelcome').height(contentHeight - (HeaderH + 100));
 
         //$('#trWelcome').height(contentHeight - (HeaderH));
@@ -95,6 +98,8 @@ changeWidth = {
         //console.log("Header Height: " + $('#dvBanner').height());
         //console.log("Footer Height: " + $('#footer').height());
         //console.log("Content Height: " + contentHeight);
+
+        //console.log($('#dvPOUploadingSetup').height());
     }
 }
 

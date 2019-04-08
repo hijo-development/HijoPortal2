@@ -67,6 +67,7 @@
                 </dx:PopupControlContentControl>
             </ContentCollection>
         </dx:ASPxPopupControl>
+
         <div class="login-box">
             <img src="images/HijoLogo.png" class="avatar" />
             <h1>Login Here</h1>

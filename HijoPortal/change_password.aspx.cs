@@ -28,7 +28,7 @@ namespace HijoPortal
 
             if (!Page.IsPostBack)
             {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 DataTable dtUser = AccountClass.UserList();
                 dtUser.CaseSensitive = true;
@@ -45,8 +45,12 @@ namespace HijoPortal
 
         protected void btnChangePW_Click(object sender, EventArgs e)
         {
+
             if (captcha.IsValid && ASPxEdit.ValidateEditorsInContainer(this))
             {
+                //PopupChangePW.HeaderText = "Confirm";
+                //PopupChangePW.ShowOnPageLoad = true;
+
                 string qry = "", _sPassword = "";
                 SqlCommand cmd = null;
                 _sPassword = EncryptionClass.Encrypt(newPasswordCH.Text.ToString().Trim());
@@ -61,12 +65,35 @@ namespace HijoPortal
                 cmd.ExecuteNonQuery();
                 con.Close();
 
+                ModalPopupExtenderLoading.Hide();
+
                 Response.Redirect("home.aspx");
-            }
+            } 
         }
 
         protected void CancelBtn_Click(object sender, EventArgs e)
         {
+            Response.Redirect("home.aspx");
+        }
+
+        protected void OK_ChangePW_Click(object sender, EventArgs e)
+        {
+            string qry = "", _sPassword = "";
+            SqlCommand cmd = null;
+            _sPassword = EncryptionClass.Encrypt(newPasswordCH.Text.ToString().Trim());
+
+            SqlConnection con = new SqlConnection(GlobalClass.SQLConnString());
+            con.Open();
+            qry = "UPDATE tbl_Users " +
+                  " SET Password = '" + _sPassword + "' " +
+                  " WHERE (PK = " + Session["CreatorKey"] + ")";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = con;
+            cmd.ExecuteNonQuery();
+            con.Close();
+
+            ModalPopupExtenderLoading.Hide();
+
             Response.Redirect("home.aspx");
         }
     }

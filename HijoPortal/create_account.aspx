@@ -14,6 +14,18 @@
 <body>
     <form id="form1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div id="dvBanner" runat="server" style="height: 100px;">
+            <table style="width: 100%; height: 100%">
+                <tr style="height: 100px;">
+                    <td style="width: 80px; height: 80px; padding: 10px;">
+                        <img src="images/HijoLogo.png" style="height: 60px; width: 60px;" />
+                    </td>
+                    <td class="Header-td">
+                        <h1>HIJO Portal</h1>
+                    </td>
+                </tr>
+            </table>
+        </div>
         <div class="create-account-box">
             <img src="images/HijoLogo.png" class="avatar" />
             <h1>Sign Up Here</h1>
