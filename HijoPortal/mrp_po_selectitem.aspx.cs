@@ -129,6 +129,16 @@ namespace HijoPortal
             l_text.Caption = "Document Number";
             combo.Columns.Add(l_text);
 
+            ListBoxColumn lt2 = new ListBoxColumn();
+            lt2.FieldName = "Entity";
+            combo.Columns.Add(lt2);
+
+            ListBoxColumn lt3 = new ListBoxColumn();
+            lt3.FieldName = "BU";
+            lt3.Caption = "SSU/BU";
+            combo.Columns.Add(lt3);
+
+            combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
             combo.ValueField = "DocumentNumber";
             combo.TextField = "DocumentNumber";
             combo.DataBind();
@@ -182,6 +192,34 @@ namespace HijoPortal
             }
         }
 
+        protected void CancelPage_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("mrp_po_list.aspx");
+        }
+
+        protected void ProdCat_ListBox_Init(object sender, EventArgs e)
+        {
+            ASPxListBox list = sender as ASPxListBox;
+            list.DataSource = MRPClass.ProCategoryTable_WithoutAll();
+
+            ListBoxColumn l_value = new ListBoxColumn();
+            l_value.FieldName = "NAME";
+            l_value.Caption = "Code";
+            l_value.Width = 100;
+            list.Columns.Add(l_value);
+
+            ListBoxColumn l_text = new ListBoxColumn();
+            l_text.FieldName = "DESCRIPTION";
+            l_text.Caption = "Description";
+            l_text.Width = 350;
+            list.Columns.Add(l_text);
+
+            list.ValueField = "NAME";
+            list.TextField = "DESCRIPTION";
+            list.DataBind();
+            list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+        }
+
         protected void ProdCategory_Combo_Init(object sender, EventArgs e)
         {
             ASPxComboBox combo = sender as ASPxComboBox;
@@ -206,6 +244,17 @@ namespace HijoPortal
 
         protected void MainGridCallbackPanel_Callback(object sender, CallbackEventArgsBase e)
         {
+
+            List<object> Temp = new List<object>();
+            foreach (ListEditItem item in ProdCat_ListBox.Items)
+            {
+                if (item.Selected)
+                {
+                    MRPClass.PrintString(item.Value.ToString());
+                    // do something...
+                }
+            }
+
             string month = "";
             year_static = "";
             month_static = 0;
@@ -223,10 +272,10 @@ namespace HijoPortal
             else
                 doc_static = "";
 
-            if (ProdCategory_Combo.Value != null)
-                prod_static = ProdCategory_Combo.Value.ToString();
-            else
-                prod_static = "";
+            //if (ProdCategory_Combo.Value != null)
+            //    prod_static = ProdCategory_Combo.Value.ToString();
+            //else
+            //    prod_static = "";
 
             //if (!string.IsNullOrEmpty(doc_static) && !string.IsNullOrEmpty(year_static))
             BindTable(doc_static, month_static, year_static, prod_static);

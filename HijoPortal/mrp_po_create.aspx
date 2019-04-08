@@ -378,6 +378,7 @@
             <table style="width: 100%; margin-top: 5px;">
                 <tr>
                     <td style="text-align: right;">
+                        <dx:ASPxButton ID="CancelPage" runat="server" OnClick="CancelPage_Click" Text="Cancel" Theme="Office2010Blue"></dx:ASPxButton>
                         <dx:ASPxButton ID="Save" runat="server" ClientInstanceName="SavePO" OnClick="Save_Click" Text="Create" Theme="Office2010Blue">
                             <ClientSideEvents Click="Save_Click" />
                         </dx:ASPxButton>

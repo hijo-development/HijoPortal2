@@ -126,19 +126,21 @@
                             <%--<dx:GridViewCommandColumnCustomButton ID="Preview" Text="" Image-Url="Images/Refresh.ico" Image-ToolTip="Preview Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>--%>
                         </CustomButtons>
                     </dx:GridViewCommandColumn>
-                    <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="PONumber" Caption="PO Number" VisibleIndex="2"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="MOPNumber" Caption="MOP Number" VisibleIndex="3"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="VendorName" Caption="Vendor Name" VisibleIndex="4"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="DateCreated" Caption="Date Created" VisibleIndex="5"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="CreatorKey" VisibleIndex="6" Visible="false"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="Creator" Caption="Creator" VisibleIndex="7"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="ExpectedDate" Caption="Expected Date" VisibleIndex="8"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="TotalAmount" Caption="Total Amount" VisibleIndex="9">
+                    <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="PONumber" Caption="PO Number" ></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="MOPNumber" Caption="MOP Number" ></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="Entity" Caption="Entity" ></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="BU" Caption="SSU/BU" ></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="VendorName" Caption="Supplier" ></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="DateCreated" Caption="Date Created" ></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="CreatorKey"  Visible="false"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="Creator" Caption="Creator" ></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="ExpectedDate" Caption="Expected Delivery Date" ></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="TotalAmount" Caption="Total Amount" >
                         <HeaderStyle HorizontalAlign="Right" />
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                     </dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="Status" Caption="Status" VisibleIndex="10"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="Status" Caption="Status" ></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="POStatus" Visible="false"></dx:GridViewDataColumn>
                 </Columns>
                 <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
