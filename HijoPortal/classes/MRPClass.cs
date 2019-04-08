@@ -1073,6 +1073,8 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("PK", typeof(string));
                 dtTable.Columns.Add("HeaderDocNum", typeof(string));
                 dtTable.Columns.Add("Description", typeof(string));
+                dtTable.Columns.Add("ProdCode", typeof(string));
+                dtTable.Columns.Add("ProdCat", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
                 dtTable.Columns.Add("Qty", typeof(string));
@@ -1081,9 +1083,9 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("RevDesc", typeof(string));
             }
 
-            string query_1 = "SELECT tbl_MRP_List_CAPEX.*, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_CAPEX INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_CAPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query_1 = "SELECT dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc, dbo.vw_AXProdCategory.DESCRIPTION AS ProdDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE INNER JOIN dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
-            string query_2 = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query_2 = "SELECT DISTINCT dbo.vw_AXProdCategory.DESCRIPTION AS ProdDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             bool execute = entitycode == train_entity;
             if (execute)
@@ -1102,6 +1104,8 @@ namespace HijoPortal.classes
                     dtRow["PK"] = row["PK"].ToString();
                     dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
                     dtRow["Description"] = row["Description"].ToString();
+                    dtRow["ProdCode"] = row["ProdCat"].ToString();
+                    dtRow["ProdCat"] = row["ProdDesc"].ToString();
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
@@ -1144,6 +1148,7 @@ namespace HijoPortal.classes
                 //Columns for AspxGridview
                 dtTable.Columns.Add("PK", typeof(string));
                 dtTable.Columns.Add("HeaderDocNum", typeof(string));
+                dtTable.Columns.Add("ProdDesc", typeof(string));
                 dtTable.Columns.Add("Description", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
@@ -1156,9 +1161,13 @@ namespace HijoPortal.classes
 
             }
 
-            string query_1 = "SELECT tbl_MRP_List_CAPEX.*, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_CAPEX INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_CAPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query_1 = "SELECT dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc, dbo.vw_AXProdCategory.DESCRIPTION AS ProdDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE INNER JOIN dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
-            string query_2 = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            //string query_1 = "SELECT tbl_MRP_List_CAPEX.*, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_CAPEX INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_CAPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+
+            string query_2 = "SELECT DISTINCT dbo.vw_AXProdCategory.DESCRIPTION AS ProdDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+
+            //string query_2 = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             bool exec = entitycode == train_entity;
             if (exec)
@@ -1176,6 +1185,7 @@ namespace HijoPortal.classes
                     DataRow dtRow = dtTable.NewRow();
                     dtRow["PK"] = row["PK"].ToString();
                     dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
+                    dtRow["ProdDesc"] = row["ProdDesc"].ToString();
                     dtRow["Description"] = row["Description"].ToString();
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
@@ -1986,319 +1996,46 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        //public static DataTable InventSiteTable()
-        //{
-        //    DataTable dtTable = new DataTable();
+        public static DataTable ProCategoryTable_WithoutAll()
+        {
 
-        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-        //    DataTable dt = new DataTable();
-        //    SqlCommand cmd = null;
-        //    SqlDataAdapter adp;
+            DataTable dtTable = new DataTable();
 
-        //    cn.Open();
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
 
-        //    if (dtTable.Columns.Count == 0)
-        //    {
-        //        //Columns for AspxGridview
-        //        dtTable.Columns.Add("NAME", typeof(string));
-        //        dtTable.Columns.Add("SITEID", typeof(string));
-        //    }
+            cn.Open();
 
-        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSite] ORDER BY NAME ASC";
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("NAME", typeof(string));
+                dtTable.Columns.Add("DESCRIPTION", typeof(string));
+            }
 
-        //    cmd = new SqlCommand(qry);
-        //    cmd.Connection = cn;
-        //    adp = new SqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            DataRow dtRow = dtTable.NewRow();
-        //            dtRow["NAME"] = row["NAME"].ToString();
-        //            dtRow["SITEID"] = row["SITEID"].ToString();
-        //            dtTable.Rows.Add(dtRow);
-        //        }
-        //    }
-        //    dt.Clear();
-        //    cn.Close();
+            string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
 
-        //    return dtTable;
-        //}
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["NAME"] = row["NAME"].ToString();
+                    dtRow["DESCRIPTION"] = row["DESCRIPTION"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
 
-        //public static DataTable InventSiteWarehouseTable(string ID)
-        //{
-        //    DataTable dtTable = new DataTable();
-
-        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-        //    DataTable dt = new DataTable();
-        //    SqlCommand cmd = null;
-        //    SqlDataAdapter adp;
-
-        //    cn.Open();
-
-        //    if (dtTable.Columns.Count == 0)
-        //    {
-        //        //Columns for AspxGridview
-        //        dtTable.Columns.Add("warehouse", typeof(string));
-        //        dtTable.Columns.Add("NAME", typeof(string));
-        //    }
-
-        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteWarehouse] WHERE [INVENTSITEID] = '" + ID + "'  ORDER BY NAME ASC";
-
-        //    cmd = new SqlCommand(qry);
-        //    cmd.Connection = cn;
-        //    adp = new SqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            DataRow dtRow = dtTable.NewRow();
-        //            dtRow["warehouse"] = row["warehouse"].ToString();
-        //            dtRow["NAME"] = row["NAME"].ToString();
-        //            dtTable.Rows.Add(dtRow);
-        //        }
-        //    }
-        //    dt.Clear();
-        //    cn.Close();
-
-        //    return dtTable;
-        //}
-
-        //public static DataTable InventSiteLocationTable(string warehouse)
-        //{
-        //    DataTable dtTable = new DataTable();
-
-        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-        //    DataTable dt = new DataTable();
-        //    SqlCommand cmd = null;
-        //    SqlDataAdapter adp;
-
-        //    cn.Open();
-
-        //    if (dtTable.Columns.Count == 0)
-        //    {
-        //        //Columns for AspxGridview
-        //        dtTable.Columns.Add("LocationCode", typeof(string));
-        //    }
-
-        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteLocation] WHERE [WarehouseCode] = '" + warehouse + "'  ORDER BY WarehouseCode ASC";
-
-        //    cmd = new SqlCommand(qry);
-        //    cmd.Connection = cn;
-        //    adp = new SqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            DataRow dtRow = dtTable.NewRow();
-        //            dtRow["LocationCode"] = row["LocationCode"].ToString();
-        //            dtTable.Rows.Add(dtRow);
-        //        }
-        //    }
-        //    dt.Clear();
-        //    cn.Close();
-
-        //    return dtTable;
-        //}
-
-        //public static DataTable VendTableTable()
-        //{
-        //    DataTable dtTable = new DataTable();
-
-        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-        //    DataTable dt = new DataTable();
-        //    SqlCommand cmd = null;
-        //    SqlDataAdapter adp;
-
-        //    cn.Open();
-
-        //    if (dtTable.Columns.Count == 0)
-        //    {
-        //        //Columns for AspxGridview
-        //        dtTable.Columns.Add("ACCOUNTNUM", typeof(string));
-        //        dtTable.Columns.Add("NAME", typeof(string));
-        //    }
-
-        //    string qry = "SELECT [ACCOUNTNUM],[NAME] FROM [hijo_portal].[dbo].[vw_AXVendTable]";
-
-        //    cmd = new SqlCommand(qry);
-        //    cmd.Connection = cn;
-        //    adp = new SqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            DataRow dtRow = dtTable.NewRow();
-        //            dtRow["ACCOUNTNUM"] = row["ACCOUNTNUM"].ToString();
-        //            dtRow["NAME"] = row["NAME"].ToString(); ;
-        //            dtTable.Rows.Add(dtRow);
-        //        }
-        //    }
-        //    dt.Clear();
-        //    cn.Close();
-
-        //    return dtTable;
-        //}
-
-        //public static DataTable CurrencyTable()
-        //{
-        //    DataTable dtTable = new DataTable();
-
-        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-        //    DataTable dt = new DataTable();
-        //    SqlCommand cmd = null;
-        //    SqlDataAdapter adp;
-
-        //    cn.Open();
-
-        //    if (dtTable.Columns.Count == 0)
-        //    {
-        //        //Columns for AspxGridview
-        //        dtTable.Columns.Add("CURRENCYCODE", typeof(string));
-        //        dtTable.Columns.Add("TXT", typeof(string));
-        //    }
-
-        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXCurrency]";
-
-        //    cmd = new SqlCommand(qry);
-        //    cmd.Connection = cn;
-        //    adp = new SqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            DataRow dtRow = dtTable.NewRow();
-        //            dtRow["CURRENCYCODE"] = row["CURRENCYCODE"].ToString();
-        //            dtRow["TXT"] = row["TXT"].ToString();
-        //            dtTable.Rows.Add(dtRow);
-        //        }
-        //    }
-        //    dt.Clear();
-        //    cn.Close();
-
-        //    return dtTable;
-        //}
-
-        //public static DataTable PaymTermTable()
-        //{
-        //    DataTable dtTable = new DataTable();
-
-        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-        //    DataTable dt = new DataTable();
-        //    SqlCommand cmd = null;
-        //    SqlDataAdapter adp;
-
-        //    cn.Open();
-
-        //    if (dtTable.Columns.Count == 0)
-        //    {
-        //        //Columns for AspxGridview
-        //        dtTable.Columns.Add("PAYMTERMID", typeof(string));
-        //        dtTable.Columns.Add("DESCRIPTION", typeof(string));
-        //    }
-
-        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXPaymTerm]";
-
-        //    cmd = new SqlCommand(qry);
-        //    cmd.Connection = cn;
-        //    adp = new SqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            DataRow dtRow = dtTable.NewRow();
-        //            dtRow["PAYMTERMID"] = row["PAYMTERMID"].ToString();
-        //            dtRow["DESCRIPTION"] = row["DESCRIPTION"].ToString();
-        //            dtTable.Rows.Add(dtRow);
-        //        }
-        //    }
-        //    dt.Clear();
-        //    cn.Close();
-
-        //    return dtTable;
-        //}
-
-        //public static DataTable TaxGroupTable()
-        //{
-        //    DataTable dtTable = new DataTable();
-
-        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-        //    DataTable dt = new DataTable();
-        //    SqlCommand cmd = null;
-        //    SqlDataAdapter adp;
-
-        //    cn.Open();
-
-        //    if (dtTable.Columns.Count == 0)
-        //    {
-        //        //Columns for AspxGridview
-        //        dtTable.Columns.Add("TAXGROUP", typeof(string));
-        //    }
-
-        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXTaxGroup]";
-
-        //    cmd = new SqlCommand(qry);
-        //    cmd.Connection = cn;
-        //    adp = new SqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            DataRow dtRow = dtTable.NewRow();
-        //            dtRow["TAXGROUP"] = row["TAXGROUP"].ToString();
-        //            dtTable.Rows.Add(dtRow);
-        //        }
-        //    }
-        //    dt.Clear();
-        //    cn.Close();
-
-        //    return dtTable;
-        //}
-
-        //public static DataTable TaxItemGroupTable()
-        //{
-        //    DataTable dtTable = new DataTable();
-
-        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-        //    DataTable dt = new DataTable();
-        //    SqlCommand cmd = null;
-        //    SqlDataAdapter adp;
-
-        //    cn.Open();
-
-        //    if (dtTable.Columns.Count == 0)
-        //    {
-        //        //Columns for AspxGridview
-        //        dtTable.Columns.Add("TAXITEMGROUP", typeof(string));
-        //    }
-
-        //    string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXTaxItemGroup]";
-
-        //    cmd = new SqlCommand(qry);
-        //    cmd.Connection = cn;
-        //    adp = new SqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            DataRow dtRow = dtTable.NewRow();
-        //            dtRow["TAXITEMGROUP"] = row["TAXITEMGROUP"].ToString();
-        //            dtTable.Rows.Add(dtRow);
-        //        }
-        //    }
-        //    dt.Clear();
-        //    cn.Close();
-
-        //    return dtTable;
-        //}
+            return dtTable;
+        }
 
         public static DataTable OperatingUnitTable(string entity)
         {

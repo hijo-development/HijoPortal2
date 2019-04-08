@@ -5,8 +5,8 @@
 <%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script type="text/javascript" src="jquery/MRPAddEdit.js"></script>
 </asp:Content>
-
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -997,23 +997,25 @@
                                                                     </dx:GridViewCommandColumnCustomButton>
                                                                 </CustomButtons>
                                                             </dx:GridViewCommandColumn>
-                                                            <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="VALUE" Visible="false"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="3"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Description" Width="450px" VisibleIndex="5"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="6"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Qty" VisibleIndex="7" CellStyle-HorizontalAlign="Right">
+                                                            <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="ProdCat" Caption="Product Category"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="ProdCode" Visible="false"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Description" Width="450px"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="UOM"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="Qty" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
                                                                 <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8" CellStyle-HorizontalAlign="Right">
+                                                            <dx:GridViewDataColumn FieldName="Cost" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
                                                             </dx:GridViewDataColumn>
 
-                                                            <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="9" CellStyle-HorizontalAlign="Right">
+                                                            <dx:GridViewDataColumn FieldName="TotalCost" CellStyle-HorizontalAlign="Right">
                                                                 <HeaderStyle HorizontalAlign="Right" />
                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
                                                                 <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
@@ -1049,7 +1051,7 @@
                                                                                         <dx:ASPxHiddenField ID="entityhidden" runat="server" ClientInstanceName="entityhiddenCA"></dx:ASPxHiddenField>
                                                                                         <table style="width: 100%">
                                                                                             <tr>
-                                                                                                <td>
+                                                                                                <td style="vertical-align:top">
                                                                                                     <table>
                                                                                                         <tr>
                                                                                                             <td style="width: 40%;">
@@ -1065,6 +1067,16 @@
                                                                                                                         </ValidationSettings>
                                                                                                                     </dx:ASPxComboBox>
                                                                                                                 </div>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td style="width: 40%">
+                                                                                                                <dx:ASPxLabel runat="server" Text="Product Category" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxComboBox ID="ProdCat" runat="server" ClientInstanceName="ProdCatCAPEX" OnInit="ProdCat_Init" ValueType="System.String" Theme="Office2010Blue" Width="300px">
+                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please select value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                </dx:ASPxComboBox>
                                                                                                             </td>
                                                                                                         </tr>
                                                                                                         <tr>

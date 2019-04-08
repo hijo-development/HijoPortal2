@@ -285,28 +285,6 @@ namespace HijoPortal
             }
             reader.Close();
 
-            //query = "SELECT [DocumentPrefix],[DocumentNum] FROM " + MRPClass.DocNumberTableName() + " where DocumentPrefix = 'PO'";
-
-            //cmd = new SqlCommand(query, conn);
-            //reader = cmd.ExecuteReader();
-            //while (reader.Read())
-            //{
-            //    DocPref = reader[0].ToString();
-            //    DocNum = Convert.ToInt32(reader[1].ToString());
-            //}
-            //reader.Close();
-
-            //DocNum += 1;
-            //strDocNum = DocNum.ToString("00000000#");
-            //string PONumber = DocPref + "-" + Session["EntityCode"].ToString() + "-" + strDocNum;
-
-            //string update = "UPDATE " + MRPClass.DocNumberTableName() + " SET [DocumentNum] = '" + DocNum + "' WHERE [DocumentPrefix] = 'PO'";
-            //cmd = new SqlCommand(update, conn);
-            //int result = cmd.ExecuteNonQuery();
-
-            //if (result == 0)//Cant Make PO Number
-            //    return;
-
             string vendor = Vendor.Text.ToString();
             string payment = Terms.Text.ToString();
             string currency = Currency.Text.ToString();
@@ -393,6 +371,12 @@ namespace HijoPortal
 
                             case "2"://Opex
                                 update = "UPDATE " + MRP_Constants.OperatingExpense_TableName() + " SET [QtyPO] = '" + Convert.ToDouble(POQty) + "' WHERE [PK] = '" + ItemPK + "'";
+                                cmd = new SqlCommand(update, conn);
+                                cmd.ExecuteNonQuery();
+                                break;
+
+                            case "4"://CAPEX
+                                update = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] SET [QtyPO] = '" + Convert.ToDouble(POQty) + "' WHERE [PK] = '" + ItemPK + "'";
                                 cmd = new SqlCommand(update, conn);
                                 cmd.ExecuteNonQuery();
                                 break;

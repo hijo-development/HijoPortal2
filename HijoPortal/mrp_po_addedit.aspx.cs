@@ -459,11 +459,22 @@ namespace HijoPortal
             {
                 object taxgroup = grid.GetRowValues(i, "TaxGroup");
                 object taxitemgroup = grid.GetRowValues(i, "TaxItemGroup");
+                object identifier = grid.GetRowValues(i, "Identifier");
+                object cip = grid.GetRowValues(i, "CapexCIP");
 
                 if (string.IsNullOrEmpty(taxgroup.ToString()) || string.IsNullOrEmpty(taxitemgroup.ToString()))
                 {
                     cancel = true;
                     break;
+                }
+
+                if(identifier.ToString() == "4")
+                {
+                    if (string.IsNullOrEmpty(cip.ToString()))
+                    {
+                        cancel = true;
+                        break;
+                    }
                 }
             }
 
@@ -549,8 +560,6 @@ namespace HijoPortal
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
 
-
-
             Double original_qty_po = 0, remaining = 0;
             switch (Identifier)
             {
@@ -582,6 +591,22 @@ namespace HijoPortal
                     remaining = original_qty_po - old_qty + Convert.ToDouble(qty);
 
                     update = "UPDATE [dbo].[tbl_MRP_List_OPEX] SET [QtyPO] = '" + Convert.ToDouble(qty) + "' WHERE [PK] = '" + ItemPK + "'";
+                    cmd = new SqlCommand(update, conn);
+                    cmd.ExecuteNonQuery();
+                    break;
+
+                case "4"://CAPEX
+                    query = "SELECT [QtyPO] FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE [PK] = '" + ItemPK + "'";
+                    cmd = new SqlCommand(query, conn);
+                    reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        original_qty_po = Convert.ToDouble(reader["QtyPO"].ToString());
+                    }
+                    reader.Close();
+                    remaining = original_qty_po - old_qty + Convert.ToDouble(qty);
+
+                    update = "UPDATE [dbo].[tbl_MRP_List_CAPEX] SET [QtyPO] = '" + Convert.ToDouble(qty) + "' WHERE [PK] = '" + ItemPK + "'";
                     cmd = new SqlCommand(update, conn);
                     cmd.ExecuteNonQuery();
                     break;
@@ -651,6 +676,22 @@ namespace HijoPortal
                     remaining = original_qty_po - Convert.ToDouble(qty);
 
                     update = "UPDATE [dbo].[tbl_MRP_List_OPEX] SET [QtyPO] = '" + remaining + "' WHERE [PK] = '" + ItemPK + "'";
+                    cmd = new SqlCommand(update, conn);
+                    cmd.ExecuteNonQuery();
+                    break;
+
+                case "4"://CAPEX
+                    query = "SELECT [QtyPO] FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE [PK] = '" + ItemPK + "'";
+                    cmd = new SqlCommand(query, conn);
+                    reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        original_qty_po = Convert.ToDouble(reader["QtyPO"].ToString());
+                    }
+                    reader.Close();
+                    remaining = original_qty_po - Convert.ToDouble(qty);
+
+                    update = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] SET [QtyPO] = '" + remaining + "' WHERE [PK] = '" + ItemPK + "'";
                     cmd = new SqlCommand(update, conn);
                     cmd.ExecuteNonQuery();
                     break;

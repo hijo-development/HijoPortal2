@@ -108,6 +108,7 @@
                                 <dx:GridViewDataColumn FieldName="ItemCatCode" Visible="false"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName ="ItemCat" Caption="Item Category"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="ItemCode"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="CapexCIP" Caption="Capex ID"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="ItemDescription" Caption="Description"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="Qty">
                                     <HeaderStyle HorizontalAlign="Right" />

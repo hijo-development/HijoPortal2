@@ -228,6 +228,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("PK", typeof(string));
                 dtTable.Columns.Add("TableIdentifier", typeof(string));
                 dtTable.Columns.Add("DocumentNumber", typeof(string));
+                dtTable.Columns.Add("CapexCIP", typeof(string));
                 dtTable.Columns.Add("Entity", typeof(string));
                 dtTable.Columns.Add("BU", typeof(string));
                 dtTable.Columns.Add("ItemCatCode", typeof(string));
@@ -281,6 +282,7 @@ namespace HijoPortal.classes
                     dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
                     dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
                     dtRow["DocumentNumber"] = row["DocNumber"].ToString();
+                    dtRow["CapexCIP"] = "";
                     dtRow["Entity"] = row["Entity"].ToString();
                     dtRow["BU"] = row["BU"].ToString();
                     dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
@@ -305,6 +307,7 @@ namespace HijoPortal.classes
 
             //qry = "SELECT DISTINCT dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description,dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost FROM   dbo.tbl_MRP_List INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_OPEX.ItemCode = dbo.vw_AXInventTable.ITEMID WHERE(dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND(dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND(dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND(dbo.tbl_MRP_List.StatusKey = '4') AND (dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
 
+
             qry = "SELECT DISTINCT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.UOM,dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN         dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_OPEX.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ") AND (dbo.tbl_MRP_List_OPEX.AvailForPO > 0)";
 
             cmd = new SqlCommand(qry);
@@ -319,9 +322,52 @@ namespace HijoPortal.classes
                     dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
                     dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
                     dtRow["DocumentNumber"] = row["DocNumber"].ToString();
+                    dtRow["CapexCIP"] = "";
                     dtRow["Entity"] = row["Entity"].ToString();
                     dtRow["BU"] = row["BU"].ToString();
                     dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
+                    dtRow["ItemCat"] = row["ItemCat"].ToString();
+                    dtRow["ItemCode"] = row["ItemCode"].ToString();
+                    if (row["DescriptionAddl"].ToString().Trim() != "")
+                    {
+                        dtRow["ItemDescription"] = row["Description"].ToString() + " (" + row["DescriptionAddl"].ToString() + ")";
+                    }
+                    else
+                    {
+                        dtRow["ItemDescription"] = row["Description"].ToString();
+                    }
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtRow["UOM"] = row["UOM"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+
+            //For CAPEX
+            if (string.IsNullOrEmpty(groupID) || groupID == "ALL") groupid_string = "dbo.tbl_MRP_List_CAPEX.ProdCat";
+
+            MRPClass.PrintString(groupid_string);
+            qry = "SELECT dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.PK, dbo.tbl_MRP_List_CAPEX.TableIdentifier, dbo.tbl_MRP_List_CAPEX.ProdCat, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty, dbo.tbl_MRP_List_CAPEX.TotalCost,  dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List.DocNumber FROM   dbo.vw_AXEntityTable INNER JOIN dbo.tbl_MRP_List ON dbo.vw_AXEntityTable.ID = dbo.tbl_MRP_List.EntityCode INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_CAPEX.HeaderDocNum WHERE (dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_CAPEX.ProdCat = " + groupid_string + ") AND (dbo.tbl_MRP_List_CAPEX.AvailForPO > 0)";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
+                    dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
+                    dtRow["DocumentNumber"] = row["DocNumber"].ToString();
+                    dtRow["CapexCIP"] = row["CIPSIPNumber"].ToString();
+                    dtRow["Entity"] = row["Entity"].ToString();
+                    dtRow["BU"] = row["BU"].ToString();
+                    //dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
+                    dtRow["ItemCatCode"] = "";
                     dtRow["ItemCat"] = row["ItemCat"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
                     if (row["DescriptionAddl"].ToString().Trim() != "")
@@ -602,6 +648,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("ItemPK", typeof(string));
                 dtTable.Columns.Add("TableIdentifier", typeof(string));
                 dtTable.Columns.Add("ItemCode", typeof(string));
+                dtTable.Columns.Add("CapexCIP", typeof(string));
                 dtTable.Columns.Add("Description", typeof(string));
                 dtTable.Columns.Add("RequestedQty", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
@@ -630,7 +677,7 @@ namespace HijoPortal.classes
                     dtRow["ItemPK"] = row["ItemPK"].ToString();
                     dtRow["TableIdentifier"] = row["ItemIdentifier"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
-
+                    dtRow["CapexCIP"] = "";
                     string desc = row["ItemDescriptionAddl"].ToString();
                     if (string.IsNullOrEmpty(desc))
                         dtRow["Description"] = row["ItemDescription"].ToString();
@@ -688,7 +735,7 @@ namespace HijoPortal.classes
                     dtRow["ItemPK"] = row["ItemPK"].ToString();
                     dtRow["TableIdentifier"] = row["ItemIdentifier"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
-
+                    dtRow["CapexCIP"] = "";
                     string desc = row["DescriptionAddl"].ToString();
                     if (string.IsNullOrEmpty(desc))
                         dtRow["Description"] = row["Description"].ToString();
@@ -710,8 +757,6 @@ namespace HijoPortal.classes
                     string pototalcost = row["POTotalCost"].ToString();
 
 
-                    MRPClass.PrintString(string.IsNullOrEmpty(poqty).ToString());
-                    MRPClass.PrintString(poqty);
                     if (Convert.ToDouble(poqty) == 0 && Convert.ToDouble(pocost) == 0 && Convert.ToDouble(pototalcost) == 0)
                     {
                         dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
@@ -730,8 +775,67 @@ namespace HijoPortal.classes
                     dtTable.Rows.Add(dtRow);
                 }
             }
-
             dt.Clear();
+
+            //CAPEX
+            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty,  dbo.tbl_MRP_List_CAPEX.TotalCost, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber FROM dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '4'";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["MOPNumber"] = row["MOPNumber"].ToString();
+                    dtRow["ItemPK"] = row["ItemPK"].ToString();
+                    dtRow["TableIdentifier"] = row["ItemIdentifier"].ToString();
+                    dtRow["ItemCode"] = row["ItemCode"].ToString();
+                    dtRow["CapexCIP"] = row["CIPSIPNumber"].ToString();
+                    string desc = row["DescriptionAddl"].ToString();
+                    if (string.IsNullOrEmpty(desc))
+                        dtRow["Description"] = row["Description"].ToString();
+                    else
+                        dtRow["Description"] = row["Description"].ToString() + " (" + desc + ")";
+
+                    dtRow["RequestedQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+
+                    string pouom = row["POUOM"].ToString();
+                    if (!string.IsNullOrEmpty(pouom))
+                        dtRow["POUOM"] = row["POUOM"].ToString();
+                    else
+                        dtRow["POUOM"] = row["UOM"].ToString();
+
+                    string poqty = row["POQty"].ToString();
+                    string pocost = row["POCost"].ToString();
+                    string pototalcost = row["POTotalCost"].ToString();
+
+
+                    if (Convert.ToDouble(poqty) == 0 && Convert.ToDouble(pocost) == 0 && Convert.ToDouble(pototalcost) == 0)
+                    {
+                        dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                        dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                        dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
+                        dtRow["POQty"] = Convert.ToDouble(poqty).ToString("N");
+                        dtRow["POCost"] = Convert.ToDouble(pocost).ToString("N");
+                        dtRow["TotalPOCost"] = Convert.ToDouble(pototalcost).ToString("N");
+                    }
+
+                    dtRow["TaxGroup"] = row["TaxGroup"].ToString();
+                    dtRow["TaxItemGroup"] = row["TaxItemGroup"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+
             cn.Close();
 
             return dtTable;
@@ -870,6 +974,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Identifier", typeof(string));
                 dtTable.Columns.Add("ItemCode", typeof(string));
                 dtTable.Columns.Add("Description", typeof(string));
+                dtTable.Columns.Add("CapexCIP", typeof(string));
                 dtTable.Columns.Add("RequestedQty", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
@@ -903,6 +1008,7 @@ namespace HijoPortal.classes
                     else
                         dtRow["Description"] = row["ItemDescription"].ToString();
 
+                    dtRow["CapexCIP"] = "";
                     dtRow["RequestedQty"] = Convert.ToDouble(row["DMQty"].ToString()).ToString("N");
                     dtRow["Cost"] = Convert.ToDouble(row["DMCost"].ToString()).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["DMTotal"].ToString()).ToString("N");
@@ -940,9 +1046,44 @@ namespace HijoPortal.classes
                     else
                         dtRow["Description"] = row["Description"].ToString();
 
+                    dtRow["CapexCIP"] = "";
                     dtRow["RequestedQty"] = Convert.ToDouble(row["OPQty"].ToString()).ToString("N");
                     dtRow["Cost"] = Convert.ToDouble(row["OPCost"].ToString()).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["OPTotal"].ToString()).ToString("N");
+                    dtRow["POUOM"] = row["POUOM"].ToString();
+                    dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtRow["TaxGroup"] = row["TaxGroup"].ToString();
+                    dtRow["TaxItemGroup"] = row["TaxItemGroup"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+
+
+            //CAPEX
+            qry = "SELECT dbo.tbl_POCreation_Details.PK, dbo.tbl_POCreation_Details.PONumber, dbo.tbl_POCreation_Details.MOPNumber, dbo.tbl_POCreation_Details.ItemPK, dbo.tbl_POCreation_Details.Identifier, dbo.tbl_POCreation_Details.ItemCode, dbo.tbl_POCreation_Details.TaxGroup, dbo.tbl_POCreation_Details.TaxItemGroup, dbo.tbl_POCreation_Details.POUOM, dbo.tbl_POCreation_Details.Qty, dbo.tbl_POCreation_Details.Cost, dbo.tbl_POCreation_Details.TotalCost, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.Cost AS CACost, dbo.tbl_MRP_List_CAPEX.Qty AS CAQty, dbo.tbl_MRP_List_CAPEX.TotalCost AS CATotal, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber FROM dbo.tbl_POCreation_Details INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE(dbo.tbl_POCreation_Details.Identifier = '4') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
+
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["ItemPK"] = row["ItemPK"].ToString();
+                    dtRow["Identifier"] = row["Identifier"].ToString();
+                    dtRow["ItemCode"] = "";
+                    dtRow["CapexCIP"] = row["CIPSIPNumber"].ToString();
+                    dtRow["Description"] = row["Description"].ToString();
+                    dtRow["RequestedQty"] = Convert.ToDouble(row["CAQty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["CACost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["CATotal"].ToString()).ToString("N");
                     dtRow["POUOM"] = row["POUOM"].ToString();
                     dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                     dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");

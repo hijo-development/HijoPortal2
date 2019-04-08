@@ -552,24 +552,29 @@
                                                         </dx:GridViewCommandColumnCustomButton>
                                                     </CustomButtons>
                                                 </dx:GridViewCommandColumn>
-                                                <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Description" VisibleIndex="4">
+                                                <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
+                                                <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false"></dx:GridViewDataColumn>
+                                                <dx:GridViewDataColumn FieldName="ProdDesc" Caption="Product Category">
+                                                    <EditItemTemplate>
+                                                        <dx:ASPxLabel runat="server" Text='<%#Eval("ProdDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
+                                                    </EditItemTemplate>
+                                                </dx:GridViewDataColumn>
+                                                <dx:GridViewDataColumn FieldName="Description">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Description")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="5">
+                                                <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("RevDesc")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="UOM" VisibleIndex="6">
+                                                <dx:GridViewDataColumn FieldName="UOM">
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("UOM")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty" VisibleIndex="7">
+                                                <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
@@ -577,14 +582,14 @@
                                                         <dx:ASPxLabel ID="inv_qty" runat="server" ClientInstanceName="inv_qty_ca" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="Cost" VisibleIndex="8">
+                                                <dx:GridViewDataColumn FieldName="Cost">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <EditItemTemplate>
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("Cost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="TotalCost" VisibleIndex="9">
+                                                <dx:GridViewDataColumn FieldName="TotalCost">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
@@ -592,7 +597,7 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="10">
+                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
@@ -603,7 +608,7 @@
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedCost" Caption="Cost/Unit" VisibleIndex="11">
+                                                <dx:GridViewDataColumn FieldName="EdittedCost" Caption="Cost/Unit">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <EditItemTemplate>
@@ -613,7 +618,7 @@
                                                         </dx:ASPxTextBox>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittiedTotalCost" Caption="Total Cost" VisibleIndex="12">
+                                                <dx:GridViewDataColumn FieldName="EdittiedTotalCost" Caption="Total Cost">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
