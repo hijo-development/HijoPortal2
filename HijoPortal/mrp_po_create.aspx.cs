@@ -514,5 +514,10 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             DesignBehavior.SetBehaviorGrid(grid);
         }
+
+        protected void CancelPage_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("mrp_po_list.aspx");
+        }
     }
 }

@@ -30,6 +30,8 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("PK", typeof(string));
                 dtTable.Columns.Add("PONumber", typeof(string));
                 dtTable.Columns.Add("MOPNumber", typeof(string));
+                dtTable.Columns.Add("Entity", typeof(string));
+                dtTable.Columns.Add("BU", typeof(string));
                 dtTable.Columns.Add("VendorCode", typeof(string));
                 dtTable.Columns.Add("VendorName", typeof(string));
                 dtTable.Columns.Add("DateCreated", typeof(string));
@@ -41,7 +43,9 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Status", typeof(string));
             }
 
-            string qry = "SELECT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.VendorCode, dbo.vw_AXVendTable.NAME AS VendorName, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_Users.Firstname, dbo.tbl_Users.Lastname, dbo.tbl_POCreation.ExpectedDate,  dbo.tbl_POCreation.POStatus FROM dbo.tbl_POCreation LEFT OUTER JOIN dbo.tbl_Users ON dbo.tbl_POCreation.CreatorKey = dbo.tbl_Users.PK LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM ORDER BY dbo.tbl_POCreation.PONumber DESC";
+            //string qry = "SELECT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.VendorCode, dbo.vw_AXVendTable.NAME AS VendorName, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_Users.Firstname, dbo.tbl_Users.Lastname, dbo.tbl_POCreation.ExpectedDate,  dbo.tbl_POCreation.POStatus FROM dbo.tbl_POCreation LEFT OUTER JOIN dbo.tbl_Users ON dbo.tbl_POCreation.CreatorKey = dbo.tbl_Users.PK LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM ORDER BY dbo.tbl_POCreation.PONumber DESC";
+
+            string qry = "SELECT DISTINCT TOP(100) PERCENT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.VendorCode, dbo.vw_AXVendTable.NAME AS VendorName, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_Users.Firstname, dbo.tbl_Users.Lastname, dbo.tbl_POCreation.ExpectedDate, dbo.tbl_POCreation.POStatus, dbo.vw_AXEntityTable.NAME as EntityName, dbo.vw_AXOperatingUnitTable.NAME AS BU FROM   dbo.tbl_POCreation INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_POCreation.MRPNumber = dbo.tbl_MRP_List.DocNumber INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.tbl_Users ON dbo.tbl_POCreation.CreatorKey = dbo.tbl_Users.PK LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM ORDER BY dbo.tbl_POCreation.PONumber DESC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -55,7 +59,8 @@ namespace HijoPortal.classes
                     dtRow["PK"] = row["PK"].ToString();
                     dtRow["PONumber"] = row["PONumber"].ToString();
                     dtRow["MOPNumber"] = row["MRPNumber"].ToString();
-                    dtRow["VendorCode"] = row["VendorCode"].ToString();
+                    dtRow["Entity"] = row["EntityName"].ToString();
+                    dtRow["BU"] = row["BU"].ToString();
                     dtRow["VendorName"] = row["VendorName"].ToString();
                     dtRow["VendorCode"] = row["VendorCode"].ToString();
                     dtRow["DateCreated"] = Convert.ToDateTime(row["DateCreated"]).ToString("MM/dd/yyyy");
@@ -180,6 +185,8 @@ namespace HijoPortal.classes
             {
                 dtTable.Columns.Add("PK", typeof(string));
                 dtTable.Columns.Add("DocumentNumber", typeof(string));
+                dtTable.Columns.Add("Entity", typeof(string));
+                dtTable.Columns.Add("BU", typeof(string));
             }
 
             string month_string = "'" + month.ToString() + "'";
@@ -190,7 +197,7 @@ namespace HijoPortal.classes
                 year_string = "MRPYear";
             }
 
-            string qry = "SELECT [PK], [DocNumber] FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE MRPMonth = " + month_string + " AND MRPYear = " + year_string + " AND StatusKey = '4' ORDER BY MRPMonth, MRPYear ASC";
+            string qry = "SELECT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU FROM dbo.tbl_MRP_List INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER WHERE MRPMonth = " + month_string + " AND MRPYear = " + year_string + " AND StatusKey = '4' ORDER BY MRPMonth, MRPYear ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -203,6 +210,8 @@ namespace HijoPortal.classes
                     DataRow dtRow = dtTable.NewRow();
                     dtRow["PK"] = row["PK"].ToString();
                     dtRow["DocumentNumber"] = row["DocNumber"].ToString();
+                    dtRow["Entity"] = row["Entity"].ToString();
+                    dtRow["BU"] = row["BU"].ToString();
                     dtTable.Rows.Add(dtRow);
                 }
             }

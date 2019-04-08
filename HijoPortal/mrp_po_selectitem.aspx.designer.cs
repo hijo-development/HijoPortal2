@@ -76,13 +76,31 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxComboBox MOPNum_Combo;
         
         /// <summary>
-        /// ProdCategory_Combo control.
+        /// Entity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxComboBox ProdCategory_Combo;
+        protected global::DevExpress.Web.ASPxTextBox Entity;
+        
+        /// <summary>
+        /// BU control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox BU;
+        
+        /// <summary>
+        /// ProdCat_ListBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxListBox ProdCat_ListBox;
         
         /// <summary>
         /// MainGridCallbackPanel control.
@@ -101,6 +119,15 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxGridView MainGrid_PO;
+        
+        /// <summary>
+        /// CancelPage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton CancelPage;
         
         /// <summary>
         /// Create control.
