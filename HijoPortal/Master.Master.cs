@@ -20,6 +20,9 @@ namespace HijoPortal
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            dvMOPSidePanel.Visible = false;
+            dvItemSidePanel.Visible = false;
+
             if (!Page.IsPostBack)
             {
                 if (Session["UserCompleteName"] != null)
@@ -122,166 +125,139 @@ namespace HijoPortal
             //string type = e.Parameter.Substring(0, e.Parameter.IndexOf("-"));
             //int PK = Convert.ToInt32(e.Parameter.Substring(e.Parameter.IndexOf("-") + 1, e.Parameter.Length - (e.Parameter.IndexOf("-") + 1)));
 
+            dvMOPSidePanel.Visible = false;
+            dvItemSidePanel.Visible = false;
+
             string param = e.Parameter;
 
             string[] arrParam = param.Split('^');
             string type = arrParam[0].ToString();
-            int PK = Convert.ToInt32(arrParam[1]);
-            string sEntCode = arrParam[2].ToString();
-            string sBuCode = arrParam[3].ToString();
 
             //MRPClass.PrintString(type + " - " + PK.ToString() + " - " + sEntCode + " - " + sBuCode + " - " + arrParam[4].ToString()) ;
 
-            List<object> fieldValues = new List<object>();
-
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-
-            string description = "Description";
-            string descdata = "", sItemCode="";
-
-            //SqlCommand cmd = new SqlCommand();
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
-
-            string query_1 = "";
-            string query_2 = "";
-
-            //this is for comment section
-            ArrayList loggersFirstName = new ArrayList();
-            ArrayList loggersLastName = new ArrayList();
-            ArrayList logsArr = new ArrayList();
-
-            switch (type)
+            if (type == "MOPList")
             {
-                case materialsIdentifier:
-                    //ASPxGridView grid = DirectMaterialsGrid as ASPxGridView;
-                    //ASPxTextBox txtid = (ASPxTextBox)ContentPlaceHolder1.FindControl("txtTest");
+                dvMOPSidePanel.Visible = true;
+                string mopNum = arrParam[2].ToString();
 
-                    //ASPxGridView grid = (ASPxGridView)ContentPlaceHolder1.FindControl("DirectMaterialsGrid");
+            }
+            else
+            {
+                dvItemSidePanel.Visible = true;
 
-                    if (PK == 0)
-                    {
-                        sItemCode = arrParam[4].ToString();
-                        query_1 = "SELECT ITEMID, NAMEALIAS " +
-                                  " FROM dbo.vw_AXInventTable " +
-                                  " WHERE(DATAAREAID = '"+ sEntCode + "') " +
-                                  " AND(ITEMID = '"+ sItemCode + "')";
-                        cmd = new SqlCommand(query_1);
-                        cmd.Connection = conn;
-                        adp = new SqlDataAdapter(cmd);
-                        adp.Fill(dt);
-                        if (dt.Rows.Count> 0)
+                int PK = Convert.ToInt32(arrParam[1]);
+                string sEntCode = arrParam[2].ToString();
+                string sBuCode = arrParam[3].ToString();
+
+                List<object> fieldValues = new List<object>();
+
+                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+                conn.Open();
+
+                string description = "Description";
+                string descdata = "", sItemCode = "";
+
+                //SqlCommand cmd = new SqlCommand();
+                DataTable dt = new DataTable();
+                SqlCommand cmd = null;
+                SqlDataAdapter adp;
+
+                string query_1 = "";
+                string query_2 = "";
+
+                //this is for comment section
+                ArrayList loggersFirstName = new ArrayList();
+                ArrayList loggersLastName = new ArrayList();
+                ArrayList logsArr = new ArrayList();
+
+                switch (type)
+                {
+                    case materialsIdentifier:
+                        //ASPxGridView grid = DirectMaterialsGrid as ASPxGridView;
+                        //ASPxTextBox txtid = (ASPxTextBox)ContentPlaceHolder1.FindControl("txtTest");
+
+                        //ASPxGridView grid = (ASPxGridView)ContentPlaceHolder1.FindControl("DirectMaterialsGrid");
+
+                        if (PK == 0)
                         {
-                            foreach (DataRow row in dt.Rows)
+                            sItemCode = arrParam[4].ToString();
+                            query_1 = "SELECT ITEMID, NAMEALIAS " +
+                                      " FROM dbo.vw_AXInventTable " +
+                                      " WHERE(DATAAREAID = '" + sEntCode + "') " +
+                                      " AND(ITEMID = '" + sItemCode + "')";
+                            cmd = new SqlCommand(query_1);
+                            cmd.Connection = conn;
+                            adp = new SqlDataAdapter(cmd);
+                            adp.Fill(dt);
+                            if (dt.Rows.Count > 0)
                             {
-                                lblItemCode.Text = row["ITEMID"].ToString();
-                                lblDescription.Text = row["NAMEALIAS"].ToString();
+                                foreach (DataRow row in dt.Rows)
+                                {
+                                    lblItemCode.Text = row["ITEMID"].ToString();
+                                    lblDescription.Text = row["NAMEALIAS"].ToString();
 
-                                DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
-                                grdOnHand.DataSource = dtRecord;
-                                grdOnHand.DataBind();
+                                    DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
+                                    grdOnHand.DataSource = dtRecord;
+                                    grdOnHand.DataBind();
 
-                                DataTable dtRecord1 = ItemInfoClass.Item_Pending_PO(sEntCode, sBuCode, lblItemCode.Text);
-                                grdPendingPO.DataSource = dtRecord1;
-                                grdPendingPO.DataBind();
+                                    DataTable dtRecord1 = ItemInfoClass.Item_Pending_PO(sEntCode, sBuCode, lblItemCode.Text);
+                                    grdPendingPO.DataSource = dtRecord1;
+                                    grdPendingPO.DataBind();
 
-                                DataTable dtRecord2 = ItemInfoClass.Item_Inventory_Movement(sEntCode, sBuCode, lblItemCode.Text);
-                                grdInventMovement.DataSource = dtRecord2;
-                                grdInventMovement.DataBind();
+                                    DataTable dtRecord2 = ItemInfoClass.Item_Inventory_Movement(sEntCode, sBuCode, lblItemCode.Text);
+                                    grdInventMovement.DataSource = dtRecord2;
+                                    grdInventMovement.DataBind();
+                                }
                             }
+                            dt.Clear();
+
                         }
-                        dt.Clear();
-                        
-                    } else
-                    {
-                        query_1 = "SELECT [ItemDescription], [ItemCode] FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] where [PK] = '" + PK + "'";
-                        cmd = new SqlCommand(query_1);
-                        cmd.Connection = conn;
-                        adp = new SqlDataAdapter(cmd);
-                        adp.Fill(dt);
-                        if (dt.Rows.Count  > 0)
+                        else
                         {
-                            foreach (DataRow row in dt.Rows)
+                            query_1 = "SELECT [ItemDescription], [ItemCode] FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] where [PK] = '" + PK + "'";
+                            cmd = new SqlCommand(query_1);
+                            cmd.Connection = conn;
+                            adp = new SqlDataAdapter(cmd);
+                            adp.Fill(dt);
+                            if (dt.Rows.Count > 0)
                             {
-                                descdata = row["ItemDescription"].ToString();
-                                lblItemCode.Text = row["ItemCode"].ToString();
-                                lblDescription.Text = row["ItemDescription"].ToString();
+                                foreach (DataRow row in dt.Rows)
+                                {
+                                    descdata = row["ItemDescription"].ToString();
+                                    lblItemCode.Text = row["ItemCode"].ToString();
+                                    lblDescription.Text = row["ItemDescription"].ToString();
 
-                                DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
-                                grdOnHand.DataSource = dtRecord;
-                                grdOnHand.DataBind();
+                                    DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
+                                    grdOnHand.DataSource = dtRecord;
+                                    grdOnHand.DataBind();
 
-                                DataTable dtRecord1 = ItemInfoClass.Item_Pending_PO(sEntCode, sBuCode, lblItemCode.Text);
-                                grdPendingPO.DataSource = dtRecord1;
-                                grdPendingPO.DataBind();
+                                    DataTable dtRecord1 = ItemInfoClass.Item_Pending_PO(sEntCode, sBuCode, lblItemCode.Text);
+                                    grdPendingPO.DataSource = dtRecord1;
+                                    grdPendingPO.DataBind();
 
-                                DataTable dtRecord2 = ItemInfoClass.Item_Inventory_Movement(sEntCode, sBuCode, lblItemCode.Text);
-                                grdInventMovement.DataSource = dtRecord2;
-                                grdInventMovement.DataBind();
+                                    DataTable dtRecord2 = ItemInfoClass.Item_Inventory_Movement(sEntCode, sBuCode, lblItemCode.Text);
+                                    grdInventMovement.DataSource = dtRecord2;
+                                    grdInventMovement.DataBind();
+                                }
                             }
+                            dt.Clear();
+                            //cmd = new SqlCommand(query_1, conn);
+                            //SqlDataReader reader = cmd.ExecuteReader();
+                            //while (reader.Read())
+                            //{
+                            //    descdata = reader[0].ToString();
+                            //    lblItemCode.Text = reader[1].ToString();
+                            //    lblDescription.Text = reader[0].ToString();
+
+                            //    DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
+                            //    grdOnHand.DataSource = dtRecord;
+                            //    grdOnHand.DataBind();
+                            //}
+                            //reader.Close();
                         }
-                        dt.Clear();
-                        //cmd = new SqlCommand(query_1, conn);
-                        //SqlDataReader reader = cmd.ExecuteReader();
-                        //while (reader.Read())
-                        //{
-                        //    descdata = reader[0].ToString();
-                        //    lblItemCode.Text = reader[1].ToString();
-                        //    lblDescription.Text = reader[0].ToString();
 
-                        //    DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
-                        //    grdOnHand.DataSource = dtRecord;
-                        //    grdOnHand.DataBind();
-                        //}
-                        //reader.Close();
-                    }                    
-
-                    query_2 = "SELECT tbl_MRP_List_DirectMaterials_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM   tbl_MRP_List_DirectMaterials_Logs INNER JOIN tbl_Users ON tbl_MRP_List_DirectMaterials_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
-                    cmd = new SqlCommand(query_2);
-                    cmd.Connection = conn;
-                    adp = new SqlDataAdapter(cmd);
-                    adp.Fill(dt);
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            logsArr.Add(row["Remarks"].ToString());
-                            loggersFirstName.Add(row["Firstname"].ToString());
-                            loggersLastName.Add(row["Lastname"].ToString());
-                        }
-                    }
-                    dt.Clear();
-                    //cmd = new SqlCommand(query_2, conn);
-                    //SqlDataReader reader = cmd.ExecuteReader();
-                    //reader = cmd.ExecuteReader();
-                    //while (reader.Read())
-                    //{
-                    //    logsArr.Add(reader[0].ToString());
-                    //    loggersFirstName.Add(reader[1].ToString());
-                    //    loggersLastName.Add(reader[2].ToString());
-                    //}
-                    //reader.Close();
-
-                    break;
-                case opexIdentifier:
-
-                    //ASPxGridView grid1 = (ASPxGridView)ContentPlaceHolder1.FindControl("DirectMaterialsGrid");
-
-                    if (PK == 0)
-                    {
-                        //MRPClass.PrintString(type + " - " + PK.ToString() + " - " + sEntCode + " - " + arrParam[3].ToString());
-
-                        //DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, arrParam[3].ToString());
-                        //grdOnHand.DataSource = dtRecord;
-                        //grdOnHand.DataBind();
-                        sItemCode = arrParam[4].ToString();
-                        query_1 = "SELECT ITEMID, NAMEALIAS " +
-                                  " FROM dbo.vw_AXInventTable " +
-                                  " WHERE(DATAAREAID = '" + sEntCode + "') " +
-                                  " AND(ITEMID = '" + sItemCode + "')";
-                        cmd = new SqlCommand(query_1);
+                        query_2 = "SELECT tbl_MRP_List_DirectMaterials_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM   tbl_MRP_List_DirectMaterials_Logs INNER JOIN tbl_Users ON tbl_MRP_List_DirectMaterials_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
+                        cmd = new SqlCommand(query_2);
                         cmd.Connection = conn;
                         adp = new SqlDataAdapter(cmd);
                         adp.Fill(dt);
@@ -289,28 +265,172 @@ namespace HijoPortal
                         {
                             foreach (DataRow row in dt.Rows)
                             {
-                                lblItemCode.Text = row["ITEMID"].ToString();
-                                lblDescription.Text = row["NAMEALIAS"].ToString();
+                                logsArr.Add(row["Remarks"].ToString());
+                                loggersFirstName.Add(row["Firstname"].ToString());
+                                loggersLastName.Add(row["Lastname"].ToString());
+                            }
+                        }
+                        dt.Clear();
+                        //cmd = new SqlCommand(query_2, conn);
+                        //SqlDataReader reader = cmd.ExecuteReader();
+                        //reader = cmd.ExecuteReader();
+                        //while (reader.Read())
+                        //{
+                        //    logsArr.Add(reader[0].ToString());
+                        //    loggersFirstName.Add(reader[1].ToString());
+                        //    loggersLastName.Add(reader[2].ToString());
+                        //}
+                        //reader.Close();
 
-                                DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
-                                grdOnHand.DataSource = dtRecord;
-                                grdOnHand.DataBind();
+                        break;
+                    case opexIdentifier:
 
-                                DataTable dtRecord1 = ItemInfoClass.Item_Pending_PO(sEntCode, sBuCode, lblItemCode.Text);
-                                grdPendingPO.DataSource = dtRecord1;
-                                grdPendingPO.DataBind();
+                        //ASPxGridView grid1 = (ASPxGridView)ContentPlaceHolder1.FindControl("DirectMaterialsGrid");
 
-                                DataTable dtRecord2 = ItemInfoClass.Item_Inventory_Movement(sEntCode, sBuCode, lblItemCode.Text);
-                                grdInventMovement.DataSource = dtRecord2;
-                                grdInventMovement.DataBind();
+                        if (PK == 0)
+                        {
+                            //MRPClass.PrintString(type + " - " + PK.ToString() + " - " + sEntCode + " - " + arrParam[3].ToString());
+
+                            //DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, arrParam[3].ToString());
+                            //grdOnHand.DataSource = dtRecord;
+                            //grdOnHand.DataBind();
+                            sItemCode = arrParam[4].ToString();
+                            query_1 = "SELECT ITEMID, NAMEALIAS " +
+                                      " FROM dbo.vw_AXInventTable " +
+                                      " WHERE(DATAAREAID = '" + sEntCode + "') " +
+                                      " AND(ITEMID = '" + sItemCode + "')";
+                            cmd = new SqlCommand(query_1);
+                            cmd.Connection = conn;
+                            adp = new SqlDataAdapter(cmd);
+                            adp.Fill(dt);
+                            if (dt.Rows.Count > 0)
+                            {
+                                foreach (DataRow row in dt.Rows)
+                                {
+                                    lblItemCode.Text = row["ITEMID"].ToString();
+                                    lblDescription.Text = row["NAMEALIAS"].ToString();
+
+                                    DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
+                                    grdOnHand.DataSource = dtRecord;
+                                    grdOnHand.DataBind();
+
+                                    DataTable dtRecord1 = ItemInfoClass.Item_Pending_PO(sEntCode, sBuCode, lblItemCode.Text);
+                                    grdPendingPO.DataSource = dtRecord1;
+                                    grdPendingPO.DataBind();
+
+                                    DataTable dtRecord2 = ItemInfoClass.Item_Inventory_Movement(sEntCode, sBuCode, lblItemCode.Text);
+                                    grdInventMovement.DataSource = dtRecord2;
+                                    grdInventMovement.DataBind();
+                                }
+                            }
+                            dt.Clear();
+
+                        }
+                        else
+                        {
+                            query_1 = "SELECT [Description], [ItemCode] FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] where [PK] = '" + PK + "'";
+                            //query_1 = "SELECT [ItemDescription], [ItemCode] FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] where [PK] = '" + PK + "'";
+                            cmd = new SqlCommand(query_1);
+                            cmd.Connection = conn;
+                            adp = new SqlDataAdapter(cmd);
+                            adp.Fill(dt);
+                            if (dt.Rows.Count > 0)
+                            {
+                                foreach (DataRow row in dt.Rows)
+                                {
+                                    descdata = row["Description"].ToString();
+                                    lblItemCode.Text = row["ItemCode"].ToString();
+                                    lblDescription.Text = row["Description"].ToString();
+
+                                    DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
+                                    grdOnHand.DataSource = dtRecord;
+                                    grdOnHand.DataBind();
+
+                                    DataTable dtRecord1 = ItemInfoClass.Item_Pending_PO(sEntCode, sBuCode, lblItemCode.Text);
+                                    grdPendingPO.DataSource = dtRecord1;
+                                    grdPendingPO.DataBind();
+
+                                    DataTable dtRecord2 = ItemInfoClass.Item_Inventory_Movement(sEntCode, sBuCode, lblItemCode.Text);
+                                    grdInventMovement.DataSource = dtRecord2;
+                                    grdInventMovement.DataBind();
+                                }
+                            }
+                            dt.Clear();
+
+                            //cmd = new SqlCommand(query_1);
+                            //cmd.Connection = conn;
+                            //adp = new SqlDataAdapter(cmd);
+                            //adp.Fill(dt);
+                            //if (dt.Rows.Count > 0)
+                            //{
+                            //    foreach (DataRow row in dt.Rows)
+                            //    {
+                            //        descdata = row["Description"].ToString();
+                            //        lblItemCode.Text = row["ItemCode"].ToString();
+                            //        lblDescription.Text = row["Description"].ToString();
+
+                            //        DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
+                            //        grdOnHand.DataSource = dtRecord;
+                            //        grdOnHand.DataBind();
+
+                            //        DataTable dtRecord1 = ItemInfoClass.Item_Pending_PO(sEntCode, sBuCode, lblItemCode.Text);
+                            //        grdPendingPO.DataSource = dtRecord1;
+                            //        grdPendingPO.DataBind();
+
+                            //        DataTable dtRecord2 = ItemInfoClass.Item_Inventory_Movement(sEntCode, sBuCode), lblItemCode.Text);
+                            //        grdInventMovement.DataSource = dtRecord2;
+                            //        grdInventMovement.DataBind();
+                            //    }
+                            //}
+                            //dt.Clear();
+
+                            //cmd = new SqlCommand(query_1, conn);
+                            //SqlDataReader reader = cmd.ExecuteReader();
+                            ////reader = cmd.ExecuteReader();
+                            //while (reader.Read())
+                            //{
+                            //    descdata = reader[0].ToString();
+                            //    lblItemCode.Text = reader[1].ToString();
+                            //    lblDescription.Text = reader[0].ToString();
+
+                            //    DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
+                            //    grdOnHand.DataSource = dtRecord;
+                            //    grdOnHand.DataBind();
+                            //}
+
+                            //reader.Close();
+                        }
+
+
+                        query_2 = "SELECT tbl_MRP_List_OPEX_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_OPEX_Logs INNER JOIN tbl_Users ON tbl_MRP_List_OPEX_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
+                        cmd = new SqlCommand(query_2);
+                        cmd.Connection = conn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                logsArr.Add(row["Remarks"].ToString());
+                                loggersFirstName.Add(row["Firstname"].ToString());
+                                loggersLastName.Add(row["Lastname"].ToString());
                             }
                         }
                         dt.Clear();
 
-                    } else
-                    {
-                        query_1 = "SELECT [Description], [ItemCode] FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] where [PK] = '" + PK + "'";
-                        //query_1 = "SELECT [ItemDescription], [ItemCode] FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] where [PK] = '" + PK + "'";
+                        //cmd = new SqlCommand(query_2, conn);
+                        //reader = cmd.ExecuteReader();
+                        //while (reader.Read())
+                        //{
+                        //    logsArr.Add(reader[0].ToString());
+                        //    loggersFirstName.Add(reader[1].ToString());
+                        //    loggersLastName.Add(reader[2].ToString());
+                        //}
+                        //reader.Close();
+
+                        break;
+                    case manpowerIdentifier:
+                        query_1 = "SELECT [Description] FROM [hijo_portal].[dbo].[tbl_MRP_List_ManPower] where [PK] = '" + PK + "'";
                         cmd = new SqlCommand(query_1);
                         cmd.Connection = conn;
                         adp = new SqlDataAdapter(cmd);
@@ -320,324 +440,157 @@ namespace HijoPortal
                             foreach (DataRow row in dt.Rows)
                             {
                                 descdata = row["Description"].ToString();
-                                lblItemCode.Text = row["ItemCode"].ToString();
+                                lblItemCode.Text = ""; //reader[1].ToString();
                                 lblDescription.Text = row["Description"].ToString();
-
-                                DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
-                                grdOnHand.DataSource = dtRecord;
-                                grdOnHand.DataBind();
-
-                                DataTable dtRecord1 = ItemInfoClass.Item_Pending_PO(sEntCode, sBuCode, lblItemCode.Text);
-                                grdPendingPO.DataSource = dtRecord1;
-                                grdPendingPO.DataBind();
-
-                                DataTable dtRecord2 = ItemInfoClass.Item_Inventory_Movement(sEntCode, sBuCode, lblItemCode.Text);
-                                grdInventMovement.DataSource = dtRecord2;
-                                grdInventMovement.DataBind();
                             }
                         }
                         dt.Clear();
 
-                        //cmd = new SqlCommand(query_1);
-                        //cmd.Connection = conn;
-                        //adp = new SqlDataAdapter(cmd);
-                        //adp.Fill(dt);
-                        //if (dt.Rows.Count > 0)
-                        //{
-                        //    foreach (DataRow row in dt.Rows)
-                        //    {
-                        //        descdata = row["Description"].ToString();
-                        //        lblItemCode.Text = row["ItemCode"].ToString();
-                        //        lblDescription.Text = row["Description"].ToString();
-
-                        //        DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
-                        //        grdOnHand.DataSource = dtRecord;
-                        //        grdOnHand.DataBind();
-
-                        //        DataTable dtRecord1 = ItemInfoClass.Item_Pending_PO(sEntCode, sBuCode, lblItemCode.Text);
-                        //        grdPendingPO.DataSource = dtRecord1;
-                        //        grdPendingPO.DataBind();
-
-                        //        DataTable dtRecord2 = ItemInfoClass.Item_Inventory_Movement(sEntCode, sBuCode), lblItemCode.Text);
-                        //        grdInventMovement.DataSource = dtRecord2;
-                        //        grdInventMovement.DataBind();
-                        //    }
-                        //}
-                        //dt.Clear();
-
                         //cmd = new SqlCommand(query_1, conn);
-                        //SqlDataReader reader = cmd.ExecuteReader();
-                        ////reader = cmd.ExecuteReader();
+                        //reader = cmd.ExecuteReader();
                         //while (reader.Read())
                         //{
                         //    descdata = reader[0].ToString();
-                        //    lblItemCode.Text = reader[1].ToString();
+                        //    lblItemCode.Text = ""; //reader[1].ToString();
                         //    lblDescription.Text = reader[0].ToString();
-
-                        //    DataTable dtRecord = ItemInfoClass.Item_Invent_OnHand(sEntCode, lblItemCode.Text);
-                        //    grdOnHand.DataSource = dtRecord;
-                        //    grdOnHand.DataBind();
                         //}
 
                         //reader.Close();
-                    }
-                        
 
-                    query_2 = "SELECT tbl_MRP_List_OPEX_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_OPEX_Logs INNER JOIN tbl_Users ON tbl_MRP_List_OPEX_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
-                    cmd = new SqlCommand(query_2);
-                    cmd.Connection = conn;
-                    adp = new SqlDataAdapter(cmd);
-                    adp.Fill(dt);
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
+                        query_2 = "SELECT tbl_MRP_List_ManPower_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_ManPower_Logs INNER JOIN tbl_Users ON tbl_MRP_List_ManPower_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
+                        cmd = new SqlCommand(query_2);
+                        cmd.Connection = conn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
                         {
-                            logsArr.Add(row["Remarks"].ToString());
-                            loggersFirstName.Add(row["Firstname"].ToString());
-                            loggersLastName.Add(row["Lastname"].ToString());
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                logsArr.Add(row["Remarks"].ToString());
+                                loggersFirstName.Add(row["Firstname"].ToString());
+                                loggersLastName.Add(row["Lastname"].ToString());
+                            }
                         }
-                    }
-                    dt.Clear();
+                        dt.Clear();
+                        //cmd = new SqlCommand(query_2, conn);
+                        //reader = cmd.ExecuteReader();
+                        //while (reader.Read())
+                        //{
+                        //    logsArr.Add(reader[0].ToString());
+                        //    loggersFirstName.Add(reader[1].ToString());
+                        //    loggersLastName.Add(reader[2].ToString());
+                        //}
+                        //reader.Close();
 
-                    //cmd = new SqlCommand(query_2, conn);
-                    //reader = cmd.ExecuteReader();
-                    //while (reader.Read())
-                    //{
-                    //    logsArr.Add(reader[0].ToString());
-                    //    loggersFirstName.Add(reader[1].ToString());
-                    //    loggersLastName.Add(reader[2].ToString());
-                    //}
-                    //reader.Close();
-
-                    break;
-                case manpowerIdentifier:
-                    query_1 = "SELECT [Description] FROM [hijo_portal].[dbo].[tbl_MRP_List_ManPower] where [PK] = '" + PK + "'";
-                    cmd = new SqlCommand(query_1);
-                    cmd.Connection = conn;
-                    adp = new SqlDataAdapter(cmd);
-                    adp.Fill(dt);
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
+                        break;
+                    case capexIdentifier:
+                        query_1 = "SELECT [Description] FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] where [PK] = '" + PK + "'";
+                        cmd = new SqlCommand(query_1);
+                        cmd.Connection = conn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
                         {
-                            descdata = row["Description"].ToString();
-                            lblItemCode.Text = ""; //reader[1].ToString();
-                            lblDescription.Text = row["Description"].ToString();
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                descdata = row["Description"].ToString();
+                                lblItemCode.Text = ""; //reader[1].ToString();
+                                lblDescription.Text = row["Description"].ToString();
+                            }
                         }
-                    }
-                    dt.Clear();
+                        dt.Clear();
+                        //cmd = new SqlCommand(query_1, conn);
+                        //reader = cmd.ExecuteReader();
+                        //while (reader.Read())
+                        //{
+                        //    descdata = reader[0].ToString();
+                        //    lblItemCode.Text = ""; //reader[1].ToString();
+                        //    lblDescription.Text = reader[0].ToString();
+                        //}
 
-                    //cmd = new SqlCommand(query_1, conn);
-                    //reader = cmd.ExecuteReader();
-                    //while (reader.Read())
-                    //{
-                    //    descdata = reader[0].ToString();
-                    //    lblItemCode.Text = ""; //reader[1].ToString();
-                    //    lblDescription.Text = reader[0].ToString();
-                    //}
+                        //reader.Close();
 
-                    //reader.Close();
-
-                    query_2 = "SELECT tbl_MRP_List_ManPower_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_ManPower_Logs INNER JOIN tbl_Users ON tbl_MRP_List_ManPower_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
-                    cmd = new SqlCommand(query_2);
-                    cmd.Connection = conn;
-                    adp = new SqlDataAdapter(cmd);
-                    adp.Fill(dt);
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
+                        query_2 = "SELECT tbl_MRP_List_CAPEX_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_CAPEX_Logs INNER JOIN tbl_Users ON tbl_MRP_List_CAPEX_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
+                        cmd = new SqlCommand(query_2);
+                        cmd.Connection = conn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
                         {
-                            logsArr.Add(row["Remarks"].ToString());
-                            loggersFirstName.Add(row["Firstname"].ToString());
-                            loggersLastName.Add(row["Lastname"].ToString());
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                logsArr.Add(row["Remarks"].ToString());
+                                loggersFirstName.Add(row["Firstname"].ToString());
+                                loggersLastName.Add(row["Lastname"].ToString());
+                            }
                         }
-                    }
-                    dt.Clear();
-                    //cmd = new SqlCommand(query_2, conn);
-                    //reader = cmd.ExecuteReader();
-                    //while (reader.Read())
-                    //{
-                    //    logsArr.Add(reader[0].ToString());
-                    //    loggersFirstName.Add(reader[1].ToString());
-                    //    loggersLastName.Add(reader[2].ToString());
-                    //}
-                    //reader.Close();
+                        dt.Clear();
+                        //cmd = new SqlCommand(query_2, conn);
+                        //reader = cmd.ExecuteReader();
+                        //while (reader.Read())
+                        //{
+                        //    logsArr.Add(reader[0].ToString());
+                        //    loggersFirstName.Add(reader[1].ToString());
+                        //    loggersLastName.Add(reader[2].ToString());
+                        //}
+                        //reader.Close();
 
-                    break;
-                case capexIdentifier:
-                    query_1 = "SELECT [Description] FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] where [PK] = '" + PK + "'";
-                    cmd = new SqlCommand(query_1);
-                    cmd.Connection = conn;
-                    adp = new SqlDataAdapter(cmd);
-                    adp.Fill(dt);
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
+                        break;
+                    case revenueIdentifier:
+                        query_1 = "SELECT [FarmName] FROM [hijo_portal].[dbo].[tbl_MRP_List_RevenueAssumptions] where [PK] = '" + PK + "'";
+                        cmd = new SqlCommand(query_1);
+                        cmd.Connection = conn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
                         {
-                            descdata = row["Description"].ToString();
-                            lblItemCode.Text = ""; //reader[1].ToString();
-                            lblDescription.Text = row["Description"].ToString();
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                descdata = row["FarmName"].ToString();
+                                lblItemCode.Text = ""; //reader[1].ToString();
+                                lblDescription.Text = row["FarmName"].ToString();
+                            }
                         }
-                    }
-                    dt.Clear();
-                    //cmd = new SqlCommand(query_1, conn);
-                    //reader = cmd.ExecuteReader();
-                    //while (reader.Read())
-                    //{
-                    //    descdata = reader[0].ToString();
-                    //    lblItemCode.Text = ""; //reader[1].ToString();
-                    //    lblDescription.Text = reader[0].ToString();
-                    //}
+                        dt.Clear();
+                        //cmd = new SqlCommand(query_1, conn);
+                        //reader = cmd.ExecuteReader();
+                        //while (reader.Read())
+                        //{
+                        //    descdata = reader[0].ToString();
+                        //}
 
-                    //reader.Close();
+                        //reader.Close();
 
-                    query_2 = "SELECT tbl_MRP_List_CAPEX_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_CAPEX_Logs INNER JOIN tbl_Users ON tbl_MRP_List_CAPEX_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
-                    cmd = new SqlCommand(query_2);
-                    cmd.Connection = conn;
-                    adp = new SqlDataAdapter(cmd);
-                    adp.Fill(dt);
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
+                        query_2 = "SELECT tbl_MRP_List_RevenueAssumptions_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_Users INNER JOIN tbl_MRP_List_RevenueAssumptions_Logs ON tbl_Users.PK = tbl_MRP_List_RevenueAssumptions_Logs.UserKey WHERE MasterKey = '" + PK + "'";
+                        cmd = new SqlCommand(query_2);
+                        cmd.Connection = conn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
                         {
-                            logsArr.Add(row["Remarks"].ToString());
-                            loggersFirstName.Add(row["Firstname"].ToString());
-                            loggersLastName.Add(row["Lastname"].ToString());
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                logsArr.Add(row["Remarks"].ToString());
+                                loggersFirstName.Add(row["Firstname"].ToString());
+                                loggersLastName.Add(row["Lastname"].ToString());
+                            }
                         }
-                    }
-                    dt.Clear();
-                    //cmd = new SqlCommand(query_2, conn);
-                    //reader = cmd.ExecuteReader();
-                    //while (reader.Read())
-                    //{
-                    //    logsArr.Add(reader[0].ToString());
-                    //    loggersFirstName.Add(reader[1].ToString());
-                    //    loggersLastName.Add(reader[2].ToString());
-                    //}
-                    //reader.Close();
+                        dt.Clear();
 
-                    break;
-                case revenueIdentifier:
-                    query_1 = "SELECT [FarmName] FROM [hijo_portal].[dbo].[tbl_MRP_List_RevenueAssumptions] where [PK] = '" + PK + "'";
-                    cmd = new SqlCommand(query_1);
-                    cmd.Connection = conn;
-                    adp = new SqlDataAdapter(cmd);
-                    adp.Fill(dt);
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            descdata = row["FarmName"].ToString();
-                            lblItemCode.Text = ""; //reader[1].ToString();
-                            lblDescription.Text = row["FarmName"].ToString();
-                        }
-                    }
-                    dt.Clear();
-                    //cmd = new SqlCommand(query_1, conn);
-                    //reader = cmd.ExecuteReader();
-                    //while (reader.Read())
-                    //{
-                    //    descdata = reader[0].ToString();
-                    //}
+                        break;
+                }
 
-                    //reader.Close();
+                for (int i = 0; i < loggersFirstName.Count; i++)
+                {
+                    string fname = EncryptionClass.Decrypt(loggersFirstName[i].ToString());
+                    loggersFirstName[i] = fname;
+                    string lname = EncryptionClass.Decrypt(loggersLastName[i].ToString());
+                    loggersLastName[i] = lname;
+                }
 
-                    query_2 = "SELECT tbl_MRP_List_RevenueAssumptions_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_Users INNER JOIN tbl_MRP_List_RevenueAssumptions_Logs ON tbl_Users.PK = tbl_MRP_List_RevenueAssumptions_Logs.UserKey WHERE MasterKey = '" + PK + "'";
-                    cmd = new SqlCommand(query_2);
-                    cmd.Connection = conn;
-                    adp = new SqlDataAdapter(cmd);
-                    adp.Fill(dt);
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            logsArr.Add(row["Remarks"].ToString());
-                            loggersFirstName.Add(row["Firstname"].ToString());
-                            loggersLastName.Add(row["Lastname"].ToString());
-                        }
-                    }
-                    dt.Clear();
-                    //cmd = new SqlCommand(query_2, conn);
-                    //reader = cmd.ExecuteReader();
-                    //while (reader.Read())
-                    //{
-                    //    logsArr.Add(reader[0].ToString());
-                    //    loggersFirstName.Add(reader[1].ToString());
-                    //    loggersLastName.Add(reader[2].ToString());
-                    //}
-                    //reader.Close();
-
-                    break;
+                conn.Close();
             }
-
-            for (int i = 0; i < loggersFirstName.Count; i++)
-            {
-                string fname = EncryptionClass.Decrypt(loggersFirstName[i].ToString());
-                loggersFirstName[i] = fname;
-                string lname = EncryptionClass.Decrypt(loggersLastName[i].ToString());
-                loggersLastName[i] = lname;
-            }
-
-            //for (int i = 0; i < 1; i++)//table row forloop
-            //{
-            //    HtmlTableRow tr = new HtmlTableRow();
-            //    HtmlTableCell td = new HtmlTableCell();
-            //    for (int i2 = 0; i2 < 2; i2++)//table data forloop
-            //    {
-            //        td = new HtmlTableCell();
-            //        if (i2 == 0)//first column
-            //        {
-            //            td.InnerText = description;
-            //            td.Attributes.Add("style", "width:25%");
-            //            tr.Cells.Add(td);
-            //        }
-            //        else//second column
-            //        {
-            //            td.InnerText = descdata;
-            //            td.Attributes.Add("style", "width:75%");
-            //            td.Attributes.Add("style", "padding:0px 5px 0px 0px");
-            //            tr.Cells.Add(td);
-            //        }
-            //    }
-            //    warehousetable.Controls.Add(tr);
-            //}
-
-
-            //for (int i = 0; i < logsArr.Count; i++)//table row forloop
-            //{
-            //    HtmlTableRow tr = new HtmlTableRow();
-            //    HtmlTableCell td = new HtmlTableCell();
-            //    for (int i2 = 0; i2 < 2; i2++)//table data forloop
-            //    {
-            //        td = new HtmlTableCell();
-            //        if (i2 == 0)//first column
-            //        {
-
-            //            td.InnerText = loggersFirstName[i].ToString() + " " + loggersLastName[i].ToString();
-            //            td.Attributes.Add("style", "width:25%;");
-            //            td.ColSpan = 2;
-            //            tr.Cells.Add(td);
-            //            commentstable.Controls.Add(tr);
-            //        }
-            //        else
-            //        {
-            //            tr = new HtmlTableRow();
-            //            td = new HtmlTableCell();
-            //            td.Style.Add("width", "5%");
-            //            tr.Cells.Add(td);
-
-            //            td = new HtmlTableCell();
-            //            td.InnerText = logsArr[i].ToString();
-            //            td.Attributes.Add("style", "width:75%");
-            //            td.Attributes.Add("style", "padding:0px 5px 0px 0px");
-            //            tr.Cells.Add(td);
-
-            //        }
-            //    }
-            //    commentstable.Controls.Add(tr);
-            //}
-
-            conn.Close();
+            
 
         }
 

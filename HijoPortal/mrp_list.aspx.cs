@@ -235,6 +235,15 @@ namespace HijoPortal
                             Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                         }
                     }
+                    else if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPProcurementOfficer", dteCreated, entCode, buCode) == true) {
+                        if (StatusKey == 4)
+                        {
+                            Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                        } else
+                        {
+                            text["hidden_value"] = "InvalidCreator";
+                        }
+                    }
                     else
                     {
                         if (Session["CreatorKey"] == Session["mrp_creator"])

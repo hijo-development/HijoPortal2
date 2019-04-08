@@ -100,12 +100,12 @@ function OnPassValidationChangePW(s, e) {
 }
 
 function ChangePW(s, e) {
-
     if (ASPxClientEdit.AreEditorsValid()) {
         $find('ModalPopupExtenderLoading').show();
         e.processOnServer = true;
     }
 
+    //&& captchaChPWDirect.GetIsValid()
     //var captcha = captchaChPWDirect.isValid();
     //if (captcha) {
     //    $find('ModalPopupExtenderLoading').show();
