@@ -50,8 +50,9 @@ namespace HijoPortal
             ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             if (!Page.IsPostBack)
             {
-                Bind_PO_List();
             }
+
+            Bind_PO_List();
         }
 
         protected void gridCreatedPO_CustomButtonCallback(object sender, ASPxGridViewCustomButtonCallbackEventArgs e)

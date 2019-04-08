@@ -55,7 +55,8 @@ namespace HijoPortal
                 if (wrkflwln == 0)
                 {
                     Submit.Text = "Submit";
-                } else
+                }
+                else
                 {
                     Submit.Text = "Confirm & Submit";
                 }
@@ -148,7 +149,7 @@ namespace HijoPortal
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dt);
-            if (dt.Rows.Count > 0) 
+            if (dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {
@@ -512,7 +513,7 @@ namespace HijoPortal
             if (itemDesc2.Value != null)
                 desc_two = itemDesc2.Value.ToString();
 
-            string insert = "INSERT INTO " + MRPClass.DirectMatTable() + 
+            string insert = "INSERT INTO " + MRPClass.DirectMatTable() +
                             " ([HeaderDocNum], [ActivityCode], [ItemCode], [ItemDescription], [UOM], " +
                             " [Cost], [Qty], [TotalCost], [OprUnit], " +
                             " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
@@ -594,7 +595,7 @@ namespace HijoPortal
                 desc_two = itemDesc2.Value.ToString();
 
 
-            string update_MRP = "UPDATE " + MRPClass.DirectMatTable() + 
+            string update_MRP = "UPDATE " + MRPClass.DirectMatTable() +
                                 " SET [ActivityCode] = @ActivityCode, [ItemCode] = @ItemCode , " +
                                 " [ItemDescription] = @ItemDescription, [UOM]= @UOM, " +
                                 " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
@@ -709,7 +710,7 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO " + MRPClass.OpexTable() + 
+            string insert = "INSERT INTO " + MRPClass.OpexTable() +
                             " ([HeaderDocNum], [ExpenseCode], [ItemCode], [Description], [UOM], " +
                             " [Cost], [Qty], [TotalCost], [OprUnit], " +
                             " [EdittedQty], [EdittedCost], [EdittedTotalCost], " +
@@ -818,7 +819,7 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.OpexTable() + 
+            string update_MRP = "UPDATE " + MRPClass.OpexTable() +
                                 " SET [ExpenseCode] = @ExpenseCode, [ItemCode] = @ItemCode , " +
                                 " [Description] = @Description, [UOM]= @UOM, " +
                                 " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
@@ -927,7 +928,7 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string insert = "INSERT INTO " + MRPClass.ManPowerTable() + 
+            string insert = "INSERT INTO " + MRPClass.ManPowerTable() +
                             " ([HeaderDocNum], [ActivityCode], [ManPowerTypeKey], " +
                             " [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit], " +
                             " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
@@ -1031,7 +1032,7 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.ManPowerTable() + 
+            string update_MRP = "UPDATE " + MRPClass.ManPowerTable() +
                                 " SET [ActivityCode] = @ActivityCode, [ManPowerTypeKey] = @ManPowerTypeKey, " +
                                 " [Description] = @Description, [UOM]= @UOM, " +
                                 " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
@@ -1102,6 +1103,7 @@ namespace HijoPortal
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("CAPEXPageControl") as ASPxPageControl;
 
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
+            ASPxComboBox prodcat = pageControl.FindControl("ProdCat") as ASPxComboBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
@@ -1115,18 +1117,19 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string insert = "INSERT INTO " + MRPClass.CapexTable() + 
-                            " ([HeaderDocNum], [Description], [UOM], " +
+            string insert = "INSERT INTO " + MRPClass.CapexTable() +
+                            " ([HeaderDocNum],[ProdCat], [Description], [UOM], " +
                             " [Cost], [Qty], [TotalCost], [OprUnit], " +
                             " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
                             " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
-                            " VALUES (@HeaderDocNum, @Description, @UOM, " +
+                            " VALUES (@HeaderDocNum,@ProdCat, @Description, @UOM, " +
                             " @Cost, @Qty, @TotalCost, @OprUnit, " +
                             " @Qty, @Cost, @TotalCost, " +
                             " @Qty, @Cost, @TotalCost)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            cmd.Parameters.AddWithValue("@ProdCat", prodcat.Value.ToString());
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
@@ -1190,6 +1193,7 @@ namespace HijoPortal
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("CAPEXPageControl") as ASPxPageControl;
 
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
+            ASPxComboBox prodcat = pageControl.FindControl("ProdCat") as ASPxComboBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
@@ -1206,15 +1210,16 @@ namespace HijoPortal
                 operating_unit = opunit.Value.ToString();
 
             string update_MRP = "UPDATE " + MRPClass.CapexTable() +
-                                " SET [Description] = @Description, [UOM]= @UOM, [OprUnit] = @OprUnit, " +
+                                " SET [Description] = @Description, [ProdCat] = @ProdCat, [UOM]= @UOM, [OprUnit] = @OprUnit, " +
                                 " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, " +
                                 " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
-                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " + 
+                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " +
                                 " WHERE [PK] = @PK";
 
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            cmd.Parameters.AddWithValue("@ProdCat", prodcat.Value.ToString());
             cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
@@ -1345,14 +1350,16 @@ namespace HijoPortal
                 if (Convert.ToInt32(CurrentWorkFlowTxt.Text.ToString()) == 0 || Convert.ToInt32(CurrentWorkFlowTxt.Text.ToString()) == 1)
                 {
                     Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
-                } else
+                }
+                else
                 {
                     Response.Redirect("mrp_preview_approve.aspx?DocNum=" + docnumber.ToString() + "&Source=1");
                 }
-            } else
+            }
+            else
             {
                 Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
-            }            
+            }
             //Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docnumber.ToString();
 
         }
@@ -1455,6 +1462,34 @@ namespace HijoPortal
         protected void RevenueGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
             BindRevenue(docnumber);
+        }
+
+        protected void ProdCat_Init(object sender, EventArgs e)
+        {
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = MRPClass.ProCategoryTable_WithoutAll();
+
+            ListBoxColumn lv = new ListBoxColumn();
+            lv.FieldName = "NAME";
+            lv.Caption = "Code";
+            combo.Columns.Add(lv);
+
+            ListBoxColumn lt = new ListBoxColumn();
+            lt.FieldName = "DESCRIPTION";
+            lt.Caption = "Caption";
+            combo.Columns.Add(lt);
+
+            combo.ValueField = "NAME";
+            combo.TextField = "DESCRIPTION";
+            combo.DataBind();
+            combo.TextFormatString = "{1}";
+
+            GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+            if (!container.Grid.IsNewRowEditing)
+            {
+                combo.Value = DataBinder.Eval(container.DataItem, "ProdCode").ToString();
+                combo.Text = DataBinder.Eval(container.DataItem, "ProdCat").ToString();
+            }
         }
 
         protected void RevenueGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
@@ -1568,7 +1603,8 @@ namespace HijoPortal
                     MRPNotificationMessage.Text = "Successfully Submitted!";
                     MRPNotify.ShowOnPageLoad = true;
 
-                } else
+                }
+                else
                 {
 
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
@@ -1578,7 +1614,8 @@ namespace HijoPortal
                     MRPNotify.ShowOnPageLoad = true;
                     //MRPNotify.
                 }
-            } else
+            }
+            else
             {
                 if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
                 {
@@ -1603,15 +1640,17 @@ namespace HijoPortal
                         MRPNotificationMessage.Text = "Successfully Submitted!";
                         MRPNotify.ShowOnPageLoad = true;
 
-                    } else
+                    }
+                    else
                     {
                         MRPNotificationMessage.Text = "You have no permission to perform this command!" + Environment.NewLine + "Access Denied!";
                         MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
                         MRPNotify.HeaderText = "Info";
                         MRPNotify.ShowOnPageLoad = true;
                     }
-                    
-                } else
+
+                }
+                else
                 {
                     //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
@@ -1619,9 +1658,9 @@ namespace HijoPortal
                     MRPNotify.HeaderText = "Alert";
                     MRPNotify.ShowOnPageLoad = true;
                 }
-                
+
             }
-            
+
         }
     }
 }

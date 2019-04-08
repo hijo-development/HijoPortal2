@@ -341,7 +341,12 @@
                             <dx:ASPxLabel runat="server" Text='<%#Eval("ItemCode") %>' Theme="Office2010Blue"></dx:ASPxLabel>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="Description">
+                    <dx:GridViewDataColumn FieldName="CapexCIP" Caption="Capex ID">
+                        <EditItemTemplate>
+                            <dx:ASPxLabel runat="server" Text='<%#Eval("CapexCIP") %>' Theme="Office2010Blue"></dx:ASPxLabel>
+                        </EditItemTemplate>
+                    </dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="Description" Width="300px">
                         <EditItemTemplate>
                             <dx:ASPxLabel runat="server" Text='<%#Eval("Description") %>' Theme="Office2010Blue"></dx:ASPxLabel>
                         </EditItemTemplate>
@@ -375,7 +380,7 @@
                         <CellStyle HorizontalAlign="Left"></CellStyle>
                         <EditCellStyle HorizontalAlign="Left"></EditCellStyle>
                         <EditItemTemplate>
-                            <dx:ASPxComboBox ID="POUOM" runat="server" ClientInstanceName="POUOMClient" ValueType="System.String" OnInit="POUOM_Init" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxComboBox ID="POUOM" runat="server" ClientInstanceName="POUOMClient" ValueType="System.String" Width="100px" OnInit="POUOM_Init" Theme="Office2010Blue">
                                 <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                             </dx:ASPxComboBox>
                         </EditItemTemplate>
@@ -386,7 +391,7 @@
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                         <EditItemTemplate>
-                            <dx:ASPxTextBox ID="POQty" runat="server" ClientInstanceName="POQtyClient" Text='<%#Eval("POQty") %>' HorizontalAlign="Right" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxTextBox ID="POQty" runat="server" ClientInstanceName="POQtyClient" Text='<%#Eval("POQty") %>' HorizontalAlign="Right" Width="100px" Theme="Office2010Blue">
                                 <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                                 <ClientSideEvents KeyUp="POQty_KeyUp" />
                                 <ClientSideEvents ValueChanged="OnValueChangeQty" />
@@ -399,7 +404,7 @@
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <EditItemTemplate>
-                            <dx:ASPxTextBox ID="POCost" runat="server" ClientInstanceName="POCostClient" Text='<%#Eval("POCost") %>' HorizontalAlign="Right" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxTextBox ID="POCost" runat="server" ClientInstanceName="POCostClient" Text='<%#Eval("POCost") %>' HorizontalAlign="Right" Width="100px" Theme="Office2010Blue">
                                 <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                                 <ClientSideEvents KeyUp="POCost_KeyUp" />
                                 <ClientSideEvents ValueChanged="OnValueChange" />
@@ -413,28 +418,29 @@
                         <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                         <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                         <EditItemTemplate>
-                            <dx:ASPxTextBox ID="TotalPOCost" runat="server" ClientInstanceName="TotalPOCostClient" Text='<%#Eval("TotalPOCost") %>' HorizontalAlign="Right" ReadOnly="true" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxTextBox ID="TotalPOCost" runat="server" ClientInstanceName="TotalPOCostClient" Text='<%#Eval("TotalPOCost") %>' HorizontalAlign="Right" ReadOnly="true" Width="100px" Theme="Office2010Blue">
                                 <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                             </dx:ASPxTextBox>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="TaxGroup">
                         <EditItemTemplate>
-                            <dx:ASPxComboBox ID="TaxGroup" runat="server" ClientInstanceName="TaxGroupClient" OnInit="TaxGroup_Init" ValueType="System.String" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxComboBox ID="TaxGroup" runat="server" ClientInstanceName="TaxGroupClient" OnInit="TaxGroup_Init" Width="100px" ValueType="System.String" Theme="Office2010Blue">
                                 <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                             </dx:ASPxComboBox>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="TaxItemGroup">
                         <EditItemTemplate>
-                            <dx:ASPxComboBox ID="TaxItemGroup" runat="server" ClientInstanceName="TaxItemGroupClient" OnInit="TaxItemGroup_Init" ValueType="System.String" Width="100%" Theme="Office2010Blue">
+                            <dx:ASPxComboBox ID="TaxItemGroup" runat="server" ClientInstanceName="TaxItemGroupClient" OnInit="TaxItemGroup_Init" Width="100px" ValueType="System.String" Theme="Office2010Blue">
                                 <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                             </dx:ASPxComboBox>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                 </Columns>
                 <Styles>
-                    <Cell Wrap="True"></Cell>
+                    <Cell Wrap="false"></Cell>
+                    <InlineEditCell Wrap="False"></InlineEditCell>
                 </Styles>
                 <SettingsEditing Mode="Inline"></SettingsEditing>
                 <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"

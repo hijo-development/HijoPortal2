@@ -147,7 +147,7 @@
                         <SettingsAdaptivity Mode="OnWindowInnerWidth" SwitchAtWindowInnerWidth="850" />
                     </EditForm>
                 </SettingsPopup>
-
+                
                 <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="false">
                 </SettingsPager>
 
@@ -155,6 +155,7 @@
                     AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                 <SettingsText ConfirmDelete="Delete This Item?" />
                 <Styles>
+                    <Cell Wrap="False"></Cell>
                     <SelectedRow Font-Bold="False" Font-Italic="False">
                     </SelectedRow>
                     <FocusedRow Font-Bold="False" Font-Italic="False">

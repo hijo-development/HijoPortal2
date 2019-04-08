@@ -264,6 +264,11 @@
                             <dx:ASPxLabel runat="server" Text='<%#Eval("ItemCode") %>' Theme="Office2010Blue"></dx:ASPxLabel>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="CapexCIP" Caption="Capex ID">
+                        <EditItemTemplate>
+                            <dx:ASPxLabel runat="server" Text='<%#Eval("CapexCIP") %>' Theme="Office2010Blue"></dx:ASPxLabel>
+                        </EditItemTemplate>
+                    </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="Description">
                         <EditItemTemplate>
                             <dx:ASPxLabel runat="server" Text='<%#Eval("Description") %>' Theme="Office2010Blue"></dx:ASPxLabel>

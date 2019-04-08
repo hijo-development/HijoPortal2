@@ -25,7 +25,7 @@ namespace HijoPortal
             {
                 bool isAllowed = false;
                 isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", DateTime.Now);
-                if (/*isAllowed == false*/false)
+                if (isAllowed == false)
                 {
                     Response.Redirect("home.aspx");
                 }
