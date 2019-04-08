@@ -110,6 +110,7 @@
                 Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
                 OnCustomButtonCallback="MainTable_CustomButtonCallback">
                 <ClientSideEvents CustomButtonClick="CustomButtonClick" />
+                <ClientSideEvents RowClick = "MOPListFocused" />
                 <ClientSideEvents EndCallback="MainTableEndCallback" />
                 <SettingsBehavior AllowSort="true" SortMode="Value" />
 

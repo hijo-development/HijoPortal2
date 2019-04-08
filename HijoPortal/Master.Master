@@ -100,18 +100,16 @@
                                     <ClientSideEvents EndCallback="FloatEndCallback" />
                                     <PanelCollection>
                                         <dx:PanelContent>
-                                            <div id="dvItemSidePanel" runat="server">
-                                                <h3>Item Information</h3>
-                                                <%--<table id="warehousetable" border="0" runat="server" style="margin: 5px; width: 90%; background-color: white;">
-                                                    <tr>
-                                                        <th colspan="2">INFO</th>
+                                            <div id="dvMOPSidePanel" runat="server">
+                                                <h3>MOP Information</h3>
+                                                <table>
+                                                    <tr>  
+                                                        <td></td>
                                                     </tr>
                                                 </table>
-                                                <table id="commentstable" border="0" runat="server" style="margin-left: 5px; margin-right: 5px; width: 90%; background-color: white">
-                                                    <tr>
-                                                        <th colspan="2">COMMENT/SUGGESTION</th>
-                                                    </tr>
-                                                </table>--%>
+                                            </div>
+                                            <div id="dvItemSidePanel" runat="server">
+                                                <h3>Item Information</h3>
                                                 <table>
                                                     <tr>
                                                         <td>

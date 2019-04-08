@@ -1563,6 +1563,17 @@ function ItemCodeDirect_KeyPress(s, e) {
 //FOR SIDEBAR
 var postponedCallbackRequired = false;
 var params = "";
+
+function MOPListFocused(s,e) {
+    var visibleIndex = s.GetFocusedRowIndex();
+    var MOPNum = MainTable.GetRowValues(visibleIndex, 'DocNumber');
+    params = "MOPList^" + MOPNum + "^^";
+    if (FloatCallbackPanel.InCallback())
+        postponedCallbackRequired = true;
+    else
+        FloatCallbackPanel.PerformCallback(params);
+}
+
 function focused(s, e, type) {
     var pk = s.GetRowKey(e.visibleIndex);
     var entCode = EntityCodeAddEditDirect.GetText();
