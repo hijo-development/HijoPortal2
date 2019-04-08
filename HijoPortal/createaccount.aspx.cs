@@ -23,6 +23,8 @@ namespace HijoPortal
             //MRPClass.PrintString("pass clicked signup");
             if (captcha.IsValid && ASPxEdit.ValidateEditorsInContainer(this))
             {
+                ModalPopupExtenderLoading.Show();
+
                 //MRPClass.PrintString("pass inside validation");
                 DataTable dt = new DataTable();
                 SqlCommand cmd = null;
@@ -47,8 +49,13 @@ namespace HijoPortal
                     }
                     else
                     {
-                        Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
-                            @"<script type=""text/javascript"">setTimeout(()=>{alert('ID Number not found in Employee MasterList!')},0);</script>");
+                        //Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
+                        //    @"<script type=""text/javascript"">setTimeout(()=>{alert('ID Number not found in Employee MasterList!')},0);</script>");
+                        ModalPopupExtenderLoading.Hide();
+                        CreateAccntNotify.HeaderText = "Error...";
+                        CreateAccntNotifyLbl.Text = "ID Number not found in Employee MasterList!";
+                        CreateAccntNotifyLbl.ForeColor = System.Drawing.Color.Red;
+                        CreateAccntNotify.ShowOnPageLoad = true;
                         return;
                     }
                     dt.Clear();
@@ -64,8 +71,13 @@ namespace HijoPortal
                 foundRowsID = dtUser.Select(expressionID, sortOrderID);
                 if (foundRowsID.Length > 0)
                 {
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
-                            @"<script type=""text/javascript"">setTimeout(()=>{alert('Found Duplicate ID Number!')},0);</script>");
+                    //Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
+                    //        @"<script type=""text/javascript"">setTimeout(()=>{alert('Found Duplicate ID Number!')},0);</script>");
+                    ModalPopupExtenderLoading.Hide();
+                    CreateAccntNotify.HeaderText = "Error...";
+                    CreateAccntNotifyLbl.Text = "Found Duplicate ID Number!";
+                    CreateAccntNotifyLbl.ForeColor = System.Drawing.Color.Red;
+                    CreateAccntNotify.ShowOnPageLoad = true;
                     return;
                 }
 
@@ -76,8 +88,13 @@ namespace HijoPortal
                 foundRowsName = dtUser.Select(expressionName, sortOrderName);
                 if (foundRowsName.Length > 0)
                 {
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
-                            @"<script type=""text/javascript"">setTimeout(()=>{alert('Found Duplicate Lastname and Firstname!')},0);</script>");
+                    //Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
+                    //        @"<script type=""text/javascript"">setTimeout(()=>{alert('Found Duplicate Lastname and Firstname!')},0);</script>");
+                    ModalPopupExtenderLoading.Hide();
+                    CreateAccntNotify.HeaderText = "Error...";
+                    CreateAccntNotifyLbl.Text = "Found Duplicate Lastname and Firstname!";
+                    CreateAccntNotifyLbl.ForeColor = System.Drawing.Color.Red;
+                    CreateAccntNotify.ShowOnPageLoad = true;
                     return;
                 }
 
@@ -87,8 +104,13 @@ namespace HijoPortal
                 foundRowsEmail = dtUser.Select(expressionEmail, sortOrderEmail);
                 if (foundRowsEmail.Length > 0)
                 {
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
-                            @"<script type=""text/javascript"">setTimeout(()=>{alert('Found Duplicate Email!')},0);</script>");
+                    //Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
+                    //        @"<script type=""text/javascript"">setTimeout(()=>{alert('Found Duplicate Email!')},0);</script>");
+                    ModalPopupExtenderLoading.Hide();
+                    CreateAccntNotify.HeaderText = "Error...";
+                    CreateAccntNotifyLbl.Text = "Found Duplicate Email!";
+                    CreateAccntNotifyLbl.ForeColor = System.Drawing.Color.Red;
+                    CreateAccntNotify.ShowOnPageLoad = true;
                     return;
                 }
 
@@ -98,8 +120,13 @@ namespace HijoPortal
                 foundRowsUName = dtUser.Select(expressionUName, sortOrderUName);
                 if (foundRowsUName.Length > 0)
                 {
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
-                            @"<script type=""text/javascript"">setTimeout(()=>{alert('Found Duplicate Username!')},0);</script>");
+                    //Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
+                    //        @"<script type=""text/javascript"">setTimeout(()=>{alert('Found Duplicate Username!')},0);</script>");
+                    ModalPopupExtenderLoading.Hide();
+                    CreateAccntNotify.HeaderText = "Error...";
+                    CreateAccntNotifyLbl.Text = "Found Duplicate Username!";
+                    CreateAccntNotifyLbl.ForeColor = System.Drawing.Color.Red;
+                    CreateAccntNotify.ShowOnPageLoad = true;
                     return;
                 }
 
@@ -127,10 +154,16 @@ namespace HijoPortal
                         cmd.Connection = con;
                         cmd.ExecuteNonQuery();
                         con.Close();
-                        Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
-                                @"<script type=""text/javascript"">setTimeout(()=>{alert('You have successfully registered')},0);</script>");
+                        //Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
+                        //        @"<script type=""text/javascript"">setTimeout(()=>{alert('You have successfully registered')},0);</script>");
 
                         //MRPClass.PrintString("pass saved");
+
+                        ModalPopupExtenderLoading.Hide();
+                        CreateAccntNotify.HeaderText = "Info";
+                        CreateAccntNotifyLbl.Text = "You is successfully registered.";
+                        CreateAccntNotifyLbl.ForeColor = System.Drawing.Color.Black;
+                        CreateAccntNotify.ShowOnPageLoad = true;
 
                         Response.Redirect("default.aspx");
 
@@ -139,8 +172,13 @@ namespace HijoPortal
                     {
                         //MRPClass.PrintString(ex.ToString());
                         con.Close();
-                        Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
-                                @"<script type=""text/javascript"">setTimeout(()=>{alert('" + ex.ToString() + "')},0);</script>");
+                        //Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
+                        //        @"<script type=""text/javascript"">setTimeout(()=>{alert('" + ex.ToString() + "')},0);</script>");
+
+                        CreateAccntNotify.HeaderText = "Error...";
+                        CreateAccntNotifyLbl.Text = ex.ToString();
+                        CreateAccntNotifyLbl.ForeColor = System.Drawing.Color.Red;
+                        CreateAccntNotify.ShowOnPageLoad = true;
                     }
                 }
             }

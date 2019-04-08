@@ -1330,7 +1330,6 @@ namespace HijoPortal.classes
                     {
                         using (StreamWriter w = File.AppendText(sFile))
                         {
-                            //w.WriteLine("PurchId|AccountingDate|DeliveryDate|CurrencyCode|OrderAccount|InvoiceAccount|DeliveryName|PurchName|Payment|InclTax|PaymMode|PORemarks|DocumentState|DocumentStatus|InventSiteId|Remarks|VendGroup|TaxGroup|LanguageId|PostingProfile|PurchaseType|PurchPoolId|PurchStatus|DefaultDimension");
                             w.WriteLine(POClass.POHeaderColumnName() + POClass.POHeaderColumnNameDefault());
                             w.Close();
 
@@ -1339,7 +1338,6 @@ namespace HijoPortal.classes
                         {
                             sHeader = row["PONumber"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row["CurrencyCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["NAME"].ToString() + "|" + row["NAME"].ToString() + "|" + row["PaymentTerms"].ToString() + "|" + sIncTax + "|" + row["PAYMMODE"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["Remarks"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["TAXGROUP"].ToString() + "|" + sDefaultDimension.ToString() + "|" + sPORemarks + "|";
 
-                            //w.WriteLine(row["PONumber"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row["CurrencyCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row["NAME"].ToString() + "|" + row["NAME"].ToString() + "|" + row["PaymentTerms"].ToString() + "|" + sIncTax + "|" + row["PAYMMODE"].ToString() + "|" + sPORemarks.ToString() + "|Draft|Open order|" + row["InventSite"].ToString() + "|" + sPORemarks.ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["TAXGROUP"].ToString() + "|en-us|Gen|Purchase order||Open order|" + sDefaultDimension.ToString());
                             w.WriteLine(sHeader + POClass.POHeaderDefaultValue());
                             w.Close();
                         }
@@ -1368,7 +1366,6 @@ namespace HijoPortal.classes
                         {
                             using (StreamWriter w = File.AppendText(sFileD))
                             {
-                                //w.WriteLine("PurchId|VendAccount|DeliveryName|Name|VendGroup|InventSiteID|InventLocationID|wMSLocationId|Complete|CreateFixedAsset|CurrencyCode|DeliveryDate|IsFinalized|IsPwp|ItemId|PurchQty|PurchUnit|PurchPrice|LineAmount|LineNumber|PriceUnit|MatchingPolicy|OverDeliveryPct|PurchaseType|PurchStatus|TaxGroup|TaxItemGroup|UnderDeliveryPct|VariantId|DefaultDimension|WorkflowState");
                                 w.WriteLine(POClass.POLineColumnName() + POClass.POLineColumnNameDefault());
                                 w.Close();
                             }
@@ -1397,12 +1394,18 @@ namespace HijoPortal.classes
                                     sDefaultDimensionLine = "";
                                 }
                                 sPriceUnit = "1";
-                                sFixedAsset = "No";
+                                if (row1["ItemCode"].ToString() != "")
+                                {
+                                    sFixedAsset = "No";
+                                } else
+                                {
+                                    sFixedAsset = "Yes";
+                                }
+                                
                                 using (StreamWriter w = File.AppendText(sFileD))
                                 {
-                                    //w.WriteLine(row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|0|0|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|0|0|" + row1["ItemCode"].ToString() + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|1|Three-way matching|0|Purchase order|Open order|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|100||" + sDefaultDimensionLine.ToString() + "|Not submitted");
-
                                     sDetails = row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row1["ItemCode"].ToString() + "|" + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|" + sPriceUnit + "|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|" + sDefaultDimensionLine.ToString() + "|" + sFixedAsset + "|";
+
                                     w.WriteLine(sDetails + POClass.POLineDefaultValue());
                                     w.Close();
                                 }
@@ -1435,7 +1438,7 @@ namespace HijoPortal.classes
                                 sPassword = row1["Password"].ToString();
                             }
 
-                            sDomain = "hijo"; sUsername = "hijoportal_client"; sPassword = "hPortal@2019";
+                            //sDomain = "hijo"; sUsername = "hijoportal_client"; sPassword = "hPortal@2019";
 
                             try
                             {
