@@ -57,8 +57,14 @@ function GetErrorText(editor) {
         if (ratingControl.GetValue() === 1)
             return "The password is too simple";
     } else if (editor === confirmPasswordTextBox) {
-        if (passwordTextBox.GetText() !== confirmPasswordTextBox.GetText())
-            return "The password you entered do not match";
+        var PW = passwordTextBox.GetText();
+        var conPW = confirmPasswordTextBox.GetText();
+        var strMatch = PW.match(conPW);
+        if (strMatch === null) {
+            return "The password you entered do not match.";
+        }
+        //if (passwordTextBox.GetText() !== confirmPasswordTextBox.GetText())
+        //    return "The password you entered do not match";
     } 
     return "";
 }
@@ -168,15 +174,22 @@ function OnIDNumPassValidation(s, e) {
     //}
 }
 
-//function onIDNumMatchChanged(s, e) {
-//    var inputIDNum = idnumTextboxDirect.GetText();
-//    var IDNumMatch = idnumTextboxMatchDirect.GetText();
-//    if (inputIDNum !== IDNumMatch) {
-//        idnumTextboxDirect.isValid = false;
-//        idnumTextboxDirect.errorText = "ID Number not found in Employee MasterList!";
-//    } else {
-//        idnumTextboxDirect.isValid = true;
-//        idnumTextboxDirect.errorText = "";
-//    }
-//    console.log("Match ID : " + idnumTextboxMatchDirect.GetText());
-//}
+function SignUp(s, e) {
+
+    if (ASPxClientEdit.AreEditorsValid()) {
+        $find('ModalPopupExtenderLoading').show();
+        e.processOnServer = true;
+    }
+
+    //var idnum = idnumTextboxDirect.GetText();
+    //var lname = lnameTextboxDirect.GetText();
+    //var fname = fnameTextboxDirect.GetText();
+    //var gender = cmbGenderDirect.GetValue();
+    //var email = eMailTextBoxDirect.GetText();
+    //var uname = userNameTextBoxDirect.GetText();
+
+    //if (idnum.length > 0 && lname.length > 0 && fname.length > 0 && gender.length > 0 && email.length > 0 && uname.length > 0) {
+    //    $find('ModalPopupExtenderLoading').show();
+    //    e.processOnServer = true;
+    //}
+}

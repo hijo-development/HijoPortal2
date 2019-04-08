@@ -26,9 +26,15 @@ function GetErrorText(editor) {
         if (ratingControlChangePW.GetValue() === 1)
             return "The password is too simple.";
     } else if (editor === confirmPasswordCH) {
-        if (newPasswordCH.GetText() !== confirmPasswordCH.GetText()) {
+        var newPW = newPasswordCH.GetText();
+        var conPW = confirmPasswordCH.GetText();
+        var strMatch = newPW.match(conPW);
+        if (strMatch === null) {
             return "The password you entered do not match.";
         }
+        //if (newPasswordCH.GetText() !== confirmPasswordCH.GetText()) {
+        //    return "The password you entered do not match.";
+        //}
     }
     return "";
 }
@@ -91,4 +97,18 @@ function OnPassValidationChangePW(s, e) {
         e.isValid = false;
         e.errorText = errorText;
     }
+}
+
+function ChangePW(s, e) {
+
+    if (ASPxClientEdit.AreEditorsValid()) {
+        $find('ModalPopupExtenderLoading').show();
+        e.processOnServer = true;
+    }
+
+    //var captcha = captchaChPWDirect.isValid();
+    //if (captcha) {
+    //    $find('ModalPopupExtenderLoading').show();
+    //    e.processOnServer = true;
+    //}
 }

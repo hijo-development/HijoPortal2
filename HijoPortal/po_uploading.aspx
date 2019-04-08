@@ -67,27 +67,27 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
     <div id="dvContentWrapper" runat="server" class="ContentWrapper">
-        <div id="dvHeader" style="height: 30px;">
-            <h1>PO Uploading Setup</h1>
-        </div>
         <div id="dvPOUploadingSetup" runat="server" class="scroll-container">
-            <dx:ASPxSplitter ID="ASPxSplitter1" runat="server" Orientation="Vertical" Width="100%" Height="500px" Theme="Office2010Blue">
+            <dx:ASPxSplitter ID="ASPxSplitter1" runat="server" Orientation="Vertical" AllowResize="true" Border-BorderStyle="None" Width="100%" Height="600px" Theme="Office2010Blue">
                 <Panes>
                     <dx:SplitterPane Size="50%" ScrollBars="Auto">
                         <ContentCollection>
                             <dx:SplitterContentControl>
+                                <div style="height: 30px;">
+                                    <h3>PO Uploading Setup</h3>
+                                </div>
                                 <dx:ASPxGridView ID="POGrid" runat="server" ClientInstanceName="POGridClient" Theme="Office2010Blue" Width="100%"
-                                     OnInitNewRow="POGrid_InitNewRow" 
+                                    OnInitNewRow="POGrid_InitNewRow"
                                     OnRowInserting="POGrid_RowInserting"
                                     OnStartRowEditing="POGrid_StartRowEditing"
                                     OnRowUpdating="POGrid_RowUpdating"
-                                    OnRowDeleting="POGrid_RowDeleting" 
-                                    OnBeforeGetCallbackResult="POGrid_BeforeGetCallbackResult" 
+                                    OnRowDeleting="POGrid_RowDeleting"
+                                    OnBeforeGetCallbackResult="POGrid_BeforeGetCallbackResult"
                                     OnRowValidating="POGrid_RowValidating">
                                     <ClientSideEvents CustomButtonClick="POGrid_CustomButtonClick" />
                                     <Columns>
                                         <dx:GridViewCommandColumn ShowEditButton="true" ShowNewButtonInHeader="true" ButtonRenderMode="Image">
-                                            <CustomButtons> 
+                                            <CustomButtons>
                                                 <dx:GridViewCommandColumnCustomButton ID="DeleteRow" Image-Url="images/Delete.ico" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                                                 <%--<dx:GridViewCommandColumnCustomButton ID="EditGrid" Image-Url="images/Edit.ico" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>--%>
                                                 <%--<dx:GridViewCommandColumnCustomButton ID="UpdateGrid" Image-Url="images/Save.ico" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>--%>
@@ -236,6 +236,9 @@
                     <dx:SplitterPane Size="50%" ScrollBars="Auto">
                         <ContentCollection>
                             <dx:SplitterContentControl>
+                                <div style="height: 30px;">
+                                    <h3>PO Number Setup</h3>
+                                </div>
                                 <dx:ASPxGridView ID="InfoGrid" runat="server" ClientInstanceName="InfoGridClient" Theme="Office2010Blue" Width="100%"
                                     OnStartRowEditing="InfoGrid_StartRowEditing"
                                     OnRowUpdating="InfoGrid_RowUpdating"
@@ -243,7 +246,7 @@
                                     OnInitNewRow="InfoGrid_InitNewRow"
                                     OnRowInserting="InfoGrid_RowInserting"
                                     OnBeforeGetCallbackResult="InfoGrid_BeforeGetCallbackResult"
-                                     OnRowValidating="InfoGrid_RowValidating">
+                                    OnRowValidating="InfoGrid_RowValidating">
                                     <ClientSideEvents CustomButtonClick="InfoGrid_CustomButtonClick" />
                                     <ClientSideEvents EndCallback="InfoGrid_EndCallback" />
                                     <Columns>
