@@ -105,7 +105,7 @@
 
             <%--OnCustomCallback="MainTable_CustomCallback"--%>
 
-            <dx:ASPxGridView ID="MainTable" runat="server" ClientInstanceName="MainTable"
+            <dx:ASPxGridView ID="MainTable" runat="server" ClientInstanceName="MainTable" KeyFieldName="PK"
                 EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
                 Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
                 OnCustomButtonCallback="MainTable_CustomButtonCallback">

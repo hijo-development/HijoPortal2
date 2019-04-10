@@ -103,8 +103,59 @@
                                             <div id="dvMOPSidePanel" runat="server">
                                                 <h3>MOP Information</h3>
                                                 <table>
-                                                    <tr>  
-                                                        <td></td>
+                                                    <tr>
+                                                        <td>
+                                                            <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="Doc Number"></dx:ASPxLabel>
+                                                        </td>
+                                                        <td style="width: 10px; text-align: center;">:</td>
+                                                        <td>
+                                                            <dx:ASPxLabel ID="MOPDucNumber" runat="server" ClientInstanceName="SideBarMOPDucNumber" Text="" Font-Bold="true"></dx:ASPxLabel>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3">
+                                                            <h4>PO List</h4>
+                                                            <div style="margin: 3px; width: 100%;">
+                                                                <dx:ASPxGridView ID="grdMOPPOList" runat="server" KeyFieldName="PK"
+                                                                    ClientInstanceName="grdMOPPOListDirect"
+                                                                    EnableTheming="True"
+                                                                    KeyboardSupport="true" Style="margin: 0 auto;"
+                                                                    Width="100%" Theme="Office2010Blue"
+                                                                    EnableCallBacks="true">
+                                                                    <Columns>
+                                                                        <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="0">
+                                                                            <HeaderStyle Font-Bold="true" />
+                                                                        </dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="PONumber" Caption="PO Number" SortOrder="Ascending" VisibleIndex="1">
+                                                                            <HeaderStyle Font-Bold="true" />
+                                                                        </dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="POStatus" Caption="PO Status" VisibleIndex="2">
+                                                                            <HeaderStyle Font-Bold="true" />
+                                                                        </dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="POAXStatus" Caption="AX PO Status" VisibleIndex="3">
+                                                                            <HeaderStyle Font-Bold="true" />
+                                                                        </dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="Total" Caption="Total" VisibleIndex="4">
+                                                                            <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
+                                                                            <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                        </dx:GridViewDataColumn>
+                                                                    </Columns>
+                                                                    <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
+                                                                    <Styles>
+                                                                        <SelectedRow Font-Bold="False" Font-Italic="False">
+                                                                        </SelectedRow>
+                                                                        <FocusedRow Font-Bold="False" Font-Italic="False">
+                                                                        </FocusedRow>
+                                                                    </Styles>
+                                                                </dx:ASPxGridView>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3">
+                                                            <h4>PO Lines</h4>
+
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </div>
