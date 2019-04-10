@@ -8,12 +8,14 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DevExpress.Web;
 using HijoPortal.classes;
+using System.Collections;
 
 namespace HijoPortal
 {
     public partial class mrp_po_selectitem : System.Web.UI.Page
     {
-        private static string doc_static = "", year_static = "", prod_static = "";
+        private static string doc_static = "", year_static = "";
+        private static ArrayList prod_static = new ArrayList();
         private static int month_static = -1;
         private void CheckCreatorKey()
         {
@@ -37,14 +39,14 @@ namespace HijoPortal
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                 doc_static = "";
                 year_static = "";
-                prod_static = "";
+                prod_static = new ArrayList();
             }
 
 
             BindTable(doc_static, month_static, year_static, prod_static);
         }
 
-        private void BindTable(string docnumber, int month, string year, string prod)
+        private void BindTable(string docnumber, int month, string year, ArrayList prod)
         {
             //if (month == -1) return;
 
@@ -245,13 +247,14 @@ namespace HijoPortal
         protected void MainGridCallbackPanel_Callback(object sender, CallbackEventArgsBase e)
         {
 
+            ArrayList arrlist = new ArrayList();
             List<object> Temp = new List<object>();
             foreach (ListEditItem item in ProdCat_ListBox.Items)
             {
                 if (item.Selected)
                 {
                     MRPClass.PrintString(item.Value.ToString());
-                    // do something...
+                    arrlist.Add(item.Value.ToString());
                 }
             }
 
@@ -272,13 +275,9 @@ namespace HijoPortal
             else
                 doc_static = "";
 
-            //if (ProdCategory_Combo.Value != null)
-            //    prod_static = ProdCategory_Combo.Value.ToString();
-            //else
-            //    prod_static = "";
-
-            //if (!string.IsNullOrEmpty(doc_static) && !string.IsNullOrEmpty(year_static))
-            BindTable(doc_static, month_static, year_static, prod_static);
+            prod_static = new ArrayList();
+            prod_static = arrlist;
+            BindTable(doc_static, month_static, year_static, arrlist);
 
         }
     }
