@@ -7,7 +7,7 @@ using System.Web;
 using System.IO;
 using DevExpress.Web;
 using AjaxControlToolkit;
-
+using System.Collections;
 
 namespace HijoPortal.classes
 {
@@ -221,7 +221,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable POSelecetedItemTable(string docnumber, int month, string year, string groupID)
+        public static DataTable POSelecetedItemTable(string docnumber, int month, string year, ArrayList groupID)
         {
             DataTable dtTable = new DataTable();
 
@@ -250,151 +250,150 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("UOM", typeof(string));
             }
 
-            //string month_string = "", year_string = "", doc_string = "";
-            //if (month == 0)
-            //{
-            //    //month_string = "MRPMonth";
-            //    //year_string = "MRPYear";
-            //}
-            //else
-            //{
-            //    month_string = "'" + month + "'";
-            //    year_string = "'" + year + "'";
-            //}
+            //string groupid_string = "";
+            //if (string.IsNullOrEmpty(groupID) || groupID == "ALL") groupid_string = "dbo.vw_AXInventTable.ITEMGROUPID";
+            //else groupid_string = "'" + groupID + "'";
 
-            //if (string.IsNullOrEmpty(docnumber))
-            //{
-            //    //doc_string = "DocNumber";
-            //}
-            //else
-            //{
-            //    doc_string = "'" + docnumber + "'";
-            //}
+            MRPClass.PrintString("count:" + groupID.Count.ToString());
+            if (groupID.Count == 0)
+                return dtTable;
 
-            string groupid_string = "";
-            if (string.IsNullOrEmpty(groupID) || groupID == "ALL") groupid_string = "dbo.vw_AXInventTable.ITEMGROUPID";
-            else groupid_string = "'" + groupID + "'";
+            string groupid_string = "", qry = "";
+            int i = -1;
 
-            //string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_DirectMaterials.ItemCode,  dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.TotalCost FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_DirectMaterials.ItemCode = dbo.vw_AXInventTable.ITEMID WHERE (dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND (dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND (dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND (dbo.tbl_MRP_List.StatusKey = '4') AND (dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
-
-            string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl,dbo.tbl_MRP_List_DirectMaterials.UOM, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_DirectMaterials.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ") AND (dbo.tbl_MRP_List_DirectMaterials.AvailForPO > 0)";
-
-            cmd = new SqlCommand(qry);
-            cmd.Connection = cn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dt);
-            if (dt.Rows.Count > 0)
+            for (i = 0; i < groupID.Count; i++)
             {
-                foreach (DataRow row in dt.Rows)
+                groupid_string = groupID[i].ToString();
+                MRPClass.PrintString("count:" + groupID.Count.ToString());
+
+                qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl,dbo.tbl_MRP_List_DirectMaterials.UOM, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_DirectMaterials.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.vw_AXInventTable.ITEMGROUPID = '" + groupid_string + "') AND (dbo.tbl_MRP_List_DirectMaterials.AvailForPO > 0)";
+
+                cmd = new SqlCommand(qry);
+                cmd.Connection = cn;
+                adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
                 {
-                    DataRow dtRow = dtTable.NewRow();
-                    dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
-                    dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
-                    dtRow["DocumentNumber"] = row["DocNumber"].ToString();
-                    dtRow["CapexCIP"] = "";
-                    dtRow["Entity"] = row["Entity"].ToString();
-                    dtRow["BU"] = row["BU"].ToString();
-                    dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
-                    dtRow["ItemCat"] = row["ItemCat"].ToString();
-                    dtRow["ItemCode"] = row["ItemCode"].ToString();
-                    if (row["ItemDescriptionAddl"].ToString().Trim() != "")
+                    foreach (DataRow row in dt.Rows)
                     {
-                        dtRow["ItemDescription"] = row["ItemDescription"].ToString() + " (" + row["ItemDescriptionAddl"].ToString() + ")";
+                        DataRow dtRow = dtTable.NewRow();
+                        dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
+                        dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
+                        dtRow["DocumentNumber"] = row["DocNumber"].ToString();
+                        dtRow["CapexCIP"] = "";
+                        dtRow["Entity"] = row["Entity"].ToString();
+                        dtRow["BU"] = row["BU"].ToString();
+                        dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
+                        dtRow["ItemCat"] = row["ItemCat"].ToString();
+                        dtRow["ItemCode"] = row["ItemCode"].ToString();
+                        if (row["ItemDescriptionAddl"].ToString().Trim() != "")
+                        {
+                            dtRow["ItemDescription"] = row["ItemDescription"].ToString() + " (" + row["ItemDescriptionAddl"].ToString() + ")";
+                        }
+                        else
+                        {
+                            dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+                        }
+                        dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                        dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                        dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                        dtRow["UOM"] = row["UOM"].ToString();
+                        dtTable.Rows.Add(dtRow);
                     }
-                    else
-                    {
-                        dtRow["ItemDescription"] = row["ItemDescription"].ToString();
-                    }
-                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
-                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
-                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-                    dtRow["UOM"] = row["UOM"].ToString();
-                    dtTable.Rows.Add(dtRow);
                 }
+                dt.Clear();
             }
-            dt.Clear();
 
-            //qry = "SELECT DISTINCT dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description,dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost FROM   dbo.tbl_MRP_List INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_OPEX.ItemCode = dbo.vw_AXInventTable.ITEMID WHERE(dbo.tbl_MRP_List.MRPMonth = " + month_string + ") AND(dbo.tbl_MRP_List.MRPYear = " + year_string + ") AND(dbo.tbl_MRP_List.DocNumber = " + doc_string + ") AND(dbo.tbl_MRP_List.StatusKey = '4') AND (dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ")";
-
-
-            qry = "SELECT DISTINCT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.UOM,dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN         dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_OPEX.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.vw_AXInventTable.ITEMGROUPID = " + groupid_string + ") AND (dbo.tbl_MRP_List_OPEX.AvailForPO > 0)";
-
-            cmd = new SqlCommand(qry);
-            cmd.Connection = cn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dt);
-            if (dt.Rows.Count > 0)
+            for (i = 0; i < groupID.Count; i++)
             {
-                foreach (DataRow row in dt.Rows)
+                groupid_string = groupID[i].ToString();
+                MRPClass.PrintString("count:" + groupID.Count.ToString());
+
+                qry = "SELECT DISTINCT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.UOM,dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN         dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_OPEX.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.vw_AXInventTable.ITEMGROUPID = '" + groupid_string + "') AND (dbo.tbl_MRP_List_OPEX.AvailForPO > 0)";
+
+                cmd = new SqlCommand(qry);
+                cmd.Connection = cn;
+                adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
                 {
-                    DataRow dtRow = dtTable.NewRow();
-                    dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
-                    dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
-                    dtRow["DocumentNumber"] = row["DocNumber"].ToString();
-                    dtRow["CapexCIP"] = "";
-                    dtRow["Entity"] = row["Entity"].ToString();
-                    dtRow["BU"] = row["BU"].ToString();
-                    dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
-                    dtRow["ItemCat"] = row["ItemCat"].ToString();
-                    dtRow["ItemCode"] = row["ItemCode"].ToString();
-                    if (row["DescriptionAddl"].ToString().Trim() != "")
+                    foreach (DataRow row in dt.Rows)
                     {
-                        dtRow["ItemDescription"] = row["Description"].ToString() + " (" + row["DescriptionAddl"].ToString() + ")";
+                        DataRow dtRow = dtTable.NewRow();
+                        dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
+                        dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
+                        dtRow["DocumentNumber"] = row["DocNumber"].ToString();
+                        dtRow["CapexCIP"] = "";
+                        dtRow["Entity"] = row["Entity"].ToString();
+                        dtRow["BU"] = row["BU"].ToString();
+                        dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
+                        dtRow["ItemCat"] = row["ItemCat"].ToString();
+                        dtRow["ItemCode"] = row["ItemCode"].ToString();
+                        if (row["DescriptionAddl"].ToString().Trim() != "")
+                        {
+                            dtRow["ItemDescription"] = row["Description"].ToString() + " (" + row["DescriptionAddl"].ToString() + ")";
+                        }
+                        else
+                        {
+                            dtRow["ItemDescription"] = row["Description"].ToString();
+                        }
+                        dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                        dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                        dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                        dtRow["UOM"] = row["UOM"].ToString();
+                        dtTable.Rows.Add(dtRow);
                     }
-                    else
-                    {
-                        dtRow["ItemDescription"] = row["Description"].ToString();
-                    }
-                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
-                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
-                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-                    dtRow["UOM"] = row["UOM"].ToString();
-                    dtTable.Rows.Add(dtRow);
                 }
+                dt.Clear();
             }
-            dt.Clear();
 
-            //For CAPEX
-            if (string.IsNullOrEmpty(groupID) || groupID == "ALL") groupid_string = "dbo.tbl_MRP_List_CAPEX.ProdCat";
-
-            MRPClass.PrintString(groupid_string);
-            qry = "SELECT dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.PK, dbo.tbl_MRP_List_CAPEX.TableIdentifier, dbo.tbl_MRP_List_CAPEX.ProdCat, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty, dbo.tbl_MRP_List_CAPEX.TotalCost,  dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List.DocNumber FROM   dbo.vw_AXEntityTable INNER JOIN dbo.tbl_MRP_List ON dbo.vw_AXEntityTable.ID = dbo.tbl_MRP_List.EntityCode INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_CAPEX.HeaderDocNum WHERE (dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_CAPEX.ProdCat = " + groupid_string + ") AND (dbo.tbl_MRP_List_CAPEX.AvailForPO > 0)";
-
-            cmd = new SqlCommand(qry);
-            cmd.Connection = cn;
-            adp = new SqlDataAdapter(cmd);
-            adp.Fill(dt);
-            if (dt.Rows.Count > 0)
+            for (i = 0; i < groupID.Count; i++)
             {
-                foreach (DataRow row in dt.Rows)
+                groupid_string = groupID[i].ToString();
+                MRPClass.PrintString("count:" + groupID.Count.ToString());
+
+                //For CAPEX
+                //if (string.IsNullOrEmpty(groupID) || groupID == "ALL") groupid_string = "dbo.tbl_MRP_List_CAPEX.ProdCat";
+
+                MRPClass.PrintString(groupid_string);
+                qry = "SELECT dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.PK, dbo.tbl_MRP_List_CAPEX.TableIdentifier, dbo.tbl_MRP_List_CAPEX.ProdCat, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty, dbo.tbl_MRP_List_CAPEX.TotalCost,  dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List.DocNumber FROM   dbo.vw_AXEntityTable INNER JOIN dbo.tbl_MRP_List ON dbo.vw_AXEntityTable.ID = dbo.tbl_MRP_List.EntityCode INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_CAPEX.HeaderDocNum WHERE (dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_CAPEX.ProdCat = '" + groupid_string + "') AND (dbo.tbl_MRP_List_CAPEX.AvailForPO > 0)";
+
+                cmd = new SqlCommand(qry);
+                cmd.Connection = cn;
+                adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
                 {
-                    DataRow dtRow = dtTable.NewRow();
-                    dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
-                    dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
-                    dtRow["DocumentNumber"] = row["DocNumber"].ToString();
-                    dtRow["CapexCIP"] = row["CIPSIPNumber"].ToString();
-                    dtRow["Entity"] = row["Entity"].ToString();
-                    dtRow["BU"] = row["BU"].ToString();
-                    //dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
-                    dtRow["ItemCatCode"] = "";
-                    dtRow["ItemCat"] = row["ItemCat"].ToString();
-                    dtRow["ItemCode"] = row["ItemCode"].ToString();
-                    if (row["DescriptionAddl"].ToString().Trim() != "")
+                    foreach (DataRow row in dt.Rows)
                     {
-                        dtRow["ItemDescription"] = row["Description"].ToString() + " (" + row["DescriptionAddl"].ToString() + ")";
+                        DataRow dtRow = dtTable.NewRow();
+                        dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
+                        dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
+                        dtRow["DocumentNumber"] = row["DocNumber"].ToString();
+                        dtRow["CapexCIP"] = row["CIPSIPNumber"].ToString();
+                        dtRow["Entity"] = row["Entity"].ToString();
+                        dtRow["BU"] = row["BU"].ToString();
+                        //dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
+                        dtRow["ItemCatCode"] = "";
+                        dtRow["ItemCat"] = row["ItemCat"].ToString();
+                        dtRow["ItemCode"] = row["ItemCode"].ToString();
+                        if (row["DescriptionAddl"].ToString().Trim() != "")
+                        {
+                            dtRow["ItemDescription"] = row["Description"].ToString() + " (" + row["DescriptionAddl"].ToString() + ")";
+                        }
+                        else
+                        {
+                            dtRow["ItemDescription"] = row["Description"].ToString();
+                        }
+                        dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                        dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                        dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                        dtRow["UOM"] = row["UOM"].ToString();
+                        dtTable.Rows.Add(dtRow);
                     }
-                    else
-                    {
-                        dtRow["ItemDescription"] = row["Description"].ToString();
-                    }
-                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
-                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
-                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-                    dtRow["UOM"] = row["UOM"].ToString();
-                    dtTable.Rows.Add(dtRow);
                 }
+                dt.Clear();
             }
-            dt.Clear();
 
             cn.Close();
 
@@ -1547,11 +1546,12 @@ namespace HijoPortal.classes
                                 if (row1["ItemCode"].ToString() != "")
                                 {
                                     sFixedAsset = "No";
-                                } else
+                                }
+                                else
                                 {
                                     sFixedAsset = "Yes";
                                 }
-                                
+
                                 using (StreamWriter w = File.AppendText(sFileD))
                                 {
                                     sDetails = row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row1["ItemCode"].ToString() + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|" + sPriceUnit + "|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|" + sDefaultDimensionLine.ToString() + "|" + sFixedAsset + "|";
