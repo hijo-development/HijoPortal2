@@ -58,6 +58,42 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxComboBox MRPmonthyear;
         
         /// <summary>
+        /// EntityCallback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel EntityCallback;
+        
+        /// <summary>
+        /// EntityCombo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxComboBox EntityCombo;
+        
+        /// <summary>
+        /// BUCallback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel BUCallback;
+        
+        /// <summary>
+        /// BUCombo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxComboBox BUCombo;
+        
+        /// <summary>
         /// CAPEXCIP control.
         /// </summary>
         /// <remarks>

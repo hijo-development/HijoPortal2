@@ -48,10 +48,10 @@
                             </tr>
                             <tr>
                                 <td style="text-align: right;">
-                                    <dx:ASPxButton ID="OK_LOGOUT" runat="server" OnClick="LogOut_Click" Text="OK" Theme="Office2010Blue" AutoPostBack="false">
+                                    <dx:ASPxButton ID="OK_LOGOUT" runat="server" OnClick="LogOut_Click" CausesValidation="false" Text="OK" Theme="Office2010Blue" AutoPostBack="false">
                                         <%--<ClientSideEvents Click="OK_DELETE" />--%>
                                     </dx:ASPxButton>
-                                    <dx:ASPxButton ID="CANCEL_LOGOUT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                                    <dx:ASPxButton ID="CANCEL_LOGOUT" runat="server" CausesValidation="false" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
                                         <ClientSideEvents Click="function(s,e){PopupLogout.Hide();}" />
                                     </dx:ASPxButton>
                                 </td>

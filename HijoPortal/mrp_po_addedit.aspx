@@ -134,7 +134,7 @@
                 </tr>
                 <tr>
                     <td class="table_po_td_label">
-                        <dx:ASPxLabel runat="server" Text="Vendor" Theme="Office2010Blue"></dx:ASPxLabel>
+                        <dx:ASPxLabel runat="server" Text="Supplier" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                     <td class="table_po_semi">:</td>
                     <td class="table_po_td_data">

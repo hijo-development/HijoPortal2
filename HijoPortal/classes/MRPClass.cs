@@ -1884,7 +1884,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable CAPEXCIP_Table(string month, string year)
+        public static DataTable CAPEXCIP_Table(string month, string year, string entity, string bu)
         {
 
             DataTable dtTable = new DataTable();
@@ -1914,7 +1914,7 @@ namespace HijoPortal.classes
             }
             string query_all = "SELECT dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.StatusKey = 4";
 
-            string query_sort = "SELECT dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.MRPMonth = '" + month + "' AND dbo.tbl_MRP_List.MRPYear = '" + year + "' AND dbo.tbl_MRP_List.StatusKey = 4";
+            string query_sort = "SELECT dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.MRPMonth = '" + month + "' AND dbo.tbl_MRP_List.MRPYear = '" + year + "' AND dbo.tbl_MRP_List.StatusKey = 4 AND dbo.tbl_MRP_List.EntityCode = '" + entity + "' AND dbo.tbl_MRP_List.BUCode = '" + bu + "'";
 
             if (string.IsNullOrEmpty(month) && string.IsNullOrEmpty(year))
                 cmd = new SqlCommand(query_all);
@@ -2015,7 +2015,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("DESCRIPTION", typeof(string));
             }
 
-            string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
+            string qry = "SELECT DISTINCT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -2035,6 +2035,125 @@ namespace HijoPortal.classes
             cn.Close();
 
             return dtTable;
+        }
+
+        public static DataTable ProCategoryTable_Filter(string docnum)
+        {
+
+            DataTable dtTable = new DataTable();
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("NAME", typeof(string));
+                dtTable.Columns.Add("DESCRIPTION", typeof(string));
+            }
+
+            //string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
+            string query = "SELECT DISTINCT dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION FROM dbo.vw_AXInventTable INNER JOIN dbo.vw_AXProdCategory ON dbo.vw_AXInventTable.ITEMGROUPID = dbo.vw_AXProdCategory.NAME INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_DirectMaterials.ItemCode WHERE HeaderDocNum = '" + docnum + "' AND (dbo.tbl_MRP_List_DirectMaterials.AvailForPO > 0) GROUP BY dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION";
+
+            cmd = new SqlCommand(query);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["NAME"] = row["NAME"].ToString();
+                    dtRow["DESCRIPTION"] = row["DESCRIPTION"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+
+            //OPEX
+            query = "SELECT DISTINCT dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION FROM dbo.tbl_MRP_List_OPEX INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_OPEX.ItemCode = dbo.vw_AXInventTable.ITEMID INNER JOIN dbo.vw_AXProdCategory ON dbo.vw_AXInventTable.ITEMGROUPID = dbo.vw_AXProdCategory.NAME WHERE HeaderDocNum = '" + docnum + "' AND (dbo.tbl_MRP_List_OPEX.AvailForPO > 0) GROUP BY dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION";
+
+            cmd = new SqlCommand(query);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["NAME"] = row["NAME"].ToString();
+                    dtRow["DESCRIPTION"] = row["DESCRIPTION"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+
+            //CAPEX
+            query = "SELECT DISTINCT dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME CROSS JOIN dbo.vw_AXInventTable WHERE HeaderDocNum = '" + docnum + "' AND (dbo.tbl_MRP_List_CAPEX.AvailForPO > 0) GROUP BY dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION";
+
+            cmd = new SqlCommand(query);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["NAME"] = row["NAME"].ToString();
+                    dtRow["DESCRIPTION"] = row["DESCRIPTION"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+
+            DataTable uniqdtTable = RemoveDuplicateRows(dtTable, "NAME", "DESCRIPTION");
+
+            cn.Close();
+
+            return uniqdtTable;
+        }
+
+        public static DataTable RemoveDuplicateRows(DataTable table, string DistinctColumn, string DistinctColumn2)
+        {
+            try
+            {
+                ArrayList UniqueRecords = new ArrayList();
+                ArrayList DuplicateRecords = new ArrayList();
+
+                // Check if records is already added to UniqueRecords otherwise,
+                // Add the records to DuplicateRecords
+                foreach (DataRow dRow in table.Rows)
+                {
+                    if (UniqueRecords.Contains(dRow[DistinctColumn]))
+                        DuplicateRecords.Add(dRow);
+                    else
+                        UniqueRecords.Add(dRow[DistinctColumn]);
+
+                    if (UniqueRecords.Contains(dRow[DistinctColumn2]))
+                        DuplicateRecords.Add(dRow);
+                    else
+                        UniqueRecords.Add(dRow[DistinctColumn2]);
+                }
+
+                // Remove duplicate rows from DataTable added to DuplicateRecords
+                foreach (DataRow dRow in DuplicateRecords)
+                {
+                    table.Rows.Remove(dRow);
+                }
+
+                // Return the clean DataTable which contains unique records.
+                return table;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public static DataTable OperatingUnitTable(string entity)

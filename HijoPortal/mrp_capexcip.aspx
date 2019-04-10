@@ -1,9 +1,29 @@
 ﻿<%@ Page Title="CAPEX ID Assignment" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_capexcip.aspx.cs" Inherits="HijoPortal.mrp_capexcip" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script type="text/javascript">
+        function MRPmonthyear_SelectedIndexChanged(s, e) {
+            EntityComboClient.SetText("");
+            BUComboClient.SetText("");
+
+            EntityComboClient.SetEnabled(false);
+            BUComboClient.SetEnabled(false);
+
+            EntityCallbackClient.PerformCallback();
+        }
+
+        function EntityCombo_SelectedIndexChanged(s, e) {
+            BUCallbackClient.PerformCallback();
+        }
+
+        function BUCombo_SelectedIndexChanged(s, e) {
+            CAPEXCIP.PerformCallback();
+        }
+
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    
+
     <dx:ASPxPopupControl ID="PopupSubmit" ClientInstanceName="PopupSubmit" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -33,16 +53,52 @@
             <h1>for CAPEX ID Assignment</h1>
             <table border="0" style="width: 100%;">
                 <tr>
-                    <td style="width: 2%">
+                    <td style="width: 10%">
                         <dx:ASPxLabel runat="server" Text="MRP MONTH YEAR" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                     <td style="width: 1%">:</td>
                     <td style="width: 20%">
                         <dx:ASPxComboBox ID="MRPmonthyear" runat="server" OnInit="MRPmonthyear_Init" ValueType="System.String" Theme="Office2010Blue">
-                            <ClientSideEvents SelectedIndexChanged="function(s,e){CAPEXCIP.PerformCallback();}" />
+                            <ClientSideEvents SelectedIndexChanged="MRPmonthyear_SelectedIndexChanged" />
                         </dx:ASPxComboBox>
                     </td>
                 </tr>
+                <tr>
+                    <td style="width: 10%">
+                        <dx:ASPxLabel runat="server" Text="Entity" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td style="width: 1%">:</td>
+                    <td style="width: 20%">
+                        <dx:ASPxCallbackPanel ID="EntityCallback" runat="server" ClientInstanceName="EntityCallbackClient" OnCallback="EntityCallback_Callback" Width="200px">
+                            <PanelCollection>
+                                <dx:PanelContent>
+                                    <dx:ASPxComboBox ID="EntityCombo" runat="server" ClientInstanceName="EntityComboClient" OnInit="EntityCombo_Init" ValueType="System.String" Theme="Office2010Blue">
+                                        <ClientSideEvents SelectedIndexChanged="EntityCombo_SelectedIndexChanged" />
+                                    </dx:ASPxComboBox>
+                                </dx:PanelContent>
+                            </PanelCollection>
+                        </dx:ASPxCallbackPanel>
+
+                    </td>
+
+                    <td>
+                        <dx:ASPxLabel runat="server" Text="SSU/BU" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <dx:ASPxCallbackPanel ID="BUCallback" runat="server" ClientInstanceName="BUCallbackClient" OnCallback="BUCallback_Callback" Width="100%">
+                            <PanelCollection>
+                                <dx:PanelContent>
+                                    <dx:ASPxComboBox ID="BUCombo" runat="server" ClientInstanceName="BUComboClient" ValueType="System.String" Theme="Office2010Blue">
+                                        <ClientSideEvents SelectedIndexChanged="BUCombo_SelectedIndexChanged" />
+                                    </dx:ASPxComboBox>
+                                </dx:PanelContent>
+                            </PanelCollection>
+                        </dx:ASPxCallbackPanel>
+
+                    </td>
+                </tr>
+
                 <%--<tr>
                     <td colspan="7" style="text-align: right; padding-right: 5px;">
                         <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
@@ -60,7 +116,7 @@
             OnCustomCallback="CAPEXCIP_CustomCallback">
             <%--<ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />--%>
             <Columns>
-                <dx:GridViewCommandColumn ShowEditButton="true" Width="30" CellStyle-HorizontalAlign ="Left"></dx:GridViewCommandColumn>
+                <dx:GridViewCommandColumn ShowEditButton="true" Width="30" CellStyle-HorizontalAlign="Left"></dx:GridViewCommandColumn>
                 <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
                 <dx:GridViewDataColumn FieldName="CIPSIPNumber" Caption="Capex Number">
                     <EditItemTemplate>

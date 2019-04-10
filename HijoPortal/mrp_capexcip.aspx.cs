@@ -13,7 +13,7 @@ namespace HijoPortal
     public partial class mrp_capexcip : System.Web.UI.Page
     {
         private static int mrp_key = 0;
-        private static string docnumber = "", entitycode = "", month = "", year = "", pk = "";
+        private static string docnumber = "", bucode = "", entitycode = "", month = "", year = "", pk = "";
         private static bool bindCapexCIP = true;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -23,15 +23,16 @@ namespace HijoPortal
 
                 bool isAllowed = false;
                 isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryOfficer", DateTime.Now);
-                if (isAllowed == false)
+                if (/*isAllowed == false*/false)
                 {
                     Response.Redirect("home.aspx");
-                } else
+                }
+                else
                 {
                     //Rsize
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                 }
-                
+
 
                 //docnumber = Request.Params["DocNum"].ToString();
                 //string query = "SELECT TOP (100) PERCENT  tbl_MRP_List.*, vw_AXEntityTable.NAME AS EntityCodeDesc, vw_AXOperatingUnitTable.NAME AS BUCodeDesc, tbl_MRP_Status.StatusName, tbl_Users.Lastname, tbl_Users.Firstname FROM   tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
@@ -74,7 +75,7 @@ namespace HijoPortal
             }
 
             if (bindCapexCIP)
-                BindCapex(month, year);
+                BindCapex(month, year, entitycode, bucode);
             else
                 bindCapexCIP = true;
         }
@@ -102,7 +103,7 @@ namespace HijoPortal
             ASPxTextBox CIP = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["CIPSIPNumber"], "CIPSIPNumber") as ASPxTextBox;
             string PK = e.Keys[0].ToString();
             string cip_text = CIP.Text.ToString();
-           
+
             if (!string.IsNullOrEmpty(cip_text))
             {
                 //MRPClass.PrintString(cip_text + " " + PK );
@@ -122,7 +123,74 @@ namespace HijoPortal
 
             grid.CancelEdit();
             e.Cancel = true;
-            BindCapex(month, year);
+            BindCapex(month, year, entitycode, bucode);
+        }
+
+        protected void EntityCombo_Init(object sender, EventArgs e)
+        {
+
+
+        }
+
+        protected void BUCallback_Callback(object sender, CallbackEventArgsBase e)
+        {
+            MRPClass.PrintString("callback");
+            ASPxComboBox combo = BUCombo as ASPxComboBox;
+            combo.Text = "";
+            combo.Columns.Clear();
+            combo.Items.Clear();
+            combo.DataSource = CapexCIP.BusinessUnit(EntityCombo.Value.ToString());
+
+            ListBoxColumn lv = new ListBoxColumn();
+            lv.FieldName = "ID";
+            lv.Caption = "Code";
+            lv.Width = 50;
+            combo.Columns.Add(lv);
+
+            ListBoxColumn lt = new ListBoxColumn();
+            lt.FieldName = "NAME";
+            lt.Caption = "Name";
+            combo.Columns.Add(lt);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+            combo.TextFormatString = "{1}";
+            combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+        }
+
+        protected void EntityCallback_Callback(object sender, CallbackEventArgsBase e)
+        {
+            string var = MRPmonthyear.Text.ToString();
+            pk = MRPmonthyear.Value.ToString();
+            int spaceindex = var.IndexOf(" ");
+            int secondlength = var.Length - (spaceindex + 1);
+
+            string monthvar = var.Substring(0, spaceindex);
+            int monthIndex = Convert.ToDateTime("01-" + monthvar + "-2011").Month;
+            month = monthIndex.ToString();
+            year = var.Substring(spaceindex + 1, secondlength);
+
+            ASPxComboBox combo = EntityCombo as ASPxComboBox;
+            combo.Text = "";
+            combo.DataSource = CapexCIP.Entity(monthIndex, year);
+
+            ListBoxColumn lv = new ListBoxColumn();
+            lv.FieldName = "ID";
+            lv.Caption = "Code";
+            lv.Width = 50;
+            combo.Columns.Add(lv);
+
+            ListBoxColumn lt = new ListBoxColumn();
+            lt.FieldName = "NAME";
+            lt.Caption = "Name";
+            combo.Columns.Add(lt);
+
+            combo.ValueField = "ID";
+            combo.TextField = "NAME";
+            combo.DataBind();
+            combo.TextFormatString = "{1}";
+            combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
         }
 
         protected void CAPEXCIP_BeforeGetCallbackResult(object sender, EventArgs e)
@@ -167,18 +235,21 @@ namespace HijoPortal
 
             string monthvar = var.Substring(0, spaceindex);
             int monthIndex = Convert.ToDateTime("01-" + monthvar + "-2011").Month;
+
             month = monthIndex.ToString();
             year = var.Substring(spaceindex + 1, secondlength);
+            bucode = BUCombo.Value.ToString();
+            entitycode = EntityCombo.Value.ToString();
 
-            BindCapex(month, year);
+            BindCapex(month, year, entitycode, bucode);
         }
 
-        private void BindCapex(string month, string year)
+        private void BindCapex(string month, string year, string entity, string bu)
         {
             if (string.IsNullOrEmpty(month) && string.IsNullOrEmpty(year))
                 return;
 
-            CAPEXCIP.DataSource = MRPClass.CAPEXCIP_Table(month, year);
+            CAPEXCIP.DataSource = MRPClass.CAPEXCIP_Table(month, year, entity, bu);
             CAPEXCIP.KeyFieldName = "PK";
             CAPEXCIP.DataBind();
         }
