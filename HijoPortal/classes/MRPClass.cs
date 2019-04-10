@@ -1504,7 +1504,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable ExpenseCodeTable()
+        public static DataTable ExpenseCodeTable(string entCode)
         {
 
             DataTable dtTable = new DataTable();
@@ -1522,6 +1522,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("MAINACCOUNTID", typeof(string));
                 dtTable.Columns.Add("NAME", typeof(string));
                 dtTable.Columns.Add("isItem", typeof(int));
+                dtTable.Columns.Add("isProdCategory", typeof(int));
             }
 
             string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXExpenseAccount]";
@@ -1538,6 +1539,7 @@ namespace HijoPortal.classes
                     dtRow["MAINACCOUNTID"] = row["MAINACCOUNTID"].ToString();
                     dtRow["NAME"] = row["NAME"].ToString();
                     dtRow["isItem"] = Convert.ToInt32(row["isItem"].ToString());
+                    dtRow["isProdCategory"] = Convert.ToInt32(row["isProdCategory"].ToString());
                     dtTable.Rows.Add(dtRow);
                 }
             }
@@ -2016,6 +2018,54 @@ namespace HijoPortal.classes
             }
 
             string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["NAME"] = row["NAME"].ToString();
+                    dtRow["DESCRIPTION"] = row["DESCRIPTION"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
+        public static DataTable ProCategoryTableWithType(string entCode, string sType, string sExpenseCode = "")
+        {
+
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            string qry = "";
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("NAME", typeof(string));
+                dtTable.Columns.Add("DESCRIPTION", typeof(string));
+            }
+
+            if (sExpenseCode == "")
+            {
+                qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] WHERE ([dataareaid] = '" + entCode + "') AND ([LedgerType] ='" + sType + "') ORDER BY NAME ASC";
+            } else
+            {
+                qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] WHERE ([dataareaid] = '" + entCode + "') AND ([LedgerType] ='" + sType + "') AND ([mainaccount] = '" + sExpenseCode + "') ORDER BY NAME ASC";
+            }
+            
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -4049,5 +4099,82 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+        public static DataTable POListDetails (string mopNum)
+        {
+            DataTable dtTable = new DataTable();
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            string qry = "";
+            DataTable dt1 = new DataTable();
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+
+            cn.Open();
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("PONumber", typeof(string));
+                dtTable.Columns.Add("POStatus", typeof(string));
+                dtTable.Columns.Add("POAXStatus", typeof(string));
+                dtTable.Columns.Add("Total", typeof(string));
+            }
+            qry = "SELECT dbo.tbl_POCreation.* FROM dbo.tbl_POCreation WHERE(MRPNumber = '" + mopNum + "')";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["PONumber"] = row["PONumber"].ToString();
+                    if (Convert.ToInt32(row["POStatus"]) == 0)
+                    {
+                        dtRow["POStatus"] = "Created";
+                    } else
+                    {
+                        dtRow["POStatus"] = "Submitted";
+                    }
+                    dtRow["POAXStatus"] = "";
+
+                    qry = "SELECT ISNULL(SUM(TotalCost), 0) AS Total FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + row["PONumber"].ToString() + "')";
+                    cmd1 = new SqlCommand(qry);
+                    cmd1.Connection = cn;
+                    adp1 = new SqlDataAdapter(cmd1);
+                    adp1.Fill(dt1);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        foreach (DataRow row1 in dt1.Rows)
+                        {
+                            dtRow["Total"] = Convert.ToDouble(row1["Total"]).ToString("#,##0.00");
+                        }
+                    }
+                    dt1.Clear();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            return dtTable;
+        }
+
+        public static DataTable POListDetailsLines()
+        {
+            DataTable dtTable = new DataTable();
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            string qry = "";
+            DataTable dt1 = new DataTable();
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+
+            return dtTable;
+        }
     }
 }

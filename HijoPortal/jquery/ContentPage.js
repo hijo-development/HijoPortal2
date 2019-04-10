@@ -1357,11 +1357,13 @@ function pageinit(s, e) {
 }
 
 var isItem = 1;
+var isProdCat = 1;
 function ExpenseCodeIndexChangeOPEX(s, e) {
     //document.getElementById("itemTD").style.display = "none";
     //document.getElementById("itemTD2").style.display = "none";
     //ItemCodeOPEX.SetVisible(false);
     isItem = parseInt(s.GetSelectedItem().GetColumnText('isItem'));
+    isProdCat = parseInt(s.GetSelectedItem().GetColumnText('isProdCategory'));
     switch (isItem) {
         case 0://Non PO
             document.getElementById("div1").style.display = "none";
@@ -1565,9 +1567,12 @@ var postponedCallbackRequired = false;
 var params = "";
 
 function MOPListFocused(s,e) {
-    var visibleIndex = s.GetFocusedRowIndex();
-    var MOPNum = MainTable.GetRowValues(visibleIndex, 'DocNumber');
-    params = "MOPList^" + MOPNum + "^^";
+    //var visibleIndex = e.GetFocusedRowIndex();
+    //var MOPNum = MainTable.GetRowValues(visibleIndex, 'DocNumber');
+    //MainTable.GetRowValues(visibleIndex, 'DocNumber', MOPNum);
+    var MOPKey = s.GetRowKey(e.visibleIndex);
+    params = "MOPList^" + MOPKey + "^^";
+    //console.log("params:" + params);
     if (FloatCallbackPanel.InCallback())
         postponedCallbackRequired = true;
     else

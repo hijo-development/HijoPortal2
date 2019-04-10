@@ -21,7 +21,7 @@ namespace HijoPortal
         ArrayList ArrCapex = new ArrayList();
         ArrayList ArrRevenue = new ArrayList();
         private static int mrp_key = 0, wrkflwln = 0, iStatusKey = 0;
-        private static string docnumber = "", entitycode = "", buCode = "";
+        private static string docnumber = "", entitycode = "", buCode = "", sExpenseCode = "";
         private static bool bindDM = true, bindOpex = true, bindManPower = true, bindCapex = true, bindRevenue = true;
         private static DateTime dateCreated;
 
@@ -376,7 +376,7 @@ namespace HijoPortal
         protected void ExpenseCode_Init(object sender, EventArgs e)
         {
             ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = MRPClass.ExpenseCodeTable();
+            combo.DataSource = MRPClass.ExpenseCodeTable(entitycode);
             combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
 
             ListBoxColumn l_value = new ListBoxColumn();
@@ -392,6 +392,11 @@ namespace HijoPortal
             l_text2.FieldName = "isItem";
             l_text2.Width = 0;
             combo.Columns.Add(l_text2);
+
+            ListBoxColumn l_text3 = new ListBoxColumn();
+            l_text3.FieldName = "isProdCategory";
+            l_text3.Width = 0;
+            combo.Columns.Add(l_text3);
 
             combo.ValueField = "MAINACCOUNTID";
             combo.TextField = "NAME";
@@ -1467,16 +1472,55 @@ namespace HijoPortal
         protected void ProdCat_Init(object sender, EventArgs e)
         {
             ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = MRPClass.ProCategoryTable_WithoutAll();
+            //combo.DataSource = MRPClass.ProCategoryTable_WithoutAll();
+            combo.DataSource = MRPClass.ProCategoryTableWithType(entitycode, "FixedAsset");
 
             ListBoxColumn lv = new ListBoxColumn();
             lv.FieldName = "NAME";
             lv.Caption = "Code";
+            lv.Width = 80;
             combo.Columns.Add(lv);
 
             ListBoxColumn lt = new ListBoxColumn();
             lt.FieldName = "DESCRIPTION";
-            lt.Caption = "Caption";
+            lt.Caption = "Description";
+            lt.Width = 300;
+            combo.Columns.Add(lt);
+
+            combo.ValueField = "NAME";
+            combo.TextField = "DESCRIPTION";
+            combo.DataBind();
+            combo.TextFormatString = "{1}";
+
+            GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+            if (!container.Grid.IsNewRowEditing)
+            {
+                combo.Value = DataBinder.Eval(container.DataItem, "ProdCode").ToString();
+                combo.Text = DataBinder.Eval(container.DataItem, "ProdCat").ToString();
+            }
+        }
+
+        protected void ProcCatOPEXCallback_Callback(object sender, CallbackEventArgsBase e)
+        {
+
+        }
+
+        protected void ProcCatOPEX_Init(object sender, EventArgs e)
+        {
+            ASPxComboBox combo = sender as ASPxComboBox;
+            //combo.DataSource = MRPClass.ProCategoryTable_WithoutAll();
+            combo.DataSource = MRPClass.ProCategoryTableWithType(entitycode, "Expense");
+
+            ListBoxColumn lv = new ListBoxColumn();
+            lv.FieldName = "NAME";
+            lv.Caption = "Code";
+            lv.Width = 80;
+            combo.Columns.Add(lv);
+
+            ListBoxColumn lt = new ListBoxColumn();
+            lt.FieldName = "DESCRIPTION";
+            lt.Caption = "Description";
+            lt.Width = 300;
             combo.Columns.Add(lt);
 
             combo.ValueField = "NAME";

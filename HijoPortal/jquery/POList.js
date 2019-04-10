@@ -1,6 +1,6 @@
 ﻿function OnGetRowValues(value) {
     var status = value[0];
-    console.log("stat:" + status);
+    //console.log("stat:" + status);
     switch (status) {
         case "0"://allow to delete
             POListPopupClient.SetHeaderText("Confirm");
@@ -17,7 +17,7 @@
 
 function OnGetRowValuesSubmit(value) {
     var status = value[0];
-    console.log("stat:" + status);
+    //console.log("stat:" + status);
     switch (status) {
         case "0"://allow to delete
             POListPopupSubmit.SetHeaderText("Confirm");

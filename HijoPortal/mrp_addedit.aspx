@@ -16,7 +16,7 @@
         BackgroundCssClass="modalBackground"
         PopupControlID="PanelLoading"
         TargetControlID="TextBoxLoading"
-        CancelControlID="ButtonErrorOK1" 
+        CancelControlID="ButtonErrorOK1"
         ClientIDMode="Static">
     </ajaxToolkit:ModalPopupExtender>
     <asp:Panel ID="PanelLoading" runat="server"
@@ -599,6 +599,24 @@
                                                                                                             </td>
                                                                                                         </tr>
                                                                                                         <tr>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxLabel runat="server" Text="Procurement Category" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <dx:ASPxCallbackPanel ID="ProcCatOPEXCallback" runat="server" ClientInstanceName=" ProcCatOPEXCallbackClient" OnCallback="ProcCatOPEXCallback_Callback">
+                                                                                                                    <PanelCollection>
+                                                                                                                        <dx:PanelContent>
+                                                                                                                            <dx:ASPxComboBox ID="ProcCatOPEX" runat="server" ClientInstanceName="ProcCatOPEX" OnInit="ProcCatOPEX_Init" ValueType="System.String" Theme="Office2010Blue" Width="300px">
+                                                                                                                                <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="false"></ValidationSettings>
+                                                                                                                                <%--<ClientSideEvents SelectedIndexChanged="ExpenseCodeIndexChangeOPEX" />--%>
+                                                                                                                            </dx:ASPxComboBox>
+                                                                                                                        </dx:PanelContent>
+                                                                                                                    </PanelCollection>
+
+                                                                                                                </dx:ASPxCallbackPanel>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
                                                                                                             <td style="width: 20%;">
                                                                                                                 <div id="div1">
                                                                                                                     <dx:ASPxLabel runat="server" Text="Item Code" Theme="Office2010Blue"></dx:ASPxLabel>
@@ -1051,7 +1069,7 @@
                                                                                         <dx:ASPxHiddenField ID="entityhidden" runat="server" ClientInstanceName="entityhiddenCA"></dx:ASPxHiddenField>
                                                                                         <table style="width: 100%">
                                                                                             <tr>
-                                                                                                <td style="vertical-align:top">
+                                                                                                <td style="vertical-align: top">
                                                                                                     <table>
                                                                                                         <tr>
                                                                                                             <td style="width: 40%;">
