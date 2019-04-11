@@ -23,7 +23,7 @@ namespace HijoPortal
 
                 bool isAllowed = false;
                 isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryOfficer", DateTime.Now);
-                if (/*isAllowed == false*/false)
+                if (isAllowed == false)
                 {
                     Response.Redirect("home.aspx");
                 }
@@ -202,7 +202,7 @@ namespace HijoPortal
         protected void MRPmonthyear_Init(object sender, EventArgs e)
         {
             ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = MRPClass.MRPMonthYearTable();
+            combo.DataSource = CapexCIP.MRPMonthYearTable();
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "PK";
@@ -238,8 +238,16 @@ namespace HijoPortal
 
             month = monthIndex.ToString();
             year = var.Substring(spaceindex + 1, secondlength);
-            bucode = BUCombo.Value.ToString();
-            entitycode = EntityCombo.Value.ToString();
+
+            if (BUCombo.Value == null)
+                bucode = "";
+            else
+                bucode = BUCombo.Value.ToString();
+
+            if (EntityCombo.Value == null)
+                entitycode = "";
+            else
+                entitycode = EntityCombo.Value.ToString();
 
             BindCapex(month, year, entitycode, bucode);
         }
@@ -249,7 +257,7 @@ namespace HijoPortal
             if (string.IsNullOrEmpty(month) && string.IsNullOrEmpty(year))
                 return;
 
-            CAPEXCIP.DataSource = MRPClass.CAPEXCIP_Table(month, year, entity, bu);
+            CAPEXCIP.DataSource = CapexCIP.CAPEXCIP_Table(month, year, entity, bu);
             CAPEXCIP.KeyFieldName = "PK";
             CAPEXCIP.DataBind();
         }
