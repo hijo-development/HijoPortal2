@@ -1,1 +1,1 @@
-PurchId|VendAccount|DeliveryName|Name|VendGroup|InventSiteID|InventLocationID|wMSLocationId|CurrencyCode|DeliveryDate|ItemId|PurchQty|PurchUnit|PurchPrice|LineAmount|LineNumber|PriceUnit|TaxGroup|TaxItemGroup|DefaultDimension|CreateFixedAsset|
+PurchId|VendAccount|DeliveryName|Name|VendGroup|InventSiteID|InventLocationID|wMSLocationId|CurrencyCode|DeliveryDate|ItemId|PurchQty|PurchUnit|PurchPrice|LineAmount|LineNumber|PriceUnit|TaxGroup|TaxItemGroup|DefaultDimension|ProcurementCategory|AssetId|AssetBookId|

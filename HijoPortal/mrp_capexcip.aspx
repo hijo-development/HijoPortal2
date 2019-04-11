@@ -116,10 +116,13 @@
                 </tr>--%>
             </table>
         </div>
-        <div style="width: inherit; overflow-x: auto;">
-
-
-            <dx:ASPxGridView ID="CAPEXCIP" ClientInstanceName="CAPEXCIP" runat="server" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
+        <%--<div style="width: inherit; overflow-x: auto;">--%>
+        <%--<div style="width: 100%; overflow-x: auto;">--%>
+        <div>
+            <dx:ASPxGridView ID="CAPEXCIP" ClientInstanceName="CAPEXCIP" runat="server"
+                EnableCallbackCompression="False"
+                EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
+                Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
                 OnStartRowEditing="CAPEXCIP_StartRowEditing"
                 OnRowUpdating="CAPEXCIP_RowUpdating"
                 OnBeforeGetCallbackResult="CAPEXCIP_BeforeGetCallbackResult"
@@ -128,11 +131,19 @@
                 <Columns>
                     <dx:GridViewCommandColumn ShowEditButton="true" Width="30" CellStyle-HorizontalAlign="Left"></dx:GridViewCommandColumn>
                     <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="CIPSIPNumber" Caption="Capex Number">
+                    <dx:GridViewDataColumn FieldName="EntCode" Visible="false">
+                    </dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="ProcCat" Visible="false">
+                    </dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="CIPSIPNumber" Caption="Capex Number" Width="125">
                         <EditItemTemplate>
-                            <dx:ASPxTextBox ID="CIPSIPNumber" Text='<%#Eval("CIPSIPNumber")%>' runat="server" Width="170px" HorizontalAlign="Right" Theme="Office2010Blue">
+                            <%--<dx:ASPxTextBox ID="CIPSIPNumber" Text='<%#Eval("CIPSIPNumber")%>' runat="server" Width="170px" HorizontalAlign="Right" Theme="Office2010Blue">
                                 <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
-                            </dx:ASPxTextBox>
+                            </dx:ASPxTextBox>--%>
+                            <dx:ASPxComboBox ID="FixedAssetID" runat="server" ClientInstanceName="FixedAssetIDDirect" OnInit="FixedAssetID_Init" AutoResizeWithContainer="false" TextFormatString="{0}" ValueType="System.String" Theme="Office2010Blue"
+                                ValidationSettings-ErrorDisplayMode="None" ValidationSettings-RequiredField-IsRequired="true" Width="100%">
+                                <ClientSideEvents SelectedIndexChanged="" />
+                            </dx:ASPxComboBox>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="HeaderDocNum" Caption="Document Number">
@@ -199,8 +210,8 @@
                     </dx:GridViewDataColumn>
                 </Columns>
                 <Styles>
-                    <Cell Wrap="false"></Cell>
-                    <InlineEditCell Wrap="False"></InlineEditCell>
+                    <Cell Wrap="true"></Cell>
+                    <InlineEditCell Wrap="true"></InlineEditCell>
                 </Styles>
                 <SettingsCommandButton>
                     <EditButton Image-Url="images/Edit.ico" Image-AlternateText="Edit" Image-ToolTip="Edit Row" RenderMode="Image" Image-Width="15px"></EditButton>
@@ -215,22 +226,6 @@
                     AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
             </dx:ASPxGridView>
         </div>
-        <%--<dx:ASPxPageControl ID="ASPxPageControl1" runat="server" Width="100%" ActiveTabIndex="0" EnableHierarchyRecreation="true" Theme="Office2010Blue">
-            <TabPages>
-                <dx:TabPage>
-                    <ContentCollection>
-                        <dx:ContentControl>
-                            <dx:ASPxRoundPanel ID="CapexRoundPanel" runat="server" Font-Bold="true" EnableAnimation="true" ShowCollapseButton="true" AllowCollapsingByHeaderClick="true" Width="100%" Theme="Office2010Blue">
-                                <PanelCollection>
-                                    <dx:PanelContent>
-                                        
-                                    </dx:PanelContent>
-                                </PanelCollection>
-                            </dx:ASPxRoundPanel>
-                        </dx:ContentControl>
-                    </ContentCollection>
-                </dx:TabPage>
-            </TabPages>
-        </dx:ASPxPageControl>--%>
+        
     </div>
 </asp:Content>

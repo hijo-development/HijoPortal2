@@ -33,8 +33,10 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("ApprovedCost", typeof(string));
                 dtTable.Columns.Add("ApprovedTotalCost", typeof(string));
                 dtTable.Columns.Add("ApprovedQty", typeof(Double));
+                dtTable.Columns.Add("EntCode", typeof(string));
+                dtTable.Columns.Add("ProcCat", typeof(string));
             }
-            string query_all = "SELECT dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.StatusKey = 4";
+            string query_all = "SELECT dbo.vw_AXEntityTable.ID AS EntCode, dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.StatusKey = 4";
 
             string businessUnit = "";
             if (string.IsNullOrEmpty(bu) && entity == "0101")
@@ -42,7 +44,7 @@ namespace HijoPortal.classes
             else
                 businessUnit = "'" + bu + "'";
 
-            string query_sort = "SELECT dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.MRPMonth = '" + month + "' AND dbo.tbl_MRP_List.MRPYear = '" + year + "' AND dbo.tbl_MRP_List.StatusKey = 4 AND dbo.tbl_MRP_List.EntityCode = '" + entity + "' AND dbo.tbl_MRP_List.BUCode = " + businessUnit;
+            string query_sort = "SELECT dbo.vw_AXEntityTable.ID AS EntCode, dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.MRPMonth = '" + month + "' AND dbo.tbl_MRP_List.MRPYear = '" + year + "' AND dbo.tbl_MRP_List.StatusKey = 4 AND dbo.tbl_MRP_List.EntityCode = '" + entity + "' AND dbo.tbl_MRP_List.BUCode = " + businessUnit;
 
             if (string.IsNullOrEmpty(month) && string.IsNullOrEmpty(year))
                 cmd = new SqlCommand(query_all);
@@ -73,6 +75,10 @@ namespace HijoPortal.classes
                     dtRow["ApprovedCost"] = Convert.ToDouble(row["ApprovedCost"].ToString()).ToString("N");
                     dtRow["ApprovedTotalCost"] = Convert.ToDouble(row["ApprovedTotalCost"].ToString()).ToString("N");
                     dtRow["ApprovedQty"] = Convert.ToDouble(row["ApprovedQty"].ToString()).ToString("N");
+
+                    dtRow["EntCode"] = row["EntCode"].ToString();
+                    dtRow["ProcCat"] = row["ProdCat"].ToString();
+                    
 
                     dtTable.Rows.Add(dtRow);
                 }
