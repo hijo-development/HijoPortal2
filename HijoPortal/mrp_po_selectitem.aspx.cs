@@ -17,6 +17,7 @@ namespace HijoPortal
         private static string doc_static = "", year_static = "";
         private static ArrayList prod_static = new ArrayList();
         private static int month_static = -1;
+        private static bool empty = false, enableProdListBox = false;
         private void CheckCreatorKey()
         {
             if (Session["CreatorKey"] == null)
@@ -29,6 +30,11 @@ namespace HijoPortal
                 return;
             }
         }
+
+        //protected void Page_Init(object sender, EventArgs e)
+        //{
+
+        //}
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -41,7 +47,6 @@ namespace HijoPortal
                 year_static = "";
                 prod_static = new ArrayList();
             }
-
 
             BindTable(doc_static, month_static, year_static, prod_static);
         }
@@ -93,8 +98,6 @@ namespace HijoPortal
                 string year = strarr[1].ToString();
 
                 int monthindex = Convertion.MONTH_TO_INDEX(month);
-
-                MRPClass.PrintString(monthindex.ToString());
 
                 combo.DataSource = POClass.DocumentNumber_By_Month_Year(monthindex, year);
 
@@ -201,8 +204,16 @@ namespace HijoPortal
 
         protected void ProdCat_ListBox_Init(object sender, EventArgs e)
         {
+            string docnum = MOPNum_Combo.Text.ToString();
+            empty = string.IsNullOrEmpty(docnum);
             ASPxListBox list = sender as ASPxListBox;
+            list.Columns.Clear();
+            list.Items.Clear();
+
+            //if (empty)
             list.DataSource = MRPClass.ProCategoryTable_WithoutAll();
+            //else
+            //list.DataSource = MRPClass.ProCategoryTable_Filter("");
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "NAME";
@@ -220,41 +231,78 @@ namespace HijoPortal
             list.TextField = "DESCRIPTION";
             list.DataBind();
             list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+            list.ClientEnabled = false;
         }
 
-        protected void ProdCategory_Combo_Init(object sender, EventArgs e)
+        //protected void ProdCategory_Combo_Init(object sender, EventArgs e)
+        //{
+        //    ASPxComboBox combo = sender as ASPxComboBox;
+        //    combo.DataSource = MRPClass.ProCategoryTable();
+
+        //    ListBoxColumn l_value = new ListBoxColumn();
+        //    l_value.FieldName = "NAME";
+        //    l_value.Caption = "CODE";
+        //    l_value.Width = 100;
+        //    combo.Columns.Add(l_value);
+
+        //    ListBoxColumn l_text = new ListBoxColumn();
+        //    l_text.FieldName = "DESCRIPTION";
+        //    l_text.Width = 350;
+        //    combo.Columns.Add(l_text);
+
+        //    combo.ValueField = "NAME";
+        //    combo.TextField = "DESCRIPTION";
+        //    combo.DataBind();
+        //    combo.TextFormatString = "{1}";
+        //}
+
+        private void ProdCat_DataBind()
         {
-            ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = MRPClass.ProCategoryTable();
+            string docnum = MOPNum_Combo.Text.ToString();
+            ASPxListBox list = ProdCat_ListBox as ASPxListBox;
+            list.Columns.Clear();
+            list.Items.Clear();
+            list.DataSource = MRPClass.ProCategoryTable_Filter(docnum);
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "NAME";
-            l_value.Caption = "CODE";
+            l_value.Caption = "Code";
             l_value.Width = 100;
-            combo.Columns.Add(l_value);
+            list.Columns.Add(l_value);
 
             ListBoxColumn l_text = new ListBoxColumn();
             l_text.FieldName = "DESCRIPTION";
+            l_text.Caption = "Description";
             l_text.Width = 350;
-            combo.Columns.Add(l_text);
+            list.Columns.Add(l_text);
 
-            combo.ValueField = "NAME";
-            combo.TextField = "DESCRIPTION";
-            combo.DataBind();
-            combo.TextFormatString = "{1}";
+            list.ValueField = "NAME";
+            list.TextField = "DESCRIPTION";
+            list.DataBind();
+            list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+            list.ClientEnabled = true;
+        }
+
+        protected void ProdCat_ListBox_Callback(object sender, CallbackEventArgsBase e)
+        {
+            ProdCat_DataBind();
+
         }
 
         protected void MainGridCallbackPanel_Callback(object sender, CallbackEventArgsBase e)
         {
-
             ArrayList arrlist = new ArrayList();
             List<object> Temp = new List<object>();
-            foreach (ListEditItem item in ProdCat_ListBox.Items)
+            foreach (ListEditItem item in ProdCat_ListBox.SelectedItems)
             {
                 if (item.Selected)
                 {
                     MRPClass.PrintString(item.Value.ToString());
                     arrlist.Add(item.Value.ToString());
+                }
+                else
+                {
+                    MRPClass.PrintString("empty");
                 }
             }
 
@@ -270,8 +318,8 @@ namespace HijoPortal
                 month_static = Convertion.MONTH_TO_INDEX(month);
             }
 
-            if (MOPNum_Combo.Value != null)
-                doc_static = MOPNum_Combo.Value.ToString();
+            if (MOPNum_Combo.Text != null)
+                doc_static = MOPNum_Combo.Text.ToString();
             else
                 doc_static = "";
 
