@@ -704,6 +704,7 @@ namespace HijoPortal
 
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox experseCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
+            ASPxComboBox ProCatCode = pageControl.FindControl("ProcCatOPEX") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxTextBox itemDesc2 = pageControl.FindControl("DescriptionAddl") as ASPxTextBox;
@@ -715,14 +716,7 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO " + MRPClass.OpexTable() +
-                            " ([HeaderDocNum], [ExpenseCode], [ItemCode], [Description], [UOM], " +
-                            " [Cost], [Qty], [TotalCost], [OprUnit], " +
-                            " [EdittedQty], [EdittedCost], [EdittedTotalCost], " +
-                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost], [DescriptionAddl]) " +
-                            " VALUES (@HeaderDocNum, @ExpenseCode, @ItemCode, @Description, @UOM, " +
-                            " @Cost, @Qty, @TotalCost, @OprUnit, @Qty, @Cost, @TotalCost, " +
-                            " @Qty, @Cost, @TotalCost, @itemDesc2)";
+            string insert = "INSERT INTO " + MRPClass.OpexTable() + " ([HeaderDocNum], [ExpenseCode], [ItemCode], [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit], [EdittedQty], [EdittedCost], [EdittedTotalCost], [ApprovedQty], [ApprovedCost], [ApprovedTotalCost],  [DescriptionAddl], [ProcCat]) VALUES (@HeaderDocNum, @ExpenseCode, @ItemCode, @Description, @UOM, @Cost, @Qty, @TotalCost, @OprUnit, @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost, @itemDesc2, @ProcCat)";
 
             string code = "";
             if (itemCode.Value != null) code = itemCode.Value.ToString();
@@ -746,6 +740,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            cmd.Parameters.AddWithValue("@ProcCat", ProCatCode.Value.ToString());
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
@@ -810,6 +805,7 @@ namespace HijoPortal
 
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox expenseCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
+            ASPxComboBox ProCatCode = pageControl.FindControl("ProcCatOPEX") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxTextBox itemDesc2 = pageControl.FindControl("DescriptionAddl") as ASPxTextBox;
@@ -824,13 +820,7 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.OpexTable() +
-                                " SET [ExpenseCode] = @ExpenseCode, [ItemCode] = @ItemCode , " +
-                                " [Description] = @Description, [UOM]= @UOM, " +
-                                " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
-                                " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittedTotalCost] = @TotalCost, " +
-                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost, [DescriptionAddl] = @itemDesc2 " +
-                                " WHERE [PK] = @PK";
+            string update_MRP = "UPDATE " + MRPClass.OpexTable() + " SET [ExpenseCode] = @ExpenseCode, [ItemCode] = @ItemCode , [Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittedTotalCost] = @TotalCost, [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost, [DescriptionAddl] = @itemDesc2, [ProcCat] = @ProcCat WHERE [PK] = @PK";
 
             string code = "";
             if (itemCode.Value != null) code = itemCode.Value.ToString();
@@ -854,6 +844,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            cmd.Parameters.AddWithValue("@ProcCat", ProCatCode.Value.ToString());
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
@@ -1502,38 +1493,52 @@ namespace HijoPortal
 
         protected void ProcCatOPEXCallback_Callback(object sender, CallbackEventArgsBase e)
         {
+            ASPxPageControl pageControl = OPEXGrid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
+            ASPxComboBox expCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
+            ASPxCallbackPanel callBackPanel = pageControl.FindControl("ProcCatOPEXCallback") as ASPxCallbackPanel;
+            ASPxComboBox proCat = callBackPanel.FindControl("ProcCatOPEX") as ASPxComboBox;
 
+            proCat.Value = "";
+            proCat.Text = "";
+
+            DataTable dtRecord = MRPClass.ProCategoryTableWithType(entitycode,"Expense", expCode.Value.ToString());
+            proCat.DataSource = dtRecord;
+
+            proCat.TextField = "DESCRIPTION";
+            proCat.ValueField = "NAME";
+            proCat.TextFormatString = "{1}";
+            proCat.DataBind();
         }
 
         protected void ProcCatOPEX_Init(object sender, EventArgs e)
         {
-            ASPxComboBox combo = sender as ASPxComboBox;
-            //combo.DataSource = MRPClass.ProCategoryTable_WithoutAll();
-            combo.DataSource = MRPClass.ProCategoryTableWithType(entitycode, "Expense");
+            //ASPxComboBox combo = sender as ASPxComboBox;
+            ////combo.DataSource = MRPClass.ProCategoryTable_WithoutAll();
+            //combo.DataSource = MRPClass.ProCategoryTableWithType(entitycode, "Expense");
 
-            ListBoxColumn lv = new ListBoxColumn();
-            lv.FieldName = "NAME";
-            lv.Caption = "Code";
-            lv.Width = 80;
-            combo.Columns.Add(lv);
+            //ListBoxColumn lv = new ListBoxColumn();
+            //lv.FieldName = "NAME";
+            //lv.Caption = "Code";
+            //lv.Width = 80;
+            //combo.Columns.Add(lv);
 
-            ListBoxColumn lt = new ListBoxColumn();
-            lt.FieldName = "DESCRIPTION";
-            lt.Caption = "Description";
-            lt.Width = 300;
-            combo.Columns.Add(lt);
+            //ListBoxColumn lt = new ListBoxColumn();
+            //lt.FieldName = "DESCRIPTION";
+            //lt.Caption = "Description";
+            //lt.Width = 300;
+            //combo.Columns.Add(lt);
 
-            combo.ValueField = "NAME";
-            combo.TextField = "DESCRIPTION";
-            combo.DataBind();
-            combo.TextFormatString = "{1}";
+            //combo.ValueField = "NAME";
+            //combo.TextField = "DESCRIPTION";
+            //combo.DataBind();
+            //combo.TextFormatString = "{1}";
 
-            GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
-            if (!container.Grid.IsNewRowEditing)
-            {
-                combo.Value = DataBinder.Eval(container.DataItem, "ProdCode").ToString();
-                combo.Text = DataBinder.Eval(container.DataItem, "ProdCat").ToString();
-            }
+            //GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+            //if (!container.Grid.IsNewRowEditing)
+            //{
+            //    combo.Value = DataBinder.Eval(container.DataItem, "ProcCatCode").ToString();
+            //    combo.Text = DataBinder.Eval(container.DataItem, "ProcCatName").ToString();
+            //}
         }
 
         protected void RevenueGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
