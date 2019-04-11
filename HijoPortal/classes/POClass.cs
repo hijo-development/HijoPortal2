@@ -1422,10 +1422,14 @@ namespace HijoPortal.classes
             DataTable dt1 = new DataTable();
             SqlCommand cmd1 = null;
             SqlDataAdapter adp1;
+            DataTable dt2 = new DataTable();
+            SqlCommand cmd2 = null;
+            SqlDataAdapter adp2;
+
             string qry = "", sFiLeName = "", sFileNameD = "";
             string sFile = "", sFileD = "", sFileDest = "", sFileDDest = "";
 
-            string sHeader = "", sDetails = "", sPriceUnit = "", sFixedAsset = "";
+            string sHeader = "", sDetails = "", sPriceUnit = "", sItemCode = "", sProcCatID ="", sFixedAssetID = "", sAssetBookID = "";
 
             string sServerDir = HttpContext.Current.Server.MapPath("~");
             string sDir = sServerDir + @"\po_file";
@@ -1456,13 +1460,26 @@ namespace HijoPortal.classes
                     }
 
                     string sDefaultDimension = "";
+                    //if (row["EntityCode"].ToString().Trim() == "0000")
+                    //{
+                    //    sDefaultDimension = row["BUSSUCode"].ToString() + "__";
+                    //}
+                    //else if (row["EntityCode"].ToString().Trim() == "0303")
+                    //{
+                    //    sDefaultDimension = "_" + row["BUSSUCode"].ToString() + "_";
+                    //}
+                    //else
+                    //{
+                    //    sDefaultDimension = "";
+                    //}
+
                     if (row["EntityCode"].ToString().Trim() == "0000")
                     {
-                        sDefaultDimension = row["BUSSUCode"].ToString() + "__";
+                        sDefaultDimension = row["BUSSUCode"].ToString() + "";
                     }
                     else if (row["EntityCode"].ToString().Trim() == "0303")
                     {
-                        sDefaultDimension = "_" + row["BUSSUCode"].ToString() + "_";
+                        sDefaultDimension = "" + row["BUSSUCode"].ToString() + "";
                     }
                     else
                     {
@@ -1498,7 +1515,8 @@ namespace HijoPortal.classes
 
                     int iLineNumber = 0;
                     string sDefaultDimensionLine = "";
-                    qry = "SELECT ItemCode, TaxGroup, TaxItemGroup, Qty, Cost, TotalCost, POUOM, (CASE Identifier WHEN 1 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT OprUnit FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS OprUnit, (CASE Identifier WHEN 1 THEN (SELECT ItemDescription + (CASE LTRIM(RTRIM(ItemDescriptionAddl)) WHEN '' THEN '' ELSE ' (' + ItemDescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT Description + (CASE LTRIM(RTRIM(DescriptionAddl)) WHEN '' THEN '' ELSE ' (' + DescriptionAddl + ')' END) AS ItemDesc FROM dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS ItemDesc FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + poNum + "')";
+                    //qry = "SELECT ItemCode, TaxGroup, TaxItemGroup, Qty, Cost, TotalCost, POUOM, (CASE Identifier WHEN 1 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT OprUnit FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS OprUnit, (CASE Identifier WHEN 1 THEN (SELECT ItemDescription + (CASE LTRIM(RTRIM(ItemDescriptionAddl)) WHEN '' THEN '' ELSE ' (' + ItemDescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT Description + (CASE LTRIM(RTRIM(DescriptionAddl)) WHEN '' THEN '' ELSE ' (' + DescriptionAddl + ')' END) AS ItemDesc FROM dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS ItemDesc FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + poNum + "')";
+                    qry = "SELECT ItemCode, TaxGroup, TaxItemGroup, Qty, Cost, TotalCost, POUOM, (CASE Identifier WHEN 1 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE(CASE Identifier WHEN 2 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) ELSE (SELECT OprUnit FROM  dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 4)) END) END) AS OprUnit, (CASE Identifier WHEN 1 THEN (SELECT ItemDescription + (CASE LTRIM(RTRIM(ItemDescriptionAddl)) WHEN '' THEN '' ELSE ' (' + ItemDescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE(CASE Identifier WHEN 2 THEN (SELECT Description + (CASE LTRIM(RTRIM(DescriptionAddl)) WHEN '' THEN '' ELSE ' (' + DescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) ELSE (SELECT Description AS ItemDesc FROM  dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 4)) END) END) AS ItemDesc, ItemPK, Identifier, ISNULL((SELECT CIPSIPNumber FROM dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK)),'') AS FixedAssetID FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + poNum + "')";
                     cmd1 = new SqlCommand(qry);
                     cmd1.Connection = conn;
                     adp1 = new SqlDataAdapter(cmd1);
@@ -1530,35 +1548,131 @@ namespace HijoPortal.classes
                             if (File.Exists(sFileD))
                             {
 
+                                //if (row["EntityCode"].ToString().Trim() == "0000")
+                                //{
+                                //    sDefaultDimensionLine = row["BUSSUCode"].ToString() + "__";
+                                //}
+                                //else if (row["EntityCode"].ToString().Trim() == "0303")
+                                //{
+                                //    sDefaultDimensionLine = "_" + row["BUSSUCode"].ToString() + "_";
+                                //}
+                                //else if (row["EntityCode"].ToString().Trim() == "0101")
+                                //{
+                                //    sDefaultDimensionLine = "__" + row1["OprUnit"].ToString();
+                                //}
+                                //else
+                                //{
+                                //    sDefaultDimensionLine = "";
+                                //}
+
                                 if (row["EntityCode"].ToString().Trim() == "0000")
                                 {
-                                    sDefaultDimensionLine = row["BUSSUCode"].ToString() + "__";
+                                    sDefaultDimensionLine = row["BUSSUCode"].ToString() + "";
                                 }
                                 else if (row["EntityCode"].ToString().Trim() == "0303")
                                 {
-                                    sDefaultDimensionLine = "_" + row["BUSSUCode"].ToString() + "_";
+                                    sDefaultDimensionLine = "" + row["BUSSUCode"].ToString() + "";
                                 }
                                 else if (row["EntityCode"].ToString().Trim() == "0101")
                                 {
-                                    sDefaultDimensionLine = "__" + row1["OprUnit"].ToString();
+                                    sDefaultDimensionLine = "" + row1["OprUnit"].ToString();
                                 }
                                 else
                                 {
                                     sDefaultDimensionLine = "";
                                 }
+
+
                                 sPriceUnit = "1";
-                                if (row1["ItemCode"].ToString() != "")
+                                //if (row1["ItemCode"].ToString() != "")
+                                //{
+                                //    sFixedAsset = "No";
+                                //}
+                                //else
+                                //{
+                                //    sFixedAsset = "Yes";
+                                //}
+
+                                if (row["EntityCode"].ToString().Trim() == "0303")
                                 {
-                                    sFixedAsset = "No";
-                                }
-                                else
+                                    sItemCode = "";
+                                } else
                                 {
-                                    sFixedAsset = "Yes";
+                                    sItemCode = row1["ItemCode"].ToString();
                                 }
+
+                                if (sItemCode == "")
+                                {
+                                    switch (Convert.ToInt32(row1["Identifier"]))
+                                    {
+                                        case 1:
+                                            {
+                                                sProcCatID = "";
+                                                sFixedAssetID = "";
+                                                sAssetBookID = "";
+                                                break;
+                                            }
+                                        case 2:
+                                            {
+                                                sFixedAssetID = "";
+                                                sAssetBookID = "";
+                                                qry = "SELECT ISNULL((SELECT recid FROM  dbo.vw_AXProdCategory WHERE(NAME = dbo.tbl_MRP_List_OPEX.ProcCat) AND(dataareaid = dbo.tbl_MRP_List.EntityCode) AND(LedgerType = 'Expense')), '') AS ProcCatID FROM dbo.tbl_MRP_List_OPEX LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_OPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber WHERE(dbo.tbl_MRP_List_OPEX.PK = "+ row1["ItemPK"] +")";
+                                                cmd2 = new SqlCommand(qry);
+                                                cmd2.Connection = conn;
+                                                adp2 = new SqlDataAdapter(cmd2);
+                                                adp2.Fill(dt2);
+                                                if (dt2.Rows.Count > 0)
+                                                {
+                                                    foreach (DataRow row2 in dt2.Rows)
+                                                    {
+                                                        if (Convert.ToDouble(row2["ProcCatID"]) == 0)
+                                                        {
+                                                            sProcCatID = "";
+                                                        } else
+                                                        {
+                                                            sProcCatID = row2["ProcCatID"].ToString();
+                                                        }                                                        
+                                                    }
+                                                }
+                                                dt2.Clear();
+                                                break;
+                                            }
+                                        case 4:
+                                            {
+                                                sFixedAssetID = row1["FixedAssetID"].ToString();
+                                                sAssetBookID = "DEP";
+                                                qry = "SELECT ISNULL((SELECT recid FROM  dbo.vw_AXProdCategory WHERE(NAME = dbo.tbl_MRP_List_CAPEX.ProdCat) AND(dataareaid = dbo.tbl_MRP_List.EntityCode) AND(LedgerType = 'FixedAsset')), '') AS ProcCatID FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber WHERE(dbo.tbl_MRP_List_CAPEX.PK = " + row1["ItemPK"] + ")";
+                                                cmd2 = new SqlCommand(qry);
+                                                cmd2.Connection = conn;
+                                                adp2 = new SqlDataAdapter(cmd2);
+                                                adp2.Fill(dt2);
+                                                if (dt2.Rows.Count > 0)
+                                                {
+                                                    foreach (DataRow row2 in dt2.Rows)
+                                                    {
+                                                        if (Convert.ToDouble(row2["ProcCatID"]) == 0)
+                                                        {
+                                                            sProcCatID = "";
+                                                        }
+                                                        else
+                                                        {
+                                                            sProcCatID = row2["ProcCatID"].ToString();
+                                                        }
+                                                    }
+                                                }
+                                                dt2.Clear();
+                                                break;
+                                            }
+                                    }
+                                } else
+                                {
+                                    sProcCatID = "";
+                                }
+                                
 
                                 using (StreamWriter w = File.AppendText(sFileD))
                                 {
-                                    sDetails = row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + row1["ItemCode"].ToString() + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|" + sPriceUnit + "|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|" + sDefaultDimensionLine.ToString() + "|" + sFixedAsset + "|";
+                                    sDetails = row["PONumber"].ToString() + "|" + row["VendorCode"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row1["ItemDesc"].ToString() + "|" + row["VENDGROUP"].ToString() + "|" + row["InventSite"].ToString() + "|" + row["InventSiteWarehouse"].ToString() + "|" + row["InventSiteWarehouseLocation"].ToString() + "|" + row["CurrencyCode"].ToString() + "|" + Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy") + "|" + sItemCode + "|" + Convert.ToDouble(row1["Qty"]).ToString("#0.0000") + "|" + row1["POUOM"].ToString() + "|" + Convert.ToDouble(row1["Cost"]).ToString("#0.0000") + "|" + Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000") + "|" + iLineNumber.ToString() + "|" + sPriceUnit + "|" + row1["TaxGroup"].ToString() + "|" + row1["TaxItemGroup"].ToString() + "|" + sDefaultDimensionLine.ToString() + "|" + sProcCatID + "|" + sFixedAssetID + "|" + sAssetBookID + "|";
 
                                     w.WriteLine(sDetails + POClass.POLineDefaultValue());
                                     w.Close();

@@ -2,6 +2,7 @@
 using HijoPortal.classes;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -13,7 +14,7 @@ namespace HijoPortal
     public partial class mrp_capexcip : System.Web.UI.Page
     {
         private static int mrp_key = 0;
-        private static string docnumber = "", bucode = "", entitycode = "", month = "", year = "", pk = "";
+        private static string docnumber = "", bucode = "", entitycode = "", month = "", year = "", pk = "", sFixedAssetID = "";
         private static bool bindCapexCIP = true;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -95,14 +96,16 @@ namespace HijoPortal
         protected void CAPEXCIP_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
             bindCapexCIP = false;
+            sFixedAssetID = CAPEXCIP.GetRowValues(CAPEXCIP.FocusedRowIndex, "CIPSIPNumber").ToString();
         }
 
         protected void CAPEXCIP_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {
             ASPxGridView grid = sender as ASPxGridView;
-            ASPxTextBox CIP = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["CIPSIPNumber"], "CIPSIPNumber") as ASPxTextBox;
+            //ASPxTextBox CIP = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["CIPSIPNumber"], "CIPSIPNumber") as ASPxTextBox;
+            ASPxComboBox cipID = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["CIPSIPNumber"], "FixedAssetID") as ASPxComboBox;
             string PK = e.Keys[0].ToString();
-            string cip_text = CIP.Text.ToString();
+            string cip_text = cipID.Value.ToString();
 
             if (!string.IsNullOrEmpty(cip_text))
             {
@@ -157,6 +160,37 @@ namespace HijoPortal
             combo.DataBind();
             combo.TextFormatString = "{1}";
             combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+        }
+
+        protected void FixedAssetID_Init(object sender, EventArgs e)
+        {
+            string entCode = "", procCat = "";
+
+            entCode = CAPEXCIP.GetRowValues(CAPEXCIP.FocusedRowIndex, "EntCode").ToString();
+            procCat = CAPEXCIP.GetRowValues(CAPEXCIP.FocusedRowIndex, "ProcCat").ToString();
+
+            //MRPClass.PrintString(entCode + " : " + procCat);
+
+            DataTable dtRecord = GlobalClass.FixedAssetIDTable(entCode, procCat);
+            ASPxComboBox combo = sender as ASPxComboBox;
+            combo.DataSource = dtRecord;
+            ListBoxColumn l_ValueField = new ListBoxColumn();
+            l_ValueField.FieldName = "ID";
+            l_ValueField.Caption = "CODE";
+            l_ValueField.Width = 125;
+            combo.Columns.Add(l_ValueField);
+
+            ListBoxColumn l_TextField = new ListBoxColumn();
+            l_TextField.FieldName = "NAME";
+            l_TextField.Width = 350;
+            combo.Columns.Add(l_TextField);
+
+            combo.ValueField = "ID";
+            combo.TextField = "ID";
+            combo.DataBind();
+
+            combo.Value = sFixedAssetID.ToString();
+            combo.Text = sFixedAssetID.ToString();
         }
 
         protected void EntityCallback_Callback(object sender, CallbackEventArgsBase e)

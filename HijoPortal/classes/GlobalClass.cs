@@ -1127,5 +1127,47 @@ namespace HijoPortal.classes
             }
             return sDeleted;
         }
+
+        public static DataTable FixedAssetIDTable(string entCode, string procCat)
+        {
+
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("ID", typeof(string));
+                dtTable.Columns.Add("NAME", typeof(string));
+            }
+
+            string qry = "SELECT [ASSETID] AS ID, [NAME] FROM vw_AXFixedAsset WHERE ([DATAAREAID] = '" + entCode + "') AND ([ASSETGROUP] = '" + procCat + "')";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["ID"] = row["ID"].ToString();
+                    dtRow["NAME"] = row["NAME"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
+
     }
 }
