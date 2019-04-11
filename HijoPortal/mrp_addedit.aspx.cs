@@ -702,9 +702,11 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
 
+            ASPxCallbackPanel cp = pageControl.FindControl("ProcCatOPEXCallback") as ASPxCallbackPanel;
+            ASPxComboBox ProCatCode = cp.FindControl("ProcCatOPEX") as ASPxComboBox;
+
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox experseCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
-            ASPxComboBox ProCatCode = pageControl.FindControl("ProcCatOPEX") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxTextBox itemDesc2 = pageControl.FindControl("DescriptionAddl") as ASPxTextBox;
@@ -729,6 +731,13 @@ namespace HijoPortal
             if (itemDesc2.Value != null)
                 desc_two = itemDesc2.Value.ToString();
 
+            string prod_cat = "";
+            MRPClass.PrintString((ProCatCode.Value != null).ToString());
+            if (ProCatCode.Value != null) 
+                prod_cat = ProCatCode.Value.ToString();
+
+            MRPClass.PrintString(prod_cat);
+
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
@@ -740,7 +749,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@ProcCat", ProCatCode.Value.ToString());
+            cmd.Parameters.AddWithValue("@ProcCat", prod_cat);
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
@@ -803,9 +812,11 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
 
+            ASPxCallbackPanel cp = pageControl.FindControl("ProcCatOPEXCallback") as ASPxCallbackPanel;
+            ASPxComboBox ProCatCode = cp.FindControl("ProcCatOPEX") as ASPxComboBox;
+
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox expenseCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
-            ASPxComboBox ProCatCode = pageControl.FindControl("ProcCatOPEX") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxTextBox itemDesc2 = pageControl.FindControl("DescriptionAddl") as ASPxTextBox;
@@ -833,6 +844,12 @@ namespace HijoPortal
             if (itemDesc2.Value != null)
                 desc_two = itemDesc2.Value.ToString();
 
+            string prod_cat = "";
+            MRPClass.PrintString((ProCatCode != null).ToString());
+            if (ProCatCode != null)
+                if (ProCatCode.Value != null)
+                    prod_cat = ProCatCode.Value.ToString();
+
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
@@ -844,7 +861,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@ProcCat", ProCatCode.Value.ToString());
+            cmd.Parameters.AddWithValue("@ProcCat", prod_cat);
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
@@ -1501,7 +1518,7 @@ namespace HijoPortal
             proCat.Value = "";
             proCat.Text = "";
 
-            DataTable dtRecord = MRPClass.ProCategoryTableWithType(entitycode,"Expense", expCode.Value.ToString());
+            DataTable dtRecord = MRPClass.ProCategoryTableWithType(entitycode, "Expense", expCode.Value.ToString());
             proCat.DataSource = dtRecord;
 
             proCat.TextField = "DESCRIPTION";
