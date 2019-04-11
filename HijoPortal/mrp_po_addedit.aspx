@@ -439,8 +439,8 @@
                     </dx:GridViewDataColumn>
                 </Columns>
                 <Styles>
-                    <Cell Wrap="false"></Cell>
-                    <InlineEditCell Wrap="False"></InlineEditCell>
+                    <Cell Wrap="true"></Cell>
+                    <InlineEditCell Wrap="true"></InlineEditCell>
                 </Styles>
                 <SettingsEditing Mode="Inline"></SettingsEditing>
                 <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
