@@ -1358,6 +1358,7 @@ function pageinit(s, e) {
 
 var isItem = 1;
 var isProdCat = 1;
+var postponedCallbackOPEXProCat = false;
 function ExpenseCodeIndexChangeOPEX(s, e) {
     //document.getElementById("itemTD").style.display = "none";
     //document.getElementById("itemTD2").style.display = "none";
@@ -1380,6 +1381,14 @@ function ExpenseCodeIndexChangeOPEX(s, e) {
             ItemCodeOPEX.SetText("");
             break;
     }
+
+    if (ProcCatOPEXCallbackClient.InCallback()) {
+        postponedCallbackOPEXProCat = true;
+    }
+    else {
+        ProcCatOPEXCallbackClient.PerformCallback();
+    }
+
 }
 
 function Hide() {
@@ -3109,4 +3118,6 @@ function mrp_addedit_submit(s, e) {
             Add_Edit_MRPNotify.Show();
         }
     }
+
+
 }
