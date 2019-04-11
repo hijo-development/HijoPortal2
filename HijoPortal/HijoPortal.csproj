@@ -172,6 +172,7 @@
     <Content Include="mrp_previewforapproval.aspx" />
     <Content Include="mrp_preview_approve.aspx" />
     <Content Include="mrp_preview_inventanalyst.aspx" />
+    <Content Include="mrp_preview_procoff.aspx" />
     <Content Include="mrp_print_preview.aspx" />
     <Content Include="mrp_workflow.aspx" />
     <Content Include="po_uploading.aspx" />
@@ -226,6 +227,7 @@
     <Compile Include="classes\MRP_Constants.cs" />
     <Compile Include="classes\POClass.cs" />
     <Compile Include="classes\PO_Constants.cs" />
+    <Compile Include="classes\Preview.cs" />
     <Compile Include="classes\SCMClass.cs" />
     <Compile Include="classes\WorkflowClass.cs" />
     <Compile Include="createaccount.aspx.cs">
@@ -440,6 +442,13 @@
     </Compile>
     <Compile Include="mrp_preview_inventanalyst.aspx.designer.cs">
       <DependentUpon>mrp_preview_inventanalyst.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mrp_preview_procoff.aspx.cs">
+      <DependentUpon>mrp_preview_procoff.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_preview_procoff.aspx.designer.cs">
+      <DependentUpon>mrp_preview_procoff.aspx</DependentUpon>
     </Compile>
     <Compile Include="mrp_print_preview.aspx.cs">
       <DependentUpon>mrp_print_preview.aspx</DependentUpon>

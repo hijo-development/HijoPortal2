@@ -61,12 +61,12 @@
                     </dx:PopupControlContentControl>
                 </ContentCollection>
             </dx:ASPxPopupControl>
-            <dx:ASPxSplitter ID="MainSplitter" runat="server" ClientInstanceName="MainSplitterClient" BackColor="Transparent" AllowResize="true" Border-BorderStyle="None" Height="100%">
+            <dx:ASPxSplitter ID="MainSplitter" runat="server" ClientInstanceName="MainSplitterClient" BackColor="Transparent" AllowResize="true" Border-BorderStyle="None" Height="100%" SeparatorSize="10">
                 <ClientSideEvents PaneCollapsed="MainSplitterClient_PaneCollapsed" />
                 <ClientSideEvents PaneExpanded="MainSplitterClient_PaneExpanded" />
                 <ClientSideEvents PaneResized="MainSplitterClient_PaneResized" />
                 <Panes>
-                    <dx:SplitterPane Size="200px" Name="containMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" ScrollBars="Auto" PaneStyle-Border-BorderStyle="None" ShowCollapseBackwardButton="True">
+                    <dx:SplitterPane Size="200px" Name="containMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" ScrollBars="Auto" PaneStyle-Border-BorderStyle="None" ShowCollapseBackwardButton="True" Separator-BackwardCollapseButtonImage-Width="20" Separator-BackwardCollapseButtonImage-Height="20">
                         <ContentCollection>
                             <dx:SplitterContentControl runat="server" Style="padding: 5px;">
                                 <div id="dvNavWapper" runat="server">

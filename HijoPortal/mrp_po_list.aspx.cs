@@ -152,6 +152,23 @@ namespace HijoPortal
                         cmd = new SqlCommand(update, conn);
                         cmd.ExecuteNonQuery();
                         break;
+
+                    case "4"://Capex
+                        query = "SELECT [QtyPO] FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE [PK] = '" + dr["ItemPK"] + "'";
+                        cmd = new SqlCommand(query, conn);
+                        reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            original_qty = Convert.ToDouble(reader["QtyPO"].ToString());
+                        }
+                        reader.Close();
+                        remaining_qty = original_qty - poqty;
+
+                        update = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] SET [QtyPO] = '" + remaining_qty + "' WHERE [PK] = '" + dr["ItemPK"] + "'";
+
+                        cmd = new SqlCommand(update, conn);
+                        cmd.ExecuteNonQuery();
+                        break;
                 }
             }
 
