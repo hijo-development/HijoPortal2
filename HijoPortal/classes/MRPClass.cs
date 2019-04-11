@@ -519,6 +519,8 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("HeaderDocNum", typeof(string));
                 dtTable.Columns.Add("ExpenseCodeName", typeof(string));
                 dtTable.Columns.Add("ExpenseCode", typeof(string));
+                dtTable.Columns.Add("ProcCatCode", typeof(string));
+                dtTable.Columns.Add("ProcCatName", typeof(string));
                 dtTable.Columns.Add("isItem", typeof(string));
                 dtTable.Columns.Add("ItemCode", typeof(string));
                 dtTable.Columns.Add("Description", typeof(string));
@@ -531,14 +533,14 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("RevDesc", typeof(string));
             }
 
-            string query_1 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_OPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE INNER JOIN tbl_MRP_List ON tbl_MRP_List_OPEX.HeaderDocNum = tbl_MRP_List.DocNumber WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query_1 = "SELECT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.HeaderDocNum, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.ExpenseCode, dbo.tbl_MRP_List_OPEX.OprUnit, dbo.tbl_MRP_List_OPEX.ProcCat, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.UOM, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.tbl_MRP_List_OPEX.EdittedQty, dbo.tbl_MRP_List_OPEX.EdittedCost, dbo.tbl_MRP_List_OPEX.EdittedTotalCost, dbo.tbl_MRP_List_OPEX.ApprovedQty, dbo.tbl_MRP_List_OPEX.ApprovedCost, dbo.tbl_MRP_List_OPEX.ApprovedTotalCost, dbo.tbl_MRP_List_OPEX.QtyPO, dbo.tbl_MRP_List_OPEX.AvailForPO, dbo.vw_AXExpenseAccount.NAME, dbo.vw_AXExpenseAccount.isItem, ISNULL(dbo.vw_AXFindimBananaRevenue.VALUE, '') AS VALUE, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, ISNULL((SELECT DESCRIPTION AS ProcCatName FROM dbo.vw_AXProdCategory WHERE(NAME = dbo.tbl_MRP_List_OPEX.ProcCat) AND(mainaccount =dbo.tbl_MRP_List_OPEX.ExpenseCode) AND(dataareaid = N'0303') AND(LedgerType = 'Expense')), '') AS ProcCatName FROM dbo.tbl_MRP_List_OPEX LEFT OUTER JOIN dbo.vw_AXExpenseAccount ON dbo.tbl_MRP_List_OPEX.ExpenseCode = dbo.vw_AXExpenseAccount.MAINACCOUNTID LEFT OUTER JOIN          dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_OPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_OPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber WHERE(dbo.tbl_MRP_List_OPEX.HeaderDocNum = '" + DOC_NUMBER + "')";
 
-            string query_2 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            //string query_2 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
-            if (entitycode == train_entity)
+            //if (entitycode == train_entity)
                 cmd = new SqlCommand(query_1);
-            else
-                cmd = new SqlCommand(query_2);
+            //else
+            //    cmd = new SqlCommand(query_2);
 
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -552,6 +554,10 @@ namespace HijoPortal.classes
                     dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
                     dtRow["ExpenseCode"] = row["ExpenseCode"].ToString();
                     dtRow["ExpenseCodeName"] = row["NAME"].ToString();
+
+                    dtRow["ProcCatCode"] = row["ProcCat"].ToString();
+                    dtRow["ProcCatName"] = row["ProcCatName"].ToString();
+
                     dtRow["isItem"] = row["isItem"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
                     dtRow["Description"] = row["Description"].ToString();
@@ -560,18 +566,20 @@ namespace HijoPortal.classes
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
-                    dtTable.Rows.Add(dtRow);
-
-                    if (entitycode == train_entity)
-                    {
+                    
+                    //if (entitycode == train_entity)
+                    //{
                         dtRow["VALUE"] = row["VALUE"].ToString();
                         dtRow["RevDesc"] = row["RevDesc"].ToString();
-                    }
-                    else
-                    {
-                        dtRow["VALUE"] = "";
-                        dtRow["RevDesc"] = "";
-                    }
+                    //}
+                    //else
+                    //{
+                    //    dtRow["VALUE"] = "";
+                    //    dtRow["RevDesc"] = "";
+                    //}
+
+                    dtTable.Rows.Add(dtRow);
+
                     opex_total_amount += Convert.ToDouble(row["TotalCost"]);
                 }
             }
@@ -2134,8 +2142,6 @@ namespace HijoPortal.classes
             {
                 return null;
             }
-            //cn.Close();
-            //return dtTable;
 
         }
 

@@ -517,6 +517,8 @@
                                                             <dx:GridViewDataColumn FieldName="ExpenseCodeName" Caption="Expense"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="VALUE" Visible="false"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="ProcCatCode" Visible="false"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="ProcCatName" Caption="Procurement Category"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="ItemCode"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="Description"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="DescriptionAddl" Caption="Description 2"></dx:GridViewDataColumn>
@@ -603,7 +605,7 @@
                                                                                                                 <dx:ASPxLabel runat="server" Text="Procurement Category" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxCallbackPanel ID="ProcCatOPEXCallback" runat="server" ClientInstanceName=" ProcCatOPEXCallbackClient" OnCallback="ProcCatOPEXCallback_Callback">
+                                                                                                                <dx:ASPxCallbackPanel ID="ProcCatOPEXCallback" runat="server" ClientInstanceName="ProcCatOPEXCallbackClient" OnCallback="ProcCatOPEXCallback_Callback">
                                                                                                                     <PanelCollection>
                                                                                                                         <dx:PanelContent>
                                                                                                                             <dx:ASPxComboBox ID="ProcCatOPEX" runat="server" ClientInstanceName="ProcCatOPEX" OnInit="ProcCatOPEX_Init" ValueType="System.String" Theme="Office2010Blue" Width="300px">
