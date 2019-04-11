@@ -458,7 +458,7 @@
                                                                     <dx:ASPxButton runat="server" Text="Save" Theme="Office2010Blue" AutoPostBack="false">
                                                                         <ClientSideEvents Click="updateDirectMat" />
                                                                     </dx:ASPxButton>
-                                                                    <dx:ASPxButton runat="server" Text="Cancel" Theme="Office2010Blue" AutoPostBack="false">
+                                                                    <dx:ASPxButton runat="server" Text="Cancel" CausesValidation="false" Theme="Office2010Blue" AutoPostBack="false">
                                                                         <ClientSideEvents Click="function(s,e){DirectMaterialsGrid.CancelEdit();}" />
                                                                     </dx:ASPxButton>
                                                                 </div>
@@ -602,20 +602,26 @@
                                                                                                         </tr>
                                                                                                         <tr>
                                                                                                             <td>
-                                                                                                                <dx:ASPxLabel runat="server" Text="Procurement Category" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                                <div id="CA_prodlabel_div">
+                                                                                                                    <dx:ASPxLabel runat="server" Text="Procurement Category" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                                </div>
+
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <dx:ASPxCallbackPanel ID="ProcCatOPEXCallback" runat="server" ClientInstanceName="ProcCatOPEXCallbackClient" OnCallback="ProcCatOPEXCallback_Callback">
-                                                                                                                    <PanelCollection>
-                                                                                                                        <dx:PanelContent>
-                                                                                                                            <dx:ASPxComboBox ID="ProcCatOPEX" runat="server" ClientInstanceName="ProcCatOPEX" OnInit="ProcCatOPEX_Init" ValueType="System.String" Theme="Office2010Blue" Width="300px">
-                                                                                                                                <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="false"></ValidationSettings>
-                                                                                                                                <%--<ClientSideEvents SelectedIndexChanged="ExpenseCodeIndexChangeOPEX" />--%>
-                                                                                                                            </dx:ASPxComboBox>
-                                                                                                                        </dx:PanelContent>
-                                                                                                                    </PanelCollection>
+                                                                                                                <div id="CA_prodcombo_div">
+                                                                                                                    <dx:ASPxCallbackPanel ID="ProcCatOPEXCallback" runat="server" ClientInstanceName="ProcCatOPEXCallbackClient" OnCallback="ProcCatOPEXCallback_Callback">
+                                                                                                                        <PanelCollection>
+                                                                                                                            <dx:PanelContent>
+                                                                                                                                <dx:ASPxComboBox ID="ProcCatOPEX" runat="server" ClientInstanceName="ProcCatOPEX" OnInit="ProcCatOPEX_Init" ValueType="System.String" Theme="Office2010Blue" Width="300px">
+                                                                                                                                    <%--<ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="false"></ValidationSettings>--%>
+                                                                                                                                    <%--<ClientSideEvents SelectedIndexChanged="ExpenseCodeIndexChangeOPEX" />--%>
+                                                                                                                                </dx:ASPxComboBox>
+                                                                                                                            </dx:PanelContent>
+                                                                                                                        </PanelCollection>
 
-                                                                                                                </dx:ASPxCallbackPanel>
+                                                                                                                    </dx:ASPxCallbackPanel>
+                                                                                                                </div>
+
                                                                                                             </td>
                                                                                                         </tr>
                                                                                                         <tr>
@@ -738,7 +744,7 @@
                                                                     <dx:ASPxButton runat="server" Text="Save" Theme="Office2010Blue" AutoPostBack="false">
                                                                         <ClientSideEvents Click="updateOpex" />
                                                                     </dx:ASPxButton>
-                                                                    <dx:ASPxButton runat="server" Text="Cancel" Theme="Office2010Blue" AutoPostBack="false">
+                                                                    <dx:ASPxButton runat="server" Text="Cancel" CausesValidation="false" Theme="Office2010Blue" AutoPostBack="false">
                                                                         <ClientSideEvents Click="function(s,e){OPEXGrid.CancelEdit();}" />
                                                                     </dx:ASPxButton>
                                                                 </div>
@@ -965,7 +971,7 @@
                                                                     <dx:ASPxButton runat="server" Text="Save" Theme="Office2010Blue" AutoPostBack="false">
                                                                         <ClientSideEvents Click="updateManpower" />
                                                                     </dx:ASPxButton>
-                                                                    <dx:ASPxButton runat="server" Text="Cancel" Theme="Office2010Blue" AutoPostBack="false">
+                                                                    <dx:ASPxButton runat="server" Text="Cancel" CausesValidation="false" Theme="Office2010Blue" AutoPostBack="false">
                                                                         <ClientSideEvents Click="function(s,e){ManPowerGrid.CancelEdit();}" />
                                                                     </dx:ASPxButton>
                                                                 </div>
@@ -1174,7 +1180,7 @@
                                                                     <dx:ASPxButton runat="server" Text="Save" Theme="Office2010Blue" AutoPostBack="false">
                                                                         <ClientSideEvents Click="updateCAPEX" />
                                                                     </dx:ASPxButton>
-                                                                    <dx:ASPxButton runat="server" Text="Cancel" Theme="Office2010Blue" AutoPostBack="false">
+                                                                    <dx:ASPxButton runat="server" Text="Cancel" CausesValidation="false" Theme="Office2010Blue" AutoPostBack="false">
                                                                         <ClientSideEvents Click="function(s,e){CAPEXGrid.CancelEdit();}" />
                                                                     </dx:ASPxButton>
                                                                 </div>
@@ -1383,7 +1389,7 @@
                                                                     <dx:ASPxButton runat="server" Text="Save" Theme="Office2010Blue" AutoPostBack="false">
                                                                         <ClientSideEvents Click="updateRevenue" />
                                                                     </dx:ASPxButton>
-                                                                    <dx:ASPxButton runat="server" Text="Cancel" Theme="Office2010Blue" AutoPostBack="false">
+                                                                    <dx:ASPxButton runat="server" Text="Cancel" CausesValidation="false" Theme="Office2010Blue" AutoPostBack="false">
                                                                         <ClientSideEvents Click="function(s,e){RevenueGrid.CancelEdit();}" />
                                                                     </dx:ASPxButton>
                                                                 </div>

@@ -26,6 +26,12 @@
         function forgot_password_click() {
             ResetPopUpClient.Show();
         }
+
+        function enterEvent(e) {
+            if (e.keyCode == 13) {
+                document.getElementById("btnLogIn").click();
+            }
+        }
     </script>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -36,7 +42,7 @@
         <dx:ASPxPopupControl ID="ResetPopUp" runat="server" ClientInstanceName="ResetPopUpClient" Width="450px" Height="80px" Theme="iOS" Modal="true" HeaderText="Reset Password" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter">
             <ContentCollection>
                 <dx:PopupControlContentControl>
-                    <table id="tblChangePW" border="0" style="width:100%;">
+                    <table id="tblChangePW" border="0" style="width: 100%;">
                         <tr>
                             <td style="width: 100px; vertical-align: middle;">
                                 <dx:ASPxLabel runat="server" Text="ID No." Theme="iOS"></dx:ASPxLabel>
@@ -50,7 +56,7 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td style="padding-top:5px;">
+                            <td style="padding-top: 5px;">
                                 <table>
                                     <tr>
                                         <td>
@@ -72,9 +78,9 @@
             <img src="images/HijoLogo.png" class="avatar" />
             <h1>Login Here</h1>
             <p>Username</p>
-            <asp:TextBox ID="txtUserName" placeholder="Enter Username" runat="server" AutoCompleteType="Disabled"></asp:TextBox>
+            <asp:TextBox ID="txtUserName" placeholder="Enter Username" runat="server" AutoCompleteType="Disabled" onkeydown="javascript:enterEvent(event);"></asp:TextBox>
             <p>Password</p>
-            <asp:TextBox ID="txtPassword" placeholder="Enter Password" runat="server" TextMode="Password"></asp:TextBox>
+            <asp:TextBox ID="txtPassword" placeholder="Enter Password" runat="server" TextMode="Password" onkeydown="javascript:enterEvent(event);"></asp:TextBox>
             <asp:Button ID="btnLogIn" runat="server" Text="Log in" OnClick="btnLogIn_Click" />
             <%--<asp:Button ID="btnCreateAccount" runat="server" Text="Create Account" OnClick="btnCreateAccount_Click" />--%>
             <%--<asp:HyperLink ID="HyperLink1" runat="server">Create Account?</asp:HyperLink>

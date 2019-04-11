@@ -1382,6 +1382,17 @@ function ExpenseCodeIndexChangeOPEX(s, e) {
             break;
     }
 
+    switch (isProdCat) {
+        case 0://hide product category combobox
+            document.getElementById("CA_prodcombo_div").style.display = "none";
+            document.getElementById("CA_prodlabel_div").style.display = "none";
+            break;
+        case 1://show product category combobox
+            document.getElementById("CA_prodcombo_div").style.display = "block";
+            document.getElementById("CA_prodlabel_div").style.display = "block";
+            break;
+    }
+
     if (ProcCatOPEXCallbackClient.InCallback()) {
         postponedCallbackOPEXProCat = true;
     }
