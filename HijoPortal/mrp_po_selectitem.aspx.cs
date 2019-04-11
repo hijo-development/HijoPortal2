@@ -132,15 +132,18 @@ namespace HijoPortal
             ListBoxColumn l_text = new ListBoxColumn();
             l_text.FieldName = "DocumentNumber";
             l_text.Caption = "Document Number";
+            l_text.Width = 150;
             combo.Columns.Add(l_text);
 
             ListBoxColumn lt2 = new ListBoxColumn();
             lt2.FieldName = "Entity";
+            lt2.Width = 300;
             combo.Columns.Add(lt2);
 
             ListBoxColumn lt3 = new ListBoxColumn();
             lt3.FieldName = "BU";
             lt3.Caption = "SSU/BU";
+            lt3.Width = 300;
             combo.Columns.Add(lt3);
 
             combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;

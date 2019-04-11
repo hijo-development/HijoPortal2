@@ -109,10 +109,10 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td style="vertical-align:top;">
+                    <td style="vertical-align: top;">
                         <dx:ASPxLabel runat="server" Text="Procurement Category" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
-                    <td style="vertical-align:top;">:</td>
+                    <td style="vertical-align: top;">:</td>
                     <td colspan="5">
                         <%--<dx:ASPxComboBox ID="ProdCategory_Combo" runat="server" OnInit="ProdCategory_Combo_Init" ValueType="System.String" Theme="Office2010Blue">
                             <ClientSideEvents SelectedIndexChanged="ProdCategory_Combo_SelectedIndexChanged" />
@@ -125,7 +125,7 @@
                             </PanelCollection>
                         </dx:ASPxCallbackPanel>--%>
                         <dx:ASPxListBox ID="ProdCat_ListBox" runat="server" ClientInstanceName="ProdCat_ListBoxClient" OnInit="ProdCat_ListBox_Init" OnCallback="ProdCat_ListBox_Callback" ClientEnabled="false" Width="500px" SelectionMode="CheckColumn" EnableSelectAll="true" ValueType="System.String" Theme="Office2010Blue">
-                            <ClientSideEvents SelectedIndexChanged="ProdCat_ListBox_SelectedIndexChanged" EndCallback="ProdCat_ListBox_EndCallback"/>
+                            <ClientSideEvents SelectedIndexChanged="ProdCat_ListBox_SelectedIndexChanged" EndCallback="ProdCat_ListBox_EndCallback" />
                         </dx:ASPxListBox>
                     </td>
                 </tr>
@@ -164,6 +164,10 @@
                                 <dx:GridViewDataColumn FieldName="UOM" Visible="false"></dx:GridViewDataColumn>
                             </Columns>
                             <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                            <Styles>
+                                <Cell Wrap="true"></Cell>
+                                <InlineEditCell Wrap="true"></InlineEditCell>
+                            </Styles>
                         </dx:ASPxGridView>
                     </dx:PanelContent>
                 </PanelCollection>

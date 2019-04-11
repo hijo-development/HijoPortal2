@@ -226,6 +226,7 @@ namespace HijoPortal
             ListBoxColumn l_text = new ListBoxColumn();
             l_text.FieldName = "NAME";
             l_text.Caption = "Name";
+            l_text.Width = 200;
             Warehouse.Columns.Add(l_text);
 
             Warehouse.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;

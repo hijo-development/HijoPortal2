@@ -367,6 +367,8 @@
                 <Styles>
                     <CommandColumnItem HorizontalAlign="Center" VerticalAlign="Middle"></CommandColumnItem>
                     <CommandColumn HorizontalAlign="Center"></CommandColumn>
+                    <Cell Wrap="true"></Cell>
+                    <InlineEditCell Wrap="true"></InlineEditCell>
                 </Styles>
                 <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" />
                 <SettingsBehavior AllowFocusedRow="True" AllowSort="true" AllowDragDrop="false" />
