@@ -238,7 +238,7 @@ namespace HijoPortal
                     else if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPProcurementOfficer", dteCreated, entCode, buCode) == true) {
                         if (StatusKey == 4)
                         {
-                            Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                            Response.RedirectLocation = "mrp_preview_procoff.aspx?DocNum=" + docNum.ToString() + "&Source=0";
                         } else
                         {
                             text["hidden_value"] = "InvalidCreator";
