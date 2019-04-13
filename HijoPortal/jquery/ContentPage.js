@@ -1324,17 +1324,7 @@ function OnKeyUpQtyRev(s, e) {
 }
 
 //MRP Items
-function ActivityCodeIndexChange(s, e) {
-    //var selectedString = s.GetSelectedItem().text;
-    //var indexDash = selectedString.indexOf('-');
-    //var codeString = selectedString.substring(0, indexDash + 1);
-    //var temp = selectedString.substring(indexDash + 1, selectedString.length);
-    //var secondString = temp.substring(0, temp.indexOf('-'));
 
-    //var selValue = s.GetSelectedItem().value;
-    //var selText = s.GetSelectedItem().text;
-    //ActivityCodeDirect.SetText((codeString + secondString).toString());
-}
 
 var isItemBeginCallback = 3;
 function OnBeginCallback(s, e) {
@@ -1455,14 +1445,14 @@ function listbox_selectedOPEX(s, e) {
 
 }
 
-function ActivityCodeIndexChangeMAN(s, e) {
-    var selectedString = s.GetSelectedItem().text;
-    var indexDash = selectedString.indexOf('-');
-    var codeString = selectedString.substring(0, indexDash + 1);
-    var temp = selectedString.substring(indexDash + 1, selectedString.length);
-    var secondString = temp.substring(0, temp.indexOf('-'));
-    ActivityCodeMAN.SetText((codeString + secondString).toString());
-}
+//function ActivityCodeIndexChangeMAN(s, e) {
+//    var selectedString = s.GetSelectedItem().text;
+//    var indexDash = selectedString.indexOf('-');
+//    var codeString = selectedString.substring(0, indexDash + 1);
+//    var temp = selectedString.substring(indexDash + 1, selectedString.length);
+//    var secondString = temp.substring(0, temp.indexOf('-'));
+//    ActivityCodeMAN.SetText((codeString + secondString).toString());
+//}
 
 //Entity to BU Callback
 var postponedCallbackEntitytoBU = false;

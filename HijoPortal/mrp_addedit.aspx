@@ -6,6 +6,36 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script type="text/javascript" src="jquery/MRPAddEdit.js"></script>
+    <script type="text/javascript">
+        function ActivityCodeIndexChange(s, e) {
+            var now = getNow();
+            document.cookie = 'dmvalue=' + s.GetValue() + '; expires=' + now.toUTCString() + '; path=/';
+            document.cookie = 'dmtext=' + s.GetText() + '; expires=' + now.toUTCString() + '; path=/';
+        }
+
+        function ActivityCodeIndexChangeMAN(s, e) {
+            var now = getNow();
+            document.cookie = 'manvalue=' + s.GetValue() + '; expires=' + now.toUTCString() + '; path=/';
+            document.cookie = 'mantext=' + s.GetText() + '; expires=' + now.toUTCString() + '; path=/';
+        }
+
+        function getNow() {
+            var now = new Date();
+            var time = now.getTime();
+            time += 3600 * 1000;
+            now.setTime(time);
+            return now;
+        }
+
+        //this function for debugging
+        function getCookie(name) {
+            var re = new RegExp(name + "=([^;]+)");
+            var value = re.exec(document.cookie);
+            return (value != null) ? unescape(value[1]) : null;
+        }
+
+
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -877,7 +907,7 @@
                                                                                                             <td>
                                                                                                                 <dx:ASPxComboBox ID="ActivityCode" runat="server" ClientInstanceName="ActivityCodeMAN" OnInit="ActivityCode_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue">
                                                                                                                     <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="false"></ValidationSettings>
-                                                                                                                    <%--<ClientSideEvents SelectedIndexChanged="ActivityCodeIndexChangeMAN" />--%>
+                                                                                                                    <ClientSideEvents SelectedIndexChanged="ActivityCodeIndexChangeMAN" />
                                                                                                                 </dx:ASPxComboBox>
                                                                                                             </td>
                                                                                                         </tr>

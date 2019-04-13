@@ -39,7 +39,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <dx:ASPxPopupControl ID="ResetPopUp" runat="server" ClientInstanceName="ResetPopUpClient" Width="450px" Height="80px" Theme="iOS" Modal="true" HeaderText="Reset Password" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter">
+        <dx:ASPxPopupControl ID="ResetPopUp" runat="server" ClientInstanceName="ResetPopUpClient" Width="450px" Height="80px" Theme="Office2010Silver" Modal="true" HeaderText="Reset Password" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter">
             <ContentCollection>
                 <dx:PopupControlContentControl>
                     <table id="tblChangePW" border="0" style="width: 100%;">
@@ -60,8 +60,8 @@
                                 <table>
                                     <tr>
                                         <td>
-                                            <dx:ASPxButton ID="ResetBtn" runat="server" OnClick="ResetBtn_Click" ClientInstanceName="ResetBtnClient" ClientEnabled="false" Text="Reset Password" Theme="iOS"></dx:ASPxButton>
-                                            <dx:ASPxButton ID="CancelBtn" runat="server" Text="Cancel" AutoPostBack="false" Theme="iOS">
+                                            <dx:ASPxButton ID="ResetBtn" runat="server" OnClick="ResetBtn_Click" ClientInstanceName="ResetBtnClient" ClientEnabled="false" Text="Reset Password" Theme="Glass"></dx:ASPxButton>
+                                            <dx:ASPxButton ID="CancelBtn" runat="server" Text="Cancel" AutoPostBack="false" Theme="Glass">
                                                 <ClientSideEvents Click="function(s,e){ResetPopUpClient.Hide();}" />
                                             </dx:ASPxButton>
                                         </td>
