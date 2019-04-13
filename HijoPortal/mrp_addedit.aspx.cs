@@ -343,6 +343,38 @@ namespace HijoPortal
             {
                 combo.Value = DataBinder.Eval(container.DataItem, "ActivityCode").ToString();
             }
+            else
+            {
+                HttpCookie cookie_value = null;
+                HttpCookie cookie_text = null;
+                switch (combo.ClientInstanceName)
+                {
+                    case "ActivityCodeDirect":
+                        cookie_value = Request.Cookies["dmvalue"];
+                        cookie_text = Request.Cookies["dmtext"];
+                        if (cookie_value != null && cookie_text != null)
+                        {
+                            object val = cookie_value.Value;
+                            object text = cookie_text.Value;
+                            combo.Value = val;
+                            combo.Text = text.ToString();
+                        }
+                        break;
+                    case "ActivityCodeMAN":
+                        cookie_value = Request.Cookies["manvalue"];
+                        cookie_text = Request.Cookies["mantext"];
+                        if (cookie_value != null && cookie_text != null)
+                        {
+                            object val = cookie_value.Value;
+                            object text = cookie_text.Value;
+                            combo.Value = val;
+                            combo.Text = text.ToString();
+                        }
+                        break;
+                }
+
+                
+            }
         }
 
         protected void UOM_Init(object sender, EventArgs e)
@@ -733,7 +765,7 @@ namespace HijoPortal
 
             string prod_cat = "";
             MRPClass.PrintString((ProCatCode.Value != null).ToString());
-            if (ProCatCode.Value != null) 
+            if (ProCatCode.Value != null)
                 prod_cat = ProCatCode.Value.ToString();
 
             MRPClass.PrintString(prod_cat);

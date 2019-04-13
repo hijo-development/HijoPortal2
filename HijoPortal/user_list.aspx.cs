@@ -85,6 +85,7 @@ namespace HijoPortal
             combo.ValueField = "ID";
             combo.TextField = "NAME";
             combo.DataBind();
+            combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
 
             GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
             //MRPClass.PrintString("exp:" + !container.Grid.IsNewRowEditing);
