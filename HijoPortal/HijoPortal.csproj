@@ -153,6 +153,7 @@
     <Content Include="mop_workflow.aspx" />
     <Content Include="mrp_addedit.aspx" />
     <Content Include="mrp_capexcip.aspx" />
+    <Content Include="mrp_document_viewer.aspx" />
     <Content Include="mrp_finance.aspx" />
     <Content Include="mrp_forapproval.aspx" />
     <Content Include="mrp_inventanalyst.aspx" />
@@ -251,6 +252,12 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DocumentReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DocumentReport.Designer.cs">
+      <DependentUpon>DocumentReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="executive.aspx.cs">
       <DependentUpon>executive.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -309,6 +316,13 @@
     </Compile>
     <Compile Include="mrp_capexcip.aspx.designer.cs">
       <DependentUpon>mrp_capexcip.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mrp_document_viewer.aspx.cs">
+      <DependentUpon>mrp_document_viewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_document_viewer.aspx.designer.cs">
+      <DependentUpon>mrp_document_viewer.aspx</DependentUpon>
     </Compile>
     <Compile Include="mrp_finance.aspx.cs">
       <DependentUpon>mrp_finance.aspx</DependentUpon>
@@ -496,6 +510,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Master.Master" />
+    <Content Include="DocumentReport.repx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -509,6 +524,9 @@
     <Folder Include="reports\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DocumentReport.resx">
+      <DependentUpon>DocumentReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <PropertyGroup>
