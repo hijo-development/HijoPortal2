@@ -8,11 +8,13 @@ using System.Text;
 using System.Collections;
 using System.Web;
 
+
 namespace HijoPortal.classes
 {
     public class MRPSubmitClass
     {
         public static string SubmitStatusRes = "";
+        public static string SubmitError = "";
 
         public static void MRP_Submit(string docNum, int MRPKey, DateTime dteCreated, int WorkFlowLine, string EntCode, string BuCode, int usrKey)
         {
@@ -56,6 +58,8 @@ namespace HijoPortal.classes
             var sCreatorBody = new StringBuilder();
             string sEmail = "", sSubject = "", sGreetings = "";
             var sBody = new StringBuilder();
+
+            SubmitError = "";
 
             int WorkLineNext = WorkFlowLine + 1;
 
@@ -238,11 +242,18 @@ namespace HijoPortal.classes
                                         }
                                         dtable3.Clear();
                                     }
+                                } else
+                                {
+                                    SubmitError = "No SSU / BU Lead !";
                                 }
                                 dtable2.Clear();
                             }
 
-                            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                            if (SubmitError == "")
+                            {
+                                bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                            }
+                            
                         }
                     }
                     dtable1.Clear();
@@ -264,6 +275,7 @@ namespace HijoPortal.classes
 
             int WorkLineNext = WorkFlowLine + 1;
 
+            SubmitError = "";
 
             SqlCommand cmdIns = null;
             SqlCommand cmdUp = null;
@@ -351,11 +363,14 @@ namespace HijoPortal.classes
                         {
                             if (row1["SQLQuery"].ToString().Trim() != "")
                             {
+                                //MRPClass.PrintString(row1["SQLQuery"].ToString());
+
                                 qry = row1["SQLQuery"].ToString() + " '" + EntCode + "', '" + BuCode + "', '" + dteCreated + "'";
                                 cmd2 = new SqlCommand(qry);
                                 cmd2.Connection = conn;
                                 adp2 = new SqlDataAdapter(cmd2);
                                 adp2.Fill(dtable2);
+                                MRPClass.PrintString(dtable2.Rows.Count.ToString());
                                 if (dtable2.Rows.Count > 0)
                                 {
                                     foreach (DataRow row2 in dtable2.Rows)
@@ -387,67 +402,50 @@ namespace HijoPortal.classes
                                         bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
 
                                         //Update Workflow
-                                        qry = "UPDATE tbl_MRP_List_Workflow " +
-                                               " SET Visible = 0, " +
-                                               " Status = 1 " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + WorkFlowLine + ")";
-                                        cmdUp = new SqlCommand(qry, conn);
-                                        cmdUp.ExecuteNonQuery();
-
-                                        //Update MRP Status
-                                        qry = "UPDATE tbl_MRP_List SET StatusKey = 2 WHERE (PK = " + MRPKey + ")";
+                                        qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 0, Status = 1 WHERE (MasterKey = " + MRPKey + ") AND (Line = " + WorkFlowLine + ")";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
                                         //Update Workflow Next
-                                        qry = "UPDATE tbl_MRP_List_Workflow " +
-                                               " SET Visible = 1, " +
-                                               " UserKey = " + row2["UserKey"] + ", " +
-                                               " PositionNameKey = " + row1["PositionNameKey"] + " " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + WorkLineNext + ")";
+                                        qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 1, UserKey = " + row2["UserKey"] + ", PositionNameKey = " + row1["PositionNameKey"] + " WHERE (MasterKey = " + MRPKey + ") AND (Line = " + WorkLineNext + ")";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
                                         //Update Assigned to me
-                                        qry = "UPDATE tbl_Users_Assigned " +
-                                               " SET Attended = 1 " +
-                                               " WHERE (UserKey = " + row2["UserKey"] + ") " +
-                                               " AND (MRPKey = " + MRPKey + ") " +
-                                               " AND (WorkFlowLine = " + WorkFlowLine + ") " +
-                                               " AND (WorkFlowType = 1)";
+                                        qry = "UPDATE tbl_Users_Assigned SET Attended = 1 WHERE (UserKey = " + row2["UserKey"] + ") AND (MRPKey = " + MRPKey + ") AND (WorkFlowLine = " + WorkFlowLine + ") AND (WorkFlowType = 1)";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
                                         //Insert to Assigned to me
-                                        qry = "SELECT tbl_Users_Assigned.* " +
-                                              " FROM tbl_Users_Assigned " +
-                                              " WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") " +
-                                              " AND (MRPKey = " + MRPKey + ") " +
-                                              " AND (WorkFlowLine = " + WorkLineNext + ") " +
-                                              " AND (WorkFlowType = 1)";
+                                        qry = "SELECT tbl_Users_Assigned.* FROM tbl_Users_Assigned WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") AND (MRPKey = " + MRPKey + ") AND (WorkFlowLine = " + WorkLineNext + ") AND (WorkFlowType = 1)";
                                         cmd3 = new SqlCommand(qry);
                                         cmd3.Connection = conn;
                                         adp3 = new SqlDataAdapter(cmd3);
                                         adp3.Fill(dtable3);
                                         if (dtable3.Rows.Count == 0)
                                         {
-                                            qry = "INSERT INTO tbl_Users_Assigned " +
-                                                  " (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) " +
-                                                  " VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " +
-                                                  " " + Convert.ToInt32(row1["PositionNameKey"]) + ", " +
-                                                  " " + MRPKey + ", " + WorkLineNext + ", 1)";
+                                            qry = "INSERT INTO tbl_Users_Assigned (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " + Convert.ToInt32(row1["PositionNameKey"]) + ", " + MRPKey + ", " + WorkLineNext + ", 1)";
                                             cmdIns = new SqlCommand(qry, conn);
                                             cmdIns.ExecuteNonQuery();
                                         }
                                         dtable3.Clear();
+
+                                        //Update MRP Status
+                                        qry = "UPDATE tbl_MRP_List SET StatusKey = 2 WHERE (PK = " + MRPKey + ")";
+                                        cmdUp = new SqlCommand(qry, conn);
+                                        cmdUp.ExecuteNonQuery();
                                     }
+                                } else
+                                {
+                                    SubmitError = "No Inventory Analyst !";
                                 }
                                 dtable2.Clear();
                             }
-
-                            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                            if (SubmitError == "")
+                            {
+                                bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                            }
+                            
                         }
                     }
                     dtable1.Clear();
@@ -880,6 +878,8 @@ namespace HijoPortal.classes
             int WorkLineNext = WorkFlowLine + 1;
             int ApprovalLine = 1;
 
+            SubmitError = "";
+
             SqlCommand cmdIns = null;
             SqlCommand cmdUp = null;
             SqlCommand cmd = null;
@@ -1068,11 +1068,16 @@ namespace HijoPortal.classes
                                         }
                                         dtable3.Clear();
                                     }
+                                } else
+                                {
+                                    SubmitError = "No Approval Setup !";
                                 }
                                 dtable2.Clear();
                             }
-
-                            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                            if (SubmitError == "")
+                            {
+                                bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                            }
                         }
                     }
                     dtable1.Clear();
