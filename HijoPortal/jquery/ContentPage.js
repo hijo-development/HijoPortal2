@@ -2939,6 +2939,4 @@ function mrp_addedit_submit(s, e) {
             Add_Edit_MRPNotify.Show();
         }
     }
-
-
 }

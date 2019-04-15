@@ -888,39 +888,6 @@ namespace HijoPortal
         protected void OPEXGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
             bindCapex = false;
-
-            string isItem = OPEXGrid.GetRowValuesByKeyValue(e.EditingKeyValue, "isItem").ToString();
-
-            ASPxGridView grid = sender as ASPxGridView;
-            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
-            ASPxTextBox Description = pageControl.FindControl("Description") as ASPxTextBox;
-            ASPxTextBox ItemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
-            HtmlControl div1 = (HtmlControl)pageControl.FindControl("div1");
-            HtmlControl div2 = (HtmlControl)pageControl.FindControl("div2");
-            HtmlControl CA_prodcombo_div = (HtmlControl)pageControl.FindControl("CA_prodcombo_div");
-            HtmlControl CA_prodlabel_div = (HtmlControl)pageControl.FindControl("CA_prodlabel_div");
-
-            //div1 and div2 is ItemCode Combobox
-            switch (isItem)
-            {
-                case "0":
-                    div1.Style.Add("display", "none");
-                    div2.Style.Add("display", "none");
-
-                    Description.Text = "";
-                    Description.ReadOnly = false;
-                    ItemCode.Text = "";
-                    break;
-                case "1":
-                    div1.Style.Add("display", "block");
-                    div2.Style.Add("display", "block");
-
-                    Description.Text = "";
-                    Description.ReadOnly = true;
-                    ItemCode.Text = "";
-                    break;
-            }
-
         }
 
         protected void OPEXGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
@@ -1662,16 +1629,17 @@ namespace HijoPortal
         {
             //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Cookies", "AddEditDisplay.cookiesCondition();", true);
             ASPxGridView grid = sender as ASPxGridView;
+
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
+            ASPxTextBox Description = pageControl.FindControl("Description") as ASPxTextBox;
+            ASPxTextBox ItemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
+            HtmlControl div1 = (HtmlControl)pageControl.FindControl("div1");
+            HtmlControl div2 = (HtmlControl)pageControl.FindControl("div2");
+            HtmlControl CA_prodcombo_div = (HtmlControl)pageControl.FindControl("CA_prodcombo_div");
+            HtmlControl CA_prodlabel_div = (HtmlControl)pageControl.FindControl("CA_prodlabel_div");
+
             if (grid.IsNewRowEditing)
             {
-                ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
-                ASPxTextBox Description = pageControl.FindControl("Description") as ASPxTextBox;
-                ASPxTextBox ItemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
-                HtmlControl div1 = (HtmlControl)pageControl.FindControl("div1");
-                HtmlControl div2 = (HtmlControl)pageControl.FindControl("div2");
-                HtmlControl CA_prodcombo_div = (HtmlControl)pageControl.FindControl("CA_prodcombo_div");
-                HtmlControl CA_prodlabel_div = (HtmlControl)pageControl.FindControl("CA_prodlabel_div");
-
                 HttpCookie cookie_isItem = null;
                 HttpCookie cookie_isProdCat = null;
 
@@ -1715,6 +1683,48 @@ namespace HijoPortal
                             CA_prodlabel_div.Style.Add("display", "block");
                             break;
                     }
+                }
+            }
+            else if (grid.IsEditing)
+            {
+                string isItem = grid.GetRowValues(grid.EditingRowVisibleIndex, new string[] { "isItem" }).ToString();
+                string isProdCategory = grid.GetRowValues(grid.EditingRowVisibleIndex, new string[] { "isProdCategory" }).ToString();
+                //string isItem = OPEXGrid.GetRowValuesByKeyValue(e.EditingKeyValue, "isItem").ToString();
+                //string isProdCategory = OPEXGrid.GetRowValuesByKeyValue(e.EditingKeyValue, "isProdCategory").ToString();
+
+                switch (isItem)
+                {
+                    case "0":
+                        div1.Style.Add("display", "none");
+                        div2.Style.Add("display", "none");
+
+                        Description.Text = "";
+                        Description.ReadOnly = false;
+                        ItemCode.Text = "";
+                        break;
+                    case "1":
+                        div1.Style.Add("display", "block");
+                        div2.Style.Add("display", "block");
+
+                        Description.Text = "";
+                        Description.ReadOnly = true;
+                        ItemCode.Text = "";
+                        break;
+                }
+
+                switch (isProdCategory)
+                {
+                    case "0"://hide product category combobox
+                             //document.getElementById("CA_prodcombo_div").style.display = "none";
+                             //document.getElementById("CA_prodlabel_div").style.display = "none";
+
+                        CA_prodcombo_div.Style.Add("display", "none");
+                        CA_prodlabel_div.Style.Add("display", "none");
+                        break;
+                    case "1"://show product category combobox
+                        CA_prodcombo_div.Style.Add("display", "block");
+                        CA_prodlabel_div.Style.Add("display", "block");
+                        break;
                 }
             }
         }

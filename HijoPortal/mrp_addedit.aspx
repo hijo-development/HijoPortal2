@@ -540,7 +540,7 @@
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="ExpenseCode" Visible="false"></dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="isItem" Visible="true"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="isallowedProcCat" Visible="true"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="isProdCategory" Visible="true"></dx:GridViewDataColumn>
                                                         </Columns>
 
                                                         <SettingsCommandButton>
