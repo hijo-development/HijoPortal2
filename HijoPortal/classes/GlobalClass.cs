@@ -441,7 +441,9 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
+            
+            //string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
+            string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory_Group] ORDER BY NAME ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;

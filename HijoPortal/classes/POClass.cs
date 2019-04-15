@@ -268,8 +268,9 @@ namespace HijoPortal.classes
             for (i = 0; i < groupID.Count; i++)
             {
                 groupid_string = groupID[i].ToString();
-                MRPClass.PrintString("count:" + groupID.Count.ToString());
+                //MRPClass.PrintString("count:" + groupID.Count.ToString());
 
+                //Direct Materials
                 qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl,dbo.tbl_MRP_List_DirectMaterials.UOM, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_DirectMaterials.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.vw_AXInventTable.ITEMGROUPID = '" + groupid_string + "') AND (dbo.tbl_MRP_List_DirectMaterials.AvailForPO > 0)";
 
                 cmd = new SqlCommand(qry);
@@ -306,13 +307,8 @@ namespace HijoPortal.classes
                     }
                 }
                 dt.Clear();
-                //}
 
-                //for (i = 0; i < groupID.Count; i++)
-                //{
-                //groupid_string = groupID[i].ToString();
-                //MRPClass.PrintString("count:" + groupID.Count.ToString());
-
+                //Operating Expense
                 qry = "SELECT DISTINCT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.UOM,dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN         dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_OPEX.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.vw_AXInventTable.ITEMGROUPID = '" + groupid_string + "') AND (dbo.tbl_MRP_List_OPEX.AvailForPO > 0)";
 
                 cmd = new SqlCommand(qry);
@@ -349,18 +345,9 @@ namespace HijoPortal.classes
                     }
                 }
                 dt.Clear();
-                ////}
 
-                ////for (i = 0; i < groupID.Count; i++)
-                ////{
-                //groupid_string = groupID[i].ToString();
-                //MRPClass.PrintString("count:" + groupID.Count.ToString());
-
-                ////For CAPEX
-                ////if (string.IsNullOrEmpty(groupID) || groupID == "ALL") groupid_string = "dbo.tbl_MRP_List_CAPEX.ProdCat";
-
-                //MRPClass.PrintString(groupid_string);
-                qry = "SELECT dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.PK, dbo.tbl_MRP_List_CAPEX.TableIdentifier, dbo.tbl_MRP_List_CAPEX.ProdCat, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty, dbo.tbl_MRP_List_CAPEX.TotalCost,  dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List.DocNumber FROM   dbo.vw_AXEntityTable INNER JOIN dbo.tbl_MRP_List ON dbo.vw_AXEntityTable.ID = dbo.tbl_MRP_List.EntityCode INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_CAPEX.HeaderDocNum WHERE (dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_CAPEX.ProdCat = '" + groupid_string + "') AND (dbo.tbl_MRP_List_CAPEX.AvailForPO > 0)";
+                //Capital Expenditure
+                qry = "SELECT dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.PK, dbo.tbl_MRP_List_CAPEX.TableIdentifier, dbo.tbl_MRP_List_CAPEX.ProdCat, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty, dbo.tbl_MRP_List_CAPEX.TotalCost,  dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List.DocNumber FROM   dbo.vw_AXEntityTable INNER JOIN dbo.tbl_MRP_List ON dbo.vw_AXEntityTable.ID = dbo.tbl_MRP_List.EntityCode INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_CAPEX.HeaderDocNum WHERE ((dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_CAPEX.ProdCat = '" + groupid_string + "') AND (dbo.tbl_MRP_List_CAPEX.AvailForPO > 0) AND (RTRIM(LTRIM(dbo.tbl_MRP_List_CAPEX.CIPSIPNumber)) <> '')) OR ((dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_CAPEX.ProdCat = '" + groupid_string + "') AND (dbo.tbl_MRP_List_CAPEX.AvailForPO > 0) AND (RTRIM(LTRIM(dbo.tbl_MRP_List_CAPEX.ProdCat)) = 'CIP'))";
 
                 cmd = new SqlCommand(qry);
                 cmd.Connection = cn;

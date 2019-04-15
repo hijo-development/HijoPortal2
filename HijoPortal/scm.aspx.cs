@@ -350,7 +350,7 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO tbl_System_SCMInventoryAnalyst ([Ctrl], [EffectDate], [UserKey], [StatusKey] [LastModified]) " +
+            string insert = "INSERT INTO tbl_System_SCMInventoryAnalyst ([Ctrl], [EffectDate], [UserKey], [StatusKey], [LastModified]) " +
                             " VALUES (@Ctrl, @EffectDate, @UserKey, @StatusKey, @LastModified)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);

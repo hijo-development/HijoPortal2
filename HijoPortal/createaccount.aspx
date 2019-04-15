@@ -72,7 +72,7 @@
                 </tr>
             </table>
         </div>
-        <div class="createaccount_div" id="dvContentWrapper">
+        <div class="createaccount_div11" id="dvContentWrapper11">
             <div style="height: 50px;"></div>
             <div id="dvHeader" style="height: 50px;">
                 <h1>Account Registration</h1>
