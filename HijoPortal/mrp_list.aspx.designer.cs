@@ -40,6 +40,24 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxPopupControl PopUpControl;
         
         /// <summary>
+        /// Checkbox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox Checkbox;
+        
+        /// <summary>
+        /// MonthYearCombo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxComboBox MonthYearCombo;
+        
+        /// <summary>
         /// Month control.
         /// </summary>
         /// <remarks>

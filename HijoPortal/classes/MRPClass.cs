@@ -566,11 +566,11 @@ namespace HijoPortal.classes
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
                     dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
-                    
+
                     //if (entitycode == train_entity)
                     //{
-                        dtRow["VALUE"] = row["VALUE"].ToString();
-                        dtRow["RevDesc"] = row["RevDesc"].ToString();
+                    dtRow["VALUE"] = row["VALUE"].ToString();
+                    dtRow["RevDesc"] = row["RevDesc"].ToString();
                     //}
                     //else
                     //{
@@ -4190,5 +4190,49 @@ namespace HijoPortal.classes
 
             return dtTable;
         }
+
+        public static DataTable MonthYear(string entitycode, string bucode)
+        {
+            DataTable dtTable = new DataTable();
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("DocNumber", typeof(string));
+                dtTable.Columns.Add("MRPMonth", typeof(string));
+                dtTable.Columns.Add("MRPYear", typeof(string));
+
+            }
+
+            string query = "SELECT [PK],[DocNumber],[MRPMonth],[MRPYear] FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE EntityCode = '" + entitycode + "' AND BUCode = '" + bucode + "'";
+
+            cmd = new SqlCommand(query);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["DocNumber"] = row["DocNumber"].ToString();
+                    dtRow["MRPMonth"] = Convertion.INDEX_TO_MONTH(Convert.ToInt32(row["MRPMonth"].ToString()));
+                    dtRow["MRPYear"] = row["MRPYear"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+        }
     }
+
+
 }

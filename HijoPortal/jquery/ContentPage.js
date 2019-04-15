@@ -6,6 +6,8 @@
     });
 
     changeWidth.resizeWidth();
+
+    //AddEditDisplay.cookiesCondition();
 });
 
 $(window).resize(function () {
@@ -259,21 +261,7 @@ function MainTableEndCallback(s, e) {
 
 
 // MRPAddForm Script
-function OperatingUnitDM(s, e) {
-    var text = s.GetSelectedItem().text;
-    if (text.length == 0)
-        s.SetIsValid(false);
-    else
-        s.SetIsValid(true);
-}
 
-function OperatingUnitOP_SelectedIndexChanged(s, e) {
-    var text = s.GetSelectedItem().text;
-    if (text.length == 0)
-        s.SetIsValid(false);
-    else
-        s.SetIsValid(true);
-}
 
 //function OperatingUnitCA(s, e) {
 //    var text = s.GetSelectedItem().text;
@@ -283,21 +271,9 @@ function OperatingUnitOP_SelectedIndexChanged(s, e) {
 //        s.SetIsValid(true);
 //}
 
-function OperatingUnitMAN(s, e) {
-    var text = s.GetSelectedItem().text;
-    if (text.length == 0)
-        s.SetIsValid(false);
-    else
-        s.SetIsValid(true);
-}
 
-function OperatingUnitREV(s, e) {
-    var text = s.GetSelectedItem().text;
-    if (text.length == 0)
-        s.SetIsValid(false);
-    else
-        s.SetIsValid(true);
-}
+
+
 var typeCustomDelete = "";
 const DM_string = "Direct Materials", OP_string = "OPEX", MAN_string = "Manpower", CA_string = "CAPEX", REV_string = "Revenue";
 function DirectMaterialsGrid_CustomButtonClick(s, e) {
@@ -1897,173 +1873,23 @@ function MRPanalystfocused(s, e, type) {
     //    FloatCallbackPanel.PerformCallback(params);
 }
 
-function OnKeyUpQtytInvDirect(s, e) {
-    var avail_qty = inv_qty_dm.GetText();
-
-    //var avail_qty = parseFloat(localStorage.getItem('InventAnalystQty')).toFixed(2);
-    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    var qty = parseFloat(accounting.unformat(s.GetText()));
-    var cost = parseFloat(InvEdittedCost.GetText()).toFixed(2);
-    var total = 0;
-    //if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
-        if (qty > 0) {
-            if (cost > 0) {
-                total = cost * qty;
-                InvEdittiedTotalCost.SetText(parseFloat(total).toFixed(2));
-            }
-        } else {
-            InvEdittiedTotalCost.SetText("");
-        }
-    //}
-    //else {
-    //    s.SetText(avail_qty);
-    //    if (cost > 0) {
-    //        total = cost * avail_qty;
-    //        InvEdittiedTotalCost.SetText(parseFloat(total).toFixed(2));
-    //    }
-    //}
 
 
-}
-
-function OnKeyUpCosttInvDirect(s, e) {
-    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    var cost = parseFloat(accounting.unformat(s.GetText()));
-    var qty = parseFloat(InvEdittedQty.GetText()).toFixed(2);
-    var total = 0;
-    if (qty > 0) {
-        if (cost > 0) {
-            total = cost * qty;
-            InvEdittiedTotalCost.SetText(parseFloat(total).toFixed(2));
-        }
-    } else {
-        InvEdittiedTotalCost.SetText("");
-    }
-}
 
 
-function OnKeyUpQtytInvOpex(s, e) {
-    var avail_qty = inv_qty_op.GetText();
-    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    var qty = parseFloat(accounting.unformat(s.GetText()));
-    var cost = parseFloat(InvEdittedCostOp.GetText()).toFixed(2);
-    var total = 0;
-    //if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
-        if (qty > 0) {
-            if (cost > 0) {
-                total = cost * qty;
-                InvEdittiedTotalCostOp.SetText(parseFloat(total).toFixed(2));
-            }
-        } else {
-            InvEdittiedTotalCostOp.SetText("");
-        }
-    //}
-    //else {
-    //    s.SetText(avail_qty);
-    //    if (cost > 0) {
-    //        total = cost * avail_qty;
-    //        InvEdittiedTotalCostOp.SetText(parseFloat(total).toFixed(2));
-    //    }
-    //}
-
-}
-
-function OnKeyUpCosttInvOpex(s, e) {
-    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    var cost = parseFloat(accounting.unformat(s.GetText()));
-    var qty = parseFloat(InvEdittedQtyOp.GetText()).toFixed(2);
-    var total = 0;
-    if (qty > 0) {
-        if (cost > 0) {
-            total = cost * qty;
-            InvEdittiedTotalCostOp.SetText(parseFloat(total).toFixed(2));
-        }
-    } else {
-        InvEdittiedTotalCostOp.SetText("");
-    }
-}
 
 
-function OnKeyUpQtytInvManPower(s, e) {
-    var avail_qty = inv_qty_man.GetText();
-    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    var qty = parseFloat(accounting.unformat(s.GetText()));
-    var cost = parseFloat(InvEdittedCostManPo.GetText()).toFixed(2);
-    var total = 0;
-    //if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
-        if (qty > 0) {
-            if (cost > 0) {
-                total = cost * qty;
-                InvEdittiedTotalCostManPo.SetText(parseFloat(total).toFixed(2));
-            }
-        } else {
-            InvEdittiedTotalCostManPo.SetText("");
-        }
-    //}
-    //else {
-    //    s.SetText(avail_qty);
-    //    if (cost > 0) {
-    //        total = cost * avail_qty;
-    //        InvEdittiedTotalCostManPo.SetText(parseFloat(total).toFixed(2));
-    //    }
-    //}
 
-}
 
-function OnKeyUpCosttInvManPower(s, e) {
-    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    var cost = parseFloat(accounting.unformat(s.GetText()));
-    var qty = parseFloat(InvEdittedQtyManPo.GetText()).toFixed(2);
-    var total = 0;
-    if (qty > 0) {
-        if (cost > 0) {
-            total = cost * qty;
-            InvEdittiedTotalCostManPo.SetText(parseFloat(total).toFixed(2));
-        }
-    } else {
-        InvEdittiedTotalCostManPo.SetText("");
-    }
-}
 
-function OnKeyUpQtytInvCapex(s, e) {
-    var avail_qty = inv_qty_ca.GetText();
-    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    var qty = parseFloat(accounting.unformat(s.GetText()));
-    var cost = parseFloat(InvEdittedCostCapex.GetText()).toFixed(2);
-    var total = 0;
-    //if (Math.round(s.GetText()) <= Math.round(avail_qty)) {
-        if (qty > 0) {
-            if (cost > 0) {
-                total = cost * qty;
-                InvEdittiedTotalCostCapex.SetText(parseFloat(total).toFixed(2));
-            }
-        } else {
-            InvEdittiedTotalCostCapex.SetText("");
-        }
-    //}
-    //else {
-    //    s.SetText(avail_qty);
-    //    if (cost > 0) {
-    //        total = cost * avail_qty;
-    //        InvEdittiedTotalCostCapex.SetText(parseFloat(total).toFixed(2));
-    //    }
-    //}
-}
 
-function OnKeyUpCosttInvCapex(s, e) {
-    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    var cost = parseFloat(accounting.unformat(s.GetText()));
-    var qty = parseFloat(InvEdittedQtyCapex.GetText()).toFixed(2);
-    var total = 0;
-    if (qty > 0) {
-        if (cost > 0) {
-            total = cost * qty;
-            InvEdittiedTotalCostCapex.SetText(parseFloat(total).toFixed(2));
-        }
-    } else {
-        InvEdittiedTotalCostCapex.SetText("");
-    }
-}
+
+
+
+
+
+
+
 
 //mrp_forapproval.aspx
 //for Approval Qty Direct Materials

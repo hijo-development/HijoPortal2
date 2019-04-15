@@ -439,7 +439,7 @@ namespace HijoPortal
             if (!container.Grid.IsNewRowEditing)
             {
                 combo.Value = DataBinder.Eval(container.DataItem, "ExpenseCode").ToString();
-                combo.Text = DataBinder.Eval(container.DataItem, "ExpenseCodeName").ToString();                
+                combo.Text = DataBinder.Eval(container.DataItem, "ExpenseCodeName").ToString();
             }
             else
             {
@@ -487,6 +487,43 @@ namespace HijoPortal
             {
                 combo.Value = DataBinder.Eval(container.DataItem, "VALUE").ToString();
                 combo.Text = DataBinder.Eval(container.DataItem, "RevDesc").ToString();
+            }
+            else
+            {
+                HttpCookie cookie_value = null;
+                HttpCookie cookie_text = null;
+                switch (combo.ClientInstanceName)
+                {
+                    case "OperatingUnit"://direct material
+                        cookie_value = Request.Cookies["dm_operating_value"];
+                        cookie_text = Request.Cookies["dm_operating_text"];
+                        break;
+                    case "OperatingUnitOP":
+                        cookie_value = Request.Cookies["op_operating_value"];
+                        cookie_text = Request.Cookies["op_operating_text"];
+                        break;
+                    case "OperatingUnitMAN":
+                        cookie_value = Request.Cookies["man_operating_value"];
+                        cookie_text = Request.Cookies["man_operating_text"];
+                        break;
+                    case "OperatingUnitCA":
+                        cookie_value = Request.Cookies["ca_operating_value"];
+                        cookie_text = Request.Cookies["ca_operating_text"];
+                        break;
+                    case "OperatingUnitREV":
+                        cookie_value = Request.Cookies["rev_operating_value"];
+                        cookie_text = Request.Cookies["rev_operating_text"];
+                        break;
+                }
+
+                if (cookie_value != null && cookie_text != null)
+                {
+                    object val = cookie_value.Value;
+                    object text = cookie_text.Value;
+                    combo.Value = val;
+                    combo.Text = text.ToString();
+                }
+
             }
         }
 
@@ -1592,6 +1629,11 @@ namespace HijoPortal
             proCat.ValueField = "NAME";
             proCat.TextFormatString = "{1}";
             proCat.DataBind();
+        }
+
+        protected void OPEXGrid_HtmlEditFormCreated(object sender, ASPxGridViewEditFormEventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Cookies", "AddEditDisplay.cookiesCondition();", true);
         }
 
         //protected void OPEXPageControl_Init(object sender, EventArgs e)
