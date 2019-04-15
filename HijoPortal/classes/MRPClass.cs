@@ -148,8 +148,6 @@ namespace HijoPortal.classes
                     dtRow["CreatorKey"] = Convert.ToInt32(row["CreatorKey"]);
                     dtRow["LastModified"] = row["LastModified"].ToString();
 
-
-
                     if (Convert.ToInt32(row["StatusKey"]) == 1)
                     {
                         dtRow["WorkflowStatusLine"] = "0";
