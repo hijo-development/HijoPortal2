@@ -1,45 +1,45 @@
-﻿$(document).ready(function () {
-    AddEditDisplay.cookiesCondition();
-});
+﻿//$(document).ready(function () {
+//    AddEditDisplay.cookiesCondition();
+//});
 
-AddEditDisplay = {
-    cookiesCondition: function () {
-        if (OPEXGrid.IsNewRowEditing()) {
-            var isItem = getCookie("opisItem");
-            var isProdCat = getCookie("opisProdCat");
+//AddEditDisplay = {
+//    cookiesCondition: function () {
+//        if (OPEXGrid.IsNewRowEditing()) {
+//            var isItem = getCookie("opisItem");
+//            var isProdCat = getCookie("opisProdCat");
 
-            console.log(isItem + "-" + isProdCat);
+//            console.log(isItem + "-" + isProdCat);
 
-            switch (isItem) {
-                case 0://Non PO
-                    document.getElementById("div1").style.display = "none";
-                    document.getElementById("div2").style.display = "none";
-                    DescriptionOPEX.SetText("");
-                    DescriptionOPEX.GetInputElement().readOnly = false;
-                    ItemCodeOPEX.SetText("");
-                    break;
-                case 1://PO
-                    document.getElementById("div1").style.display = "block";
-                    document.getElementById("div2").style.display = "block";
-                    DescriptionOPEX.SetText("");
-                    DescriptionOPEX.GetInputElement().readOnly = true;
-                    ItemCodeOPEX.SetText("");
-                    break;
-            }
+//            switch (isItem) {
+//                case 0://Non PO
+//                    document.getElementById("div1").style.display = "none";
+//                    document.getElementById("div2").style.display = "none";
+//                    DescriptionOPEX.SetText("");
+//                    DescriptionOPEX.GetInputElement().readOnly = false;
+//                    ItemCodeOPEX.SetText("");
+//                    break;
+//                case 1://PO
+//                    document.getElementById("div1").style.display = "block";
+//                    document.getElementById("div2").style.display = "block";
+//                    DescriptionOPEX.SetText("");
+//                    DescriptionOPEX.GetInputElement().readOnly = true;
+//                    ItemCodeOPEX.SetText("");
+//                    break;
+//            }
 
-            switch (isProdCat) {
-                case 0://hide product category combobox
-                    document.getElementById("CA_prodcombo_div").style.display = "none";
-                    document.getElementById("CA_prodlabel_div").style.display = "none";
-                    break;
-                case 1://show product category combobox
-                    document.getElementById("CA_prodcombo_div").style.display = "block";
-                    document.getElementById("CA_prodlabel_div").style.display = "block";
-                    break;
-            }
-        }
-    }
-}
+//            switch (isProdCat) {
+//                case 0://hide product category combobox
+//                    document.getElementById("CA_prodcombo_div").style.display = "none";
+//                    document.getElementById("CA_prodlabel_div").style.display = "none";
+//                    break;
+//                case 1://show product category combobox
+//                    document.getElementById("CA_prodcombo_div").style.display = "block";
+//                    document.getElementById("CA_prodlabel_div").style.display = "block";
+//                    break;
+//            }
+//        }
+//    }
+//}
 
 function updateCAPEX(s, e) {
     var entityval = entityhiddenCA.Get('hidden_value');
@@ -147,15 +147,15 @@ function ExpenseCodeIndexChangeOPEX(s, e) {
 
     switch (isItem) {
         case 0://Non PO
-            document.getElementById("div1").style.display = "none";
-            document.getElementById("div2").style.display = "none";
+            document.getElementsByClassName("div1Class")[0].style.display = "none";
+            document.getElementsByClassName("div2Class")[0].style.display = "none";
             DescriptionOPEX.SetText("");
             DescriptionOPEX.GetInputElement().readOnly = false;
             ItemCodeOPEX.SetText("");
             break;
         case 1://PO
-            document.getElementById("div1").style.display = "block";
-            document.getElementById("div2").style.display = "block";
+            document.getElementsByClassName("div1Class")[0].style.display = "block";
+            document.getElementsByClassName("div2Class")[0].style.display = "block";
             DescriptionOPEX.SetText("");
             DescriptionOPEX.GetInputElement().readOnly = true;
             ItemCodeOPEX.SetText("");
@@ -164,12 +164,12 @@ function ExpenseCodeIndexChangeOPEX(s, e) {
 
     switch (isProdCat) {
         case 0://hide product category combobox
-            document.getElementById("CA_prodcombo_div").style.display = "none";
-            document.getElementById("CA_prodlabel_div").style.display = "none";
+            document.getElementsByClassName("CA_prodcombo_divClass")[0].style.display = "none";
+            document.getElementsByClassName("CA_prodlabel_divClass")[0].style.display = "none";
             break;
         case 1://show product category combobox
-            document.getElementById("CA_prodcombo_div").style.display = "block";
-            document.getElementById("CA_prodlabel_div").style.display = "block";
+            document.getElementsByClassName("CA_prodcombo_divClass")[0].style.display = "block";
+            document.getElementsByClassName("CA_prodlabel_divClass")[0].style.display = "block";
             break;
     }
 
