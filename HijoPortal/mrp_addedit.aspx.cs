@@ -373,7 +373,7 @@ namespace HijoPortal
                         break;
                 }
 
-                
+
             }
         }
 
@@ -440,6 +440,26 @@ namespace HijoPortal
             {
                 combo.Value = DataBinder.Eval(container.DataItem, "ExpenseCode").ToString();
                 combo.Text = DataBinder.Eval(container.DataItem, "ExpenseCodeName").ToString();                
+            }
+            else
+            {
+                HttpCookie cookie_value = null;
+                HttpCookie cookie_text = null;
+                HttpCookie cookie_isItem = null;
+                HttpCookie cookie_isProdCat = null;
+
+                cookie_value = Request.Cookies["opvalue"];
+                cookie_text = Request.Cookies["optext"];
+                cookie_isItem = Request.Cookies["opisItem"];
+                cookie_isProdCat = Request.Cookies["opisProdCat"];
+                if (cookie_value != null && cookie_text != null)
+                {
+                    object val = cookie_value.Value;
+                    object text = cookie_text.Value;
+                    combo.Value = val;
+                    combo.Text = text.ToString();
+                }
+
             }
         }
 
@@ -1538,6 +1558,21 @@ namespace HijoPortal
                 combo.Value = DataBinder.Eval(container.DataItem, "ProdCode").ToString();
                 combo.Text = DataBinder.Eval(container.DataItem, "ProdCat").ToString();
             }
+            else
+            {
+                HttpCookie cookie_value = null;
+                HttpCookie cookie_text = null;
+
+                cookie_value = Request.Cookies["caproductvalue"];
+                cookie_text = Request.Cookies["caproducttext"];
+                if (cookie_value != null && cookie_text != null)
+                {
+                    object val = cookie_value.Value;
+                    object text = cookie_text.Value;
+                    combo.Value = val;
+                    combo.Text = text.ToString();
+                }
+            }
         }
 
         protected void ProcCatOPEXCallback_Callback(object sender, CallbackEventArgsBase e)
@@ -1559,35 +1594,110 @@ namespace HijoPortal
             proCat.DataBind();
         }
 
+        //protected void OPEXPageControl_Init(object sender, EventArgs e)
+        //{
+        //    ASPxPageControl pageControl = sender as ASPxPageControl;
+        //    ASPxTextBox Description = pageControl.FindControl("Description") as ASPxTextBox;
+        //    ASPxTextBox ItemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
+        //    HtmlControl div1 = (HtmlControl)pageControl.FindControl("div1runat");
+        //    HtmlControl div2 = (HtmlControl)pageControl.FindControl("div2runat");
+        //    HtmlControl CA_prodcombo_div = (HtmlControl)pageControl.FindControl("CA_prodcombo_divrunat");
+        //    HtmlControl CA_prodlabel_div = (HtmlControl)pageControl.FindControl("CA_prodlabel_divrunat");
+
+        //    HttpCookie cookie_isItem = null;
+        //    HttpCookie cookie_isProdCat = null;
+
+        //    cookie_isItem = Request.Cookies["opisItem"];
+        //    cookie_isProdCat = Request.Cookies["opisProdCat"];
+        //    if (cookie_isItem != null && cookie_isProdCat != null)
+        //    {
+        //        MRPClass.PrintString(cookie_isItem.Value.ToString());
+        //        //div1 and div2 is ItemCode Combobox
+        //        switch (cookie_isItem.Value)
+        //        {
+        //            case "0":
+        //                div1.Style.Add("display", "none");
+        //                div2.Style.Add("display", "none");
+
+        //                Description.Text = "";
+        //                Description.ReadOnly = false;
+        //                ItemCode.Text = "";
+        //                break;
+        //            case "1":
+        //                div1.Style.Add("display", "block");
+        //                div2.Style.Add("display", "block");
+
+        //                Description.Text = "";
+        //                Description.ReadOnly = true;
+        //                ItemCode.Text = "";
+        //                break;
+        //        }
+
+        //        switch (cookie_isProdCat.Value)
+        //        {
+        //            case "0"://hide product category combobox
+        //                //document.getElementById("CA_prodcombo_div").style.display = "none";
+        //                //document.getElementById("CA_prodlabel_div").style.display = "none";
+
+        //                CA_prodcombo_div.Style.Add("display", "none");
+        //                CA_prodlabel_div.Style.Add("display", "none");
+        //                break;
+        //            case "1"://show product category combobox
+        //                CA_prodcombo_div.Style.Add("display", "block");
+        //                CA_prodlabel_div.Style.Add("display", "block");
+        //                break;
+        //        }
+        //    }
+        //}
+
         protected void ProcCatOPEX_Init(object sender, EventArgs e)
         {
-            //ASPxComboBox combo = sender as ASPxComboBox;
-            ////combo.DataSource = MRPClass.ProCategoryTable_WithoutAll();
-            //combo.DataSource = MRPClass.ProCategoryTableWithType(entitycode, "Expense");
+            ASPxComboBox combo = sender as ASPxComboBox;
+            //combo.DataSource = MRPClass.ProCategoryTable_WithoutAll();
+            combo.DataSource = MRPClass.ProCategoryTableWithType(entitycode, "Expense");
 
-            //ListBoxColumn lv = new ListBoxColumn();
-            //lv.FieldName = "NAME";
-            //lv.Caption = "Code";
-            //lv.Width = 80;
-            //combo.Columns.Add(lv);
+            ListBoxColumn lv = new ListBoxColumn();
+            lv.FieldName = "NAME";
+            lv.Caption = "Code";
+            lv.Width = 80;
+            combo.Columns.Add(lv);
 
-            //ListBoxColumn lt = new ListBoxColumn();
-            //lt.FieldName = "DESCRIPTION";
-            //lt.Caption = "Description";
-            //lt.Width = 300;
-            //combo.Columns.Add(lt);
+            ListBoxColumn lt = new ListBoxColumn();
+            lt.FieldName = "DESCRIPTION";
+            lt.Caption = "Description";
+            lt.Width = 300;
+            combo.Columns.Add(lt);
 
-            //combo.ValueField = "NAME";
-            //combo.TextField = "DESCRIPTION";
-            //combo.DataBind();
-            //combo.TextFormatString = "{1}";
+            combo.ValueField = "NAME";
+            combo.TextField = "DESCRIPTION";
+            combo.DataBind();
+            combo.TextFormatString = "{1}";
 
-            //GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
-            //if (!container.Grid.IsNewRowEditing)
-            //{
-            //    combo.Value = DataBinder.Eval(container.DataItem, "ProcCatCode").ToString();
-            //    combo.Text = DataBinder.Eval(container.DataItem, "ProcCatName").ToString();
-            //}
+            if (combo != null)
+            {
+                //CALLBACK COMBOBOX
+                GridViewEditFormTemplateContainer container = combo.NamingContainer.NamingContainer.NamingContainer as GridViewEditFormTemplateContainer;
+                if (!container.Grid.IsNewRowEditing)
+                {
+                    combo.Value = DataBinder.Eval(container.DataItem, "ProcCatCode").ToString();
+                    combo.Text = DataBinder.Eval(container.DataItem, "ProcCatName").ToString();
+                }
+                else
+                {
+                    HttpCookie cookie_value = null;
+                    HttpCookie cookie_text = null;
+
+                    cookie_value = Request.Cookies["opproductvalue"];
+                    cookie_text = Request.Cookies["opproducttext"];
+                    if (cookie_value != null && cookie_text != null)
+                    {
+                        object val = cookie_value.Value;
+                        object text = cookie_text.Value;
+                        combo.Value = val;
+                        combo.Text = text.ToString();
+                    }
+                }
+            }
         }
 
         protected void RevenueGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)

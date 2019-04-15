@@ -1338,59 +1338,53 @@ function OnGetGridViewValues(values) {
     if (values[0] >= 0) isItemBeginCallback = values[0];
 }
 
-function pageinit(s, e) {
-    if (isItemBeginCallback == 0) {
-        document.getElementById("div1").style.display = "none";
-        document.getElementById("div2").style.display = "none";
-        ItemCodeOPEX.SetText("");
-    }
-}
 
-var isItem = 1;
-var isProdCat = 1;
-var postponedCallbackOPEXProCat = false;
-function ExpenseCodeIndexChangeOPEX(s, e) {
-    //document.getElementById("itemTD").style.display = "none";
-    //document.getElementById("itemTD2").style.display = "none";
-    //ItemCodeOPEX.SetVisible(false);
-    isItem = parseInt(s.GetSelectedItem().GetColumnText('isItem'));
-    isProdCat = parseInt(s.GetSelectedItem().GetColumnText('isProdCategory'));
-    switch (isItem) {
-        case 0://Non PO
-            document.getElementById("div1").style.display = "none";
-            document.getElementById("div2").style.display = "none";
-            DescriptionOPEX.SetText("");
-            DescriptionOPEX.GetInputElement().readOnly = false;
-            ItemCodeOPEX.SetText("");
-            break;
-        case 1://PO
-            document.getElementById("div1").style.display = "block";
-            document.getElementById("div2").style.display = "block";
-            DescriptionOPEX.SetText("");
-            DescriptionOPEX.GetInputElement().readOnly = true;
-            ItemCodeOPEX.SetText("");
-            break;
-    }
 
-    switch (isProdCat) {
-        case 0://hide product category combobox
-            document.getElementById("CA_prodcombo_div").style.display = "none";
-            document.getElementById("CA_prodlabel_div").style.display = "none";
-            break;
-        case 1://show product category combobox
-            document.getElementById("CA_prodcombo_div").style.display = "block";
-            document.getElementById("CA_prodlabel_div").style.display = "block";
-            break;
-    }
+//var isItem = 1;
+//var isProdCat = 1;
+//var postponedCallbackOPEXProCat = false;
+//function ExpenseCodeIndexChangeOPEX(s, e) {
+//    //document.getElementById("itemTD").style.display = "none";
+//    //document.getElementById("itemTD2").style.display = "none";
+//    //ItemCodeOPEX.SetVisible(false);
+//    isItem = parseInt(s.GetSelectedItem().GetColumnText('isItem'));
+//    isProdCat = parseInt(s.GetSelectedItem().GetColumnText('isProdCategory'));
+//    switch (isItem) {
+//        case 0://Non PO
+//            document.getElementById("div1").style.display = "none";
+//            document.getElementById("div2").style.display = "none";
+//            DescriptionOPEX.SetText("");
+//            DescriptionOPEX.GetInputElement().readOnly = false;
+//            ItemCodeOPEX.SetText("");
+//            break;
+//        case 1://PO
+//            document.getElementById("div1").style.display = "block";
+//            document.getElementById("div2").style.display = "block";
+//            DescriptionOPEX.SetText("");
+//            DescriptionOPEX.GetInputElement().readOnly = true;
+//            ItemCodeOPEX.SetText("");
+//            break;
+//    }
 
-    if (ProcCatOPEXCallbackClient.InCallback()) {
-        postponedCallbackOPEXProCat = true;
-    }
-    else {
-        ProcCatOPEXCallbackClient.PerformCallback();
-    }
+//    switch (isProdCat) {
+//        case 0://hide product category combobox
+//            document.getElementById("CA_prodcombo_div").style.display = "none";
+//            document.getElementById("CA_prodlabel_div").style.display = "none";
+//            break;
+//        case 1://show product category combobox
+//            document.getElementById("CA_prodcombo_div").style.display = "block";
+//            document.getElementById("CA_prodlabel_div").style.display = "block";
+//            break;
+//    }
 
-}
+//    if (ProcCatOPEXCallbackClient.InCallback()) {
+//        postponedCallbackOPEXProCat = true;
+//    }
+//    else {
+//        ProcCatOPEXCallbackClient.PerformCallback();
+//    }
+
+//}
 
 function Hide() {
     document.getElementById("div1").style.display = "none";
