@@ -177,7 +177,7 @@ namespace HijoPortal.classes
                     }
                     else if (Convert.ToInt32(row["StatusKey"]) == 3)
                     {
-                        qry = "SELECT dbo.tbl_MRP_List_Workflow.Line, dbo.tbl_System_Approval_Position.PositionName " +
+                        qry = "SELECT dbo.tbl_MRP_List_Approval.Line, dbo.tbl_System_Approval_Position.PositionName " +
                               " FROM dbo.tbl_MRP_List_Approval LEFT OUTER JOIN " +
                               " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Approval.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
                               " WHERE(dbo.tbl_MRP_List_Approval.MasterKey = " + row["PK"] + ") " +
