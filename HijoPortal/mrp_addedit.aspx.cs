@@ -439,7 +439,7 @@ namespace HijoPortal
             if (!container.Grid.IsNewRowEditing)
             {
                 combo.Value = DataBinder.Eval(container.DataItem, "ExpenseCode").ToString();
-                combo.Text = DataBinder.Eval(container.DataItem, "ExpenseCodeName").ToString();
+                combo.Text = DataBinder.Eval(container.DataItem, "ExpenseCodeName").ToString();                
             }
         }
 

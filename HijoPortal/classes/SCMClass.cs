@@ -221,10 +221,10 @@ namespace HijoPortal.classes
 
             string qry = "SELECT dbo.tbl_System_SCMProcurementOfficer_Details.MasterKey, " +
                          " dbo.tbl_System_SCMProcurementOfficer_Details.ProcCat, " +
-                         " dbo.vw_AXProdCategory.DESCRIPTION AS ProcCatDesc, " +
+                         " dbo.vw_AXProdCategory_Group.DESCRIPTION AS ProcCatDesc, " +
                          " dbo.tbl_System_SCMProcurementOfficer_Details.PK " +
                          " FROM dbo.tbl_System_SCMProcurementOfficer_Details LEFT OUTER JOIN " +
-                         " dbo.vw_AXProdCategory ON dbo.tbl_System_SCMProcurementOfficer_Details.ProcCat = dbo.vw_AXProdCategory.NAME " +
+                         " dbo.vw_AXProdCategory_Group ON dbo.tbl_System_SCMProcurementOfficer_Details.ProcCat = dbo.vw_AXProdCategory_Group.NAME " +
                          " WHERE(dbo.tbl_System_SCMProcurementOfficer_Details.MasterKey = "+ MasterKey + ")";
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;

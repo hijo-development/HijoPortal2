@@ -177,33 +177,45 @@
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
 
-                    <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty" CellStyle-HorizontalAlign="Right">
+                    <dx:GridViewDataColumn FieldName="Qty" Caption="Requested Qty">
+                        <HeaderStyle HorizontalAlign="Right" />
+                        <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditItemTemplate>
                             <dx:ASPxLabel runat="server" Text='<%#Eval("Qty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="Cost" Caption="Cost" CellStyle-HorizontalAlign="Right">
+                    <dx:GridViewDataColumn FieldName="Cost" Caption="Cost">
+                        <HeaderStyle HorizontalAlign="Right" />
+                        <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditItemTemplate>
                             <dx:ASPxLabel runat="server" Text='<%#Eval("Cost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="TotalCost" Caption="Total Cost" CellStyle-HorizontalAlign="Right">
+                    <dx:GridViewDataColumn FieldName="TotalCost" Caption="Total Cost">
+                        <HeaderStyle HorizontalAlign="Right" />
+                        <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditItemTemplate>
                             <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
 
-                    <dx:GridViewDataColumn FieldName="ApprovedQty" Caption="Recommended Qty" CellStyle-HorizontalAlign="Right">
+                    <dx:GridViewDataColumn FieldName="ApprovedQty" Caption="Recommended Qty">
+                        <HeaderStyle HorizontalAlign="Right" />
+                        <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditItemTemplate>
                             <dx:ASPxLabel runat="server" Text='<%#Eval("ApprovedQty")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="ApprovedCost" Caption="Cost" CellStyle-HorizontalAlign="Right">
+                    <dx:GridViewDataColumn FieldName="ApprovedCost" Caption="Cost">
+                        <HeaderStyle HorizontalAlign="Right" />
+                        <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditItemTemplate>
                             <dx:ASPxLabel runat="server" Text='<%#Eval("ApprovedCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="ApprovedTotalCost" Caption="Total Cost" CellStyle-HorizontalAlign="Right">
+                    <dx:GridViewDataColumn FieldName="ApprovedTotalCost" Caption="Total Cost">
+                        <HeaderStyle HorizontalAlign="Right" />
+                        <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditItemTemplate>
                             <dx:ASPxLabel runat="server" Text='<%#Eval("ApprovedTotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                         </EditItemTemplate>
