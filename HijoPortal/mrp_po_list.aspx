@@ -157,7 +157,8 @@
                     AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
                 <SettingsText ConfirmDelete="Delete This Item?" />
                 <Styles>
-                    <Cell Wrap="False"></Cell>
+                    <Cell Wrap="true"></Cell>
+                    <InlineEditCell Wrap="true"></InlineEditCell>
                     <SelectedRow Font-Bold="False" Font-Italic="False">
                     </SelectedRow>
                     <FocusedRow Font-Bold="False" Font-Italic="False">
