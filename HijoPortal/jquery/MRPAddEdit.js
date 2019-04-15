@@ -64,3 +64,4 @@ function OnKeyUpQtyCapex(s, e) {//OnChange
         TotalCostCAPEX.SetIsValid(false);
     }
 }
+
