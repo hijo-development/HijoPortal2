@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="MOP Inventory Analyst (Edit)" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_inventanalyst.aspx.cs" Inherits="HijoPortal.mrp_inventanalyst" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script type="text/javascript" src="jquery/MRPInventAnalyst.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 

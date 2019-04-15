@@ -15,7 +15,7 @@ namespace HijoPortal
     public partial class mrp_list : System.Web.UI.Page
     {
 
-        private static string docNum = "", PK = "0", entCode="" , buCode="";
+        private static string docNum = "", PK = "0", entCode = "", buCode = "";
         private static int StatusKey = 0, CurrentWorkFlow = 0;
         private static DateTime dteCreated;
 
@@ -130,7 +130,7 @@ namespace HijoPortal
 
                         Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
 
-                        
+
                     }
                 }
 
@@ -151,7 +151,8 @@ namespace HijoPortal
                         if (CurrentWorkFlow == 0 || CurrentWorkFlow == 1)
                         {
                             Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
-                        } else
+                        }
+                        else
                         {
                             Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
                         }
@@ -201,11 +202,13 @@ namespace HijoPortal
 
                             }
                         }
-                    } else
+                    }
+                    else
                     {
                         text["hidden_value"] = "InvalidCreator";
                     }
-                } else if (e.ButtonID == "Preview")
+                }
+                else if (e.ButtonID == "Preview")
                 {
                     string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
                     Session["mrp_creator"] = mrp_creator;
@@ -235,11 +238,13 @@ namespace HijoPortal
                             Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                         }
                     }
-                    else if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPProcurementOfficer", dteCreated, entCode, buCode) == true) {
+                    else if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPProcurementOfficer", dteCreated, entCode, buCode) == true)
+                    {
                         if (StatusKey == 4)
                         {
                             Response.RedirectLocation = "mrp_preview_procoff.aspx?DocNum=" + docNum.ToString() + "&Source=0";
-                        } else
+                        }
+                        else
                         {
                             text["hidden_value"] = "InvalidCreator";
                         }
@@ -278,7 +283,7 @@ namespace HijoPortal
                         }
                     }
                 }
-                    
+
             }
             conn.Close();
         }
@@ -287,13 +292,14 @@ namespace HijoPortal
         {
             CheckCreatorKey();
 
-            if (GlobalClass.CheckWorkFlowSetup( DateTime.Now, Session["EntityCode"].ToString(), Session["BUCode"].ToString()) == true)
+            if (GlobalClass.CheckWorkFlowSetup(DateTime.Now, Session["EntityCode"].ToString(), Session["BUCode"].ToString()) == true)
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                 PopUpControl.HeaderText = "MRP";
                 PopUpControl.ShowOnPageLoad = true;
 
-            } else
+            }
+            else
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                 WarningText.Text = GlobalClass.WorkFlowSetupMsg;
@@ -329,6 +335,43 @@ namespace HijoPortal
             {
                 year = year - 1;
                 combo.Items.Add(year.ToString());
+            }
+        }
+
+        protected void MonthYearCombo_Init(object sender, EventArgs e)
+        {
+            if (Session["EntityCode"] != null && Session["BUCode"] != null)
+            {
+                string entitycode = Session["EntityCode"].ToString();
+                string bucode = Session["BUCode"].ToString();
+                ASPxComboBox combo = sender as ASPxComboBox;
+                combo.DataSource = MRPClass.MonthYear(entitycode, bucode);
+
+                ListBoxColumn lv = new ListBoxColumn();
+                lv.Width = 0;
+                lv.FieldName = "PK";
+                combo.Columns.Add(lv);
+
+                ListBoxColumn lt1 = new ListBoxColumn();
+                lt1.Width = 0;
+                lt1.FieldName = "DocNumber";
+                combo.Columns.Add(lt1);
+
+                ListBoxColumn lt2 = new ListBoxColumn();
+                lt2.FieldName = "MRPMonth";
+                lt2.Caption = "Month";
+                combo.Columns.Add(lt2);
+
+                ListBoxColumn lt3 = new ListBoxColumn();
+                lt3.FieldName = "MRPYear";
+                lt3.Caption = "Year";
+                combo.Columns.Add(lt3);
+
+                combo.ValueField = "PK";
+                combo.TextField = "MRPMonth";
+                combo.DataBind();
+                combo.TextFormatString = "{2}-{3}";
+                combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
             }
         }
 
@@ -499,7 +542,7 @@ namespace HijoPortal
                 adp.Fill(dtable);
                 if (dtable.Rows.Count > 0)
                 {
-                    
+
                     foreach (DataRow row in dtable.Rows)
                     {
                         int userKey = 0, status = 0, visible = 0;
@@ -544,7 +587,7 @@ namespace HijoPortal
                                     " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
                                     " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
                                     " dbo.tbl_System_Approval ON dbo.tbl_System_Approval_Details.MasterKey = dbo.tbl_System_Approval.PK " +
-                                    " WHERE(dbo.tbl_System_Approval_Details.MasterKey = "+ AppFlowKey + ") " +
+                                    " WHERE(dbo.tbl_System_Approval_Details.MasterKey = " + AppFlowKey + ") " +
                                     " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
                                     " ORDER BY dbo.tbl_System_Approval_Details.Line";
                 cmdA = new SqlCommand(query_DataFlowAdd);
@@ -630,7 +673,7 @@ namespace HijoPortal
 
             MRPSubmitClass.MRP_Submit(docNum.ToString(), Convert.ToInt32(PK), dteCreated, 0, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
-            
+
             BindMRP();
 
             MRPNotify.HeaderText = "Info";
@@ -663,7 +706,8 @@ namespace HijoPortal
                 MRPNotificationMessage.ForeColor = System.Drawing.Color.Black;
                 MRPNotify.ShowOnPageLoad = true;
 
-            } catch (SqlException ex)
+            }
+            catch (SqlException ex)
             {
                 conn.Close();
 
@@ -672,13 +716,13 @@ namespace HijoPortal
                 MRPNotificationMessage.ForeColor = System.Drawing.Color.Red;
                 MRPNotify.ShowOnPageLoad = true;
             }
-            
 
-            
 
-            
 
-            
+
+
+
+
 
             //ASPxHiddenField text = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "MRPHiddenVal") as ASPxHiddenField;
             //text["hidden_value"] = "deleted";

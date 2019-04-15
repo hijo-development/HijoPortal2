@@ -2,9 +2,14 @@
 
 <%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script type="text/javascript">
+        function Checkbox_CheckedChanged(s, e) {
+            MonthYearComboClient.SetEnabled(s.GetChecked());
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    
+
     <dx:ASPxPopupControl ID="WarningPopUp" runat="server" Modal="true" CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -20,6 +25,17 @@
             <dx:PopupControlContentControl>
                 <div style="padding: 20px 10px;">
                     <table class="popup-modal">
+                        <tr>
+                            <td>
+                                <dx:ASPxCheckBox ID="Checkbox" runat="server" Theme="Office2010Blue">
+                                    <ClientSideEvents CheckedChanged="Checkbox_CheckedChanged" />
+                                </dx:ASPxCheckBox>
+                                <dx:ASPxLabel runat="server" Text="Copy Previous MOP" Theme="Office2010Blue"></dx:ASPxLabel>
+                            </td>
+                            <td>
+                                <dx:ASPxComboBox ID="MonthYearCombo" runat="server" ClientInstanceName="MonthYearComboClient" ClientEnabled="false" ValueType="System.String" Theme="Office2010Blue" OnInit="MonthYearCombo_Init"></dx:ASPxComboBox>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <dx:ASPxComboBox ID="Month" runat="server" ValueType="System.String" NullText="Month" Theme="Office2010Blue" OnInit="Month_Init"></dx:ASPxComboBox>
@@ -81,7 +97,7 @@
                     <tr>
                         <td style="text-align: right;">
                             <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Office2010Blue" AutoPostBack="false" OnClick="OK_SUBMIT_Click">
-                                <ClientSideEvents Click ="function(s,e){
+                                <ClientSideEvents Click="function(s,e){
                                     PopupSubmitMRPList.Hide();
                                     e.processOnServer = true;
                                     }" />
@@ -110,7 +126,7 @@
                 Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
                 OnCustomButtonCallback="MainTable_CustomButtonCallback">
                 <ClientSideEvents CustomButtonClick="CustomButtonClick" />
-                <ClientSideEvents RowClick = "MOPListFocused" />
+                <ClientSideEvents RowClick="MOPListFocused" />
                 <ClientSideEvents EndCallback="MainTableEndCallback" />
                 <SettingsBehavior AllowSort="true" SortMode="Value" />
 
@@ -138,7 +154,7 @@
 
                     </dx:GridViewCommandColumn>
                     <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="DocNumber" Caption="MRP Number" VisibleIndex="2" SortOrder="Descending" Width="140px" ></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="DocNumber" Caption="MRP Number" VisibleIndex="2" SortOrder="Descending" Width="140px"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="EntityCode" Visible="false" VisibleIndex="3"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity" VisibleIndex="4"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="BUCode" Visible="false" VisibleIndex="5"></dx:GridViewDataColumn>

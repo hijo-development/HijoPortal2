@@ -6,141 +6,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script type="text/javascript" src="jquery/MRPAddEdit.js"></script>
-    <script type="text/javascript">
-        function ActivityCodeIndexChange(s, e) {
-            //var now = getNow();
-            //document.cookie = 'dmvalue=' + s.GetValue() + '; expires=' + now.toUTCString() + '; path=/';
-            //document.cookie = 'dmtext=' + s.GetText() + '; expires=' + now.toUTCString() + '; path=/';
-
-            document.cookie = 'dmvalue=' + s.GetValue();
-            document.cookie = 'dmtext=' + s.GetText();
-        }
-        
-        function ActivityCodeIndexChangeMAN(s, e) {
-            //var now = getNow();
-            document.cookie = 'manvalue=' + s.GetValue();
-            document.cookie = 'mantext=' + s.GetText();
-        }
-
-        function getNow() {
-            var now = new Date();
-            var time = now.getTime();
-            time += 3600 * 1000;
-            now.setTime(time);
-            return now;
-        }
-
-        //this function for debugging
-        function getCookie(name) {
-            var re = new RegExp(name + "=([^;]+)");
-            var value = re.exec(document.cookie);
-            return (value != null) ? unescape(value[1]) : null;
-        }
-
-        //Operating Expenditure
-        var isItem = 1;
-        var isProdCat = 1;
-        var postponedCallbackOPEXProCat = false;
-        function ExpenseCodeIndexChangeOPEX(s, e) {
-            isItem = parseInt(s.GetSelectedItem().GetColumnText('isItem'));
-            isProdCat = parseInt(s.GetSelectedItem().GetColumnText('isProdCategory'));
-
-            //Save cookies
-            document.cookie = 'opvalue=' + s.GetValue();
-            document.cookie = 'optext=' + s.GetText();
-            document.cookie = 'opisItem=' + isItem;
-            document.cookie = 'opisProdCat=' + isProdCat;
-
-            switch (isItem) {
-                case 0://Non PO
-                    document.getElementById("div1").style.display = "none";
-                    document.getElementById("div2").style.display = "none";
-                    DescriptionOPEX.SetText("");
-                    DescriptionOPEX.GetInputElement().readOnly = false;
-                    ItemCodeOPEX.SetText("");
-                    break;
-                case 1://PO
-                    document.getElementById("div1").style.display = "block";
-                    document.getElementById("div2").style.display = "block";
-                    DescriptionOPEX.SetText("");
-                    DescriptionOPEX.GetInputElement().readOnly = true;
-                    ItemCodeOPEX.SetText("");
-                    break;
-            }
-
-            switch (isProdCat) {
-                case 0://hide product category combobox
-                    document.getElementById("CA_prodcombo_div").style.display = "none";
-                    document.getElementById("CA_prodlabel_div").style.display = "none";
-                    break;
-                case 1://show product category combobox
-                    document.getElementById("CA_prodcombo_div").style.display = "block";
-                    document.getElementById("CA_prodlabel_div").style.display = "block";
-                    break;
-            }
-
-            if (ProcCatOPEXCallbackClient.InCallback()) {
-                postponedCallbackOPEXProCat = true;
-            }
-            else {
-                ProcCatOPEXCallbackClient.PerformCallback();
-            }
-        }
-
-        function ProcCatOPEX_SelectedIndexChanged(s, e) {
-            document.cookie = 'opproductvalue=' + s.GetValue();
-            document.cookie = 'opproducttext=' + s.GetText();
-        }
-
-        function ProdCat_SelectedIndexChanged(s, e) {
-            document.cookie = 'caproductvalue=' + s.GetValue();
-            document.cookie = 'caproducttext=' + s.GetText();
-        }
-
-        function pageinit(s, e) {
-            if (isItemBeginCallback == 0) {
-                document.getElementById("div1").style.display = "none";
-                document.getElementById("div2").style.display = "none";
-                ItemCodeOPEX.SetText("");
-            }
-            
-            if (OPEXGrid.IsNewRowEditing()) {
-
-                var isItem = getCookie("opisItem");
-                var isProdCat = getCookie("opisProdCat");
-
-                switch (isItem) {
-                    case 0://Non PO
-                        document.getElementById("div1").style.display = "none";
-                        document.getElementById("div2").style.display = "none";
-                        DescriptionOPEX.SetText("");
-                        DescriptionOPEX.GetInputElement().readOnly = false;
-                        ItemCodeOPEX.SetText("");
-                        break;
-                    case 1://PO
-                        document.getElementById("div1").style.display = "block";
-                        document.getElementById("div2").style.display = "block";
-                        DescriptionOPEX.SetText("");
-                        DescriptionOPEX.GetInputElement().readOnly = true;
-                        ItemCodeOPEX.SetText("");
-                        break;
-                }
-
-                switch (isProdCat) {
-                    case 0://hide product category combobox
-                        document.getElementById("CA_prodcombo_div").style.display = "none";
-                        document.getElementById("CA_prodlabel_div").style.display = "none";
-                        break;
-                    case 1://show product category combobox
-                        document.getElementById("CA_prodcombo_div").style.display = "block";
-                        document.getElementById("CA_prodlabel_div").style.display = "block";
-                        break;
-                }
-            }
-        }
-
-
-    </script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -452,7 +317,7 @@
                                                                                                             <td>
                                                                                                                 <div id="OperatingUnit_combo" runat="server">
                                                                                                                     <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnit" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue" Width="300px">
-                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitDM" />
+                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitDM_SelectedIndexChanged" />
                                                                                                                         <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
                                                                                                                         </ValidationSettings>
                                                                                                                     </dx:ASPxComboBox>
@@ -624,7 +489,8 @@
                                                         OnRowUpdating="OPEXGrid_RowUpdating"
                                                         OnBeforeGetCallbackResult="OPEXGrid_BeforeGetCallbackResult"
                                                         OnDataBound="OPEXGrid_DataBound"
-                                                        OnCancelRowEditing="OPEXGrid_CancelRowEditing">
+                                                        OnCancelRowEditing="OPEXGrid_CancelRowEditing" 
+                                                        OnHtmlEditFormCreated="OPEXGrid_HtmlEditFormCreated">
                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
                                                         <ClientSideEvents BeginCallback="OnBeginCallback" />
                                                         <ClientSideEvents CustomButtonClick="OPEXGrid_CustomButtonClick" />
@@ -698,7 +564,7 @@
                                                             <EditForm>
                                                                 <div style="padding: 4px 3px 4px">
                                                                     <dx:ASPxPageControl ID="OPEXPageControl" runat="server" Width="100%" Theme="Office2010Blue">
-                                                                        <ClientSideEvents Init="pageinit" />
+                                                                        <%--<ClientSideEvents Init="pageinit" />--%>
                                                                         <TabPages>
                                                                             <dx:TabPage Text="Operating Expense" Visible="true">
                                                                                 <ContentCollection>
@@ -738,48 +604,40 @@
                                                                                                         </tr>
                                                                                                         <tr>
                                                                                                             <td>
-                                                                                                                <div id="CA_prodlabel_divrunat" runat="server">
-                                                                                                                    <div id="CA_prodlabel_div">
-                                                                                                                        <dx:ASPxLabel runat="server" Text="Procurement Category" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                                    </div>
+                                                                                                                <div id="CA_prodlabel_div">
+                                                                                                                    <dx:ASPxLabel runat="server" Text="Procurement Category" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                                 </div>
 
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <div id="CA_prodcombo_divrunat" runat="server">
-                                                                                                                    <div id="CA_prodcombo_div">
-                                                                                                                        <dx:ASPxCallbackPanel ID="ProcCatOPEXCallback" runat="server" ClientInstanceName="ProcCatOPEXCallbackClient" OnCallback="ProcCatOPEXCallback_Callback">
-                                                                                                                            <PanelCollection>
-                                                                                                                                <dx:PanelContent>
-                                                                                                                                    <dx:ASPxComboBox ID="ProcCatOPEX" runat="server" ClientInstanceName="ProcCatOPEX" OnInit="ProcCatOPEX_Init" ValueType="System.String" Theme="Office2010Blue" Width="300px">
-                                                                                                                                        <ClientSideEvents SelectedIndexChanged="ProcCatOPEX_SelectedIndexChanged" />
-                                                                                                                                    </dx:ASPxComboBox>
-                                                                                                                                </dx:PanelContent>
-                                                                                                                            </PanelCollection>
+                                                                                                                <div id="CA_prodcombo_div">
+                                                                                                                    <dx:ASPxCallbackPanel ID="ProcCatOPEXCallback" runat="server" ClientInstanceName="ProcCatOPEXCallbackClient" OnCallback="ProcCatOPEXCallback_Callback">
+                                                                                                                        <PanelCollection>
+                                                                                                                            <dx:PanelContent>
+                                                                                                                                <dx:ASPxComboBox ID="ProcCatOPEX" runat="server" ClientInstanceName="ProcCatOPEX" OnInit="ProcCatOPEX_Init" ValueType="System.String" Theme="Office2010Blue" Width="300px">
+                                                                                                                                    <ClientSideEvents SelectedIndexChanged="ProcCatOPEX_SelectedIndexChanged" />
+                                                                                                                                    <%--<ClientSideEvents EndCallback="ProcCatOPEX_EndCallback" />--%>
+                                                                                                                                </dx:ASPxComboBox>
+                                                                                                                            </dx:PanelContent>
+                                                                                                                        </PanelCollection>
 
-                                                                                                                        </dx:ASPxCallbackPanel>
-                                                                                                                    </div>
+                                                                                                                    </dx:ASPxCallbackPanel>
                                                                                                                 </div>
-
                                                                                                             </td>
                                                                                                         </tr>
                                                                                                         <tr>
                                                                                                             <td style="width: 20%;">
-                                                                                                                <div id="div1runat" runat="server">
-                                                                                                                    <div id="div1">
-                                                                                                                        <dx:ASPxLabel runat="server" Text="Item Code" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                                    </div>
+                                                                                                                <div id="div1">
+                                                                                                                    <dx:ASPxLabel runat="server" Text="Item Code" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                                 </div>
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <div id="div2runat" runat="server">
-                                                                                                                    <div id="div2">
-                                                                                                                        <dx:ASPxTextBox ID="ItemCode" runat="server" ClientInstanceName="ItemCodeOPEX" Text='<%#Eval("ItemCode")%>' Theme="Office2010Blue" Width="300px">
-                                                                                                                            <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
-                                                                                                                            <ClientSideEvents KeyPress="ItemCodeOPEX_KeyPress" />
-                                                                                                                        </dx:ASPxTextBox>
+                                                                                                                <div id="div2">
+                                                                                                                    <dx:ASPxTextBox ID="ItemCode" runat="server" ClientInstanceName="ItemCodeOPEX" Text='<%#Eval("ItemCode")%>' Theme="Office2010Blue" Width="300px">
+                                                                                                                        <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                        <ClientSideEvents KeyPress="ItemCodeOPEX_KeyPress" />
+                                                                                                                    </dx:ASPxTextBox>
 
-                                                                                                                    </div>
                                                                                                                 </div>
 
                                                                                                             </td>
@@ -1006,7 +864,7 @@
                                                                                                             <td>
                                                                                                                 <div id="OperatingUnit_combo" runat="server">
                                                                                                                     <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnitMAN" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue">
-                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitMAN" />
+                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitMAN_SelectedIndexChanged" />
                                                                                                                         <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
                                                                                                                         </ValidationSettings>
                                                                                                                     </dx:ASPxComboBox>
@@ -1232,7 +1090,7 @@
                                                                                                             <td>
                                                                                                                 <div id="OperatingUnit_combo" runat="server">
                                                                                                                     <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnitCA" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue" Width="300px">
-                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitCA" />
+                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitCA_SelectedIndexChanged" />
                                                                                                                         <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
                                                                                                                         </ValidationSettings>
                                                                                                                     </dx:ASPxComboBox>
@@ -1452,7 +1310,7 @@
                                                                                                             <td>
                                                                                                                 <div id="OperatingUnit_combo" runat="server">
                                                                                                                     <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnitREV" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue" Width="300px">
-                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitREV" />
+                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitREV_SelectedIndexChanged" />
                                                                                                                         <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
                                                                                                                         </ValidationSettings>
                                                                                                                     </dx:ASPxComboBox>
