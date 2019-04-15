@@ -1849,9 +1849,17 @@ namespace HijoPortal
 
                     ModalPopupExtenderLoading.Hide();
 
-                    MRPNotify.HeaderText = "Info";
-                    MRPNotificationMessage.Text = "Successfully Submitted!";
-                    MRPNotify.ShowOnPageLoad = true;
+                    if (MRPSubmitClass.SubmitError == "")
+                    {
+                        MRPNotify.HeaderText = "Info";
+                        MRPNotificationMessage.Text = "Successfully Submitted!";
+                        MRPNotify.ShowOnPageLoad = true;
+                    } else
+                    {
+                        MRPNotify.HeaderText = "Error";
+                        MRPNotificationMessage.Text = MRPSubmitClass.SubmitError.ToString();
+                        MRPNotify.ShowOnPageLoad = true;
+                    }
 
                 }
                 else
@@ -1886,10 +1894,18 @@ namespace HijoPortal
 
                         ModalPopupExtenderLoading.Hide();
 
-                        MRPNotify.HeaderText = "Info";
-                        MRPNotificationMessage.Text = "Successfully Submitted!";
-                        MRPNotify.ShowOnPageLoad = true;
-
+                        if (MRPSubmitClass.SubmitError == "")
+                        {
+                            MRPNotify.HeaderText = "Info";
+                            MRPNotificationMessage.Text = "Successfully Submitted!";
+                            MRPNotify.ShowOnPageLoad = true;
+                        }
+                        else
+                        {
+                            MRPNotify.HeaderText = "Error";
+                            MRPNotificationMessage.Text = MRPSubmitClass.SubmitError.ToString();
+                            MRPNotify.ShowOnPageLoad = true;
+                        }
                     }
                     else
                     {

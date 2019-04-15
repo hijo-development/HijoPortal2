@@ -167,48 +167,48 @@ namespace HijoPortal
             {
                 if (e.ButtonID == "Edit" || e.ButtonID == "Submit" || e.ButtonID == "Delete")
                 {
-                    if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dteCreated, entCode, buCode) == true)
-                    {
-                        if (e.ButtonID == "Edit")
-                        {
-                            if (MainTable.FocusedRowIndex > -1)
-                            {
-                                string mrp_pk = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
-                                string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
+                    //if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dteCreated, entCode, buCode) == true)
+                    //{
+                    //    if (e.ButtonID == "Edit")
+                    //    {
+                    //        if (MainTable.FocusedRowIndex > -1)
+                    //        {
+                    //            string mrp_pk = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
+                    //            string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
+                    //            string statusKey = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+                    //            string wrkLine = "0";
 
-                                Session["mrp_creator"] = mrp_creator;
+                    //            Session["mrp_creator"] = mrp_creator;
 
-                                //DEBUGGING ONLY
-                                Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
-                            }
-                        }
-                        if (e.ButtonID == "Delete")
-                        {
-                            //msgTrans.Text = "Pass Delete";
-                            if (MainTable.FocusedRowIndex > -1)
-                            {
-                                Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+                    //            //DEBUGGING ONLY
+                    //            Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + wrkLine;
+                    //        }
+                    //    }
+                    //    if (e.ButtonID == "Delete")
+                    //    {
+                    //        //msgTrans.Text = "Pass Delete";
+                    //        if (MainTable.FocusedRowIndex > -1)
+                    //        {
+                    //            Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
 
-                            }
-                        }
-                        if (e.ButtonID == "Submit")
-                        {
-                            if (MainTable.FocusedRowIndex > -1)
-                            {
-                                //MRPClass.PrintString(StatusKey.ToString());
+                    //        }
+                    //    }
+                    //    if (e.ButtonID == "Submit")
+                    //    {
+                    //        if (MainTable.FocusedRowIndex > -1)
+                    //        {
+                    //            //MRPClass.PrintString(StatusKey.ToString());
 
-                                Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+                    //            Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
 
 
-                            }
-                        }
-                    }
-                    else
-                    {
+                    //        }
+                    //    }
+                    //} else
+                    //{
                         text["hidden_value"] = "InvalidCreator";
-                    }
-                }
-                else if (e.ButtonID == "Preview")
+                    //}
+                } else if (e.ButtonID == "Preview")
                 {
                     string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
                     Session["mrp_creator"] = mrp_creator;
