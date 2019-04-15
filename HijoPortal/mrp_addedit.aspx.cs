@@ -889,10 +889,37 @@ namespace HijoPortal
         {
             bindCapex = false;
 
-            string a = OPEXGrid.GetRowValuesByKeyValue(e.EditingKeyValue, "isItem").ToString();
+            string isItem = OPEXGrid.GetRowValuesByKeyValue(e.EditingKeyValue, "isItem").ToString();
 
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
+            ASPxTextBox Description = pageControl.FindControl("Description") as ASPxTextBox;
+            ASPxTextBox ItemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
+            HtmlControl div1 = (HtmlControl)pageControl.FindControl("div1");
+            HtmlControl div2 = (HtmlControl)pageControl.FindControl("div2");
+            HtmlControl CA_prodcombo_div = (HtmlControl)pageControl.FindControl("CA_prodcombo_div");
+            HtmlControl CA_prodlabel_div = (HtmlControl)pageControl.FindControl("CA_prodlabel_div");
 
-            ASPxPageControl pageControl = OPEXGrid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
+            //div1 and div2 is ItemCode Combobox
+            switch (isItem)
+            {
+                case "0":
+                    div1.Style.Add("display", "none");
+                    div2.Style.Add("display", "none");
+
+                    Description.Text = "";
+                    Description.ReadOnly = false;
+                    ItemCode.Text = "";
+                    break;
+                case "1":
+                    div1.Style.Add("display", "block");
+                    div2.Style.Add("display", "block");
+
+                    Description.Text = "";
+                    Description.ReadOnly = true;
+                    ItemCode.Text = "";
+                    break;
+            }
 
         }
 
@@ -1633,64 +1660,64 @@ namespace HijoPortal
 
         protected void OPEXGrid_HtmlEditFormCreated(object sender, ASPxGridViewEditFormEventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Cookies", "AddEditDisplay.cookiesCondition();", true);
+            //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Cookies", "AddEditDisplay.cookiesCondition();", true);
+            ASPxGridView grid = sender as ASPxGridView;
+            if (grid.IsNewRowEditing)
+            {
+                ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
+                ASPxTextBox Description = pageControl.FindControl("Description") as ASPxTextBox;
+                ASPxTextBox ItemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
+                HtmlControl div1 = (HtmlControl)pageControl.FindControl("div1");
+                HtmlControl div2 = (HtmlControl)pageControl.FindControl("div2");
+                HtmlControl CA_prodcombo_div = (HtmlControl)pageControl.FindControl("CA_prodcombo_div");
+                HtmlControl CA_prodlabel_div = (HtmlControl)pageControl.FindControl("CA_prodlabel_div");
+
+                HttpCookie cookie_isItem = null;
+                HttpCookie cookie_isProdCat = null;
+
+                cookie_isItem = Request.Cookies["opisItem"];
+                cookie_isProdCat = Request.Cookies["opisProdCat"];
+                if (cookie_isItem != null && cookie_isProdCat != null)
+                {
+                    MRPClass.PrintString(cookie_isItem.Value.ToString());
+                    //div1 and div2 is ItemCode Combobox
+                    switch (cookie_isItem.Value)
+                    {
+                        case "0":
+                            div1.Style.Add("display", "none");
+                            div2.Style.Add("display", "none");
+
+                            Description.Text = "";
+                            Description.ReadOnly = false;
+                            ItemCode.Text = "";
+                            break;
+                        case "1":
+                            div1.Style.Add("display", "block");
+                            div2.Style.Add("display", "block");
+
+                            Description.Text = "";
+                            Description.ReadOnly = true;
+                            ItemCode.Text = "";
+                            break;
+                    }
+
+                    switch (cookie_isProdCat.Value)
+                    {
+                        case "0"://hide product category combobox
+                                 //document.getElementById("CA_prodcombo_div").style.display = "none";
+                                 //document.getElementById("CA_prodlabel_div").style.display = "none";
+
+                            CA_prodcombo_div.Style.Add("display", "none");
+                            CA_prodlabel_div.Style.Add("display", "none");
+                            break;
+                        case "1"://show product category combobox
+                            CA_prodcombo_div.Style.Add("display", "block");
+                            CA_prodlabel_div.Style.Add("display", "block");
+                            break;
+                    }
+                }
+            }
         }
-
-        //protected void OPEXPageControl_Init(object sender, EventArgs e)
-        //{
-        //    ASPxPageControl pageControl = sender as ASPxPageControl;
-        //    ASPxTextBox Description = pageControl.FindControl("Description") as ASPxTextBox;
-        //    ASPxTextBox ItemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
-        //    HtmlControl div1 = (HtmlControl)pageControl.FindControl("div1runat");
-        //    HtmlControl div2 = (HtmlControl)pageControl.FindControl("div2runat");
-        //    HtmlControl CA_prodcombo_div = (HtmlControl)pageControl.FindControl("CA_prodcombo_divrunat");
-        //    HtmlControl CA_prodlabel_div = (HtmlControl)pageControl.FindControl("CA_prodlabel_divrunat");
-
-        //    HttpCookie cookie_isItem = null;
-        //    HttpCookie cookie_isProdCat = null;
-
-        //    cookie_isItem = Request.Cookies["opisItem"];
-        //    cookie_isProdCat = Request.Cookies["opisProdCat"];
-        //    if (cookie_isItem != null && cookie_isProdCat != null)
-        //    {
-        //        MRPClass.PrintString(cookie_isItem.Value.ToString());
-        //        //div1 and div2 is ItemCode Combobox
-        //        switch (cookie_isItem.Value)
-        //        {
-        //            case "0":
-        //                div1.Style.Add("display", "none");
-        //                div2.Style.Add("display", "none");
-
-        //                Description.Text = "";
-        //                Description.ReadOnly = false;
-        //                ItemCode.Text = "";
-        //                break;
-        //            case "1":
-        //                div1.Style.Add("display", "block");
-        //                div2.Style.Add("display", "block");
-
-        //                Description.Text = "";
-        //                Description.ReadOnly = true;
-        //                ItemCode.Text = "";
-        //                break;
-        //        }
-
-        //        switch (cookie_isProdCat.Value)
-        //        {
-        //            case "0"://hide product category combobox
-        //                //document.getElementById("CA_prodcombo_div").style.display = "none";
-        //                //document.getElementById("CA_prodlabel_div").style.display = "none";
-
-        //                CA_prodcombo_div.Style.Add("display", "none");
-        //                CA_prodlabel_div.Style.Add("display", "none");
-        //                break;
-        //            case "1"://show product category combobox
-        //                CA_prodcombo_div.Style.Add("display", "block");
-        //                CA_prodlabel_div.Style.Add("display", "block");
-        //                break;
-        //        }
-        //    }
-        //}
 
         protected void ProcCatOPEX_Init(object sender, EventArgs e)
         {
@@ -1854,7 +1881,8 @@ namespace HijoPortal
                         MRPNotify.HeaderText = "Info";
                         MRPNotificationMessage.Text = "Successfully Submitted!";
                         MRPNotify.ShowOnPageLoad = true;
-                    } else
+                    }
+                    else
                     {
                         MRPNotify.HeaderText = "Error";
                         MRPNotificationMessage.Text = MRPSubmitClass.SubmitError.ToString();

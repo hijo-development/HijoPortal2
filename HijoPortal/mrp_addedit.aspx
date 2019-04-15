@@ -539,7 +539,8 @@
                                                                 <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                             </dx:GridViewDataColumn>
                                                             <dx:GridViewDataColumn FieldName="ExpenseCode" Visible="false"></dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="isItem" Visible="false"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="isItem" Visible="true"></dx:GridViewDataColumn>
+                                                            <dx:GridViewDataColumn FieldName="isallowedProcCat" Visible="true"></dx:GridViewDataColumn>
                                                         </Columns>
 
                                                         <SettingsCommandButton>
@@ -604,13 +605,13 @@
                                                                                                         </tr>
                                                                                                         <tr>
                                                                                                             <td>
-                                                                                                                <div id="CA_prodlabel_div">
+                                                                                                                <div id="CA_prodlabel_div" class="CA_prodlabel_divClass" runat="server">
                                                                                                                     <dx:ASPxLabel runat="server" Text="Procurement Category" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                                 </div>
 
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <div id="CA_prodcombo_div">
+                                                                                                                <div id="CA_prodcombo_div" class="CA_prodcombo_divClass" runat="server">
                                                                                                                     <dx:ASPxCallbackPanel ID="ProcCatOPEXCallback" runat="server" ClientInstanceName="ProcCatOPEXCallbackClient" OnCallback="ProcCatOPEXCallback_Callback">
                                                                                                                         <PanelCollection>
                                                                                                                             <dx:PanelContent>
@@ -627,12 +628,12 @@
                                                                                                         </tr>
                                                                                                         <tr>
                                                                                                             <td style="width: 20%;">
-                                                                                                                <div id="div1">
+                                                                                                                <div id="div1" class="div1Class" runat="server">
                                                                                                                     <dx:ASPxLabel runat="server" Text="Item Code" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                                 </div>
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <div id="div2">
+                                                                                                                <div id="div2" class="div2Class" runat="server">
                                                                                                                     <dx:ASPxTextBox ID="ItemCode" runat="server" ClientInstanceName="ItemCodeOPEX" Text='<%#Eval("ItemCode")%>' Theme="Office2010Blue" Width="300px">
                                                                                                                         <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                         <ClientSideEvents KeyPress="ItemCodeOPEX_KeyPress" />
