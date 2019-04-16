@@ -44,12 +44,19 @@ namespace HijoPortal
             gridCreatedPO.DataBind();
         }
 
+        //protected void Page_Init(object sender, EventArgs e)
+        //{
+        //    ModalPopupExtenderLoading.Show();
+        //}
+
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckCreatorKey();
+            //ModalPopupExtenderLoading.Hide();
             ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             if (!Page.IsPostBack)
             {
+
             }
 
             Bind_PO_List();
@@ -74,7 +81,6 @@ namespace HijoPortal
                     }
                 case "Submit":
                     {
-
                         break;
                     }
 
