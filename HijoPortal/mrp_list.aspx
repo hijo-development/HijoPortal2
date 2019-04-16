@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="MOP List" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_list.aspx.cs" Inherits="HijoPortal.mrp_list" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script type="text/javascript">
@@ -10,17 +12,26 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <dx:ASPxPopupControl ID="WarningPopUp" runat="server" Modal="true" CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" Theme="Office2010Blue">
-        <ContentCollection>
-            <dx:PopupControlContentControl>
-                <div style="padding: 5px;">
-                    <dx:ASPxLabel runat="server" ID="WarningText" Text=""></dx:ASPxLabel>
-                </div>
-            </dx:PopupControlContentControl>
-        </ContentCollection>
-    </dx:ASPxPopupControl>
+    <asp:TextBox ID="TextBoxLoading" runat="server" Visible="true" Style="display: none;"></asp:TextBox>
+    <ajaxToolkit:ModalPopupExtender runat="server"
+        ID="ModalPopupExtenderLoading"
+        BackgroundCssClass="modalBackground"
+        PopupControlID="PanelLoading"
+        TargetControlID="TextBoxLoading"
+        CancelControlID="ButtonErrorOK1"
+        ClientIDMode="Static">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PanelLoading" runat="server"
+        CssClass="modalPopupLoading"
+        Height="200px"
+        Width="200px"
+        align="center"
+        Style="display: none;">
+        <img src="images/Loading.gif" style="height: 200px; width: 200px;" />
+        <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
+    </asp:Panel>
 
-    <dx:ASPxPopupControl ID="PopUpControl" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="PopUpControl" ClientInstanceName="PopUpControl" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <div style="padding: 20px 10px;">
@@ -44,10 +55,26 @@
                                 <dx:ASPxComboBox ID="Year" runat="server" ValueType="System.String" NullText="Year" Theme="Office2010Blue" OnInit="Year_Init"></dx:ASPxComboBox>
                             </td>
                             <td>
-                                <dx:ASPxButton ID="BtnAdd" runat="server" Text="Add" Theme="Office2010Blue" OnClick="BtnAdd_Click"></dx:ASPxButton>
+                                <dx:ASPxButton ID="BtnAdd" runat="server" Text="Add" Theme="Office2010Blue" OnClick="BtnAdd_Click">
+                                    <ClientSideEvents Click="function(s,e){
+                                    PopUpControl.Hide();
+                                    $find('ModalPopupExtenderLoading').show();
+                                    e.processOnServer = true;
+                                    }" />
+                                </dx:ASPxButton>
                             </td>
                         </tr>
                     </table>
+                </div>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
+    <dx:ASPxPopupControl ID="WarningPopUp" runat="server" Modal="true" CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <div style="padding: 5px;">
+                    <dx:ASPxLabel runat="server" ID="WarningText" Text=""></dx:ASPxLabel>
                 </div>
             </dx:PopupControlContentControl>
         </ContentCollection>
@@ -74,6 +101,11 @@
                         <td style="text-align: right;">
                             <dx:ASPxButton ID="OK_DELETE" runat="server" Text="DELETE" Theme="Office2010Blue" AutoPostBack="false" OnClick="OK_DELETE_Click">
                                 <%--<ClientSideEvents Click="OK_DELETE" />--%>
+                                <ClientSideEvents Click="function(s,e){
+                                    PopupDeleteMRPList.Hide();
+                                    $find('ModalPopupExtenderLoading').show();
+                                    e.processOnServer = true;
+                                    }" />
                             </dx:ASPxButton>
                             <dx:ASPxButton ID="CANCEL_DELETE" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
                                 <ClientSideEvents Click="function(s,e){PopupDeleteMRPList.Hide();}" />
@@ -99,6 +131,7 @@
                             <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Office2010Blue" AutoPostBack="false" OnClick="OK_SUBMIT_Click">
                                 <ClientSideEvents Click="function(s,e){
                                     PopupSubmitMRPList.Hide();
+                                    $find('ModalPopupExtenderLoading').show();
                                     e.processOnServer = true;
                                     }" />
                             </dx:ASPxButton>

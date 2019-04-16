@@ -85,6 +85,8 @@ namespace HijoPortal.classes
 
         public static string Decrypt(string cipherText)
         {
+            if (cipherText == "" || cipherText == null) { return ""; }
+
             var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(cipherText);
             var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(Keysize / 8).ToArray();
             var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8).Take(Keysize / 8).ToArray();

@@ -383,265 +383,285 @@ namespace HijoPortal
             if (Month.Value == null || Year.Value == null)
                 return;
 
+            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+            int CopyMOP = 0, PreMonth = 0, PreYear = 0;
+
             string month = Month.Value.ToString();
             string year = Year.Value.ToString();
-            int monthIndex = Convert.ToDateTime("01-" + month + "-2011").Month;
-            int yearInteger = Convert.ToInt32(year);
 
-            if (monthIndex <= Convert.ToInt32(DateTime.Now.Month.ToString("00")) && yearInteger <= Convert.ToInt32(DateTime.Now.Year.ToString()))
+            string sResult = MRPClass.Insert_MRP(month, year, Convert.ToInt32(Session["CreatorKey"].ToString()), Session["EntityCode"].ToString(), Session["BUCode"].ToString(), CopyMOP, PreMonth, PreYear, WarningPopUp, WarningText, PopUpControl);
+
+            string[] txtSplit = sResult.Split('|');
+            int iRes = Convert.ToInt32(txtSplit[0]);
+            string docNumber = txtSplit[1].ToString();
+
+            if (iRes == 1)
             {
-
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-
-                WarningPopUp.HeaderText = month + " " + year;
-                WarningPopUp.ShowOnPageLoad = true;
-                WarningText.Text = "Month and Year behind current date";
-                return;
-            }
-
-
-            string query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE [MRPMonth] = @MONTH AND [MRPYear] = @YEAR AND [EntityCode] = @ENTITYCODE AND [BUCode] = @BUCODE";
-
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-
-            SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@MONTH", monthIndex);
-            cmd.Parameters.AddWithValue("@YEAR", yearInteger);
-            cmd.Parameters.AddWithValue("@ENTITYCODE", Session["EntityCode"].ToString());
-            cmd.Parameters.AddWithValue("@BUCODE", Session["BUCode"].ToString());
-            cmd.CommandType = CommandType.Text;
-            int count = Convert.ToInt32(cmd.ExecuteScalar());
-            if (count > 0)
-            {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-
-                WarningPopUp.HeaderText = month + " " + year;
-                WarningPopUp.ShowOnPageLoad = true;
-                WarningText.Text = "Month and Year Already Exist";
-            }
-            else
-            {
-                string DocumentPrefix = "", DocumentNum = "", STATUS_NAME = "";
-                int STATUS_KEY = 0, DataFlowKey = 0, AppFlowKey = 0;
-                int MRP_MONTH = monthIndex;
-                int MRP_YEAR = yearInteger;
-
-                query = "SELECT [DocumentPrefix],[DocumentNum] FROM [hijo_portal].[dbo].[tbl_DocumentNumber] WHERE [DocumentPrefix] = 'MRP'";
-
-                SqlCommand command = new SqlCommand(query, conn);
-                SqlDataReader reader = command.ExecuteReader();
-
-
-                while (reader.Read())
-                {
-                    DocumentPrefix = reader[0].ToString();
-                    DocumentNum = reader[1].ToString();
-                    //MRPClass.PrintString("prefix:" + DocumentPrefix);
-                }
-                reader.Close();
-                int doc_num = Int32.Parse(DocumentNum) + 1;
-                string update_DocNumber = "UPDATE [dbo].[tbl_DocumentNumber] SET [DocumentNum] = '" + doc_num + "' WHERE [DocumentPrefix] = 'MRP'";
-                command = new SqlCommand(update_DocNumber, conn);
-                command.ExecuteNonQuery();
-
-                string query_PK_STATUS = "SELECT [PK],[StatusName] FROM [hijo_portal].[dbo].[tbl_MRP_Status] WHERE [StatusName] = 'Draft'";
-                command = new SqlCommand(query_PK_STATUS, conn);
-                reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    STATUS_KEY = Convert.ToInt32(reader[0].ToString());
-                    STATUS_NAME = reader[1].ToString();
-
-                }
-                reader.Close();
-
-                string monthStringTwoDigits = DateTime.Now.ToString("MM");
-                string yearStringTwoDigits = DateTime.Now.ToString("yy");
-                DateTime DATE_CREATED = DateTime.Now;
-                string BU_CODE = Session["BUCode"].ToString();
-                string CREATOR_KEY = Session["CreatorKey"].ToString();
-                string ENTITY_CODE = Session["EntityCode"].ToString();
-                string DOC_NUMBER = (doc_num).ToString("00000#");
-                DOC_NUMBER = ENTITY_CODE + "-" + monthStringTwoDigits + yearStringTwoDigits + DocumentPrefix + "-" + DOC_NUMBER;
-
-                string query_DataFlow = "SELECT TOP (1) [PK] FROM [hijo_portal].[dbo].[tbl_System_MOP_DataFlow] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
-                command = new SqlCommand(query_DataFlow, conn);
-                reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    DataFlowKey = Convert.ToInt32(reader[0].ToString());
-                }
-                reader.Close();
-
-                string query_AppFlow = "SELECT TOP (1) [PK] FROM [hijo_portal].[dbo].[tbl_System_Approval] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
-                command = new SqlCommand(query_AppFlow, conn);
-                reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    AppFlowKey = Convert.ToInt32(reader[0].ToString());
-                }
-                reader.Close();
-
-                string str = "INSERT INTO [dbo].[tbl_MRP_List] ([DocNumber], [DateCreated], [EntityCode], [BUCode], [MRPMonth], [MRPYear], [StatusKey], [CreatorKey], [LastModified]) VALUES (@DocNumber, @DateCreated, @EntityCode, @BUCode, @Month, @Year, @StatusKey, @CreatorKey, @LastModified)";
-
-                cmd = new SqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("@DocNumber", DOC_NUMBER);
-                cmd.Parameters.AddWithValue("@DateCreated", DATE_CREATED);
-                cmd.Parameters.AddWithValue("@EntityCode", ENTITY_CODE);
-                cmd.Parameters.AddWithValue("@BUCode", BU_CODE);
-                cmd.Parameters.AddWithValue("@Month", MRP_MONTH);
-                cmd.Parameters.AddWithValue("@Year", MRP_YEAR);
-                cmd.Parameters.AddWithValue("@StatusKey", STATUS_KEY);
-                cmd.Parameters.AddWithValue("@CreatorKey", CREATOR_KEY);
-                cmd.Parameters.AddWithValue("@LastModified", DATE_CREATED.ToString("MM/dd/yyyy hh:mm:ss tt"));
-                cmd.CommandType = CommandType.Text;
-                int result = cmd.ExecuteNonQuery();
-
-                string remarks = "MRP-ADD";
-
-                int pk_latest = 0;
-                string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.MOPTableName() + " ORDER BY [PK] DESC";
-                SqlCommand comm = new SqlCommand(query_pk, conn);
-                SqlDataReader r = comm.ExecuteReader();
-
-                while (r.Read()) pk_latest = Convert.ToInt32(r[0].ToString());
-                r.Close();
-
-                //Add Dataflow  DataFlowKey
-                string eMailAdd = "", query_DataFlowAdd = "";
-
-                SqlCommand cmdA = null;
-                SqlDataAdapter adp;
-                DataTable dtable = new DataTable();
-
-                SqlCommand cmdB = null;
-                SqlDataAdapter adp1;
-                DataTable dtable1 = new DataTable();
-
-                //string query_DataFlowAdd = "SELECT dbo.tbl_System_MOP_DataFlow_Details.Line, " +
-                //                           " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey, " +
-                //                           " dbo.tbl_System_Approval_Position.SQLQuery " +
-                //                           " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
-                //                           " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                //                           " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + DataFlowKey + ") " +
-                //                           " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
-                //                           " ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
-
-                query_DataFlowAdd = "SELECT dbo.tbl_System_MOP_DataFlow_Details.Line, " +
-                                    " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey, " +
-                                    " dbo.tbl_System_Approval_Position.SQLQuery " +
-                                    " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
-                                    " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                                    " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + DataFlowKey + ") " +
-                                    " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
-                                    " ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
-                cmdA = new SqlCommand(query_DataFlowAdd);
-                cmdA.Connection = conn;
-                adp = new SqlDataAdapter(cmdA);
-                adp.Fill(dtable);
-                if (dtable.Rows.Count > 0)
-                {
-
-                    foreach (DataRow row in dtable.Rows)
-                    {
-                        int userKey = 0, status = 0, visible = 0;
-                        if (row["SQLQuery"].ToString().Trim() != "")
-                        {
-                            string qryB = row["SQLQuery"].ToString() + " '" + ENTITY_CODE + "', '" + BU_CODE + "', '" + DATE_CREATED + "'";
-                            cmdB = new SqlCommand(qryB);
-                            cmdB.Connection = conn;
-                            adp1 = new SqlDataAdapter(cmdB);
-                            adp1.Fill(dtable1);
-                            if (dtable1.Rows.Count > 0)
-                            {
-                                foreach (DataRow row1 in dtable1.Rows)
-                                {
-                                    userKey = Convert.ToInt32(row1["UserKey"]);
-                                }
-                            }
-                            dtable1.Clear();
-                        }
-
-                        string qryAddDataflow = "INSERT INTO tbl_MRP_List_Workflow " +
-                                                " ([MasterKey], [Line], [PositionNameKey], [UserKey], [Status], [Visible])" +
-                                                " VALUES (@MasterKey, @Line, @PositionNameKey, @UserKey, @Status, @Visible)";
-                        SqlCommand cmd1 = new SqlCommand(qryAddDataflow, conn);
-                        cmd1.Parameters.AddWithValue("@MasterKey", pk_latest);
-                        cmd1.Parameters.AddWithValue("@Line", Convert.ToInt32(row["Line"]));
-                        cmd1.Parameters.AddWithValue("@PositionNameKey", Convert.ToInt32(row["PositionNameKey"]));
-                        cmd1.Parameters.AddWithValue("@UserKey", userKey);
-                        cmd1.Parameters.AddWithValue("@Status", status);
-                        cmd1.Parameters.AddWithValue("@Visible", visible);
-                        cmd1.CommandType = CommandType.Text;
-                        int resultAdd = cmd1.ExecuteNonQuery();
-                    }
-
-                }
-                dtable.Clear();
-
-                //Add Approval
-                query_DataFlowAdd = "SELECT TOP (100) PERCENT dbo.tbl_System_Approval_Details.Line, " +
-                                    " dbo.tbl_System_Approval_Details.PositionNameKey, " +
-                                    " dbo.tbl_System_Approval_Position.SQLQuery " +
-                                    " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
-                                    " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
-                                    " dbo.tbl_System_Approval ON dbo.tbl_System_Approval_Details.MasterKey = dbo.tbl_System_Approval.PK " +
-                                    " WHERE(dbo.tbl_System_Approval_Details.MasterKey = " + AppFlowKey + ") " +
-                                    " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
-                                    " ORDER BY dbo.tbl_System_Approval_Details.Line";
-                cmdA = new SqlCommand(query_DataFlowAdd);
-                cmdA.Connection = conn;
-                adp = new SqlDataAdapter(cmdA);
-                adp.Fill(dtable);
-                if (dtable.Rows.Count > 0)
-                {
-                    foreach (DataRow row in dtable.Rows)
-                    {
-                        int userKey = 0, status = 0, visible = 0;
-                        if (row["SQLQuery"].ToString().Trim() != "")
-                        {
-                            string qryB = row["SQLQuery"].ToString() + " '" + ENTITY_CODE + "', '" + BU_CODE + "', '" + DATE_CREATED + "'";
-                            cmdB = new SqlCommand(qryB);
-                            cmdB.Connection = conn;
-                            adp1 = new SqlDataAdapter(cmdB);
-                            adp1.Fill(dtable1);
-                            if (dtable1.Rows.Count > 0)
-                            {
-                                foreach (DataRow row1 in dtable1.Rows)
-                                {
-                                    userKey = Convert.ToInt32(row1["UserKey"]);
-                                }
-                            }
-                            dtable1.Clear();
-
-                            string qryAddDataflow = "INSERT INTO tbl_MRP_List_Approval " +
-                                                    " ([MasterKey], [Line], [PositionNameKey], [UserKey], [Status], [Visible])" +
-                                                    " VALUES (@MasterKey, @Line, @PositionNameKey, @UserKey, @Status, @Visible)";
-                            SqlCommand cmd1 = new SqlCommand(qryAddDataflow, conn);
-                            cmd1.Parameters.AddWithValue("@MasterKey", pk_latest);
-                            cmd1.Parameters.AddWithValue("@Line", Convert.ToInt32(row["Line"]));
-                            cmd1.Parameters.AddWithValue("@PositionNameKey", Convert.ToInt32(row["PositionNameKey"]));
-                            cmd1.Parameters.AddWithValue("@UserKey", userKey);
-                            cmd1.Parameters.AddWithValue("@Status", status);
-                            cmd1.Parameters.AddWithValue("@Visible", visible);
-                            cmd1.CommandType = CommandType.Text;
-                            int resultAdd = cmd1.ExecuteNonQuery();
-                        }
-                    }
-                }
-                dtable.Clear();
-
-                if (result > 0) MRPClass.AddLogsMOPList(conn, pk_latest, remarks);
-
-                //Session["DocNumber"] = DOC_NUMBER;
                 Session["mrp_creator"] = Session["CreatorKey"].ToString();
-                string docNum = DOC_NUMBER;
                 PopUpControl.ShowOnPageLoad = false;
-                Response.Redirect("mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0");
-                //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
+                Response.Redirect("mrp_addedit.aspx?DocNum=" + docNumber.ToString() + "&WrkFlwLn=0");
             }
-            conn.Close();
+            
+            //string month = Month.Value.ToString();
+            //string year = Year.Value.ToString();
+            //int monthIndex = Convert.ToDateTime("01-" + month + "-2011").Month;
+            //int yearInteger = Convert.ToInt32(year);
+
+            //if (monthIndex <= Convert.ToInt32(DateTime.Now.Month.ToString("00")) && yearInteger <= Convert.ToInt32(DateTime.Now.Year.ToString()))
+            //{
+
+            //    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+            //    WarningPopUp.HeaderText = month + " " + year;
+            //    WarningPopUp.ShowOnPageLoad = true;
+            //    WarningText.Text = "Month and Year behind current date";
+            //    return;
+            //}
+
+
+            //string query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE [MRPMonth] = @MONTH AND [MRPYear] = @YEAR AND [EntityCode] = @ENTITYCODE AND [BUCode] = @BUCODE";
+
+            //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            //conn.Open();
+
+            //SqlCommand cmd = new SqlCommand(query, conn);
+            //cmd.Parameters.AddWithValue("@MONTH", monthIndex);
+            //cmd.Parameters.AddWithValue("@YEAR", yearInteger);
+            //cmd.Parameters.AddWithValue("@ENTITYCODE", Session["EntityCode"].ToString());
+            //cmd.Parameters.AddWithValue("@BUCODE", Session["BUCode"].ToString());
+            //cmd.CommandType = CommandType.Text;
+            //int count = Convert.ToInt32(cmd.ExecuteScalar());
+            //if (count > 0)
+            //{
+            //    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+
+            //    WarningPopUp.HeaderText = month + " " + year;
+            //    WarningPopUp.ShowOnPageLoad = true;
+            //    WarningText.Text = "Month and Year Already Exist";
+            //}
+            //else
+            //{
+            //    string DocumentPrefix = "", DocumentNum = "", STATUS_NAME = "";
+            //    int STATUS_KEY = 0, DataFlowKey = 0, AppFlowKey = 0;
+            //    int MRP_MONTH = monthIndex;
+            //    int MRP_YEAR = yearInteger;
+
+            //    query = "SELECT [DocumentPrefix],[DocumentNum] FROM [hijo_portal].[dbo].[tbl_DocumentNumber] WHERE [DocumentPrefix] = 'MRP'";
+
+            //    SqlCommand command = new SqlCommand(query, conn);
+            //    SqlDataReader reader = command.ExecuteReader();
+
+
+            //    while (reader.Read())
+            //    {
+            //        DocumentPrefix = reader[0].ToString();
+            //        DocumentNum = reader[1].ToString();
+            //        //MRPClass.PrintString("prefix:" + DocumentPrefix);
+            //    }
+            //    reader.Close();
+            //    int doc_num = Int32.Parse(DocumentNum) + 1;
+            //    string update_DocNumber = "UPDATE [dbo].[tbl_DocumentNumber] SET [DocumentNum] = '" + doc_num + "' WHERE [DocumentPrefix] = 'MRP'";
+            //    command = new SqlCommand(update_DocNumber, conn);
+            //    command.ExecuteNonQuery();
+
+            //    string query_PK_STATUS = "SELECT [PK],[StatusName] FROM [hijo_portal].[dbo].[tbl_MRP_Status] WHERE [StatusName] = 'Draft'";
+            //    command = new SqlCommand(query_PK_STATUS, conn);
+            //    reader = command.ExecuteReader();
+            //    while (reader.Read())
+            //    {
+            //        STATUS_KEY = Convert.ToInt32(reader[0].ToString());
+            //        STATUS_NAME = reader[1].ToString();
+
+            //    }
+            //    reader.Close();
+
+            //    string monthStringTwoDigits = DateTime.Now.ToString("MM");
+            //    string yearStringTwoDigits = DateTime.Now.ToString("yy");
+            //    DateTime DATE_CREATED = DateTime.Now;
+            //    string BU_CODE = Session["BUCode"].ToString();
+            //    string CREATOR_KEY = Session["CreatorKey"].ToString();
+            //    string ENTITY_CODE = Session["EntityCode"].ToString();
+            //    string DOC_NUMBER = (doc_num).ToString("00000#");
+            //    DOC_NUMBER = ENTITY_CODE + "-" + monthStringTwoDigits + yearStringTwoDigits + DocumentPrefix + "-" + DOC_NUMBER;
+
+            //    string query_DataFlow = "SELECT TOP (1) [PK] FROM [hijo_portal].[dbo].[tbl_System_MOP_DataFlow] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
+            //    command = new SqlCommand(query_DataFlow, conn);
+            //    reader = command.ExecuteReader();
+            //    while (reader.Read())
+            //    {
+            //        DataFlowKey = Convert.ToInt32(reader[0].ToString());
+            //    }
+            //    reader.Close();
+
+            //    string query_AppFlow = "SELECT TOP (1) [PK] FROM [hijo_portal].[dbo].[tbl_System_Approval] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
+            //    command = new SqlCommand(query_AppFlow, conn);
+            //    reader = command.ExecuteReader();
+            //    while (reader.Read())
+            //    {
+            //        AppFlowKey = Convert.ToInt32(reader[0].ToString());
+            //    }
+            //    reader.Close();
+
+            //    string str = "INSERT INTO [dbo].[tbl_MRP_List] ([DocNumber], [DateCreated], [EntityCode], [BUCode], [MRPMonth], [MRPYear], [StatusKey], [CreatorKey], [LastModified]) VALUES (@DocNumber, @DateCreated, @EntityCode, @BUCode, @Month, @Year, @StatusKey, @CreatorKey, @LastModified)";
+
+            //    cmd = new SqlCommand(str, conn);
+            //    cmd.Parameters.AddWithValue("@DocNumber", DOC_NUMBER);
+            //    cmd.Parameters.AddWithValue("@DateCreated", DATE_CREATED);
+            //    cmd.Parameters.AddWithValue("@EntityCode", ENTITY_CODE);
+            //    cmd.Parameters.AddWithValue("@BUCode", BU_CODE);
+            //    cmd.Parameters.AddWithValue("@Month", MRP_MONTH);
+            //    cmd.Parameters.AddWithValue("@Year", MRP_YEAR);
+            //    cmd.Parameters.AddWithValue("@StatusKey", STATUS_KEY);
+            //    cmd.Parameters.AddWithValue("@CreatorKey", CREATOR_KEY);
+            //    cmd.Parameters.AddWithValue("@LastModified", DATE_CREATED.ToString("MM/dd/yyyy hh:mm:ss tt"));
+            //    cmd.CommandType = CommandType.Text;
+            //    int result = cmd.ExecuteNonQuery();
+
+            //    string remarks = "MRP-ADD";
+
+            //    int pk_latest = 0;
+            //    string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.MOPTableName() + " ORDER BY [PK] DESC";
+            //    SqlCommand comm = new SqlCommand(query_pk, conn);
+            //    SqlDataReader r = comm.ExecuteReader();
+
+            //    while (r.Read()) pk_latest = Convert.ToInt32(r[0].ToString());
+            //    r.Close();
+
+            //    //Add Dataflow  DataFlowKey
+            //    string eMailAdd = "", query_DataFlowAdd = "";
+
+            //    SqlCommand cmdA = null;
+            //    SqlDataAdapter adp;
+            //    DataTable dtable = new DataTable();
+
+            //    SqlCommand cmdB = null;
+            //    SqlDataAdapter adp1;
+            //    DataTable dtable1 = new DataTable();
+
+            //    //string query_DataFlowAdd = "SELECT dbo.tbl_System_MOP_DataFlow_Details.Line, " +
+            //    //                           " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey, " +
+            //    //                           " dbo.tbl_System_Approval_Position.SQLQuery " +
+            //    //                           " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
+            //    //                           " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+            //    //                           " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + DataFlowKey + ") " +
+            //    //                           " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
+            //    //                           " ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
+
+            //    query_DataFlowAdd = "SELECT dbo.tbl_System_MOP_DataFlow_Details.Line, " +
+            //                        " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey, " +
+            //                        " dbo.tbl_System_Approval_Position.SQLQuery " +
+            //                        " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
+            //                        " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
+            //                        " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + DataFlowKey + ") " +
+            //                        " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
+            //                        " ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
+            //    cmdA = new SqlCommand(query_DataFlowAdd);
+            //    cmdA.Connection = conn;
+            //    adp = new SqlDataAdapter(cmdA);
+            //    adp.Fill(dtable);
+            //    if (dtable.Rows.Count > 0)
+            //    {
+
+            //        foreach (DataRow row in dtable.Rows)
+            //        {
+            //            int userKey = 0, status = 0, visible = 0;
+            //            if (row["SQLQuery"].ToString().Trim() != "")
+            //            {
+            //                string qryB = row["SQLQuery"].ToString() + " '" + ENTITY_CODE + "', '" + BU_CODE + "', '" + DATE_CREATED + "'";
+            //                cmdB = new SqlCommand(qryB);
+            //                cmdB.Connection = conn;
+            //                adp1 = new SqlDataAdapter(cmdB);
+            //                adp1.Fill(dtable1);
+            //                if (dtable1.Rows.Count > 0)
+            //                {
+            //                    foreach (DataRow row1 in dtable1.Rows)
+            //                    {
+            //                        userKey = Convert.ToInt32(row1["UserKey"]);
+            //                    }
+            //                }
+            //                dtable1.Clear();
+            //            }
+
+            //            string qryAddDataflow = "INSERT INTO tbl_MRP_List_Workflow " +
+            //                                    " ([MasterKey], [Line], [PositionNameKey], [UserKey], [Status], [Visible])" +
+            //                                    " VALUES (@MasterKey, @Line, @PositionNameKey, @UserKey, @Status, @Visible)";
+            //            SqlCommand cmd1 = new SqlCommand(qryAddDataflow, conn);
+            //            cmd1.Parameters.AddWithValue("@MasterKey", pk_latest);
+            //            cmd1.Parameters.AddWithValue("@Line", Convert.ToInt32(row["Line"]));
+            //            cmd1.Parameters.AddWithValue("@PositionNameKey", Convert.ToInt32(row["PositionNameKey"]));
+            //            cmd1.Parameters.AddWithValue("@UserKey", userKey);
+            //            cmd1.Parameters.AddWithValue("@Status", status);
+            //            cmd1.Parameters.AddWithValue("@Visible", visible);
+            //            cmd1.CommandType = CommandType.Text;
+            //            int resultAdd = cmd1.ExecuteNonQuery();
+            //        }
+
+            //    }
+            //    dtable.Clear();
+
+            //    //Add Approval
+            //    query_DataFlowAdd = "SELECT TOP (100) PERCENT dbo.tbl_System_Approval_Details.Line, " +
+            //                        " dbo.tbl_System_Approval_Details.PositionNameKey, " +
+            //                        " dbo.tbl_System_Approval_Position.SQLQuery " +
+            //                        " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
+            //                        " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN " +
+            //                        " dbo.tbl_System_Approval ON dbo.tbl_System_Approval_Details.MasterKey = dbo.tbl_System_Approval.PK " +
+            //                        " WHERE(dbo.tbl_System_Approval_Details.MasterKey = " + AppFlowKey + ") " +
+            //                        " AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) " +
+            //                        " ORDER BY dbo.tbl_System_Approval_Details.Line";
+            //    cmdA = new SqlCommand(query_DataFlowAdd);
+            //    cmdA.Connection = conn;
+            //    adp = new SqlDataAdapter(cmdA);
+            //    adp.Fill(dtable);
+            //    if (dtable.Rows.Count > 0)
+            //    {
+            //        foreach (DataRow row in dtable.Rows)
+            //        {
+            //            int userKey = 0, status = 0, visible = 0;
+            //            if (row["SQLQuery"].ToString().Trim() != "")
+            //            {
+            //                string qryB = row["SQLQuery"].ToString() + " '" + ENTITY_CODE + "', '" + BU_CODE + "', '" + DATE_CREATED + "'";
+            //                cmdB = new SqlCommand(qryB);
+            //                cmdB.Connection = conn;
+            //                adp1 = new SqlDataAdapter(cmdB);
+            //                adp1.Fill(dtable1);
+            //                if (dtable1.Rows.Count > 0)
+            //                {
+            //                    foreach (DataRow row1 in dtable1.Rows)
+            //                    {
+            //                        userKey = Convert.ToInt32(row1["UserKey"]);
+            //                    }
+            //                }
+            //                dtable1.Clear();
+
+            //                string qryAddDataflow = "INSERT INTO tbl_MRP_List_Approval " +
+            //                                        " ([MasterKey], [Line], [PositionNameKey], [UserKey], [Status], [Visible])" +
+            //                                        " VALUES (@MasterKey, @Line, @PositionNameKey, @UserKey, @Status, @Visible)";
+            //                SqlCommand cmd1 = new SqlCommand(qryAddDataflow, conn);
+            //                cmd1.Parameters.AddWithValue("@MasterKey", pk_latest);
+            //                cmd1.Parameters.AddWithValue("@Line", Convert.ToInt32(row["Line"]));
+            //                cmd1.Parameters.AddWithValue("@PositionNameKey", Convert.ToInt32(row["PositionNameKey"]));
+            //                cmd1.Parameters.AddWithValue("@UserKey", userKey);
+            //                cmd1.Parameters.AddWithValue("@Status", status);
+            //                cmd1.Parameters.AddWithValue("@Visible", visible);
+            //                cmd1.CommandType = CommandType.Text;
+            //                int resultAdd = cmd1.ExecuteNonQuery();
+            //            }
+            //        }
+            //    }
+            //    dtable.Clear();
+
+            //    if (result > 0) MRPClass.AddLogsMOPList(conn, pk_latest, remarks);
+
+            //    //Session["DocNumber"] = DOC_NUMBER;
+            //    Session["mrp_creator"] = Session["CreatorKey"].ToString();
+            //    string docNum = DOC_NUMBER;
+            //    PopUpControl.ShowOnPageLoad = false;
+            //    Response.Redirect("mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0");
+            //    //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString();
+            //}
+            //conn.Close();
         }
 
         protected void MainTable_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)

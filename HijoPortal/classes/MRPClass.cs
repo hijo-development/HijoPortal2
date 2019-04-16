@@ -10,6 +10,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Collections;
 
+
 namespace HijoPortal.classes
 {
     public class MRPClass
@@ -35,12 +36,381 @@ namespace HijoPortal.classes
             revenue_total_amount = 0,
             prev_summary = 0;
 
+
+        public static string Insert_MRP(string sMonth, string sYear, int iCreator, string entCode, string buCode, int iCopyPreMOP, int iPreMonth, int iPreYear, ASPxPopupControl wrnPopup, ASPxLabel wrnText, ASPxPopupControl PopUpControl)
+        {
+            string iRes = "0|";
+
+            DateTime DATE_CREATED = DateTime.Now;
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            DataTable dt1 = new DataTable();
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+
+            string qry = "";
+
+            SqlCommand cmdIn = null;
+            SqlCommand cmdUp = null;
+
+            string month = sMonth;
+            string year = sYear;
+            int monthIndex = Convert.ToDateTime("01-" + month + "-2011").Month;
+            int yearInteger = Convert.ToInt32(year);
+
+            string BU_CODE = buCode;
+            string CREATOR_KEY = iCreator.ToString();
+            string ENTITY_CODE = entCode;
+
+            string monthStringTwoDigits = DateTime.Now.ToString("MM");
+            string yearStringTwoDigits = DateTime.Now.ToString("yy");
+
+            string DocumentPrefix = "", DocumentNum = "", STATUS_NAME = "";
+            int STATUS_KEY = 1, DataFlowKey = 0, AppFlowKey = 0;
+            int MRP_MONTH = monthIndex;
+            int MRP_YEAR = yearInteger;
+
+            cn.Open();
+
+            qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE ([MRPMonth] = " + MRP_MONTH + ") AND ([MRPYear] = " + MRP_YEAR + ") AND ([EntityCode] = '"+ ENTITY_CODE + "') AND ([BUCode] = '" + BU_CODE + "')";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                wrnPopup.HeaderText = "Error";
+                wrnText.Text = "Month and Year Already Exist";
+                wrnPopup.ShowOnPageLoad = true;
+                PopUpControl.ShowOnPageLoad = true;
+                goto Ret_Res;
+            }
+            dt.Clear();
+
+
+            qry = "SELECT [DocumentPrefix],[DocumentNum] FROM [hijo_portal].[dbo].[tbl_DocumentNumber] WHERE [DocumentPrefix] = 'MRP'";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count>0)
+            {
+                foreach(DataRow row in dt.Rows)
+                {
+                    DocumentPrefix = row["DocumentPrefix"].ToString();
+                    DocumentNum = row["DocumentNum"].ToString();
+                }
+            }
+            dt.Clear();
+
+            int doc_num = Int32.Parse(DocumentNum) + 1;
+
+            
+            string DOC_NUMBER = (doc_num).ToString("00000#");
+            DOC_NUMBER = ENTITY_CODE + "-" + monthStringTwoDigits + yearStringTwoDigits + DocumentPrefix + "-" + DOC_NUMBER;
+
+            qry= "SELECT TOP (1) [PK] FROM [hijo_portal].[dbo].[tbl_System_MOP_DataFlow] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataFlowKey = Convert.ToInt32(row["PK"]);
+                }
+            } else
+            {
+                wrnPopup.HeaderText = "Error";
+                wrnPopup.ShowOnPageLoad = true;
+                wrnText.Text = "No Dataflow Setup !";
+                PopUpControl.ShowOnPageLoad = true;
+                goto Ret_Res;
+            }
+            dt.Clear();
+
+            qry = "SELECT TOP (1) [PK] FROM [hijo_portal].[dbo].[tbl_System_Approval] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    AppFlowKey = Convert.ToInt32(row["PK"]);
+                }
+            }
+            else
+            {
+                wrnPopup.HeaderText = "Error";
+                wrnPopup.ShowOnPageLoad = true;
+                wrnText.Text = "No Approval Setup !";
+                PopUpControl.ShowOnPageLoad = true;
+                goto Ret_Res;
+            }
+            dt.Clear();
+
+            //Insert MRP
+            qry = "INSERT INTO [dbo].[tbl_MRP_List] ([DocNumber], [DateCreated], [EntityCode], [BUCode], [MRPMonth], [MRPYear], [StatusKey], [CreatorKey], [LastModified]) VALUES (@DocNumber, @DateCreated, @EntityCode, @BUCode, @Month, @Year, @StatusKey, @CreatorKey, @LastModified)";
+
+            cmdIn = new SqlCommand(qry, cn);
+            cmdIn.Parameters.AddWithValue("@DocNumber", DOC_NUMBER);
+            cmdIn.Parameters.AddWithValue("@DateCreated", DATE_CREATED);
+            cmdIn.Parameters.AddWithValue("@EntityCode", ENTITY_CODE);
+            cmdIn.Parameters.AddWithValue("@BUCode", BU_CODE);
+            cmdIn.Parameters.AddWithValue("@Month", MRP_MONTH);
+            cmdIn.Parameters.AddWithValue("@Year", MRP_YEAR);
+            cmdIn.Parameters.AddWithValue("@StatusKey", STATUS_KEY);
+            cmdIn.Parameters.AddWithValue("@CreatorKey", CREATOR_KEY);
+            cmdIn.Parameters.AddWithValue("@LastModified", DATE_CREATED.ToString("MM/dd/yyyy hh:mm:ss tt"));
+            cmdIn.CommandType = CommandType.Text;
+            cmdIn.ExecuteNonQuery();
+
+            //Get MRP Key
+            int MRPKey = 0;
+            qry = "SELECT [PK] FROM [dbo].[tbl_MRP_List] WHERE ([DocNumber] = '" + DOC_NUMBER + "')";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    MRPKey = Convert.ToInt32(row["PK"]);
+                }
+            }
+            dt.Clear();
+
+            if (MRPKey != 0)
+            {
+                //Add Workflow
+                qry = "SELECT dbo.tbl_System_MOP_DataFlow_Details.Line, dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey, dbo.tbl_System_Approval_Position.SQLQuery FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + DataFlowKey + ") AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) ORDER BY dbo.tbl_System_MOP_DataFlow_Details.Line";
+                cmd = new SqlCommand(qry);
+                cmd.Connection = cn;
+                adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        int userKey = 0, status = 0, visible = 0;
+                        if (row["SQLQuery"].ToString().Trim() != "")
+                        {
+                            qry = row["SQLQuery"].ToString() + " '" + ENTITY_CODE + "', '" + BU_CODE + "', '" + DATE_CREATED + "'";
+                            cmd1 = new SqlCommand(qry);
+                            cmd1.Connection = cn;
+                            adp1 = new SqlDataAdapter(cmd1);
+                            adp1.Fill(dt1);
+                            if (dt1.Rows.Count > 0)
+                            {
+                                foreach (DataRow row1 in dt1.Rows)
+                                {
+                                    userKey = Convert.ToInt32(row1["UserKey"]);
+                                }
+                            }
+                            dt1.Clear();
+                        }
+
+                        qry = "INSERT INTO tbl_MRP_List_Workflow ([MasterKey], [Line], [PositionNameKey], [UserKey], [Status], [Visible]) VALUES (@MasterKey, @Line, @PositionNameKey, @UserKey, @Status, @Visible)";
+                        cmdIn = new SqlCommand(qry, cn);
+                        cmdIn.Parameters.AddWithValue("@MasterKey", MRPKey);
+                        cmdIn.Parameters.AddWithValue("@Line", Convert.ToInt32(row["Line"]));
+                        cmdIn.Parameters.AddWithValue("@PositionNameKey", Convert.ToInt32(row["PositionNameKey"]));
+                        cmdIn.Parameters.AddWithValue("@UserKey", userKey);
+                        cmdIn.Parameters.AddWithValue("@Status", status);
+                        cmdIn.Parameters.AddWithValue("@Visible", visible);
+                        cmdIn.CommandType = CommandType.Text;
+                        cmdIn.ExecuteNonQuery();
+                    }
+                }
+                dt.Clear();
+
+                //Add Approval
+                qry = "SELECT TOP (100) PERCENT dbo.tbl_System_Approval_Details.Line, dbo.tbl_System_Approval_Details.PositionNameKey, dbo.tbl_System_Approval_Position.SQLQuery FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK LEFT OUTER JOIN dbo.tbl_System_Approval ON dbo.tbl_System_Approval_Details.MasterKey = dbo.tbl_System_Approval.PK WHERE(dbo.tbl_System_Approval_Details.MasterKey = " + AppFlowKey + ") AND (dbo.tbl_System_Approval_Position.AfterApproved = 0) ORDER BY dbo.tbl_System_Approval_Details.Line";
+                cmd = new SqlCommand(qry);
+                cmd.Connection = cn;
+                adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        int userKey = 0, status = 0, visible = 0;
+                        if (row["SQLQuery"].ToString().Trim() != "")
+                        {
+                            qry = row["SQLQuery"].ToString() + " '" + ENTITY_CODE + "', '" + BU_CODE + "', '" + DATE_CREATED + "'";
+                            cmd1 = new SqlCommand(qry);
+                            cmd1.Connection = cn;
+                            adp1 = new SqlDataAdapter(cmd1);
+                            adp1.Fill(dt1);
+                            if (dt1.Rows.Count > 0)
+                            {
+                                foreach (DataRow row1 in dt1.Rows)
+                                {
+                                    userKey = Convert.ToInt32(row1["UserKey"]);
+                                }
+                            }
+                            dt1.Clear();
+
+                            qry = "INSERT INTO tbl_MRP_List_Approval ([MasterKey], [Line], [PositionNameKey], [UserKey], [Status], [Visible]) VALUES (@MasterKey, @Line, @PositionNameKey, @UserKey, @Status, @Visible)";
+                            cmdIn = new SqlCommand(qry, cn);
+                            cmdIn.Parameters.AddWithValue("@MasterKey", MRPKey);
+                            cmdIn.Parameters.AddWithValue("@Line", Convert.ToInt32(row["Line"]));
+                            cmdIn.Parameters.AddWithValue("@PositionNameKey", Convert.ToInt32(row["PositionNameKey"]));
+                            cmdIn.Parameters.AddWithValue("@UserKey", userKey);
+                            cmdIn.Parameters.AddWithValue("@Status", status);
+                            cmdIn.Parameters.AddWithValue("@Visible", visible);
+                            cmdIn.CommandType = CommandType.Text;
+                            cmdIn.ExecuteNonQuery();
+                        }
+                    }
+                }
+                dt.Clear();
+
+                string remarks = "MRP-ADD";
+                MRPClass.AddLogsMOPList(cn, MRPKey, remarks);
+
+                //Update Document Number
+                qry = "UPDATE [dbo].[tbl_DocumentNumber] SET [DocumentNum] = '" + doc_num + "' WHERE [DocumentPrefix] = 'MRP'";
+                cmdUp = new SqlCommand(qry, cn);
+                cmdUp.ExecuteNonQuery();
+                
+
+                //Copy previous MOP
+                if (iCopyPreMOP == 1)
+                {
+                    string preMRPDocNum = "";
+                    qry = "SELECT [DocNumber] FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE ([MRPMonth] = " + iPreMonth + ") AND ([MRPYear] = " + iPreYear + ") AND ([EntityCode] = '" + ENTITY_CODE + "') AND ([BUCode] = '" + BU_CODE + "')";
+                    cmd = new SqlCommand(qry);
+                    cmd.Connection = cn;
+                    adp = new SqlDataAdapter(cmd);
+                    adp.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            preMRPDocNum = row["DocNumber"].ToString();
+                        }
+                    }
+                    dt.Clear();
+
+                    if (preMRPDocNum != "")
+                    {
+                        // Copy Direct Materials
+                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE ([HeaderDocNum] = " + preMRPDocNum + ")";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                qry = "INSERT INTO tbl_MRP_List_DirectMaterials (HeaderDocNum, TableIdentifier, ActivityCode, OprUnit, ItemCode, ItemDescription, ItemDescriptionAddl, UOM, Cost, Qty, TotalCost, EdittedCost, EdittedQty, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', "+ Convert.ToInt32(row["TableIdentifier"]) +", '"+ row["ActivityCode"].ToString() +"', '"+ row["OprUnit"].ToString() +"', '"+ row["ItemCode"].ToString() +"', '"+ row["ItemDescription"].ToString() +"', '"+ row["ItemDescriptionAddl"].ToString() +"', '"+ row["UOM"].ToString() +"', "+ Convert.ToDouble(row["Cost"]) +", "+ Convert.ToDouble(row["Qty"]) +", "+ Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
+                                cmdIn = new SqlCommand(qry, cn);
+                                cmdIn.CommandType = CommandType.Text;
+                                cmdIn.ExecuteNonQuery();
+                            }
+                        }
+                        dt.Clear();
+
+                        // Copy OPEX
+                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] WHERE ([HeaderDocNum] = " + preMRPDocNum + ")";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                qry = "INSERT INTO tbl_MRP_List_OPEX (HeaderDocNum, TableIdentifier, ActivityCode, OprUnit, ProcCat, ItemCode, Description, DescriptionAddl, UOM, Cost, Qty, TotalCost, EdittedCost, EdittedQty, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', " + Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["ActivityCode"].ToString() + "', '" + row["OprUnit"].ToString() + "', '"+ row["ProcCat"].ToString() +"', '" + row["ItemCode"].ToString() + "', '" + row["Description"].ToString() + "', '" + row["DescriptionAddl"].ToString() + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
+                                cmdIn = new SqlCommand(qry, cn);
+                                cmdIn.CommandType = CommandType.Text;
+                                cmdIn.ExecuteNonQuery();
+                            }
+                        }
+                        dt.Clear();
+
+                        // Copy Manpower
+                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_ManPower] WHERE ([HeaderDocNum] = " + preMRPDocNum + ")";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                qry = "INSERT INTO tbl_MRP_List_ManPower (HeaderDocNum, TableIdentifier, ActivityCode, ManPowerTypeKey, OprUnit, Description, UOM, Cost, Qty, TotalCost, EdittedCost, EdittedQty, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', " + Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["ActivityCode"].ToString() + "', " + Convert.ToInt32(row["ManPowerTypeKey"]) + ", '" + row["OprUnit"].ToString() + "', '" + row["Description"].ToString() + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
+                                cmdIn = new SqlCommand(qry, cn);
+                                cmdIn.CommandType = CommandType.Text;
+                                cmdIn.ExecuteNonQuery();
+                            }
+                        }
+                        dt.Clear();
+
+                        //Copy CAPEX
+                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE ([HeaderDocNum] = " + preMRPDocNum + ")";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                qry = "INSERT INTO tbl_MRP_List_CAPEX (HeaderDocNum, TableIdentifier, OprUnit, ProdCat, CIPSIPNumber, Description, UOM, Cost, Qty, TotalCost, EdittedCost, EdittedQty, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', " + Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["OprUnit"].ToString() + "', '"+ row["ProdCat"].ToString() +"', '"+ row["CIPSIPNumber"].ToString() +"', '" + row["Description"].ToString() + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
+                                cmdIn = new SqlCommand(qry, cn);
+                                cmdIn.CommandType = CommandType.Text;
+                                cmdIn.ExecuteNonQuery();
+                            }
+                        }
+                        dt.Clear();
+
+                        //Copy Revenue Assumption
+                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_RevenueAssumptions] WHERE ([HeaderDocNum] = " + preMRPDocNum + ")";
+                        cmd = new SqlCommand(qry);
+                        cmd.Connection = cn;
+                        adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                qry = "INSERT INTO tbl_MRP_List_RevenueAssumptions (HeaderDocNum, OprUnit, ProductName, FarmName, Prize, Volume, TotalPrize) VALUES ('" + DOC_NUMBER + "', '" + row["OprUnit"].ToString() + "', '" + row["ProductName"].ToString() + "', '" + row["FarmName"].ToString() + "', '" + row["Description"].ToString() + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Prize"]) + ", " + Convert.ToDouble(row["Volume"]) + ", " + Convert.ToDouble(row["TotalPrize"]) + ")";
+                                cmdIn = new SqlCommand(qry, cn);
+                                cmdIn.CommandType = CommandType.Text;
+                                cmdIn.ExecuteNonQuery();
+                            }
+                        }
+                        dt.Clear();
+                    }
+                }
+ 
+                iRes = "1|" + DOC_NUMBER;
+            }
+            
+            cn.Close();
+
+            Ret_Res:
+            return iRes;
+        }
+
         public static string Month_Name(int iMonth)
         {
             DateTime now = DateTime.Now;
             string sMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(iMonth);
             return sMonth;
         }
+
+        
 
         public static DataTable Master_MRP_List()
         {
@@ -1979,7 +2349,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable ProCategoryTable_Filter(string docnum)
+        public static DataTable ProCategoryTable_Filter(string docnum, string entCode)
         {
 
             DataTable dtTable = new DataTable();
@@ -1987,7 +2357,7 @@ namespace HijoPortal.classes
             DataTable dt = new DataTable();
             SqlCommand cmd = null;
             SqlDataAdapter adp;
-
+            string query = "";
             cn.Open();
 
             if (dtTable.Columns.Count == 0)
@@ -1998,7 +2368,7 @@ namespace HijoPortal.classes
             }
 
             //string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
-            string query = "SELECT DISTINCT dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION FROM dbo.vw_AXInventTable INNER JOIN dbo.vw_AXProdCategory ON dbo.vw_AXInventTable.ITEMGROUPID = dbo.vw_AXProdCategory.NAME INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_DirectMaterials.ItemCode WHERE HeaderDocNum = '" + docnum + "' AND (dbo.tbl_MRP_List_DirectMaterials.AvailForPO > 0) GROUP BY dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION";
+            query = "SELECT DISTINCT dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION FROM dbo.vw_AXInventTable INNER JOIN dbo.vw_AXProdCategory ON dbo.vw_AXInventTable.ITEMGROUPID = dbo.vw_AXProdCategory.NAME INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_DirectMaterials.ItemCode WHERE HeaderDocNum = '" + docnum + "' AND (dbo.tbl_MRP_List_DirectMaterials.AvailForPO > 0) GROUP BY dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION";
 
             cmd = new SqlCommand(query);
             cmd.Connection = cn;
@@ -2017,8 +2387,9 @@ namespace HijoPortal.classes
             dt.Clear();
 
             //OPEX
-            query = "SELECT DISTINCT dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION FROM dbo.tbl_MRP_List_OPEX INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_OPEX.ItemCode = dbo.vw_AXInventTable.ITEMID INNER JOIN dbo.vw_AXProdCategory ON dbo.vw_AXInventTable.ITEMGROUPID = dbo.vw_AXProdCategory.NAME WHERE HeaderDocNum = '" + docnum + "' AND (dbo.tbl_MRP_List_OPEX.AvailForPO > 0) GROUP BY dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION";
+            //query = "SELECT DISTINCT dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION FROM dbo.tbl_MRP_List_OPEX INNER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_OPEX.ItemCode = dbo.vw_AXInventTable.ITEMID INNER JOIN dbo.vw_AXProdCategory ON dbo.vw_AXInventTable.ITEMGROUPID = dbo.vw_AXProdCategory.NAME WHERE HeaderDocNum = '" + docnum + "' AND (dbo.tbl_MRP_List_OPEX.AvailForPO > 0) GROUP BY dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION";
 
+            query = "SELECT DISTINCT (CASE RTRIM(LTRIM(dbo.tbl_MRP_List_OPEX.ItemCode)) WHEN '' THEN dbo.tbl_MRP_List_OPEX.ProcCat ELSE (SELECT ITEMGROUPID FROM  dbo.vw_AXInventTable WHERE(ITEMID = RTRIM(LTRIM(dbo.tbl_MRP_List_OPEX.ItemCode))) AND(DATAAREAID = '" + entCode + "')) END) AS ProcurementCat, ISNULL((SELECT DESCRIPTION FROM dbo.vw_AXProdCategory WHERE(NAME = (CASE RTRIM(LTRIM(dbo.tbl_MRP_List_OPEX.ItemCode)) WHEN '' THEN dbo.tbl_MRP_List_OPEX.ProcCat ELSE (SELECT ITEMGROUPID FROM dbo.vw_AXInventTable WHERE(ITEMID = RTRIM(LTRIM (dbo.tbl_MRP_List_OPEX.ItemCode))) AND(DATAAREAID = '" + entCode + "')) END)) AND(dataareaid = N'0000')), '') AS ProcurementCatName FROM dbo.tbl_MRP_List_OPEX LEFT OUTER JOIN dbo.vw_AXInventTable ON dbo.tbl_MRP_List_OPEX.ItemCode = dbo.vw_AXInventTable.ITEMID WHERE(dbo.tbl_MRP_List_OPEX.HeaderDocNum = '" + docnum + "') AND(dbo.tbl_MRP_List_OPEX.AvailForPO > 0) AND((CASE RTRIM(LTRIM(dbo.tbl_MRP_List_OPEX.ItemCode)) WHEN '' THEN dbo.tbl_MRP_List_OPEX.ProcCat ELSE (SELECT ITEMGROUPID FROM  dbo.vw_AXInventTable WHERE(ITEMID = RTRIM(LTRIM(dbo.tbl_MRP_List_OPEX.ItemCode))) AND(DATAAREAID = '" + entCode + "')) END) <> '')";
             cmd = new SqlCommand(query);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -2028,8 +2399,8 @@ namespace HijoPortal.classes
                 foreach (DataRow row in dt.Rows)
                 {
                     DataRow dtRow = dtTable.NewRow();
-                    dtRow["NAME"] = row["NAME"].ToString();
-                    dtRow["DESCRIPTION"] = row["DESCRIPTION"].ToString();
+                    dtRow["NAME"] = row["ProcurementCat"].ToString();
+                    dtRow["DESCRIPTION"] = row["ProcurementCatName"].ToString();
                     dtTable.Rows.Add(dtRow);
                 }
             }
