@@ -1,47 +1,4 @@
-﻿//$(document).ready(function () {
-//    AddEditDisplay.cookiesCondition();
-//});
-
-//AddEditDisplay = {
-//    cookiesCondition: function () {
-//        if (OPEXGrid.IsNewRowEditing()) {
-//            var isItem = getCookie("opisItem");
-//            var isProdCat = getCookie("opisProdCat");
-
-//            console.log(isItem + "-" + isProdCat);
-
-//            switch (isItem) {
-//                case 0://Non PO
-//                    document.getElementById("div1").style.display = "none";
-//                    document.getElementById("div2").style.display = "none";
-//                    DescriptionOPEX.SetText("");
-//                    DescriptionOPEX.GetInputElement().readOnly = false;
-//                    ItemCodeOPEX.SetText("");
-//                    break;
-//                case 1://PO
-//                    document.getElementById("div1").style.display = "block";
-//                    document.getElementById("div2").style.display = "block";
-//                    DescriptionOPEX.SetText("");
-//                    DescriptionOPEX.GetInputElement().readOnly = true;
-//                    ItemCodeOPEX.SetText("");
-//                    break;
-//            }
-
-//            switch (isProdCat) {
-//                case 0://hide product category combobox
-//                    document.getElementById("CA_prodcombo_div").style.display = "none";
-//                    document.getElementById("CA_prodlabel_div").style.display = "none";
-//                    break;
-//                case 1://show product category combobox
-//                    document.getElementById("CA_prodcombo_div").style.display = "block";
-//                    document.getElementById("CA_prodlabel_div").style.display = "block";
-//                    break;
-//            }
-//        }
-//    }
-//}
-
-function updateCAPEX(s, e) {
+﻿function updateCAPEX(s, e) {
     var entityval = entityhiddenCA.Get('hidden_value');
     var bool = true;
     if (entityval == "display") {
@@ -145,6 +102,11 @@ function ExpenseCodeIndexChangeOPEX(s, e) {
     document.cookie = 'opisItem=' + isItem;
     document.cookie = 'opisProdCat=' + isProdCat;
 
+    //product category will always follow the expense
+    //empty all cookies under product category in opex
+    document.cookie = 'opproductvalue=' + "";
+    document.cookie = 'opproducttext=' + "";
+
     switch (isItem) {
         case 0://Non PO
             document.getElementsByClassName("div1Class")[0].style.display = "none";
@@ -190,50 +152,6 @@ function ProdCat_SelectedIndexChanged(s, e) {
     document.cookie = 'caproductvalue=' + s.GetValue();
     document.cookie = 'caproducttext=' + s.GetText();
 }
-
-//function pageinit(s, e) {
-//    if (isItemBeginCallback == 0) {
-//        document.getElementById("div1").style.display = "none";
-//        document.getElementById("div2").style.display = "none";
-//        ItemCodeOPEX.SetText("");
-//    }
-
-//    if (OPEXGrid.IsNewRowEditing()) {
-
-//        var isItem = getCookie("opisItem");
-//        var isProdCat = getCookie("opisProdCat");
-
-//        console.log(isItem + "-" + isProdCat);
-
-//        switch (isItem) {
-//            case 0://Non PO
-//                document.getElementById("div1").style.display = "none";
-//                document.getElementById("div2").style.display = "none";
-//                DescriptionOPEX.SetText("");
-//                DescriptionOPEX.GetInputElement().readOnly = false;
-//                ItemCodeOPEX.SetText("");
-//                break;
-//            case 1://PO
-//                document.getElementById("div1").style.display = "block";
-//                document.getElementById("div2").style.display = "block";
-//                DescriptionOPEX.SetText("");
-//                DescriptionOPEX.GetInputElement().readOnly = true;
-//                ItemCodeOPEX.SetText("");
-//                break;
-//        }
-
-//        //switch (isProdCat) {
-//        //    case 0://hide product category combobox
-//        //        document.getElementById("CA_prodcombo_div").style.display = "none";
-//        //        document.getElementById("CA_prodlabel_div").style.display = "none";
-//        //        break;
-//        //    case 1://show product category combobox
-//        //        document.getElementById("CA_prodcombo_div").style.display = "block";
-//        //        document.getElementById("CA_prodlabel_div").style.display = "block";
-//        //        break;
-//        //}
-//    }
-//}
 
 //Operating Unit in TRAIN Entity
 function OperatingUnitDM_SelectedIndexChanged(s, e) {
@@ -291,20 +209,23 @@ function OperatingUnitREV_SelectedIndexChanged(s, e) {
         s.SetIsValid(true);
 }
 
-//END CALLBACK
-//function ProcCatOPEX_EndCallback(s, e) {
-//    if (OPEXGrid.IsNewRowEditing()) {
-//        var isProdCat = getCookie("opisProdCat");
-//        switch (isProdCat) {
-//            case 0://hide product category combobox
-//                document.getElementById("CA_prodcombo_div").style.display = "none";
-//                document.getElementById("CA_prodlabel_div").style.display = "none";
-//                break;
-//            case 1://show product category combobox
-//                document.getElementById("CA_prodcombo_div").style.display = "block";
-//                document.getElementById("CA_prodlabel_div").style.display = "block";
-//                break;
-//        }
-//    }
-//}
+function ItemCodeOPEX_KeyPress(s, e) {
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    //KEY (ENTER) keycode: 13
+    if (key == 13) {
+        ASPxClientUtils.PreventEvent(e.htmlEvent);
+        listboxOPEX.SetVisible(true);
+        listboxOPEX.PerformCallback(ItemCodeOPEX.GetInputElement().value);
+    }
+}
 
+function listboxOPEX_EndCallback(s, e) {
+    //alert(listboxOPEX.GetItemCount());
+    if (listboxOPEX.GetItemCount() == 0)
+        listboxOPEX.SetVisible(false);
+}
+
+function listbox_EndCallback(s, e) {
+    if (listbox.GetItemCount() == 0)
+        listbox.SetVisible(false);
+}

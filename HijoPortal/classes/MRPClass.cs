@@ -897,7 +897,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Cost", typeof(string));
                 dtTable.Columns.Add("Qty", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
-                dtTable.Columns.Add("VALUE", typeof(string)); 
+                dtTable.Columns.Add("VALUE", typeof(string));
                 dtTable.Columns.Add("RevDesc", typeof(string));
                 dtTable.Columns.Add("isProdCategory", typeof(string));
             }
@@ -928,7 +928,7 @@ namespace HijoPortal.classes
 
                     dtRow["ProcCatCode"] = row["ProcCat"].ToString();
                     dtRow["ProcCatName"] = row["ProcCatName"].ToString();
-                    
+
                     dtRow["isItem"] = row["isItem"].ToString();
                     dtRow["isProdCategory"] = row["isProdCategory"].ToString();
                     dtRow["ItemCode"] = row["ItemCode"].ToString();
@@ -1810,7 +1810,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable AXInventTable(string str, string EntCode)
+        public static DataTable AXInventTable(string str, string EntCode, string mainaccoundid)
         {
 
             DataTable dtTable = new DataTable();
@@ -1828,6 +1828,7 @@ namespace HijoPortal.classes
 
             cn.Open();
 
+
             if (dtTable.Columns.Count == 0)
             {
                 //Columns for AspxGridview
@@ -1837,10 +1838,16 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("LastCost", typeof(string));
             }
 
+            string MAINACCOUNT = "";
+            if (mainaccoundid == "empty")
+                MAINACCOUNT = "MAINACCOUNT";
+            else
+                MAINACCOUNT = "'" +mainaccoundid + "'";
+
             string qry = "SELECT [ITEMID],[NAMEALIAS], [UNITID] " +
                           " FROM [hijo_portal].[dbo].[vw_AXInventTable] " +
                           " WHERE [NAMEALIAS] LIKE '%" + str + "%'" +
-                          " AND DATAAREAID = '" + EntCode + "'";
+                          " AND DATAAREAID = '" + EntCode + "' AND MAINACCOUNT = " + MAINACCOUNT;
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -2453,11 +2460,11 @@ namespace HijoPortal.classes
 
             if (sExpenseCode == "")
             {
-                qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] WHERE ([dataareaid] = '" + entCode + "') AND ([LedgerType] ='" + sType + "') ORDER BY NAME ASC";
+                qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] WHERE ([dataareaid] = '" + entCode + "') AND ([LedgerType] ='" + sType + "') AND ([isallowedProcCat] = 1) ORDER BY NAME ASC";
             }
             else
             {
-                qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] WHERE ([dataareaid] = '" + entCode + "') AND ([LedgerType] ='" + sType + "') AND ([mainaccount] = '" + sExpenseCode + "') ORDER BY NAME ASC";
+                qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] WHERE ([dataareaid] = '" + entCode + "') AND ([LedgerType] ='" + sType + "') AND ([mainaccount] = '" + sExpenseCode + "') AND ([isallowedProcCat] = 1) ORDER BY NAME ASC";
             }
 
 

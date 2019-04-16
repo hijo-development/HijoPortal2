@@ -1370,15 +1370,7 @@ function Hide() {
     ItemCodeOPEX.SetText("");
 }
 
-function ItemCodeOPEX_KeyPress(s, e) {
-    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
-    //KEY (ENTER) keycode: 13
-    if (key == 13) {
-        ASPxClientUtils.PreventEvent(e.htmlEvent);
-        listboxOPEX.SetVisible(true);
-        listboxOPEX.PerformCallback(ItemCodeOPEX.GetInputElement().value);
-    }
-}
+
 
 function listbox_selectedOPEX(s, e) {
     var selValue = s.GetSelectedItem().value;
