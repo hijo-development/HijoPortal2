@@ -6,6 +6,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script type="text/javascript" src="jquery/MRPAddEdit.js"></script>
+    <style>
+        .width_for_chkbx {
+            width: 8%;
+        }
+    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -584,13 +589,20 @@
                                                                                                                     </div>
                                                                                                                 </td>
                                                                                                                 <td>
-                                                                                                                    <div id="OperatingUnit_combo" runat="server">
-                                                                                                                        <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnitOP" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue" Width="300px">
-                                                                                                                            <ClientSideEvents SelectedIndexChanged="OperatingUnitOP_SelectedIndexChanged" />
-                                                                                                                            <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
-                                                                                                                            </ValidationSettings>
-                                                                                                                        </dx:ASPxComboBox>
-                                                                                                                    </div>
+                                                                                                                    <table style="width:100%;">
+                                                                                                                        <tr>
+                                                                                                                            <td class="width_for_chkbx"></td>
+                                                                                                                            <td>
+                                                                                                                                <div id="OperatingUnit_combo" runat="server">
+                                                                                                                                    <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnitOP" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue" Width="300px">
+                                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitOP_SelectedIndexChanged" />
+                                                                                                                                        <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
+                                                                                                                                        </ValidationSettings>
+                                                                                                                                    </dx:ASPxComboBox>
+                                                                                                                                </div>
+                                                                                                                            </td>
+                                                                                                                        </tr>
+                                                                                                                    </table>
                                                                                                                 </td>
                                                                                                             </tr>
                                                                                                             <tr>
@@ -598,11 +610,19 @@
                                                                                                                     <dx:ASPxLabel runat="server" Text="Expense" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                                 </td>
                                                                                                                 <td>
-                                                                                                                    <dx:ASPxComboBox ID="ExpenseCode" runat="server" ClientInstanceName="ExpenseCodeOPEX" OnInit="ExpenseCode_Init" ValueType="System.String" Theme="Office2010Blue" Width="300px">
-                                                                                                                        <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
-                                                                                                                        <ClientSideEvents SelectedIndexChanged="ExpenseCodeIndexChangeOPEX" />
-                                                                                                                        <%--<ClientSideEvents Init="ExpenseCodeCombo_Init" />--%>
-                                                                                                                    </dx:ASPxComboBox>
+                                                                                                                    <table style="width:100%;">
+                                                                                                                        <tr>
+                                                                                                                            <td class="width_for_chkbx"></td>
+                                                                                                                            <td>
+                                                                                                                                <dx:ASPxComboBox ID="ExpenseCode" runat="server" ClientInstanceName="ExpenseCodeOPEX" OnInit="ExpenseCode_Init" ValueType="System.String" Theme="Office2010Blue" Width="300px">
+                                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                                    <ClientSideEvents SelectedIndexChanged="ExpenseCodeIndexChangeOPEX" />
+                                                                                                                                    <%--<ClientSideEvents Init="ExpenseCodeCombo_Init" />--%>
+                                                                                                                                </dx:ASPxComboBox>
+                                                                                                                            </td>
+                                                                                                                        </tr>
+                                                                                                                    </table>
+
                                                                                                                 </td>
                                                                                                             </tr>
                                                                                                             <tr>
@@ -614,16 +634,29 @@
                                                                                                                 </td>
                                                                                                                 <td>
                                                                                                                     <div id="CA_prodcombo_div" class="CA_prodcombo_divClass" runat="server">
-                                                                                                                        <dx:ASPxCallbackPanel ID="ProcCatOPEXCallback" runat="server" ClientInstanceName="ProcCatOPEXCallbackClient" OnCallback="ProcCatOPEXCallback_Callback">
-                                                                                                                            <PanelCollection>
-                                                                                                                                <dx:PanelContent>
-                                                                                                                                    <dx:ASPxComboBox ID="ProcCatOPEX" runat="server" ClientInstanceName="ProcCatOPEX" OnInit="ProcCatOPEX_Init" ValueType="System.String" Theme="Office2010Blue" Width="300px">
-                                                                                                                                        <ClientSideEvents SelectedIndexChanged="ProcCatOPEX_SelectedIndexChanged" />
-                                                                                                                                    </dx:ASPxComboBox>
-                                                                                                                                </dx:PanelContent>
-                                                                                                                            </PanelCollection>
+                                                                                                                        <table style="width:100%;">
+                                                                                                                            <tr>
+                                                                                                                                <td class="width_for_chkbx">
+                                                                                                                                    <dx:ASPxCheckBox ID="ProdCatChkbx" runat="server" ClientInstanceName="ProdCatChkbxClient" Checked="true" Theme="Office2010Blue">
+                                                                                                                                        <ClientSideEvents CheckedChanged="ProdCatChkbx_CheckedChanged" />
+                                                                                                                                    </dx:ASPxCheckBox>
+                                                                                                                                </td>
+                                                                                                                                <td>
+                                                                                                                                    <dx:ASPxCallbackPanel ID="ProcCatOPEXCallback" runat="server" ClientInstanceName="ProcCatOPEXCallbackClient" OnCallback="ProcCatOPEXCallback_Callback">
+                                                                                                                                        <PanelCollection>
+                                                                                                                                            <dx:PanelContent>
+                                                                                                                                                <dx:ASPxComboBox ID="ProcCatOPEX" runat="server" ClientInstanceName="ProcCatOPEX" OnInit="ProcCatOPEX_Init" ValueType="System.String" Theme="Office2010Blue" Width="300px">
+                                                                                                                                                    <ClientSideEvents SelectedIndexChanged="ProcCatOPEX_SelectedIndexChanged" />
+                                                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                                                </dx:ASPxComboBox>
+                                                                                                                                            </dx:PanelContent>
+                                                                                                                                        </PanelCollection>
+                                                                                                                                    </dx:ASPxCallbackPanel>
+                                                                                                                                </td>
 
-                                                                                                                        </dx:ASPxCallbackPanel>
+                                                                                                                            </tr>
+                                                                                                                        </table>
+
                                                                                                                     </div>
                                                                                                                 </td>
                                                                                                             </tr>
@@ -635,33 +668,50 @@
                                                                                                                 </td>
                                                                                                                 <td>
                                                                                                                     <div id="div2" class="div2Class" runat="server">
-                                                                                                                        <dx:ASPxTextBox ID="ItemCode" runat="server" ClientInstanceName="ItemCodeOPEX" Text='<%#Eval("ItemCode")%>' Theme="Office2010Blue" Width="300px">
-                                                                                                                            <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
-                                                                                                                            <ClientSideEvents KeyPress="ItemCodeOPEX_KeyPress" />
-                                                                                                                        </dx:ASPxTextBox>
+                                                                                                                        <table style="width:100%;">
+                                                                                                                            <tr>
+                                                                                                                                <td class="width_for_chkbx">
+                                                                                                                                    <dx:ASPxCheckBox ID="ItemCodeChkbx" runat="server" ClientInstanceName="ItemCodeChkbxClient" Checked="true"  Theme="Office2010Blue">
+                                                                                                                                        <ClientSideEvents CheckedChanged="ItemCodeChkbx_CheckedChanged" />
+                                                                                                                                    </dx:ASPxCheckBox>
+                                                                                                                                </td>
+                                                                                                                                <td>
+                                                                                                                                    <dx:ASPxTextBox ID="ItemCode" runat="server" ClientInstanceName="ItemCodeOPEX" Text='<%#Eval("ItemCode")%>' Theme="Office2010Blue" Width="300px">
+                                                                                                                                        <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                                        <ClientSideEvents KeyPress="ItemCodeOPEX_KeyPress" />
+                                                                                                                                    </dx:ASPxTextBox>
+                                                                                                                                </td>
 
+                                                                                                                            </tr>
+                                                                                                                        </table>
                                                                                                                     </div>
-
                                                                                                                 </td>
                                                                                                             </tr>
                                                                                                             <tr>
                                                                                                                 <td style="width: 20%;"></td>
                                                                                                                 <td>
-                                                                                                                    <div style="overflow-x: auto; width: 400px;">
-                                                                                                                        <dx:ASPxListBox ID="listboxOPEX" ClientInstanceName="listboxOPEX" runat="server" ValueType="System.String"
-                                                                                                                            ValueField="ITEMID" OnCallback="listboxOPEX_Callback" ClientVisible="false" Theme="Office2010Blue" Width="450px">
-                                                                                                                            <Columns>
-                                                                                                                                <dx:ListBoxColumn FieldName="ITEMID" Caption="Item Code" Width="80px"></dx:ListBoxColumn>
-                                                                                                                                <dx:ListBoxColumn FieldName="NAMEALIAS" Caption="Description" ToolTip="Item Description"></dx:ListBoxColumn>
-                                                                                                                                <dx:ListBoxColumn FieldName="UOM" Caption="UOM" Width="50px"></dx:ListBoxColumn>
-                                                                                                                                <dx:ListBoxColumn FieldName="LastCost" Caption="Last Price" Width="80px"></dx:ListBoxColumn>
-                                                                                                                            </Columns>
-                                                                                                                            <ItemStyle Wrap="True" VerticalAlign="Middle" />
-                                                                                                                            <ClientSideEvents SelectedIndexChanged="listbox_selectedOPEX" />
-                                                                                                                            <ClientSideEvents EndCallback="listboxOPEX_EndCallback" />
+                                                                                                                    <table style="width:100%;">
+                                                                                                                        <tr>
+                                                                                                                            <td class="width_for_chkbx"></td>
+                                                                                                                            <td>
+                                                                                                                                <div style="overflow-x: auto; width: 400px;">
+                                                                                                                                    <dx:ASPxListBox ID="listboxOPEX" ClientInstanceName="listboxOPEX" runat="server" ValueType="System.String"
+                                                                                                                                        ValueField="ITEMID" OnCallback="listboxOPEX_Callback" ClientVisible="false" Theme="Office2010Blue" Width="450px">
+                                                                                                                                        <Columns>
+                                                                                                                                            <dx:ListBoxColumn FieldName="ITEMID" Caption="Item Code" Width="80px"></dx:ListBoxColumn>
+                                                                                                                                            <dx:ListBoxColumn FieldName="NAMEALIAS" Caption="Description" ToolTip="Item Description"></dx:ListBoxColumn>
+                                                                                                                                            <dx:ListBoxColumn FieldName="UOM" Caption="UOM" Width="50px"></dx:ListBoxColumn>
+                                                                                                                                            <dx:ListBoxColumn FieldName="LastCost" Caption="Last Price" Width="80px"></dx:ListBoxColumn>
+                                                                                                                                        </Columns>
+                                                                                                                                        <ItemStyle Wrap="True" VerticalAlign="Middle" />
+                                                                                                                                        <ClientSideEvents SelectedIndexChanged="listbox_selectedOPEX" />
+                                                                                                                                        <ClientSideEvents EndCallback="listboxOPEX_EndCallback" />
+                                                                                                                                    </dx:ASPxListBox>
+                                                                                                                                </div>
+                                                                                                                            </td>
+                                                                                                                        </tr>
+                                                                                                                    </table>
 
-                                                                                                                        </dx:ASPxListBox>
-                                                                                                                    </div>
                                                                                                                 </td>
                                                                                                             </tr>
                                                                                                             <tr>
@@ -669,10 +719,18 @@
                                                                                                                     <dx:ASPxLabel runat="server" Text="Item Description" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                                 </td>
                                                                                                                 <td>
-                                                                                                                    <dx:ASPxTextBox ID="Description" runat="server" ClientInstanceName="DescriptionOPEX" Text='<%#Eval("Description")%>' Width="300px" Theme="Office2010Blue">
-                                                                                                                        <%--<ClientSideEvents Init="Description_OP_Init" />--%>
-                                                                                                                        <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
-                                                                                                                    </dx:ASPxTextBox>
+                                                                                                                    <table style="width: 100%;">
+                                                                                                                        <tr>
+                                                                                                                            <td class="width_for_chkbx"></td>
+                                                                                                                            <td>
+                                                                                                                                <dx:ASPxTextBox ID="Description" runat="server" ClientInstanceName="DescriptionOPEX" Text='<%#Eval("Description")%>' Width="300px" Theme="Office2010Blue">
+                                                                                                                                    <%--<ClientSideEvents Init="Description_OP_Init" />--%>
+                                                                                                                                    <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                                </dx:ASPxTextBox>
+                                                                                                                            </td>
+                                                                                                                        </tr>
+                                                                                                                    </table>
+
                                                                                                                 </td>
                                                                                                             </tr>
                                                                                                             <tr>
@@ -680,8 +738,16 @@
                                                                                                                     <dx:ASPxLabel runat="server" Text="Item Description 2" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                                 </td>
                                                                                                                 <td>
-                                                                                                                    <dx:ASPxTextBox ID="DescriptionAddl" runat="server" Text='<%#Eval("DescriptionAddl")%>' Width="300px" Theme="Office2010Blue">
-                                                                                                                    </dx:ASPxTextBox>
+                                                                                                                    <table style="width: 100%;">
+                                                                                                                        <tr>
+                                                                                                                            <td class="width_for_chkbx"></td>
+                                                                                                                            <td>
+                                                                                                                                <dx:ASPxTextBox ID="DescriptionAddl" runat="server" Text='<%#Eval("DescriptionAddl")%>' Width="300px" Theme="Office2010Blue">
+                                                                                                                                </dx:ASPxTextBox>
+                                                                                                                            </td>
+                                                                                                                        </tr>
+                                                                                                                    </table>
+
                                                                                                                 </td>
                                                                                                             </tr>
                                                                                                         </table>

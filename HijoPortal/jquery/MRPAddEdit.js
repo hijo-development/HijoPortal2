@@ -238,3 +238,25 @@ function listbox_EndCallback(s, e) {
     if (listbox.GetItemCount() == 0)
         listbox.SetVisible(false);
 }
+
+function ProdCatChkbx_CheckedChanged(s, e) {
+    if (s.GetChecked()) {
+        ProcCatOPEX.SetEnabled(true);
+        ProcCatOPEX.SetIsValid(true);
+    } else {
+        ProcCatOPEX.SetEnabled(false);
+        ProcCatOPEX.SetIsValid(false);
+    }
+}
+
+function ItemCodeChkbx_CheckedChanged(s, e) {
+    if (s.GetChecked()) {
+        ItemCodeOPEX.SetEnabled(true);
+        ItemCodeOPEX.SetIsValid(true);
+        DescriptionOPEX.GetInputElement().readOnly = true;
+    } else {
+        ItemCodeOPEX.SetEnabled(false);
+        ItemCodeOPEX.SetIsValid(false);
+        DescriptionOPEX.GetInputElement().readOnly = false;
+    }
+}
