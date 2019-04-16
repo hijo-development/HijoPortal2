@@ -20,7 +20,7 @@
             -moz-box-shadow: 1px 1px 3px 2px #87cefa;
             -webkit-box-shadow: 1px 1px 3px 2px #87cefa;
             box-shadow: 1px 1px 3px 2px #87cefa;
-            overflow-x: auto;
+            overflow-y: auto;
             height:500px;
             /*overflow-y: auto;*/
         }
@@ -72,7 +72,7 @@
                 </tr>
             </table>
         </div>
-        <div class="createaccount_div11" id="dvContentWrapper11">
+        <div class="createaccount_div" id="dvContentWrapper11">
             <div style="height: 50px;"></div>
             <div id="dvHeader" style="height: 50px;">
                 <h1>Account Registration</h1>

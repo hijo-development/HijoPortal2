@@ -259,7 +259,7 @@ namespace HijoPortal
                     ASPxWebControl.RedirectOnCallback(MRPClass.DefaultPage());
                 else
                     Response.Redirect("default.aspx");
-
+                MRPClass.PrintString("something is wrong");
                 return;
             }
 
@@ -1343,7 +1343,7 @@ namespace HijoPortal
             ASPxPageControl pageControl = DirectMaterialsGrid.FindEditFormTemplateControl("DirectPageControl") as ASPxPageControl;
             ASPxListBox listbox = pageControl.FindControl("listbox") as ASPxListBox;
             listbox.Visible = true;
-            listbox.DataSource = MRPClass.AXInventTable(e.Parameter, entitycode);
+            listbox.DataSource = MRPClass.AXInventTable(e.Parameter, entitycode, "empty");
 
             //ListBoxColumn l_value = new ListBoxColumn();
             //l_value.FieldName = "ITEMID";
@@ -1370,8 +1370,12 @@ namespace HijoPortal
         {
             ASPxPageControl pageControl = OPEXGrid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
             ASPxListBox listbox = pageControl.FindControl("listboxOPEX") as ASPxListBox;
+            ASPxComboBox expCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
             listbox.Visible = true;
-            listbox.DataSource = MRPClass.AXInventTable(e.Parameter, entitycode);
+            listbox.DataSource = MRPClass.AXInventTable(e.Parameter, entitycode, expCode.Value.ToString());
+
+            listbox.TextField = "NAMEALIAS";
+            listbox.DataBind();
 
             //ListBoxColumn l_value = new ListBoxColumn();
             //l_value.FieldName = "ITEMID";
@@ -1388,9 +1392,9 @@ namespace HijoPortal
             //listbox.Columns.Add(l_text2);
 
             //listbox.ValueField = "ITEMID";
-            listbox.TextField = "NAMEALIAS";
-            //listbox.Columns.Add();
-            listbox.DataBind();
+            //listbox.TextField = "NAMEALIAS";
+            ////listbox.Columns.Add();
+            //listbox.DataBind();
         }
 
 
@@ -1726,6 +1730,17 @@ namespace HijoPortal
                         CA_prodlabel_div.Style.Add("display", "block");
                         break;
                 }
+
+                MRPClass.PrintString(entitycode);
+                if (entitycode == "0303")
+                {
+                    div1.Style.Add("display", "none");
+                    div2.Style.Add("display", "none");
+
+                    Description.Text = "";
+                    Description.ReadOnly = false;
+                    ItemCode.Text = "";
+                }
             }
         }
 
@@ -1733,7 +1748,18 @@ namespace HijoPortal
         {
             ASPxComboBox combo = sender as ASPxComboBox;
             //combo.DataSource = MRPClass.ProCategoryTable_WithoutAll();
-            combo.DataSource = MRPClass.ProCategoryTableWithType(entitycode, "Expense");
+            //combo.DataSource = MRPClass.ProCategoryTableWithType(entitycode, "Expense");
+
+            HttpCookie cookie_value = null;
+            string expcode = "";
+            cookie_value = Request.Cookies["opvalue"];
+            if (cookie_value != null)
+            {
+                expcode = cookie_value.Value;
+                
+            }
+
+            combo.DataSource = MRPClass.ProCategoryTableWithType(entitycode, "Expense", expcode);
 
             ListBoxColumn lv = new ListBoxColumn();
             lv.FieldName = "NAME";
@@ -1763,7 +1789,6 @@ namespace HijoPortal
                 }
                 else
                 {
-                    HttpCookie cookie_value = null;
                     HttpCookie cookie_text = null;
 
                     cookie_value = Request.Cookies["opproductvalue"];
