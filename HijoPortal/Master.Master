@@ -96,7 +96,38 @@
                                     <div id="dvSideNav" runat="server" class="side-menu">
                                         <%--Menu From Database--%>
                                     </div>
-                                    
+                                    <div id="dvDevExSideNav">
+
+                                        <dx:ASPxGridView ID="SideNavGrid" runat="server" Theme="Office2010Blue" Width="100%">
+                                            <Columns>
+                                                <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
+                                                <dx:GridViewDataColumn FieldName="Sort" Visible="false" SortOrder="Ascending"></dx:GridViewDataColumn>
+                                                <dx:GridViewDataColumn FieldName="formName" Visible="false"></dx:GridViewDataColumn>
+                                                <dx:GridViewDataHyperLinkColumn FieldName="formDescription" Width="100%">
+                                                    <DataItemTemplate>
+                                                        <dx:ASPxHyperLink ID="BtnSideNav" runat="server" OnInit="BtnSideNav_Init" Text='<%#Eval("formDescription")%>' Theme="iOS">
+                                                            <ClientSideEvents Click="function(s,e){
+                                                                $find('ModalMasterPopupExtenderLoading').show();
+                                                                }" />
+                                                        </dx:ASPxHyperLink>
+                                                    </DataItemTemplate>
+                                                </dx:GridViewDataHyperLinkColumn>
+                                                <dx:GridViewDataColumn FieldName="forAdminOnly" Visible="false"></dx:GridViewDataColumn>
+                                                <dx:GridViewDataColumn FieldName="ModuleName" Visible="false"></dx:GridViewDataColumn>
+                                            </Columns>
+                                            <Settings ShowColumnHeaders="false" />
+                                            <SettingsPager Mode="ShowAllRecords" AlwaysShowPager="false">
+                                            </SettingsPager>
+                                            <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
+                                                AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
+                                        </dx:ASPxGridView>
+
+                                        <%--<dx:ASPxHyperLink ID="ASPxHyperLink1" runat="server" Text="ASPxHyperLink" NavigateUrl="~/mrp_list.aspx">
+                                            <ClientSideEvents Click="function(s,e){
+                                            $find('ModalMasterPopupExtenderLoading').show();
+                                            }" />
+                                        </dx:ASPxHyperLink>--%>
+                                    </div>
                                 </div>
                             </dx:SplitterContentControl>
                         </ContentCollection>

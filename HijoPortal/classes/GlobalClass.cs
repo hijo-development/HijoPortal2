@@ -1171,5 +1171,52 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+
+        public static DataTable SideNavigation(int userKey)
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("Sort", typeof(Int32));
+                dtTable.Columns.Add("formName", typeof(string));
+                dtTable.Columns.Add("formDescription", typeof(string));
+                dtTable.Columns.Add("forAdminOnly", typeof(string));
+                dtTable.Columns.Add("ModuleName", typeof(string));
+            }
+            string qry = "SELECT PK, Sort, formName, formDescription, ModuleName, forAdminOnly FROM dbo.tbl_System_SideNav WHERE(formName <> '') ORDER BY Sort";
+
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["Sort"] = Convert.ToInt32(row["Sort"]);
+                    dtRow["formName"] = row["formName"].ToString();
+                    dtRow["formDescription"] = row["formDescription"].ToString();
+                    dtRow["forAdminOnly"] = row["forAdminOnly"].ToString();
+                    dtRow["ModuleName"] = row["ModuleName"].ToString();
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return dtTable;
+        }
     }
 }
