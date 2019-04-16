@@ -49,6 +49,42 @@ namespace HijoPortal {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
+        /// TextBoxMasterLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxMasterLoading;
+        
+        /// <summary>
+        /// ModalMasterPopupExtenderLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalMasterPopupExtenderLoading;
+        
+        /// <summary>
+        /// PanelMasterLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelMasterLoading;
+        
+        /// <summary>
+        /// ButtonMasterErrorOK1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonMasterErrorOK1;
+        
+        /// <summary>
         /// dvBanner control.
         /// </summary>
         /// <remarks>
