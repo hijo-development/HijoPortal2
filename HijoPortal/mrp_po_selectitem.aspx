@@ -15,8 +15,9 @@
             var monthyear = MonthYear_Combo.GetValue();
             var arr = s.GetText().split("; ");
             s.SetText(arr[0]);
-            EntityClient.SetText(arr[1]);
-            BUClient.SetText(arr[2]);
+            EntityCodeClient.SetText(arr[1]);
+            EntityClient.SetText(arr[2]);
+            BUClient.SetText(arr[3]);
             ProdCat_ListBoxClient.PerformCallback();
             MainGridCallbackPanel.PerformCallback();
         }
@@ -97,6 +98,9 @@
                     <td style="width: 1%;">:</td>
                     <td style="width: 26%;">
                         <dx:ASPxTextBox ID="Entity" runat="server" ClientInstanceName="EntityClient" Width="100%" BackColor="Transparent" Border-BorderColor="Transparent" Theme="Office2010Blue" ReadOnly="true"></dx:ASPxTextBox>
+                        <div style="display:none;">
+                            <dx:ASPxTextBox ID="EntityCode" runat="server" ClientInstanceName="EntityCodeClient" Width="170px"></dx:ASPxTextBox>
+                        </div>
                     </td>
                     <td style="width: 3%;"></td>
                     <td style="width: 6%;">

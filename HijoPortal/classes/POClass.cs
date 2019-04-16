@@ -185,6 +185,7 @@ namespace HijoPortal.classes
             {
                 dtTable.Columns.Add("PK", typeof(string));
                 dtTable.Columns.Add("DocumentNumber", typeof(string));
+                dtTable.Columns.Add("EntityCode", typeof(string));
                 dtTable.Columns.Add("Entity", typeof(string));
                 dtTable.Columns.Add("BU", typeof(string));
             }
@@ -197,7 +198,7 @@ namespace HijoPortal.classes
                 year_string = "MRPYear";
             }
 
-            string qry = "SELECT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU FROM dbo.tbl_MRP_List INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER WHERE MRPMonth = " + month_string + " AND MRPYear = " + year_string + " AND StatusKey = '4' ORDER BY MRPMonth, MRPYear ASC";
+            string qry = "SELECT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.ID AS EntityCode, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU FROM dbo.tbl_MRP_List INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER WHERE MRPMonth = " + month_string + " AND MRPYear = " + year_string + " AND StatusKey = '4' ORDER BY MRPMonth, MRPYear ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -210,6 +211,7 @@ namespace HijoPortal.classes
                     DataRow dtRow = dtTable.NewRow();
                     dtRow["PK"] = row["PK"].ToString();
                     dtRow["DocumentNumber"] = row["DocNumber"].ToString();
+                    dtRow["EntityCode"] = row["EntityCode"].ToString();
                     dtRow["Entity"] = row["Entity"].ToString();
                     dtRow["BU"] = row["BU"].ToString();
                     dtTable.Rows.Add(dtRow);

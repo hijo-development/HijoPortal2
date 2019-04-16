@@ -136,15 +136,20 @@ namespace HijoPortal
             combo.Columns.Add(l_text);
 
             ListBoxColumn lt2 = new ListBoxColumn();
-            lt2.FieldName = "Entity";
-            lt2.Width = 300;
+            lt2.FieldName = "EntityCode";
+            lt2.Width = 0;
             combo.Columns.Add(lt2);
 
             ListBoxColumn lt3 = new ListBoxColumn();
-            lt3.FieldName = "BU";
-            lt3.Caption = "SSU/BU";
+            lt3.FieldName = "Entity";
             lt3.Width = 300;
             combo.Columns.Add(lt3);
+
+            ListBoxColumn lt4 = new ListBoxColumn();
+            lt4.FieldName = "BU";
+            lt4.Caption = "SSU/BU";
+            lt4.Width = 300;
+            combo.Columns.Add(lt4);
 
             combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
             combo.ValueField = "DocumentNumber";
@@ -262,10 +267,11 @@ namespace HijoPortal
         private void ProdCat_DataBind()
         {
             string docnum = MOPNum_Combo.Text.ToString();
+            string entCode = EntityCode.Text.ToString();
             ASPxListBox list = ProdCat_ListBox as ASPxListBox;
             list.Columns.Clear();
             list.Items.Clear();
-            list.DataSource = MRPClass.ProCategoryTable_Filter(docnum);
+            list.DataSource = MRPClass.ProCategoryTable_Filter(docnum, entCode);
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "NAME";

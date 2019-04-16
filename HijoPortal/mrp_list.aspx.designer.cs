@@ -13,22 +13,40 @@ namespace HijoPortal {
     public partial class mrp_list {
         
         /// <summary>
-        /// WarningPopUp control.
+        /// TextBoxLoading control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPopupControl WarningPopUp;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxLoading;
         
         /// <summary>
-        /// WarningText control.
+        /// ModalPopupExtenderLoading control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel WarningText;
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupExtenderLoading;
+        
+        /// <summary>
+        /// PanelLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelLoading;
+        
+        /// <summary>
+        /// ButtonErrorOK1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonErrorOK1;
         
         /// <summary>
         /// PopUpControl control.
@@ -83,6 +101,24 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxButton BtnAdd;
+        
+        /// <summary>
+        /// WarningPopUp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl WarningPopUp;
+        
+        /// <summary>
+        /// WarningText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel WarningText;
         
         /// <summary>
         /// MRPNotify control.
