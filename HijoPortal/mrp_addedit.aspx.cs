@@ -1730,17 +1730,17 @@ namespace HijoPortal
                         CA_prodlabel_div.Style.Add("display", "block");
                         break;
                 }
+            }
 
-                MRPClass.PrintString(entitycode);
-                if (entitycode == "0303")
-                {
-                    div1.Style.Add("display", "none");
-                    div2.Style.Add("display", "none");
+            MRPClass.PrintString(entitycode);
+            if (entitycode == "0303")
+            {
+                div1.Style.Add("display", "none");
+                div2.Style.Add("display", "none");
 
-                    Description.Text = "";
-                    Description.ReadOnly = false;
-                    ItemCode.Text = "";
-                }
+                Description.Text = "";
+                Description.ReadOnly = false;
+                ItemCode.Text = "";
             }
         }
 

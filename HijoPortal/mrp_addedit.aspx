@@ -141,7 +141,7 @@
                     <td colspan="2">
                         <dx:ASPxLabel ID="EntityCode" runat="server" Text="" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
                         <div style="display: none;">
-                            <dx:ASPxLabel ID="Entity" runat="server" Text="" ClientInstanceName="EntityCodeAddEditDirect" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="Entity" runat="server" Text="" ClientInstanceName="EntityCodeAddEditDirect" Theme="Office2010Blue"></dx:ASPxLabel>
                             <dx:ASPxLabel ID="BU" runat="server" Text="" ClientInstanceName="BUCodeAddEditDirect" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
                         </div>
                     </td>

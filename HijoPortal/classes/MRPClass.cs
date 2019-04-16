@@ -303,7 +303,7 @@ namespace HijoPortal.classes
                     if (preMRPDocNum != "")
                     {
                         // Copy Direct Materials
-                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE ([HeaderDocNum] = " + preMRPDocNum + ")";
+                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
                         cmd = new SqlCommand(qry);
                         cmd.Connection = cn;
                         adp = new SqlDataAdapter(cmd);
@@ -321,7 +321,7 @@ namespace HijoPortal.classes
                         dt.Clear();
 
                         // Copy OPEX
-                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] WHERE ([HeaderDocNum] = " + preMRPDocNum + ")";
+                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
                         cmd = new SqlCommand(qry);
                         cmd.Connection = cn;
                         adp = new SqlDataAdapter(cmd);
@@ -330,7 +330,7 @@ namespace HijoPortal.classes
                         {
                             foreach (DataRow row in dt.Rows)
                             {
-                                qry = "INSERT INTO tbl_MRP_List_OPEX (HeaderDocNum, TableIdentifier, ActivityCode, OprUnit, ProcCat, ItemCode, Description, DescriptionAddl, UOM, Cost, Qty, TotalCost, EdittedCost, EdittedQty, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', " + Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["ActivityCode"].ToString() + "', '" + row["OprUnit"].ToString() + "', '"+ row["ProcCat"].ToString() +"', '" + row["ItemCode"].ToString() + "', '" + row["Description"].ToString() + "', '" + row["DescriptionAddl"].ToString() + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
+                                qry = "INSERT INTO tbl_MRP_List_OPEX (HeaderDocNum, TableIdentifier, OprUnit, ProcCat, ItemCode, Description, DescriptionAddl, UOM, Cost, Qty, TotalCost, EdittedCost, EdittedQty, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', " + Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["OprUnit"].ToString() + "', '"+ row["ProcCat"].ToString() +"', '" + row["ItemCode"].ToString() + "', '" + row["Description"].ToString() + "', '" + row["DescriptionAddl"].ToString() + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
                                 cmdIn = new SqlCommand(qry, cn);
                                 cmdIn.CommandType = CommandType.Text;
                                 cmdIn.ExecuteNonQuery();
@@ -339,7 +339,7 @@ namespace HijoPortal.classes
                         dt.Clear();
 
                         // Copy Manpower
-                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_ManPower] WHERE ([HeaderDocNum] = " + preMRPDocNum + ")";
+                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_ManPower] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
                         cmd = new SqlCommand(qry);
                         cmd.Connection = cn;
                         adp = new SqlDataAdapter(cmd);
@@ -357,7 +357,7 @@ namespace HijoPortal.classes
                         dt.Clear();
 
                         //Copy CAPEX
-                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE ([HeaderDocNum] = " + preMRPDocNum + ")";
+                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
                         cmd = new SqlCommand(qry);
                         cmd.Connection = cn;
                         adp = new SqlDataAdapter(cmd);
@@ -375,7 +375,7 @@ namespace HijoPortal.classes
                         dt.Clear();
 
                         //Copy Revenue Assumption
-                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_RevenueAssumptions] WHERE ([HeaderDocNum] = " + preMRPDocNum + ")";
+                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_RevenueAssumptions] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
                         cmd = new SqlCommand(qry);
                         cmd.Connection = cn;
                         adp = new SqlDataAdapter(cmd);
