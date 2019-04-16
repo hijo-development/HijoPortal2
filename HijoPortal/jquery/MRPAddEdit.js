@@ -135,6 +135,15 @@ function ExpenseCodeIndexChangeOPEX(s, e) {
             break;
     }
 
+    var entCode = EntityCodeAddEditDirect.GetText();
+    if (entCode == "0303") {
+        document.getElementsByClassName("div1Class")[0].style.display = "none";
+        document.getElementsByClassName("div2Class")[0].style.display = "none";
+        DescriptionOPEX.SetText("");
+        DescriptionOPEX.GetInputElement().readOnly = false;
+        ItemCodeOPEX.SetText("");
+    }
+
     if (ProcCatOPEXCallbackClient.InCallback()) {
         postponedCallbackOPEXProCat = true;
     }

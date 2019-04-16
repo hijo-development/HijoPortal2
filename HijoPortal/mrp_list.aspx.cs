@@ -386,6 +386,15 @@ namespace HijoPortal
             ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
             int CopyMOP = 0, PreMonth = 0, PreYear = 0;
+            if (Checkbox.Checked)
+            {
+                CopyMOP = 1;
+                string[] arr = MonthYearCombo.Text.ToString().Split('-');
+                string arr_month = arr[0];
+                string arr_year = arr[1];
+                PreMonth = Convertion.MONTH_TO_INDEX(arr_month);
+                PreYear = Convert.ToInt32(arr_year);
+            }
 
             string month = Month.Value.ToString();
             string year = Year.Value.ToString();
