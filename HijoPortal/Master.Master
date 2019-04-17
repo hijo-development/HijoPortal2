@@ -19,6 +19,14 @@
     <script type="text/javascript" src="jquery/accounting.js"></script>
     <script type="text/javascript" src="jquery/ContentPage.js"></script>
     <script type="text/javascript" src="jquery/changePW.js"></script>
+    <script>
+        $(function () {
+            $("#dvSideNav li").on("click", function () {
+                $find('ModalMasterPopupExtenderLoading').show();
+            });
+        });
+        //$('#dvSideNav').on('click', 'li', myFunction);
+    </script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -52,15 +60,73 @@
                     <td style="width: 80px; height: 80px; padding: 10px;">
                         <img src="images/HijoLogo.png" style="height: 60px; width: 60px;" />
                     </td>
-                    <td class="Header-td">
+                    <%--<td class="Header-td">
                         <h1>HIJO Portal</h1>
+                    </td>--%>
+                    <td style="width: 40%">
+                        <table style="width:100%;">
+                            <tr>
+                                <td>
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="width: 20%; vertical-align:top;">
+                                                <dx:ASPxLabel runat="server" Text="User" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                            <td style="width: 1%; vertical-align:top">: </td>
+                                            <td style="vertical-align:top;">
+                                                <dx:ASPxLabel ID="UserLbl" runat="server" Text="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="vertical-align:top;">
+                                                <dx:ASPxLabel runat="server" Text="Entity" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                            <td style="vertical-align:top;">: </td>
+                                            <td style="vertical-align:top;">
+                                                <dx:ASPxLabel ID="EntityLbl" runat="server" Text="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="vertical-align:top;">
+                                                <dx:ASPxLabel runat="server" Text="BU / Dept" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                            <td style="vertical-align:top;">: </td>
+                                            <td style="vertical-align:top;">
+                                                <dx:ASPxLabel ID="BULbl" runat="server" Text="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <table style="width:100%;">
+                                                    <tr>
+                                                        <td style="text-align:right;">
+                                                            <dx:ASPxHyperLink ID="ChangePW" runat="server" OnInit="ChangePW_Init" Text="Change Password" Cursor="pointer" Theme="Office2010Blue">
+                                                            </dx:ASPxHyperLink>
+                                                        </td>
+                                                        <td style="text-align:right; width:15%">
+                                                            <dx:ASPxHyperLink ID="LogOut" runat="server" Text="Log Out" Cursor="pointer" Theme="Office2010Blue">
+                                                                <ClientSideEvents Click="function(s,e){PopupLogout.Show()}" />
+                                                            </dx:ASPxHyperLink>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width:30%; text-align:center;">
+                                    <dx:ASPxImage ID="ProfileImage" runat="server" ShowLoadingImage="true" Width="70px" Height="70px"></dx:ASPxImage>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             </table>
         </div>
         <div style="background-color: #0e3f6b; height: 5px;"></div>
         <div id="dvSplitter" runat="server">
-            <dx:ASPxPopupControl ID="PopupLogout" ClientInstanceName="PopupLogout" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+            <dx:ASPxPopupControl ID="PopupLogout" ClientInstanceName="PopupLogout" runat="server" HeaderText="Log Out" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
                 <ContentCollection>
                     <dx:PopupControlContentControl>
                         <table style="width: 100%;" border="0">
@@ -84,12 +150,26 @@
                     </dx:PopupControlContentControl>
                 </ContentCollection>
             </dx:ASPxPopupControl>
-            <dx:ASPxSplitter ID="MainSplitter" runat="server" ClientInstanceName="MainSplitterClient" BackColor="Transparent" AllowResize="true" Border-BorderStyle="None" Height="100%" SeparatorSize="10">
+            <%--<dx:ASPxSplitter ID="MainSplitter" runat="server" ClientInstanceName="MainSplitterClient" BackColor="Transparent" AllowResize="true" Border-BorderStyle="None" Height="100%" SeparatorSize="70px" Theme="iOS">--%>
+            <dx:ASPxSplitter ID="ASPxSplitter1" runat="server" ClientInstanceName="MainSplitterClient" AllowResize="true" Height="100%" BackColor="Transparent"
+                ResizingMode="Live" SeparatorSize="20" ShowSeparatorImage="true">
                 <ClientSideEvents PaneCollapsed="MainSplitterClient_PaneCollapsed" />
                 <ClientSideEvents PaneExpanded="MainSplitterClient_PaneExpanded" />
                 <ClientSideEvents PaneResized="MainSplitterClient_PaneResized" />
+                <Images>
+                    <VerticalCollapseBackwardButton Height="18px" Width="18px" Url="images/2leftarrow.png"></VerticalCollapseBackwardButton>
+                    <VerticalCollapseForwardButton Height="18px" Width="18px" Url="images/2rightarrow.png"></VerticalCollapseForwardButton>
+                    <VerticalSeparatorButton Height="18px" Width="18px" Url="images/2rightarrow.png"></VerticalSeparatorButton>
+                </Images>
+                <Styles>
+                    <SeparatorButton>
+                        <HoverStyle BackColor="Transparent"></HoverStyle>
+                    </SeparatorButton>
+                </Styles>
+
                 <Panes>
-                    <dx:SplitterPane Size="200px" Name="containMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" ScrollBars="Auto" PaneStyle-Border-BorderStyle="None" ShowCollapseBackwardButton="True" Separator-BackwardCollapseButtonImage-Width="20" Separator-BackwardCollapseButtonImage-Height="20">
+                    <%--<dx:SplitterPane Size="200px" Name="containMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" ScrollBars="Auto" PaneStyle-Border-BorderStyle="Groove" ShowCollapseBackwardButton="True">--%>
+                    <dx:SplitterPane Size="200px" Name="containMenu" ScrollBars="Auto" AutoHeight="false" PaneStyle-BackColor="Transparent" ShowCollapseBackwardButton="True" ShowSeparatorImage="True">
                         <ContentCollection>
                             <dx:SplitterContentControl runat="server" Style="padding: 5px;">
                                 <div id="dvNavWapper" runat="server">

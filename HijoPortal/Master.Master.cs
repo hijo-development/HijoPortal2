@@ -28,6 +28,7 @@ namespace HijoPortal
                 if (Session["UserCompleteName"] != null)
                 {
                     lblUser.InnerHtml = "User : " + Session["UserCompleteName"].ToString();
+                    UserLbl.Text = Session["UserCompleteName"].ToString();
 
                     ASPxLabelEnt.Text = "";
                     //if (Session["EntityCodeDesc"] != null)
@@ -37,6 +38,7 @@ namespace HijoPortal
                     if (Session["EntityCodeDesc"].ToString().Trim() != "")
                     {
                         ASPxLabelEnt.Text = "Entity : " + Session["EntityCodeDesc"].ToString();
+                        EntityLbl.Text = Session["EntityCodeDesc"].ToString();
                     }
 
                     ASPxLabelBU.Text = "";
@@ -47,9 +49,17 @@ namespace HijoPortal
                     if (Session["BUCodeDesc"].ToString().Trim() != "")
                     {
                         ASPxLabelBU.Text = "BU / Dept : " + Session["BUCodeDesc"].ToString();
-                    }  
+
 
                     //ASPxSplitter1.Height = 661 - 10;
+
+
+                        BULbl.Text = Session["BUCodeDesc"].ToString();
+                    }
+
+                    //ASPxSplitter1.Height = 661 - 10;
+
+                    ProfileImage.ImageUrl = "~/images/avatar.png";
 
                     Load_Menu(Convert.ToInt32(Session["CreatorKey"]));
 
@@ -61,6 +71,7 @@ namespace HijoPortal
                     Response.Redirect("default.aspx");
                 }
 
+
             }
         }
 
@@ -68,10 +79,16 @@ namespace HijoPortal
         {
             //string page = "";
 
+            //ASPxHyperLink link = sender as ASPxHyperLink;
+            //GridViewDataItemTemplateContainer container = link.NamingContainer as GridViewDataItemTemplateContainer;
+            //object page = container.Grid.GetRowValues(container.VisibleIndex, "formName");
+            //link.NavigateUrl = page.ToString();
+        }
+
+        protected void ChangePW_Init(object sender, EventArgs e)
+        {
             ASPxHyperLink link = sender as ASPxHyperLink;
-            GridViewDataItemTemplateContainer container = link.NamingContainer as GridViewDataItemTemplateContainer;
-            object page = container.Grid.GetRowValues(container.VisibleIndex, "formName");
-            link.NavigateUrl = page.ToString();
+            link.NavigateUrl = "change_password.aspx";
         }
 
         private void BindSideNavGrid(int usrKey)
@@ -118,6 +135,7 @@ namespace HijoPortal
                                 sb.Append("<li>");
                                 sb.Append(row["MenuScript"].ToString());
                                 sb.Append("</li>");
+                                
                             }
                         }
                         else
