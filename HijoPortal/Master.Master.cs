@@ -47,13 +47,13 @@ namespace HijoPortal
                     if (Session["BUCodeDesc"].ToString().Trim() != "")
                     {
                         ASPxLabelBU.Text = "BU / Dept : " + Session["BUCodeDesc"].ToString();
-                    }
+                    }  
 
                     //ASPxSplitter1.Height = 661 - 10;
 
-                    //Load_Menu(Convert.ToInt32(Session["CreatorKey"]));
+                    Load_Menu(Convert.ToInt32(Session["CreatorKey"]));
 
-                    BindSideNavGrid(Convert.ToInt32(Session["CreatorKey"]));
+                    //BindSideNavGrid(Convert.ToInt32(Session["CreatorKey"]));
 
                 }
                 else
@@ -76,11 +76,11 @@ namespace HijoPortal
 
         private void BindSideNavGrid(int usrKey)
         {
-            SideNavGrid.DataSource = GlobalClass.SideNavigation(usrKey);
-            SideNavGrid.KeyFieldName = "PK";
-            SideNavGrid.SortBy(SideNavGrid.Columns[1], DevExpress.Data.ColumnSortOrder.Ascending);
-            //SideNavGrid.Columns[1].SortOrder == DevExpress.Data.ColumnSortOrder.Ascending;
-            SideNavGrid.DataBind();
+            //SideNavGrid.DataSource = GlobalClass.SideNavigation(usrKey);
+            //SideNavGrid.KeyFieldName = "PK";
+            //SideNavGrid.SortBy(SideNavGrid.Columns[1], DevExpress.Data.ColumnSortOrder.Ascending);
+            ////SideNavGrid.Columns[1].SortOrder == DevExpress.Data.ColumnSortOrder.Ascending;
+            //SideNavGrid.DataBind();
         }
 
         private void Load_Menu(int usrKey)

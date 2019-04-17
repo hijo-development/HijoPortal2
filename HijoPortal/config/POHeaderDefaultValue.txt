@@ -1,1 +1,1 @@
-Draft|None|en-us|Gen|Purchase order||Open order
+Draft|None|en-us|Gen|Purchase order||Open order|1

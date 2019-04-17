@@ -1274,52 +1274,108 @@ namespace HijoPortal.classes
         public static string POHeaderColumnNameDefault()
         {
             string sHeader = "";
-            string sWebRoot = HttpContext.Current.Server.MapPath("~");
-            string sFilePath = sWebRoot + @"config\POHeaderColNameDefault.txt";
+            int iRecCnt = 0;
+            //string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            //string sFilePath = sWebRoot + @"config\POHeaderColNameDefault.txt";
 
-            try
+            //try
+            //{
+            //    if (File.Exists(sFilePath))
+            //    {
+            //        using (StreamReader sr = new StreamReader(sFilePath))
+            //        {
+            //            while (sr.Peek() >= 0)
+            //            {
+            //                sHeader = sr.ReadLine();
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    sHeader = "";
+            //}
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            conn.Open();
+            string qry = "SELECT tbl_System_POHeaderDefault.* FROM tbl_System_POHeaderDefault ORDER BY PK";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
             {
-                if (File.Exists(sFilePath))
+                foreach (DataRow row in dt.Rows)
                 {
-                    using (StreamReader sr = new StreamReader(sFilePath))
+                    sHeader = sHeader + row["ColumnName"].ToString().Trim();
+                    iRecCnt = iRecCnt + 1;
+                    if (iRecCnt < dt.Rows.Count)
                     {
-                        while (sr.Peek() >= 0)
-                        {
-                            sHeader = sr.ReadLine();
-                        }
+                        sHeader = sHeader + "|";
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                sHeader = "";
-            }
+            dt.Clear();
+            conn.Close();
+
             return sHeader;
         }
 
         public static string POHeaderDefaultValue()
         {
             string sHeaderDefault = "";
-            string sWebRoot = HttpContext.Current.Server.MapPath("~");
-            string sFilePath = sWebRoot + @"config\POHeaderDefaultValue.txt";
+            int iRecCnt = 0;
+            //string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            //string sFilePath = sWebRoot + @"config\POHeaderDefaultValue.txt";
 
-            try
+            //try
+            //{
+            //    if (File.Exists(sFilePath))
+            //    {
+            //        using (StreamReader sr = new StreamReader(sFilePath))
+            //        {
+            //            while (sr.Peek() >= 0)
+            //            {
+            //                sHeaderDefault = sr.ReadLine();
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    sHeaderDefault = "";
+            //}
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            conn.Open();
+            string qry = "SELECT tbl_System_POHeaderDefault.* FROM tbl_System_POHeaderDefault ORDER BY PK";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
             {
-                if (File.Exists(sFilePath))
+                foreach (DataRow row in dt.Rows)
                 {
-                    using (StreamReader sr = new StreamReader(sFilePath))
+                    sHeaderDefault = sHeaderDefault + row["ColumnValue"].ToString().Trim();
+                    iRecCnt = iRecCnt + 1;
+                    if (iRecCnt < dt.Rows.Count)
                     {
-                        while (sr.Peek() >= 0)
-                        {
-                            sHeaderDefault = sr.ReadLine();
-                        }
+                        sHeaderDefault = sHeaderDefault + "|";
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                sHeaderDefault = "";
-            }
+            dt.Clear();
+            conn.Close();
+
             return sHeaderDefault;
         }
 
@@ -1352,54 +1408,110 @@ namespace HijoPortal.classes
 
         public static string POLineColumnNameDefault()
         {
-            string sHeader = "";
-            string sWebRoot = HttpContext.Current.Server.MapPath("~");
-            string sFilePath = sWebRoot + @"config\POLineColNameDefault.txt";
+            string sLineDefault = "";
+            int iRecCnt = 0;
+            //string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            //string sFilePath = sWebRoot + @"config\POLineColNameDefault.txt";
 
-            try
+            //try
+            //{
+            //    if (File.Exists(sFilePath))
+            //    {
+            //        using (StreamReader sr = new StreamReader(sFilePath))
+            //        {
+            //            while (sr.Peek() >= 0)
+            //            {
+            //                sHeader = sr.ReadLine();
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    sHeader = "";
+            //}
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            conn.Open();
+            string qry = "SELECT tbl_System_POLinesDefault.* FROM tbl_System_POLinesDefault ORDER BY PK";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
             {
-                if (File.Exists(sFilePath))
+                foreach (DataRow row in dt.Rows)
                 {
-                    using (StreamReader sr = new StreamReader(sFilePath))
+                    sLineDefault = sLineDefault + row["ColumnName"].ToString().Trim();
+                    iRecCnt = iRecCnt + 1;
+                    if (iRecCnt < dt.Rows.Count)
                     {
-                        while (sr.Peek() >= 0)
-                        {
-                            sHeader = sr.ReadLine();
-                        }
+                        sLineDefault = sLineDefault + "|";
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                sHeader = "";
-            }
-            return sHeader;
+            dt.Clear();
+            conn.Close();
+
+            return sLineDefault;
         }
 
         public static string POLineDefaultValue()
         {
-            string sHeaderDefault = "";
-            string sWebRoot = HttpContext.Current.Server.MapPath("~");
-            string sFilePath = sWebRoot + @"config\POLineDefaultValue.txt";
+            string sLineDefault = "";
+            int iRecCnt = 0;
+            //string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            //string sFilePath = sWebRoot + @"config\POLineDefaultValue.txt";
 
-            try
+            //try
+            //{
+            //    if (File.Exists(sFilePath))
+            //    {
+            //        using (StreamReader sr = new StreamReader(sFilePath))
+            //        {
+            //            while (sr.Peek() >= 0)
+            //            {
+            //                sHeaderDefault = sr.ReadLine();
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    sHeaderDefault = "";
+            //}
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+
+            conn.Open();
+            string qry = "SELECT tbl_System_POLinesDefault.* FROM tbl_System_POLinesDefault ORDER BY PK";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
             {
-                if (File.Exists(sFilePath))
+                foreach (DataRow row in dt.Rows)
                 {
-                    using (StreamReader sr = new StreamReader(sFilePath))
+                    sLineDefault = sLineDefault + row["ColumnValue"].ToString().Trim();
+                    iRecCnt = iRecCnt + 1;
+                    if (iRecCnt < dt.Rows.Count)
                     {
-                        while (sr.Peek() >= 0)
-                        {
-                            sHeaderDefault = sr.ReadLine();
-                        }
+                        sLineDefault = sLineDefault + "|";
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                sHeaderDefault = "";
-            }
-            return sHeaderDefault;
+            dt.Clear();
+            conn.Close();
+
+            return sLineDefault;
         }
 
         public static void SubmitToAX(string poNum, ASPxPopupControl popNotify, ASPxLabel lblNotify, ModalPopupExtender modExtender)
