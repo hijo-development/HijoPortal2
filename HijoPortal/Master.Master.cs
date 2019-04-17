@@ -49,12 +49,18 @@ namespace HijoPortal
                     if (Session["BUCodeDesc"].ToString().Trim() != "")
                     {
                         ASPxLabelBU.Text = "BU / Dept : " + Session["BUCodeDesc"].ToString();
+
+
+                    //ASPxSplitter1.Height = 661 - 10;
+
+
                         BULbl.Text = Session["BUCodeDesc"].ToString();
                     }
 
                     //ASPxSplitter1.Height = 661 - 10;
 
                     ProfileImage.ImageUrl = "~/images/avatar.png";
+
                     Load_Menu(Convert.ToInt32(Session["CreatorKey"]));
 
                     //BindSideNavGrid(Convert.ToInt32(Session["CreatorKey"]));
