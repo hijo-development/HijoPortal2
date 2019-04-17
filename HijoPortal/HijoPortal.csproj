@@ -120,6 +120,8 @@
     <Content Include="forgotpassword.aspx" />
     <Content Include="Global.asax" />
     <Content Include="home.aspx" />
+    <Content Include="images\2leftarrow.png" />
+    <Content Include="images\2rightarrow.png" />
     <Content Include="images\Add.ico" />
     <Content Include="images\avatar.png" />
     <Content Include="images\Banner.png" />
@@ -223,6 +225,7 @@
     <Compile Include="classes\GlobalClass.cs" />
     <Compile Include="classes\ImpersonatedUser.cs" />
     <Compile Include="classes\ItemInfoClass.cs" />
+    <Compile Include="classes\MasterClass.cs" />
     <Compile Include="classes\MRPApproveClass.cs" />
     <Compile Include="classes\MRPClass.cs" />
     <Compile Include="classes\MRPSubmitClass.cs" />

@@ -94,6 +94,60 @@ namespace HijoPortal {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvBanner;
         
         /// <summary>
+        /// UserLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel UserLbl;
+        
+        /// <summary>
+        /// EntityLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel EntityLbl;
+        
+        /// <summary>
+        /// BULbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel BULbl;
+        
+        /// <summary>
+        /// ChangePW control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxHyperLink ChangePW;
+        
+        /// <summary>
+        /// LogOut control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxHyperLink LogOut;
+        
+        /// <summary>
+        /// ProfileImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxImage ProfileImage;
+        
+        /// <summary>
         /// dvSplitter control.
         /// </summary>
         /// <remarks>
@@ -130,13 +184,13 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxButton CANCEL_LOGOUT;
         
         /// <summary>
-        /// MainSplitter control.
+        /// ASPxSplitter1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxSplitter MainSplitter;
+        protected global::DevExpress.Web.ASPxSplitter ASPxSplitter1;
         
         /// <summary>
         /// dvNavWapper control.
@@ -155,15 +209,6 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSideNav;
-        
-        /// <summary>
-        /// SideNavGrid control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView SideNavGrid;
         
         /// <summary>
         /// Content control.
