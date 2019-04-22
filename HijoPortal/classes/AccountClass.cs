@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.IO;
 
 namespace HijoPortal.classes
 {
@@ -410,6 +411,47 @@ namespace HijoPortal.classes
             }
 
             return dtTable;
+        }
+
+        public static int EmployeePictureInHRIS(string IDNum)
+        {
+            int HavePicture = 0;
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dtable = new DataTable();
+
+            //string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            //string imgPathTmp = sWebRoot + @"images\users\";
+
+            using (SqlConnection con = new SqlConnection(GlobalClass.SQLConnStringHRIS()))
+            {
+                con.Open();
+                string qry = "SELECT dbo.tbl_EmployeeIDNumber.PK, dbo.tbl_EmployeeProfile.LastName, dbo.tbl_EmployeeProfile.FirstName, dbo.tbl_EmployeeProfile.MiddleName, dbo.tbl_EmployeeProfile.CompanyEmail, dbo.tbl_EmployeeIDNumber.DomainUN, dbo.tbl_EmployeeProfile.Picture FROM dbo.tbl_EmployeeIDNumber LEFT OUTER JOIN dbo.tbl_EmployeeProfile ON dbo.tbl_EmployeeIDNumber.ProfileKey = dbo.tbl_EmployeeProfile.PK WHERE(dbo.tbl_EmployeeIDNumber.IDNumber = '" + IDNum + "')";
+                cmd = new SqlCommand(qry);
+                cmd.Connection = con;
+                adp = new SqlDataAdapter(cmd);
+                adp.Fill(dtable);
+                if (dtable.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dtable.Rows)
+                    {
+                        if (row["Picture"] != System.DBNull.Value)
+                        {
+                            string imgPath = GlobalClass.UserImagePath + IDNum + ".jpg";
+                            if (File.Exists(imgPath) == true) { File.Delete(imgPath); }
+                            FileStream fs1 = new FileStream(imgPath, FileMode.CreateNew, FileAccess.Write);
+                            byte[] bimage1 = (byte[])row["Picture"];
+                            fs1.Write(bimage1, 0, bimage1.Length - 1);
+                            fs1.Flush();
+                            fs1.Dispose();
+                            HavePicture = 1;
+                        }
+                    }
+                }
+                dtable.Clear();
+                con.Close();
+            }
+            return HavePicture;
         }
     }
 }

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="MOPDataSet" targetNamespace="http://tempuri.org/MOPDataSet.xsd" xmlns:mstns="http://tempuri.org/MOPDataSet.xsd" xmlns="http://tempuri.org/MOPDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="MOPDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="MOPDataSet" msprop:Generator_UserDSName="MOPDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="MOPMasterDataTable" msprop:Generator_TableClassName="MOPMasterDataTableDataTable" msprop:Generator_TableVarName="tableMOPMasterDataTable" msprop:Generator_TablePropName="MOPMasterDataTable" msprop:Generator_RowDeletingName="MOPMasterDataTableRowDeleting" msprop:Generator_RowChangingName="MOPMasterDataTableRowChanging" msprop:Generator_RowEvHandlerName="MOPMasterDataTableRowChangeEventHandler" msprop:Generator_RowDeletedName="MOPMasterDataTableRowDeleted" msprop:Generator_UserTableName="MOPMasterDataTable" msprop:Generator_RowChangedName="MOPMasterDataTableRowChanged" msprop:Generator_RowEvArgName="MOPMasterDataTableRowChangeEvent" msprop:Generator_RowClassName="MOPMasterDataTableRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MOPKey" msprop:Generator_ColumnVarNameInTable="columnMOPKey" msprop:Generator_ColumnPropNameInRow="MOPKey" msprop:Generator_ColumnPropNameInTable="MOPKeyColumn" msprop:Generator_UserColumnName="MOPKey" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DMDataTable" msprop:Generator_TableClassName="DMDataTableDataTable" msprop:Generator_TableVarName="tableDMDataTable" msprop:Generator_TablePropName="DMDataTable" msprop:Generator_RowDeletingName="DMDataTableRowDeleting" msprop:Generator_RowChangingName="DMDataTableRowChanging" msprop:Generator_RowEvHandlerName="DMDataTableRowChangeEventHandler" msprop:Generator_RowDeletedName="DMDataTableRowDeleted" msprop:Generator_UserTableName="DMDataTable" msprop:Generator_RowChangedName="DMDataTableRowChanged" msprop:Generator_RowEvArgName="DMDataTableRowChangeEvent" msprop:Generator_RowClassName="DMDataTableRow">
+          <xs:complexType>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
