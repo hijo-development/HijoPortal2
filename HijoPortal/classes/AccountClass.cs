@@ -375,6 +375,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("MiddleName", typeof(string));
                 dtTable.Columns.Add("Email", typeof(string));
                 dtTable.Columns.Add("DomainAccount", typeof(string));
+                dtTable.Columns.Add("Gender", typeof(int));
             }
             dtTable.Clear();
 
@@ -383,7 +384,7 @@ namespace HijoPortal.classes
                 con.Open();
                 string qry = "SELECT dbo.tbl_EmployeeIDNumber.PK, dbo.tbl_EmployeeProfile.LastName, " +
                              " dbo.tbl_EmployeeProfile.FirstName, dbo.tbl_EmployeeProfile.MiddleName, " +
-                             " dbo.tbl_EmployeeProfile.CompanyEmail, dbo.tbl_EmployeeIDNumber.DomainUN " +
+                             " dbo.tbl_EmployeeProfile.CompanyEmail, dbo.tbl_EmployeeIDNumber.DomainUN, dbo.tbl_EmployeeProfile.Gender " +
                              " FROM dbo.tbl_EmployeeIDNumber LEFT OUTER JOIN " +
                              " dbo.tbl_EmployeeProfile ON dbo.tbl_EmployeeIDNumber.ProfileKey = dbo.tbl_EmployeeProfile.PK " +
                              " WHERE(dbo.tbl_EmployeeIDNumber.IDNumber = '" + IDNum.ToString() + "')";
@@ -402,6 +403,7 @@ namespace HijoPortal.classes
                         rowAdd["MiddleName"] = row["MiddleName"].ToString();
                         rowAdd["Email"] = row["CompanyEmail"].ToString();
                         rowAdd["DomainAccount"] = row["DomainUN"].ToString();
+                        rowAdd["Gender"] = row["Gender"].ToString();
                         dtTable.Rows.Add(rowAdd);
                     }
                 }

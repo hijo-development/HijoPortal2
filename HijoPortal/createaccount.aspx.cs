@@ -13,9 +13,17 @@ namespace HijoPortal
 {
     public partial class createaccount : System.Web.UI.Page
     {
+        private static string lastname = "", firstname = "", email = "", gender = "";
+        private static int gender_int = -1;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!Page.IsPostBack)
+            {
+                lastname = "";
+                firstname = "";
+                email = "";
+                gender = "";
+            }
         }
         protected void signUp_Click(object sender, EventArgs e)
         {
@@ -29,7 +37,7 @@ namespace HijoPortal
                 DataTable dt = new DataTable();
                 SqlCommand cmd = null;
                 SqlDataAdapter adp;
-                
+
                 string qry = "";
                 using (SqlConnection conHRIS = new SqlConnection(GlobalClass.SQLConnStringHRIS()))
                 {
@@ -136,7 +144,7 @@ namespace HijoPortal
                     int _Gender = 0;
                     _sLastName = EncryptionClass.Encrypt(GlobalClass.UpperCaseFirstLetter(lastNameTextBox.Text.ToString().Trim()));
                     _sFirstName = EncryptionClass.Encrypt(GlobalClass.UpperCaseFirstLetter(firstNameTextBox.Text.ToString().Trim()));
-                    _Gender = Convert.ToInt32(cmbGender.Value);
+                    _Gender = gender_int;
                     _sEmail = EncryptionClass.Encrypt(eMailTextBox.Text.ToString().Trim());
                     _sUserName = EncryptionClass.Encrypt(userNameTextBox.Text.ToString().Trim());
                     _sPassword = EncryptionClass.Encrypt(passwordTextBox.Text.ToString().Trim());
@@ -147,7 +155,7 @@ namespace HijoPortal
                     qry = "INSERT INTO tbl_Users " +
                           " (Lastname, Firstname, Username, Password, Email, EmployeeKey, Gender) " +
                           " VALUES ('" + _sLastName + "', '" + _sFirstName + "', '" + _sUserName + "', " +
-                          " '" + _sPassword + "', '" + _sEmail + "', " + iEmployeeKey + ", "+ _Gender + ")"; ;
+                          " '" + _sPassword + "', '" + _sEmail + "', " + iEmployeeKey + ", " + _Gender + ")"; ;
                     try
                     {
                         cmd = new SqlCommand(qry);
@@ -182,6 +190,18 @@ namespace HijoPortal
                     }
                 }
             }
+        }
+
+        protected void firstnameCallback_Callback(object sender, CallbackEventArgsBase e)
+        {
+            FetchEmployeeInfo();
+            if (!string.IsNullOrEmpty(firstname))
+            {
+                firstNameTextBox.Text = firstname;
+                firstNameTextBox.IsValid = true;
+            }
+            else
+                firstNameTextBox.Text = "";
         }
 
         protected void CallbackPanelIDNum_Callback(object sender, CallbackEventArgsBase e)
@@ -220,6 +240,77 @@ namespace HijoPortal
             //    IDNumTextBox.IsValid = true;
             //    IDNumTextBox.ErrorText = "";
             //}
+        }
+
+        protected void genderCallback_Callback(object sender, CallbackEventArgsBase e)
+        {
+            FetchEmployeeInfo();
+            if (!string.IsNullOrEmpty(gender))
+            {
+                GenderTextbox.Text = gender;
+                GenderTextbox.IsValid = true;
+            }
+            else
+                GenderTextbox.Text = "";
+        }
+
+        protected void emailCallback_Callback(object sender, CallbackEventArgsBase e)
+        {
+            FetchEmployeeInfo();
+            if (!string.IsNullOrEmpty(email))
+            {
+                eMailTextBox.Text = email;
+                eMailTextBox.IsValid = true;
+            }
+            else
+                eMailTextBox.Text = "";
+        }
+
+        protected void lastnameCallback_Callback(object sender, CallbackEventArgsBase e)
+        {
+            FetchEmployeeInfo();
+            if (!string.IsNullOrEmpty(lastname))
+            {
+                lastNameTextBox.Text = lastname;
+                lastNameTextBox.IsValid = true;
+            }
+            else
+                lastNameTextBox.Text = "";
+        }
+
+        private void FetchEmployeeInfo()
+        {
+            string id = IDNumTextBox.Text;
+            DataTable dt = AccountClass.GetEmployeeInfo(id);
+            foreach (DataRow row in dt.Rows)
+            {
+                lastname = row["LastName"].ToString();
+                firstname = row["FirstName"].ToString();
+                email = row["Email"].ToString();
+                gender = GetGender(row["Gender"].ToString());
+                gender_int = Convert.ToInt32(row["Gender"].ToString());
+            }
+            if (dt.Rows.Count == 0)
+            {
+                lastname = "";
+                firstname = "";
+                email = "";
+                gender = "";
+                gender_int = -1;
+            }
+        }
+
+        private string GetGender(string str)
+        {
+            switch (str)
+            {
+                case "1":
+                    return "Male";
+                case "2":
+                    return "Female";
+                default:
+                    return "";
+            }
         }
     }
 }

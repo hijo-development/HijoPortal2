@@ -130,6 +130,15 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxTextBox IDNumTextBoxMatch;
         
         /// <summary>
+        /// lastnameCallback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel lastnameCallback;
+        
+        /// <summary>
         /// lastNameTextBox control.
         /// </summary>
         /// <remarks>
@@ -137,6 +146,15 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxTextBox lastNameTextBox;
+        
+        /// <summary>
+        /// firstnameCallback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel firstnameCallback;
         
         /// <summary>
         /// firstNameTextBox control.
@@ -148,13 +166,31 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxTextBox firstNameTextBox;
         
         /// <summary>
-        /// cmbGender control.
+        /// genderCallback control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxComboBox cmbGender;
+        protected global::DevExpress.Web.ASPxCallbackPanel genderCallback;
+        
+        /// <summary>
+        /// GenderTextbox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox GenderTextbox;
+        
+        /// <summary>
+        /// emailCallback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel emailCallback;
         
         /// <summary>
         /// eMailTextBox control.
@@ -173,6 +209,15 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxFormLayout FormLayoutAut;
+        
+        /// <summary>
+        /// ASPxFormLayout1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxFormLayout ASPxFormLayout1;
         
         /// <summary>
         /// userNameTextBox control.
