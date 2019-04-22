@@ -118,6 +118,7 @@ function ExpenseCodeIndexChangeOPEX(s, e) {
         case 1://PO
             document.getElementsByClassName("div1Class")[0].style.display = "block";
             document.getElementsByClassName("div2Class")[0].style.display = "block";
+            ItemCodeChkbxClient.SetChecked(true);
             DescriptionOPEX.SetText("");
             DescriptionOPEX.GetInputElement().readOnly = true;
             ItemCodeOPEX.SetText("");
@@ -132,17 +133,18 @@ function ExpenseCodeIndexChangeOPEX(s, e) {
         case 1://show product category combobox
             document.getElementsByClassName("CA_prodcombo_divClass")[0].style.display = "block";
             document.getElementsByClassName("CA_prodlabel_divClass")[0].style.display = "block";
+            ProdCatChkbxClient.SetChecked(true);
             break;
     }
 
-    var entCode = EntityCodeAddEditDirect.GetText();
-    if (entCode == "0303") {
-        document.getElementsByClassName("div1Class")[0].style.display = "none";
-        document.getElementsByClassName("div2Class")[0].style.display = "none";
-        DescriptionOPEX.SetText("");
-        DescriptionOPEX.GetInputElement().readOnly = false;
-        ItemCodeOPEX.SetText("");
-    }
+    //var entCode = EntityCodeAddEditDirect.GetText();
+    //if (entCode == "0303") {
+    //    document.getElementsByClassName("div1Class")[0].style.display = "none";
+    //    document.getElementsByClassName("div2Class")[0].style.display = "none";
+    //    DescriptionOPEX.SetText("");
+    //    DescriptionOPEX.GetInputElement().readOnly = false;
+    //    ItemCodeOPEX.SetText("");
+    //}
 
     if (ProcCatOPEXCallbackClient.InCallback()) {
         postponedCallbackOPEXProCat = true;

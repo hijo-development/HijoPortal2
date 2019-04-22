@@ -21,7 +21,7 @@
             -webkit-box-shadow: 1px 1px 3px 2px #87cefa;
             box-shadow: 1px 1px 3px 2px #87cefa;
             overflow-y: auto;
-            height:500px;
+            height:inherit;
             /*overflow-y: auto;*/
         }
     </style>
@@ -60,7 +60,7 @@
             <ClientSideEvents ControlsInitialized="onControlsInitialized" />
         </dx:ASPxGlobalEvents>
 
-        <div id="dvBanner" runat="server" style="height: 100px;">
+        <%--<div id="dvBanner" runat="server" style="height: 100px;">
             <table style="width: 100%; height: 100%">
                 <tr style="height: 100px;">
                     <td style="width: 80px; height: 80px; padding: 10px;">
@@ -71,13 +71,13 @@
                     </td>
                 </tr>
             </table>
-        </div>
+        </div>--%>
         <div class="createaccount_div" id="dvContentWrapper11">
-            <div style="height: 50px;"></div>
+            <%--<div style="height: 50px;"></div>--%>
             <div id="dvHeader" style="height: 50px;">
                 <h1>Account Registration</h1>
             </div>
-            <div style="width: 800px; height: 500px; margin: auto;">
+            <div style="width: 800px; height:auto; margin: auto;">
                 <table style="width: 100%;">
                     <tr>
                         <td style="vertical-align: top; padding: 10px; width: 50%;">

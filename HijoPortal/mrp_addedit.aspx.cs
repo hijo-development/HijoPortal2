@@ -1732,16 +1732,15 @@ namespace HijoPortal
                 }
             }
 
-            MRPClass.PrintString(entitycode);
-            if (entitycode == "0303")
-            {
-                div1.Style.Add("display", "none");
-                div2.Style.Add("display", "none");
+            //if (entitycode == "0303")
+            //{
+            //    div1.Style.Add("display", "none");
+            //    div2.Style.Add("display", "none");
 
-                Description.Text = "";
-                Description.ReadOnly = false;
-                ItemCode.Text = "";
-            }
+            //    Description.Text = "";
+            //    Description.ReadOnly = false;
+            //    ItemCode.Text = "";
+            //}
         }
 
         protected void ProcCatOPEX_Init(object sender, EventArgs e)
