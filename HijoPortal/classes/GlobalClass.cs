@@ -19,6 +19,8 @@ namespace HijoPortal.classes
 
         public static string WorkFlowSetupMsg = "";
 
+        public static string UserImagePath = HttpContext.Current.Server.MapPath("~") + @"images\users\";
+
         public static object ContextType { get; private set; }
 
         public static string UpperCaseFirstLetter(string s)
