@@ -1,4 +1,24 @@
-﻿var passwordMinLength = 6;
+﻿$(document).ready(function () {
+    changeWindow.resizeWidth();
+});
+
+$(window).resize(function () {
+    changeWindow.resizeWidth();
+});
+
+changeWindow = {
+    resizeWidth: function () {
+        var h = window.innerHeight
+            || document.documentElement.clientHeight
+            || document.body.clientHeight;
+
+        var minusfive = h - (h * 0.01);
+        $('#dvContentWrapper11').height(minusfive);
+        console.log("resize creare:" + minusfive);
+    }
+}
+
+var passwordMinLength = 6;
 function GetPasswordRating(password) {
     var result = 0;
     if (password) {
@@ -65,7 +85,7 @@ function GetErrorText(editor) {
         }
         //if (passwordTextBox.GetText() !== confirmPasswordTextBox.GetText())
         //    return "The password you entered do not match";
-    } 
+    }
     return "";
 }
 function OnPassValidation(s, e) {
@@ -133,14 +153,14 @@ function onIDNumberLostFocus(s, e) {
     //console.log("Match ID : " + idnumTextboxMatchDirect.GetText());
 
     //idnumTextboxMatchDirect.SetValue("ID");
-    if (CallbackPanelIDNumDirect.InCallback()) {
-        PostBackIDNum = true;
-        //console.log("Match ID : " + idnumTextboxMatchDirect.GetText());
-    }
-    else {
-        CallbackPanelIDNumDirect.PerformCallback();
-        //console.log("Match ID : " + idnumTextboxMatchDirect.GetText());
-    }
+    //if (CallbackPanelIDNumDirect.InCallback()) {
+    //    PostBackIDNum = true;
+    //    //console.log("Match ID : " + idnumTextboxMatchDirect.GetText());
+    //}
+    //else {
+    //    CallbackPanelIDNumDirect.PerformCallback();
+    //    //console.log("Match ID : " + idnumTextboxMatchDirect.GetText());
+    //}
     //console.log(idnumTextboxMatchDirect.GetText());
 }
 
@@ -192,4 +212,15 @@ function SignUp(s, e) {
     //    $find('ModalPopupExtenderLoading').show();
     //    e.processOnServer = true;
     //}
+}
+
+function AllCallback(s, e) {
+    if (idnumTextboxDirect.GetText().length > 0) {
+        if (e.htmlEvent.keyCode == 13) {
+            lastnameCallbackClient.PerformCallback();
+            firstnameCallbackClient.PerformCallback();
+            genderCallbackClient.PerformCallback();
+            emailCallbackClient.PerformCallback();
+        }
+    }
 }

@@ -80,7 +80,7 @@
         </asp:Panel>
 
 
-        <div id="dvBanner" runat="server" style="height: 100px;">
+        <div id="dvBanner" runat="server" style="height: 80px;">
             <dx:ASPxPopupControl ID="ASPxPopupControl1" runat="server" ClientInstanceName="PopUpInfoClient" HeaderText="Information" Theme="Office2010Blue" Width="200px" Height="100%" PopupAnimationType="Fade" CloseAnimationType="Fade">
                 <ContentCollection>
                     <dx:PopupControlContentControl>
@@ -91,7 +91,7 @@
                                 </td>
                                 <td style="width: 1%; vertical-align: top">: </td>
                                 <td style="vertical-align: top; width: 80%;">
-                                    <dx:ASPxLabel ID="UserLbl" runat="server" Text="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                                    <dx:ASPxLabel ID="UserLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
                                 </td>
                             </tr>
                             <tr>
@@ -100,7 +100,7 @@
                                 </td>
                                 <td style="vertical-align: top;">: </td>
                                 <td style="vertical-align: top;">
-                                    <dx:ASPxLabel ID="EntityLbl" runat="server" Text="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                                    <dx:ASPxLabel ID="EntityLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
                                 </td>
                             </tr>
                             <tr>
@@ -109,7 +109,7 @@
                                 </td>
                                 <td style="vertical-align: top;">: </td>
                                 <td style="vertical-align: top;">
-                                    <dx:ASPxLabel ID="BULbl" runat="server" Text="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                                    <dx:ASPxLabel ID="BULbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
                                 </td>
                             </tr>
                             <tr>
@@ -134,20 +134,19 @@
                     </dx:PopupControlContentControl>
                 </ContentCollection>
             </dx:ASPxPopupControl>
-            <table style="width: 100%; height: 100%">
-                <tr style="height: 100px;">
-                    <td style="width: 80px; height: 80px; padding: 10px;">
+            <table style="width: 100%; height: 80px;">
+                <tr style="height: 80px;">
+                    <td style="width: 60px; height: 60px; vertical-align:middle;">
                         <img src="images/Hijo Logo.jpg" style="height: 60px; width: 260px;" />
                     </td>
                     <%--<td class="Header-td">
                         <h1>HIJO Portal</h1>
                     </td>--%>
-                    <td style="width: 40%">
+                    <td style="width: 10%">
                         <table style="width: 100%;">
                             <tr>
-                                <td></td>
-                                <td style="width: 30%; text-align: center;">
-                                    <dx:ASPxButton ID="ProfileImage" runat="server" ClientInstanceNam="ProfileImageClient" RenderMode="Link" Theme="Office2010Blue" Image-Width="70px" Image-Height="70px">
+                                <td style="width: 100%; text-align: center;">
+                                    <dx:ASPxButton ID="ProfileImage" runat="server" ClientInstanceNam="ProfileImageClient" RenderMode="Link" Theme="Office2010Blue" Image-Width="50px" Image-Height="50px">
                                         <ClientSideEvents Click="onButtonClick" />
                                     </dx:ASPxButton>
                                 </td>

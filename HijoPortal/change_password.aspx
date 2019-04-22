@@ -63,7 +63,7 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-        <div id="dvBanner" runat="server" style="height: 100px;">
+        <%--<div id="dvBanner" runat="server" style="height: 100px;">
             <table style="width: 100%; height: 100%">
                 <tr style="height: 100px;">
                     <td style="width: 80px; height: 80px; padding: 10px;">
@@ -74,7 +74,7 @@
                     </td>
                 </tr>
             </table>
-        </div>
+        </div>--%>
         <div>
             <table style="width: 100%;">
                 <tr>

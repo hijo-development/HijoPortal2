@@ -11,6 +11,8 @@
     <title>Create Account</title>
     <link rel="stylesheet" type="text/css" href="css/Account.css" />
     <link href="css/ChangePassword.css" rel="stylesheet" />
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="jquery/createAccount.js" type="text/javascript"></script>
     <style type="text/css">
         .createaccount_div {
@@ -21,8 +23,15 @@
             -webkit-box-shadow: 1px 1px 3px 2px #87cefa;
             box-shadow: 1px 1px 3px 2px #87cefa;
             overflow-y: auto;
-            height:inherit;
+            height: inherit;
             /*overflow-y: auto;*/
+        }
+
+        .table_design {
+            vertical-align: top;
+            padding: 10px;
+            width: 50%;
+            align-content: center;
         }
     </style>
 </head>
@@ -72,15 +81,15 @@
                 </tr>
             </table>
         </div>--%>
-        <div class="createaccount_div" id="dvContentWrapper11">
+        <div class="createaccount_div" id="dvContentWrapper11" style="background-color:transparent;">
             <%--<div style="height: 50px;"></div>--%>
             <div id="dvHeader" style="height: 50px;">
                 <h1>Account Registration</h1>
             </div>
-            <div style="width: 800px; height:auto; margin: auto;">
-                <table style="width: 100%;">
+            <div style="width: 800px; height: inherit; margin: auto;">
+                <table style="width: 100%;" border="0">
                     <tr>
-                        <td style="vertical-align: top; padding: 10px; width: 50%;">
+                        <td class="table_design">
                             <dx:ASPxFormLayout ID="FormLayoutReg"
                                 ClientInstanceName="FormLayoutRegDirect"
                                 runat="server"
@@ -100,7 +109,7 @@
                                                                 <RequiredField IsRequired="True" ErrorText="The value is required" />
                                                                 <ErrorFrameStyle Wrap="True" />
                                                             </ValidationSettings>
-                                                            <ClientSideEvents LostFocus="onIDNumberLostFocus" Validation="OnIDNumPassValidation" />
+                                                            <ClientSideEvents LostFocus="onIDNumberLostFocus" Validation="OnIDNumPassValidation" KeyDown="AllCallback" />
                                                         </dx:ASPxTextBox>
                                                         <dx:ASPxCallbackPanel ID="CallbackPanelIDNum" runat="server" ClientInstanceName="CallbackPanelIDNumDirect" Width="100%" OnCallback="CallbackPanelIDNum_Callback">
                                                             <ClientSideEvents EndCallback="IDNumberEndCallback" />
@@ -118,26 +127,38 @@
                                             <dx:LayoutItem Caption="Last Name" CaptionStyle-ForeColor="Black">
                                                 <LayoutItemNestedControlCollection>
                                                     <dx:LayoutItemNestedControlContainer>
-                                                        <dx:ASPxTextBox ID="lastNameTextBox" runat="server" ClientInstanceName="lnameTextboxDirect" NullText="Last Name" Width="100%" CssClass="maxWidth" Theme="iOS">
-                                                            <ValidationSettings Display="Dynamic" RequiredField-IsRequired="true" ErrorDisplayMode="Text" SetFocusOnError="true" ErrorTextPosition="Bottom" ErrorFrameStyle-Wrap="true">
-                                                                <ErrorFrameStyle Wrap="True"></ErrorFrameStyle>
-                                                                <RequiredField IsRequired="True" ErrorText="The value is required"></RequiredField>
-                                                            </ValidationSettings>
-                                                            <ClientSideEvents />
-                                                        </dx:ASPxTextBox>
+                                                        <dx:ASPxCallbackPanel ID="lastnameCallback" runat="server" ClientInstanceName="lastnameCallbackClient" OnCallback="lastnameCallback_Callback" Width="100%">
+                                                            <PanelCollection>
+                                                                <dx:PanelContent>
+                                                                    <dx:ASPxTextBox ID="lastNameTextBox" runat="server" ClientInstanceName="lnameTextboxDirect" NullText="Last Name" Width="100%" ReadOnly="true" CssClass="maxWidth" Theme="iOS">
+                                                                        <ValidationSettings Display="Dynamic" RequiredField-IsRequired="true" ErrorDisplayMode="Text" SetFocusOnError="true" ErrorTextPosition="Bottom" ErrorFrameStyle-Wrap="true">
+                                                                            <ErrorFrameStyle Wrap="True"></ErrorFrameStyle>
+                                                                            <RequiredField IsRequired="True" ErrorText="The value is required"></RequiredField>
+                                                                        </ValidationSettings>
+                                                                        <ClientSideEvents />
+                                                                    </dx:ASPxTextBox>
+                                                                </dx:PanelContent>
+                                                            </PanelCollection>
+                                                        </dx:ASPxCallbackPanel>
+
                                                     </dx:LayoutItemNestedControlContainer>
                                                 </LayoutItemNestedControlCollection>
                                             </dx:LayoutItem>
                                             <dx:LayoutItem Caption="First Name" CaptionStyle-ForeColor="Black">
                                                 <LayoutItemNestedControlCollection>
                                                     <dx:LayoutItemNestedControlContainer>
-                                                        <dx:ASPxTextBox ID="firstNameTextBox" runat="server" ClientInstanceName="fnameTextboxDirect" NullText="First Name" Width="100%" CssClass="maxWidth" Theme="iOS">
-                                                            <ValidationSettings Display="Dynamic" RequiredField-IsRequired="true" ErrorDisplayMode="Text" SetFocusOnError="true" ErrorTextPosition="Bottom" ErrorFrameStyle-Wrap="true">
-                                                                <ErrorFrameStyle Wrap="True"></ErrorFrameStyle>
-
-                                                                <RequiredField IsRequired="True" ErrorText="The value is required"></RequiredField>
-                                                            </ValidationSettings>
-                                                        </dx:ASPxTextBox>
+                                                        <dx:ASPxCallbackPanel ID="firstnameCallback" runat="server" ClientInstanceName="firstnameCallbackClient" OnCallback="firstnameCallback_Callback" Width="100%">
+                                                            <PanelCollection>
+                                                                <dx:PanelContent>
+                                                                    <dx:ASPxTextBox ID="firstNameTextBox" runat="server" ClientInstanceName="fnameTextboxDirect" ReadOnly="true" NullText="First Name" Width="100%" CssClass="maxWidth" Theme="iOS">
+                                                                        <ValidationSettings Display="Dynamic" RequiredField-IsRequired="true" ErrorDisplayMode="Text" SetFocusOnError="true" ErrorTextPosition="Bottom" ErrorFrameStyle-Wrap="true">
+                                                                            <ErrorFrameStyle Wrap="True"></ErrorFrameStyle>
+                                                                            <RequiredField IsRequired="True" ErrorText="The value is required"></RequiredField>
+                                                                        </ValidationSettings>
+                                                                    </dx:ASPxTextBox>
+                                                                </dx:PanelContent>
+                                                            </PanelCollection>
+                                                        </dx:ASPxCallbackPanel>
                                                     </dx:LayoutItemNestedControlContainer>
                                                 </LayoutItemNestedControlCollection>
                                             </dx:LayoutItem>
@@ -145,16 +166,24 @@
                                             <dx:LayoutItem Caption="Gender" CaptionStyle-ForeColor="Black">
                                                 <LayoutItemNestedControlCollection>
                                                     <dx:LayoutItemNestedControlContainer>
-                                                        <dx:ASPxComboBox ID="cmbGender" ClientInstanceName="cmbGenderDirect" runat="server" ValueType="System.String" Width="100%" CssClass="maxWidth" Theme="iOS">
-                                                            <Items>
-                                                                <dx:ListEditItem Text="Male" Value="1" />
-                                                                <dx:ListEditItem Text="Female" Value="2" />
-                                                            </Items>
-                                                            <ValidationSettings Display="Dynamic" RequiredField-IsRequired="true" ErrorDisplayMode="Text" SetFocusOnError="true" ErrorTextPosition="Bottom" ErrorFrameStyle-Wrap="true">
-                                                                <ErrorFrameStyle Wrap="True"></ErrorFrameStyle>
-                                                                <RequiredField IsRequired="True" ErrorText="The value is required"></RequiredField>
-                                                            </ValidationSettings>
-                                                        </dx:ASPxComboBox>
+                                                        <dx:ASPxCallbackPanel ID="genderCallback" runat="server" ClientInstanceName="genderCallbackClient" OnCallback="genderCallback_Callback" Width="100%">
+                                                            <PanelCollection>
+                                                                <dx:PanelContent>
+                                                                    <dx:ASPxTextBox ID="GenderTextbox" runat="server" Width="100%" Theme="iOS" ReadOnly="true"></dx:ASPxTextBox>
+                                                                    <%--<dx:ASPxComboBox ID="cmbGender" ClientInstanceName="cmbGenderDirect" runat="server" ValueType="System.String" Width="100%" CssClass="maxWidth" Theme="iOS">
+                                                                        <Items>
+                                                                            <dx:ListEditItem Text="Male" Value="1" />
+                                                                            <dx:ListEditItem Text="Female" Value="2" />
+                                                                        </Items>
+                                                                        <ValidationSettings Display="Dynamic" RequiredField-IsRequired="true" ErrorDisplayMode="Text" SetFocusOnError="true" ErrorTextPosition="Bottom" ErrorFrameStyle-Wrap="true">
+                                                                            <ErrorFrameStyle Wrap="True"></ErrorFrameStyle>
+                                                                            <RequiredField IsRequired="True" ErrorText="The value is required"></RequiredField>
+                                                                        </ValidationSettings>
+                                                                    </dx:ASPxComboBox>--%>
+                                                                </dx:PanelContent>
+                                                            </PanelCollection>
+                                                        </dx:ASPxCallbackPanel>
+
                                                     </dx:LayoutItemNestedControlContainer>
                                                 </LayoutItemNestedControlCollection>
                                             </dx:LayoutItem>
@@ -162,13 +191,20 @@
                                             <dx:LayoutItem Caption="E-mail" CaptionStyle-ForeColor="Black">
                                                 <LayoutItemNestedControlCollection>
                                                     <dx:LayoutItemNestedControlContainer>
-                                                        <dx:ASPxTextBox runat="server" ID="eMailTextBox" ClientInstanceName="eMailTextBoxDirect" Width="100%" CssClass="maxWidth" Theme="iOS">
-                                                            <ValidationSettings ErrorDisplayMode="Text" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="true">
-                                                                <ErrorFrameStyle Wrap="True" />
-                                                                <RegularExpression ErrorText="Invalid e-mail" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
-                                                                <RequiredField IsRequired="True" ErrorText="The value is required" />
-                                                            </ValidationSettings>
-                                                        </dx:ASPxTextBox>
+                                                        <dx:ASPxCallbackPanel ID="emailCallback" runat="server" ClientInstanceName="emailCallbackClient" OnCallback="emailCallback_Callback" Width="100%">
+                                                            <PanelCollection>
+                                                                <dx:PanelContent>
+                                                                    <dx:ASPxTextBox runat="server" ID="eMailTextBox" ClientInstanceName="eMailTextBoxDirect" Width="100%" ReadOnly="true" CssClass="maxWidth" Theme="iOS">
+                                                                        <ValidationSettings ErrorDisplayMode="Text" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="true">
+                                                                            <ErrorFrameStyle Wrap="True" />
+                                                                            <RegularExpression ErrorText="Invalid e-mail" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
+                                                                            <RequiredField IsRequired="True" ErrorText="The value is required" />
+                                                                        </ValidationSettings>
+                                                                    </dx:ASPxTextBox>
+                                                                </dx:PanelContent>
+                                                            </PanelCollection>
+                                                        </dx:ASPxCallbackPanel>
+
                                                     </dx:LayoutItemNestedControlContainer>
                                                 </LayoutItemNestedControlCollection>
                                             </dx:LayoutItem>
@@ -177,11 +213,23 @@
                                 </Items>
                             </dx:ASPxFormLayout>
                         </td>
-                        <td style="vertical-align: top; padding: 10px; width: 50%;">
+                        <td class="table_design">
                             <dx:ASPxFormLayout ID="FormLayoutAut"
                                 ClientInstanceName="FormLayoutAutDirect"
                                 runat="server"
                                 RequiredMarkDisplayMode="Auto"
+                                UseDefaultPaddings="false"
+                                AlignItemCaptionsInAllGroups="true"
+                                Width="100%" Theme="Office2010Blue">
+                                <Paddings PaddingBottom="30" PaddingTop="10" />
+                                <Items>
+                                </Items>
+                            </dx:ASPxFormLayout>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table_design">
+                            <dx:ASPxFormLayout ID="ASPxFormLayout1" runat="server" RequiredMarkDisplayMode="Auto"
                                 UseDefaultPaddings="false"
                                 AlignItemCaptionsInAllGroups="true"
                                 Width="100%" Theme="Office2010Blue">
@@ -239,9 +287,7 @@
                                 </Items>
                             </dx:ASPxFormLayout>
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="vertical-align: top; padding: 10px; width: 50%; align-content: center;">
+                        <td class="table_design">
                             <dx:ASPxFormLayout ID="FormLayoutMed"
                                 ClientInstanceName="FormLayoutMedDirect"
                                 runat="server"
