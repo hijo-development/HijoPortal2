@@ -27,28 +27,28 @@ namespace HijoPortal
             {
                 if (Session["UserCompleteName"] != null)
                 {
-                    lblUser.InnerHtml = "User : " + Session["UserCompleteName"].ToString();
+                    //lblUser.InnerHtml = "User : " + Session["UserCompleteName"].ToString();
                     UserLbl.Text = Session["UserCompleteName"].ToString();
 
-                    ASPxLabelEnt.Text = "";
+                    //ASPxLabelEnt.Text = "";
                     //if (Session["EntityCodeDesc"] != null)
                     //{
                     //    ASPxLabelEnt.Text = "Entity : " + Session["EntityCodeDesc"].ToString();
                     //}
                     if (Session["EntityCodeDesc"].ToString().Trim() != "")
                     {
-                        ASPxLabelEnt.Text = "Entity : " + Session["EntityCodeDesc"].ToString();
+                        //ASPxLabelEnt.Text = "Entity : " + Session["EntityCodeDesc"].ToString();
                         EntityLbl.Text = Session["EntityCodeDesc"].ToString();
                     }
 
-                    ASPxLabelBU.Text = "";
+                    //ASPxLabelBU.Text = "";
                     //if (Session["BUCodeDesc"] != null)
                     //{
                     //    ASPxLabelBU.Text = "BU / Dept : " + Session["BUCodeDesc"].ToString();
                     //}
                     if (Session["BUCodeDesc"].ToString().Trim() != "")
                     {
-                        ASPxLabelBU.Text = "BU / Dept : " + Session["BUCodeDesc"].ToString();
+                        //ASPxLabelBU.Text = "BU / Dept : " + Session["BUCodeDesc"].ToString();
 
 
                     //ASPxSplitter1.Height = 661 - 10;
@@ -89,6 +89,11 @@ namespace HijoPortal
         {
             ASPxHyperLink link = sender as ASPxHyperLink;
             link.NavigateUrl = "change_password.aspx";
+        }
+
+        protected void ImageProfile_Click(object sender, ImageClickEventArgs e)
+        {
+
         }
 
         private void BindSideNavGrid(int usrKey)

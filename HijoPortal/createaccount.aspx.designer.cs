@@ -94,15 +94,6 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxGlobalEvents GlobalEvents;
         
         /// <summary>
-        /// dvBanner control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvBanner;
-        
-        /// <summary>
         /// FormLayoutReg control.
         /// </summary>
         /// <remarks>

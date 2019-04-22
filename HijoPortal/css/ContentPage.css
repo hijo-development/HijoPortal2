@@ -87,11 +87,11 @@
 }
 
 #footer {
-    background-color: #0a4711;
+    background-color:midnightblue;
     position: fixed;
     bottom: 0px;
     padding: 2px 5px;
-    height: 25px;
+    height: 1px;
     width: 100%;
 }
 
