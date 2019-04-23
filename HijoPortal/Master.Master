@@ -137,7 +137,7 @@
             <table style="width: 100%; height: 80px;">
                 <tr style="height: 80px;">
                     <td style="width: 60px; height: 60px; vertical-align:middle;">
-                        <img src="images/Hijo Logo.jpg" style="height: 60px; width: 260px;" />
+                        <img src="images/Hijo Logo.png" style="height: 60px; width: 260px;" />
                     </td>
                     <%--<td class="Header-td">
                         <h1>HIJO Portal</h1>

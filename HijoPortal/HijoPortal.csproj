@@ -140,7 +140,7 @@
     <Content Include="images\EmailSig.jpg" />
     <Content Include="images\Header.png" />
     <Content Include="images\HeaderTitle.png" />
-    <Content Include="images\Hijo Logo.jpg" />
+    <Content Include="images\Hijo Logo.png" />
     <Content Include="images\HijoLogo.png" />
     <Content Include="images\hijosign.png" />
     <Content Include="images\HIJOState.jpg" />
@@ -193,18 +193,6 @@
     <Content Include="po_uploading.aspx" />
     <Content Include="scm.aspx" />
     <Content Include="SqlServerTypes\readme.htm" />
-    <Content Include="SqlServerTypes\x64\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="userlist.aspx" />
     <Content Include="user_list.aspx" />
     <Content Include="Web.config" />
@@ -519,9 +507,6 @@
       <DependentUpon>po_uploading.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="reports\MOPPreviewReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="scm.aspx.cs">
       <DependentUpon>scm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -529,7 +514,6 @@
     <Compile Include="scm.aspx.designer.cs">
       <DependentUpon>scm.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="userlist.aspx.cs">
       <DependentUpon>userlist.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -569,15 +553,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\users\" />
+    <Folder Include="reports\" />
+    <Folder Include="SqlServerTypes\x64\" />
+    <Folder Include="SqlServerTypes\x86\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DocumentReport.resx">
       <DependentUpon>DocumentReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
-    <EmbeddedResource Include="reports\MOPPreviewReport.resx">
-      <DependentUpon>MOPPreviewReport.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
