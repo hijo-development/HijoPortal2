@@ -884,19 +884,19 @@ namespace HijoPortal
             SummaryListView.DataBind();
             TotalSummary.InnerText = MRPClass.Prev_Summary_Total();
 
-            DataTable tableMat = MRPClass.Preview_DM(DocNum.Text.ToString(), entitycode);
+            DataTable tableMat = Preview.Preview_DM(DocNum.Text.ToString(), entitycode);
             DMListView.DataSource = tableMat;
             DMListView.DataBind();
             TotalDM.InnerText = MRPClass.materials_total().ToString("N");
             TotalEDM.InnerText = MRPClass.material_edited_total().ToString("N");
 
-            DataTable tableOpex = MRPClass.Preview_OP(DocNum.Text.ToString(), entitycode);
+            DataTable tableOpex = Preview.Preview_OP(DocNum.Text.ToString(), entitycode);
             OpexListView.DataSource = tableOpex;
             OpexListView.DataBind();
             TotalOpex.InnerText = MRPClass.opex_total().ToString("N");
             TotalEOpex.InnerText = MRPClass.opex_edited_total().ToString("N");
 
-            DataTable tableManpower = MRPClass.Preview_MAN(DocNum.Text.ToString(), entitycode);
+            DataTable tableManpower = Preview.Preview_MAN(DocNum.Text.ToString(), entitycode);
             ManListView.DataSource = tableManpower;
             ManListView.DataBind();
             TotalManpower.InnerText = MRPClass.manpower_total().ToString("N");

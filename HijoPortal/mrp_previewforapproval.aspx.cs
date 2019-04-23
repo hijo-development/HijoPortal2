@@ -983,19 +983,19 @@ namespace HijoPortal
 
         private void BindAll()
         {
-            MatListview.DataSource = MRPClass.Preview_DM(docnum, entitycode);
+            MatListview.DataSource = Preview.Preview_DM(docnum, entitycode);
             MatListview.DataBind();
             TAMat.InnerText = MRPClass.materials_total().ToString("N");
             ETAMat.InnerText = MRPClass.material_edited_total().ToString("N");
             //ATAMat.InnerText = MRPClass.material_approved_total().ToString("N");
 
-            OpexListiview.DataSource = MRPClass.Preview_OP(docnum, entitycode);
+            OpexListiview.DataSource = Preview.Preview_OP(docnum, entitycode);
             OpexListiview.DataBind();
             TAOpex.InnerText = MRPClass.opex_total().ToString("N");
             ETAOpex.InnerText = MRPClass.opex_edited_total().ToString("N");
             //ATAOpex.InnerText = MRPClass.opex_approved_total().ToString("N");
 
-            ManListview.DataSource = MRPClass.Preview_MAN(docnum, entitycode);
+            ManListview.DataSource = Preview.Preview_MAN(docnum, entitycode);
             ManListview.DataBind();
             TAManpower.InnerText = MRPClass.manpower_total().ToString("N");
             ETAManpower.InnerText = MRPClass.manpower_edited_total().ToString("N");

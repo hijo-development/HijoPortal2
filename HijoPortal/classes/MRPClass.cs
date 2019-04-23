@@ -1156,7 +1156,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("RevDesc", typeof(string));
             }
 
-            string query_1 = "SELECT tbl_MRP_List_ManPower.*, tbl_System_ManPowerType.ManPowerTypeDesc, vw_AXFindimActivity.DESCRIPTION AS AC_Desc, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_ManPower INNER JOIN tbl_System_ManPowerType ON tbl_MRP_List_ManPower.ManPowerTypeKey = tbl_System_ManPowerType.PK INNER JOIN             vw_AXFindimActivity ON tbl_MRP_List_ManPower.ActivityCode = vw_AXFindimActivity.VALUE INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_ManPower.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query_1 = "SELECT DISTINCT tbl_MRP_List_ManPower.*, tbl_System_ManPowerType.ManPowerTypeDesc, vw_AXFindimActivity.DESCRIPTION AS AC_Desc, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_ManPower INNER JOIN tbl_System_ManPowerType ON tbl_MRP_List_ManPower.ManPowerTypeKey = tbl_System_ManPowerType.PK INNER JOIN             vw_AXFindimActivity ON tbl_MRP_List_ManPower.ActivityCode = vw_AXFindimActivity.VALUE INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_ManPower.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             string query_2 = "SELECT tbl_MRP_List_ManPower.*, tbl_System_ManPowerType.ManPowerTypeDesc, vw_AXFindimActivity.DESCRIPTION as AC_Desc FROM tbl_MRP_List_ManPower INNER JOIN tbl_System_ManPowerType ON tbl_MRP_List_ManPower.ManPowerTypeKey = tbl_System_ManPowerType.PK INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_ManPower.ActivityCode = vw_AXFindimActivity.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
             //string query = "SELECT tbl_MRP_List_ManPower.*, tbl_System_ManPowerType.ManPowerTypeDesc FROM tbl_MRP_List_ManPower INNER JOIN tbl_System_ManPowerType ON tbl_MRP_List_ManPower.ManPowerTypeKey = tbl_System_ManPowerType.PK WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
@@ -1463,7 +1463,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("RevDesc", typeof(string));
             }
 
-            string query_1 = "SELECT dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc, dbo.vw_AXProdCategory.DESCRIPTION AS ProdDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE INNER JOIN dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query_1 = "SELECT DISTINCT dbo.tbl_MRP_List_CAPEX.*, dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc, dbo.vw_AXProdCategory.DESCRIPTION AS ProdDesc FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             string query_2 = "SELECT DISTINCT dbo.vw_AXProdCategory.DESCRIPTION AS ProdDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
@@ -3963,455 +3963,446 @@ namespace HijoPortal.classes
             }
         }
 
-        public static DataTable Preview_DM(string DOC_NUMBER, string entity)
-        {
-            DataTable dtTable = new DataTable();
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
-            materials_total_amount = 0;
-            mat_edited_total = 0;
-
-            cn.Open();
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("PK", typeof(string));
-                dtTable.Columns.Add("HeaderDocNum", typeof(string));
-                dtTable.Columns.Add("ActivityCode", typeof(string));
-                dtTable.Columns.Add("ItemCode", typeof(string));
-                dtTable.Columns.Add("ItemDescription", typeof(string));
-                dtTable.Columns.Add("UOM", typeof(string));
-                dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(string));
-                dtTable.Columns.Add("TotalCost", typeof(string));
-                dtTable.Columns.Add("ACost", typeof(string));
-                dtTable.Columns.Add("AQty", typeof(string));
-                dtTable.Columns.Add("ATotalCost", typeof(string));
-                dtTable.Columns.Add("VALUE", typeof(string));
-                dtTable.Columns.Add("RevDesc", typeof(string));
-            }
-
-
-            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ActivityCode ASC";
-
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-
-            cmd = new SqlCommand(query_arraycode, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            ArrayList list = new ArrayList();
-            while (reader.Read())
-            {
-                list.Add(reader[0].ToString());
-            }
-            reader.Close();
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                //string query = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE HeaderDocNum = '"+ DOC_NUMBER + "' AND ActivityCode = '" + list[i] + "' ";
-
-                string query_1 = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc, tbl_MRP_List.EntityCode FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE INNER JOIN tbl_MRP_List ON tbl_MRP_List_DirectMaterials.HeaderDocNum = tbl_MRP_List.DocNumber INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List.EntityCode = vw_AXFindimBananaRevenue.Entity AND tbl_MRP_List_DirectMaterials.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "' AND tbl_MRP_List_DirectMaterials.ActivityCode = '" + list[i] + "' ";
-
-                string query_2 = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "' AND tbl_MRP_List_DirectMaterials.ActivityCode = '" + list[i] + "' ";
-
-                if (entity == train_entity) cmd = new SqlCommand(query_1);
-                else cmd = new SqlCommand(query_2);
-
-
-                //cmd = new SqlCommand(query);
-                cmd.Connection = cn;
-                adp = new SqlDataAdapter(cmd);
-                adp.Fill(dt);
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        if (row == dt.Rows[0])
-                        {
-                            //PrintString("FIRST HERE....");
-                            DataRow dtRow = dtTable.NewRow();
-                            dtRow["ActivityCode"] = row["DESCRIPTION"].ToString();
-                            dtTable.Rows.Add(dtRow);
-
-                            dtRow = dtTable.NewRow();
-                            dtRow["PK"] = row["PK"].ToString();
-                            dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
-                            dtRow["ActivityCode"] = "";
-                            dtRow["ItemCode"] = row["ItemCode"].ToString();
-
-                            string desc = row["ItemDescriptionAddl"].ToString();
-                            if (!string.IsNullOrEmpty(desc))
-                                dtRow["ItemDescription"] = row["ItemDescription"].ToString() + " (" + desc + ")";
-                            else
-                                dtRow["ItemDescription"] = row["ItemDescription"].ToString();
-
-                            dtRow["UOM"] = row["UOM"].ToString();
-                            dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
-                            dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
-
-                            dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
-                            dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
-
-                            materials_total_amount += Convert.ToDouble(row["TotalCost"]);
-                            mat_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
-
-                            if (entity == train_entity)
-                            {
-                                dtRow["VALUE"] = row["VALUE"].ToString();
-                                dtRow["RevDesc"] = row["RevDesc"].ToString();
-                            }
-                            else
-                            {
-                                dtRow["VALUE"] = "";
-                                dtRow["RevDesc"] = "";
-                            }
-                            dtTable.Rows.Add(dtRow);
-                        }
-                        else
-                        {
-                            DataRow dtRow = dtTable.NewRow();
-                            dtRow["PK"] = row["PK"].ToString();
-                            dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
-                            dtRow["ActivityCode"] = "";
-                            dtRow["ItemCode"] = row["ItemCode"].ToString();
-                            dtRow["ItemDescription"] = row["ItemDescription"].ToString();
-                            dtRow["UOM"] = row["UOM"].ToString();
-                            dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
-                            dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
-                            dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
-                            dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
-
-                            materials_total_amount += Convert.ToDouble(row["TotalCost"]);
-                            mat_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
-
-
-                            if (entity == train_entity)
-                            {
-                                dtRow["VALUE"] = row["VALUE"].ToString();
-                                dtRow["RevDesc"] = row["RevDesc"].ToString();
-                            }
-                            else
-                            {
-                                dtRow["VALUE"] = "";
-                                dtRow["RevDesc"] = "";
-                            }
-                            //dtRow["WrkLine"] = WrkLine.ToString();
-                            //dtRow["StatusKey"] = StatusKey.ToString();
-                            dtTable.Rows.Add(dtRow);
-                        }
-                    }
-                }
-                dt.Clear();
-            }
-
-            cn.Close();
-            return dtTable;
-        }
-
-        public static DataTable Preview_MAN(string DOC_NUMBER, string entity)
-        {
-            DataTable dtTable = new DataTable();
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
-            manpower_total_amount = 0;
-            man_edited_total = 0;
-
-            cn.Open();
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("PK", typeof(string));
-                dtTable.Columns.Add("HeaderDocNum", typeof(string));
-                dtTable.Columns.Add("ActivityCode", typeof(string));
-                dtTable.Columns.Add("ManPowerTypeKey", typeof(Int32));
-                dtTable.Columns.Add("ManPowerTypeKeyName", typeof(string));
-                dtTable.Columns.Add("Description", typeof(string));
-                dtTable.Columns.Add("UOM", typeof(string));
-                dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(string));
-                dtTable.Columns.Add("TotalCost", typeof(string));
-                dtTable.Columns.Add("ACost", typeof(string));
-                dtTable.Columns.Add("AQty", typeof(string));
-                dtTable.Columns.Add("ATotalCost", typeof(string));
-                dtTable.Columns.Add("VALUE", typeof(string));
-                dtTable.Columns.Add("RevDesc", typeof(string));
-            }
-
-
-            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [hijo_portal].[dbo].[tbl_MRP_List_ManPower] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ActivityCode ASC";
-
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-
-            cmd = new SqlCommand(query_arraycode, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            ArrayList list = new ArrayList();
-            while (reader.Read())
-            {
-                list.Add(reader[0].ToString());
-            }
-            reader.Close();
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                string query_1 = "SELECT tbl_MRP_List_ManPower.*, tbl_System_ManPowerType.ManPowerTypeDesc, vw_AXFindimActivity.DESCRIPTION AS AC_Desc, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_ManPower INNER JOIN tbl_System_ManPowerType ON tbl_MRP_List_ManPower.ManPowerTypeKey = tbl_System_ManPowerType.PK INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_ManPower.ActivityCode = vw_AXFindimActivity.VALUE INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_ManPower.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_ManPower.ActivityCode = '" + list[i] + "' ";
-
-                string query_2 = "SELECT tbl_MRP_List_ManPower.*, tbl_System_ManPowerType.ManPowerTypeDesc, vw_AXFindimActivity.DESCRIPTION as AC_Desc FROM tbl_MRP_List_ManPower INNER JOIN tbl_System_ManPowerType ON tbl_MRP_List_ManPower.ManPowerTypeKey = tbl_System_ManPowerType.PK INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_ManPower.ActivityCode = vw_AXFindimActivity.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_ManPower.ActivityCode = '" + list[i] + "' ";
-
-                if (entity == train_entity)
-                    cmd = new SqlCommand(query_1);
-                else
-                    cmd = new SqlCommand(query_2);
-
-                cmd.Connection = cn;
-                adp = new SqlDataAdapter(cmd);
-                adp.Fill(dt);
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        if (row == dt.Rows[0])
-                        {
-                            DataRow dtRow = dtTable.NewRow();
-                            dtRow["ActivityCode"] = row["AC_Desc"].ToString();
-                            dtTable.Rows.Add(dtRow);
-
-                            dtRow = dtTable.NewRow();
-                            dtRow["PK"] = row["PK"].ToString();
-                            dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
-                            dtRow["ActivityCode"] = "";
-                            dtRow["ManPowerTypeKey"] = Convert.ToInt32(row["ManPowerTypeKey"]);
-                            dtRow["ManPowerTypeKeyName"] = row["ManPowerTypeDesc"].ToString();
-                            dtRow["Description"] = row["Description"].ToString();
-                            dtRow["UOM"] = row["UOM"].ToString();
-                            dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
-                            dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
-
-                            dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
-                            dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
-
-                            manpower_total_amount += Convert.ToDouble(row["TotalCost"]);
-                            man_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
-
-                            if (entity == train_entity)
-                            {
-                                dtRow["VALUE"] = row["VALUE"].ToString();
-                                dtRow["RevDesc"] = row["RevDesc"].ToString();
-                            }
-                            else
-                            {
-                                dtRow["VALUE"] = "";
-                                dtRow["RevDesc"] = "";
-                            }
-                            dtTable.Rows.Add(dtRow);
-                        }
-                        else
-                        {
-                            DataRow dtRow = dtTable.NewRow();
-                            dtRow["PK"] = row["PK"].ToString();
-                            dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
-                            dtRow["ActivityCode"] = "";
-                            dtRow["ManPowerTypeKey"] = Convert.ToInt32(row["ManPowerTypeKey"]);
-                            dtRow["ManPowerTypeKeyName"] = row["ManPowerTypeDesc"].ToString();
-                            dtRow["Description"] = row["Description"].ToString();
-                            dtRow["UOM"] = row["UOM"].ToString();
-                            dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
-                            dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
-
-                            dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
-                            dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
-
-                            manpower_total_amount += Convert.ToDouble(row["TotalCost"]);
-                            man_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
-
-                            if (entity == train_entity)
-                            {
-                                dtRow["VALUE"] = row["VALUE"].ToString();
-                                dtRow["RevDesc"] = row["RevDesc"].ToString();
-                            }
-                            else
-                            {
-                                dtRow["VALUE"] = "";
-                                dtRow["RevDesc"] = "";
-                            }
-                            dtTable.Rows.Add(dtRow);
-                        }
-                    }
-                }
-                dt.Clear();
-
-            }
-
-            cn.Close();
-            return dtTable;
-        }
-
-        public static DataTable Preview_OP(string DOC_NUMBER, string entity)
-        {
-            DataTable dtTable = new DataTable();
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            DataTable dt = new DataTable();
-            SqlCommand cmd = null;
-            SqlDataAdapter adp;
-
-            opex_total_amount = 0;
-            op_edited_total = 0;
-
-            cn.Open();
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("PK", typeof(string));
-                dtTable.Columns.Add("HeaderDocNum", typeof(string));
-                dtTable.Columns.Add("ExpenseCodeName", typeof(string));
-                dtTable.Columns.Add("ExpenseCode", typeof(string));
-                dtTable.Columns.Add("Description", typeof(string));
-                dtTable.Columns.Add("UOM", typeof(string));
-                dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(string));
-                dtTable.Columns.Add("TotalCost", typeof(string));
-                dtTable.Columns.Add("ACost", typeof(string));
-                dtTable.Columns.Add("AQty", typeof(string));
-                dtTable.Columns.Add("ATotalCost", typeof(string));
-                dtTable.Columns.Add("VALUE", typeof(string));
-                dtTable.Columns.Add("RevDesc", typeof(string));
-            }
-
-
-            string query_arraycode = "SELECT DISTINCT ExpenseCode FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ExpenseCode ASC";
-
-            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-            conn.Open();
-
-            cmd = new SqlCommand(query_arraycode, conn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            ArrayList list = new ArrayList();
-            while (reader.Read())
-            {
-                list.Add(reader[0].ToString());
-            }
-            reader.Close();
-
-            for (int i = 0; i < list.Count; i++)
-            {
-
-                //ORiginal 
-
-                //string query_1 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_OPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE INNER JOIN tbl_MRP_List ON tbl_MRP_List_OPEX.HeaderDocNum = tbl_MRP_List.DocNumber WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
-
-                //string query_2 = "SELECT tbl_MRP_List_OPEX.PK, tbl_MRP_List_OPEX.HeaderDocNum, tbl_MRP_List_OPEX.ExpenseCode, tbl_MRP_List_OPEX.ItemCode, tbl_MRP_List_OPEX.Description, tbl_MRP_List_OPEX.UOM, tbl_MRP_List_OPEX.Cost, tbl_MRP_List_OPEX.Qty, tbl_MRP_List_OPEX.TotalCost, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
-
-                //    if (entitycode == train_entity)
-                //        cmd = new SqlCommand(query_1);
-                //    else
-                //        cmd = new SqlCommand(query_2);
-
-                string query_1 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_OPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE INNER JOIN tbl_MRP_List ON tbl_MRP_List_OPEX.HeaderDocNum = tbl_MRP_List.DocNumber WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_OPEX.ExpenseCode = '" + list[i] + "' ";
-
-                string query_2 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_OPEX.ExpenseCode = '" + list[i] + "' ";
-
-                if (entity == train_entity)
-                    cmd = new SqlCommand(query_1);
-                else
-                    cmd = new SqlCommand(query_2);
-
-                cmd.Connection = cn;
-                adp = new SqlDataAdapter(cmd);
-                adp.Fill(dt);
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        if (row == dt.Rows[0])
-                        {
-                            DataRow dtRow = dtTable.NewRow();
-                            dtRow["ExpenseCodeName"] = row["NAME"].ToString();
-                            dtTable.Rows.Add(dtRow);
-
-                            dtRow = dtTable.NewRow();
-                            dtRow["PK"] = row["PK"].ToString();
-                            dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
-                            dtRow["ExpenseCodeName"] = "";
-
-                            string desc = row["DescriptionAddl"].ToString();
-                            if (!string.IsNullOrEmpty(desc))
-                                dtRow["Description"] = row["Description"].ToString() + " (" + desc + ")";
-                            else
-                                dtRow["Description"] = row["Description"].ToString();
-
-                            dtRow["UOM"] = row["UOM"].ToString();
-                            dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
-                            dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
-
-                            dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
-                            dtRow["ATotalCost"] = Convert.ToDouble(row["EdittedTotalCost"]).ToString("N");
-
-                            opex_total_amount += Convert.ToDouble(row["TotalCost"]);
-                            op_edited_total += Convert.ToDouble(row["EdittedTotalCost"]);
-
-                            if (entity == train_entity)
-                            {
-                                dtRow["VALUE"] = row["VALUE"].ToString();
-                                dtRow["RevDesc"] = row["RevDesc"].ToString();
-                            }
-                            else
-                            {
-                                dtRow["VALUE"] = "";
-                                dtRow["RevDesc"] = "";
-                            }
-                            dtTable.Rows.Add(dtRow);
-                        }
-                        else
-                        {
-                            DataRow dtRow = dtTable.NewRow();
-                            dtRow["PK"] = row["PK"].ToString();
-                            dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
-                            dtRow["ExpenseCodeName"] = "";
-                            dtRow["Description"] = row["Description"].ToString();
-                            dtRow["UOM"] = row["UOM"].ToString();
-                            dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
-                            dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
-                            dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
-                            dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
-                            dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
-                            dtRow["ATotalCost"] = Convert.ToDouble(row["EdittedTotalCost"]).ToString("N");
-
-                            opex_total_amount += Convert.ToDouble(row["TotalCost"]);
-                            op_edited_total += Convert.ToDouble(row["EdittedTotalCost"]);
-
-                            if (entity == train_entity)
-                            {
-                                dtRow["VALUE"] = row["VALUE"].ToString();
-                                dtRow["RevDesc"] = row["RevDesc"].ToString();
-                            }
-                            else
-                            {
-                                dtRow["VALUE"] = "";
-                                dtRow["RevDesc"] = "";
-                            }
-                            dtTable.Rows.Add(dtRow);
-                        }
-                    }
-                }
-                dt.Clear();
-            }
-            cn.Close();
-            return dtTable;
-        }
+        //public static DataTable Preview_DM(string DOC_NUMBER, string entity)
+        //{
+        //    DataTable dtTable = new DataTable();
+        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+        //    DataTable dt = new DataTable();
+        //    SqlCommand cmd = null;
+        //    SqlDataAdapter adp;
+        //    materials_total_amount = 0;
+        //    mat_edited_total = 0;
+
+        //    cn.Open();
+        //    if (dtTable.Columns.Count == 0)
+        //    {
+        //        //Columns for AspxGridview
+        //        dtTable.Columns.Add("PK", typeof(string));
+        //        dtTable.Columns.Add("HeaderDocNum", typeof(string));
+        //        dtTable.Columns.Add("ActivityCode", typeof(string));
+        //        dtTable.Columns.Add("ItemCode", typeof(string));
+        //        dtTable.Columns.Add("ItemDescription", typeof(string));
+        //        dtTable.Columns.Add("UOM", typeof(string));
+        //        dtTable.Columns.Add("Cost", typeof(string));
+        //        dtTable.Columns.Add("Qty", typeof(string));
+        //        dtTable.Columns.Add("TotalCost", typeof(string));
+        //        dtTable.Columns.Add("ACost", typeof(string));
+        //        dtTable.Columns.Add("AQty", typeof(string));
+        //        dtTable.Columns.Add("ATotalCost", typeof(string));
+        //        dtTable.Columns.Add("VALUE", typeof(string));
+        //        dtTable.Columns.Add("RevDesc", typeof(string));
+        //    }
+
+
+        //    string query_arraycode = "SELECT DISTINCT ActivityCode FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ActivityCode ASC";
+
+        //    SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+        //    conn.Open();
+
+        //    cmd = new SqlCommand(query_arraycode, conn);
+        //    SqlDataReader reader = cmd.ExecuteReader();
+        //    ArrayList list = new ArrayList();
+        //    while (reader.Read())
+        //    {
+        //        list.Add(reader[0].ToString());
+        //    }
+        //    reader.Close();
+
+        //    for (int i = 0; i < list.Count; i++)
+        //    {
+        //        //string query = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE HeaderDocNum = '"+ DOC_NUMBER + "' AND ActivityCode = '" + list[i] + "' ";
+
+        //        string query_1 = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc, tbl_MRP_List.EntityCode FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE INNER JOIN tbl_MRP_List ON tbl_MRP_List_DirectMaterials.HeaderDocNum = tbl_MRP_List.DocNumber INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List.EntityCode = vw_AXFindimBananaRevenue.Entity AND tbl_MRP_List_DirectMaterials.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "' AND tbl_MRP_List_DirectMaterials.ActivityCode = '" + list[i] + "' ";
+
+        //        string query_2 = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "' AND tbl_MRP_List_DirectMaterials.ActivityCode = '" + list[i] + "' ";
+
+        //        if (entity == train_entity) cmd = new SqlCommand(query_1);
+        //        else cmd = new SqlCommand(query_2);
+
+
+        //        //cmd = new SqlCommand(query);
+        //        cmd.Connection = cn;
+        //        adp = new SqlDataAdapter(cmd);
+        //        adp.Fill(dt);
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            foreach (DataRow row in dt.Rows)
+        //            {
+        //                if (row == dt.Rows[0])
+        //                {
+        //                    //PrintString("FIRST HERE....");
+        //                    DataRow dtRow = dtTable.NewRow();
+        //                    dtRow["ActivityCode"] = row["DESCRIPTION"].ToString();
+        //                    dtTable.Rows.Add(dtRow);
+
+        //                    dtRow = dtTable.NewRow();
+        //                    dtRow["PK"] = row["PK"].ToString();
+        //                    dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
+        //                    dtRow["ActivityCode"] = "";
+        //                    dtRow["ItemCode"] = row["ItemCode"].ToString();
+
+        //                    string desc = row["ItemDescriptionAddl"].ToString();
+        //                    if (!string.IsNullOrEmpty(desc))
+        //                        dtRow["ItemDescription"] = row["ItemDescription"].ToString() + " (" + desc + ")";
+        //                    else
+        //                        dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+
+        //                    dtRow["UOM"] = row["UOM"].ToString();
+        //                    dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
+        //                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
+        //                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
+
+        //                    dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
+        //                    dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
+        //                    dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
+
+        //                    materials_total_amount += Convert.ToDouble(row["TotalCost"]);
+        //                    mat_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
+
+        //                    if (entity == train_entity)
+        //                    {
+        //                        dtRow["VALUE"] = row["VALUE"].ToString();
+        //                        dtRow["RevDesc"] = row["RevDesc"].ToString();
+        //                    }
+        //                    else
+        //                    {
+        //                        dtRow["VALUE"] = "";
+        //                        dtRow["RevDesc"] = "";
+        //                    }
+        //                    dtTable.Rows.Add(dtRow);
+        //                }
+        //                else
+        //                {
+        //                    DataRow dtRow = dtTable.NewRow();
+        //                    dtRow["PK"] = row["PK"].ToString();
+        //                    dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
+        //                    dtRow["ActivityCode"] = "";
+        //                    dtRow["ItemCode"] = row["ItemCode"].ToString();
+        //                    dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+        //                    dtRow["UOM"] = row["UOM"].ToString();
+        //                    dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
+        //                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
+        //                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
+        //                    dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
+        //                    dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
+        //                    dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
+
+        //                    materials_total_amount += Convert.ToDouble(row["TotalCost"]);
+        //                    mat_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
+
+
+        //                    if (entity == train_entity)
+        //                    {
+        //                        dtRow["VALUE"] = row["VALUE"].ToString();
+        //                        dtRow["RevDesc"] = row["RevDesc"].ToString();
+        //                    }
+        //                    else
+        //                    {
+        //                        dtRow["VALUE"] = "";
+        //                        dtRow["RevDesc"] = "";
+        //                    }
+        //                    //dtRow["WrkLine"] = WrkLine.ToString();
+        //                    //dtRow["StatusKey"] = StatusKey.ToString();
+        //                    dtTable.Rows.Add(dtRow);
+        //                }
+        //            }
+        //        }
+        //        dt.Clear();
+        //    }
+
+        //    cn.Close();
+        //    return dtTable;
+        //}
+
+        //public static DataTable Preview_MAN(string DOC_NUMBER, string entity)
+        //{
+        //    DataTable dtTable = new DataTable();
+        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+        //    DataTable dt = new DataTable();
+        //    SqlCommand cmd = null;
+        //    SqlDataAdapter adp;
+        //    manpower_total_amount = 0;
+        //    man_edited_total = 0;
+
+        //    cn.Open();
+        //    if (dtTable.Columns.Count == 0)
+        //    {
+        //        //Columns for AspxGridview
+        //        dtTable.Columns.Add("PK", typeof(string));
+        //        dtTable.Columns.Add("HeaderDocNum", typeof(string));
+        //        dtTable.Columns.Add("ActivityCode", typeof(string));
+        //        dtTable.Columns.Add("ManPowerTypeKey", typeof(Int32));
+        //        dtTable.Columns.Add("ManPowerTypeKeyName", typeof(string));
+        //        dtTable.Columns.Add("Description", typeof(string));
+        //        dtTable.Columns.Add("UOM", typeof(string));
+        //        dtTable.Columns.Add("Cost", typeof(string));
+        //        dtTable.Columns.Add("Qty", typeof(string));
+        //        dtTable.Columns.Add("TotalCost", typeof(string));
+        //        dtTable.Columns.Add("ACost", typeof(string));
+        //        dtTable.Columns.Add("AQty", typeof(string));
+        //        dtTable.Columns.Add("ATotalCost", typeof(string));
+        //        dtTable.Columns.Add("VALUE", typeof(string));
+        //        dtTable.Columns.Add("RevDesc", typeof(string));
+        //    }
+
+
+        //    string query_arraycode = "SELECT DISTINCT ActivityCode FROM [hijo_portal].[dbo].[tbl_MRP_List_ManPower] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ActivityCode ASC";
+
+        //    SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+        //    conn.Open();
+
+        //    cmd = new SqlCommand(query_arraycode, conn);
+        //    SqlDataReader reader = cmd.ExecuteReader();
+        //    ArrayList list = new ArrayList();
+        //    while (reader.Read())
+        //    {
+        //        list.Add(reader[0].ToString());
+        //    }
+        //    reader.Close();
+
+        //    for (int i = 0; i < list.Count; i++)
+        //    {
+        //        string query_1 = "SELECT tbl_MRP_List_ManPower.*, tbl_System_ManPowerType.ManPowerTypeDesc, vw_AXFindimActivity.DESCRIPTION AS AC_Desc, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_ManPower INNER JOIN tbl_System_ManPowerType ON tbl_MRP_List_ManPower.ManPowerTypeKey = tbl_System_ManPowerType.PK INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_ManPower.ActivityCode = vw_AXFindimActivity.VALUE INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_ManPower.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_ManPower.ActivityCode = '" + list[i] + "' ";
+
+        //        string query_2 = "SELECT tbl_MRP_List_ManPower.*, tbl_System_ManPowerType.ManPowerTypeDesc, vw_AXFindimActivity.DESCRIPTION as AC_Desc FROM tbl_MRP_List_ManPower INNER JOIN tbl_System_ManPowerType ON tbl_MRP_List_ManPower.ManPowerTypeKey = tbl_System_ManPowerType.PK INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_ManPower.ActivityCode = vw_AXFindimActivity.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_ManPower.ActivityCode = '" + list[i] + "' ";
+
+        //        if (entity == train_entity)
+        //            cmd = new SqlCommand(query_1);
+        //        else
+        //            cmd = new SqlCommand(query_2);
+
+        //        cmd.Connection = cn;
+        //        adp = new SqlDataAdapter(cmd);
+        //        adp.Fill(dt);
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            foreach (DataRow row in dt.Rows)
+        //            {
+        //                if (row == dt.Rows[0])
+        //                {
+        //                    DataRow dtRow = dtTable.NewRow();
+        //                    dtRow["ActivityCode"] = row["AC_Desc"].ToString();
+        //                    dtTable.Rows.Add(dtRow);
+
+        //                    dtRow = dtTable.NewRow();
+        //                    dtRow["PK"] = row["PK"].ToString();
+        //                    dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
+        //                    dtRow["ActivityCode"] = "";
+        //                    dtRow["ManPowerTypeKey"] = Convert.ToInt32(row["ManPowerTypeKey"]);
+        //                    dtRow["ManPowerTypeKeyName"] = row["ManPowerTypeDesc"].ToString();
+        //                    dtRow["Description"] = row["Description"].ToString();
+        //                    dtRow["UOM"] = row["UOM"].ToString();
+        //                    dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
+        //                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
+        //                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
+
+        //                    dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
+        //                    dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
+        //                    dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
+
+        //                    manpower_total_amount += Convert.ToDouble(row["TotalCost"]);
+        //                    man_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
+
+        //                    if (entity == train_entity)
+        //                    {
+        //                        dtRow["VALUE"] = row["VALUE"].ToString();
+        //                        dtRow["RevDesc"] = row["RevDesc"].ToString();
+        //                    }
+        //                    else
+        //                    {
+        //                        dtRow["VALUE"] = "";
+        //                        dtRow["RevDesc"] = "";
+        //                    }
+        //                    dtTable.Rows.Add(dtRow);
+        //                }
+        //                else
+        //                {
+        //                    DataRow dtRow = dtTable.NewRow();
+        //                    dtRow["PK"] = row["PK"].ToString();
+        //                    dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
+        //                    dtRow["ActivityCode"] = "";
+        //                    dtRow["ManPowerTypeKey"] = Convert.ToInt32(row["ManPowerTypeKey"]);
+        //                    dtRow["ManPowerTypeKeyName"] = row["ManPowerTypeDesc"].ToString();
+        //                    dtRow["Description"] = row["Description"].ToString();
+        //                    dtRow["UOM"] = row["UOM"].ToString();
+        //                    dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
+        //                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
+        //                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
+
+        //                    dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
+        //                    dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
+        //                    dtRow["ATotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"]).ToString("N");
+
+        //                    manpower_total_amount += Convert.ToDouble(row["TotalCost"]);
+        //                    man_edited_total += Convert.ToDouble(row["EdittiedTotalCost"]);
+
+        //                    if (entity == train_entity)
+        //                    {
+        //                        dtRow["VALUE"] = row["VALUE"].ToString();
+        //                        dtRow["RevDesc"] = row["RevDesc"].ToString();
+        //                    }
+        //                    else
+        //                    {
+        //                        dtRow["VALUE"] = "";
+        //                        dtRow["RevDesc"] = "";
+        //                    }
+        //                    dtTable.Rows.Add(dtRow);
+        //                }
+        //            }
+        //        }
+        //        dt.Clear();
+
+        //    }
+
+        //    cn.Close();
+        //    return dtTable;
+        //}
+
+        //public static DataTable Preview_OP(string DOC_NUMBER, string entity)
+        //{
+        //    DataTable dtTable = new DataTable();
+        //    SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+        //    DataTable dt = new DataTable();
+        //    SqlCommand cmd = null;
+        //    SqlDataAdapter adp;
+
+        //    opex_total_amount = 0;
+        //    op_edited_total = 0;
+
+        //    cn.Open();
+        //    if (dtTable.Columns.Count == 0)
+        //    {
+        //        //Columns for AspxGridview
+        //        dtTable.Columns.Add("PK", typeof(string));
+        //        dtTable.Columns.Add("HeaderDocNum", typeof(string));
+        //        dtTable.Columns.Add("ExpenseCodeName", typeof(string));
+        //        dtTable.Columns.Add("ExpenseCode", typeof(string));
+        //        dtTable.Columns.Add("Description", typeof(string));
+        //        dtTable.Columns.Add("UOM", typeof(string));
+        //        dtTable.Columns.Add("Cost", typeof(string));
+        //        dtTable.Columns.Add("Qty", typeof(string));
+        //        dtTable.Columns.Add("TotalCost", typeof(string));
+        //        dtTable.Columns.Add("ACost", typeof(string));
+        //        dtTable.Columns.Add("AQty", typeof(string));
+        //        dtTable.Columns.Add("ATotalCost", typeof(string));
+        //        dtTable.Columns.Add("VALUE", typeof(string));
+        //        dtTable.Columns.Add("RevDesc", typeof(string));
+        //    }
+
+
+        //    string query_arraycode = "SELECT DISTINCT ExpenseCode FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ExpenseCode ASC";
+
+        //    SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+        //    conn.Open();
+
+        //    cmd = new SqlCommand(query_arraycode, conn);
+        //    SqlDataReader reader = cmd.ExecuteReader();
+        //    ArrayList list = new ArrayList();
+        //    while (reader.Read())
+        //    {
+        //        list.Add(reader[0].ToString());
+        //    }
+        //    reader.Close();
+
+        //    for (int i = 0; i < list.Count; i++)
+        //    {
+
+        //        //string query_1 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_OPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE INNER JOIN tbl_MRP_List ON tbl_MRP_List_OPEX.HeaderDocNum = tbl_MRP_List.DocNumber WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_OPEX.ExpenseCode = '" + list[i] + "' ";
+
+        //        string query_1 = "SELECT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.HeaderDocNum, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.ExpenseCode, dbo.tbl_MRP_List_OPEX.OprUnit, dbo.tbl_MRP_List_OPEX.ProcCat, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.UOM, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.tbl_MRP_List_OPEX.EdittedQty, dbo.tbl_MRP_List_OPEX.EdittedCost, dbo.tbl_MRP_List_OPEX.EdittedTotalCost, dbo.tbl_MRP_List_OPEX.ApprovedQty, dbo.tbl_MRP_List_OPEX.ApprovedCost, dbo.tbl_MRP_List_OPEX.ApprovedTotalCost, dbo.tbl_MRP_List_OPEX.QtyPO, dbo.tbl_MRP_List_OPEX.AvailForPO, dbo.vw_AXExpenseAccount.NAME, dbo.vw_AXExpenseAccount.isItem, dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM dbo.tbl_MRP_List_OPEX INNER JOIN dbo.vw_AXExpenseAccount ON dbo.tbl_MRP_List_OPEX.ExpenseCode = dbo.vw_AXExpenseAccount.MAINACCOUNTID INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_OPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_OPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_OPEX.ExpenseCode = '" + list[i] + "' ";
+
+        //        string query_2 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_OPEX.ExpenseCode = '" + list[i] + "' ";
+
+        //        if (entity == train_entity)
+        //            cmd = new SqlCommand(query_1);
+        //        else
+        //            cmd = new SqlCommand(query_2);
+
+        //        cmd.Connection = cn;
+        //        adp = new SqlDataAdapter(cmd);
+        //        adp.Fill(dt);
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            foreach (DataRow row in dt.Rows)
+        //            {
+        //                if (row == dt.Rows[0])
+        //                {
+        //                    DataRow dtRow = dtTable.NewRow();
+        //                    dtRow["ExpenseCodeName"] = row["NAME"].ToString();
+        //                    dtTable.Rows.Add(dtRow);
+
+        //                    dtRow = dtTable.NewRow();
+        //                    dtRow["PK"] = row["PK"].ToString();
+        //                    dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
+        //                    dtRow["ExpenseCodeName"] = "";
+
+        //                    string desc = row["DescriptionAddl"].ToString();
+        //                    if (!string.IsNullOrEmpty(desc))
+        //                        dtRow["Description"] = row["Description"].ToString() + " (" + desc + ")";
+        //                    else
+        //                        dtRow["Description"] = row["Description"].ToString();
+
+        //                    dtRow["UOM"] = row["UOM"].ToString();
+        //                    dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
+        //                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
+        //                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
+
+        //                    dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
+        //                    dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
+        //                    dtRow["ATotalCost"] = Convert.ToDouble(row["EdittedTotalCost"]).ToString("N");
+
+        //                    opex_total_amount += Convert.ToDouble(row["TotalCost"]);
+        //                    op_edited_total += Convert.ToDouble(row["EdittedTotalCost"]);
+
+        //                    if (entity == train_entity)
+        //                    {
+        //                        dtRow["VALUE"] = row["VALUE"].ToString();
+        //                        dtRow["RevDesc"] = row["RevDesc"].ToString();
+        //                    }
+        //                    else
+        //                    {
+        //                        dtRow["VALUE"] = "";
+        //                        dtRow["RevDesc"] = "";
+        //                    }
+        //                    dtTable.Rows.Add(dtRow);
+        //                }
+        //                else
+        //                {
+        //                    DataRow dtRow = dtTable.NewRow();
+        //                    dtRow["PK"] = row["PK"].ToString();
+        //                    dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
+        //                    dtRow["ExpenseCodeName"] = "";
+        //                    dtRow["Description"] = row["Description"].ToString();
+        //                    dtRow["UOM"] = row["UOM"].ToString();
+        //                    dtRow["Cost"] = Convert.ToDouble(row["Cost"]).ToString("N");
+        //                    dtRow["Qty"] = Convert.ToDouble(row["Qty"]).ToString("N");
+        //                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"]).ToString("N");
+        //                    dtRow["ACost"] = Convert.ToDouble(row["EdittedCost"]).ToString("N");
+        //                    dtRow["AQty"] = Convert.ToDouble(row["EdittedQty"]).ToString("N");
+        //                    dtRow["ATotalCost"] = Convert.ToDouble(row["EdittedTotalCost"]).ToString("N");
+
+        //                    opex_total_amount += Convert.ToDouble(row["TotalCost"]);
+        //                    op_edited_total += Convert.ToDouble(row["EdittedTotalCost"]);
+
+        //                    if (entity == train_entity)
+        //                    {
+        //                        dtRow["VALUE"] = row["VALUE"].ToString();
+        //                        dtRow["RevDesc"] = row["RevDesc"].ToString();
+        //                    }
+        //                    else
+        //                    {
+        //                        dtRow["VALUE"] = "";
+        //                        dtRow["RevDesc"] = "";
+        //                    }
+        //                    dtTable.Rows.Add(dtRow);
+        //                }
+        //            }
+        //        }
+        //        dt.Clear();
+        //    }
+        //    cn.Close();
+        //    return dtTable;
+        //}
 
         public static DataTable Preview_CA(string DOC_NUMBER, string entitycode)
         {
