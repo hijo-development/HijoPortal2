@@ -202,6 +202,33 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxTextBox eMailTextBox;
         
         /// <summary>
+        /// FormLayoutEmployeeImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxFormLayout FormLayoutEmployeeImage;
+        
+        /// <summary>
+        /// EmployeeImageCallback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel EmployeeImageCallback;
+        
+        /// <summary>
+        /// EmployeeImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxImage EmployeeImage;
+        
+        /// <summary>
         /// FormLayoutAut control.
         /// </summary>
         /// <remarks>
@@ -209,15 +236,6 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxFormLayout FormLayoutAut;
-        
-        /// <summary>
-        /// ASPxFormLayout1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxFormLayout ASPxFormLayout1;
         
         /// <summary>
         /// userNameTextBox control.
@@ -281,6 +299,15 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCaptcha captcha;
+        
+        /// <summary>
+        /// ASPxFormLayout2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxFormLayout ASPxFormLayout2;
         
         /// <summary>
         /// signUp control.

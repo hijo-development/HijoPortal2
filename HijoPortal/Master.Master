@@ -122,12 +122,11 @@
                                             </td>
                                             <td style="text-align: right;">
                                                 <dx:ASPxHyperLink ID="LogOut" runat="server" Text="Log Out" Cursor="pointer" Theme="Office2010Blue">
-                                                    <ClientSideEvents Click="function(s,e){PopupLogout.Show()}" />
+                                                    <ClientSideEvents Click="function(s,e){PopUpInfoClient.Hide(); PopupLogout.Show();}" />
                                                 </dx:ASPxHyperLink>
                                             </td>
                                         </tr>
                                     </table>
-
                                 </td>
                             </tr>
                         </table>

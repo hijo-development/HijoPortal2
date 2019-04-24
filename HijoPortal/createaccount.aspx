@@ -69,8 +69,8 @@
             <ClientSideEvents ControlsInitialized="onControlsInitialized" />
         </dx:ASPxGlobalEvents>
 
-        <%--<div id="dvBanner" runat="server" style="height: 100px;">
-            <table style="width: 100%; height: 100%">
+        <div>
+            <%--<table style="width: 100%; height: 100%">
                 <tr style="height: 100px;">
                     <td style="width: 80px; height: 80px; padding: 10px;">
                         <img src="images/HijoLogo.png" style="height: 60px; width: 60px;" />
@@ -79,8 +79,18 @@
                         <h1>HIJO Portal</h1>
                     </td>
                 </tr>
+            </table>--%>
+
+            <table style="width: 100%; height: 80px;">
+                <tr style="height: 80px;">
+                    <td style="width: 60px; height: 60px; vertical-align: middle; text-align: center;">
+                        <img src="images/Hijo Logo.png" style="height: 60px; width: 260px;" />
+                    </td>
+                </tr>
             </table>
-        </div>--%>
+
+        </div>
+
         <%--<div class="createaccount_div" id="dvContentWrapper11" style="background-color:transparent;">--%>
         <div>
             <%--<div style="height: 50px;"></div>--%>
@@ -205,7 +215,6 @@
                                                                 </dx:PanelContent>
                                                             </PanelCollection>
                                                         </dx:ASPxCallbackPanel>
-
                                                     </dx:LayoutItemNestedControlContainer>
                                                 </LayoutItemNestedControlCollection>
                                             </dx:LayoutItem>
@@ -215,22 +224,51 @@
                             </dx:ASPxFormLayout>
                         </td>
                         <td class="table_design">
-                            <dx:ASPxFormLayout ID="FormLayoutAut"
-                                ClientInstanceName="FormLayoutAutDirect"
+                            <dx:ASPxFormLayout ID="FormLayoutEmployeeImage"
+                                ClientInstanceName="FormLayoutEmployeeImageDirect"
                                 runat="server"
                                 RequiredMarkDisplayMode="Auto"
                                 UseDefaultPaddings="false"
                                 AlignItemCaptionsInAllGroups="true"
-                                Width="100%" Theme="Office2010Blue">
+                                Width="100%" Height="100%" Theme="Office2010Blue">
                                 <Paddings PaddingBottom="30" PaddingTop="10" />
                                 <Items>
+                                    <dx:LayoutGroup ShowCaption="False" GroupBoxDecoration="Box">
+                                        <Items>
+                                            <dx:LayoutItem ShowCaption="False" CaptionStyle-ForeColor="Black" HorizontalAlign="Right">
+                                                <LayoutItemNestedControlCollection>
+                                                    <dx:LayoutItemNestedControlContainer>
+                                                        <dx:ASPxCallbackPanel ID="EmployeeImageCallback" runat="server" ClientInstanceName="EmployeeImageCallbackClient" OnCallback="EmployeeImageCallback_Callback" Width="100%">
+                                                            <PanelCollection>
+                                                                <dx:PanelContent>
+                                                                    <dx:ASPxImage ID="EmployeeImage"
+                                                                        ClientInstanceName="EmployeeImage"
+                                                                        runat="server"
+                                                                        ShowLoadingImage="true"
+                                                                        Height="190px" Width="190px"
+                                                                        Border-BorderColor="Black"
+                                                                        Border-BorderStyle="Solid"
+                                                                        Border-BorderWidth="1" ImageUrl="~/images/ID.jpg">
+                                                                    </dx:ASPxImage>
+                                                                    <%--<asp:Image ID="EmployeeImage1" runat="server" Height="190px" Width="190px" BorderStyle="Solid" BorderColor="Black" BorderWidth="1" />--%>
+                                                                    <%--<img id="EmployeeImage1" runat="server" style="height:190px; width: 190px; border:1px solid;" src="~/images/ID.jpg" />--%>
+                                                                </dx:PanelContent>
+                                                            </PanelCollection>
+                                                        </dx:ASPxCallbackPanel>
+                                                    </dx:LayoutItemNestedControlContainer>
+                                                </LayoutItemNestedControlCollection>
+                                            </dx:LayoutItem>
+                                        </Items>
+                                    </dx:LayoutGroup>
                                 </Items>
                             </dx:ASPxFormLayout>
                         </td>
                     </tr>
                     <tr>
                         <td class="table_design">
-                            <dx:ASPxFormLayout ID="ASPxFormLayout1" runat="server" RequiredMarkDisplayMode="Auto"
+                            <dx:ASPxFormLayout ID="FormLayoutAut"
+                                ClientInstanceName="FormLayoutAutDirect"
+                                runat="server" RequiredMarkDisplayMode="Auto"
                                 UseDefaultPaddings="false"
                                 AlignItemCaptionsInAllGroups="true"
                                 Width="100%" Theme="Office2010Blue">
@@ -298,7 +336,7 @@
                                 Width="100%" Theme="Office2010Blue">
                                 <Paddings PaddingBottom="30" PaddingTop="10" />
                                 <Items>
-                                    <dx:LayoutGroup ShowCaption="False" GroupBoxDecoration="Box" HorizontalAlign="Center" Width="100%">
+                                    <dx:LayoutGroup ShowCaption="False" GroupBoxDecoration="Box" HorizontalAlign="Center" Width="100%" Height="100%">
                                         <ParentContainerStyle CssClass="mobileGroupIndent"></ParentContainerStyle>
                                         <Items>
                                             <dx:LayoutItem ShowCaption="False" CssClass="mobileAlign" HorizontalAlign="Center">
@@ -313,6 +351,27 @@
                                                     </dx:LayoutItemNestedControlContainer>
                                                 </LayoutItemNestedControlCollection>
                                             </dx:LayoutItem>
+
+                                        </Items>
+                                    </dx:LayoutGroup>
+                                </Items>
+                            </dx:ASPxFormLayout>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="table_design">
+                            <dx:ASPxFormLayout ID="ASPxFormLayout2"
+                                ClientInstanceName="FormLayoutMedDirect"
+                                runat="server"
+                                RequiredMarkDisplayMode="Auto"
+                                UseDefaultPaddings="false"
+                                AlignItemCaptionsInAllGroups="true"
+                                Width="100%" Theme="Office2010Blue">
+                                <Paddings PaddingBottom="30" PaddingTop="10" />
+                                <Items>
+                                    <dx:LayoutGroup ShowCaption="False" GroupBoxDecoration="Box" HorizontalAlign="Center" Width="100%">
+                                        <ParentContainerStyle CssClass="mobileGroupIndent"></ParentContainerStyle>
+                                        <Items>
                                             <dx:LayoutItem ShowCaption="False" CssClass="mobileAlign" HorizontalAlign="Center">
                                                 <NestedControlCellStyle CssClass="maxWidth"></NestedControlCellStyle>
                                                 <Paddings PaddingTop="12" />

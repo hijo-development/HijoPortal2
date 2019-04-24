@@ -193,8 +193,8 @@
                     </EditForm>
                 </SettingsPopup>
 
-                <%--<SettingsPager Mode="ShowPager" PageSize="5" AlwaysShowPager="true">
-                    </SettingsPager>--%>
+                <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="true">
+                    </SettingsPager>
 
                 <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                     AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />
