@@ -336,6 +336,7 @@
                     <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="ItemPK" Visible="false"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="Identifier" Visible="false"></dx:GridViewDataColumn>
+                    <dx:GridViewDataColumn FieldName="ProdCat" Visible="false"></dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="ItemCode">
                         <EditItemTemplate>
                             <dx:ASPxLabel runat="server" Text='<%#Eval("ItemCode") %>' Theme="Office2010Blue"></dx:ASPxLabel>

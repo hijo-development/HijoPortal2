@@ -334,10 +334,26 @@
                                                                                                                     <td style="width: 50%;">
                                                                                                                         <dx:ASPxLabel runat="server" Text="Activity" Theme="Office2010Blue" />
                                                                                                                     </td>
+                                                                                                                    <td>
+                                                                                                                        <dx:ASPxCheckBox ID="ActivityCodeChkbx" runat="server" ClientInstanceName="ActivityCodeChkbxDM" Theme="Office2010Blue"></dx:ASPxCheckBox>
+                                                                                                                    </td>
                                                                                                                     <td style="width: 50%;">
                                                                                                                         <dx:ASPxComboBox ID="ActivityCode" runat="server" ClientInstanceName="ActivityCodeDirect" OnInit="ActivityCode_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue" Width="300px">
                                                                                                                             <%--<ValidationSettings ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>--%>
                                                                                                                             <ClientSideEvents SelectedIndexChanged="ActivityCodeIndexChange" />
+                                                                                                                        </dx:ASPxComboBox>
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                                <tr>
+                                                                                                                    <td style="width: 50%;">
+                                                                                                                        <dx:ASPxLabel runat="server" Text="Expense" Theme="Office2010Blue" />
+                                                                                                                    </td>
+                                                                                                                    <td>
+                                                                                                                        <dx:ASPxCheckBox ID="ExpenseChkbx" runat="server" ClientInstanceName="ExpenseChkbxDM" Theme="Office2010Blue"></dx:ASPxCheckBox>
+                                                                                                                    </td>
+                                                                                                                    <td style="width: 50%;">
+                                                                                                                        <dx:ASPxComboBox ID="ExpenseCode" runat="server" ClientInstanceName="ExpenseCodeDM" OnInit="ExpenseCode_Init" ValueType="System.String" Theme="Office2010Blue">
+                                                                                                                             <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                         </dx:ASPxComboBox>
                                                                                                                     </td>
                                                                                                                 </tr>

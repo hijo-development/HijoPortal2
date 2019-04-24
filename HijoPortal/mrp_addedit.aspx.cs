@@ -408,7 +408,13 @@ namespace HijoPortal
         protected void ExpenseCode_Init(object sender, EventArgs e)
         {
             ASPxComboBox combo = sender as ASPxComboBox;
-            combo.DataSource = MRPClass.ExpenseCodeTable(entitycode);
+            int isOPEX = -1;
+            if (combo.ClientInstanceName == "ExpenseCodeOPEX")
+                isOPEX = 1;
+            else
+                isOPEX = 0;
+
+            combo.DataSource = MRPClass.ExpenseCodeTable(isOPEX);
             combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
 
             ListBoxColumn l_value = new ListBoxColumn();
@@ -443,6 +449,7 @@ namespace HijoPortal
             }
             else
             {
+                //!IMPORTANT... cookie for expense direct materials
                 HttpCookie cookie_value = null;
                 HttpCookie cookie_text = null;
                 HttpCookie cookie_isItem = null;
@@ -1755,7 +1762,7 @@ namespace HijoPortal
             if (cookie_value != null)
             {
                 expcode = cookie_value.Value;
-                
+
             }
 
             combo.DataSource = MRPClass.ProCategoryTableWithType(entitycode, "Expense", expcode);
