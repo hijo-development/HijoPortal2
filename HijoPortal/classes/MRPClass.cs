@@ -1844,10 +1844,14 @@ namespace HijoPortal.classes
             else
                 MAINACCOUNT = "'" +mainaccoundid + "'";
 
+            //string qry = "SELECT [ITEMID],[NAMEALIAS], [UNITID] " +
+            //              " FROM [hijo_portal].[dbo].[vw_AXInventTable] " +
+            //              " WHERE [NAMEALIAS] LIKE '%" + str + "%'" +
+            //              " AND DATAAREAID = '" + EntCode + "' AND MAINACCOUNT = " + MAINACCOUNT;
+
             string qry = "SELECT [ITEMID],[NAMEALIAS], [UNITID] " +
                           " FROM [hijo_portal].[dbo].[vw_AXInventTable] " +
-                          " WHERE [NAMEALIAS] LIKE '%" + str + "%'" +
-                          " AND DATAAREAID = '" + EntCode + "' AND MAINACCOUNT = " + MAINACCOUNT;
+                          " WHERE [NAMEALIAS] LIKE '%" + str + "%'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
