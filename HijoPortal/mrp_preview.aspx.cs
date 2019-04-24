@@ -585,27 +585,6 @@ namespace HijoPortal
                     }
 
                 }
-                else
-                {
-
-                    cell.Attributes.Add("class", "no_border");
-
-                    if (entitycode != Constants.TRAIN_CODE())
-                        act.ColSpan = 9;
-                    else
-                        act.ColSpan = 10;
-
-                    act.Style.Add("font-weight", "bold");
-
-                    if (entitycode == Constants.TRAIN_CODE())
-                        tableDataRevDesc.Style.Add("display", "none");
-
-                    desc.Style.Add("display", "none");
-                    uom.Style.Add("display", "none");
-                    qty.Style.Add("display", "none");
-                    cost.Style.Add("display", "none");
-                    total_one.Style.Add("display", "none");
-                }
             }
         }
 
@@ -663,6 +642,61 @@ namespace HijoPortal
         protected void RevListview_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
+
+                HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+
+                HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
+                HtmlTableCell desc = (HtmlTableCell)cell.FindControl("sec");
+                HtmlTableCell uom = (HtmlTableCell)cell.FindControl("third");
+                HtmlTableCell qty = (HtmlTableCell)cell.FindControl("fourth");
+                HtmlTableCell cost = (HtmlTableCell)cell.FindControl("fifth");
+                HtmlTableCell total_one = (HtmlTableCell)cell.FindControl("six");
+
+                if (entitycode == Constants.TRAIN_CODE())
+                {
+                    string farm = (string)DataBinder.Eval(dataitem.DataItem, "RevDesc").ToString();
+
+                    if (!string.IsNullOrEmpty(farm))
+                    {
+                        cell.Attributes.Add("class", "no_border");
+
+                        tableDataRevDesc.ColSpan = 6;
+                        tableDataRevDesc.Style.Add("font-weight", "bold");
+
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                    }
+
+                }
+                //else
+                //{
+
+                //    cell.Attributes.Add("class", "no_border");
+
+                //    if (entitycode != Constants.TRAIN_CODE())
+                //        act.ColSpan = 9;
+                //    else
+                //        act.ColSpan = 10;
+
+                //    act.Style.Add("font-weight", "bold");
+
+                //    if (entitycode == Constants.TRAIN_CODE())
+                //        tableDataRevDesc.Style.Add("display", "none");
+
+                //    desc.Style.Add("display", "none");
+                //    uom.Style.Add("display", "none");
+                //    qty.Style.Add("display", "none");
+                //    cost.Style.Add("display", "none");
+                //    total_one.Style.Add("display", "none");
+                //}
+            }
+
         }
 
         private void HideHeader(object sender)
@@ -738,8 +772,8 @@ namespace HijoPortal
             WrkFlowHidden["hidden_preview_wrkflwln"] = wrkflwln;
 
             string docnum = DocNum.Text.ToString();
-            DataTable table = Preview.Preview_CA(docnum, entitycode);
-            CapexListview.DataSource = table;
+
+            CapexListview.DataSource = Preview.Preview_CA(docnum, entitycode);
             CapexListview.DataBind();
             TotalAmountTD.InnerText = Preview.preview_total_capex(docnum);
 
@@ -758,14 +792,14 @@ namespace HijoPortal
             ManListview.DataBind();
             TAManpower.InnerText = Preview.preview_total_manpower(docnum);
 
-            DataTable tableRevenue = Preview.MRP_Revenue(docnum, entitycode);
+            DataTable tableRevenue = Preview.Preview_Revenue(docnum, entitycode);
             RevListview.DataSource = tableRevenue;
             RevListview.DataBind();
             TARevenue.InnerText = Preview.preview_total_revenue(docnum);
 
-            PreviewListSummary.DataSource = MRPClass.MRP_PrevTotalSummary(docnum, entitycode);
+            PreviewListSummary.DataSource = Preview.MRP_PrevTotalSummary(docnum, entitycode);
             PreviewListSummary.DataBind();
-            TotalAmountSummary.InnerText = MRPClass.Prev_Summary_Total();
+            TotalAmountSummary.InnerText = Preview.Prev_Summary_Total();
 
             MRPClass.trial();
         }

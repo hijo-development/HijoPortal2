@@ -71,6 +71,39 @@ namespace HijoPortal
         protected void RevListView_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
+
+                HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+
+                HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
+                HtmlTableCell desc = (HtmlTableCell)cell.FindControl("sec");
+                HtmlTableCell uom = (HtmlTableCell)cell.FindControl("third");
+                HtmlTableCell qty = (HtmlTableCell)cell.FindControl("fourth");
+                HtmlTableCell cost = (HtmlTableCell)cell.FindControl("fifth");
+                HtmlTableCell total_one = (HtmlTableCell)cell.FindControl("six");
+
+                if (entitycode == Constants.TRAIN_CODE())
+                {
+                    string farm = (string)DataBinder.Eval(dataitem.DataItem, "RevDesc").ToString();
+
+                    if (!string.IsNullOrEmpty(farm))
+                    {
+                        cell.Attributes.Add("class", "no_border");
+
+                        tableDataRevDesc.ColSpan = 6;
+                        tableDataRevDesc.Style.Add("font-weight", "bold");
+
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                    }
+
+                }
+            }
         }
 
         protected void DMListView_ItemCommand(object sender, ListViewCommandEventArgs e)
@@ -100,150 +133,75 @@ namespace HijoPortal
                 HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
 
                 //Get the Name values
-                string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode");
-                if (!string.IsNullOrEmpty(code))
+                string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode").ToString().ToString();
+                if (entitycode == Constants.TRAIN_CODE())
                 {
-                    cell.Attributes.Add("class", "no_border");
+                    string farm = (string)DataBinder.Eval(dataitem.DataItem, "RevDesc").ToString();
+                    if (!string.IsNullOrEmpty(farm))
+                    {
+                        cell.Attributes.Add("class", "no_border");
 
-                    if (entitycode != Constants.TRAIN_CODE())
-                        act.ColSpan = 9;
-                    else
+                        tableDataRevDesc.ColSpan = 10;
+                        tableDataRevDesc.Style.Add("font-weight", "bold");
+
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                        qty_rec.Style.Add("display", "none");
+                        cost_two.Style.Add("display", "none");
+                        total_two.Style.Add("display", "none");
+                    }
+
+                    if (!string.IsNullOrEmpty(code))
+                    {
+                        cell.Attributes.Add("class", "no_border");
+
                         act.ColSpan = 10;
 
-                    act.Style.Add("font-weight", "bold");
+                        act.Style.Add("font-weight", "bold");
 
-                    if (entitycode == Constants.TRAIN_CODE())
-                        tableDataRevDesc.Style.Add("display", "none");
+                        //if (entitycode == Constants.TRAIN_CODE())
+                        //tableDataRevDesc.Style.Add("display", "none");
 
-                    desc.Style.Add("display", "none");
-                    uom.Style.Add("display", "none");
-                    qty.Style.Add("display", "none");
-                    cost.Style.Add("display", "none");
-                    total_one.Style.Add("display", "none");
-                    qty_rec.Style.Add("display", "none");
-                    cost_two.Style.Add("display", "none");
-                    total_two.Style.Add("display", "none");
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                        qty_rec.Style.Add("display", "none");
+                        cost_two.Style.Add("display", "none");
+                        total_two.Style.Add("display", "none");
+                    }
                 }
+                else
+                {
+                    if (!string.IsNullOrEmpty(code))
+                    {
+                        cell.Attributes.Add("class", "no_border");
 
-                //ListViewDataItem dataitem = (ListViewDataItem)e.Item;
-                ////Get the Name values
-                //string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode");
-                //if (!string.IsNullOrEmpty(code))
-                //{
-                //    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-                //    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
-                //    td.ColSpan = 10;
-                //    td.Style.Add("font-weight", "bold");
-                //    td.Style.Add("border-right-color", "transparent");
+                        if (entitycode != Constants.TRAIN_CODE())
+                            act.ColSpan = 9;
+                        else
+                            act.ColSpan = 10;
 
-                //    HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
-                //    sec.Style.Add("display", "none");
+                        act.Style.Add("font-weight", "bold");
 
-                //    HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
-                //    third.Style.Add("display", "none");
+                        if (entitycode == Constants.TRAIN_CODE())
+                            tableDataRevDesc.Style.Add("display", "none");
 
-                //    HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
-                //    fourth.Style.Add("display", "none");
-
-                //    HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fifth");
-                //    fifth.Style.Add("display", "none");
-
-                //    HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
-                //    six.Style.Add("display", "none");
-
-                //    HtmlTableCell sev = (HtmlTableCell)cell.FindControl("sev");
-                //    sev.Style.Add("display", "none");
-
-                //    HtmlTableCell eight = (HtmlTableCell)cell.FindControl("eight");
-                //    eight.Style.Add("display", "none");
-
-                //    HtmlTableCell nine = (HtmlTableCell)cell.FindControl("nine");
-                //    nine.Style.Add("display", "none");
-
-                //    HtmlTableCell pin = (HtmlTableCell)cell.FindControl("pin");
-                //    pin.Style.Add("display", "none");
-
-                //    if (entitycode == Constants.TRAIN_CODE())
-                //    {
-                //        HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
-                //        tableDataRevDesc.Style.Add("display", "none");
-                //    }
-
-                //    HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
-                //    ImageButton pinImg = (ImageButton)td_last.FindControl("pinImg");
-                //    pinImg.Visible = false;
-                //    td_last.Style.Add("border-right-color", "transparent");
-
-                //}
-                //else
-                //{
-                //    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-                //    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
-                //}
-
-
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                        qty_rec.Style.Add("display", "none");
+                        cost_two.Style.Add("display", "none");
+                        total_two.Style.Add("display", "none");
+                    }
+                }
             }
-
-            //HideTableData(e);
-            //if (e.Item.ItemType == ListViewItemType.DataItem)
-            //{
-            //    ListViewDataItem dataitem = (ListViewDataItem)e.Item;
-            //    //Get the Name values
-            //    string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode");
-            //    if (!string.IsNullOrEmpty(code))
-            //    {
-            //        HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-            //        HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
-            //        td.ColSpan = 10;
-            //        td.Style.Add("font-weight", "bold");
-            //        td.Style.Add("font-style", "italic");
-            //        td.Style.Add("border-right-color", "transparent");
-
-            //        HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
-            //        sec.Style.Add("display", "none");
-
-            //        HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
-            //        third.Style.Add("display", "none");
-
-            //        HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
-            //        fourth.Style.Add("display", "none");
-
-            //        HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fifth");
-            //        fifth.Style.Add("display", "none");
-
-            //        HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
-            //        six.Style.Add("display", "none");
-
-            //        HtmlTableCell sev = (HtmlTableCell)cell.FindControl("sev");
-            //        sev.Style.Add("display", "none");
-
-            //        HtmlTableCell eight = (HtmlTableCell)cell.FindControl("eight");
-            //        eight.Style.Add("display", "none");
-
-            //        HtmlTableCell nine = (HtmlTableCell)cell.FindControl("nine");
-            //        nine.Style.Add("display", "none");
-
-            //        HtmlTableCell pin = (HtmlTableCell)cell.FindControl("pin");
-            //        pin.Style.Add("display", "none");
-
-            //        if (entitycode == Constants.TRAIN_CODE())
-            //        {
-            //            HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
-            //            tableDataRevDesc.Style.Add("display", "none");
-            //        }
-
-            //        HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
-            //        ImageButton pinImg = (ImageButton)td_last.FindControl("pinImg");
-            //        pinImg.Visible = false;
-            //        td_last.Style.Add("border-right-color", "transparent");
-
-            //    }
-            //    else
-            //    {
-            //        HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-            //        HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
-            //    }
-            //}
         }
 
         protected void DMListView_DataBound(object sender, EventArgs e)
@@ -404,87 +362,69 @@ namespace HijoPortal
                 HtmlTableCell total_two = (HtmlTableCell)cell.FindControl("nine");
 
                 //Get the Name values
-                string code = (string)DataBinder.Eval(dataitem.DataItem, "ExpenseCodeName");
-                if (!string.IsNullOrEmpty(code))
+                string code = (string)DataBinder.Eval(dataitem.DataItem, "ExpenseCodeName").ToString();
+                if (entitycode == Constants.TRAIN_CODE())
                 {
-                    cell.Attributes.Add("class", "no_border");
+                    string farm = (string)DataBinder.Eval(dataitem.DataItem, "RevDesc").ToString();
 
-                    if (entitycode != Constants.TRAIN_CODE())
-                        act.ColSpan = 9;
-                    else
+                    if (!string.IsNullOrEmpty(farm))
+                    {
+                        cell.Attributes.Add("class", "no_border");
+
+                        tableDataRevDesc.ColSpan = 6;
+                        tableDataRevDesc.Style.Add("font-weight", "bold");
+
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                        qty_rec.Style.Add("display", "none");
+                        cost_two.Style.Add("display", "none");
+                        total_two.Style.Add("display", "none");
+                    }
+
+                    if (!string.IsNullOrEmpty(code))
+                    {
+                        cell.Attributes.Add("class", "no_border");
+
                         act.ColSpan = 10;
+                        act.Style.Add("font-weight", "bold");
 
-                    act.Style.Add("font-weight", "bold");
-
-                    if (entitycode == Constants.TRAIN_CODE())
-                        tableDataRevDesc.Style.Add("display", "none");
-
-                    desc.Style.Add("display", "none");
-                    uom.Style.Add("display", "none");
-                    qty.Style.Add("display", "none");
-                    cost.Style.Add("display", "none");
-                    total_one.Style.Add("display", "none");
-                    qty_rec.Style.Add("display", "none");
-                    cost_two.Style.Add("display", "none");
-                    total_two.Style.Add("display", "none");
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                        qty_rec.Style.Add("display", "none");
+                        cost_two.Style.Add("display", "none");
+                        total_two.Style.Add("display", "none");
+                    }
                 }
+                else
+                {
+                    if (!string.IsNullOrEmpty(code))
+                    {
+                        cell.Attributes.Add("class", "no_border");
 
+                        if (entitycode != Constants.TRAIN_CODE())
+                            act.ColSpan = 9;
+                        else
+                            act.ColSpan = 10;
 
-                //ListViewDataItem dataitem = (ListViewDataItem)e.Item;
-                ////Get the Name values
-                //string code = (string)DataBinder.Eval(dataitem.DataItem, "ExpenseCodeName");
-                //if (!string.IsNullOrEmpty(code))
-                //{
-                //    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-                //    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
-                //    td.ColSpan = 10;
-                //    td.Style.Add("font-weight", "bold");
-                //    td.Style.Add("border-right-color", "transparent");
+                        act.Style.Add("font-weight", "bold");
 
-                //    HtmlTableCell sec = (HtmlTableCell)cell.FindControl("sec");
-                //    sec.Style.Add("display", "none");
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                        qty_rec.Style.Add("display", "none");
+                        cost_two.Style.Add("display", "none");
+                        total_two.Style.Add("display", "none");
+                    }
 
-                //    HtmlTableCell third = (HtmlTableCell)cell.FindControl("third");
-                //    third.Style.Add("display", "none");
-
-                //    HtmlTableCell fourth = (HtmlTableCell)cell.FindControl("fourth");
-                //    fourth.Style.Add("display", "none");
-
-                //    HtmlTableCell fifth = (HtmlTableCell)cell.FindControl("fifth");
-                //    fifth.Style.Add("display", "none");
-
-                //    HtmlTableCell six = (HtmlTableCell)cell.FindControl("six");
-                //    six.Style.Add("display", "none");
-
-                //    HtmlTableCell sev = (HtmlTableCell)cell.FindControl("sev");
-                //    sev.Style.Add("display", "none");
-
-                //    HtmlTableCell eight = (HtmlTableCell)cell.FindControl("eight");
-                //    eight.Style.Add("display", "none");
-
-                //    HtmlTableCell nine = (HtmlTableCell)cell.FindControl("nine");
-                //    nine.Style.Add("display", "none");
-
-                //    HtmlTableCell pin = (HtmlTableCell)cell.FindControl("pin");
-                //    pin.Style.Add("display", "none");
-
-                //    if (entitycode == Constants.TRAIN_CODE())
-                //    {
-                //        HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
-                //        tableDataRevDesc.Style.Add("display", "none");
-                //    }
-
-                //    HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
-                //    ImageButton pinImg = (ImageButton)td_last.FindControl("pinImg");
-                //    pinImg.Visible = false;
-                //    td_last.Style.Add("border-right-color", "transparent");
-
-                //}
-                //else
-                //{
-                //    HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-                //    HtmlTableCell td = (HtmlTableCell)cell.FindControl("act");
-                //}
+                }
             }
         }
 
@@ -641,29 +581,62 @@ namespace HijoPortal
                 HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
 
                 //Get the Name values
-                string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode");
-                if (!string.IsNullOrEmpty(code))
+                string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode").ToString();
+                if (entitycode == Constants.TRAIN_CODE())
                 {
-                    cell.Attributes.Add("class", "no_border");
+                    string farm = (string)DataBinder.Eval(dataitem.DataItem, "RevDesc").ToString();
 
-                    if (entitycode != Constants.TRAIN_CODE())
-                        act.ColSpan = 9;
-                    else
+                    if (!string.IsNullOrEmpty(farm))
+                    {
+                        cell.Attributes.Add("class", "no_border");
+
+                        tableDataRevDesc.ColSpan = 6;
+                        tableDataRevDesc.Style.Add("font-weight", "bold");
+
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                        qty_rec.Style.Add("display", "none");
+                        cost_two.Style.Add("display", "none");
+                        total_two.Style.Add("display", "none");
+                    }
+
+                    if (!string.IsNullOrEmpty(code))
+                    {
+                        cell.Attributes.Add("class", "no_border");
                         act.ColSpan = 10;
+                        act.Style.Add("font-weight", "bold");
 
-                    act.Style.Add("font-weight", "bold");
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                        qty_rec.Style.Add("display", "none");
+                        cost_two.Style.Add("display", "none");
+                        total_two.Style.Add("display", "none");
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(code))
+                    {
+                        cell.Attributes.Add("class", "no_border");
 
-                    if (entitycode == Constants.TRAIN_CODE())
-                        tableDataRevDesc.Style.Add("display", "none");
+                        act.ColSpan = 9;
+                        act.Style.Add("font-weight", "bold");
 
-                    desc.Style.Add("display", "none");
-                    uom.Style.Add("display", "none");
-                    qty.Style.Add("display", "none");
-                    cost.Style.Add("display", "none");
-                    total_one.Style.Add("display", "none");
-                    qty_rec.Style.Add("display", "none");
-                    cost_two.Style.Add("display", "none");
-                    total_two.Style.Add("display", "none");
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                        qty_rec.Style.Add("display", "none");
+                        cost_two.Style.Add("display", "none");
+                        total_two.Style.Add("display", "none");
+                    }
                 }
             }
         }
@@ -725,6 +698,47 @@ namespace HijoPortal
         protected void CapexListView_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             HideTableData(e);
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
+
+                HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
+
+                //HtmlTableCell act = (HtmlTableCell)cell.FindControl("act");
+                HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
+                HtmlTableCell desc = (HtmlTableCell)cell.FindControl("sec");
+                HtmlTableCell uom = (HtmlTableCell)cell.FindControl("third");
+                HtmlTableCell qty = (HtmlTableCell)cell.FindControl("fourth");
+                HtmlTableCell cost = (HtmlTableCell)cell.FindControl("fifth");
+                HtmlTableCell total_one = (HtmlTableCell)cell.FindControl("six");
+                HtmlTableCell qty_rec = (HtmlTableCell)cell.FindControl("sev");
+                HtmlTableCell cost_two = (HtmlTableCell)cell.FindControl("eight");
+                HtmlTableCell total_two = (HtmlTableCell)cell.FindControl("nine");
+
+                if (entitycode == Constants.TRAIN_CODE())
+                {
+                    string farm = (string)DataBinder.Eval(dataitem.DataItem, "RevDesc").ToString();
+
+                    if (!string.IsNullOrEmpty(farm))
+                    {
+                        cell.Attributes.Add("class", "no_border");
+
+                        tableDataRevDesc.ColSpan = 9;
+                        tableDataRevDesc.Style.Add("font-weight", "bold");
+
+                        desc.Style.Add("display", "none");
+                        uom.Style.Add("display", "none");
+                        qty.Style.Add("display", "none");
+                        cost.Style.Add("display", "none");
+                        total_one.Style.Add("display", "none");
+                        qty_rec.Style.Add("display", "none");
+                        cost_two.Style.Add("display", "none");
+                        total_two.Style.Add("display", "none");
+                    }
+
+                }
+            }
+
         }
 
         protected void CapexListView_ItemCommand(object sender, ListViewCommandEventArgs e)
@@ -889,36 +903,37 @@ namespace HijoPortal
             WrkFlowHidden["hidden_preview_wrkflwln"] = wrkflwln;
 
             //MRPClass.PrintString(entitycode);
-            RevListView.DataSource = MRPClass.MRP_Revenue(DocNum.Text.ToString(), entitycode);
+            string docnum = DocNum.Text.ToString();
+            RevListView.DataSource = Preview.Preview_Revenue(docnum, entitycode);
             RevListView.DataBind();
-            TARevenue.InnerText = MRPClass.revenue_total().ToString("N");
+            TARevenue.InnerText = Preview.preview_total_revenue(docnum);
 
-            SummaryListView.DataSource = MRPClass.MRP_PrevTotalSummary(DocNum.Text.ToString(), entitycode);
+            SummaryListView.DataSource = Preview.MRP_PrevTotalSummary(DocNum.Text.ToString(), entitycode);
             SummaryListView.DataBind();
-            TotalSummary.InnerText = MRPClass.Prev_Summary_Total();
+            TotalSummary.InnerText = Preview.Prev_Summary_Total();
 
             DataTable tableMat = Preview.Preview_DM(DocNum.Text.ToString(), entitycode);
             DMListView.DataSource = tableMat;
             DMListView.DataBind();
-            TotalDM.InnerText = MRPClass.materials_total().ToString("N");
-            TotalEDM.InnerText = MRPClass.material_edited_total().ToString("N");
+            TotalDM.InnerText = Preview.preview_total_directmaterials(docnum);
+            TotalEDM.InnerText = Preview.preview_requestedtotal_directmaterials(docnum);
 
             DataTable tableOpex = Preview.Preview_OP(DocNum.Text.ToString(), entitycode);
             OpexListView.DataSource = tableOpex;
             OpexListView.DataBind();
-            TotalOpex.InnerText = MRPClass.opex_total().ToString("N");
-            TotalEOpex.InnerText = MRPClass.opex_edited_total().ToString("N");
+            TotalOpex.InnerText = Preview.preview_total_opex(docnum);
+            TotalEOpex.InnerText = Preview.preview_requestedtotal_opex(docnum);
 
             DataTable tableManpower = Preview.Preview_MAN(DocNum.Text.ToString(), entitycode);
             ManListView.DataSource = tableManpower;
             ManListView.DataBind();
-            TotalManpower.InnerText = MRPClass.manpower_total().ToString("N");
-            TotalEManpower.InnerText = MRPClass.manpower_edited_total().ToString("N");
+            TotalManpower.InnerText = Preview.preview_total_manpower(docnum);
+            TotalEManpower.InnerText = Preview.preview_requestedtotal_manpower(docnum);
 
-            CapexListView.DataSource = MRPClass.Preview_CA(DocNum.Text.ToString(), entitycode);
+            CapexListView.DataSource = Preview.Preview_CA(docnum, entitycode);
             CapexListView.DataBind();
-            TotalCapex.InnerText = MRPClass.capex_total().ToString("N");
-            TotalECapex.InnerText = MRPClass.capex_edited_total().ToString("N");
+            TotalCapex.InnerText = Preview.preview_total_capex(docnum);
+            TotalECapex.InnerText = Preview.preview_requestedtotal_capex(docnum);
         }
 
         protected void Page_Load(object sender, EventArgs e)

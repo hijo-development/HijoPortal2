@@ -461,6 +461,7 @@ namespace HijoPortal
                 object taxitemgroup = grid.GetRowValues(i, "TaxItemGroup");
                 object identifier = grid.GetRowValues(i, "Identifier");
                 object cip = grid.GetRowValues(i, "CapexCIP");
+                object prodcat = grid.GetRowValues(i, "ProdCat");
 
                 if (string.IsNullOrEmpty(taxgroup.ToString()) || string.IsNullOrEmpty(taxitemgroup.ToString()))
                 {
@@ -468,16 +469,20 @@ namespace HijoPortal
                     break;
                 }
 
-                if(identifier.ToString() == "4")
+                if (identifier.ToString() == "4")
                 {
-                    if (string.IsNullOrEmpty(cip.ToString()))
+                    MRPClass.PrintString(prodcat.ToString());
+                    MRPClass.PrintString(string.IsNullOrEmpty(cip.ToString()).ToString());
+                    if (prodcat.ToString() != "CIP")
                     {
-                        cancel = true;
-                        break;
+                        if (string.IsNullOrEmpty(cip.ToString()))
+                        {
+                            cancel = true;
+                            break;
+                        }
                     }
                 }
             }
-
             if (cancel)//if empty taxgroup this is true
             {
                 ModalPopupExtenderLoading.Hide();
@@ -505,7 +510,7 @@ namespace HijoPortal
             BindData();
         }
 
-        
+
 
         protected void POAddEditGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
