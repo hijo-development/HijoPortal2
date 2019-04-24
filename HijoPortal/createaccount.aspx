@@ -81,7 +81,8 @@
                 </tr>
             </table>
         </div>--%>
-        <div class="createaccount_div" id="dvContentWrapper11" style="background-color:transparent;">
+        <%--<div class="createaccount_div" id="dvContentWrapper11" style="background-color:transparent;">--%>
+        <div>
             <%--<div style="height: 50px;"></div>--%>
             <div id="dvHeader" style="height: 50px;">
                 <h1>Account Registration</h1>
