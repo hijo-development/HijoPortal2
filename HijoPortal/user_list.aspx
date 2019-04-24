@@ -174,6 +174,8 @@
                         <SettingsAdaptivity Mode="OnWindowInnerWidth" SwitchAtWindowInnerWidth="850" />
                     </EditForm>
                 </SettingsPopup>
+                <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="true">
+                    </SettingsPager>
                 <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                     AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />
                 <SettingsText ConfirmDelete="Delete This User?" />

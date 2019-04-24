@@ -13,8 +13,8 @@ namespace HijoPortal
 {
     public partial class createaccount : System.Web.UI.Page
     {
-        private static string lastname = "", firstname = "", email = "", gender = "";
-        private static int gender_int = -1;
+        private static string lastname = "", firstname = "", email = "", gender = "", employeepic = "/images/ID.jpg";
+        private static int gender_int = -1, employeepic_int = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -23,6 +23,9 @@ namespace HijoPortal
                 firstname = "";
                 email = "";
                 gender = "";
+                employeepic_int = 0;
+                employeepic = "~/images/ID.jpg";
+                EmployeeImage.ImageUrl = employeepic;
             }
         }
         protected void signUp_Click(object sender, EventArgs e)
@@ -242,6 +245,13 @@ namespace HijoPortal
             //}
         }
 
+        protected void EmployeeImageCallback_Callback(object sender, CallbackEventArgsBase e)
+        {
+            FetchEmployeeInfo();
+            //MRPClass.PrintString(employeepic);
+            EmployeeImage.ImageUrl = employeepic;
+        }
+
         protected void genderCallback_Callback(object sender, CallbackEventArgsBase e)
         {
             FetchEmployeeInfo();
@@ -289,6 +299,14 @@ namespace HijoPortal
                 email = row["Email"].ToString();
                 gender = GetGender(row["Gender"].ToString());
                 gender_int = Convert.ToInt32(row["Gender"].ToString());
+                employeepic_int = AccountClass.EmployeePictureInHRIS(id);
+                if (employeepic_int == 1)
+                {
+                    employeepic = "~/images/users/" + id + ".jpg";
+                } else
+                {
+                    employeepic = "~/images/ID.jpg";
+                }
             }
             if (dt.Rows.Count == 0)
             {
@@ -297,6 +315,8 @@ namespace HijoPortal
                 email = "";
                 gender = "";
                 gender_int = -1;
+                employeepic_int = 0;
+                employeepic = "~/images/ID.jpg";
             }
         }
 
