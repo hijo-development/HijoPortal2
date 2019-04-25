@@ -176,6 +176,40 @@ function OperatingUnitDM_SelectedIndexChanged(s, e) {
         s.SetIsValid(true);
 }
 
+//Direct Material 
+function ActivityCodeChkbx_CheckedChanged(s, e) {
+    if (s.GetChecked()) {
+        ActivityCodeDirect.SetEnabled(true);
+        ActivityCodeDirect.SetIsValid(true);
+    } else {
+        ActivityCodeDirect.SetEnabled(false);
+        ActivityCodeDirect.SetIsValid(false);
+    }
+}
+
+//Direct Material 
+function ExpenseChkbx_CheckedChanged(s, e) {
+    if (s.GetChecked()) {
+        ExpenseCodeDM.SetEnabled(true);
+        ExpenseCodeDM.SetIsValid(true);
+    } else {
+        ExpenseCodeDM.SetEnabled(false);
+        ExpenseCodeDM.SetIsValid(false);
+    }
+}
+
+//Direct Material
+function ExpenseCode_SelectedIndexChanged(s, e) {
+    document.cookie = 'dm_exp_value=' + s.GetValue();
+    document.cookie = 'dm_exp_text=' + s.GetText();
+
+    var text = s.GetSelectedItem().text;
+    if (text.length == 0)
+        s.SetIsValid(false);
+    else
+        s.SetIsValid(true);
+}
+
 function OperatingUnitOP_SelectedIndexChanged(s, e) {
     document.cookie = 'op_operating_value=' + s.GetValue();
     document.cookie = 'op_operating_text=' + s.GetText();
