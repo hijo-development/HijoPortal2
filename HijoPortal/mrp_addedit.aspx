@@ -527,7 +527,7 @@
                                                                             </dx:ASPxPageControl>
                                                                         </div>
                                                                         <div style="text-align: right; padding: 2px">
-                                                                            <dx:ASPxButton runat="server" Text="Save" Theme="Office2010Blue" AutoPostBack="false">
+                                                                            <dx:ASPxButton runat="server" Text="Save" Theme="Office2010Blue" CausesValidation="true" AutoPostBack="false">
                                                                                 <ClientSideEvents Click="updateDirectMat" />
                                                                             </dx:ASPxButton>
                                                                             <dx:ASPxButton runat="server" Text="Cancel" CausesValidation="false" Theme="Office2010Blue" AutoPostBack="false">

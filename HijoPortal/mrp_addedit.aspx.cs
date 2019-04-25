@@ -710,8 +710,16 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string actcodeVal = MRPClass.ActivityCodeDESCRIPTION(actCode.Value.ToString());
             string PK = e.Keys[0].ToString();
+
+
+            string activity_code = "";
+            if (actCode.Value != null)
+                activity_code = actCode.Value.ToString();
+
+            //string actcodeVal = "";
+            //if (actCode.Value != null)
+            //    actcodeVal = MRPClass.ActivityCodeDESCRIPTION(actCode.Value.ToString());
 
             string operating_unit = "";
             if (opunit.Value != null)
@@ -737,7 +745,7 @@ namespace HijoPortal
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ActivityCode", actcodeVal);
+            cmd.Parameters.AddWithValue("@ActivityCode", activity_code);
             cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemDescription", itemDesc.Value.ToString());
             cmd.Parameters.AddWithValue("@itemDesc2", desc_two);
