@@ -221,6 +221,7 @@ function AllCallback(s, e) {
             firstnameCallbackClient.PerformCallback();
             genderCallbackClient.PerformCallback();
             emailCallbackClient.PerformCallback();
+            EmployeeImageCallbackClient.PerformCallback();
         }
     }
 }
