@@ -408,8 +408,9 @@ namespace HijoPortal
         protected void ExpenseCode_Init(object sender, EventArgs e)
         {
             ASPxComboBox combo = sender as ASPxComboBox;
+            bool isOPEXCombobox = combo.ClientInstanceName == "ExpenseCodeOPEX";
             int isOPEX = -1;
-            if (combo.ClientInstanceName == "ExpenseCodeOPEX")
+            if (isOPEXCombobox)
                 isOPEX = 1;
             else
                 isOPEX = 0;
@@ -449,22 +450,38 @@ namespace HijoPortal
             }
             else
             {
+
                 //!IMPORTANT... cookie for expense direct materials
                 HttpCookie cookie_value = null;
                 HttpCookie cookie_text = null;
                 HttpCookie cookie_isItem = null;
                 HttpCookie cookie_isProdCat = null;
 
-                cookie_value = Request.Cookies["opvalue"];
-                cookie_text = Request.Cookies["optext"];
-                cookie_isItem = Request.Cookies["opisItem"];
-                cookie_isProdCat = Request.Cookies["opisProdCat"];
-                if (cookie_value != null && cookie_text != null)
+                if (isOPEXCombobox)
                 {
-                    object val = cookie_value.Value;
-                    object text = cookie_text.Value;
-                    combo.Value = val;
-                    combo.Text = text.ToString();
+                    cookie_value = Request.Cookies["opvalue"];
+                    cookie_text = Request.Cookies["optext"];
+                    cookie_isItem = Request.Cookies["opisItem"];
+                    cookie_isProdCat = Request.Cookies["opisProdCat"];
+                    if (cookie_value != null && cookie_text != null)
+                    {
+                        object val = cookie_value.Value;
+                        object text = cookie_text.Value;
+                        combo.Value = val;
+                        combo.Text = text.ToString();
+                    }
+                }
+                else
+                {
+                    cookie_value = Request.Cookies["dm_exp_value"];
+                    cookie_text = Request.Cookies["dm_exp_text"];
+                    if (cookie_value != null && cookie_text != null)
+                    {
+                        object val = cookie_value.Value;
+                        object text = cookie_text.Value;
+                        combo.Value = val;
+                        combo.Text = text.ToString();
+                    }
                 }
 
             }
@@ -593,6 +610,8 @@ namespace HijoPortal
             ASPxComboBox actCode = pageControl.FindControl("ActivityCode") as ASPxComboBox;
             ASPxTextBox itemCode = pageControl.FindControl("ItemCode") as ASPxTextBox;
             ASPxTextBox itemDesc = pageControl.FindControl("ItemDescription") as ASPxTextBox;
+
+            ASPxComboBox expcode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
             ASPxTextBox itemDesc2 = pageControl.FindControl("ItemDescriptionAddl") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
@@ -614,14 +633,18 @@ namespace HijoPortal
             if (itemDesc2.Value != null)
                 desc_two = itemDesc2.Value.ToString();
 
+            string exp_code = "";
+            if (expcode.Value != null)
+                exp_code = expcode.Value.ToString();
+
             string insert = "INSERT INTO " + MRPClass.DirectMatTable() +
                             " ([HeaderDocNum], [ActivityCode], [ItemCode], [ItemDescription], [UOM], " +
                             " [Cost], [Qty], [TotalCost], [OprUnit], " +
                             " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
-                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost], [ItemDescriptionAddl]) " +
+                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost], [ItemDescriptionAddl], [ExpenseCode]) " +
                             " VALUES (@HeaderDocNum, @ActivityCode, @ItemCode, @ItemDesc, @UOM, " +
                             " @Cost, @Qty, @TotalCost, @OprUnit, " +
-                            " @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost, @itemDesc2)";
+                            " @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost, @itemDesc2, @ExpenseCode)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
@@ -634,6 +657,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            cmd.Parameters.AddWithValue("@ExpenseCode", exp_code);
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
             if (result > 0)
@@ -681,6 +705,8 @@ namespace HijoPortal
             ASPxTextBox qty = pageControl.FindControl("Qty") as ASPxTextBox;
             ASPxTextBox totalcost = pageControl.FindControl("TotalCost") as ASPxTextBox;
 
+            ASPxComboBox expcode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
+
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
@@ -695,13 +721,17 @@ namespace HijoPortal
             if (itemDesc2.Value != null)
                 desc_two = itemDesc2.Value.ToString();
 
+            string exp_code = "";
+            if (expcode.Value != null)
+                exp_code = expcode.Value.ToString();
+
 
             string update_MRP = "UPDATE " + MRPClass.DirectMatTable() +
                                 " SET [ActivityCode] = @ActivityCode, [ItemCode] = @ItemCode , " +
                                 " [ItemDescription] = @ItemDescription, [UOM]= @UOM, " +
                                 " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
                                 " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
-                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost, [ItemDescriptionAddl] = @itemDesc2 " +
+                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost, [ItemDescriptionAddl] = @itemDesc2, [ExpenseCode] = @ExpenseCode " +
                                 " WHERE [PK] = @PK";
 
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
@@ -715,6 +745,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            cmd.Parameters.AddWithValue("@ExpenseCode", exp_code);
             cmd.CommandType = CommandType.Text;
             int result = cmd.ExecuteNonQuery();
 
