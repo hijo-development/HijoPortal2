@@ -182,8 +182,11 @@ function ActivityCodeChkbx_CheckedChanged(s, e) {
         ActivityCodeDirect.SetEnabled(true);
         ActivityCodeDirect.SetIsValid(true);
     } else {
+        ActivityCodeDirect.SetText("");
+        ActivityCodeDirect.SetValue("");
         ActivityCodeDirect.SetEnabled(false);
         ActivityCodeDirect.SetIsValid(false);
+
     }
 }
 
@@ -193,8 +196,11 @@ function ExpenseChkbx_CheckedChanged(s, e) {
         ExpenseCodeDM.SetEnabled(true);
         ExpenseCodeDM.SetIsValid(true);
     } else {
+        ExpenseCodeDM.SetText("");
+        ExpenseCodeDM.SetValue("");
         ExpenseCodeDM.SetEnabled(false);
         ExpenseCodeDM.SetIsValid(false);
+
     }
 }
 
@@ -280,6 +286,8 @@ function ProdCatChkbx_CheckedChanged(s, e) {
         ProcCatOPEX.SetEnabled(true);
         ProcCatOPEX.SetIsValid(true);
     } else {
+        ProcCatOPEX.SetText("");
+        ProcCatOPEX.SetValue("");
         ProcCatOPEX.SetEnabled(false);
         ProcCatOPEX.SetIsValid(false);
     }
@@ -291,8 +299,100 @@ function ItemCodeChkbx_CheckedChanged(s, e) {
         ItemCodeOPEX.SetIsValid(true);
         DescriptionOPEX.GetInputElement().readOnly = true;
     } else {
+        ItemCodeOPEX.SetValue("");
+        ItemCodeOPEX.SetText("");
         ItemCodeOPEX.SetEnabled(false);
         ItemCodeOPEX.SetIsValid(false);
+        DescriptionOPEX.SetValue("");
+        DescriptionOPEX.SetText("");
         DescriptionOPEX.GetInputElement().readOnly = false;
+    }
+}
+
+// Direct Material UPDATE/SAVE Button
+function updateDirectMat(s, e) {
+    var entityval = entityhidden.Get('hidden_value');
+    var bool = true;
+    if (entityval == "display") {
+        if (OperatingUnit.GetText().length == 0) {
+            OperatingUnit.SetIsValid(false);
+            bool = false;
+        } else {
+            OperatingUnit.SetIsValid(true);
+            bool = true;
+        }
+    }
+
+    var boolAct = true;
+    if (ActivityCodeDirect.GetEnabled()) {
+        if (ActivityCodeDirect.GetText().length > 0) {
+            boolAct = true;
+        } else {
+            boolAct = false;
+        }
+    }
+
+    var boolExp = true;
+    if (ExpenseCodeDM.GetEnabled()) {
+        if (ExpenseCodeDM.GetText().length > 0) {
+            boolExp = true;
+        } else {
+            boolExp = false;
+        }
+    }
+
+    var itemCode = ItemCodeDirect.GetText();
+    var itemDesc = ItemDescriptionDirect.GetText();
+    var uom = UOMDirect.GetText();
+    var cost = CostDirect.GetText();
+    var qty = QtyDirect.GetText();
+    var totalcost = TotalCostDirect.GetText();
+
+    if (itemCode.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool && boolAct && boolExp) {
+        DirectMaterialsGrid.UpdateEdit();
+    }
+}
+
+// opex UPDATE/SAVE Button
+function updateOpex(s, e) {
+    var entityval = entityhiddenOP.Get('hidden_value');
+    var bool = true;
+    if (entityval == "display") {
+        if (OperatingUnitOP.GetText().length == 0) {
+            OperatingUnitOP.SetIsValid(false);
+            bool = false;
+        } else {
+            OperatingUnitOP.SetIsValid(true);
+            bool = true;
+        }
+    }
+
+    var boolProdCat = true;
+    if (ProcCatOPEX.GetEnabled()) {
+        if (ProcCatOPEX.GetText().length > 0) {
+            boolProdCat = true;
+        } else {
+            boolProdCat = false;
+        }
+    }
+
+    var boolItemCode = true;
+    if (ItemCodeOPEX.GetEnabled()) {
+        if (ItemCodeOPEX.GetText().length > 0)
+            boolItemCode = true;
+        else
+            boolItemCode = false;
+    }
+
+    var expense = ExpenseCodeOPEX.GetText();
+    var itemCode = ItemCodeOPEX.GetText();
+    var itemDesc = DescriptionOPEX.GetText();
+    var uom = UOMOPEX.GetText();
+    var cost = CostOPEX.GetText();
+    var qty = QtyOPEX.GetText();
+    var totalcost = TotalCostOPEX.GetText();
+
+    if (expense.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool && boolProdCat && boolItemCode) {
+        OPEXGrid.UpdateEdit();
     }
 }

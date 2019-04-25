@@ -1005,56 +1005,8 @@ function RevenueGrid_Add(s, e) {
     //RevenueGrid.AddNewRow();
 }
 
-function updateDirectMat(s, e) {
-    var entityval = entityhidden.Get('hidden_value');
-    var bool = true;
-    if (entityval == "display") {
-        if (OperatingUnit.GetText().length == 0) {
-            OperatingUnit.SetIsValid(false);
-            bool = false;
-        } else {
-            OperatingUnit.SetIsValid(true);
-            bool = true;
-        }
-    }
 
-    //var actCode = ActivityCodeDirect.GetText();
-    var itemCode = ItemCodeDirect.GetText();
-    var itemDesc = ItemDescriptionDirect.GetText();
-    var uom = UOMDirect.GetText();
-    var cost = CostDirect.GetText();
-    var qty = QtyDirect.GetText();
-    var totalcost = TotalCostDirect.GetText();
 
-    if (itemCode.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool) {
-        DirectMaterialsGrid.UpdateEdit();
-    }
-}
-function updateOpex(s, e) {
-    var entityval = entityhiddenOP.Get('hidden_value');
-    var bool = true;
-    if (entityval == "display") {
-        if (OperatingUnitOP.GetText().length == 0) {
-            OperatingUnitOP.SetIsValid(false);
-            bool = false;
-        } else {
-            OperatingUnitOP.SetIsValid(true);
-            bool = true;
-        }
-    }
-
-    var expense = ExpenseCodeOPEX.GetText();
-    var itemCode = ItemCodeOPEX.GetText();
-    var itemDesc = DescriptionOPEX.GetText();
-    var uom = UOMOPEX.GetText();
-    var cost = CostOPEX.GetText();
-    var qty = QtyOPEX.GetText();
-    var totalcost = TotalCostOPEX.GetText();
-
-    if (expense.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool) {
-        OPEXGrid.UpdateEdit();
-    }
-}
 
 function updateManpower(s, e) {
     var entityval = entityhiddenMAN.Get('hidden_value');

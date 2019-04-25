@@ -1857,7 +1857,7 @@ namespace HijoPortal.classes
             //              " WHERE [NAMEALIAS] LIKE '%" + str + "%'" +
             //              " AND DATAAREAID = '" + EntCode + "' AND MAINACCOUNT = " + MAINACCOUNT;
 
-            string qry = "SELECT [ITEMID],[NAMEALIAS], [UNITID] " +
+            string qry = "SELECT DISTINCT [ITEMID],[NAMEALIAS], [UNITID] " +
                           " FROM [hijo_portal].[dbo].[vw_AXInventTable] " +
                           " WHERE [NAMEALIAS] LIKE '%" + str + "%'";
 
