@@ -830,6 +830,8 @@ namespace HijoPortal
             }
             if (iSource == 1)
             {
+                Session["mrp_docNum"] = docnumber.ToString();
+                Session["mrp_wrkLine"] = "0";
 
                 Response.Redirect("mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=0");
                 //Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=0";
@@ -945,10 +947,18 @@ namespace HijoPortal
             if (!Page.IsPostBack)
             {
 
-                DocNum.Text = Request.Params["DocNum"].ToString();
-                docnumber = Request.Params["DocNum"].ToString();
+                //DocNum.Text = Request.Params["DocNum"].ToString();
+                //docnumber = Request.Params["DocNum"].ToString();
+                ////wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
+                //iSource = Convert.ToInt32(Request.Params["Source"].ToString());
+
+                //Session["mrp_docNum"] = docnumber.ToString();
+                //Session["mrp_source"] = "1";
+                DocNum.Text = Session["mrp_docNum"].ToString();
+                docnumber = Session["mrp_docNum"].ToString();
                 //wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
-                iSource = Convert.ToInt32(Request.Params["Source"].ToString());
+                iSource = Convert.ToInt32(Session["mrp_source"]);
+
                 mrpHead.InnerText = "M O P Preview";
 
                 if (iSource == 0)

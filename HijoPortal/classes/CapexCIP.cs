@@ -15,7 +15,7 @@ namespace HijoPortal.classes
             DataTable dt = new DataTable();
             SqlCommand cmd = null;
             SqlDataAdapter adp;
-
+            string qry = "";
             cn.Open();
             if (dtTable.Columns.Count == 0)
             {
@@ -36,21 +36,38 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("EntCode", typeof(string));
                 dtTable.Columns.Add("ProcCat", typeof(string));
             }
-            string query_all = "SELECT dbo.vw_AXEntityTable.ID AS EntCode, dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE (dbo.tbl_MRP_List.StatusKey = 4) AND (dbo.tbl_MRP_List_CAPEX.ProdCat <> 'CIP')";
+            //string query_all = "SELECT dbo.vw_AXEntityTable.ID AS EntCode, dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE (dbo.tbl_MRP_List.StatusKey = 4) AND (dbo.tbl_MRP_List_CAPEX.ProdCat <> 'CIP')";
 
-            string businessUnit = "";
-            if (string.IsNullOrEmpty(bu) && entity == "0101")
-                businessUnit = "dbo.tbl_MRP_List.BUCode";
-            else
-                businessUnit = "'" + bu + "'";
+            //string businessUnit = "";
+            //if (string.IsNullOrEmpty(bu) && entity == "0101")
+            //    businessUnit = "dbo.tbl_MRP_List.BUCode";
+            //else
+            //    businessUnit = "'" + bu + "'";
+            //    //businessUnit = "'" + bu + "'";
 
-            string query_sort = "SELECT dbo.vw_AXEntityTable.ID AS EntCode, dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND (dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.StatusKey = 4) AND (dbo.tbl_MRP_List.EntityCode = '" + entity + "') AND (dbo.tbl_MRP_List.BUCode = '" + businessUnit + "') AND (dbo.tbl_MRP_List_CAPEX.ProdCat <> 'CIP')";
+            //string query_sort = "SELECT dbo.vw_AXEntityTable.ID AS EntCode, dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND (dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.StatusKey = 4) AND (dbo.tbl_MRP_List.EntityCode = '" + entity + "') AND (dbo.tbl_MRP_List.BUCode = " + businessUnit + ") AND (dbo.tbl_MRP_List_CAPEX.ProdCat <> 'CIP')";
 
-            if (string.IsNullOrEmpty(month) && string.IsNullOrEmpty(year))
-                cmd = new SqlCommand(query_all);
-            else
-                cmd = new SqlCommand(query_sort);
+            //if (string.IsNullOrEmpty(month) && string.IsNullOrEmpty(year))
+            //    cmd = new SqlCommand(query_all);
+            //else
+            //    cmd = new SqlCommand(query_sort);
 
+            if (string.IsNullOrEmpty(month) == false && string.IsNullOrEmpty(year) == false)
+            {
+                if (string.IsNullOrEmpty(entity) && string.IsNullOrEmpty(bu))
+                {
+                    qry = "SELECT dbo.vw_AXEntityTable.ID AS EntCode, dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND (dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.StatusKey = 4) AND (dbo.tbl_MRP_List_CAPEX.ProdCat <> 'CIP')";
+                } else if (string.IsNullOrEmpty(entity) == false && string.IsNullOrEmpty(bu))
+                {
+                    qry = "SELECT dbo.vw_AXEntityTable.ID AS EntCode, dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND (dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.StatusKey = 4) AND (dbo.tbl_MRP_List_CAPEX.ProdCat <> 'CIP') AND (dbo.tbl_MRP_List.EntityCode = '" + entity + "')";
+                }
+                else if (string.IsNullOrEmpty(entity) == false && string.IsNullOrEmpty(bu) == false)
+                {
+                    qry = "SELECT dbo.vw_AXEntityTable.ID AS EntCode, dbo.vw_AXEntityTable.NAME AS CompanyName, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUName, ISNULL(dbo.vw_AXFindimBananaRevenue.DESCRIPTION, '') AS RevDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND (dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.StatusKey = 4) AND (dbo.tbl_MRP_List_CAPEX.ProdCat <> 'CIP') AND (dbo.tbl_MRP_List.EntityCode = '" + entity + "') AND (dbo.tbl_MRP_List.BUCode = '" + bu + "')";
+                }
+            }
+            if (qry=="") { goto RetTable; }
+            cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dt);
@@ -85,6 +102,7 @@ namespace HijoPortal.classes
             }
             dt.Clear();
             cn.Close();
+            RetTable:
             return dtTable;
         }
 
@@ -174,7 +192,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable BusinessUnit(string entity)
+        public static DataTable BusinessUnit(string entity, int month, string year)
         {
             DataTable dtTable = new DataTable();
 
@@ -192,8 +210,9 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT DISTINCT dbo.vw_AXEntityTable.NAME, dbo.tbl_MRP_List.BUCode FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE(dbo.tbl_MRP_List.EntityCode = '" + entity + "')";
+            //string qry = "SELECT DISTINCT dbo.vw_AXEntityTable.NAME, dbo.tbl_MRP_List.BUCode FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE(dbo.tbl_MRP_List.EntityCode = '" + entity + "')";
 
+            string qry = "SELECT dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER, dbo.vw_AXOperatingUnitTable.NAME FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER WHERE(dbo.tbl_MRP_List.MRPMonth = " + month + ") AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.EntityCode = '" + entity + "') GROUP BY dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER, dbo.vw_AXOperatingUnitTable.NAME HAVING(dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER IS NOT NULL)";
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -203,7 +222,7 @@ namespace HijoPortal.classes
                 foreach (DataRow row in dt.Rows)
                 {
                     DataRow dtRow = dtTable.NewRow();
-                    dtRow["ID"] = row["BUCode"].ToString();
+                    dtRow["ID"] = row["OMOPERATINGUNITNUMBER"].ToString();
                     dtRow["NAME"] = row["NAME"].ToString();
                     dtTable.Rows.Add(dtRow);
                 }

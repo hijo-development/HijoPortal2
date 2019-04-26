@@ -49,9 +49,11 @@ namespace HijoPortal
 
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
-                docnumber = Request.Params["DocNum"].ToString();  //Session["DocNumber"].ToString();
-                wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
-
+                //docnumber = Request.Params["DocNum"].ToString();  //Session["DocNumber"].ToString();
+                docnumber = Session["mrp_docNum"].ToString();
+                wrkflwln = Convert.ToInt32(Session["mrp_wrkLine"]);
+                //wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
+                
                 if (wrkflwln == 0)
                 {
                     Submit.Text = "Submit";
@@ -598,11 +600,16 @@ namespace HijoPortal
 
         protected void DirectMaterialsGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             bindDM = false;
         }
 
         protected void DirectMaterialsGrid_RowInserting(object sender, DevExpress.Web.Data.ASPxDataInsertingEventArgs e)
         {
+            CheckCreatorKey();
+            docnumber = Session["mrp_docNum"].ToString();
+
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("DirectPageControl") as ASPxPageControl;
 
@@ -668,7 +675,7 @@ namespace HijoPortal
             }
 
             int pk_latest = 0;
-            string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.DirectMatTable() + " ORDER BY [PK] DESC";
+            string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.DirectMatTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
             SqlCommand comm = new SqlCommand(query_pk, conn);
             SqlDataReader r = comm.ExecuteReader();
             while (r.Read())
@@ -687,11 +694,15 @@ namespace HijoPortal
 
         protected void DirectMaterialsGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             bindDM = false;
         }
 
         protected void DirectMaterialsGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {
+            CheckCreatorKey();
+            docnumber = Session["mrp_docNum"].ToString();
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("DirectPageControl") as ASPxPageControl;
 
@@ -775,6 +786,8 @@ namespace HijoPortal
 
         protected void DirectMaterialsGrid_RowDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
@@ -829,11 +842,16 @@ namespace HijoPortal
         }
         protected void OPEXGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             bindCapex = false;
         }
 
         protected void OPEXGrid_RowInserting(object sender, DevExpress.Web.Data.ASPxDataInsertingEventArgs e)
         {
+            CheckCreatorKey();
+            docnumber = Session["mrp_docNum"].ToString();
+
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
 
@@ -895,13 +913,30 @@ namespace HijoPortal
                 MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
             }
 
+            //e.Cancel = true;
+            //grid.CancelEdit();
+            //BindOPEX(docnumber);
+            int pk_latest = 0;
+            string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.OpexTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
+            SqlCommand comm1 = new SqlCommand(query_pk, conn);
+            SqlDataReader r = comm1.ExecuteReader();
+            while (r.Read())
+            {
+                pk_latest = Convert.ToInt32(r[0].ToString());
+            }
+
             e.Cancel = true;
             grid.CancelEdit();
             BindOPEX(docnumber);
+
+            if (pk_latest > 0)
+                FocusThisRowGrid(grid, pk_latest);
         }
 
         protected void OPEXGrid_RowDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
@@ -933,11 +968,16 @@ namespace HijoPortal
 
         protected void OPEXGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             bindCapex = false;
         }
 
         protected void OPEXGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {
+            CheckCreatorKey();
+            docnumber = Session["mrp_docNum"].ToString();
+
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("OPEXPageControl") as ASPxPageControl;
 
@@ -1036,11 +1076,16 @@ namespace HijoPortal
 
         protected void ManPowerGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             bindManPower = false;
         }
 
         protected void ManPowerGrid_RowInserting(object sender, DevExpress.Web.Data.ASPxDataInsertingEventArgs e)
         {
+            CheckCreatorKey();
+            docnumber = Session["mrp_docNum"].ToString();
+
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("ManPowerPageControl") as ASPxPageControl;
 
@@ -1099,13 +1144,30 @@ namespace HijoPortal
                 MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
             }
 
+            //e.Cancel = true;
+            //grid.CancelEdit();
+            //BindManPower(docnumber);
+            int pk_latest = 0;
+            string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.ManPowerTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
+            SqlCommand comm1 = new SqlCommand(query_pk, conn);
+            SqlDataReader r = comm1.ExecuteReader();
+            while (r.Read())
+            {
+                pk_latest = Convert.ToInt32(r[0].ToString());
+            }
+
             e.Cancel = true;
             grid.CancelEdit();
             BindManPower(docnumber);
+
+            if (pk_latest > 0)
+                FocusThisRowGrid(grid, pk_latest);
         }
 
         protected void ManPowerGrid_RowDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
@@ -1137,11 +1199,16 @@ namespace HijoPortal
 
         protected void ManPowerGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             bindManPower = false;
         }
 
         protected void ManPowerGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {
+            CheckCreatorKey();
+            docnumber = Session["mrp_docNum"].ToString();
+
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("ManPowerPageControl") as ASPxPageControl;
 
@@ -1236,11 +1303,16 @@ namespace HijoPortal
 
         protected void CAPEXGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             bindCapex = false;
         }
 
         protected void CAPEXGrid_RowInserting(object sender, DevExpress.Web.Data.ASPxDataInsertingEventArgs e)
         {
+            CheckCreatorKey();
+            docnumber = Session["mrp_docNum"].ToString();
+
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("CAPEXPageControl") as ASPxPageControl;
 
@@ -1288,13 +1360,32 @@ namespace HijoPortal
                 MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
             }
 
+            //e.Cancel = true;
+            //grid.CancelEdit();
+            //BindCAPEX(docnumber);
+            int pk_latest = 0;
+            string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.CapexTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
+            SqlCommand comm = new SqlCommand(query_pk, conn);
+            SqlDataReader r = comm.ExecuteReader();
+            while (r.Read())
+            {
+                pk_latest = Convert.ToInt32(r[0].ToString());
+            }
+
             e.Cancel = true;
             grid.CancelEdit();
             BindCAPEX(docnumber);
+
+            if (pk_latest > 0)
+                FocusThisRowGrid(grid, pk_latest);
         }
 
         protected void CAPEXGrid_RowDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
         {
+
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
+
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
@@ -1326,11 +1417,16 @@ namespace HijoPortal
 
         protected void CAPEXGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             bindCapex = false;
         }
 
         protected void CAPEXGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {
+            CheckCreatorKey();
+            docnumber = Session["mrp_docNum"].ToString();
+
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("CAPEXPageControl") as ASPxPageControl;
 
@@ -1472,6 +1568,8 @@ namespace HijoPortal
 
         protected void RevenueGrid_InitNewRow(object sender, DevExpress.Web.Data.ASPxDataInitNewRowEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             bindRevenue = false;
         }
 
@@ -1485,25 +1583,35 @@ namespace HijoPortal
 
             if (iStatusKey == 4)
             {
+                Session["mrp_docNum"] = docnumber.ToString();
+                Session["mrp_source"] = "1";
                 Response.Redirect("mrp_preview_approve.aspx?DocNum=" + docnumber.ToString() + "&Source=1");
             }
             else if (iStatusKey == 3)
             {
+                Session["mrp_docNum"] = docnumber.ToString();
+                Session["mrp_source"] = "1";
                 Response.Redirect("mrp_preview_approve.aspx?DocNum=" + docnumber.ToString() + "&Source=1");
             }
             else if (iStatusKey == 2)
             {
                 if (Convert.ToInt32(CurrentWorkFlowTxt.Text.ToString()) == 0 || Convert.ToInt32(CurrentWorkFlowTxt.Text.ToString()) == 1)
                 {
+                    Session["mrp_docNum"] = docnumber.ToString();
+                    Session["mrp_wrkLine"] = wrkflwln.ToString();
                     Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
                 }
                 else
                 {
+                    Session["mrp_docNum"] = docnumber.ToString();
+                    Session["mrp_source"] = "1";
                     Response.Redirect("mrp_preview_approve.aspx?DocNum=" + docnumber.ToString() + "&Source=1");
                 }
             }
             else
             {
+                Session["mrp_docNum"] = docnumber.ToString();
+                Session["mrp_wrkLine"] = wrkflwln.ToString();
                 Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
             }
             //Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docnumber.ToString();
@@ -1514,6 +1622,9 @@ namespace HijoPortal
 
         protected void RevenueGrid_RowInserting(object sender, DevExpress.Web.Data.ASPxDataInsertingEventArgs e)
         {
+            CheckCreatorKey();
+            docnumber = Session["mrp_docNum"].ToString();
+
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("RevenuePageControl") as ASPxPageControl;
 
@@ -1551,13 +1662,31 @@ namespace HijoPortal
                 MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
             }
 
+            //e.Cancel = true;
+            //grid.CancelEdit();
+            //BindRevenue(docnumber);
+            int pk_latest = 0;
+            string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.RevenueTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
+            SqlCommand comm1 = new SqlCommand(query_pk, conn);
+            SqlDataReader r = comm1.ExecuteReader();
+            while (r.Read())
+            {
+                pk_latest = Convert.ToInt32(r[0].ToString());
+            }
+
             e.Cancel = true;
             grid.CancelEdit();
             BindRevenue(docnumber);
+
+            if (pk_latest > 0)
+                FocusThisRowGrid(grid, pk_latest);
         }
 
         protected void RevenueGrid_RowDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
+
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
@@ -1851,11 +1980,16 @@ namespace HijoPortal
 
         protected void RevenueGrid_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
+            CheckCreatorKey();
+            //docnumber = Session["mrp_docNum"].ToString();
             bindRevenue = false;
         }
 
         protected void RevenueGrid_RowUpdating(object sender, DevExpress.Web.Data.ASPxDataUpdatingEventArgs e)
         {
+            CheckCreatorKey();
+            docnumber = Session["mrp_docNum"].ToString();
+
             ASPxGridView grid = sender as ASPxGridView;
             ASPxPageControl pageControl = grid.FindEditFormTemplateControl("RevenuePageControl") as ASPxPageControl;
 

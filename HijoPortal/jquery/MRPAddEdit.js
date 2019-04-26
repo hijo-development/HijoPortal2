@@ -1,26 +1,55 @@
 ﻿function updateCAPEX(s, e) {
-    var entityval = entityhiddenCA.Get('hidden_value');
+    var entityval = entityhiddenOP.Get('hidden_value');
     var bool = true;
     if (entityval == "display") {
-        if (OperatingUnitCA.GetText().length == 0) {
-            OperatingUnitCA.SetIsValid(false);
+        if (OperatingUnitOP.GetText().length == 0) {
+            OperatingUnitOP.SetIsValid(false);
             bool = false;
         } else {
-            OperatingUnitCA.SetIsValid(true);
+            OperatingUnitOP.SetIsValid(true);
             bool = true;
         }
     }
 
-    var prodcat = ProdCatCAPEX.GetText();
-    var itemDesc = DescriptionCAPEX.GetText();
-    var uom = UOMCAPEX.GetText();
-    var cost = CostCAPEX.GetText();
-    var qty = QtyCAPEX.GetText();
-    var totalcost = TotalCostCAPEX.GetText();
-
-    if (prodcat.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool) {
-        CAPEXGrid.UpdateEdit();
+    var boolProdCat = true;
+    var isprod = getCookie("isProdCat");
+    switch (isprod) {
+        case "1":
+            if (ProcCatOPEX.GetEnabled()) {
+                if (ProcCatOPEX.GetText().length > 0) {
+                    boolProdCat = true;
+                } else {
+                    boolProdCat = false;
+                }
+            }
+            break;
     }
+
+    var boolItemCode = true;
+    var isItem = getCookie("opisItem");
+    switch (isItem) {
+        case "1":
+            if (ItemCodeOPEX.GetEnabled()) {
+                if (ItemCodeOPEX.GetText().length > 0)
+                    boolItemCode = true;
+                else
+                    boolItemCode = false;
+            }
+            break;
+    }
+
+    var expense = ExpenseCodeOPEX.GetText();
+    var itemCode = ItemCodeOPEX.GetText();
+    var itemDesc = DescriptionOPEX.GetText();
+    var uom = UOMOPEX.GetText();
+    var cost = CostOPEX.GetText();
+    var qty = QtyOPEX.GetText();
+    var totalcost = TotalCostOPEX.GetText();
+
+    if (expense.length > 0 && itemDesc.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool && boolProdCat && boolItemCode) {
+        OPEXGrid.UpdateEdit();
+    }
+
 }
 
 function OnKeyUpCostCapex(s, e) {//OnChange

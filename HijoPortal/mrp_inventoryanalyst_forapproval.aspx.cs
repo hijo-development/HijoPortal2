@@ -333,7 +333,7 @@ namespace HijoPortal
 
         protected void Preview_Click(object sender, EventArgs e)
         {
-            Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString());
+            //Response.Redirect("mrp_preview.aspx?DocNum=" + docnumber.ToString());
         }
 
         protected void CAGridInventApproval_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)

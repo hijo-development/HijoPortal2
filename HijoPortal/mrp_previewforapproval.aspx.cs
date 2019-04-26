@@ -1042,10 +1042,15 @@ namespace HijoPortal
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
-                docnum = Request.Params["DocNum"].ToString();
-                appflwln = Convert.ToInt32(Request.Params["ApprvLn"].ToString());
+                //docnum = Request.Params["DocNum"].ToString();
+                //appflwln = Convert.ToInt32(Request.Params["ApprvLn"].ToString());
+                //DocNum.Text = Request.Params["DocNum"].ToString();
 
-                DocNum.Text = Request.Params["DocNum"].ToString();
+                //Session["mrp_docNum"] = value.ToString();
+                //Session["mrp_appLine"] = wrklineval.ToString();
+                docnum = Session["mrp_docNum"].ToString();
+                appflwln = Convert.ToInt32(Session["mrp_appLine"]);
+                DocNum.Text = Session["mrp_docNum"].ToString();
 
                 Load_MRP(docnum);
 

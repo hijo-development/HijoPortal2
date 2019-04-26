@@ -137,12 +137,23 @@ namespace HijoPortal
 
         protected void BUCallback_Callback(object sender, CallbackEventArgsBase e)
         {
-            MRPClass.PrintString("callback");
+            //MRPClass.PrintString("callback");
+            string var = MRPmonthyear.Text.ToString();
+            pk = MRPmonthyear.Value.ToString();
+            int spaceindex = var.IndexOf(" ");
+            int secondlength = var.Length - (spaceindex + 1);
+
+            string monthvar = var.Substring(0, spaceindex);
+            int monthIndex = Convert.ToDateTime("01-" + monthvar + "-2011").Month;
+            month = monthIndex.ToString();
+            year = var.Substring(spaceindex + 1, secondlength);
+
+
             ASPxComboBox combo = BUCombo as ASPxComboBox;
             combo.Text = "";
             combo.Columns.Clear();
             combo.Items.Clear();
-            combo.DataSource = CapexCIP.BusinessUnit(EntityCombo.Value.ToString());
+            combo.DataSource = CapexCIP.BusinessUnit(EntityCombo.Value.ToString(), monthIndex, year);
 
             ListBoxColumn lv = new ListBoxColumn();
             lv.FieldName = "ID";
@@ -169,7 +180,7 @@ namespace HijoPortal
             entCode = CAPEXCIP.GetRowValues(CAPEXCIP.FocusedRowIndex, "EntCode").ToString();
             procCat = CAPEXCIP.GetRowValues(CAPEXCIP.FocusedRowIndex, "ProcCat").ToString();
 
-            //MRPClass.PrintString(entCode + " : " + procCat);
+            MRPClass.PrintString(entCode + " : " + procCat);
 
             DataTable dtRecord = GlobalClass.FixedAssetIDTable(entCode, procCat);
             ASPxComboBox combo = sender as ASPxComboBox;

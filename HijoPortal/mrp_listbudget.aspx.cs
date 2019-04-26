@@ -46,6 +46,8 @@ namespace HijoPortal
             {
                 string doc_number = ListBudgetGrid.GetRowValues(ListBudgetGrid.FocusedRowIndex, "DocNumber").ToString();
                 string work_line = ListBudgetGrid.GetRowValues(ListBudgetGrid.FocusedRowIndex, "WorkLine").ToString();
+                Session["mrp_docNum"] = doc_number.ToString();
+                Session["mrp_wrkLine"] = work_line.ToString();
                 ASPxWebControl.RedirectOnCallback("mrp_preview.aspx?DocNum=" + doc_number.ToString() + "&WrkFlwLn=" + work_line.ToString());
             }
         }
