@@ -340,6 +340,7 @@ namespace HijoPortal.classes
         public static DataTable Preview_DM(string DOC_NUMBER, string entity)
         {
             DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
             SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
             DataTable dt = new DataTable();
             SqlCommand cmd = null;
@@ -581,6 +582,7 @@ namespace HijoPortal.classes
         public static DataTable Preview_CA(string DOC_NUMBER, string entitycode)
         {
             DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
             SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
             DataTable dt = new DataTable();
             SqlCommand cmd = null;

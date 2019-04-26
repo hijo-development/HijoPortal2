@@ -121,21 +121,6 @@
     <value>17, 17</value>
   </metadata>
   <data name="sqlDataSource1.ResultSchemaSerializable" xml:space="preserve">
-    <value>PERhdGFTZXQgTmFtZT0ic3FsRGF0YVNvdXJjZTEiPjxWaWV3IE5hbWU9InRibF9NUlBfTGlzdCI+PEZpZWxkIE5hbWU9IlBLIiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iRG9jTnVtYmVyIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IkRhdGVDcmVhdGVkIiBUeXBlPSJEYXRlVGltZSIgLz48RmllbGQgTmFtZT0iRW50aXR5Q29kZSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJCVUNvZGUiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iTVJQTW9udGgiIFR5cGU9IkludDMyIiAvPjxGaWVsZCBOYW1lPSJNUlBZZWFyIiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iU3RhdHVzS2V5IiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iQXBwcm92YWxTdGF0dXMiIFR5cGU9IkludDMyIiAvPjxGaWVsZCBOYW1lPSJDcmVhdG9yS2V5IiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iRGF0YUZsb3dLZXkiIFR5cGU9IkludDMyIiAvPjxGaWVsZCBOYW1lPSJMYXN0TW9kaWZpZWQiIFR5cGU9IlN0cmluZyIgLz48L1ZpZXc+PC9EYXRhU2V0Pg==</value>
+    <value>PERhdGFTZXQgTmFtZT0ic3FsRGF0YVNvdXJjZTEiPjxWaWV3IE5hbWU9IkRpcmVjdE1hdGVyaWFsUHJldmlldyI+PEZpZWxkIE5hbWU9Ik9wZXJVaW5pdCIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJFeHBlbnNlQ29kZSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJBY3Rpdml0eSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJJdGVtRGVzY3JpcHRpb24iIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iVU9NIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IkNvc3QiIFR5cGU9IkRvdWJsZSIgLz48RmllbGQgTmFtZT0iUXR5IiBUeXBlPSJEb3VibGUiIC8+PEZpZWxkIE5hbWU9IlRvdGFsQ29zdCIgVHlwZT0iRG91YmxlIiAvPjwvVmlldz48L0RhdGFTZXQ+</value>
   </data>
-  <metadata name="sqlDataSource2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 65</value>
-  </metadata>
-  <data name="sqlDataSource2.ResultSchemaSerializable" xml:space="preserve">
-    <value>PERhdGFTZXQgTmFtZT0ic3FsRGF0YVNvdXJjZTIiPjxWaWV3IE5hbWU9InRibF9NUlBfTGlzdCI+PEZpZWxkIE5hbWU9IlBLIiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iRG9jTnVtYmVyIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IkRhdGVDcmVhdGVkIiBUeXBlPSJEYXRlVGltZSIgLz48RmllbGQgTmFtZT0iRW50aXR5Q29kZSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJCVUNvZGUiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iTVJQTW9udGgiIFR5cGU9IkludDMyIiAvPjxGaWVsZCBOYW1lPSJNUlBZZWFyIiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iU3RhdHVzS2V5IiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iQXBwcm92YWxTdGF0dXMiIFR5cGU9IkludDMyIiAvPjxGaWVsZCBOYW1lPSJDcmVhdG9yS2V5IiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iRGF0YUZsb3dLZXkiIFR5cGU9IkludDMyIiAvPjxGaWVsZCBOYW1lPSJMYXN0TW9kaWZpZWQiIFR5cGU9IlN0cmluZyIgLz48L1ZpZXc+PC9EYXRhU2V0Pg==</value>
-  </data>
-  <metadata name="mopDataSet1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 113</value>
-  </metadata>
-  <metadata name="bindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 161</value>
-  </metadata>
-  <metadata name="bindingSource2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 209</value>
-  </metadata>
 </root>

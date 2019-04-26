@@ -59,6 +59,7 @@
     <Reference Include="DevExpress.RichEdit.v17.2.Export, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Sparkline.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxSpreadsheet.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Web.ASPxThemes.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Web.Resources.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -183,6 +184,7 @@
     <Content Include="mrp_po_create.aspx" />
     <Content Include="mrp_po_list.aspx" />
     <Content Include="mrp_po_selectitem.aspx" />
+    <Content Include="mrp_preview_before.aspx" />
     <Content Include="mrp_preview.aspx" />
     <Content Include="mrp_previewforapproval.aspx" />
     <Content Include="mrp_preview_approve.aspx" />
@@ -450,6 +452,13 @@
     <Compile Include="mrp_po_selectitem.aspx.designer.cs">
       <DependentUpon>mrp_po_selectitem.aspx</DependentUpon>
     </Compile>
+    <Compile Include="mrp_preview_before.aspx.cs">
+      <DependentUpon>mrp_preview_before.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_preview_before.aspx.designer.cs">
+      <DependentUpon>mrp_preview_before.aspx</DependentUpon>
+    </Compile>
     <Compile Include="mrp_preview.aspx.cs">
       <DependentUpon>mrp_preview.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -506,6 +515,12 @@
     <Compile Include="po_uploading.aspx.designer.cs">
       <DependentUpon>po_uploading.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PreviewReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PreviewReport.Designer.cs">
+      <DependentUpon>PreviewReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="scm.aspx.cs">
       <DependentUpon>scm.aspx</DependentUpon>
@@ -560,6 +575,9 @@
   <ItemGroup>
     <EmbeddedResource Include="DocumentReport.resx">
       <DependentUpon>DocumentReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PreviewReport.resx">
+      <DependentUpon>PreviewReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>

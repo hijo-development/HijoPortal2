@@ -368,20 +368,30 @@ function updateOpex(s, e) {
     }
 
     var boolProdCat = true;
-    if (ProcCatOPEX.GetEnabled()) {
-        if (ProcCatOPEX.GetText().length > 0) {
-            boolProdCat = true;
-        } else {
-            boolProdCat = false;
-        }
+    var isprod = getCookie("isProdCat");
+    switch (isprod) {
+        case "1":
+            if (ProcCatOPEX.GetEnabled()) {
+                if (ProcCatOPEX.GetText().length > 0) {
+                    boolProdCat = true;
+                } else {
+                    boolProdCat = false;
+                }
+            }
+            break;
     }
 
     var boolItemCode = true;
-    if (ItemCodeOPEX.GetEnabled()) {
-        if (ItemCodeOPEX.GetText().length > 0)
-            boolItemCode = true;
-        else
-            boolItemCode = false;
+    var isItem = getCookie("opisItem");
+    switch (isItem) {
+        case "1":
+            if (ItemCodeOPEX.GetEnabled()) {
+                if (ItemCodeOPEX.GetText().length > 0)
+                    boolItemCode = true;
+                else
+                    boolItemCode = false;
+            }
+            break;
     }
 
     var expense = ExpenseCodeOPEX.GetText();

@@ -1,7 +1,6 @@
 ﻿using DevExpress.Web;
 using HijoPortal.classes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,7 +12,7 @@ using System.Web.UI.WebControls;
 
 namespace HijoPortal
 {
-    public partial class mrp_preview : System.Web.UI.Page
+    public partial class mrp_preview_before : System.Web.UI.Page
     {
 
         private static int mrp_key = 0, wrkflwln = 0, iStatusKey = 0;
@@ -772,255 +771,37 @@ namespace HijoPortal
             StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
             WrkFlowHidden["hidden_preview_wrkflwln"] = wrkflwln;
 
-            DocumentReport obj_Rpt = new DocumentReport();
-
             string docnum = DocNum.Text.ToString();
-            DataTable dt = DirectMaterials(docnum);
-            obj_Rpt.Report.DataSource = dt;
-            //obj_Rpt.Report.DataMember = DS.Tables[0].TableName;
-            obj_Rpt.Report.DataMember = dt.TableName;
 
-            obj_Rpt.Col1.DataBindings.Add("Text", null, "RevDesc");
-            obj_Rpt.Col2.DataBindings.Add("Text", null, "Expense");
-            obj_Rpt.Col3.DataBindings.Add("Text", null, "Activtiy");
-            obj_Rpt.Col4.DataBindings.Add("Text", null, "Description");
-            obj_Rpt.Col5.DataBindings.Add("Text", null, "UOM");
-            obj_Rpt.Col6.DataBindings.Add("Text", null, "Qty");
-            obj_Rpt.Col7.DataBindings.Add("Text", null, "Cost");
-            obj_Rpt.Col8.DataBindings.Add("Text", null, "TotalCost");
+            CapexListview.DataSource = Preview.Preview_CA(docnum, entitycode);
+            CapexListview.DataBind();
+            TotalAmountTD.InnerText = Preview.preview_total_capex(docnum);
 
-            obj_Rpt.DisplayName = "DocumentReport " + DateTime.Now;
+            DataTable tableMat = Preview.Preview_DM(docnum, entitycode);
+            MatListview.DataSource = tableMat;
+            MatListview.DataBind();
+            TAMat.InnerText = Preview.preview_total_directmaterials(DocNum.Text.ToString());
 
-            WebDocViewPrev.OpenReport(obj_Rpt);
+            DataTable tableOpex = Preview.Preview_OP(docnum, entitycode);
+            OpexListiview.DataSource = tableOpex;
+            OpexListiview.DataBind();
+            TAOpex.InnerText = Preview.preview_total_opex(docnum);
 
-            //PreviewReport.EventNames.
+            DataTable tableManpower = Preview.Preview_MAN(docnum, entitycode);
+            ManListview.DataSource = tableManpower;
+            ManListview.DataBind();
+            TAManpower.InnerText = Preview.preview_total_manpower(docnum);
 
-            //CapexListview.DataSource = Preview.Preview_CA(docnum, entitycode);
-            //CapexListview.DataBind();
-            //TotalAmountTD.InnerText = Preview.preview_total_capex(docnum);
+            DataTable tableRevenue = Preview.Preview_Revenue(docnum, entitycode);
+            RevListview.DataSource = tableRevenue;
+            RevListview.DataBind();
+            TARevenue.InnerText = Preview.preview_total_revenue(docnum);
 
-            //DataTable tableMat = Preview.Preview_DM(docnum, entitycode);
-            //MatListview.DataSource = tableMat;
-            //MatListview.DataBind();
-            //TAMat.InnerText = Preview.preview_total_directmaterials(DocNum.Text.ToString());
+            PreviewListSummary.DataSource = Preview.MRP_PrevTotalSummary(docnum, entitycode);
+            PreviewListSummary.DataBind();
+            TotalAmountSummary.InnerText = Preview.Prev_Summary_Total();
 
-            //DataTable tableOpex = Preview.Preview_OP(docnum, entitycode);
-            //OpexListiview.DataSource = tableOpex;
-            //OpexListiview.DataBind();
-            //TAOpex.InnerText = Preview.preview_total_opex(docnum);
-
-            //DataTable tableManpower = Preview.Preview_MAN(docnum, entitycode);
-            //ManListview.DataSource = tableManpower;
-            //ManListview.DataBind();
-            //TAManpower.InnerText = Preview.preview_total_manpower(docnum);
-
-            //DataTable tableRevenue = Preview.Preview_Revenue(docnum, entitycode);
-            //RevListview.DataSource = tableRevenue;
-            //RevListview.DataBind();
-            //TARevenue.InnerText = Preview.preview_total_revenue(docnum);
-
-            //PreviewListSummary.DataSource = Preview.MRP_PrevTotalSummary(docnum, entitycode);
-            //PreviewListSummary.DataBind();
-            //TotalAmountSummary.InnerText = Preview.Prev_Summary_Total();
-
-            //MRPClass.trial();
-        }
-
-        public static DataTable DirectMaterials(string docnumber)
-        {
-            DataTable dtTable = new DataTable();
-            dtTable.TableName = "Table";
-
-            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            System.Data.DataTable dt = new System.Data.DataTable();
-            SqlCommand cmd = null;
-            SqlDataReader reader = null;
-            SqlDataAdapter adp;
-
-            cn.Open();
-
-            if (dtTable.Columns.Count == 0)
-            {
-                //Columns for AspxGridview
-                dtTable.Columns.Add("RevDesc", typeof(string));
-                dtTable.Columns.Add("Activtiy", typeof(string));
-                dtTable.Columns.Add("Expense", typeof(string));
-                dtTable.Columns.Add("Descripiton", typeof(string));
-                dtTable.Columns.Add("UOM", typeof(string));
-                dtTable.Columns.Add("Qty", typeof(string));
-                dtTable.Columns.Add("Cost", typeof(string));
-                dtTable.Columns.Add("TotalCost", typeof(string));
-            }
-
-            //Query for TRAIN
-            string farm_query = "SELECT DISTINCT dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION FROM dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE";
-
-            cmd = new SqlCommand(farm_query, cn);
-            reader = cmd.ExecuteReader();
-            ArrayList farm_arr = new ArrayList();
-            while (reader.Read())
-            {
-                farm_arr.Add(reader["VALUE"].ToString());
-            }
-            reader.Close();
-
-            for (int a = 0; a < farm_arr.Count; a++)
-            {
-                string farmStr = farm_arr[a].ToString();
-                if (farmStr == null)
-                    farmStr = "";
-
-                DataRow dtRow = dtTable.NewRow();
-                dtRow = dtTable.NewRow();
-                //dtRow["RevDesc"] = row["RevDesc"].ToString();
-                dtRow["RevDesc"] = farmStr;
-                dtTable.Rows.Add(dtRow);
-
-                MRPClass.PrintString("farm:" + farmStr);
-
-                string expense_query = "SELECT DISTINCT dbo.vw_AXExpenseAccount.MAINACCOUNTID, dbo.vw_AXExpenseAccount.NAME FROM   dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.vw_AXExpenseAccount ON dbo.tbl_MRP_List_DirectMaterials.ExpenseCode = dbo.vw_AXExpenseAccount.MAINACCOUNTID LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE OprUnit = '" + farmStr + "'";
-
-                cmd = new SqlCommand(expense_query, cn);
-                reader = cmd.ExecuteReader();
-                ArrayList expense_arr = new ArrayList();
-                while (reader.Read())
-                {
-                    expense_arr.Add(reader["MAINACCOUNTID"].ToString());
-                }
-                reader.Close();
-
-                for (int b = 0; b < expense_arr.Count; b++)
-                {
-                    string expStr = expense_arr[b].ToString();
-                    if (expStr == null)
-                        expStr = "";
-
-                    dtRow = dtTable.NewRow();
-                    dtRow["Expense"] = expStr;
-                    dtTable.Rows.Add(dtRow);
-
-                    string activity_query = "SELECT DISTINCT dbo.vw_AXFindimActivity.VALUE AS Activity, dbo.vw_AXFindimActivity.DESCRIPTION FROM   dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.vw_AXFindimActivity ON dbo.tbl_MRP_List_DirectMaterials.ActivityCode = dbo.vw_AXFindimActivity.VALUE LEFT OUTER JOIN dbo.vw_AXExpenseAccount ON dbo.tbl_MRP_List_DirectMaterials.ExpenseCode = dbo.vw_AXExpenseAccount.MAINACCOUNTID LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE OprUnit = '" + farmStr + "' AND ExpenseCode = '" + expStr + "'";
-
-                    cmd = new SqlCommand(activity_query, cn);
-                    reader = cmd.ExecuteReader();
-                    ArrayList activity_arr = new ArrayList();
-                    while (reader.Read())
-                    {
-                        activity_arr.Add(reader["Activity"].ToString());
-                    }
-                    reader.Close();
-
-                    for (int c = 0; c < activity_arr.Count; c++)
-                    {
-                        string actStr = activity_arr[c].ToString();
-                        if (actStr == null)
-                            actStr = "";
-
-                        dtRow = dtTable.NewRow();
-                        //dtRow["RevDesc"] = row["RevDesc"].ToString();
-                        dtRow["Activtiy"] = actStr;
-                        dtTable.Rows.Add(dtRow);
-
-                        string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.*, dbo.vw_AXExpenseAccount.NAME AS Expense, dbo.vw_AXFindimActivity.DESCRIPTION AS Activity, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.vw_AXFindimActivity ON dbo.tbl_MRP_List_DirectMaterials.ActivityCode = dbo.vw_AXFindimActivity.VALUE LEFT OUTER JOIN dbo.vw_AXExpenseAccount ON dbo.tbl_MRP_List_DirectMaterials.ExpenseCode = dbo.vw_AXExpenseAccount.MAINACCOUNTID " +
-                            "WHERE OprUnit = '" + farmStr + "' AND ExpenseCode = '" + expStr + "' AND ActivityCode = '" + actStr + "'";
-
-                        cmd = new SqlCommand(qry);
-                        cmd.Connection = cn;
-                        adp = new SqlDataAdapter(cmd);
-                        adp.Fill(dt);
-                        if (dt.Rows.Count > 0)
-                        {
-                            foreach (DataRow row in dt.Rows)
-                            {
-                                if (row == dt.Rows[0])
-                                {
-                                    //MRPClass.PrintString(row["RevDesc"].ToString());
-                                    //dtRow = dtTable.NewRow();
-                                    ////dtRow["RevDesc"] = row["RevDesc"].ToString();
-                                    //dtRow["RevDesc"] = farmStr;
-                                    //dtTable.Rows.Add(dtRow);
-
-                                    //dtRow = dtTable.NewRow();
-                                    ////dtRow["Expense"] = row["Expense"].ToString();
-                                    //dtRow["Expense"] = expStr;
-                                    //dtTable.Rows.Add(dtRow);
-
-                                    //dtRow = dtTable.NewRow();
-                                    ////dtRow["Activtiy"] = row["Activity"].ToString();
-                                    //dtRow["Activtiy"] = actStr;
-                                    //dtTable.Rows.Add(dtRow);
-
-                                    dtRow = dtTable.NewRow();
-                                    dtRow["RevDesc"] = "";
-                                    dtRow["Activtiy"] = "";
-                                    dtRow["Expense"] = "";
-                                    string desc = row["ItemDescriptionAddl"].ToString();
-                                    if (string.IsNullOrEmpty(desc))
-                                        dtRow["Descripiton"] = row["ItemDescription"].ToString();
-                                    else
-                                        dtRow["Descripiton"] = row["ItemDescription"].ToString() + "(" + desc + ")";
-                                    dtRow["UOM"] = row["UOM"].ToString();
-                                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
-                                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
-                                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-                                    dtTable.Rows.Add(dtRow);
-                                }
-                                else
-                                {
-                                    dtRow = dtTable.NewRow();
-                                    dtRow["RevDesc"] = "";
-                                    dtRow["Activtiy"] = "";
-                                    dtRow["Expense"] = "";
-                                    string desc = row["ItemDescriptionAddl"].ToString();
-                                    if (string.IsNullOrEmpty(desc))
-                                        dtRow["Descripiton"] = row["ItemDescription"].ToString();
-                                    else
-                                        dtRow["Descripiton"] = row["ItemDescription"].ToString() + "(" + desc + ")";
-                                    dtRow["UOM"] = row["UOM"].ToString();
-                                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
-                                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
-                                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-                                    dtTable.Rows.Add(dtRow);
-                                }
-                            }
-                        }
-                        dt.Clear();
-                    }
-
-                }
-            }
-
-
-            //string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.*, dbo.vw_AXExpenseAccount.NAME AS Expense, dbo.vw_AXFindimActivity.DESCRIPTION AS Activity, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.vw_AXFindimActivity ON dbo.tbl_MRP_List_DirectMaterials.ActivityCode = dbo.vw_AXFindimActivity.VALUE LEFT OUTER JOIN dbo.vw_AXExpenseAccount ON dbo.tbl_MRP_List_DirectMaterials.ExpenseCode = dbo.vw_AXExpenseAccount.MAINACCOUNTID";
-
-            //cmd = new SqlCommand(qry);
-            //cmd.Connection = cn;
-            //adp = new SqlDataAdapter(cmd);
-            //adp.Fill(dt);
-            //if (dt.Rows.Count > 0)
-            //{
-            //    foreach (DataRow row in dt.Rows)
-            //    {
-            //        DataRow dtRow = dtTable.NewRow();
-            //        dtRow["RevDesc"] = row["RevDesc"].ToString();
-            //        dtRow["Activtiy"] = row["Activity"].ToString();
-            //        dtRow["Expense"] = row["Expense"].ToString();
-            //        string desc = row["ItemDescriptionAddl"].ToString();
-            //        if (string.IsNullOrEmpty(desc))
-            //            dtRow["Descripiton"] = row["ItemDescription"].ToString();
-            //        else
-            //            dtRow["Descripiton"] = row["ItemDescription"].ToString() + "(" + desc + ")";
-            //        dtRow["UOM"] = row["UOM"].ToString();
-            //        dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
-            //        dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
-            //        dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-            //        dtTable.Rows.Add(dtRow);
-            //    }
-            //}
-            //dt.Clear();
-            cn.Close();
-
-            return dtTable;
+            MRPClass.trial();
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -1078,7 +859,6 @@ namespace HijoPortal
                 //              " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID " +
                 //              " WHERE(dbo.tbl_MRP_List.DocNumber = '" + DocNum.Text.ToString().Trim() + "') " +
                 //              " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
-
 
 
             }
