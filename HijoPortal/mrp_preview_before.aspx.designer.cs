@@ -10,10 +10,44 @@
 namespace HijoPortal {
     
     
-    public partial class mrp_preview {
-
+    public partial class mrp_preview_before {
+        
+        /// <summary>
+        /// TextBoxLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxLoading;
+        
+        /// <summary>
+        /// ModalPopupExtenderLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupExtenderLoading;
-
+        
+        /// <summary>
+        /// PanelLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelLoading;
+        
+        /// <summary>
+        /// ButtonErrorOK1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonErrorOK1;
+        
         /// <summary>
         /// LogsPopup control.
         /// </summary>
@@ -21,12 +55,7 @@ namespace HijoPortal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        /// 
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mrpHead;
-
         protected global::DevExpress.Web.ASPxPopupControl LogsPopup;
-
-        protected global::DevExpress.Web.ASPxPopupControl PopupSubmitPreview;
         
         /// <summary>
         /// LogsMemo control.
@@ -45,9 +74,52 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxButton LogsBtn;
-
-        protected global::DevExpress.Web.ASPxButton btAddEdit;
-
+        
+        /// <summary>
+        /// MRPNotify control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
+        
+        /// <summary>
+        /// MRPNotificationMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
+        
+        /// <summary>
+        /// PopupSubmitPreview control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl PopupSubmitPreview;
+        
+        /// <summary>
+        /// OK_SUBMIT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton OK_SUBMIT;
+        
+        /// <summary>
+        /// CANCEL_SUBMIT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton CANCEL_SUBMIT;
+        
         /// <summary>
         /// dvContentWrapper control.
         /// </summary>
@@ -58,6 +130,15 @@ namespace HijoPortal {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvContentWrapper;
         
         /// <summary>
+        /// mrpHead control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mrpHead;
+        
+        /// <summary>
         /// DocNum control.
         /// </summary>
         /// <remarks>
@@ -65,11 +146,43 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxLabel DocNum;
-
-        protected global::DevExpress.Web.ASPxLabel Creator;
-
-        protected global::DevExpress.Web.ASPxLabel Status;
-
+        
+        /// <summary>
+        /// StatusHidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
+        
+        /// <summary>
+        /// WrkFlowHidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxHiddenField WrkFlowHidden;
+        
+        /// <summary>
+        /// btAddEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton btAddEdit;
+        
+        /// <summary>
+        /// Submit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton Submit;
+        
         /// <summary>
         /// Month control.
         /// </summary>
@@ -105,6 +218,51 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxLabel BUCode;
+        
+        /// <summary>
+        /// Creator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel Creator;
+        
+        /// <summary>
+        /// Status control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel Status;
+        
+        /// <summary>
+        /// RevListview control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListView RevListview;
+        
+        /// <summary>
+        /// LabelTARev control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell LabelTARev;
+        
+        /// <summary>
+        /// TARevenue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue;
         
         /// <summary>
         /// tblSummCost control.
@@ -143,13 +301,13 @@ namespace HijoPortal {
         protected global::System.Web.UI.WebControls.ListView MatListview;
         
         /// <summary>
-        /// extraDMTD control.
+        /// LabelTotalDM control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell extraDMTD;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell LabelTotalDM;
         
         /// <summary>
         /// TAMat control.
@@ -158,7 +316,7 @@ namespace HijoPortal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAMat, LabelTotalDM;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAMat;
         
         /// <summary>
         /// OpexListiview control.
@@ -170,13 +328,13 @@ namespace HijoPortal {
         protected global::System.Web.UI.WebControls.ListView OpexListiview;
         
         /// <summary>
-        /// extraOPTD control.
+        /// LabelTotalOP control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell extraOPTD;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell LabelTotalOP;
         
         /// <summary>
         /// TAOpex control.
@@ -185,7 +343,7 @@ namespace HijoPortal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAOpex, LabelTotalOP;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAOpex;
         
         /// <summary>
         /// ManListview control.
@@ -197,13 +355,13 @@ namespace HijoPortal {
         protected global::System.Web.UI.WebControls.ListView ManListview;
         
         /// <summary>
-        /// extraMANTD control.
+        /// LabelTotalManpower control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell extraMANTD;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell LabelTotalManpower;
         
         /// <summary>
         /// TAManpower control.
@@ -212,7 +370,7 @@ namespace HijoPortal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAManpower, LabelTotalManpower;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TAManpower;
         
         /// <summary>
         /// CapexListview control.
@@ -224,13 +382,13 @@ namespace HijoPortal {
         protected global::System.Web.UI.WebControls.ListView CapexListview;
         
         /// <summary>
-        /// extraCATD control.
+        /// LabelTotalCapex control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell extraCATD;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell LabelTotalCapex;
         
         /// <summary>
         /// TotalAmountTD control.
@@ -239,32 +397,6 @@ namespace HijoPortal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TotalAmountTD, LabelTotalCapex;
-        
-        /// <summary>
-        /// RevListview control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView RevListview;
-        
-        /// <summary>
-        /// TARevenue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue, LabelTARev;
-
-        protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
-        protected global::DevExpress.Web.ASPxHiddenField WrkFlowHidden;
-        protected global::DevExpress.Web.ASPxButton Submit;
-        protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
-        protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
-        protected global::DevExpress.XtraReports.Web.ASPxWebDocumentViewer WebDocViewPrev;
-        //protected global::DevExpress.Web.ASPxSpreadsheet.ASPxSpreadsheet SpreadsheetPreview;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TotalAmountTD;
     }
 }
