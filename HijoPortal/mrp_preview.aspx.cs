@@ -538,6 +538,9 @@ namespace HijoPortal
         {
             //if (wrkflwln == 0 || wrkflwln == 1)
             //{
+            Session["mrp_docNum"] = docnumber.ToString();
+            Session["mrp_wrkLine"] = wrkflwln.ToString();
+
             Response.Redirect("mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
             //} else
             //{
@@ -818,9 +821,17 @@ namespace HijoPortal
                 mrpHead.InnerText = "M O P  Preview";
 
                 btAddEdit.Visible = false;
-                DocNum.Text = Request.Params["DocNum"].ToString();
-                docnumber = Request.Params["DocNum"].ToString();
-                wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
+                //DocNum.Text = Request.Params["DocNum"].ToString();
+                //docnumber = Request.Params["DocNum"].ToString();
+                //wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
+
+                //Session["mrp_docNum"] = docnumber.ToString();
+                //Session["mrp_wrkLine"] = wrkflwln.ToString();
+
+                DocNum.Text = Session["mrp_docNum"].ToString();
+                docnumber = Session["mrp_docNum"].ToString();
+                wrkflwln = Convert.ToInt32(Session["mrp_wrkLine"]);
+
                 //MRPClass.PrintString("wrk:" + wrkflwln);
 
                 if (wrkflwln == 0 || wrkflwln == 1)

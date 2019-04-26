@@ -46,10 +46,12 @@ namespace HijoPortal
 
                     //Rsize
                     ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-
-                    docnumber = Request.Params["DocNum"].ToString();
-                    wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
-
+                    //Session["mrp_docNum"] = docnumber.ToString();
+                    //Session["mrp_wrkLine"] = wrkflwln.ToString();
+                    //docnumber = Request.Params["DocNum"].ToString();
+                    //wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
+                    docnumber = Session["mrp_docNum"].ToString();
+                    wrkflwln = Convert.ToInt32(Session["mrp_wrkLine"]);
                     if (wrkflwln == 2)
                     {
                         mrpHead.InnerText = "M O P  Details (Inventory Analyst)";

@@ -131,9 +131,9 @@
                 <Columns>
                     <dx:GridViewCommandColumn ShowEditButton="true" Width="30" CellStyle-HorizontalAlign="Left"></dx:GridViewCommandColumn>
                     <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="EntCode" Visible="false">
+                    <dx:GridViewDataColumn FieldName="EntCode" Visible="true">
                     </dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="ProcCat" Visible="false">
+                    <dx:GridViewDataColumn FieldName="ProcCat" Visible="true">
                     </dx:GridViewDataColumn>
                     <dx:GridViewDataColumn FieldName="CIPSIPNumber" Caption="Capex Number" Width="125">
                         <EditItemTemplate>

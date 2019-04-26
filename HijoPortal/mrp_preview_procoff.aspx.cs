@@ -16,8 +16,11 @@ namespace HijoPortal
             if (!Page.IsPostBack)
             {
                 ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-
-                string docnumber = Request.Params["DocNum"].ToString();
+                //Session["mrp_docNum"] = docnumber.ToString();
+                //Session["mrp_wrkLine"] = wrkflwln.ToString();
+                //string docnumber = Request.Params["DocNum"].ToString();
+                string docnumber = Session["mrp_docNum"].ToString();
+                int source = Convert.ToInt32(Session["mrp_source"]);
                 string query = "SELECT dbo.tbl_MRP_List.DocNumber, dbo.tbl_MRP_List.MRPMonth, dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.DateCreated, dbo.vw_AXEntityTable.NAME AS EntityName, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_Users.Firstname, dbo.tbl_Users.Lastname, dbo.tbl_MRP_Status.StatusName FROM   dbo.tbl_MRP_List INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK INNER JOIN dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK WHERE DocNumber = '" + docnumber + "'";
 
                 SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
