@@ -775,26 +775,30 @@ namespace HijoPortal
             StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
             WrkFlowHidden["hidden_preview_wrkflwln"] = wrkflwln;
 
-            DocumentReport obj_Rpt = new DocumentReport();
-
             string docnum = DocNum.Text.ToString();
-            DataTable dt = DirectMaterials(docnum);
-            obj_Rpt.Report.DataSource = dt;
-            //obj_Rpt.Report.DataMember = DS.Tables[0].TableName;
-            obj_Rpt.Report.DataMember = dt.TableName;
+            GridPreview.DataSource = DirectMaterials(docnum);
+            GridPreview.KeyFieldName = "RevDesc";
+            GridPreview.DataBind();
+            //DocumentReport obj_Rpt = new DocumentReport();
 
-            obj_Rpt.Col1.DataBindings.Add("Text", null, "RevDesc");
-            obj_Rpt.Col2.DataBindings.Add("Text", null, "Expense");
-            obj_Rpt.Col3.DataBindings.Add("Text", null, "Activtiy");
-            obj_Rpt.Col4.DataBindings.Add("Text", null, "Description");
-            obj_Rpt.Col5.DataBindings.Add("Text", null, "UOM");
-            obj_Rpt.Col6.DataBindings.Add("Text", null, "Qty");
-            obj_Rpt.Col7.DataBindings.Add("Text", null, "Cost");
-            obj_Rpt.Col8.DataBindings.Add("Text", null, "TotalCost");
+            //string docnum = DocNum.Text.ToString();
+            //DataTable dt = DirectMaterials(docnum);
+            //obj_Rpt.Report.DataSource = dt;
+            ////obj_Rpt.Report.DataMember = DS.Tables[0].TableName;
+            //obj_Rpt.Report.DataMember = dt.TableName;
 
-            obj_Rpt.DisplayName = "DocumentReport " + DateTime.Now;
+            //obj_Rpt.Col1.DataBindings.Add("Text", null, "RevDesc");
+            //obj_Rpt.Col2.DataBindings.Add("Text", null, "Expense");
+            //obj_Rpt.Col3.DataBindings.Add("Text", null, "Activtiy");
+            //obj_Rpt.Col4.DataBindings.Add("Text", null, "Description");
+            //obj_Rpt.Col5.DataBindings.Add("Text", null, "UOM");
+            //obj_Rpt.Col6.DataBindings.Add("Text", null, "Qty");
+            //obj_Rpt.Col7.DataBindings.Add("Text", null, "Cost");
+            //obj_Rpt.Col8.DataBindings.Add("Text", null, "TotalCost");
 
-            WebDocViewPrev.OpenReport(obj_Rpt);
+            //obj_Rpt.DisplayName = "DocumentReport " + DateTime.Now;
+
+            //WebDocViewPrev.OpenReport(obj_Rpt);
 
             //PreviewReport.EventNames.
 

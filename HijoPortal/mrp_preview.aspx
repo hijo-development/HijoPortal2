@@ -166,11 +166,14 @@
     </div>
 
     <div>
-        <dx:ASPxWebDocumentViewer ID="WebDocViewPrev" runat="server"></dx:ASPxWebDocumentViewer>
+        <dx:ASPxGridView ID="GridPreview" runat="server" Theme="Office2010Blue" Width="100%">
+        <Border BorderStyle="None" />
+        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+    </dx:ASPxGridView>
     </div>
 
     <%--<dx:ASPxSpreadsheet ID="SpreadsheetPreview" runat="server" WorkDirectory="~/App_Data/WorkDirectory"></dx:ASPxSpreadsheet>--%>
 
-    <dx:ASPxGridView ID="GridPreview" runat="server"></dx:ASPxGridView>
+    
 
 </asp:Content>
