@@ -775,10 +775,6 @@ namespace HijoPortal
             StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
             WrkFlowHidden["hidden_preview_wrkflwln"] = wrkflwln;
 
-            string docnum = DocNum.Text.ToString();
-            GridPreview.DataSource = DirectMaterials(docnum);
-            GridPreview.KeyFieldName = "RevDesc";
-            GridPreview.DataBind();
             //DocumentReport obj_Rpt = new DocumentReport();
 
             //string docnum = DocNum.Text.ToString();
@@ -833,6 +829,64 @@ namespace HijoPortal
             //MRPClass.trial();
         }
 
+        public static DataTable DM(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("OperatingUnit", typeof(string));
+                dtTable.Columns.Add("Expense", typeof(string));
+                dtTable.Columns.Add("Activity", typeof(string));
+                dtTable.Columns.Add("Descripiton", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+            }
+
+            string farm_query = "[dbo].[DirectMaterialPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            //cmd.ExecuteNonQuery();
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = "1";
+                    dtRow["OperatingUnit"] = row["OperUinit"].ToString();
+                    dtRow["Activity"] = row["Activity"].ToString();
+                    dtRow["Expense"] = row["ExpenseCode"].ToString();
+                    dtRow["Descripiton"] = row["ItemDescription"].ToString();
+                    dtRow["UOM"] = row["UOM"].ToString();
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+
+        }
+
         public static DataTable DirectMaterials(string docnumber)
         {
             DataTable dtTable = new DataTable();
@@ -860,9 +914,14 @@ namespace HijoPortal
             }
 
             //Query for TRAIN
-            string farm_query = "SELECT DISTINCT dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION FROM dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE";
+            //string farm_query = "SELECT DISTINCT dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION FROM dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE";
+
+            //string farm_query = "EXEC [dbo].[DirectMaterialPreview] @headerdocnum = N'"+ docnumber + "'";
+            string farm_query = "[dbo].[DirectMaterialPreview]";
 
             cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
             reader = cmd.ExecuteReader();
             ArrayList farm_arr = new ArrayList();
             while (reader.Read())
@@ -1097,6 +1156,11 @@ namespace HijoPortal
 
 
             }
+
+            string docnum = DocNum.Text.ToString();
+            GridPreviewDM.DataSource = DM(docnum);
+            GridPreviewDM.KeyFieldName = "PK";
+            GridPreviewDM.DataBind();
 
 
         }
