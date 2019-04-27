@@ -1331,6 +1331,8 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
+            MRPClass.PrintString(prodcat.Value.ToString());
+
             string insert = "INSERT INTO " + MRPClass.CapexTable() +
                             " ([HeaderDocNum],[ProdCat], [Description], [UOM], " +
                             " [Cost], [Qty], [TotalCost], [OprUnit], " +
@@ -1644,6 +1646,8 @@ namespace HijoPortal
 
             string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [FarmName], [Prize], [Volume], [TotalPrize], [OprUnit]) VALUES (@HeaderDocNum, @ProductName, @FarmName, @Prize, @Volume, @TotalPrize, @OprUnit)";
 
+            
+
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
@@ -1777,11 +1781,18 @@ namespace HijoPortal
                 cookie_text = Request.Cookies["caproducttext"];
                 if (cookie_value != null && cookie_text != null)
                 {
-                    object val = cookie_value.Value;
+                    object valueCA = cookie_value.Value;
                     object text = cookie_text.Value;
-                    combo.Value = val;
+
                     combo.Text = text.ToString();
+                    combo.Value = valueCA;
+                    
+
+                    MRPClass.PrintString(valueCA.ToString());
+                    MRPClass.PrintString(text.ToString());
                 }
+
+                MRPClass.PrintString(combo.Value.ToString());
             }
         }
 
@@ -2008,6 +2019,8 @@ namespace HijoPortal
             string operating_unit = "";
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
+
+            
 
             string update_MRP = "UPDATE " + MRPClass.RevenueTable() + " SET [ProductName] = @ProductName, [FarmName]= @FarmName, [Prize] = @Prize, [Volume] = @Volume, [TotalPrize] = @TotalPrize, [OprUnit] = @OprUnit WHERE [PK] = @PK";
 
