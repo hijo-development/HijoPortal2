@@ -24,7 +24,7 @@ namespace HijoPortal
                 email = "";
                 gender = "";
                 employeepic_int = 0;
-                employeepic = "~/images/ID.jpg";
+                employeepic = "~/images/users/ID.jpg";
                 EmployeeImage.ImageUrl = employeepic;
             }
         }
@@ -302,10 +302,10 @@ namespace HijoPortal
                 employeepic_int = AccountClass.EmployeePictureInHRIS(id);
                 if (employeepic_int == 1)
                 {
-                    employeepic = "~/images/users/" + id + ".jpg";
+                    employeepic = "~/images/users/" + row["EmployeeKey"].ToString() + ".jpg";
                 } else
                 {
-                    employeepic = "~/images/ID.jpg";
+                    employeepic = "~/images/users/ID.jpg";
                 }
             }
             if (dt.Rows.Count == 0)
@@ -316,7 +316,7 @@ namespace HijoPortal
                 gender = "";
                 gender_int = -1;
                 employeepic_int = 0;
-                employeepic = "~/images/ID.jpg";
+                employeepic = "~/images/users/ID.jpg";
             }
         }
 

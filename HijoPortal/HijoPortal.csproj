@@ -128,6 +128,7 @@
     <Content Include="default.aspx" />
     <Content Include="executive.aspx" />
     <Content Include="finance.aspx" />
+    <Content Include="font\opensans\LICENSE.txt" />
     <Content Include="forgotpassword.aspx" />
     <Content Include="Global.asax" />
     <Content Include="home.aspx" />
@@ -155,6 +156,7 @@
     <Content Include="images\Submit.ico" />
     <Content Include="images\Undo.ico" />
     <Content Include="images\Users.png" />
+    <Content Include="images\users\ID.jpg" />
     <Content Include="jquery\accounting.js" />
     <Content Include="jquery\changePW.js" />
     <Content Include="jquery\ContentPage.js" />
@@ -564,6 +566,16 @@
     <Content Include="datasets\MOPDataSet.xss">
       <DependentUpon>MOPDataSet.xsd</DependentUpon>
     </Content>
+    <Content Include="font\opensans\OpenSans-Bold.ttf" />
+    <Content Include="font\opensans\OpenSans-BoldItalic.ttf" />
+    <Content Include="font\opensans\OpenSans-ExtraBold.ttf" />
+    <Content Include="font\opensans\OpenSans-ExtraBoldItalic.ttf" />
+    <Content Include="font\opensans\OpenSans-Italic.ttf" />
+    <Content Include="font\opensans\OpenSans-Light.ttf" />
+    <Content Include="font\opensans\OpenSans-LightItalic.ttf" />
+    <Content Include="font\opensans\OpenSans-Regular.ttf" />
+    <Content Include="font\opensans\OpenSans-Semibold.ttf" />
+    <Content Include="font\opensans\OpenSans-SemiboldItalic.ttf" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

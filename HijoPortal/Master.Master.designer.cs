@@ -157,6 +157,15 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxButton ProfileImage;
         
         /// <summary>
+        /// WelcomeLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel WelcomeLbl;
+        
+        /// <summary>
         /// dvSplitter control.
         /// </summary>
         /// <remarks>

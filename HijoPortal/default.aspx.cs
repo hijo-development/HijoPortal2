@@ -49,6 +49,7 @@ namespace HijoPortal
                 Session["CreatorKey"] = foundRows[0]["PK"].ToString();
                 Session["UserName"] = foundRows[0]["UserName"].ToString();
                 Session["UserCompleteName"] = foundRows[0]["Lastname"].ToString() + ",  " + foundRows[0]["Firstname"].ToString();
+                Session["EmployeeKey"] = foundRows[0]["EmployeeKey"].ToString();
                 if (Convert.ToInt32(foundRows[0]["UserType"]) == 1)
                 {
                     Session["EntityCode"] = foundRows[0]["EntityCode"].ToString();

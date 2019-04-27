@@ -135,23 +135,30 @@
             </dx:ASPxPopupControl>
             <table style="width: 100%; height: 80px;">
                 <tr style="height: 80px;">
-                    <td style="width: 60px; height: 60px; vertical-align:middle;">
+                    <td style="width: 60px; height: 60px; vertical-align: middle;">
                         <img src="images/Hijo Logo.png" style="height: 60px; width: 260px;" />
                     </td>
-                    <%--<td class="Header-td">
-                        <h1>HIJO Portal</h1>
-                    </td>--%>
-                    <td style="width: 10%">
+                    <td style="width: 20%">
                         <table style="width: 100%;">
                             <tr>
-                                <td style="width: 100%; text-align: center;">
-                                    <dx:ASPxButton ID="ProfileImage" runat="server" ClientInstanceNam="ProfileImageClient" RenderMode="Link" Theme="Office2010Blue" Image-Width="50px" Image-Height="50px">
+                                <td style="width: 100%; text-align: right;">
+                                    <%--<div style="width:40px; height: 40px; -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px;">--%>
+                                        <dx:ASPxButton ID="ProfileImage" runat="server" ClientInstanceName="ProfileImageClient" RenderMode="Link" Theme="Office2010Blue" Image-Width="40px" Image-Height="40px">
+                                            <ClientSideEvents Click="onButtonClick" />
+                                        </dx:ASPxButton>
+                                    <%--</div>--%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100%; text-align: right;">
+                                    <dx:ASPxLabel ID="WelcomeLbl" ClientInstanceName="WelcomeLbl" runat="server" Text="Welcome User" Theme="Office2010Blue" Cursor="pointer">
                                         <ClientSideEvents Click="onButtonClick" />
-                                    </dx:ASPxButton>
+                                    </dx:ASPxLabel>
                                 </td>
                             </tr>
                         </table>
                     </td>
+                    <td style="width: 3%"></td>
                 </tr>
             </table>
         </div>
@@ -417,7 +424,7 @@
             </dx:ASPxSplitter>
         </div>
         <div id="footer" runat="server">
-          <%--  <label id="lblUser" runat="server">User :</label>
+            <%--  <label id="lblUser" runat="server">User :</label>
             &nbsp
             <dx:ASPxLabel ID="ASPxLabelEnt" ClientInstanceName="ASPxLabelEntDirect" runat="server" Text="" ForeColor="White"></dx:ASPxLabel>
             &nbsp
