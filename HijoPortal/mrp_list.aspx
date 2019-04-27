@@ -145,100 +145,108 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <div id="dvContentWrapper" runat="server" class="ContentWrapper">
-        <div id="dvHeader" style="height: 30px;">
-            <h1>M O P  List</h1>
-            <asp:Label ID="msgTrans" runat="server" Visible="false"></asp:Label>
-        </div>
-        <div>
+    <dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%" Height="100%" ScrollBars="Auto">
+        <PanelCollection>
+            <dx:PanelContent>
+                <div>
+                    <%--<div id="dvContentWrapper" runat="server" class="ContentWrapper">--%>
+                    <div id="dvHeader" style="height: 30px;">
+                        <h1>M O P  List</h1>
+                        <asp:Label ID="msgTrans" runat="server" Visible="false"></asp:Label>
+                    </div>
+                    <div>
 
-            <%--OnCustomCallback="MainTable_CustomCallback"--%>
+                        <%--OnCustomCallback="MainTable_CustomCallback"--%>
 
-            <dx:ASPxGridView ID="MainTable" runat="server" ClientInstanceName="MainTable" KeyFieldName="PK"
-                EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
-                Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
-                OnCustomButtonCallback="MainTable_CustomButtonCallback">
-                <ClientSideEvents CustomButtonClick="CustomButtonClick" />
-                <ClientSideEvents RowClick="MOPListFocused" />
-                <ClientSideEvents EndCallback="MainTableEndCallback" />
-                <SettingsBehavior AllowSort="true" SortMode="Value" />
+                        <dx:ASPxGridView ID="MainTable" runat="server" ClientInstanceName="MainTable" KeyFieldName="PK"
+                            EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
+                            Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
+                            OnCustomButtonCallback="MainTable_CustomButtonCallback">
+                            <ClientSideEvents CustomButtonClick="CustomButtonClick" />
+                            <ClientSideEvents RowClick="MOPListFocused" />
+                            <ClientSideEvents EndCallback="MainTableEndCallback" />
+                            <SettingsBehavior AllowSort="true" SortMode="Value" />
 
-                <Columns>
-                    <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
-                        <HeaderTemplate>
+                            <Columns>
+                                <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
+                                    <HeaderTemplate>
 
-                            <div style="text-align: left;">
-                                <%--OnClick="Add_Click"--%>
-                                <dx:ASPxButton ID="Add" OnClick="Add_Click" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
-                                    <%--<ClientSideEvents Click="function (s, e) {MainTable.PerformCallback('AddNew');}" />--%>
-                                </dx:ASPxButton>
-                                <dx:ASPxHiddenField ID="MRPHiddenVal" ClientInstanceName="MRPHiddenVal" runat="server"></dx:ASPxHiddenField>
-                                <dx:ASPxHiddenField ID="ASPxHiddenFieldEnt" ClientInstanceName="ASPxHiddenFieldEntDirect" runat="server"></dx:ASPxHiddenField>
-                                <dx:ASPxHiddenField ID="MRPHiddenValStatus" ClientInstanceName="MRPHiddenValStatus" runat="server"></dx:ASPxHiddenField>
-                                <dx:ASPxHiddenField ID="MRPHiddenValStatusLine" ClientInstanceName="MRPHiddenValStatusLine" runat="server"></dx:ASPxHiddenField>
-                            </div>
-                        </HeaderTemplate>
+                                        <div style="text-align: left;">
+                                            <%--OnClick="Add_Click"--%>
+                                            <dx:ASPxButton ID="Add" OnClick="Add_Click" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
+                                                <%--<ClientSideEvents Click="function (s, e) {MainTable.PerformCallback('AddNew');}" />--%>
+                                            </dx:ASPxButton>
+                                            <dx:ASPxHiddenField ID="MRPHiddenVal" ClientInstanceName="MRPHiddenVal" runat="server"></dx:ASPxHiddenField>
+                                            <dx:ASPxHiddenField ID="ASPxHiddenFieldEnt" ClientInstanceName="ASPxHiddenFieldEntDirect" runat="server"></dx:ASPxHiddenField>
+                                            <dx:ASPxHiddenField ID="MRPHiddenValStatus" ClientInstanceName="MRPHiddenValStatus" runat="server"></dx:ASPxHiddenField>
+                                            <dx:ASPxHiddenField ID="MRPHiddenValStatusLine" ClientInstanceName="MRPHiddenValStatusLine" runat="server"></dx:ASPxHiddenField>
+                                        </div>
+                                    </HeaderTemplate>
 
-                        <CustomButtons>
-                            <dx:GridViewCommandColumnCustomButton ID="Edit" Text="" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
-                            <dx:GridViewCommandColumnCustomButton ID="Delete" Text="" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
-                            <dx:GridViewCommandColumnCustomButton ID="Preview" Text="" Image-Url="Images/Refresh.ico" Image-ToolTip="Preview Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
-                        </CustomButtons>
+                                    <CustomButtons>
+                                        <dx:GridViewCommandColumnCustomButton ID="Edit" Text="" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                        <dx:GridViewCommandColumnCustomButton ID="Delete" Text="" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                        <dx:GridViewCommandColumnCustomButton ID="Preview" Text="" Image-Url="Images/Refresh.ico" Image-ToolTip="Preview Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                    </CustomButtons>
 
-                    </dx:GridViewCommandColumn>
-                    <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="DocNumber" Caption="MRP Number" VisibleIndex="2" SortOrder="Descending" Width="140px"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="EntityCode" Visible="false" VisibleIndex="3"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity" VisibleIndex="4"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="BUCode" Visible="false" VisibleIndex="5"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="Department" VisibleIndex="6"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month" VisibleIndex="7"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="MRPYear" Caption="Year" VisibleIndex="8"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="Amount" VisibleIndex="9" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="10"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="11"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="WorkflowStatusLine" Visible="false" VisibleIndex="12"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="WorkflowStatus" Caption="Worflow Level" VisibleIndex="13"></dx:GridViewDataColumn>
-                    <dx:GridViewDataColumn FieldName="DateCreated" Visible="false" VisibleIndex="14"></dx:GridViewDataColumn>
-                    <dx:GridViewCommandColumn VisibleIndex="15" ButtonRenderMode="Image" Width="20">
-                        <CustomButtons>
-                            <dx:GridViewCommandColumnCustomButton ID="Submit" Text="" Image-Url="Images/Submit.ico" Image-ToolTip="Submit Row" Image-Width="15px">
-                            </dx:GridViewCommandColumnCustomButton>
-                        </CustomButtons>
-                    </dx:GridViewCommandColumn>
-                </Columns>
+                                </dx:GridViewCommandColumn>
+                                <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="DocNumber" Caption="MRP Number" VisibleIndex="2" SortOrder="Descending" Width="140px"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="EntityCode" Visible="false" VisibleIndex="3"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity" VisibleIndex="4"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="BUCode" Visible="false" VisibleIndex="5"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="Department" VisibleIndex="6"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month" VisibleIndex="7"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="MRPYear" Caption="Year" VisibleIndex="8"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="Amount" VisibleIndex="9" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="10"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="11"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="WorkflowStatusLine" Visible="false" VisibleIndex="12"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="WorkflowStatus" Caption="Worflow Level" VisibleIndex="13"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="DateCreated" Visible="false" VisibleIndex="14"></dx:GridViewDataColumn>
+                                <dx:GridViewCommandColumn VisibleIndex="15" ButtonRenderMode="Image" Width="20">
+                                    <CustomButtons>
+                                        <dx:GridViewCommandColumnCustomButton ID="Submit" Text="" Image-Url="Images/Submit.ico" Image-ToolTip="Submit Row" Image-Width="15px">
+                                        </dx:GridViewCommandColumnCustomButton>
+                                    </CustomButtons>
+                                </dx:GridViewCommandColumn>
+                            </Columns>
 
-                <%--<Settings HorizontalScrollBarMode="Auto" />--%>
-                <SettingsCommandButton>
-                    <%--<EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px" Image-ToolTip="Edit Row">
+                            <%--<Settings HorizontalScrollBarMode="Auto" />--%>
+                            <SettingsCommandButton>
+                                <%--<EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px" Image-ToolTip="Edit Row">
             </EditButton>
             <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px"></DeleteButton>
             <NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px"></NewButton>--%>
-                </SettingsCommandButton>
-                <%--<SettingsEditing EditFormColumnCount="3" Mode="PopupEditForm" />--%>
-                <EditFormLayoutProperties>
-                    <SettingsAdaptivity AdaptivityMode="SingleColumnWindowLimit" SwitchToSingleColumnAtWindowInnerWidth="800" />
-                </EditFormLayoutProperties>
-                <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
-                <SettingsPopup>
-                    <EditForm Width="900">
-                        <SettingsAdaptivity Mode="OnWindowInnerWidth" SwitchAtWindowInnerWidth="850" />
-                    </EditForm>
-                </SettingsPopup>
+                            </SettingsCommandButton>
+                            <%--<SettingsEditing EditFormColumnCount="3" Mode="PopupEditForm" />--%>
+                            <EditFormLayoutProperties>
+                                <SettingsAdaptivity AdaptivityMode="SingleColumnWindowLimit" SwitchToSingleColumnAtWindowInnerWidth="800" />
+                            </EditFormLayoutProperties>
+                            <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                            <SettingsPopup>
+                                <EditForm Width="900">
+                                    <SettingsAdaptivity Mode="OnWindowInnerWidth" SwitchAtWindowInnerWidth="850" />
+                                </EditForm>
+                            </SettingsPopup>
 
-                <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="false">
-                </SettingsPager>
+                            <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="false">
+                            </SettingsPager>
 
-                <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
-                    AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />
-                <%--<SettingsText ConfirmDelete="Delete This Item?" />--%>
-                <Styles>
-                    <SelectedRow Font-Bold="False" Font-Italic="False">
-                    </SelectedRow>
-                    <FocusedRow Font-Bold="False" Font-Italic="False">
-                    </FocusedRow>
-                </Styles>
-            </dx:ASPxGridView>
-        </div>
-    </div>
+                            <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
+                                AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />
+                            <%--<SettingsText ConfirmDelete="Delete This Item?" />--%>
+                            <Styles>
+                                <SelectedRow Font-Bold="False" Font-Italic="False">
+                                </SelectedRow>
+                                <FocusedRow Font-Bold="False" Font-Italic="False">
+                                </FocusedRow>
+                            </Styles>
+                        </dx:ASPxGridView>
+                    </div>
+                </div>
+            </dx:PanelContent>
+        </PanelCollection>
+    </dx:ASPxPanel>
+
 </asp:Content>

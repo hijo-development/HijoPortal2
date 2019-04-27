@@ -724,13 +724,13 @@ namespace HijoPortal
             string PK = e.Keys[0].ToString();
 
 
+            //string activity_code = "";
+            //if (actCode.Value != null)
+            //    activity_code = actCode.Value.ToString();
+
             string activity_code = "";
             if (actCode.Value != null)
-                activity_code = actCode.Value.ToString();
-
-            //string actcodeVal = "";
-            //if (actCode.Value != null)
-            //    actcodeVal = MRPClass.ActivityCodeDESCRIPTION(actCode.Value.ToString());
+                activity_code = MRPClass.ActivityCodeDESCRIPTION(actCode.Value.ToString());
 
             string operating_unit = "";
             if (opunit.Value != null)

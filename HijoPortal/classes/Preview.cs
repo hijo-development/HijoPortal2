@@ -337,6 +337,65 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
+        public static DataTable Preview_DM_Clean(string DOC_NUMBER, string entity)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            //materials_total_amount = 0;
+            //mat_edited_total = 0;
+
+            cn.Open();
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("OperatingUnit", typeof(string));
+                dtTable.Columns.Add("Activity", typeof(string));
+                dtTable.Columns.Add("Expense", typeof(string));
+                dtTable.Columns.Add("Descripiton", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+                //dtTable.Columns.Add("ACost", typeof(string));
+                //dtTable.Columns.Add("AQty", typeof(string));
+                //dtTable.Columns.Add("ATotalCost", typeof(string));
+                //dtTable.Columns.Add("VALUE", typeof(string));
+                //dtTable.Columns.Add("RevDesc", typeof(string));
+            }
+
+            string query = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.vw_AXExpenseAccount.NAME AS Expense, dbo.vw_AXFindimActivity.DESCRIPTION as Activity, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS OperatingUnit, dbo.tbl_MRP_List_DirectMaterials.ItemDescription as Desc1, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl as Desc2, dbo.tbl_MRP_List_DirectMaterials.UOM, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.TotalCost FROM   dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.vw_AXFindimActivity ON dbo.tbl_MRP_List_DirectMaterials.ActivityCode = dbo.vw_AXFindimActivity.VALUE LEFT OUTER JOIN dbo.vw_AXExpenseAccount ON dbo.tbl_MRP_List_DirectMaterials.ExpenseCode = dbo.vw_AXExpenseAccount.MAINACCOUNTID" +
+                " WHERE HeaderDocNum = '" + DOC_NUMBER + "' AND EntityCode = '" + entity + "'";
+
+            cmd = new SqlCommand(query, cn);
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["OperatingUnit"] = row["OperatingUnit"].ToString();
+                    dtRow["Activity"] = row["Activity"].ToString();
+                    dtRow["Expense"] = row["Expense"].ToString();
+                    dtRow["Descripiton"] = row["Desc1"].ToString();
+                    dtRow["UOM"] = row["UOM"].ToString();
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+        }
+
         public static DataTable Preview_DM(string DOC_NUMBER, string entity)
         {
             DataTable dtTable = new DataTable();
