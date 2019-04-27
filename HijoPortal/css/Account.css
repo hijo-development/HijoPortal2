@@ -5,6 +5,11 @@
     background-color: rgb(230,239,247);
 }
 
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../font/opensans/OpenSans-Regular.ttf');
+}
+
 /*Create Account*/
 @media(max-width:840px) {
     .mobileGroupIndent {
@@ -31,7 +36,8 @@
 #dvHeader {
     width: 100%;
     /*background-color: #ffffff;*/
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+    font-family: 'Open Sans';
     padding: 0px;
     /*border-radius: 3px;*/
 }

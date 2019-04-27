@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.IO;
 using System.Text;
 using DevExpress.Web;
 using System.Web;
@@ -27,6 +28,17 @@ namespace HijoPortal
             {
                 if (Session["UserCompleteName"] != null)
                 {
+
+                    WelcomeLbl.Text = "Welcome " + Session["UserCompleteName"].ToString();
+                    string employeepic = "~/images/users/" + Session["EmployeeKey"].ToString() + ".jpg";
+
+                    string EmpimgPath = GlobalClass.UserImagePath + Session["EmployeeKey"].ToString() + ".jpg";
+                    if (!File.Exists(EmpimgPath)) { employeepic = "~/images/users/ID.jpg"; }
+
+                    //MRPClass.PrintString(Session["EmployeeKey"].ToString());
+
+                    ProfileImage.ImageUrl = employeepic;
+
                     //lblUser.InnerHtml = "User : " + Session["UserCompleteName"].ToString();
                     UserLbl.Text = Session["UserCompleteName"].ToString();
 
@@ -59,7 +71,7 @@ namespace HijoPortal
 
                     //ASPxSplitter1.Height = 661 - 10;
 
-                    ProfileImage.ImageUrl = "~/images/avatar.png";
+                    //ProfileImage.ImageUrl = "~/images/avatar.png";
 
                     Load_Menu(Convert.ToInt32(Session["CreatorKey"]));
 

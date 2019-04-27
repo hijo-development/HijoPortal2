@@ -4,7 +4,8 @@
     background-color: rgb(230,239,247);
     background: url('../images/hijosign.png');
     background-repeat: repeat;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+    font-family: 'Open Sans';
     overflow: hidden;
     background-color: rgb(230,239,247);
 }
@@ -12,8 +13,14 @@
     body label {
         color: white;
         font-size: 12px;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+        font-family: 'Open Sans';
     }
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../font/opensans/OpenSans-Regular.ttf');
+}
 
 .modalBackground {
     background-color: gray;
@@ -40,7 +47,8 @@
     .Header-td h1 {
         width: 100%;
         text-align: center;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+        font-family: 'Open Sans';
         font-size: 30px;
         font-weight: bold;
         color: #d9cece;
@@ -54,7 +62,8 @@
 #dvHeader {
     width: 100%;
     /*background-color: #ffffff;*/
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+    font-family: 'Open Sans';
     padding: 0px;
     /*border-radius: 3px;*/
 }
@@ -83,7 +92,8 @@
     }
 
 .ASPxLabel {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+    font-family: 'Open Sans';
 }
 
 #footer {
@@ -103,7 +113,8 @@
     /*background-color: #f1f1f1;*/
     background: rgba(227, 228, 229, 0.5);
     font-size: medium;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+    font-family:'Open Sans';
     font-weight: bold;
 }
 
@@ -267,6 +278,7 @@ ul li {
         color: #818181;
         display: block;
         transition: 0.3s;
+        font-family:'Open Sans';
     }
 
         .sidenav a:hover {
@@ -329,7 +341,8 @@ ul li {
         text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;*/
         width: 100%;
         text-align: center;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+        font-family: 'Open Sans';
         font-size: 22px;
         font-weight: bold;
         color: white;
@@ -394,7 +407,8 @@ ul li {
     }
 
     .Preview tr td {
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+        font-family: 'Open Sans';
     }
 
 .ContentWrapper {
@@ -415,7 +429,8 @@ ul li {
     #dvHeaderPO h1 {
         width: 100%;
         text-align: center;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+        font-family: 'Open Sans';
         font-size: medium;
         font-weight: bold;
         color: white;

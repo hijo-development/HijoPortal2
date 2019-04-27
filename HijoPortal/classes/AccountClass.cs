@@ -425,10 +425,10 @@ namespace HijoPortal.classes
             //string sWebRoot = HttpContext.Current.Server.MapPath("~");
             //string imgPathTmp = sWebRoot + @"images\users\";
 
-            if (!Directory.Exists(GlobalClass.UserImagePath))
-            {
-                Directory.CreateDirectory(GlobalClass.UserImagePath);
-            }
+            //if (!Directory.Exists(GlobalClass.UserImagePath))
+            //{
+            //    Directory.CreateDirectory(GlobalClass.UserImagePath);
+            //}
 
             using (SqlConnection con = new SqlConnection(GlobalClass.SQLConnStringHRIS()))
             {
@@ -444,7 +444,7 @@ namespace HijoPortal.classes
                     {
                         if (row["Picture"] != System.DBNull.Value)
                         {
-                            string imgPath = GlobalClass.UserImagePath + IDNum + ".jpg";
+                            string imgPath = GlobalClass.UserImagePath + row["PK"].ToString() + ".jpg";
                             if (File.Exists(imgPath) == true) { File.Delete(imgPath); }
                             FileStream fs1 = new FileStream(imgPath, FileMode.CreateNew, FileAccess.Write);
                             byte[] bimage1 = (byte[])row["Picture"];
