@@ -425,6 +425,11 @@ namespace HijoPortal.classes
             //string sWebRoot = HttpContext.Current.Server.MapPath("~");
             //string imgPathTmp = sWebRoot + @"images\users\";
 
+            if (!Directory.Exists(GlobalClass.UserImagePath))
+            {
+                Directory.CreateDirectory(GlobalClass.UserImagePath);
+            }
+
             using (SqlConnection con = new SqlConnection(GlobalClass.SQLConnStringHRIS()))
             {
                 con.Open();
