@@ -1792,7 +1792,7 @@ namespace HijoPortal
                     MRPClass.PrintString(text.ToString());
                 }
 
-                MRPClass.PrintString(combo.Value.ToString());
+                //MRPClass.PrintString(combo.Value.ToString());
             }
         }
 

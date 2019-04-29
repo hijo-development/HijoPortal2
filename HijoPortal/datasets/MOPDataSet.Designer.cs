@@ -316,6 +316,16 @@ namespace HijoPortal.datasets {
             
             private global::System.Data.DataColumn columnMOPKey;
             
+            private global::System.Data.DataColumn columnUserKey;
+            
+            private global::System.Data.DataColumn columnDocNum;
+            
+            private global::System.Data.DataColumn columnMonthYear;
+            
+            private global::System.Data.DataColumn columnEntity;
+            
+            private global::System.Data.DataColumn columnBU;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public MOPMasterDataTableDataTable() {
@@ -359,6 +369,46 @@ namespace HijoPortal.datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn UserKeyColumn {
+                get {
+                    return this.columnUserKey;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn DocNumColumn {
+                get {
+                    return this.columnDocNum;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn MonthYearColumn {
+                get {
+                    return this.columnMonthYear;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn EntityColumn {
+                get {
+                    return this.columnEntity;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn BUColumn {
+                get {
+                    return this.columnBU;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -394,10 +444,15 @@ namespace HijoPortal.datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public MOPMasterDataTableRow AddMOPMasterDataTableRow(int MOPKey) {
+            public MOPMasterDataTableRow AddMOPMasterDataTableRow(int MOPKey, int UserKey, string DocNum, string MonthYear, string Entity, string BU) {
                 MOPMasterDataTableRow rowMOPMasterDataTableRow = ((MOPMasterDataTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        MOPKey};
+                        MOPKey,
+                        UserKey,
+                        DocNum,
+                        MonthYear,
+                        Entity,
+                        BU};
                 rowMOPMasterDataTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMOPMasterDataTableRow);
                 return rowMOPMasterDataTableRow;
@@ -421,6 +476,11 @@ namespace HijoPortal.datasets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             internal void InitVars() {
                 this.columnMOPKey = base.Columns["MOPKey"];
+                this.columnUserKey = base.Columns["UserKey"];
+                this.columnDocNum = base.Columns["DocNum"];
+                this.columnMonthYear = base.Columns["MonthYear"];
+                this.columnEntity = base.Columns["Entity"];
+                this.columnBU = base.Columns["BU"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -428,6 +488,16 @@ namespace HijoPortal.datasets {
             private void InitClass() {
                 this.columnMOPKey = new global::System.Data.DataColumn("MOPKey", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMOPKey);
+                this.columnUserKey = new global::System.Data.DataColumn("UserKey", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUserKey);
+                this.columnDocNum = new global::System.Data.DataColumn("DocNum", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDocNum);
+                this.columnMonthYear = new global::System.Data.DataColumn("MonthYear", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMonthYear);
+                this.columnEntity = new global::System.Data.DataColumn("Entity", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEntity);
+                this.columnBU = new global::System.Data.DataColumn("BU", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBU);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -819,6 +889,86 @@ namespace HijoPortal.datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public int UserKey {
+                get {
+                    try {
+                        return ((int)(this[this.tableMOPMasterDataTable.UserKeyColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UserKey\' in table \'MOPMasterDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMOPMasterDataTable.UserKeyColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string DocNum {
+                get {
+                    try {
+                        return ((string)(this[this.tableMOPMasterDataTable.DocNumColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DocNum\' in table \'MOPMasterDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMOPMasterDataTable.DocNumColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string MonthYear {
+                get {
+                    try {
+                        return ((string)(this[this.tableMOPMasterDataTable.MonthYearColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MonthYear\' in table \'MOPMasterDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMOPMasterDataTable.MonthYearColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string Entity {
+                get {
+                    try {
+                        return ((string)(this[this.tableMOPMasterDataTable.EntityColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Entity\' in table \'MOPMasterDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMOPMasterDataTable.EntityColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string BU {
+                get {
+                    try {
+                        return ((string)(this[this.tableMOPMasterDataTable.BUColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'BU\' in table \'MOPMasterDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMOPMasterDataTable.BUColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public bool IsMOPKeyNull() {
                 return this.IsNull(this.tableMOPMasterDataTable.MOPKeyColumn);
             }
@@ -827,6 +977,66 @@ namespace HijoPortal.datasets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetMOPKeyNull() {
                 this[this.tableMOPMasterDataTable.MOPKeyColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsUserKeyNull() {
+                return this.IsNull(this.tableMOPMasterDataTable.UserKeyColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetUserKeyNull() {
+                this[this.tableMOPMasterDataTable.UserKeyColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsDocNumNull() {
+                return this.IsNull(this.tableMOPMasterDataTable.DocNumColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetDocNumNull() {
+                this[this.tableMOPMasterDataTable.DocNumColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsMonthYearNull() {
+                return this.IsNull(this.tableMOPMasterDataTable.MonthYearColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetMonthYearNull() {
+                this[this.tableMOPMasterDataTable.MonthYearColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsEntityNull() {
+                return this.IsNull(this.tableMOPMasterDataTable.EntityColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetEntityNull() {
+                this[this.tableMOPMasterDataTable.EntityColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsBUNull() {
+                return this.IsNull(this.tableMOPMasterDataTable.BUColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetBUNull() {
+                this[this.tableMOPMasterDataTable.BUColumn] = global::System.Convert.DBNull;
             }
         }
         

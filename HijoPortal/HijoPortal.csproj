@@ -242,6 +242,7 @@
     <Compile Include="classes\ImpersonatedUser.cs" />
     <Compile Include="classes\ItemInfoClass.cs" />
     <Compile Include="classes\MasterClass.cs" />
+    <Compile Include="classes\MOPReportClass.cs" />
     <Compile Include="classes\MRPApproveClass.cs" />
     <Compile Include="classes\MRPClass.cs" />
     <Compile Include="classes\MRPSubmitClass.cs" />
@@ -524,6 +525,12 @@
       <DependentUpon>PreviewReport.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="reports\MRPReportMaster.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="reports\MRPReportSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="scm.aspx.cs">
       <DependentUpon>scm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -585,7 +592,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="reports\" />
     <Folder Include="SqlServerTypes\x64\" />
     <Folder Include="SqlServerTypes\x86\" />
   </ItemGroup>
@@ -597,6 +603,12 @@
       <DependentUpon>PreviewReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="reports\MRPReportMaster.resx">
+      <DependentUpon>MRPReportMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="reports\MRPReportSummary.resx">
+      <DependentUpon>MRPReportSummary.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
