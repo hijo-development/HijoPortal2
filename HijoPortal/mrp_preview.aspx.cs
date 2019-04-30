@@ -829,6 +829,109 @@ namespace HijoPortal
             //MRPClass.trial();
         }
 
+        public static DataTable REV(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("OperatingUnit", typeof(string));
+                dtTable.Columns.Add("ProductName", typeof(string));
+                dtTable.Columns.Add("FarmName", typeof(string));
+                dtTable.Columns.Add("Prize", typeof(string));
+                dtTable.Columns.Add("Volume", typeof(string));
+                dtTable.Columns.Add("TotalPrize", typeof(string));
+            }
+
+            string farm_query = "[dbo].[RevenueAssumptionPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
+            //cmd.ExecuteNonQuery();
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["OperatingUnit"] = row["OperUinit"].ToString();
+                    dtRow["ProductName"] = row["ProductName"].ToString();
+                    dtRow["FarmName"] = row["FarmName"].ToString();
+                    dtRow["Prize"] = Convert.ToDouble(row["Prize"].ToString()).ToString("N");
+                    dtRow["Volume"] = Convert.ToDouble(row["Volume"].ToString()).ToString("N");
+                    dtRow["TotalPrize"] = Convert.ToDouble(row["TotalPrize"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+
+        }
+
+        public static DataTable SUMMARY(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("Description", typeof(string));
+                dtTable.Columns.Add("Total", typeof(string));
+            }
+
+            string farm_query = "[dbo].[MRPSummaryPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["Sort"].ToString();
+                    dtRow["Description"] = row["MRPGroup"].ToString();
+                    dtRow["Total"] = Convert.ToDouble(row["EdittedTotalCost"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+
+        }
+
+
+
         public static DataTable DM(string docnumber)
         {
             DataTable dtTable = new DataTable();
@@ -860,6 +963,7 @@ namespace HijoPortal
             cmd = new SqlCommand(farm_query, cn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
             //cmd.ExecuteNonQuery();
 
             adp = new SqlDataAdapter(cmd);
@@ -869,11 +973,238 @@ namespace HijoPortal
                 foreach (DataRow row in dt.Rows)
                 {
                     DataRow dtRow = dtTable.NewRow();
-                    dtRow["PK"] = "1";
+                    dtRow["PK"] = row["PK"].ToString();
                     dtRow["OperatingUnit"] = row["OperUinit"].ToString();
                     dtRow["Activity"] = row["Activity"].ToString();
                     dtRow["Expense"] = row["ExpenseCode"].ToString();
                     dtRow["Descripiton"] = row["ItemDescription"].ToString();
+                    dtRow["UOM"] = row["UOM"].ToString();
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+
+        }
+
+        protected void GridPreviewDM_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        protected void GridPreviewOP_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        protected void GridPreviewMAN_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        protected void GridPreviewCA_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        private void ModifyGridColumns(ASPxGridView grid)
+        {
+            grid.Columns["PK"].Visible = false;
+            grid.Columns["Qty"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["Cost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["TotalCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+
+            if(entitycode != Constants.TRAIN_CODE())
+                grid.Columns["OperatingUnit"].Visible = false;
+        }
+
+        protected void GridPreviewREV_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            grid.Columns["PK"].Visible = false;
+            grid.Columns["Prize"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["Volume"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["TotalPrize"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+
+            if (entitycode != Constants.TRAIN_CODE())
+                grid.Columns["OperatingUnit"].Visible = false;
+        }
+
+        protected void GridPreviewSummary_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            grid.Columns["PK"].Visible = false;
+            grid.Columns["Total"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+        }
+
+        public static DataTable OP(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("OperatingUnit", typeof(string));
+                dtTable.Columns.Add("Expense", typeof(string));
+                dtTable.Columns.Add("ProcurementCategory", typeof(string));
+                dtTable.Columns.Add("Descripiton", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+            }
+
+            string farm_query = "[dbo].[OPEXPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
+            //cmd.ExecuteNonQuery();
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString(); ;
+                    dtRow["OperatingUnit"] = row["OprUnit"].ToString();
+                    dtRow["ProcurementCategory"] = row["ProcCat"].ToString();
+                    dtRow["Expense"] = row["ExpenseCode"].ToString();
+                    dtRow["Descripiton"] = row["OPEX_Description"].ToString();
+                    dtRow["UOM"] = row["UOMDesc"].ToString();
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+        }
+
+        public static DataTable MAN(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("OperatingUnit", typeof(string));
+                dtTable.Columns.Add("Activity", typeof(string));
+                dtTable.Columns.Add("Descripiton", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+            }
+
+            string farm_query = "[dbo].[ManPowerPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
+            //cmd.ExecuteNonQuery();
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString(); ;
+                    dtRow["OperatingUnit"] = row["OprUnitDesc"].ToString();
+                    dtRow["Activity"] = row["ActivityName"].ToString();
+                    dtRow["Descripiton"] = row["Description"].ToString();
+                    dtRow["UOM"] = row["UOMDesc"].ToString();
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+
+        }
+
+        public static DataTable CA(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("OperatingUnit", typeof(string));
+                dtTable.Columns.Add("Expense", typeof(string));
+                dtTable.Columns.Add("ProcurementCategory", typeof(string));
+                dtTable.Columns.Add("Descripiton", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+            }
+
+            string farm_query = "[dbo].[CAPEXPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
+            //cmd.ExecuteNonQuery();
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString(); ;
+                    dtRow["OperatingUnit"] = row["OprUnit"].ToString();
+                    dtRow["ProcurementCategory"] = row["ProdCat"].ToString();
+                    dtRow["Descripiton"] = row["Description"].ToString();
                     dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                     dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
@@ -1157,10 +1488,52 @@ namespace HijoPortal
 
             }
 
+
+
+            //string farm_query = "[dbo].[OPEXPreview]";
+            //SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            //cn.Open();
+            //SqlCommand cmd = new SqlCommand(farm_query, cn);
+
+            //cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            //cmd.Parameters.AddWithValue("@entity", entitycode);
+            //SqlDataReader dr = cmd.ExecuteReader();
+            //DataTable dt = new DataTable();
+            //dt.Load(dr);
+
+            //GridPreviewOP.DataSource = dt;
+            //GridPreviewOP.DataBind();
+            //cn.Close();
+            BindAll();
+        }
+
+        private void BindAll()
+        {
             string docnum = DocNum.Text.ToString();
             GridPreviewDM.DataSource = DM(docnum);
             GridPreviewDM.KeyFieldName = "PK";
             GridPreviewDM.DataBind();
+
+            GridPreviewOP.DataSource = OP(docnum);
+            GridPreviewOP.KeyFieldName = "PK";
+            GridPreviewOP.DataBind();
+
+            GridPreviewMAN.DataSource = MAN(docnum);
+            GridPreviewMAN.KeyFieldName = "PK";
+            GridPreviewMAN.DataBind();
+
+            GridPreviewCA.DataSource = CA(docnum);
+            GridPreviewCA.KeyFieldName = "PK";
+            GridPreviewCA.DataBind();
+
+            GridPreviewREV.DataSource = REV(docnum);
+            GridPreviewREV.KeyFieldName = "PK";
+            GridPreviewREV.DataBind();
+
+            GridPreviewSummary.DataSource = SUMMARY(docnum);
+            GridPreviewSummary.KeyFieldName = "PK";
+            GridPreviewSummary.DataBind();
 
 
         }

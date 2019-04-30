@@ -10,7 +10,7 @@
 namespace HijoPortal {
     
     
-    public partial class mrp_preview_approve {
+    public partial class mrp_preview_approve_before {
         
         /// <summary>
         /// dvContentWrapper control.
@@ -344,12 +344,5 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TotalECapex;
-
-        protected global::DevExpress.Web.ASPxGridView GridPreviewDM;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewOP;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewMAN;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewCA;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewREV;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewSummary;
     }
 }

@@ -79,204 +79,271 @@
             <asp:Button ID="ButtonMasterErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
         </asp:Panel>
 
+        <dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%" Height="100%">
+            <PanelCollection>
+                <dx:PanelContent>
 
-        <div id="dvBanner" runat="server" style="height: 80px;">
-            <dx:ASPxPopupControl ID="ASPxPopupControl1" runat="server" ClientInstanceName="PopUpInfoClient" HeaderText="Information" Theme="Office2010Blue" Width="200px" Height="100%" PopupAnimationType="Fade" CloseAnimationType="Fade">
-                <ContentCollection>
-                    <dx:PopupControlContentControl>
-                        <table style="width: 100%;" class="popup_table">
-                            <tr>
-                                <td style="width: 20%; vertical-align: top;">
-                                    <dx:ASPxLabel runat="server" Text="User" Theme="Office2010Blue"></dx:ASPxLabel>
+
+                    <div id="dvBanner" runat="server" style="height: 80px;">
+                        <dx:ASPxPopupControl ID="ASPxPopupControl1" runat="server" ClientInstanceName="PopUpInfoClient" HeaderText="Information" Theme="Office2010Blue" Width="200px" Height="100%" PopupAnimationType="Fade" CloseAnimationType="Fade">
+                            <ContentCollection>
+                                <dx:PopupControlContentControl>
+                                    <table style="width: 100%;" class="popup_table">
+                                        <tr>
+                                            <td style="width: 20%; vertical-align: top;">
+                                                <dx:ASPxLabel runat="server" Text="User" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                            <td style="width: 1%; vertical-align: top">: </td>
+                                            <td style="vertical-align: top; width: 80%;">
+                                                <dx:ASPxLabel ID="UserLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="vertical-align: top;">
+                                                <dx:ASPxLabel runat="server" Text="Entity" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                            <td style="vertical-align: top;">: </td>
+                                            <td style="vertical-align: top;">
+                                                <dx:ASPxLabel ID="EntityLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="vertical-align: top;">
+                                                <dx:ASPxLabel runat="server" Text="BU / Dept" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                            <td style="vertical-align: top;">: </td>
+                                            <td style="vertical-align: top;">
+                                                <dx:ASPxLabel ID="BULbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="text-align: right">
+                                                <table style="width: 100%;">
+                                                    <tr>
+                                                        <td style="text-align: right;">
+                                                            <dx:ASPxHyperLink ID="ChangePW" runat="server" OnInit="ChangePW_Init" Text="Change Password" Cursor="pointer" Theme="Office2010Blue">
+                                                            </dx:ASPxHyperLink>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <dx:ASPxHyperLink ID="LogOut" runat="server" Text="Log Out" Cursor="pointer" Theme="Office2010Blue">
+                                                                <ClientSideEvents Click="function(s,e){PopUpInfoClient.Hide(); PopupLogout.Show();}" />
+                                                            </dx:ASPxHyperLink>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </dx:PopupControlContentControl>
+                            </ContentCollection>
+                        </dx:ASPxPopupControl>
+                        <table style="width: 100%; height: 80px;">
+                            <tr style="height: 80px;">
+                                <td style="width: 60px; height: 60px; vertical-align: middle;">
+                                    <img src="images/Hijo Logo.png" style="height: 60px; width: 260px;" />
                                 </td>
-                                <td style="width: 1%; vertical-align: top">: </td>
-                                <td style="vertical-align: top; width: 80%;">
-                                    <dx:ASPxLabel ID="UserLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="vertical-align: top;">
-                                    <dx:ASPxLabel runat="server" Text="Entity" Theme="Office2010Blue"></dx:ASPxLabel>
-                                </td>
-                                <td style="vertical-align: top;">: </td>
-                                <td style="vertical-align: top;">
-                                    <dx:ASPxLabel ID="EntityLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="vertical-align: top;">
-                                    <dx:ASPxLabel runat="server" Text="BU / Dept" Theme="Office2010Blue"></dx:ASPxLabel>
-                                </td>
-                                <td style="vertical-align: top;">: </td>
-                                <td style="vertical-align: top;">
-                                    <dx:ASPxLabel ID="BULbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" style="text-align: right">
+                                <td style="width: 20%">
                                     <table style="width: 100%;">
                                         <tr>
-                                            <td style="text-align: right;">
-                                                <dx:ASPxHyperLink ID="ChangePW" runat="server" OnInit="ChangePW_Init" Text="Change Password" Cursor="pointer" Theme="Office2010Blue">
-                                                </dx:ASPxHyperLink>
+                                            <td style="width: 100%; text-align: right;">
+                                                <%--<div style="width:40px; height: 40px; -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px;">--%>
+                                                <dx:ASPxButton ID="ProfileImage" runat="server" ClientInstanceName="ProfileImageClient" RenderMode="Link" Theme="Office2010Blue" Image-Width="40px" Image-Height="40px">
+                                                    <ClientSideEvents Click="onButtonClick" />
+                                                </dx:ASPxButton>
+                                                <%--</div>--%>
                                             </td>
-                                            <td style="text-align: right;">
-                                                <dx:ASPxHyperLink ID="LogOut" runat="server" Text="Log Out" Cursor="pointer" Theme="Office2010Blue">
-                                                    <ClientSideEvents Click="function(s,e){PopUpInfoClient.Hide(); PopupLogout.Show();}" />
-                                                </dx:ASPxHyperLink>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 100%; text-align: right;">
+                                                <dx:ASPxLabel ID="WelcomeLbl" ClientInstanceName="WelcomeLbl" runat="server" Text="Welcome User" Theme="Office2010Blue" Cursor="pointer">
+                                                    <ClientSideEvents Click="onButtonClick" />
+                                                </dx:ASPxLabel>
                                             </td>
                                         </tr>
                                     </table>
                                 </td>
+                                <td style="width: 3%"></td>
                             </tr>
                         </table>
-                    </dx:PopupControlContentControl>
-                </ContentCollection>
-            </dx:ASPxPopupControl>
-            <table style="width: 100%; height: 80px;">
-                <tr style="height: 80px;">
-                    <td style="width: 60px; height: 60px; vertical-align: middle;">
-                        <img src="images/Hijo Logo.png" style="height: 60px; width: 260px;" />
-                    </td>
-                    <td style="width: 20%">
-                        <table style="width: 100%;">
-                            <tr>
-                                <td style="width: 100%; text-align: right;">
-                                    <%--<div style="width:40px; height: 40px; -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px;">--%>
-                                        <dx:ASPxButton ID="ProfileImage" runat="server" ClientInstanceName="ProfileImageClient" RenderMode="Link" Theme="Office2010Blue" Image-Width="40px" Image-Height="40px">
-                                            <ClientSideEvents Click="onButtonClick" />
-                                        </dx:ASPxButton>
-                                    <%--</div>--%>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 100%; text-align: right;">
-                                    <dx:ASPxLabel ID="WelcomeLbl" ClientInstanceName="WelcomeLbl" runat="server" Text="Welcome User" Theme="Office2010Blue" Cursor="pointer">
-                                        <ClientSideEvents Click="onButtonClick" />
-                                    </dx:ASPxLabel>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td style="width: 3%"></td>
-                </tr>
-            </table>
-        </div>
-        <div style="background-color: #0e3f6b; height: 5px;"></div>
-        <div id="dvSplitter" runat="server">
-            <dx:ASPxPopupControl ID="PopupLogout" ClientInstanceName="PopupLogout" runat="server" HeaderText="Log Out" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
-                <ContentCollection>
-                    <dx:PopupControlContentControl>
-                        <table style="width: 100%;" border="0">
-                            <tr>
-                                <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
-                                    <dx:ASPxLabel runat="server" Text="Are you sure you want to log out?" Theme="Office2010Blue"></dx:ASPxLabel>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">
-                                    <dx:ASPxButton ID="OK_LOGOUT" runat="server" OnClick="LogOut_Click" CausesValidation="false" Text="OK" Theme="Office2010Blue" AutoPostBack="false">
-                                        <%--<ClientSideEvents Click="OK_DELETE" />--%>
-                                    </dx:ASPxButton>
-                                    <dx:ASPxButton ID="CANCEL_LOGOUT" runat="server" CausesValidation="false" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
-                                        <ClientSideEvents Click="function(s,e){PopupLogout.Hide();}" />
-                                    </dx:ASPxButton>
-                                </td>
-                            </tr>
-                        </table>
+                    </div>
+                    <div style="background-color: #0e3f6b; height: 5px;"></div>
+                    <div id="dvSplitter" runat="server">
+                        <dx:ASPxPopupControl ID="PopupLogout" ClientInstanceName="PopupLogout" runat="server" HeaderText="Log Out" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+                            <ContentCollection>
+                                <dx:PopupControlContentControl>
+                                    <table style="width: 100%;" border="0">
+                                        <tr>
+                                            <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
+                                                <dx:ASPxLabel runat="server" Text="Are you sure you want to log out?" Theme="Office2010Blue"></dx:ASPxLabel>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right;">
+                                                <dx:ASPxButton ID="OK_LOGOUT" runat="server" OnClick="LogOut_Click" CausesValidation="false" Text="OK" Theme="Office2010Blue" AutoPostBack="false">
+                                                    <%--<ClientSideEvents Click="OK_DELETE" />--%>
+                                                </dx:ASPxButton>
+                                                <dx:ASPxButton ID="CANCEL_LOGOUT" runat="server" CausesValidation="false" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                                                    <ClientSideEvents Click="function(s,e){PopupLogout.Hide();}" />
+                                                </dx:ASPxButton>
+                                            </td>
+                                        </tr>
+                                    </table>
 
-                    </dx:PopupControlContentControl>
-                </ContentCollection>
-            </dx:ASPxPopupControl>
-            <%--<dx:ASPxSplitter ID="MainSplitter" runat="server" ClientInstanceName="MainSplitterClient" BackColor="Transparent" AllowResize="true" Border-BorderStyle="None" Height="100%" SeparatorSize="70px" Theme="iOS">--%>
-            <dx:ASPxSplitter ID="ASPxSplitter1" runat="server" ClientInstanceName="MainSplitterClient" AllowResize="true" Height="100%" BackColor="Transparent"
-                ResizingMode="Live" SeparatorSize="20" ShowSeparatorImage="true">
-                <ClientSideEvents PaneCollapsed="MainSplitterClient_PaneCollapsed" />
-                <ClientSideEvents PaneExpanded="MainSplitterClient_PaneExpanded" />
-                <ClientSideEvents PaneResized="MainSplitterClient_PaneResized" />
-                <Images>
-                    <VerticalCollapseBackwardButton Height="18px" Width="18px" Url="images/2leftarrow.png"></VerticalCollapseBackwardButton>
-                    <VerticalCollapseForwardButton Height="18px" Width="18px" Url="images/2rightarrow.png"></VerticalCollapseForwardButton>
-                    <VerticalSeparatorButton Height="18px" Width="18px" Url="images/2rightarrow.png"></VerticalSeparatorButton>
-                </Images>
-                <Styles>
-                    <SeparatorButton>
-                        <HoverStyle BackColor="Transparent"></HoverStyle>
-                    </SeparatorButton>
-                </Styles>
+                                </dx:PopupControlContentControl>
+                            </ContentCollection>
+                        </dx:ASPxPopupControl>
+                        <%--<dx:ASPxSplitter ID="MainSplitter" runat="server" ClientInstanceName="MainSplitterClient" BackColor="Transparent" AllowResize="true" Border-BorderStyle="None" Height="100%" SeparatorSize="70px" Theme="iOS">--%>
+                        <dx:ASPxSplitter ID="ASPxSplitter1" runat="server" ClientInstanceName="MainSplitterClient" AllowResize="true" Height="100%" BackColor="Transparent"
+                            ResizingMode="Live" SeparatorSize="20" ShowSeparatorImage="true">
+                            <ClientSideEvents PaneCollapsed="MainSplitterClient_PaneCollapsed" />
+                            <ClientSideEvents PaneExpanded="MainSplitterClient_PaneExpanded" />
+                            <ClientSideEvents PaneResized="MainSplitterClient_PaneResized" />
+                            <Images>
+                                <VerticalCollapseBackwardButton Height="18px" Width="18px" Url="images/2leftarrow.png"></VerticalCollapseBackwardButton>
+                                <VerticalCollapseForwardButton Height="18px" Width="18px" Url="images/2rightarrow.png"></VerticalCollapseForwardButton>
+                                <VerticalSeparatorButton Height="18px" Width="18px" Url="images/2rightarrow.png"></VerticalSeparatorButton>
+                            </Images>
+                            <Styles>
+                                <SeparatorButton>
+                                    <HoverStyle BackColor="Transparent"></HoverStyle>
+                                </SeparatorButton>
+                            </Styles>
 
-                <Panes>
-                    <%--<dx:SplitterPane Size="200px" Name="containMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" ScrollBars="Auto" PaneStyle-Border-BorderStyle="Groove" ShowCollapseBackwardButton="True">--%>
-                    <dx:SplitterPane Size="200px" Name="containMenu" ScrollBars="Auto" AutoHeight="false" PaneStyle-BackColor="Transparent" ShowCollapseBackwardButton="True" ShowSeparatorImage="True">
-                        <ContentCollection>
-                            <dx:SplitterContentControl runat="server" Style="padding: 5px;">
-                                <div id="dvNavWapper" runat="server">
-                                    <div id="dvSideNav" runat="server" class="side-menu">
-                                        <%--Menu From Database--%>
-                                    </div>
-                                </div>
-                            </dx:SplitterContentControl>
-                        </ContentCollection>
-                    </dx:SplitterPane>
-                    <dx:SplitterPane Name="containForm" PaneStyle-BackColor="#e6eff7" ScrollBars="Auto" AllowResize="True" AutoHeight="false" PaneStyle-Border-BorderStyle="None">
-                        <Separator>
-                            <SeparatorStyle BackColor="#0e3f6b" />
-                        </Separator>
-                        <ContentCollection>
-                            <dx:SplitterContentControl ID="Content" runat="server">
-                                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-                                    <%--Content WebForm--%>
-                                </asp:ContentPlaceHolder>
-                            </dx:SplitterContentControl>
-                        </ContentCollection>
-                    </dx:SplitterPane>
-                    <dx:SplitterPane Size="25%" Name="SideMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" PaneStyle-Border-BorderStyle="None" ShowCollapseForwardButton="True" Collapsed="true">
-                        <Separator>
-                            <SeparatorStyle BackColor="#0e3f6b" />
-                        </Separator>
-                        <ContentCollection>
-                            <dx:SplitterContentControl runat="server">
-                                <%--Right Panel Collapse--%>
-                                <dx:ASPxCallbackPanel ID="FloatCallbackPanel" ClientInstanceName="FloatCallbackPanel" runat="server" Width="100%" OnCallback="FloatCallbackPanel_Callback">
-                                    <ClientSideEvents EndCallback="FloatEndCallback" />
-                                    <PanelCollection>
-                                        <dx:PanelContent>
-                                            <div id="dvMOPSidePanel" runat="server">
-                                                <h3>MOP Information</h3>
-                                                <table>
-                                                    <tr>
-                                                        <td>
-                                                            <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="Doc Number"></dx:ASPxLabel>
-                                                        </td>
-                                                        <td style="width: 10px; text-align: center;">:</td>
-                                                        <td>
-                                                            <dx:ASPxLabel ID="MOPDucNumber" runat="server" ClientInstanceName="SideBarMOPDucNumber" Text="" Font-Bold="true"></dx:ASPxLabel>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">
-                                                            <h4>PO List</h4>
-                                                            <div style="margin: 3px; width: 100%;">
-                                                                <dx:ASPxGridView ID="grdMOPPOList" runat="server" KeyFieldName="PK"
-                                                                    ClientInstanceName="grdMOPPOListDirect"
+                            <Panes>
+                                <%--<dx:SplitterPane Size="200px" Name="containMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" ScrollBars="Auto" PaneStyle-Border-BorderStyle="Groove" ShowCollapseBackwardButton="True">--%>
+                                <dx:SplitterPane Size="200px" Name="containMenu" ScrollBars="Auto" AutoHeight="false" PaneStyle-BackColor="Transparent" ShowCollapseBackwardButton="True" ShowSeparatorImage="True">
+                                    <ContentCollection>
+                                        <dx:SplitterContentControl runat="server" Style="padding: 5px;">
+                                            <div id="dvNavWapper" runat="server">
+                                                <div id="dvSideNav" runat="server" class="side-menu">
+                                                    <%--Menu From Database--%>
+                                                </div>
+                                            </div>
+                                        </dx:SplitterContentControl>
+                                    </ContentCollection>
+                                </dx:SplitterPane>
+                                <dx:SplitterPane Name="containForm" PaneStyle-BackColor="#e6eff7" ScrollBars="Auto" AllowResize="True" AutoHeight="false" PaneStyle-Border-BorderStyle="None">
+                                    <Separator>
+                                        <SeparatorStyle BackColor="#0e3f6b" />
+                                    </Separator>
+                                    <ContentCollection>
+                                        <dx:SplitterContentControl ID="Content" runat="server">
+                                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                                <%--Content WebForm--%>
+                                            </asp:ContentPlaceHolder>
+                                        </dx:SplitterContentControl>
+                                    </ContentCollection>
+                                </dx:SplitterPane>
+                                <dx:SplitterPane Size="25%" Name="SideMenu" PaneStyle-BackColor="Transparent" AutoHeight="false" PaneStyle-Border-BorderStyle="None" ShowCollapseForwardButton="True" Collapsed="true">
+                                    <Separator>
+                                        <SeparatorStyle BackColor="#0e3f6b" />
+                                    </Separator>
+                                    <ContentCollection>
+                                        <dx:SplitterContentControl runat="server">
+                                            <%--Right Panel Collapse--%>
+                                            <dx:ASPxCallbackPanel ID="FloatCallbackPanel" ClientInstanceName="FloatCallbackPanel" runat="server" Width="100%" OnCallback="FloatCallbackPanel_Callback">
+                                                <ClientSideEvents EndCallback="FloatEndCallback" />
+                                                <PanelCollection>
+                                                    <dx:PanelContent>
+                                                        <div id="dvMOPSidePanel" runat="server">
+                                                            <h3>MOP Information</h3>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <dx:ASPxLabel ID="ASPxLabel3" runat="server" Text="Doc Number"></dx:ASPxLabel>
+                                                                    </td>
+                                                                    <td style="width: 10px; text-align: center;">:</td>
+                                                                    <td>
+                                                                        <dx:ASPxLabel ID="MOPDucNumber" runat="server" ClientInstanceName="SideBarMOPDucNumber" Text="" Font-Bold="true"></dx:ASPxLabel>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <h4>PO List</h4>
+                                                                        <div style="margin: 3px; width: 100%;">
+                                                                            <dx:ASPxGridView ID="grdMOPPOList" runat="server" KeyFieldName="PK"
+                                                                                ClientInstanceName="grdMOPPOListDirect"
+                                                                                EnableTheming="True"
+                                                                                KeyboardSupport="true" Style="margin: 0 auto;"
+                                                                                Width="100%" Theme="Office2010Blue"
+                                                                                EnableCallBacks="true">
+                                                                                <Columns>
+                                                                                    <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="0">
+                                                                                        <HeaderStyle Font-Bold="true" />
+                                                                                    </dx:GridViewDataColumn>
+                                                                                    <dx:GridViewDataColumn FieldName="PONumber" Caption="PO Number" SortOrder="Ascending" VisibleIndex="1">
+                                                                                        <HeaderStyle Font-Bold="true" />
+                                                                                    </dx:GridViewDataColumn>
+                                                                                    <dx:GridViewDataColumn FieldName="POStatus" Caption="PO Status" VisibleIndex="2">
+                                                                                        <HeaderStyle Font-Bold="true" />
+                                                                                    </dx:GridViewDataColumn>
+                                                                                    <dx:GridViewDataColumn FieldName="POAXStatus" Caption="AX PO Status" VisibleIndex="3">
+                                                                                        <HeaderStyle Font-Bold="true" />
+                                                                                    </dx:GridViewDataColumn>
+                                                                                    <dx:GridViewDataColumn FieldName="Total" Caption="Total" VisibleIndex="4">
+                                                                                        <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
+                                                                                        <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                                    </dx:GridViewDataColumn>
+                                                                                </Columns>
+                                                                                <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
+                                                                                <Styles>
+                                                                                    <SelectedRow Font-Bold="False" Font-Italic="False">
+                                                                                    </SelectedRow>
+                                                                                    <FocusedRow Font-Bold="False" Font-Italic="False">
+                                                                                    </FocusedRow>
+                                                                                </Styles>
+                                                                            </dx:ASPxGridView>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <h4>PO Lines</h4>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div id="dvItemSidePanel" runat="server">
+                                                            <h3>Item Information</h3>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="ItemCode"></dx:ASPxLabel>
+                                                                    </td>
+                                                                    <td>:</td>
+                                                                    <td>
+                                                                        <dx:ASPxLabel ID="lblItemCode" runat="server" ClientInstanceName="SideBarlblItemCode" Text="" Font-Bold="true"></dx:ASPxLabel>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Description"></dx:ASPxLabel>
+                                                                    </td>
+                                                                    <td>:</td>
+                                                                    <td>
+                                                                        <dx:ASPxLabel ID="lblDescription" runat="server" ClientInstanceName="SideBarlblDescription" Text="" Font-Bold="true"></dx:ASPxLabel>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <div style="margin: 3px;">
+                                                                <h4>On Hand Inventory</h4>
+                                                                <dx:ASPxGridView ID="grdOnHand" runat="server"
+                                                                    ClientInstanceName="grdOnHandDirect"
                                                                     EnableTheming="True"
                                                                     KeyboardSupport="true" Style="margin: 0 auto;"
                                                                     Width="100%" Theme="Office2010Blue"
                                                                     EnableCallBacks="true">
                                                                     <Columns>
-                                                                        <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="0">
+                                                                        <dx:GridViewDataColumn FieldName="LocationID" Caption="Loc. ID" VisibleIndex="0">
                                                                             <HeaderStyle Font-Bold="true" />
                                                                         </dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="PONumber" Caption="PO Number" SortOrder="Ascending" VisibleIndex="1">
+                                                                        <dx:GridViewDataColumn FieldName="InventLocationID" Caption="Invent. Loc. ID" VisibleIndex="1">
                                                                             <HeaderStyle Font-Bold="true" />
                                                                         </dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="POStatus" Caption="PO Status" VisibleIndex="2">
+                                                                        <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="2">
                                                                             <HeaderStyle Font-Bold="true" />
                                                                         </dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="POAXStatus" Caption="AX PO Status" VisibleIndex="3">
-                                                                            <HeaderStyle Font-Bold="true" />
-                                                                        </dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="Total" Caption="Total" VisibleIndex="4">
+                                                                        <dx:GridViewDataColumn FieldName="Quantity" Caption="Quantity" VisibleIndex="3">
                                                                             <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
                                                                             <CellStyle HorizontalAlign="Right"></CellStyle>
                                                                         </dx:GridViewDataColumn>
@@ -289,147 +356,87 @@
                                                                         </FocusedRow>
                                                                     </Styles>
                                                                 </dx:ASPxGridView>
+                                                                <h4>Pending Purchase Order</h4>
+                                                                <dx:ASPxGridView ID="grdPendingPO" runat="server"
+                                                                    ClientInstanceName="grdPendingPODirect"
+                                                                    EnableTheming="True"
+                                                                    KeyboardSupport="true" Style="margin: 0 auto;"
+                                                                    Width="100%" Theme="Office2010Blue"
+                                                                    EnableCallBacks="true">
+                                                                    <Columns>
+                                                                        <dx:GridViewDataColumn FieldName="PONumber" Caption="PO Number" VisibleIndex="0">
+                                                                            <HeaderStyle Font-Bold="true" />
+                                                                        </dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="1">
+                                                                            <HeaderStyle Font-Bold="true" />
+                                                                        </dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="Quantity" Caption="Quantity" VisibleIndex="2">
+                                                                            <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
+                                                                            <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                        </dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="Status" Caption="Status" VisibleIndex="3">
+                                                                            <HeaderStyle Font-Bold="true" />
+                                                                        </dx:GridViewDataColumn>
+                                                                    </Columns>
+                                                                    <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
+                                                                    <Styles>
+                                                                        <SelectedRow Font-Bold="False" Font-Italic="False">
+                                                                        </SelectedRow>
+                                                                        <FocusedRow Font-Bold="False" Font-Italic="False">
+                                                                        </FocusedRow>
+                                                                    </Styles>
+                                                                </dx:ASPxGridView>
+                                                                <h4>Inventory Movement</h4>
+                                                                <dx:ASPxGridView ID="grdInventMovement" runat="server"
+                                                                    ClientInstanceName="grdInventMovementDirect"
+                                                                    EnableTheming="True"
+                                                                    KeyboardSupport="true" Style="margin: 0 auto;"
+                                                                    Width="100%" Theme="Office2010Blue"
+                                                                    EnableCallBacks="true">
+                                                                    <Columns>
+                                                                        <dx:GridViewDataColumn Caption="IMJ Number" VisibleIndex="0">
+                                                                            <HeaderStyle Font-Bold="true" />
+                                                                        </dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="1">
+                                                                            <HeaderStyle Font-Bold="true" />
+                                                                        </dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn Caption="Quantity" VisibleIndex="2">
+                                                                            <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
+                                                                            <CellStyle HorizontalAlign="Right"></CellStyle>
+                                                                        </dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn Caption="Status" VisibleIndex="3">
+                                                                            <HeaderStyle Font-Bold="true" />
+                                                                        </dx:GridViewDataColumn>
+                                                                    </Columns>
+                                                                    <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
+                                                                    <Styles>
+                                                                        <SelectedRow Font-Bold="False" Font-Italic="False">
+                                                                        </SelectedRow>
+                                                                        <FocusedRow Font-Bold="False" Font-Italic="False">
+                                                                        </FocusedRow>
+                                                                    </Styles>
+                                                                </dx:ASPxGridView>
                                                             </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">
-                                                            <h4>PO Lines</h4>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <div id="dvItemSidePanel" runat="server">
-                                                <h3>Item Information</h3>
-                                                <table>
-                                                    <tr>
-                                                        <td>
-                                                            <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="ItemCode"></dx:ASPxLabel>
-                                                        </td>
-                                                        <td>:</td>
-                                                        <td>
-                                                            <dx:ASPxLabel ID="lblItemCode" runat="server" ClientInstanceName="SideBarlblItemCode" Text="" Font-Bold="true"></dx:ASPxLabel>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <dx:ASPxLabel ID="ASPxLabel2" runat="server" Text="Description"></dx:ASPxLabel>
-                                                        </td>
-                                                        <td>:</td>
-                                                        <td>
-                                                            <dx:ASPxLabel ID="lblDescription" runat="server" ClientInstanceName="SideBarlblDescription" Text="" Font-Bold="true"></dx:ASPxLabel>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <div style="margin: 3px;">
-                                                    <h4>On Hand Inventory</h4>
-                                                    <dx:ASPxGridView ID="grdOnHand" runat="server"
-                                                        ClientInstanceName="grdOnHandDirect"
-                                                        EnableTheming="True"
-                                                        KeyboardSupport="true" Style="margin: 0 auto;"
-                                                        Width="100%" Theme="Office2010Blue"
-                                                        EnableCallBacks="true">
-                                                        <Columns>
-                                                            <dx:GridViewDataColumn FieldName="LocationID" Caption="Loc. ID" VisibleIndex="0">
-                                                                <HeaderStyle Font-Bold="true" />
-                                                            </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="InventLocationID" Caption="Invent. Loc. ID" VisibleIndex="1">
-                                                                <HeaderStyle Font-Bold="true" />
-                                                            </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="2">
-                                                                <HeaderStyle Font-Bold="true" />
-                                                            </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Quantity" Caption="Quantity" VisibleIndex="3">
-                                                                <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
-                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
-                                                            </dx:GridViewDataColumn>
-                                                        </Columns>
-                                                        <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
-                                                        <Styles>
-                                                            <SelectedRow Font-Bold="False" Font-Italic="False">
-                                                            </SelectedRow>
-                                                            <FocusedRow Font-Bold="False" Font-Italic="False">
-                                                            </FocusedRow>
-                                                        </Styles>
-                                                    </dx:ASPxGridView>
-                                                    <h4>Pending Purchase Order</h4>
-                                                    <dx:ASPxGridView ID="grdPendingPO" runat="server"
-                                                        ClientInstanceName="grdPendingPODirect"
-                                                        EnableTheming="True"
-                                                        KeyboardSupport="true" Style="margin: 0 auto;"
-                                                        Width="100%" Theme="Office2010Blue"
-                                                        EnableCallBacks="true">
-                                                        <Columns>
-                                                            <dx:GridViewDataColumn FieldName="PONumber" Caption="PO Number" VisibleIndex="0">
-                                                                <HeaderStyle Font-Bold="true" />
-                                                            </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="1">
-                                                                <HeaderStyle Font-Bold="true" />
-                                                            </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Quantity" Caption="Quantity" VisibleIndex="2">
-                                                                <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
-                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
-                                                            </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="Status" Caption="Status" VisibleIndex="3">
-                                                                <HeaderStyle Font-Bold="true" />
-                                                            </dx:GridViewDataColumn>
-                                                        </Columns>
-                                                        <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
-                                                        <Styles>
-                                                            <SelectedRow Font-Bold="False" Font-Italic="False">
-                                                            </SelectedRow>
-                                                            <FocusedRow Font-Bold="False" Font-Italic="False">
-                                                            </FocusedRow>
-                                                        </Styles>
-                                                    </dx:ASPxGridView>
-                                                    <h4>Inventory Movement</h4>
-                                                    <dx:ASPxGridView ID="grdInventMovement" runat="server"
-                                                        ClientInstanceName="grdInventMovementDirect"
-                                                        EnableTheming="True"
-                                                        KeyboardSupport="true" Style="margin: 0 auto;"
-                                                        Width="100%" Theme="Office2010Blue"
-                                                        EnableCallBacks="true">
-                                                        <Columns>
-                                                            <dx:GridViewDataColumn Caption="IMJ Number" VisibleIndex="0">
-                                                                <HeaderStyle Font-Bold="true" />
-                                                            </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn FieldName="UOM" Caption="UOM" VisibleIndex="1">
-                                                                <HeaderStyle Font-Bold="true" />
-                                                            </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn Caption="Quantity" VisibleIndex="2">
-                                                                <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
-                                                                <CellStyle HorizontalAlign="Right"></CellStyle>
-                                                            </dx:GridViewDataColumn>
-                                                            <dx:GridViewDataColumn Caption="Status" VisibleIndex="3">
-                                                                <HeaderStyle Font-Bold="true" />
-                                                            </dx:GridViewDataColumn>
-                                                        </Columns>
-                                                        <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
-                                                        <Styles>
-                                                            <SelectedRow Font-Bold="False" Font-Italic="False">
-                                                            </SelectedRow>
-                                                            <FocusedRow Font-Bold="False" Font-Italic="False">
-                                                            </FocusedRow>
-                                                        </Styles>
-                                                    </dx:ASPxGridView>
-                                                </div>
-                                            </div>
-                                        </dx:PanelContent>
-                                    </PanelCollection>
-                                </dx:ASPxCallbackPanel>
-                            </dx:SplitterContentControl>
-                        </ContentCollection>
-                    </dx:SplitterPane>
-                </Panes>
-            </dx:ASPxSplitter>
-        </div>
-        <div id="footer" runat="server">
-            <%--  <label id="lblUser" runat="server">User :</label>
+                                                        </div>
+                                                    </dx:PanelContent>
+                                                </PanelCollection>
+                                            </dx:ASPxCallbackPanel>
+                                        </dx:SplitterContentControl>
+                                    </ContentCollection>
+                                </dx:SplitterPane>
+                            </Panes>
+                        </dx:ASPxSplitter>
+                    </div>
+                    <div id="footer" runat="server">
+                        <%--  <label id="lblUser" runat="server">User :</label>
             &nbsp
             <dx:ASPxLabel ID="ASPxLabelEnt" ClientInstanceName="ASPxLabelEntDirect" runat="server" Text="" ForeColor="White"></dx:ASPxLabel>
             &nbsp
             <dx:ASPxLabel ID="ASPxLabelBU" ClientInstanceName="ASPxLabelBUDirect" runat="server" Text="" ForeColor="White"></dx:ASPxLabel>--%>
-        </div>
+                    </div>
+                </dx:PanelContent>
+            </PanelCollection>
+        </dx:ASPxPanel>
     </form>
 </body>
 </html>
