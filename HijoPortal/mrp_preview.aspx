@@ -94,7 +94,7 @@
             <dx:PanelContent>
                 <%--<div id="Div1" runat="server" class="ContentWrapper">--%>
                 <%--from here--%>
-                <div>
+                <div style="background-color: white; padding:10px;">
                     <div id="dvHeader" style="height: 150px; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
                         <h1 id="mrpHead" runat="server"></h1>
                         <table style="width: 100%; margin: auto;" border="0">

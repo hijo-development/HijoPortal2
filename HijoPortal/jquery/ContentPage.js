@@ -1081,12 +1081,12 @@ function updateRevenue(s, e) {
     }
 
     var product = ProductNameRev.GetText();
-    var farm = FarmNameRev.GetText();
+    //var farm = FarmNameRev.GetText();
     var prize = PrizeRev.GetText();
     var volume = VolumeRev.GetText();
     var totalprize = TotalPrizeRev.GetText();
 
-    if (product.length > 0 && farm.length > 0 && prize.length > 0 && volume.length > 0 && totalprize.length > 0 && bool) {
+    if (product.length > 0 && prize.length > 0 && volume.length > 0 && totalprize.length > 0 && bool) {
         RevenueGrid.UpdateEdit();
     }
 }

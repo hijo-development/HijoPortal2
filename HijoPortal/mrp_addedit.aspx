@@ -216,7 +216,7 @@
                     </table>
                 </div>
                 <div style="width: inherit">
-                    <dx:ASPxPageControl ID="ASPxPageControl1" runat="server" Width="100%" ActiveTabIndex="0" EnableHierarchyRecreation="true" Theme="Office2010Blue">
+                    <dx:ASPxPageControl ID="ASPxPageControl1" runat="server" Width="100%" ActiveTabIndex="0" OnLoad="ASPxPageControl1_Load" EnableHierarchyRecreation="true" Theme="Office2010Blue">
                         <TabPages>
                             <dx:TabPage Text="MRP">
                                 <ContentCollection>
@@ -234,7 +234,7 @@
                                                         <PanelCollection>
                                                             <dx:PanelContent>
                                                                 <div style="width: inherit; overflow-x: auto;">
-                                                                    <dx:ASPxGridView ID="DirectMaterialsGrid" runat="server" ClientInstanceName="DirectMaterialsGrid" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
+                                                                    <dx:ASPxGridView ID="DirectMaterialsGrid" runat="server" ClientInstanceName="DirectMaterialsGrid" OnHtmlEditFormCreated="DirectMaterialsGrid_HtmlEditFormCreated" EnableCallBacks="True" Width="100%" Theme="Office2010Blue"
                                                                         OnInitNewRow="DirectMaterialsGrid_InitNewRow"
                                                                         OnRowInserting="DirectMaterialsGrid_RowInserting"
                                                                         OnRowDeleting="DirectMaterialsGrid_RowDeleting"
@@ -918,7 +918,8 @@
                                                                     OnRowUpdating="ManPowerGrid_RowUpdating"
                                                                     OnBeforeGetCallbackResult="ManPowerGrid_BeforeGetCallbackResult"
                                                                     OnDataBound="ManPowerGrid_DataBound"
-                                                                    OnCancelRowEditing="ManPowerGrid_CancelRowEditing">
+                                                                    OnCancelRowEditing="ManPowerGrid_CancelRowEditing" 
+                                                                    OnHtmlEditFormCreated="ManPowerGrid_HtmlEditFormCreated">
                                                                     <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
                                                                     <ClientSideEvents CustomButtonClick="ManPowerGrid_CustomButtonClick" />
                                                                     <Columns>
@@ -1145,7 +1146,8 @@
                                                                     OnRowUpdating="CAPEXGrid_RowUpdating"
                                                                     OnBeforeGetCallbackResult="CAPEXGrid_BeforeGetCallbackResult"
                                                                     OnDataBound="CAPEXGrid_DataBound"
-                                                                    OnCancelRowEditing="CAPEXGrid_CancelRowEditing">
+                                                                    OnCancelRowEditing="CAPEXGrid_CancelRowEditing" 
+                                                                    OnHtmlEditFormCreated="CAPEXGrid_HtmlEditFormCreated">
                                                                     <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
                                                                     <ClientSideEvents CustomButtonClick="CAPEXGrid_CustomButtonClick" />
                                                                     <Columns>
@@ -1378,7 +1380,7 @@
                                                                                     <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
                                                                                         <ClientSideEvents Click="RevenueGrid_Add" />
                                                                                     </dx:ASPxButton>
-                                                                                </div>
+                                                                                </div>  
                                                                             </HeaderTemplate>
                                                                             <CustomButtons>
                                                                                 <dx:GridViewCommandColumnCustomButton ID="REVEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
@@ -1394,7 +1396,7 @@
                                                                         <dx:GridViewDataColumn FieldName="VALUE" Visible="false"></dx:GridViewDataColumn>
                                                                         <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="3"></dx:GridViewDataColumn>
                                                                         <dx:GridViewDataColumn FieldName="ProductName" Caption="Product" Width="400px" VisibleIndex="4"></dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="FarmName" Caption="Location" VisibleIndex="5"></dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="FarmName" Visible="false" Caption="Location" VisibleIndex="5"></dx:GridViewDataColumn>
                                                                         <dx:GridViewDataColumn FieldName="Volume" VisibleIndex="6" CellStyle-HorizontalAlign="Right">
                                                                             <HeaderStyle HorizontalAlign="Right" />
                                                                             <CellStyle HorizontalAlign="Right"></CellStyle>
@@ -1468,7 +1470,7 @@
                                                                                                                             </dx:ASPxTextBox>
                                                                                                                         </td>
                                                                                                                     </tr>
-                                                                                                                    <tr>
+                                                                                                                    <%--<tr>
                                                                                                                         <td>
                                                                                                                             <dx:ASPxLabel runat="server" Text="Location" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                                         </td>
@@ -1477,7 +1479,7 @@
                                                                                                                                 <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="false"></ValidationSettings>
                                                                                                                             </dx:ASPxTextBox>
                                                                                                                         </td>
-                                                                                                                    </tr>
+                                                                                                                    </tr>--%>
                                                                                                                 </table>
                                                                                                             </td>
                                                                                                             <td>
