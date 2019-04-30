@@ -10,7 +10,88 @@
 namespace HijoPortal {
     
     
-    public partial class mrp_preview_approve {
+    public partial class mrp_preview_inventanalyst_before {
+        
+        /// <summary>
+        /// TextBoxLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxLoading;
+        
+        /// <summary>
+        /// ModalPopupExtenderLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupExtenderLoading;
+        
+        /// <summary>
+        /// PanelLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelLoading;
+        
+        /// <summary>
+        /// ButtonErrorOK1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonErrorOK1;
+        
+        /// <summary>
+        /// MRPNotify control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
+        
+        /// <summary>
+        /// MRPNotificationMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
+        
+        /// <summary>
+        /// PopupSubmitPreviewAnal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl PopupSubmitPreviewAnal;
+        
+        /// <summary>
+        /// OK_SUBMIT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton OK_SUBMIT;
+        
+        /// <summary>
+        /// CANCEL_SUBMIT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton CANCEL_SUBMIT;
         
         /// <summary>
         /// dvContentWrapper control.
@@ -58,13 +139,22 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
         
         /// <summary>
-        /// btMOPList control.
+        /// btAddEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxButton btMOPList;
+        protected global::DevExpress.Web.ASPxButton btAddEdit;
+        
+        /// <summary>
+        /// Submit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton Submit;
         
         /// <summary>
         /// Month control.
@@ -344,12 +434,5 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TotalECapex;
-
-        protected global::DevExpress.Web.ASPxGridView GridPreviewDM;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewOP;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewMAN;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewCA;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewREV;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewSummary;
     }
 }
