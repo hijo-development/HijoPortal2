@@ -9,8 +9,6 @@
 
 namespace HijoPortal
 {
-
-
     public partial class mrp_preview_inventanalyst
     {
 
@@ -136,11 +134,12 @@ namespace HijoPortal
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue, LabelTARev;
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell
-            TotalSummary, TotalDM, LabelTotalDM, LabelTotalEDM, TotalEDM,
-            TotalOpex, LabelTotalOP, LabelTotalEOP, TotalEOpex,
-            TotalCapex, LabelTotalCA, LabelTotalECA, TotalECapex,
-            TotalManpower, LabelTotalMan, LabelTotalEMan, TotalEManpower;
+
+        protected global::DevExpress.Web.ASPxGridView GridPreviewDM;
+        protected global::DevExpress.Web.ASPxGridView GridPreviewOP;
+        protected global::DevExpress.Web.ASPxGridView GridPreviewMAN;
+        protected global::DevExpress.Web.ASPxGridView GridPreviewCA;
+        protected global::DevExpress.Web.ASPxGridView GridPreviewREV;
+        protected global::DevExpress.Web.ASPxGridView GridPreviewSummary;
     }
 }

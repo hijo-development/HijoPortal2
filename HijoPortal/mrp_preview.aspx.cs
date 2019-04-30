@@ -930,8 +930,6 @@ namespace HijoPortal
 
         }
 
-
-
         public static DataTable DM(string docnumber)
         {
             DataTable dtTable = new DataTable();
@@ -990,61 +988,6 @@ namespace HijoPortal
             return dtTable;
 
         }
-
-        protected void GridPreviewDM_DataBound(object sender, EventArgs e)
-        {
-            ASPxGridView grid = (ASPxGridView)sender;
-            ModifyGridColumns(grid);
-        }
-
-        protected void GridPreviewOP_DataBound(object sender, EventArgs e)
-        {
-            ASPxGridView grid = (ASPxGridView)sender;
-            ModifyGridColumns(grid);
-        }
-
-        protected void GridPreviewMAN_DataBound(object sender, EventArgs e)
-        {
-            ASPxGridView grid = (ASPxGridView)sender;
-            ModifyGridColumns(grid);
-        }
-
-        protected void GridPreviewCA_DataBound(object sender, EventArgs e)
-        {
-            ASPxGridView grid = (ASPxGridView)sender;
-            ModifyGridColumns(grid);
-        }
-
-        private void ModifyGridColumns(ASPxGridView grid)
-        {
-            grid.Columns["PK"].Visible = false;
-            grid.Columns["Qty"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-            grid.Columns["Cost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-            grid.Columns["TotalCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-
-            if(entitycode != Constants.TRAIN_CODE())
-                grid.Columns["OperatingUnit"].Visible = false;
-        }
-
-        protected void GridPreviewREV_DataBound(object sender, EventArgs e)
-        {
-            ASPxGridView grid = (ASPxGridView)sender;
-            grid.Columns["PK"].Visible = false;
-            grid.Columns["Prize"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-            grid.Columns["Volume"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-            grid.Columns["TotalPrize"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-
-            if (entitycode != Constants.TRAIN_CODE())
-                grid.Columns["OperatingUnit"].Visible = false;
-        }
-
-        protected void GridPreviewSummary_DataBound(object sender, EventArgs e)
-        {
-            ASPxGridView grid = (ASPxGridView)sender;
-            grid.Columns["PK"].Visible = false;
-            grid.Columns["Total"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-        }
-
         public static DataTable OP(string docnumber)
         {
             DataTable dtTable = new DataTable();
@@ -1217,6 +1160,62 @@ namespace HijoPortal
             return dtTable;
 
         }
+
+        protected void GridPreviewDM_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        protected void GridPreviewOP_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        protected void GridPreviewMAN_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        protected void GridPreviewCA_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        protected void GridPreviewREV_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            grid.Columns["PK"].Visible = false;
+            grid.Columns["Prize"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["Volume"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["TotalPrize"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+
+            if (entitycode != Constants.TRAIN_CODE())
+                grid.Columns["OperatingUnit"].Visible = false;
+        }
+
+        protected void GridPreviewSummary_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            grid.Columns["PK"].Visible = false;
+            grid.Columns["Total"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+        }
+
+        private void ModifyGridColumns(ASPxGridView grid)
+        {
+            grid.Columns["PK"].Visible = false;
+            grid.Columns["Qty"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["Cost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["TotalCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+
+            if (entitycode != Constants.TRAIN_CODE())
+                grid.Columns["OperatingUnit"].Visible = false;
+        }
+
+
 
         public static DataTable DirectMaterials(string docnumber)
         {
