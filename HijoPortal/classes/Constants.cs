@@ -31,5 +31,10 @@ namespace HijoPortal.classes
         {
             return "default.aspx";
         }
+
+        public static class Foo
+        {
+            public const string Bar = "hello world.";
+        }
     }
 }

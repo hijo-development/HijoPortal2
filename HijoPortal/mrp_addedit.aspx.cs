@@ -53,7 +53,7 @@ namespace HijoPortal
                 docnumber = Session["mrp_docNum"].ToString();
                 wrkflwln = Convert.ToInt32(Session["mrp_wrkLine"]);
                 //wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
-                
+
                 if (wrkflwln == 0)
                 {
                     Submit.Text = "Submit";
@@ -271,6 +271,21 @@ namespace HijoPortal
             //{
             //    Response.Redirect("mrp_list.aspx");
             //}
+        }
+
+        private string Get_Docnumber()
+        {
+            string str = "";
+            if (Session["mrp_docNum"] != null)
+                str = Session["mrp_docNum"].ToString();
+            else
+            {
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback("mrp_list.aspx");
+                else
+                    Response.Redirect("mrp_list.aspx");
+            }
+            return str;
         }
 
         private void BindDirectMaterials(string DOC_NUMBER)
@@ -685,7 +700,9 @@ namespace HijoPortal
 
             e.Cancel = true;
             grid.CancelEdit();
-            BindDirectMaterials(docnumber);
+
+            string str = Get_Docnumber();
+            BindDirectMaterials(str);
 
             if (pk_latest > 0)
                 FocusThisRowGrid(grid, pk_latest);
@@ -777,7 +794,9 @@ namespace HijoPortal
 
             conn.Close();
 
-            BindDirectMaterials(docnumber);
+            string str = Get_Docnumber();
+            BindDirectMaterials(str);
+
             e.Cancel = true;
             grid.CancelEdit();
         }
@@ -811,7 +830,10 @@ namespace HijoPortal
                     MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
                 }
                 conn.Close();
-                BindDirectMaterials(docnumber);
+
+                string str = Get_Docnumber();
+                BindDirectMaterials(str);
+
                 e.Cancel = true;
             }
         }
@@ -927,7 +949,9 @@ namespace HijoPortal
 
             e.Cancel = true;
             grid.CancelEdit();
-            BindOPEX(docnumber);
+
+            string str = Get_Docnumber();
+            BindOPEX(str);
 
             if (pk_latest > 0)
                 FocusThisRowGrid(grid, pk_latest);
@@ -961,7 +985,8 @@ namespace HijoPortal
                 }
 
                 conn.Close();
-                BindOPEX(docnumber);
+                string str = Get_Docnumber();
+                BindOPEX(str);
                 e.Cancel = true;
             }
         }
@@ -1043,7 +1068,9 @@ namespace HijoPortal
 
             conn.Close();
 
-            BindOPEX(docnumber);
+            string str = Get_Docnumber();
+            BindOPEX(str);
+
             e.Cancel = true;
             grid.CancelEdit();
         }
@@ -1158,7 +1185,8 @@ namespace HijoPortal
 
             e.Cancel = true;
             grid.CancelEdit();
-            BindManPower(docnumber);
+            string str = Get_Docnumber();
+            BindManPower(str);
 
             if (pk_latest > 0)
                 FocusThisRowGrid(grid, pk_latest);
@@ -1192,7 +1220,8 @@ namespace HijoPortal
                 }
 
                 conn.Close();
-                BindManPower(docnumber);
+                string str = Get_Docnumber();
+                BindManPower(str);
                 e.Cancel = true;
             }
         }
@@ -1271,7 +1300,8 @@ namespace HijoPortal
 
             conn.Close();
 
-            BindManPower(docnumber);
+            string str = Get_Docnumber();
+            BindManPower(str);
             e.Cancel = true;
             grid.CancelEdit();
         }
@@ -1376,7 +1406,9 @@ namespace HijoPortal
 
             e.Cancel = true;
             grid.CancelEdit();
-            BindCAPEX(docnumber);
+
+            string str = Get_Docnumber();
+            BindCAPEX(str);
 
             if (pk_latest > 0)
                 FocusThisRowGrid(grid, pk_latest);
@@ -1412,7 +1444,8 @@ namespace HijoPortal
                 }
 
                 conn.Close();
-                BindCAPEX(docnumber);
+                string str = Get_Docnumber();
+                BindCAPEX(str);
                 e.Cancel = true;
             }
         }
@@ -1477,7 +1510,9 @@ namespace HijoPortal
 
             conn.Close();
 
-            BindCAPEX(docnumber);
+            string str = Get_Docnumber();
+            BindCAPEX(str);
+
             e.Cancel = true;
             grid.CancelEdit();
         }
@@ -1646,7 +1681,7 @@ namespace HijoPortal
 
             string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [FarmName], [Prize], [Volume], [TotalPrize], [OprUnit]) VALUES (@HeaderDocNum, @ProductName, @FarmName, @Prize, @Volume, @TotalPrize, @OprUnit)";
 
-            
+
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
@@ -1720,22 +1755,26 @@ namespace HijoPortal
 
         protected void DirectMaterialsGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
-            BindDirectMaterials(docnumber);
+            string str = Get_Docnumber();
+            BindDirectMaterials(str);
         }
 
         protected void OPEXGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
-            BindOPEX(docnumber);
+            string str = Get_Docnumber();
+            BindOPEX(str);
         }
 
         protected void ManPowerGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
-            BindManPower(docnumber);
+            string str = Get_Docnumber();
+            BindManPower(str);
         }
 
         protected void CAPEXGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
-            BindCAPEX(docnumber);
+            string str = Get_Docnumber();
+            BindCAPEX(str);
         }
 
         protected void RevenueGrid_CancelRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
@@ -1786,7 +1825,7 @@ namespace HijoPortal
 
                     combo.Text = text.ToString();
                     combo.Value = valueCA;
-                    
+
 
                     MRPClass.PrintString(valueCA.ToString());
                     MRPClass.PrintString(text.ToString());
@@ -1918,15 +1957,88 @@ namespace HijoPortal
                 }
             }
 
-            //if (entitycode == "0303")
-            //{
-            //    div1.Style.Add("display", "none");
-            //    div2.Style.Add("display", "none");
+            HtmlControl oprLbl = (HtmlControl)pageControl.FindControl("OperatingUnit_label");
+            HtmlControl oprCmbo = (HtmlControl)pageControl.FindControl("OperatingUnit_combo");
 
-            //    Description.Text = "";
-            //    Description.ReadOnly = false;
-            //    ItemCode.Text = "";
-            //}
+            if (entitycode == Constants.TRAIN_CODE())
+            {
+                oprLbl.Style.Add("display", "block");
+                oprCmbo.Style.Add("display", "block");
+            }
+            else
+            {
+                oprLbl.Style.Add("display", "none");
+                oprCmbo.Style.Add("display", "none");
+            }
+        }
+
+        protected void ASPxPageControl1_Load(object sender, EventArgs e)
+        {
+            ASPxPageControl pagecontrol = sender as ASPxPageControl;
+            if (entitycode == "0303")
+                pagecontrol.TabPages[1].ClientVisible = false;
+            else
+                pagecontrol.TabPages[1].ClientVisible = true;
+        }
+
+        protected void DirectMaterialsGrid_HtmlEditFormCreated(object sender, ASPxGridViewEditFormEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("DirectPageControl") as ASPxPageControl;
+
+            HtmlControl oprLbl = (HtmlControl)pageControl.FindControl("OperatingUnit_label");
+            HtmlControl oprCmbo = (HtmlControl)pageControl.FindControl("OperatingUnit_combo");
+
+            if (entitycode == Constants.TRAIN_CODE())
+            {
+                oprLbl.Style.Add("display", "block");
+                oprCmbo.Style.Add("display", "block");
+            }
+            else
+            {
+                oprLbl.Style.Add("display", "none");
+                oprCmbo.Style.Add("display", "none");
+            }
+        }
+
+        protected void ManPowerGrid_HtmlEditFormCreated(object sender, ASPxGridViewEditFormEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("ManPowerPageControl") as ASPxPageControl;
+
+            HtmlControl oprLbl = (HtmlControl)pageControl.FindControl("OperatingUnit_label");
+            HtmlControl oprCmbo = (HtmlControl)pageControl.FindControl("OperatingUnit_combo");
+
+            if (entitycode == Constants.TRAIN_CODE())
+            {
+                oprLbl.Style.Add("display", "block");
+                oprCmbo.Style.Add("display", "block");
+            }
+            else
+            {
+                oprLbl.Style.Add("display", "none");
+                oprCmbo.Style.Add("display", "none");
+            }
+        }
+
+        protected void CAPEXGrid_HtmlEditFormCreated(object sender, ASPxGridViewEditFormEventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ASPxPageControl pageControl = grid.FindEditFormTemplateControl("CAPEXPageControl") as ASPxPageControl;
+
+            HtmlControl oprLbl = (HtmlControl)pageControl.FindControl("OperatingUnit_label");
+            HtmlControl oprCmbo = (HtmlControl)pageControl.FindControl("OperatingUnit_combo");
+
+            if (entitycode == Constants.TRAIN_CODE())
+            {
+                oprLbl.Style.Add("display", "block");
+                oprCmbo.Style.Add("display", "block");
+            }
+            else
+            {
+                oprLbl.Style.Add("display", "none");
+                oprCmbo.Style.Add("display", "none");
+            }
         }
 
         protected void ProcCatOPEX_Init(object sender, EventArgs e)
@@ -2020,7 +2132,7 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            
+
 
             string update_MRP = "UPDATE " + MRPClass.RevenueTable() + " SET [ProductName] = @ProductName, [FarmName]= @FarmName, [Prize] = @Prize, [Volume] = @Volume, [TotalPrize] = @TotalPrize, [OprUnit] = @OprUnit WHERE [PK] = @PK";
 
