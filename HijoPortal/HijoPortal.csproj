@@ -120,6 +120,7 @@
     <Content Include="css\Account.css" />
     <Content Include="css\ChangePassword.css" />
     <Content Include="css\ContentPage.css" />
+    <Content Include="css\Home.css" />
     <Content Include="css\LogIn.css" />
     <Content Include="css\LogInICON.css" />
     <Content Include="css\POAddedit.css" />

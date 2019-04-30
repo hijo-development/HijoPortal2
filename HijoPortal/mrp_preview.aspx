@@ -93,81 +93,87 @@
         <PanelCollection>
             <dx:PanelContent>
                 <%--<div id="Div1" runat="server" class="ContentWrapper">--%>
-                <div style="background-color: white; padding: 10px;">
-                    <div>
-                        <div id="dvHeader" style="height: 150px; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
-                            <h1 id="mrpHead" runat="server"></h1>
-                            <table style="width: 100%; margin: auto;" border="0">
-                                <tr>
-                                    <td style="width: 12%">
-                                        <dx:ASPxLabel runat="server" Text="MRP Number" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                    <td>:</td>
-                                    <td colspan="4">
-                                        <dx:ASPxLabel ID="DocNum" runat="server" Text="" Theme="Office2010Blue" Style="font-size: medium; font-weight: bold; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"></dx:ASPxLabel>
-                                    </td>
-                                    <td rowspan="3" style="width: 40%; text-align: right; vertical-align: bottom;">
-                                        <div style="display: none;">
-                                            <dx:ASPxHiddenField ID="StatusHidden" runat="server" ClientInstanceName="StatusHidden"></dx:ASPxHiddenField>
-                                            <dx:ASPxHiddenField ID="WrkFlowHidden" runat="server" ClientInstanceName="WrkFlowHidden"></dx:ASPxHiddenField>
-                                        </div>
-                                        <dx:ASPxButton ID="btAddEdit" runat="server" Text="Add/Edit" AutoPostBack="false" Theme="Office2010Blue" OnClick="btAddEdit_Click"></dx:ASPxButton>
-                                        <%--OnClick="Submit_Click"--%>
-                                        <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
-                                            <ClientSideEvents Click="Preview_Submit_Click" />
-                                        </dx:ASPxButton>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <dx:ASPxLabel runat="server" Text="Month" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                    <td>:</td>
-                                    <td style="width: 20%">
-                                        <dx:ASPxLabel ID="Month" runat="server" Text="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                    <td style="width: 8%">
-                                        <dx:ASPxLabel runat="server" Text="Entity" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                    <td>:</td>
-                                    <td style="width: 20%">
-                                        <dx:ASPxLabel ID="EntityCode" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <dx:ASPxLabel runat="server" Text="Year" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                    <td>:</td>
-                                    <td>
-                                        <dx:ASPxLabel ID="Year" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                    <td>
-                                        <dx:ASPxLabel runat="server" Text="Department" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                    <td>:</td>
-                                    <td>
-                                        <dx:ASPxLabel ID="BUCode" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <dx:ASPxLabel runat="server" Text="Creator" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                    <td>:</td>
-                                    <td>
-                                        <dx:ASPxLabel ID="Creator" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                    <td>
-                                        <dx:ASPxLabel runat="server" Text="Status" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                    <td>:</td>
-                                    <td>
-                                        <dx:ASPxLabel ID="Status" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                <%--from here--%>
+                <div>
+                    <div id="dvHeader" style="height: 150px; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
+                        <h1 id="mrpHead" runat="server"></h1>
+                        <table style="width: 100%; margin: auto;" border="0">
+                            <tr>
+                                <td style="width: 12%">
+                                    <dx:ASPxLabel runat="server" Text="MRP Number" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td>:</td>
+                                <td colspan="4">
+                                    <dx:ASPxLabel ID="DocNum" runat="server" Text="" Theme="Office2010Blue" Style="font-size: medium; font-weight: bold; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"></dx:ASPxLabel>
+                                </td>
+                                <td rowspan="3" style="width: 40%; text-align: right; vertical-align: bottom;">
+                                    <div style="display: none;">
+                                        <dx:ASPxHiddenField ID="StatusHidden" runat="server" ClientInstanceName="StatusHidden"></dx:ASPxHiddenField>
+                                        <dx:ASPxHiddenField ID="WrkFlowHidden" runat="server" ClientInstanceName="WrkFlowHidden"></dx:ASPxHiddenField>
+                                    </div>
+                                    <dx:ASPxButton ID="btAddEdit" runat="server" Text="Add/Edit" AutoPostBack="false" Theme="Office2010Blue" OnClick="btAddEdit_Click">
+                                        <ClientSideEvents Click="function(s,e){
+                                            $find('ModalPopupExtenderLoading').show();
+                                            e.processOnServer = true;
+                                            }" />
+                                    </dx:ASPxButton>
+                                    <%--OnClick="Submit_Click"--%>
+                                    <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
+                                        <ClientSideEvents Click="Preview_Submit_Click" />
+                                    </dx:ASPxButton>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <dx:ASPxLabel runat="server" Text="Month" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td>:</td>
+                                <td style="width: 20%">
+                                    <dx:ASPxLabel ID="Month" runat="server" Text="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td style="width: 8%">
+                                    <dx:ASPxLabel runat="server" Text="Entity" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td>:</td>
+                                <td style="width: 20%">
+                                    <dx:ASPxLabel ID="EntityCode" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <dx:ASPxLabel runat="server" Text="Year" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <dx:ASPxLabel ID="Year" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td>
+                                    <dx:ASPxLabel runat="server" Text="Department" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <dx:ASPxLabel ID="BUCode" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <dx:ASPxLabel runat="server" Text="Creator" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <dx:ASPxLabel ID="Creator" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td>
+                                    <dx:ASPxLabel runat="server" Text="Status" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <dx:ASPxLabel ID="Status" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                </td>
+                            </tr>
+                        </table>
+                      
+                      <%--from here--%>
                     </div>
                     <div style="height: 10px;"></div>
                     <div>

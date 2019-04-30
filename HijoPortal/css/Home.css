@@ -1,0 +1,19 @@
+﻿@font-face {
+    font-family: 'Open Sans';
+    src: url('../font/opensans/OpenSans-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Open Sans Bold';
+    src: url('../font/opensans/OpenSans-Bold.ttf');
+}
+
+#divWelcome h4 {
+    font-family: 'Open Sans Bold';
+    font-size:large;
+}
+
+#divWelcome p {
+    font-family: 'Open Sans';
+    font-size:medium;
+}

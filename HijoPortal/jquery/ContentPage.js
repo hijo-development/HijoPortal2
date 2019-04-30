@@ -959,13 +959,22 @@ function CAPEXGrid_Add(s, e) {
             Add_Edit_MRPNotify.Show();
         }
     } else {
-        if (wrklineStatus === "1") {
+
+        if (wrklineStatus === "0") {
             CAPEXGrid.AddNewRow();
         } else {
             Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to Inventory Analyst for review.");
             Add_Edit_MRPNotify.SetHeaderText("Alert");
             Add_Edit_MRPNotify.Show();
         }
+
+        //if (wrklineStatus === "1") {
+        //    CAPEXGrid.AddNewRow();
+        //} else {
+        //    Add_Edit_MRPNotificationMessage.SetText("Can't Add! Document already submitted to Inventory Analyst for review.");
+        //    Add_Edit_MRPNotify.SetHeaderText("Alert");
+        //    Add_Edit_MRPNotify.Show();
+        //}
     }
     //CAPEXGrid.AddNewRow();
 }
