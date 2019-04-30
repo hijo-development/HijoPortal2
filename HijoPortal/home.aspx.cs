@@ -76,6 +76,13 @@ namespace HijoPortal
             object wrkflowtypeval = container.Grid.GetRowValues(container.VisibleIndex, "WorkflowType");
             Session["mrp_creator"] = container.Grid.GetRowValues(container.VisibleIndex, "CreatorKey");
 
+            //object value = HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "DocNumber");
+            //object wrklineval = HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "LevelLine");
+            //object wrkflowtypeval = HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "WorkflowType");
+            //Session["mrp_creator"] = HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "CreatorKey");
+
+
+
             if (Convert.ToInt32(wrkflowtypeval) == 1)
             {
                 if (Convert.ToInt32(wrklineval) == 1)
@@ -95,20 +102,71 @@ namespace HijoPortal
                     //page = "mrp_preview_inventanalyst.aspx";
                     page = "mrp_inventanalyst.aspx";
                 }
-                Session["mrp_docNum"] = value.ToString();
-                Session["mrp_wrkLine"] = wrklineval.ToString();
+                //Session["mrp_docNum"] = value.ToString();
+                //Session["mrp_wrkLine"] = wrklineval.ToString();
                 link.NavigateUrl = page + "?DocNum=" + value.ToString() + "&WrkFlwLn=" + wrklineval.ToString();
             }
             else if (Convert.ToInt32(wrkflowtypeval) == 2)
             {
                 page = "mrp_previewforapproval.aspx";
-                Session["mrp_docNum"] = value.ToString();
-                Session["mrp_appLine"] = wrklineval.ToString();
+                //Session["mrp_docNum"] = value.ToString();
+                //Session["mrp_appLine"] = wrklineval.ToString();
                 link.NavigateUrl = page + "?DocNum=" + value.ToString() + "&ApprvLn=" + wrklineval.ToString();
             }
 
             
         }
 
+        protected void HomeGrid_CustomButtonCallback(object sender, ASPxGridViewCustomButtonCallbackEventArgs e)
+        {
+            CheckSessionExpire();
+
+            if (Session["CreatorKey"] == null)
+                return;
+
+            string docNum = HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "DocNumber").ToString();
+            int wrklineval = Convert.ToInt32(HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "LevelLine"));
+            int wrkflowtypeval = Convert.ToInt32(HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "WorkflowType"));
+            int creatorKey = Convert.ToInt32(HomeGrid.GetRowValues(HomeGrid.FocusedRowIndex, "CreatorKey"));
+
+            Session["mrp_creator"] = creatorKey.ToString();
+
+            if (Convert.ToInt32(wrkflowtypeval) == 1)
+            {
+                Session["mrp_docNum"] = docNum.ToString();
+                Session["mrp_wrkLine"] = wrklineval.ToString();
+                switch (Convert.ToInt32(wrklineval))
+                {
+                    case 1:
+                        {
+                            Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + wrklineval.ToString();
+                            break;
+                        }
+                    case 2:
+                        {
+                            Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + wrklineval.ToString();
+                            break;
+                        }
+                    case 3:
+                        {
+                            Response.RedirectLocation = "mrp_preview_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + wrklineval.ToString();
+                            break;
+                        }
+                    case 4:
+                        {
+                            Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + wrklineval.ToString();
+                            break;
+                        }
+                }
+            }
+            if (Convert.ToInt32(wrkflowtypeval) == 2)
+            {
+                Session["mrp_docNum"] = docNum.ToString();
+                Session["mrp_appLine"] = wrklineval.ToString();
+                Response.RedirectLocation = "mrp_previewforapproval.aspx?DocNum=" + docNum.ToString() + "&ApprvLn=" + wrklineval.ToString();
+            }
+
+
+        }
     }
 }
