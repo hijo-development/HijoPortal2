@@ -25,811 +25,6 @@ namespace HijoPortal
         private const string matstring = "Materials", opexstring = "Opex", manstring = "Manpower", capexstring = "Capex", revstring = "Revenue";
         private static DateTime dateCreated;
 
-        protected void MatListview_ItemDataBound(object sender, ListViewItemEventArgs e)
-        {
-            HideTableData(e);
-            if (e.Item.ItemType == ListViewItemType.DataItem)
-            {
-                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
-
-                HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-
-                HtmlTableCell act = (HtmlTableCell)cell.FindControl("act");
-                HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
-                HtmlTableCell desc = (HtmlTableCell)cell.FindControl("sec");
-                HtmlTableCell uom = (HtmlTableCell)cell.FindControl("third");
-                HtmlTableCell qty = (HtmlTableCell)cell.FindControl("fourth");
-                HtmlTableCell cost = (HtmlTableCell)cell.FindControl("fifth");
-                HtmlTableCell total_one = (HtmlTableCell)cell.FindControl("six");
-                HtmlTableCell qty_rec = (HtmlTableCell)cell.FindControl("sev");
-                HtmlTableCell cost_two = (HtmlTableCell)cell.FindControl("eight");
-                HtmlTableCell total_two = (HtmlTableCell)cell.FindControl("nine");
-                HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
-
-                //Get the Name values
-                string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode").ToString().ToString();
-                if (entitycode == Constants.TRAIN_CODE())
-                {
-                    string farm = (string)DataBinder.Eval(dataitem.DataItem, "RevDesc").ToString();
-                    if (!string.IsNullOrEmpty(farm))
-                    {
-                        cell.Attributes.Add("class", "no_border");
-
-                        tableDataRevDesc.ColSpan = 10;
-                        tableDataRevDesc.Style.Add("font-weight", "bold");
-
-                        desc.Style.Add("display", "none");
-                        uom.Style.Add("display", "none");
-                        qty.Style.Add("display", "none");
-                        cost.Style.Add("display", "none");
-                        total_one.Style.Add("display", "none");
-                        qty_rec.Style.Add("display", "none");
-                        cost_two.Style.Add("display", "none");
-                        total_two.Style.Add("display", "none");
-                    }
-
-                    if (!string.IsNullOrEmpty(code))
-                    {
-                        cell.Attributes.Add("class", "no_border");
-
-                        act.ColSpan = 10;
-
-                        act.Style.Add("font-weight", "bold");
-
-                        //if (entitycode == Constants.TRAIN_CODE())
-                        //tableDataRevDesc.Style.Add("display", "none");
-
-                        desc.Style.Add("display", "none");
-                        uom.Style.Add("display", "none");
-                        qty.Style.Add("display", "none");
-                        cost.Style.Add("display", "none");
-                        total_one.Style.Add("display", "none");
-                        qty_rec.Style.Add("display", "none");
-                        cost_two.Style.Add("display", "none");
-                        total_two.Style.Add("display", "none");
-                    }
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(code))
-                    {
-                        cell.Attributes.Add("class", "no_border");
-
-                        if (entitycode != Constants.TRAIN_CODE())
-                            act.ColSpan = 9;
-                        else
-                            act.ColSpan = 10;
-
-                        act.Style.Add("font-weight", "bold");
-
-                        if (entitycode == Constants.TRAIN_CODE())
-                            tableDataRevDesc.Style.Add("display", "none");
-
-                        desc.Style.Add("display", "none");
-                        uom.Style.Add("display", "none");
-                        qty.Style.Add("display", "none");
-                        cost.Style.Add("display", "none");
-                        total_one.Style.Add("display", "none");
-                        qty_rec.Style.Add("display", "none");
-                        cost_two.Style.Add("display", "none");
-                        total_two.Style.Add("display", "none");
-                    }
-                }
-            }
-        }
-
-        protected void MatListview_DataBound(object sender, EventArgs e)
-        {
-            ListView listview = sender as ListView;
-            HtmlTableCell revth = (HtmlTableCell)listview.FindControl("tableHeaderRevDesc");
-            HtmlTableCell actTH = (HtmlTableCell)listview.FindControl("actTH");
-            HtmlTableCell desc = (HtmlTableCell)listview.FindControl("desc");
-            HtmlTableCell uom = (HtmlTableCell)listview.FindControl("uom");
-            HtmlTableCell qty = (HtmlTableCell)listview.FindControl("qty");
-            HtmlTableCell cost = (HtmlTableCell)listview.FindControl("cost");
-            HtmlTableCell total = (HtmlTableCell)listview.FindControl("total");
-            HtmlTableCell recqty = (HtmlTableCell)listview.FindControl("recqty");
-            HtmlTableCell cost_two = (HtmlTableCell)listview.FindControl("cost_two");
-            HtmlTableCell total_two = (HtmlTableCell)listview.FindControl("total_two");
-
-            if (qty != null)
-            {
-                qty.InnerText = Constants.Prev_Req_Qty();
-                recqty.InnerText = Constants.Prev_Rec_Qty();
-            }
-
-            if (entitycode != Constants.TRAIN_CODE())
-            {
-                if (revth != null)
-                {
-                    revth.Visible = false;
-                    actTH.Width = "7%";
-                    desc.Width = "35%";
-                    uom.Width = "7%";
-                    qty.Width = "8%";
-                    cost.Width = "7.5%";
-                    total.Width = "10%";
-                    recqty.Width = "8%";
-                    cost_two.Width = "7.5%";
-                    total_two.Width = "10%";
-                }
-            }
-            else
-            {
-                if (revth != null)
-                {
-                    actTH.Width = "7%";
-                    desc.Width = "25%";
-                    revth.Width = "10%";
-                    uom.Width = "7%";
-                    qty.Width = "8%";
-                    cost.Width = "7.5%";
-                    total.Width = "10%";
-                    recqty.Width = "8%";
-                    cost_two.Width = "7.5%";
-                    total_two.Width = "10%";
-                }
-            }
-
-            HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
-            if (pk_th != null)
-                pk_th.Visible = false;
-
-            LabelTotalDM.Style.Add("width", "64.5%");
-            TAMat.Style.Add("width", "10%");
-            LabelTotalEDM.Style.Add("width", "15.5%");
-            ETAMat.Style.Add("width", "10%");
-        }
-
-        private void HideHeader(object sender)
-        {
-
-        }
-
-        protected void OpexListiview_DataBound(object sender, EventArgs e)
-        {
-            ListView listview = sender as ListView;
-            HtmlTableCell revth = (HtmlTableCell)listview.FindControl("tableHeaderRevDesc");
-            HtmlTableCell expTH = (HtmlTableCell)listview.FindControl("expTH");
-            HtmlTableCell desc = (HtmlTableCell)listview.FindControl("desc");
-            HtmlTableCell uom = (HtmlTableCell)listview.FindControl("uom");
-            HtmlTableCell qty = (HtmlTableCell)listview.FindControl("qty");
-            HtmlTableCell cost = (HtmlTableCell)listview.FindControl("cost");
-            HtmlTableCell total = (HtmlTableCell)listview.FindControl("total");
-            HtmlTableCell recqty = (HtmlTableCell)listview.FindControl("recqty");
-            HtmlTableCell cost_two = (HtmlTableCell)listview.FindControl("cost_two");
-            HtmlTableCell total_two = (HtmlTableCell)listview.FindControl("total_two");
-
-            if (qty != null)
-            {
-                qty.InnerText = Constants.Prev_Req_Qty();
-                recqty.InnerText = Constants.Prev_Rec_Qty();
-            }
-
-            if (entitycode != Constants.TRAIN_CODE())
-            {
-                if (revth != null)
-                {
-                    revth.Visible = false;
-                    expTH.Width = "7%";
-                    desc.Width = "35%";
-                    uom.Width = "7%";
-                    qty.Width = "8%";
-                    cost.Width = "7.5%";
-                    total.Width = "10%";
-                    recqty.Width = "8%";
-                    cost_two.Width = "7.5%";
-                    total_two.Width = "10%";
-                }
-            }
-            else
-            {
-                if (revth != null)
-                {
-                    expTH.Width = "7%";
-                    desc.Width = "25%";
-                    revth.Width = "10%";
-                    uom.Width = "7%";
-                    qty.Width = "8%";
-                    cost.Width = "7.5%";
-                    total.Width = "10%";
-                    recqty.Width = "8%";
-                    cost_two.Width = "7.5%";
-                    total_two.Width = "10%";
-                }
-            }
-
-            HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
-            if (pk_th != null)
-                pk_th.Visible = false;
-
-            LabelTotalOP.Style.Add("width", "64.5%");
-            TAOpex.Style.Add("width", "10%");
-            LabelTotalEOP.Style.Add("width", "15.5%");
-            ETAOpex.Style.Add("width", "10%");
-        }
-
-        protected void OpexListiview_ItemDataBound(object sender, ListViewItemEventArgs e)
-        {
-            HideTableData(e);
-            if (e.Item.ItemType == ListViewItemType.DataItem)
-            {
-                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
-
-                HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-
-                HtmlTableCell act = (HtmlTableCell)cell.FindControl("act");
-                HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
-                HtmlTableCell desc = (HtmlTableCell)cell.FindControl("sec");
-                HtmlTableCell uom = (HtmlTableCell)cell.FindControl("third");
-                HtmlTableCell qty = (HtmlTableCell)cell.FindControl("fourth");
-                HtmlTableCell cost = (HtmlTableCell)cell.FindControl("fifth");
-                HtmlTableCell total_one = (HtmlTableCell)cell.FindControl("six");
-                HtmlTableCell qty_rec = (HtmlTableCell)cell.FindControl("sev");
-                HtmlTableCell cost_two = (HtmlTableCell)cell.FindControl("eight");
-                HtmlTableCell total_two = (HtmlTableCell)cell.FindControl("nine");
-
-                //Get the Name values
-                string code = (string)DataBinder.Eval(dataitem.DataItem, "ExpenseCodeName").ToString().ToString();
-                if (entitycode == Constants.TRAIN_CODE())
-                {
-                    string farm = (string)DataBinder.Eval(dataitem.DataItem, "RevDesc").ToString();
-
-                    if (!string.IsNullOrEmpty(farm))
-                    {
-                        cell.Attributes.Add("class", "no_border");
-
-                        tableDataRevDesc.ColSpan = 6;
-                        tableDataRevDesc.Style.Add("font-weight", "bold");
-
-                        desc.Style.Add("display", "none");
-                        uom.Style.Add("display", "none");
-                        qty.Style.Add("display", "none");
-                        cost.Style.Add("display", "none");
-                        total_one.Style.Add("display", "none");
-                        qty_rec.Style.Add("display", "none");
-                        cost_two.Style.Add("display", "none");
-                        total_two.Style.Add("display", "none");
-                    }
-
-                    if (!string.IsNullOrEmpty(code))
-                    {
-                        cell.Attributes.Add("class", "no_border");
-
-                        act.ColSpan = 10;
-                        act.Style.Add("font-weight", "bold");
-
-                        desc.Style.Add("display", "none");
-                        uom.Style.Add("display", "none");
-                        qty.Style.Add("display", "none");
-                        cost.Style.Add("display", "none");
-                        total_one.Style.Add("display", "none");
-                        qty_rec.Style.Add("display", "none");
-                        cost_two.Style.Add("display", "none");
-                        total_two.Style.Add("display", "none");
-                    }
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(code))
-                    {
-                        cell.Attributes.Add("class", "no_border");
-
-                        if (entitycode != Constants.TRAIN_CODE())
-                            act.ColSpan = 9;
-                        else
-                            act.ColSpan = 10;
-
-                        act.Style.Add("font-weight", "bold");
-
-                        desc.Style.Add("display", "none");
-                        uom.Style.Add("display", "none");
-                        qty.Style.Add("display", "none");
-                        cost.Style.Add("display", "none");
-                        total_one.Style.Add("display", "none");
-                        qty_rec.Style.Add("display", "none");
-                        cost_two.Style.Add("display", "none");
-                        total_two.Style.Add("display", "none");
-                    }
-
-                }
-            }
-        }
-        protected void ManListview_DataBound(object sender, EventArgs e)
-        {
-            ListView listview = sender as ListView;
-            HtmlTableCell revth = (HtmlTableCell)listview.FindControl("tableHeaderRevDesc");
-            HtmlTableCell actTH = (HtmlTableCell)listview.FindControl("actTH");
-            HtmlTableCell desc = (HtmlTableCell)listview.FindControl("desc");
-            HtmlTableCell uom = (HtmlTableCell)listview.FindControl("uom");
-            HtmlTableCell qty = (HtmlTableCell)listview.FindControl("qty");
-            HtmlTableCell cost = (HtmlTableCell)listview.FindControl("cost");
-            HtmlTableCell total = (HtmlTableCell)listview.FindControl("total");
-            HtmlTableCell recqty = (HtmlTableCell)listview.FindControl("recqty");
-            HtmlTableCell cost_two = (HtmlTableCell)listview.FindControl("cost_two");
-            HtmlTableCell total_two = (HtmlTableCell)listview.FindControl("total_two");
-
-            if (qty != null)
-            {
-                qty.InnerText = Constants.Prev_Head_Count();
-                recqty.InnerText = Constants.Prev_Head_Count();
-            }
-
-            if (entitycode != Constants.TRAIN_CODE())
-            {
-                if (revth != null)
-                {
-                    revth.Visible = false;
-                    actTH.Width = "7%";
-                    desc.Width = "35%";
-                    uom.Width = "7%";
-                    qty.Width = "8%";
-                    cost.Width = "7.5%";
-                    total.Width = "10%";
-                    recqty.Width = "8%";
-                    cost_two.Width = "7.5%";
-                    total_two.Width = "10%";
-                }
-            }
-            else
-            {
-                if (revth != null)
-                {
-                    actTH.Width = "7%";
-                    desc.Width = "25%";
-                    revth.Width = "10%";
-                    uom.Width = "7%";
-                    qty.Width = "8%";
-                    cost.Width = "7.5%";
-                    total.Width = "10%";
-                    recqty.Width = "8%";
-                    cost_two.Width = "7.5%";
-                    total_two.Width = "10%";
-                }
-            }
-
-            HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
-            if (pk_th != null)
-                pk_th.Visible = false;
-
-            LabelTotalMan.Style.Add("width", "64.5%");
-            TAManpower.Style.Add("width", "10%");
-            LabelTotalEMan.Style.Add("width", "15.5%");
-            ETAManpower.Style.Add("width", "10%");
-        }
-
-        protected void RevListView_ItemCommand(object sender, ListViewCommandEventArgs e)
-        {
-
-        }
-
-        protected void RevListView_ItemDataBound(object sender, ListViewItemEventArgs e)
-        {
-            HideTableData(e);
-            if (e.Item.ItemType == ListViewItemType.DataItem)
-            {
-                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
-
-                HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-
-                HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
-                HtmlTableCell desc = (HtmlTableCell)cell.FindControl("sec");
-                HtmlTableCell uom = (HtmlTableCell)cell.FindControl("third");
-                HtmlTableCell qty = (HtmlTableCell)cell.FindControl("fourth");
-                HtmlTableCell cost = (HtmlTableCell)cell.FindControl("fifth");
-                HtmlTableCell total_one = (HtmlTableCell)cell.FindControl("six");
-
-                if (entitycode == Constants.TRAIN_CODE())
-                {
-                    string farm = (string)DataBinder.Eval(dataitem.DataItem, "RevDesc").ToString();
-
-                    if (!string.IsNullOrEmpty(farm))
-                    {
-                        cell.Attributes.Add("class", "no_border");
-
-                        tableDataRevDesc.ColSpan = 6;
-                        tableDataRevDesc.Style.Add("font-weight", "bold");
-
-                        desc.Style.Add("display", "none");
-                        uom.Style.Add("display", "none");
-                        qty.Style.Add("display", "none");
-                        cost.Style.Add("display", "none");
-                        total_one.Style.Add("display", "none");
-                    }
-
-                }
-            }
-        }
-
-        protected void RevListView_DataBound(object sender, EventArgs e)
-        {
-            ListView listview = sender as ListView;
-            HtmlTableCell revth = (HtmlTableCell)listview.FindControl("tableHeaderRevDesc");
-            HtmlTableCell prod = (HtmlTableCell)listview.FindControl("prod");
-            HtmlTableCell name = (HtmlTableCell)listview.FindControl("name");
-            HtmlTableCell volume = (HtmlTableCell)listview.FindControl("volume");
-            HtmlTableCell prize = (HtmlTableCell)listview.FindControl("prize");
-            HtmlTableCell total = (HtmlTableCell)listview.FindControl("total");
-
-            if (entitycode != Constants.TRAIN_CODE())
-            {
-                if (revth != null)
-                {
-                    revth.Visible = false;
-                    prod.Width = "40%";
-                    name.Width = "15";
-                    volume.Width = "15%";
-                    prize.Width = "15%";
-                    total.Width = "15%";
-                }
-            }
-            else
-            {
-                if (revth != null)
-                {
-                    prod.Width = "30%";
-                    revth.Width = "10%";
-                    name.Width = "15%";
-                    volume.Width = "15%";
-                    prize.Width = "15%";
-                    total.Width = "15%";
-                }
-            }
-
-            HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
-            if (pk_th != null)
-                pk_th.Visible = false;
-
-            if (entitycode != Constants.TRAIN_CODE())
-            {
-                LabelTARev.Style.Add("width", "40.%");
-                TARevenue.Style.Add("width", "60%");
-            }
-            else
-            {
-                LabelTARev.Style.Add("width", "30.%");
-                TARevenue.Style.Add("width", "70%");
-            }
-
-        }
-
-        protected void ManListview_ItemDataBound(object sender, ListViewItemEventArgs e)
-        {
-            HideTableData(e);
-            if (e.Item.ItemType == ListViewItemType.DataItem)
-            {
-                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
-
-                HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-
-                HtmlTableCell act = (HtmlTableCell)cell.FindControl("act");
-                HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
-                HtmlTableCell desc = (HtmlTableCell)cell.FindControl("sec");
-                HtmlTableCell uom = (HtmlTableCell)cell.FindControl("third");
-                HtmlTableCell qty = (HtmlTableCell)cell.FindControl("fourth");
-                HtmlTableCell cost = (HtmlTableCell)cell.FindControl("fifth");
-                HtmlTableCell total_one = (HtmlTableCell)cell.FindControl("six");
-                HtmlTableCell qty_rec = (HtmlTableCell)cell.FindControl("sev");
-                HtmlTableCell cost_two = (HtmlTableCell)cell.FindControl("eight");
-                HtmlTableCell total_two = (HtmlTableCell)cell.FindControl("nine");
-                HtmlTableCell td_last = (HtmlTableCell)cell.FindControl("pin");
-
-                //Get the Name values
-                string code = (string)DataBinder.Eval(dataitem.DataItem, "ActivityCode").ToString();
-
-                if (entitycode == Constants.TRAIN_CODE())
-                {
-                    string farm = (string)DataBinder.Eval(dataitem.DataItem, "RevDesc").ToString();
-
-                    if (!string.IsNullOrEmpty(farm))
-                    {
-                        cell.Attributes.Add("class", "no_border");
-
-                        tableDataRevDesc.ColSpan = 6;
-                        tableDataRevDesc.Style.Add("font-weight", "bold");
-
-                        desc.Style.Add("display", "none");
-                        uom.Style.Add("display", "none");
-                        qty.Style.Add("display", "none");
-                        cost.Style.Add("display", "none");
-                        total_one.Style.Add("display", "none");
-                        qty_rec.Style.Add("display", "none");
-                        cost_two.Style.Add("display", "none");
-                        total_two.Style.Add("display", "none");
-                    }
-
-                    if (!string.IsNullOrEmpty(code))
-                    {
-                        cell.Attributes.Add("class", "no_border");
-                        act.ColSpan = 10;
-                        act.Style.Add("font-weight", "bold");
-
-                        desc.Style.Add("display", "none");
-                        uom.Style.Add("display", "none");
-                        qty.Style.Add("display", "none");
-                        cost.Style.Add("display", "none");
-                        total_one.Style.Add("display", "none");
-                        qty_rec.Style.Add("display", "none");
-                        cost_two.Style.Add("display", "none");
-                        total_two.Style.Add("display", "none");
-                    }
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(code))
-                    {
-                        cell.Attributes.Add("class", "no_border");
-
-                        act.ColSpan = 9;
-                        act.Style.Add("font-weight", "bold");
-
-                        desc.Style.Add("display", "none");
-                        uom.Style.Add("display", "none");
-                        qty.Style.Add("display", "none");
-                        cost.Style.Add("display", "none");
-                        total_one.Style.Add("display", "none");
-                        qty_rec.Style.Add("display", "none");
-                        cost_two.Style.Add("display", "none");
-                        total_two.Style.Add("display", "none");
-                    }
-                }
-            }
-        }
-
-        protected void CapexListview_DataBound(object sender, EventArgs e)
-        {
-            ListView listview = sender as ListView;
-            HtmlTableCell revth = (HtmlTableCell)listview.FindControl("tableHeaderRevDesc");
-            HtmlTableCell desc = (HtmlTableCell)listview.FindControl("desc");
-            HtmlTableCell uom = (HtmlTableCell)listview.FindControl("uom");
-            HtmlTableCell qty = (HtmlTableCell)listview.FindControl("qty");
-            HtmlTableCell cost = (HtmlTableCell)listview.FindControl("cost");
-            HtmlTableCell total = (HtmlTableCell)listview.FindControl("total");
-            HtmlTableCell recqty = (HtmlTableCell)listview.FindControl("recqty");
-            HtmlTableCell cost_two = (HtmlTableCell)listview.FindControl("cost_two");
-            HtmlTableCell total_two = (HtmlTableCell)listview.FindControl("total_two");
-
-            if (qty != null)
-            {
-                qty.InnerText = Constants.Prev_Req_Qty();
-                recqty.InnerText = Constants.Prev_Rec_Qty();
-            }
-
-            if (entitycode != Constants.TRAIN_CODE())
-            {
-                if (revth != null)
-                {
-                    revth.Visible = false;
-                    desc.Width = "42%";
-                    uom.Width = "7%";
-                    qty.Width = "8%";
-                    cost.Width = "7.5%";
-                    total.Width = "10%";
-                    recqty.Width = "8%";
-                    cost_two.Width = "7.5%";
-                    total_two.Width = "10%";
-                }
-            }
-            else
-            {
-                if (revth != null)
-                {
-                    desc.Width = "32%";
-                    revth.Width = "10%";
-                    uom.Width = "7%";
-                    qty.Width = "8%";
-                    cost.Width = "7.5%";
-                    total.Width = "10%";
-                    recqty.Width = "8%";
-                    cost_two.Width = "7.5%";
-                    total_two.Width = "10%";
-                }
-            }
-
-            HtmlTableCell pk_th = (HtmlTableCell)listview.FindControl("pk_header");
-            if (pk_th != null)
-                pk_th.Visible = false;
-
-            LabelTotalCA.Style.Add("width", "64.5%");
-            TACapex.Style.Add("width", "10%");
-            LabelTotalECA.Style.Add("width", "15.5%");
-            ETACapex.Style.Add("width", "10%");
-        }
-        protected void CapexListview_ItemDataBound(object sender, ListViewItemEventArgs e)
-        {
-            HideTableData(e);
-            if (e.Item.ItemType == ListViewItemType.DataItem)
-            {
-
-                ListViewDataItem dataitem = (ListViewDataItem)e.Item;
-
-                HtmlTableRow cell = (HtmlTableRow)e.Item.FindControl("prev");
-
-                //HtmlTableCell act = (HtmlTableCell)cell.FindControl("act");
-                HtmlTableCell tableDataRevDesc = (HtmlTableCell)cell.FindControl("tableDataRevDesc");
-                HtmlTableCell desc = (HtmlTableCell)cell.FindControl("sec");
-                HtmlTableCell uom = (HtmlTableCell)cell.FindControl("third");
-                HtmlTableCell qty = (HtmlTableCell)cell.FindControl("fourth");
-                HtmlTableCell cost = (HtmlTableCell)cell.FindControl("fifth");
-                HtmlTableCell total_one = (HtmlTableCell)cell.FindControl("six");
-                HtmlTableCell qty_rec = (HtmlTableCell)cell.FindControl("sev");
-                HtmlTableCell cost_two = (HtmlTableCell)cell.FindControl("eight");
-                HtmlTableCell total_two = (HtmlTableCell)cell.FindControl("nine");
-
-                if (entitycode == Constants.TRAIN_CODE())
-                {
-                    string farm = (string)DataBinder.Eval(dataitem.DataItem, "RevDesc").ToString();
-
-                    if (!string.IsNullOrEmpty(farm))
-                    {
-                        cell.Attributes.Add("class", "no_border");
-
-                        tableDataRevDesc.ColSpan = 9;
-                        tableDataRevDesc.Style.Add("font-weight", "bold");
-
-                        desc.Style.Add("display", "none");
-                        uom.Style.Add("display", "none");
-                        qty.Style.Add("display", "none");
-                        cost.Style.Add("display", "none");
-                        total_one.Style.Add("display", "none");
-                        qty_rec.Style.Add("display", "none");
-                        cost_two.Style.Add("display", "none");
-                        total_two.Style.Add("display", "none");
-                    }
-
-                }
-            }
-        }
-        protected void MatListview_ItemCommand(object sender, ListViewCommandEventArgs e)
-        {
-            if (e.CommandName == "Link")
-            {
-                itemcommand = matstring;
-                ListViewItem itemClicked = e.Item;
-                // Find Controls/Retrieve values from the item  here
-                Label c = (Label)itemClicked.FindControl("MatID");
-                PK_MAT = Convert.ToInt32(c.Text);
-
-                string query = "SELECT [Remarks] FROM " + MRPClass.MaterialsTableLogs() + " WHERE MasterKey = '" + PK_MAT + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
-
-                //MRPClass.PrintString("CreatorKey: " + Session["CreatorKey"].ToString());
-                //MRPClass.PrintString("PK_MAT: " + PK_MAT.ToString());
-
-                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-                conn.Open();
-                SqlCommand comm = new SqlCommand(query, conn);
-                SqlDataReader reader = comm.ExecuteReader();
-                bool empty = true;
-                while (reader.Read())
-                {
-                    LogsMemo.Text = reader[0].ToString();
-                    LogsMemo.Focus();
-                    empty = false;
-                }
-
-                if (empty)
-                {
-                    LogsMemo.Enabled = true;
-                    LogsMemo.Text = "";
-                    LogsMemo.Focus();
-                }
-                conn.Close();
-
-                LogsPopup.HeaderText = "Comment";
-                LogsPopup.ShowOnPageLoad = true;
-            }
-        }
-
-
-        protected void OpexListiview_ItemCommand(object sender, ListViewCommandEventArgs e)
-        {
-            if (e.CommandName == "Link")
-            {
-                itemcommand = opexstring;
-                ListViewItem itemClicked = e.Item;
-                // Find Controls/Retrieve values from the item  here
-                Label c = (Label)itemClicked.FindControl("OpexID");
-                PK_OPEX = Convert.ToInt32(c.Text);
-
-                string query = "SELECT [Remarks] FROM " + MRPClass.OpexTableLogs() + " WHERE MasterKey = '" + PK_OPEX + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
-
-                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-                conn.Open();
-                SqlCommand comm = new SqlCommand(query, conn);
-                SqlDataReader reader = comm.ExecuteReader();
-                bool empty = true;
-                while (reader.Read())
-                {
-                    LogsMemo.Text = reader[0].ToString();
-                    LogsMemo.Focus();
-                    empty = false;
-                }
-
-                if (empty)
-                {
-                    LogsMemo.Enabled = true;
-                    LogsMemo.Text = "";
-                    LogsMemo.Focus();
-                }
-                conn.Close();
-
-                LogsPopup.HeaderText = "Comment";
-                LogsPopup.ShowOnPageLoad = true;
-            }
-        }
-
-        protected void ManListview_ItemCommand(object sender, ListViewCommandEventArgs e)
-        {
-            if (e.CommandName == "Link")
-            {
-                itemcommand = manstring;
-                ListViewItem itemClicked = e.Item;
-                // Find Controls/Retrieve values from the item  here
-                Label c = (Label)itemClicked.FindControl("ManID");
-                PK_MAN = Convert.ToInt32(c.Text);
-
-                string query = "SELECT [Remarks] FROM " + MRPClass.ManpowerTableLogs() + " WHERE MasterKey = '" + PK_MAN + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
-
-                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-                conn.Open();
-                SqlCommand comm = new SqlCommand(query, conn);
-                SqlDataReader reader = comm.ExecuteReader();
-                bool empty = true;
-                while (reader.Read())
-                {
-                    LogsMemo.Text = reader[0].ToString();
-                    LogsMemo.Focus();
-                    empty = false;
-                }
-
-                if (empty)
-                {
-                    LogsMemo.Text = "";
-                    LogsMemo.Focus();
-                }
-                conn.Close();
-
-                LogsPopup.HeaderText = "Comment";
-                LogsPopup.ShowOnPageLoad = true;
-            }
-        }
-
-        protected void CapexListview_ItemCommand(object sender, ListViewCommandEventArgs e)
-        {
-            if (e.CommandName == "Link")
-            {
-                itemcommand = capexstring;
-                ListViewItem itemClicked = e.Item;
-                // Find Controls/Retrieve values from the item  here
-                Label c = (Label)itemClicked.FindControl("CapexID");
-                PK_CAPEX = Convert.ToInt32(c.Text);
-
-                string query = "SELECT [Remarks] FROM " + MRPClass.CapexTableLogs() + " WHERE MasterKey = '" + PK_CAPEX + "' AND UserKey = '" + Session["CreatorKey"].ToString() + "'";
-                SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
-                conn.Open();
-                SqlCommand comm = new SqlCommand(query, conn);
-                SqlDataReader reader = comm.ExecuteReader();
-                bool empty = true;
-                while (reader.Read())
-                {
-                    LogsMemo.Text = reader[0].ToString();
-                    LogsMemo.Focus();
-                    empty = false;
-                }
-
-                if (empty)
-                {
-                    LogsMemo.Enabled = true;
-                    LogsMemo.Text = "";
-                    LogsMemo.Focus();
-                }
-                conn.Close();
-
-                LogsPopup.HeaderText = "Comment";
-                LogsPopup.ShowOnPageLoad = true;
-            }
-        }
-
         protected void LogsBtn_Click(object sender, EventArgs e)
         {
             string tablename = "";
@@ -1031,7 +226,6 @@ namespace HijoPortal
             iStatusKey = MRPClass.MRP_ApprvLine_Status(mrp_key, appflwln);
             StatusHidden["hidden_preview_iStatusKey"] = iStatusKey;
             WorkLineHidden["hidden_preview_wrkflwln"] = appflwln;
-            BindAll();
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -1053,43 +247,465 @@ namespace HijoPortal
                 DocNum.Text = Session["mrp_docNum"].ToString();
 
                 Load_MRP(docnum);
-
-
             }
 
-
+            BindAll();
         }
 
         private void BindAll()
         {
-            MatListview.DataSource = Preview.Preview_DM(docnum, entitycode);
-            MatListview.DataBind();
-            TAMat.InnerText = Preview.preview_total_directmaterials(docnum);
-            ETAMat.InnerText = Preview.preview_requestedtotal_directmaterials(docnum);
+            string docnum = DocNum.Text.ToString();
+            GridPreviewDM.DataSource = DM(docnum);
+            GridPreviewDM.KeyFieldName = "PK";
+            GridPreviewDM.DataBind();
 
-            OpexListiview.DataSource = Preview.Preview_OP(docnum, entitycode);
-            OpexListiview.DataBind();
-            TAOpex.InnerText = Preview.preview_total_opex(docnum);
-            ETAOpex.InnerText = Preview.preview_requestedtotal_opex(docnum);
+            GridPreviewOP.DataSource = OP(docnum);
+            GridPreviewOP.KeyFieldName = "PK";
+            GridPreviewOP.DataBind();
 
-            ManListview.DataSource = Preview.Preview_MAN(docnum, entitycode);
-            ManListview.DataBind();
-            TAManpower.InnerText = Preview.preview_total_manpower(docnum);
-            ETAManpower.InnerText = Preview.preview_requestedtotal_manpower(docnum);
-            //ATAManpower.InnerText = MRPClass.manpower_approved_total().ToString("N");
+            GridPreviewMAN.DataSource = MAN(docnum);
+            GridPreviewMAN.KeyFieldName = "PK";
+            GridPreviewMAN.DataBind();
 
-            CapexListview.DataSource = Preview.Preview_CA(docnum, entitycode);
-            CapexListview.DataBind();
-            TACapex.InnerText = Preview.preview_total_capex(docnum);
-            ETACapex.InnerText = Preview.preview_requestedtotal_capex(docnum);
+            GridPreviewCA.DataSource = CA(docnum);
+            GridPreviewCA.KeyFieldName = "PK";
+            GridPreviewCA.DataBind();
 
-            RevListview.DataSource = Preview.Preview_Revenue(DocNum.Text.ToString(), entitycode);
-            RevListview.DataBind();
-            TARevenue.InnerText = MRPClass.revenue_total().ToString("N");
+            GridPreviewREV.DataSource = REV(docnum);
+            GridPreviewREV.KeyFieldName = "PK";
+            GridPreviewREV.DataBind();
 
-            PreviewListSummary.DataSource = Preview.MRP_PrevTotalSummary(DocNum.Text.ToString(), entitycode);
-            PreviewListSummary.DataBind();
-            TotalAmountSummary.InnerText = Preview.Prev_Summary_Total();
+            GridPreviewSummary.DataSource = SUMMARY(docnum);
+            GridPreviewSummary.KeyFieldName = "PK";
+            GridPreviewSummary.DataBind();
+
+        }
+
+        public static DataTable DM(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("OperatingUnit", typeof(string));
+                dtTable.Columns.Add("Expense", typeof(string));
+                dtTable.Columns.Add("Activity", typeof(string));
+                dtTable.Columns.Add("Descripiton", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+
+                dtTable.Columns.Add("RecQty", typeof(string));
+                dtTable.Columns.Add("RecCost", typeof(string));
+                dtTable.Columns.Add("RecTotalCost", typeof(string));
+            }
+
+            string farm_query = "[dbo].[DirectMaterialPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
+            //cmd.ExecuteNonQuery();
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["OperatingUnit"] = row["OperUinit"].ToString();
+                    dtRow["Activity"] = row["Activity"].ToString();
+                    dtRow["Expense"] = row["ExpenseCode"].ToString();
+                    dtRow["Descripiton"] = row["ItemDescription"].ToString();
+                    dtRow["UOM"] = row["UOM"].ToString();
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+
+                    dtRow["RecQty"] = Convert.ToDouble(row["EdittedQty"].ToString()).ToString("N");
+                    dtRow["RecCost"] = Convert.ToDouble(row["EdittedCost"].ToString()).ToString("N");
+                    dtRow["RecTotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+
+        }
+
+        public static DataTable OP(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("OperatingUnit", typeof(string));
+                dtTable.Columns.Add("Expense", typeof(string));
+                dtTable.Columns.Add("ProcurementCategory", typeof(string));
+                dtTable.Columns.Add("Descripiton", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+
+                dtTable.Columns.Add("RecQty", typeof(string));
+                dtTable.Columns.Add("RecCost", typeof(string));
+                dtTable.Columns.Add("RecTotalCost", typeof(string));
+            }
+
+            string farm_query = "[dbo].[OPEXPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
+            //cmd.ExecuteNonQuery();
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString(); ;
+                    dtRow["OperatingUnit"] = row["OprUnit"].ToString();
+                    dtRow["ProcurementCategory"] = row["ProcCat"].ToString();
+                    dtRow["Expense"] = row["ExpenseCode"].ToString();
+                    dtRow["Descripiton"] = row["OPEX_Description"].ToString();
+                    dtRow["UOM"] = row["UOMDesc"].ToString();
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+
+                    dtRow["RecQty"] = Convert.ToDouble(row["EdittedQty"].ToString()).ToString("N");
+                    dtRow["RecCost"] = Convert.ToDouble(row["EdittedCost"].ToString()).ToString("N");
+                    dtRow["RecTotalCost"] = Convert.ToDouble(row["EdittedTotalCost"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+        }
+
+        public static DataTable MAN(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("OperatingUnit", typeof(string));
+                dtTable.Columns.Add("Activity", typeof(string));
+                dtTable.Columns.Add("Descripiton", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+
+                dtTable.Columns.Add("RecQty", typeof(string));
+                dtTable.Columns.Add("RecCost", typeof(string));
+                dtTable.Columns.Add("RecTotalCost", typeof(string));
+            }
+
+            string farm_query = "[dbo].[ManPowerPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
+            //cmd.ExecuteNonQuery();
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString(); ;
+                    dtRow["OperatingUnit"] = row["OprUnitDesc"].ToString();
+                    dtRow["Activity"] = row["ActivityName"].ToString();
+                    dtRow["Descripiton"] = row["Description"].ToString();
+                    dtRow["UOM"] = row["UOMDesc"].ToString();
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+
+                    dtRow["RecQty"] = Convert.ToDouble(row["EdittedQty"].ToString()).ToString("N");
+                    dtRow["RecCost"] = Convert.ToDouble(row["EdittedCost"].ToString()).ToString("N");
+                    dtRow["RecTotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+
+        }
+
+        public static DataTable CA(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("OperatingUnit", typeof(string));
+                dtTable.Columns.Add("Expense", typeof(string));
+                dtTable.Columns.Add("ProcurementCategory", typeof(string));
+                dtTable.Columns.Add("Descripiton", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
+                dtTable.Columns.Add("Qty", typeof(string));
+                dtTable.Columns.Add("Cost", typeof(string));
+                dtTable.Columns.Add("TotalCost", typeof(string));
+
+                dtTable.Columns.Add("RecQty", typeof(string));
+                dtTable.Columns.Add("RecCost", typeof(string));
+                dtTable.Columns.Add("RecTotalCost", typeof(string));
+
+            }
+
+            string farm_query = "[dbo].[CAPEXPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
+            //cmd.ExecuteNonQuery();
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["OperatingUnit"] = row["OprUnit"].ToString();
+                    dtRow["ProcurementCategory"] = row["ProdCat"].ToString();
+                    dtRow["Descripiton"] = row["Description"].ToString();
+                    dtRow["UOM"] = row["UOM"].ToString();
+                    dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+
+                    dtRow["RecQty"] = Convert.ToDouble(row["EdittedQty"].ToString()).ToString("N");
+                    dtRow["RecCost"] = Convert.ToDouble(row["EdittedCost"].ToString()).ToString("N");
+                    dtRow["RecTotalCost"] = Convert.ToDouble(row["EdittiedTotalCost"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+
+        }
+
+        public static DataTable REV(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("OperatingUnit", typeof(string));
+                dtTable.Columns.Add("ProductName", typeof(string));
+                dtTable.Columns.Add("FarmName", typeof(string));
+                dtTable.Columns.Add("Prize", typeof(string));
+                dtTable.Columns.Add("Volume", typeof(string));
+                dtTable.Columns.Add("TotalPrize", typeof(string));
+            }
+
+            string farm_query = "[dbo].[RevenueAssumptionPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
+            //cmd.ExecuteNonQuery();
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["PK"].ToString();
+                    dtRow["OperatingUnit"] = row["OperUinit"].ToString();
+                    dtRow["ProductName"] = row["ProductName"].ToString();
+                    dtRow["FarmName"] = row["FarmName"].ToString();
+                    dtRow["Prize"] = Convert.ToDouble(row["Prize"].ToString()).ToString("N");
+                    dtRow["Volume"] = Convert.ToDouble(row["Volume"].ToString()).ToString("N");
+                    dtRow["TotalPrize"] = Convert.ToDouble(row["TotalPrize"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+
+        }
+
+        public static DataTable SUMMARY(string docnumber)
+        {
+            DataTable dtTable = new DataTable();
+            dtTable.TableName = "Table";
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SqlCommand cmd = null;
+            SqlDataReader reader = null;
+            SqlDataAdapter adp;
+
+            cn.Open();
+
+            if (dtTable.Columns.Count == 0)
+            {
+                //Columns for AspxGridview
+                dtTable.Columns.Add("PK", typeof(string));
+                dtTable.Columns.Add("Description", typeof(string));
+                dtTable.Columns.Add("Total", typeof(string));
+            }
+
+            string farm_query = "[dbo].[MRPSummaryPreview]";
+            cmd = new SqlCommand(farm_query, cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
+            cmd.Parameters.AddWithValue("@entity", entitycode);
+
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow dtRow = dtTable.NewRow();
+                    dtRow["PK"] = row["Sort"].ToString();
+                    dtRow["Description"] = row["MRPGroup"].ToString();
+                    dtRow["Total"] = Convert.ToDouble(row["EdittedTotalCost"].ToString()).ToString("N");
+                    dtTable.Rows.Add(dtRow);
+                }
+            }
+            dt.Clear();
+            cn.Close();
+            return dtTable;
+
+        }
+
+        private void ModifyGridColumns(ASPxGridView grid)
+        {
+            grid.Columns["PK"].Visible = false;
+            grid.Columns["Qty"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["Cost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["TotalCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+
+            grid.Columns["RecQty"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["RecQty"].Caption = "Recommended Quantity For Purchase";
+            grid.Columns["RecCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["RecCost"].Caption = "Cost";
+            grid.Columns["RecTotalCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["RecTotalCost"].Caption = "Total Cost";
+
+            if (entitycode != Constants.TRAIN_CODE())
+                grid.Columns["OperatingUnit"].Visible = false;
+        }
+
+        protected void GridPreviewDM_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        protected void GridPreviewOP_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        protected void GridPreviewMAN_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        protected void GridPreviewCA_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            ModifyGridColumns(grid);
+        }
+
+        protected void GridPreviewREV_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            grid.Columns["PK"].Visible = false;
+            grid.Columns["Prize"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["Volume"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["TotalPrize"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+
+            if (entitycode != Constants.TRAIN_CODE())
+                grid.Columns["OperatingUnit"].Visible = false;
+        }
+
+        protected void GridPreviewSummary_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            grid.Columns["PK"].Visible = false;
+            grid.Columns["Total"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
         }
 
         private void CheckCreatorKey()

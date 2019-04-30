@@ -10,8 +10,7 @@
 namespace HijoPortal
 {
 
-
-    public partial class mrp_previewforapproval
+    public partial class mrp_previewforapproval_before
     {
 
         /// <summary>
@@ -285,19 +284,13 @@ namespace HijoPortal
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        //protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue, LabelTARev;
-        //protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAMat, LabelTotalDM, LabelTotalEDM, ATAMat;
-        //protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAOpex, LabelTotalOP, LabelTotalEOP, ATAOpex;
-        //protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAManpower, LabelTotalMan, LabelTotalEMan, ATAManpower;
-        //protected global::System.Web.UI.HtmlControls.HtmlTableCell ETotalAmountTD;
-        //protected global::System.Web.UI.HtmlControls.HtmlTableCell ETACapex, LabelTotalCA, LabelTotalECA, TACapex;//CAPEX
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell TARevenue, LabelTARev;
 
-        protected global::DevExpress.Web.ASPxGridView GridPreviewDM;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewOP;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewMAN;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewCA;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewREV;
-        protected global::DevExpress.Web.ASPxGridView GridPreviewSummary;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAMat, LabelTotalDM, LabelTotalEDM, ATAMat;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAOpex, LabelTotalOP, LabelTotalEOP, ATAOpex;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETAManpower, LabelTotalMan, LabelTotalEMan, ATAManpower;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETotalAmountTD;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell ETACapex, LabelTotalCA, LabelTotalECA, TACapex;//CAPEX
 
         protected global::DevExpress.Web.ASPxHiddenField StatusHidden;
         protected global::DevExpress.Web.ASPxHiddenField WorkLineHidden;

@@ -187,6 +187,7 @@
     <Content Include="mrp_po_create.aspx" />
     <Content Include="mrp_po_list.aspx" />
     <Content Include="mrp_po_selectitem.aspx" />
+    <Content Include="mrp_previewforapproval_before.aspx" />
     <Content Include="mrp_preview_approve_before.aspx" />
     <Content Include="mrp_preview_before.aspx" />
     <Content Include="mrp_preview.aspx" />
@@ -457,6 +458,13 @@
     </Compile>
     <Compile Include="mrp_po_selectitem.aspx.designer.cs">
       <DependentUpon>mrp_po_selectitem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mrp_previewforapproval_before.aspx.cs">
+      <DependentUpon>mrp_previewforapproval_before.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mrp_previewforapproval_before.aspx.designer.cs">
+      <DependentUpon>mrp_previewforapproval_before.aspx</DependentUpon>
     </Compile>
     <Compile Include="mrp_preview_approve_before.aspx.cs">
       <DependentUpon>mrp_preview_approve_before.aspx</DependentUpon>

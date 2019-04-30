@@ -93,6 +93,7 @@
         <PanelCollection>
             <dx:PanelContent>
                 <%--<div id="Div1" runat="server" class="ContentWrapper">--%>
+                <%--from here--%>
                 <div>
                     <div id="dvHeader" style="height: 150px; background-color: #ffffff; padding: 5px 5px 0px 0px; border-radius: 2px;">
                         <h1 id="mrpHead" runat="server"></h1>
@@ -171,6 +172,171 @@
                                 </td>
                             </tr>
                         </table>
+                      
+                      <%--from here--%>
+                    </div>
+                    <div style="height: 10px;"></div>
+                    <div>
+                        <dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%">
+                            <PanelCollection>
+                                <dx:PanelContent>
+                                    <table style="width: inherit">
+                                        <tr>
+                                            <td style="vertical-align: top; text-align: left; width: 49%">
+                                                <dx:ASPxRoundPanel ID="ASPxRoundPanel5" runat="server" HeaderText="Revenue and Assumptions" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                                                    <PanelCollection>
+                                                        <dx:PanelContent>
+                                                            <dx:ASPxGridView ID="GridPreviewREV" runat="server" OnDataBound="GridPreviewREV_DataBound" Theme="Office2010Silver" Width="100%">
+                                                                <Border BorderStyle="None" />
+                                                                <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                                                <%--<SettingsBehavior AllowDragDrop="false" />--%>
+                                                                <Settings ShowGroupPanel="true" ShowFooter="true" />
+                                                                <GroupSummary>
+                                                                    <dx:ASPxSummaryItem FieldName="TotalPrize" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
+                                                                </GroupSummary>
+                                                                <TotalSummary>
+                                                                    <dx:ASPxSummaryItem FieldName="TotalPrize" ShowInColumn="TotalPrize" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
+                                                                </TotalSummary>
+                                                                <Styles>
+                                                                    <Footer HorizontalAlign="Right"></Footer>
+                                                                </Styles>
+                                                            </dx:ASPxGridView>
+                                                        </dx:PanelContent>
+                                                    </PanelCollection>
+                                                </dx:ASPxRoundPanel>
+                                            </td>
+                                            <td style="width: 2%;"></td>
+                                            <td style="vertical-align: top; text-align: left; width: 49%">
+                                                <dx:ASPxRoundPanel ID="ASPxRoundPanel6" runat="server" HeaderText="Total Summary" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                                                    <PanelCollection>
+                                                        <dx:PanelContent>
+                                                            <dx:ASPxGridView ID="GridPreviewSummary" runat="server" OnDataBound="GridPreviewSummary_DataBound" Theme="Office2010Silver" Width="100%">
+                                                                <Border BorderStyle="None" />
+                                                                <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                                                <%--<SettingsBehavior AllowDragDrop="false" />--%>
+                                                                <Settings ShowFooter="true" />
+                                                                <TotalSummary>
+                                                                    <dx:ASPxSummaryItem FieldName="Total" ShowInColumn="Total" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
+                                                                </TotalSummary>
+                                                                <Styles>
+                                                                    <Footer HorizontalAlign="Right"></Footer>
+                                                                </Styles>
+                                                            </dx:ASPxGridView>
+                                                        </dx:PanelContent>
+                                                    </PanelCollection>
+                                                </dx:ASPxRoundPanel>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+
+                                </dx:PanelContent>
+                            </PanelCollection>
+                        </dx:ASPxPanel>
+                    </div>
+
+                    <div>
+                        <div style="height: 10px;"></div>
+                        <dx:ASPxRoundPanel ID="ASPxRoundPanel1" runat="server" HeaderText="Direct Material" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                            <PanelCollection>
+                                <dx:PanelContent>
+                                    <dx:ASPxGridView ID="GridPreviewDM" runat="server" OnDataBound="GridPreviewDM_DataBound" Theme="Office2010Silver" Width="100%">
+                                        <Border BorderStyle="None" />
+                                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                        <%--<SettingsBehavior AllowDragDrop="false" />--%>
+                                        <Settings ShowGroupPanel="true" ShowFooter="true" />
+                                        <GroupSummary>
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="Expense" DisplayFormat="Total: {0:0,0.00}" />
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="Activity" DisplayFormat="Total: {0:0,0.00}" />
+                                        </GroupSummary>
+                                        <TotalSummary>
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
+                                        </TotalSummary>
+                                        <Styles>
+                                            <Footer HorizontalAlign="Right"></Footer>
+                                        </Styles>
+                                    </dx:ASPxGridView>
+                                </dx:PanelContent>
+                            </PanelCollection>
+                        </dx:ASPxRoundPanel>
+
+
+                        <div style="height: 10px;"></div>
+                        <dx:ASPxRoundPanel ID="ASPxRoundPanel2" runat="server" HeaderText="Operating Expenditure" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                            <PanelCollection>
+                                <dx:PanelContent>
+                                    <dx:ASPxGridView ID="GridPreviewOP" runat="server" OnDataBound="GridPreviewOP_DataBound" Theme="Office2010Silver" Width="100%">
+                                        <Border BorderStyle="None" />
+                                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                        <%--<SettingsBehavior AllowDragDrop="false" />--%>
+                                        <Settings ShowGroupPanel="true" ShowFooter="true" />
+                                        <GroupSummary>
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="Expense" DisplayFormat="Total: {0:0,0.00}" />
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="ProcurementCategory" DisplayFormat="Total: {0:0,0.00}" />
+                                        </GroupSummary>
+                                        <TotalSummary>
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
+                                        </TotalSummary>
+                                        <Styles>
+                                            <Footer HorizontalAlign="Right"></Footer>
+                                        </Styles>
+                                    </dx:ASPxGridView>
+                                </dx:PanelContent>
+                            </PanelCollection>
+                        </dx:ASPxRoundPanel>
+
+
+                        <div style="height: 10px;"></div>
+                        <dx:ASPxRoundPanel ID="ASPxRoundPanel3" runat="server" HeaderText="Manpower" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                            <PanelCollection>
+                                <dx:PanelContent>
+                                    <dx:ASPxGridView ID="GridPreviewMAN" runat="server" OnDataBound="GridPreviewMAN_DataBound" Theme="Office2010Silver" Width="100%">
+                                        <Border BorderStyle="None" />
+                                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                        <%--<SettingsBehavior AllowDragDrop="false" />--%>
+                                        <Settings ShowGroupPanel="true" ShowFooter="true" />
+                                        <GroupSummary>
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="Activity" DisplayFormat="Total: {0:0,0.00}" />
+                                        </GroupSummary>
+                                        <TotalSummary>
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
+                                        </TotalSummary>
+                                        <Styles>
+                                            <Footer HorizontalAlign="Right"></Footer>
+                                        </Styles>
+                                    </dx:ASPxGridView>
+                                </dx:PanelContent>
+                            </PanelCollection>
+                        </dx:ASPxRoundPanel>
+
+                        <div style="height: 10px;"></div>
+                        <dx:ASPxRoundPanel ID="ASPxRoundPanel4" runat="server" HeaderText="Capital Expenditure" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                            <PanelCollection>
+                                <dx:PanelContent>
+                                    <dx:ASPxGridView ID="GridPreviewCA" runat="server" OnDataBound="GridPreviewCA_DataBound" Theme="Office2010Silver" Width="100%">
+                                        <Border BorderStyle="None" />
+                                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
+                                        <%--<SettingsBehavior AllowDragDrop="false" />--%>
+                                        <Settings ShowGroupPanel="true" ShowFooter="true" />
+                                        <GroupSummary>
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="Expense" DisplayFormat="Total: {0:0,0.00}" />
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="ProcurementCategory" DisplayFormat="Total: {0:0,0.00}" />
+                                        </GroupSummary>
+                                        <TotalSummary>
+                                            <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
+                                        </TotalSummary>
+                                        <Styles>
+                                            <Footer HorizontalAlign="Right"></Footer>
+                                        </Styles>
+                                    </dx:ASPxGridView>
+                                </dx:PanelContent>
+                            </PanelCollection>
+                        </dx:ASPxRoundPanel>
+
                     </div>
                 </div>
             </dx:PanelContent>
@@ -179,169 +345,7 @@
 
 
 
-    <div style="height: 10px;"></div>
-    <div>
-        <dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%">
-            <PanelCollection>
-                <dx:PanelContent>
-                    <table style="width: inherit">
-                        <tr>
-                            <td style="vertical-align: top; text-align: left; width: 49%">
-                                <dx:ASPxRoundPanel ID="ASPxRoundPanel5" runat="server" HeaderText="Revenue and Assumptions" ShowCollapseButton="false" Width="100%" Theme="Glass">
-                                    <PanelCollection>
-                                        <dx:PanelContent>
-                                            <dx:ASPxGridView ID="GridPreviewREV" runat="server" OnDataBound="GridPreviewREV_DataBound" Theme="Office2010Silver" Width="100%">
-                                                <Border BorderStyle="None" />
-                                                <SettingsPager Mode="ShowAllRecords"></SettingsPager>
-                                                <%--<SettingsBehavior AllowDragDrop="false" />--%>
-                                                <Settings ShowGroupPanel="true" ShowFooter="true" />
-                                                <GroupSummary>
-                                                    <dx:ASPxSummaryItem FieldName="TotalPrize" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
-                                                </GroupSummary>
-                                                <TotalSummary>
-                                                    <dx:ASPxSummaryItem FieldName="TotalPrize" ShowInColumn="TotalPrize" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
-                                                </TotalSummary>
-                                                <Styles>
-                                                    <Footer HorizontalAlign="Right"></Footer>
-                                                </Styles>
-                                            </dx:ASPxGridView>
-                                        </dx:PanelContent>
-                                    </PanelCollection>
-                                </dx:ASPxRoundPanel>
-                            </td>
-                            <td style="width: 2%;"></td>
-                            <td style="vertical-align: top; text-align: left; width: 49%">
-                                <dx:ASPxRoundPanel ID="ASPxRoundPanel6" runat="server" HeaderText="Total Summary" ShowCollapseButton="false" Width="100%" Theme="Glass">
-                                    <PanelCollection>
-                                        <dx:PanelContent>
-                                            <dx:ASPxGridView ID="GridPreviewSummary" runat="server" OnDataBound="GridPreviewSummary_DataBound" Theme="Office2010Silver" Width="100%">
-                                                <Border BorderStyle="None" />
-                                                <SettingsPager Mode="ShowAllRecords"></SettingsPager>
-                                                <%--<SettingsBehavior AllowDragDrop="false" />--%>
-                                                <Settings ShowFooter="true" />
-                                                <TotalSummary>
-                                                    <dx:ASPxSummaryItem FieldName="Total" ShowInColumn="Total" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
-                                                </TotalSummary>
-                                                <Styles>
-                                                    <Footer HorizontalAlign="Right"></Footer>
-                                                </Styles>
-                                            </dx:ASPxGridView>
-                                        </dx:PanelContent>
-                                    </PanelCollection>
-                                </dx:ASPxRoundPanel>
-                            </td>
-                        </tr>
-                    </table>
 
-
-                </dx:PanelContent>
-            </PanelCollection>
-        </dx:ASPxPanel>
-    </div>
-
-    <div>
-        <div style="height: 10px;"></div>
-        <dx:ASPxRoundPanel ID="ASPxRoundPanel1" runat="server" HeaderText="Direct Material" ShowCollapseButton="false" Width="100%" Theme="Glass">
-            <PanelCollection>
-                <dx:PanelContent>
-                    <dx:ASPxGridView ID="GridPreviewDM" runat="server" OnDataBound="GridPreviewDM_DataBound" Theme="Office2010Silver" Width="100%">
-                        <Border BorderStyle="None" />
-                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
-                        <%--<SettingsBehavior AllowDragDrop="false" />--%>
-                        <Settings ShowGroupPanel="true" ShowFooter="true" />
-                        <GroupSummary>
-                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
-                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="Expense" DisplayFormat="Total: {0:0,0.00}" />
-                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="Activity" DisplayFormat="Total: {0:0,0.00}" />
-                        </GroupSummary>
-                        <TotalSummary>
-                            <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
-                        </TotalSummary>
-                        <Styles>
-                            <Footer HorizontalAlign="Right"></Footer>
-                        </Styles>
-                    </dx:ASPxGridView>
-                </dx:PanelContent>
-            </PanelCollection>
-        </dx:ASPxRoundPanel>
-
-
-        <div style="height: 10px;"></div>
-        <dx:ASPxRoundPanel ID="ASPxRoundPanel2" runat="server" HeaderText="Operating Expenditure" ShowCollapseButton="false" Width="100%" Theme="Glass">
-            <PanelCollection>
-                <dx:PanelContent>
-                    <dx:ASPxGridView ID="GridPreviewOP" runat="server" OnDataBound="GridPreviewOP_DataBound" Theme="Office2010Silver" Width="100%">
-                        <Border BorderStyle="None" />
-                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
-                        <%--<SettingsBehavior AllowDragDrop="false" />--%>
-                        <Settings ShowGroupPanel="true" ShowFooter="true" />
-                        <GroupSummary>
-                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
-                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="Expense" DisplayFormat="Total: {0:0,0.00}" />
-                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="ProcurementCategory" DisplayFormat="Total: {0:0,0.00}" />
-                        </GroupSummary>
-                        <TotalSummary>
-                            <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
-                        </TotalSummary>
-                        <Styles>
-                            <Footer HorizontalAlign="Right"></Footer>
-                        </Styles>
-                    </dx:ASPxGridView>
-                </dx:PanelContent>
-            </PanelCollection>
-        </dx:ASPxRoundPanel>
-
-
-        <div style="height: 10px;"></div>
-        <dx:ASPxRoundPanel ID="ASPxRoundPanel3" runat="server" HeaderText="Manpower" ShowCollapseButton="false" Width="100%" Theme="Glass">
-            <PanelCollection>
-                <dx:PanelContent>
-                    <dx:ASPxGridView ID="GridPreviewMAN" runat="server" OnDataBound="GridPreviewMAN_DataBound" Theme="Office2010Silver" Width="100%">
-                        <Border BorderStyle="None" />
-                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
-                        <%--<SettingsBehavior AllowDragDrop="false" />--%>
-                        <Settings ShowGroupPanel="true" ShowFooter="true" />
-                        <GroupSummary>
-                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
-                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="Activity" DisplayFormat="Total: {0:0,0.00}" />
-                        </GroupSummary>
-                        <TotalSummary>
-                            <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
-                        </TotalSummary>
-                        <Styles>
-                            <Footer HorizontalAlign="Right"></Footer>
-                        </Styles>
-                    </dx:ASPxGridView>
-                </dx:PanelContent>
-            </PanelCollection>
-        </dx:ASPxRoundPanel>
-
-        <div style="height: 10px;"></div>
-        <dx:ASPxRoundPanel ID="ASPxRoundPanel4" runat="server" HeaderText="Capital Expenditure" ShowCollapseButton="false" Width="100%" Theme="Glass">
-            <PanelCollection>
-                <dx:PanelContent>
-                    <dx:ASPxGridView ID="GridPreviewCA" runat="server" OnDataBound="GridPreviewCA_DataBound" Theme="Office2010Silver" Width="100%">
-                        <Border BorderStyle="None" />
-                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
-                        <%--<SettingsBehavior AllowDragDrop="false" />--%>
-                        <Settings ShowGroupPanel="true" ShowFooter="true" />
-                        <GroupSummary>
-                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
-                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="Expense" DisplayFormat="Total: {0:0,0.00}" />
-                            <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="ProcurementCategory" DisplayFormat="Total: {0:0,0.00}" />
-                        </GroupSummary>
-                        <TotalSummary>
-                            <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
-                        </TotalSummary>
-                        <Styles>
-                            <Footer HorizontalAlign="Right"></Footer>
-                        </Styles>
-                    </dx:ASPxGridView>
-                </dx:PanelContent>
-            </PanelCollection>
-        </dx:ASPxRoundPanel>
-
-    </div>
 
 
 

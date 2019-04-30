@@ -91,23 +91,7 @@ namespace HijoPortal
             ASPxGridView grid = (ASPxGridView)sender;
             ModifyGridColumns(grid);
         }
-        private void ModifyGridColumns(ASPxGridView grid)
-        {
-            grid.Columns["PK"].Visible = false;
-            grid.Columns["Qty"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-            grid.Columns["Cost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-            grid.Columns["TotalCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-
-            grid.Columns["RecQty"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-            grid.Columns["RecQty"].Caption = "Recommended Quantity For Purchase";
-            grid.Columns["RecCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-            grid.Columns["RecCost"].Caption = "Cost";
-            grid.Columns["RecTotalCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-            grid.Columns["RecTotalCost"].Caption = "Total Cost";
-
-            if (entitycode != Constants.TRAIN_CODE())
-                grid.Columns["OperatingUnit"].Visible = false;
-        }
+        
 
 
         protected void btMOPList_Click(object sender, EventArgs e)
@@ -582,6 +566,24 @@ namespace HijoPortal
             cn.Close();
             return dtTable;
 
+        }
+
+        private void ModifyGridColumns(ASPxGridView grid)
+        {
+            grid.Columns["PK"].Visible = false;
+            grid.Columns["Qty"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["Cost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["TotalCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+
+            grid.Columns["RecQty"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["RecQty"].Caption = "Recommended Quantity For Purchase";
+            grid.Columns["RecCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["RecCost"].Caption = "Cost";
+            grid.Columns["RecTotalCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["RecTotalCost"].Caption = "Total Cost";
+
+            if (entitycode != Constants.TRAIN_CODE())
+                grid.Columns["OperatingUnit"].Visible = false;
         }
 
 
