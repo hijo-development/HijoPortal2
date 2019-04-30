@@ -29,7 +29,7 @@ namespace HijoPortal
                 if (Session["UserCompleteName"] != null)
                 {
 
-                    WelcomeLbl.Text = "Welcome " + Session["UserCompleteName"].ToString();
+                    WelcomeLbl.Text = "Welcome " + Session["FirstName"].ToString();
                     string employeepic = "~/images/users/" + Session["EmployeeKey"].ToString() + ".jpg";
 
                     string EmpimgPath = GlobalClass.UserImagePath + Session["EmployeeKey"].ToString() + ".jpg";

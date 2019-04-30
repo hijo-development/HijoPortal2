@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="HijoPortal._default" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -32,6 +34,13 @@
                 document.getElementById("btnLogIn").click();
             }
         }
+
+        //$(function () {
+        //    $("#btnLogIn").on("click", function () {
+        //        $find('ModalPopupExtenderLoading').show();
+        //    });
+        //});
+
     </script>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -39,6 +48,27 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+
+        <asp:TextBox ID="TextBoxLoading" runat="server" Visible="true" Style="display: none;"></asp:TextBox>
+        <ajaxToolkit:ModalPopupExtender runat="server"
+            ID="ModalPopupExtenderLoading"
+            BackgroundCssClass="modalBackground"
+            PopupControlID="PanelLoading"
+            TargetControlID="TextBoxLoading"
+            CancelControlID="ButtonErrorOK1"
+            ClientIDMode="Static">
+        </ajaxToolkit:ModalPopupExtender>
+        <asp:Panel ID="PanelLoading" runat="server"
+            CssClass="modalPopupLoading"
+            Height="200px"
+            Width="200px"
+            align="center"
+            Style="display: none;">
+            <img src="images/Loading.gif" style="height: 200px; width: 200px;" />
+            <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
+        </asp:Panel>
+
         <dx:ASPxPopupControl ID="ResetPopUp" runat="server" ClientInstanceName="ResetPopUpClient" Width="450px" Height="80px" Theme="Office2010Silver" Modal="true" HeaderText="Reset Password" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter">
             <ContentCollection>
                 <dx:PopupControlContentControl>
@@ -81,7 +111,7 @@
             <asp:TextBox ID="txtUserName" placeholder="Enter Username" runat="server" AutoCompleteType="Disabled" onkeydown="javascript:enterEvent(event);"></asp:TextBox>
             <p>Password</p>
             <asp:TextBox ID="txtPassword" placeholder="Enter Password" runat="server" TextMode="Password" onkeydown="javascript:enterEvent(event);"></asp:TextBox>
-            <asp:Button ID="btnLogIn" runat="server" Text="Log in" OnClick="btnLogIn_Click" />
+            <asp:Button ID="btnLogIn" runat="server" Text="Log in" OnClientClick="function () { $find('ModalPopupExtenderLoading').show(); }" OnClick="btnLogIn_Click" />
             <%--<asp:Button ID="btnCreateAccount" runat="server" Text="Create Account" OnClick="btnCreateAccount_Click" />--%>
             <%--<asp:HyperLink ID="HyperLink1" runat="server">Create Account?</asp:HyperLink>
             <asp:HyperLink ID="HyperLink2" runat="server">Forgot password?</asp:HyperLink>--%>

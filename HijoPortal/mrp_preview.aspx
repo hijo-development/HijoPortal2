@@ -110,7 +110,12 @@
                                         <dx:ASPxHiddenField ID="StatusHidden" runat="server" ClientInstanceName="StatusHidden"></dx:ASPxHiddenField>
                                         <dx:ASPxHiddenField ID="WrkFlowHidden" runat="server" ClientInstanceName="WrkFlowHidden"></dx:ASPxHiddenField>
                                     </div>
-                                    <dx:ASPxButton ID="btAddEdit" runat="server" Text="Add/Edit" AutoPostBack="false" Theme="Office2010Blue" OnClick="btAddEdit_Click"></dx:ASPxButton>
+                                    <dx:ASPxButton ID="btAddEdit" runat="server" Text="Add/Edit" AutoPostBack="false" Theme="Office2010Blue" OnClick="btAddEdit_Click">
+                                        <ClientSideEvents Click="function(s,e){
+                                            $find('ModalPopupExtenderLoading').show();
+                                            e.processOnServer = true;
+                                            }" />
+                                    </dx:ASPxButton>
                                     <%--OnClick="Submit_Click"--%>
                                     <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
                                         <ClientSideEvents Click="Preview_Submit_Click" />
