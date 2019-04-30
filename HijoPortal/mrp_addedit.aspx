@@ -114,7 +114,7 @@
                                 <dx:ASPxLabel ID="DocNum" runat="server" Text="" Theme="Office2010Blue" Style="font-size: medium; font-weight: bold; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"></dx:ASPxLabel>
                             </td>
                             <td style="width: 40%; text-align: right;" rowspan="2">
-                                <span style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;</span>
+                                <%--<span style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;</span>--%>
                             </td>
                         </tr>
                         <tr>
@@ -200,7 +200,12 @@
                                 <%--OnClick="Submit_Click"--%>
                                 <%--<dx:ASPxButton ID="MRPList" runat="server" Text="List" AutoPostBack="false" Theme="Office2010Blue" OnClick="MRPList_Click"></dx:ASPxButton>
                         &nbsp--%>
-                                <dx:ASPxButton ID="Preview" runat="server" Text="Preview" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click"></dx:ASPxButton>
+                                <dx:ASPxButton ID="Preview" runat="server" Text="Preview" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click">
+                                    <ClientSideEvents Click="function(s,e){
+                                        $find('ModalPopupExtenderLoading').show();
+                                        e.processOnServer = true;
+                                        }" />
+                                </dx:ASPxButton>
                                 &nbsp
                         <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
                             <%--<ClientSideEvents Click="function(s,e){PopupSubmit.SetHeaderText('Confirm'); PopupSubmit.Show();}" />--%>
