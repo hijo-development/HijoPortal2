@@ -55,10 +55,22 @@
                         <h1>Work Assigned to me . . .</h1>
                     </div>
                     <div>
-                        <dx:ASPxGridView ID="HomeGrid" runat="server" Theme="Office2010Blue" Width="100%">
+                        <dx:ASPxGridView ID="HomeGrid" runat="server" Theme="Office2010Blue" Width="100%" 
+                            EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
+                            Style="margin: 0 auto;" OnCustomButtonCallback ="HomeGrid_CustomButtonCallback">
+                            <%--<ClientSideEvents CustomButtonClick="function(s,e){
+                                                $find('ModalPopupExtenderLoading').show();
+                                                e.processOnServer = true;
+                                                }" />--%>
                             <Columns>
+                                <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
+                                    <CustomButtons>
+                                        <dx:GridViewCommandColumnCustomButton ID="Preview" Text="" Image-Url="Images/Refresh.ico" Image-ToolTip="Preview Row" Image-Width="15px">
+                                        </dx:GridViewCommandColumnCustomButton>
+                                    </CustomButtons>
+                                </dx:GridViewCommandColumn>
                                 <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
-                                <dx:GridViewDataHyperLinkColumn FieldName="DocNumber" Width="140px">
+                                <%--<dx:GridViewDataHyperLinkColumn FieldName="DocNumber" Width="140px">
                                     <DataItemTemplate>
                                         <dx:ASPxHyperLink OnInit="DocNumBtn_Init" ID="DocNumBtn" runat="server" Text='<%#Eval("DocNumber")%>' Theme="Office2010Blue">
                                             <ClientSideEvents Click="function(s,e){
@@ -66,9 +78,9 @@
                                                 e.processOnServer = true;
                                                 }" />
                                         </dx:ASPxHyperLink>
-                                        <%-- NavigateUrl='<%# string.Format("mrp_addedit.aspx?DocNum={0}&WrkFlwLn=1", Eval("DocNumber")) %>' --%>
                                     </DataItemTemplate>
-                                </dx:GridViewDataHyperLinkColumn>
+                                </dx:GridViewDataHyperLinkColumn>--%>
+                                <dx:GridViewDataColumn FieldName="DocNumber" Caption="Document Number" Width="140px"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="DateCreated" Caption="Date Created"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="EntityCodeDesc" Caption="Entity"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="BUCodeDesc" Caption="BU/ Department"></dx:GridViewDataColumn>
