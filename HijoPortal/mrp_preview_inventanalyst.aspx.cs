@@ -654,6 +654,11 @@ namespace HijoPortal
 
             grid.Columns["RecQty"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
             grid.Columns["RecQty"].Caption = "Recommended Quantity For Purchase";
+
+            System.Drawing.Color col = System.Drawing.ColorTranslator.FromHtml("#66ffcc");
+            grid.Columns["RecQty"].CellStyle.BackColor = col;
+            grid.Columns["RecQty"].HeaderStyle.BackColor = col;
+
             grid.Columns["RecCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
             grid.Columns["RecCost"].Caption = "Cost";
             grid.Columns["RecTotalCost"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
