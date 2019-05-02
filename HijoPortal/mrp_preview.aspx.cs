@@ -920,7 +920,7 @@ namespace HijoPortal
                     DataRow dtRow = dtTable.NewRow();
                     dtRow["PK"] = row["Sort"].ToString();
                     dtRow["Description"] = row["MRPGroup"].ToString();
-                    dtRow["Total"] = Convert.ToDouble(row["EdittedTotalCost"].ToString()).ToString("N");
+                    dtRow["Total"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
                     dtTable.Rows.Add(dtRow);
                 }
             }

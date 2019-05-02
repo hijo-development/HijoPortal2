@@ -26,6 +26,8 @@
         <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
     </asp:Panel>
 
+
+
     <dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%" Height="100%" ScrollBars="Auto">
         <PanelCollection>
             <dx:PanelContent>
@@ -35,13 +37,13 @@
                             <%--<td style="width: 300px; vertical-align: top; padding: 10px;">--%>
                             <td style="vertical-align: top; padding: 10px;">
                                 <h4 style="color:darkgreen;">Vision: </h4>
-                                <p class="VisionMission"><b>HIJO</b> nurtures nature today to benefit the generation of tomorrow.</p>
+                                <p><b>HIJO</b> nurtures nature today to benefit the generation of tomorrow.</p>
                                 <br />
                                 <h4 style="color:darkblue;">Mission:</h4>
-                                <p class="VisionMission">To build enterprises in <b>Agribusines</b>, <b>Port & Logistics</b>, <b>Property Development</b>, <b>Leisure & Tourism</b> & <b>Renewable Energy</b> in line with the <b>FELICE</b> principle.</p>
+                                <p>To build enterprises in <b>Agribusines</b>, <b>Port & Logistics</b>, <b>Property Development</b>, <b>Leisure & Tourism</b> & <b>Renewable Energy</b> in line with the <b>FELICE</b> principle.</p>
                                 <br />
                                 <h4 style="color:darkgreen;">Core Values:</h4>
-                                <p class="VisionMission">We aim for <b>EXCELLENCE</b>. We work as a <b>TEAM</b>. We have <b>INTEGRITY</b>. We are <b>STEWARDS</b> of God's creation. We are <b>ENTREPRENEURS</b>. We will <b>GROW</b> while having <b>FUN</b>.</p>
+                                <p>We aim for <b>EXCELLENCE</b>. We work as a <b>TEAM</b>. We have <b>INTEGRITY</b>. We are <b>STEWARDS</b> of God's creation. We are <b>ENTREPRENEURS</b>. We will <b>GROW</b> while having <b>FUN</b>.</p>
                             </td>
                             <%--<td style="width: 100px"></td>--%>
                             <%--<td style="width: 700px; background-image: url('../images/banner.png'); background-size: 100%; background-repeat: no-repeat;"></td>--%>
@@ -61,6 +63,12 @@
                             <%--<ClientSideEvents CustomButtonClick="function(s,e){
                                                 $find('ModalPopupExtenderLoading').show();
                                                 e.processOnServer = true;
+                                                }" />--%>
+                            <%--<ClientSideEvents BeginCallback="function(s,e){
+                                                $find('ModalPopupExtenderLoading').show();
+                                                }" />--%>
+                            <%--<ClientSideEvents EndCallback="function(s,e){
+                                                $find('ModalPopupExtenderLoading').hide();
                                                 }" />--%>
                             <Columns>
                                 <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
@@ -93,6 +101,7 @@
                                 <dx:GridViewDataColumn FieldName="CreatorKey" Visible="false"></dx:GridViewDataColumn>
                             </Columns>
                             <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" />
+                            <%--<SettingsLoadingPanel Mode="ShowAsPopup" />--%>
                             <SettingsBehavior AllowFocusedRow="true" ProcessSelectionChangedOnServer="true" AllowSort="true" AllowHeaderFilter="true" />
                         </dx:ASPxGridView>
                     </div>

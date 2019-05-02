@@ -103,22 +103,22 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxLabel ErrorCatchLbl;
         
         /// <summary>
-        /// ASPxPanel1 control.
+        /// ASPxPanelPOUp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel ASPxPanel1;
+        protected global::DevExpress.Web.ASPxPanel ASPxPanelPOUp;
         
         /// <summary>
-        /// ASPxSplitter1 control.
+        /// ASPxSplitterPOUp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxSplitter ASPxSplitter1;
+        protected global::DevExpress.Web.ASPxSplitter ASPxSplitterPOUp;
         
         /// <summary>
         /// POGrid control.

@@ -67,12 +67,13 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%" Height="100%" ScrollBars="Auto">
-        <PanelCollection>
-            <dx:PanelContent>
-                <%--<div id="dvPOUploadingSetup" runat="server" class="scroll-container">--%>
-                    <div>
-                    <dx:ASPxSplitter ID="ASPxSplitter1" runat="server" Orientation="Vertical" AllowResize="true" Border-BorderStyle="None" Width="100%" Height="600px" Theme="Office2010Blue">
+    <%--<div id="dvPOUploadingSetup" runat="server" class="scroll-container">--%>
+    <div>
+        <dx:ASPxPanel ID="ASPxPanelPOUp" runat="server" Width="100%" Height="100%" ScrollBars="Auto">
+            <PanelCollection>
+                <dx:PanelContent>
+                    <%-- <div>--%>
+                    <dx:ASPxSplitter ID="ASPxSplitterPOUp" runat="server" Orientation="Vertical" AllowResize="true" Border-BorderStyle="None" Width="100%" Height="600px" Theme="Office2010Blue">
                         <Panes>
                             <dx:SplitterPane Size="50%" ScrollBars="Auto">
                                 <ContentCollection>
@@ -329,11 +330,9 @@
                         </Panes>
                     </dx:ASPxSplitter>
 
-
-                </div>
-            </dx:PanelContent>
-        </PanelCollection>
-    </dx:ASPxPanel>
-
+                </dx:PanelContent>
+            </PanelCollection>
+        </dx:ASPxPanel>
+    </div>
 
 </asp:Content>
