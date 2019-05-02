@@ -131,9 +131,7 @@ namespace HijoPortal
             using (SqlConnection con = new SqlConnection(GlobalClass.SQLConnString()))
             {
                 con.Open();
-                qry = "SELECT tbl_System_SideNav.* " +
-                      " FROM tbl_System_SideNav " +
-                      " ORDER BY Sort";
+                qry = "SELECT tbl_System_SideNav.* FROM tbl_System_SideNav WHERE (ViewinNAV = 1)  ORDER BY Sort";
                 cmd = new SqlCommand(qry);
                 cmd.Connection = con;
                 adp = new SqlDataAdapter(cmd);

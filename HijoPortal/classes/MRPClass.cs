@@ -3626,7 +3626,7 @@ namespace HijoPortal.classes
                          " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
                          " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
                          " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK " +
-                         " WHERE(dbo.tbl_MRP_List_Workflow.Line = 4) " +
+                         " WHERE(dbo.tbl_MRP_List_Workflow.Line = 3) " +
                          " AND(dbo.tbl_MRP_List_Workflow.Status = 0) " +
                          " AND(dbo.tbl_MRP_List_Workflow.Visible = 1)";
 

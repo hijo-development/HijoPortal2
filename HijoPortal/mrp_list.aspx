@@ -169,7 +169,7 @@
                             <ClientSideEvents RowClick="MOPListFocused" />
                             <ClientSideEvents EndCallback="MainTableEndCallback" />
                             <SettingsBehavior AllowSort="true" SortMode="Value" />
-                            <ClientSideEvents BeginCallback="function(s,e){loadingPanel.Show();}" />
+                            <%--<ClientSideEvents BeginCallback="function(s,e){loadingPanel.Show();}" />--%>
 
                             <Columns>
                                 <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
