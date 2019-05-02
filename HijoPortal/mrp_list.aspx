@@ -117,6 +117,7 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
+
     <dx:ASPxPopupControl ID="PopupSubmitMRPList" ClientInstanceName="PopupSubmitMRPList" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -145,6 +146,8 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
+    <%--<dx:ASPxPanel ID="ASPxPanel2" runat="server" Width="200px" Theme="Office2010Blue" HorizontalAlign="Center" VerticalAlign="Middle" ClientInstanceName="loadingPanel" Modal="true"></dx:ASPxPanel>--%>
+
     <dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%" Height="100%" ScrollBars="Auto">
         <PanelCollection>
             <dx:PanelContent>
@@ -166,6 +169,7 @@
                             <ClientSideEvents RowClick="MOPListFocused" />
                             <ClientSideEvents EndCallback="MainTableEndCallback" />
                             <SettingsBehavior AllowSort="true" SortMode="Value" />
+                            <ClientSideEvents BeginCallback="function(s,e){loadingPanel.Show();}" />
 
                             <Columns>
                                 <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
@@ -232,6 +236,8 @@
 
                             <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="false">
                             </SettingsPager>
+
+                            <SettingsLoadingPanel Mode="Disabled" />
 
                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                 AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />

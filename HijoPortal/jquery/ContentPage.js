@@ -257,6 +257,8 @@ function MainTableEndCallback(s, e) {
         MRPHiddenVal.Set('hidden_value', ' ');
         MainTable.Refresh();//refresh Grid
     }
+
+    loadingPanel.Hide();
 }
 
 
@@ -824,6 +826,9 @@ function CANCEL_DELETE(s, e) {
 
 function DirectMaterialsGrid_Add(s, e) {
 
+    //Trial May 2, 2019
+    //$find('ModalMasterPopupExtenderLoading').show();
+
     var wrkflowLine = WorkFlowLineTxt.GetText();
     var statusKey = StatusKeyTxt.GetText();
     var wrklineStatus = WorkFlowLineStatusTxt.GetText();
@@ -1269,6 +1274,7 @@ function OnBeginCallback(s, e) {
         var visibleIndex = OPEXGrid.GetFocusedRowIndex();
         OPEXGrid.GetRowValues(visibleIndex, "isItem", OnGetGridViewValues);
     }
+    loadingPanel.Show();
 }
 
 function OnGetGridViewValues(values) {

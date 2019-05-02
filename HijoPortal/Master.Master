@@ -79,6 +79,8 @@
             <asp:Button ID="ButtonMasterErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
         </asp:Panel>
 
+        <dx:ASPxLoadingPanel ID="ASPxLoadingPanel1" runat="server" Theme="Office2010Blue" HorizontalAlign="Center" VerticalAlign="Middle" ClientInstanceName="loadingPanel" Modal="true"></dx:ASPxLoadingPanel>
+
         <dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%" Height="100%">
             <PanelCollection>
                 <dx:PanelContent>

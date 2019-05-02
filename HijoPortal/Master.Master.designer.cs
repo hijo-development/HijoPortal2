@@ -85,6 +85,15 @@ namespace HijoPortal {
         protected global::System.Web.UI.WebControls.Button ButtonMasterErrorOK1;
         
         /// <summary>
+        /// ASPxLoadingPanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLoadingPanel ASPxLoadingPanel1;
+        
+        /// <summary>
         /// ASPxPanel1 control.
         /// </summary>
         /// <remarks>

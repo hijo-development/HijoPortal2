@@ -81,27 +81,27 @@ namespace HijoPortal
 
 
             if (bindDM)
-                BindDirectMaterials(docnumber);
+                BindDirectMaterials(Get_Docnumber());
             else
                 bindDM = true;
 
             if (bindOpex)
-                BindOPEX(docnumber);
+                BindOPEX(Get_Docnumber());
             else
                 bindOpex = true;
 
             if (bindManPower)
-                BindManPower(docnumber);
+                BindManPower(Get_Docnumber());
             else
                 bindManPower = true;
 
             if (bindCapex)
-                BindCAPEX(docnumber);
+                BindCAPEX(Get_Docnumber());
             else
                 bindCapex = true;
 
             if (bindRevenue)
-                BindRevenue(docnumber);
+                BindRevenue(Get_Docnumber());
             else
                 bindRevenue = true;
 
@@ -1522,7 +1522,7 @@ namespace HijoPortal
             ASPxPageControl pageControl = DirectMaterialsGrid.FindEditFormTemplateControl("DirectPageControl") as ASPxPageControl;
             ASPxListBox listbox = pageControl.FindControl("listbox") as ASPxListBox;
             listbox.Visible = true;
-            listbox.DataSource = MRPClass.AXInventTable(e.Parameter, entitycode, "empty");
+            listbox.DataSource = MRPClass.AXInventTable(e.Parameter, entitycode);
 
             //ListBoxColumn l_value = new ListBoxColumn();
             //l_value.FieldName = "ITEMID";
@@ -1551,7 +1551,7 @@ namespace HijoPortal
             ASPxListBox listbox = pageControl.FindControl("listboxOPEX") as ASPxListBox;
             ASPxComboBox expCode = pageControl.FindControl("ExpenseCode") as ASPxComboBox;
             listbox.Visible = true;
-            listbox.DataSource = MRPClass.AXInventTable(e.Parameter, entitycode, expCode.Value.ToString());
+            listbox.DataSource = MRPClass.AXInventTable(e.Parameter, entitycode);
 
             listbox.TextField = "NAMEALIAS";
             listbox.DataBind();

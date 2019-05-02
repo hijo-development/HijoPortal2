@@ -225,7 +225,7 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="11">
+                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty For Purchase" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="11">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
@@ -351,7 +351,7 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="11">
+                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty For Purchase" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="11">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
@@ -477,7 +477,7 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="11">
+                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty For Purchase" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc" VisibleIndex="11">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>
@@ -598,7 +598,7 @@
                                                         <dx:ASPxLabel runat="server" Text='<%#Eval("TotalCost")%>' Theme="Office2010Blue"></dx:ASPxLabel>
                                                     </EditItemTemplate>
                                                 </dx:GridViewDataColumn>
-                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc">
+                                                <dx:GridViewDataColumn FieldName="EdittedQty" Caption="Recommended Qty For Purchase" CellStyle-BackColor="#66ffcc" HeaderStyle-BackColor="#66ffcc">
                                                     <HeaderStyle HorizontalAlign="Right" />
                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                     <FooterCellStyle HorizontalAlign="Right"></FooterCellStyle>

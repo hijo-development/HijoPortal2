@@ -199,7 +199,7 @@
                         </EditItemTemplate>
                     </dx:GridViewDataColumn>
 
-                    <dx:GridViewDataColumn FieldName="ApprovedQty" Caption="Recommended Qty">
+                    <dx:GridViewDataColumn FieldName="ApprovedQty" Caption="Recommended Qty For Purchase">
                         <HeaderStyle HorizontalAlign="Right" />
                         <CellStyle HorizontalAlign="Right"></CellStyle>
                         <EditItemTemplate>

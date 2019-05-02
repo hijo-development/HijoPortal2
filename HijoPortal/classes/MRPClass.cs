@@ -1547,7 +1547,7 @@ namespace HijoPortal.classes
 
             }
 
-            string query_1 = "SELECT dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc, dbo.vw_AXProdCategory.DESCRIPTION AS ProdDesc, dbo.tbl_MRP_List_CAPEX.* FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE INNER JOIN dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query_1 = "SELECT DISTINCT dbo.tbl_MRP_List_CAPEX.PK, dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc, dbo.vw_AXProdCategory.DESCRIPTION AS ProdDesc, dbo.tbl_MRP_List_CAPEX.HeaderDocNum, dbo.tbl_MRP_List_CAPEX.TableIdentifier, dbo.tbl_MRP_List_CAPEX.OprUnit, dbo.tbl_MRP_List_CAPEX.ProdCat, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty, dbo.tbl_MRP_List_CAPEX.TotalCost, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.EdittedQty, dbo.tbl_MRP_List_CAPEX.EdittedCost, dbo.tbl_MRP_List_CAPEX.EdittiedTotalCost, dbo.tbl_MRP_List_CAPEX.ApprovedQty, dbo.tbl_MRP_List_CAPEX.ApprovedCost, dbo.tbl_MRP_List_CAPEX.ApprovedTotalCost, dbo.tbl_MRP_List_CAPEX.QtyPO, dbo.tbl_MRP_List_CAPEX.AvailForPO FROM   dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_CAPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE INNER JOIN dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             //string query_1 = "SELECT tbl_MRP_List_CAPEX.*, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_CAPEX INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_CAPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
@@ -1816,7 +1816,8 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable AXInventTable(string str, string EntCode, string mainaccoundid)
+        //public static DataTable AXInventTable(string str, string EntCode, string mainaccoundid)
+        public static DataTable AXInventTable(string str, string EntCode)
         {
 
             DataTable dtTable = new DataTable();
@@ -1844,11 +1845,11 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("LastCost", typeof(string));
             }
 
-            string MAINACCOUNT = "";
-            if (mainaccoundid == "empty")
-                MAINACCOUNT = "MAINACCOUNT";
-            else
-                MAINACCOUNT = "'" +mainaccoundid + "'";
+            //string MAINACCOUNT = "";
+            //if (mainaccoundid == "empty")
+            //    MAINACCOUNT = "MAINACCOUNT";
+            //else
+            //    MAINACCOUNT = "'" +mainaccoundid + "'";
 
             //string qry = "SELECT [ITEMID],[NAMEALIAS], [UNITID] " +
             //              " FROM [hijo_portal].[dbo].[vw_AXInventTable] " +
@@ -1857,7 +1858,7 @@ namespace HijoPortal.classes
 
             string qry = "SELECT DISTINCT [ITEMID],[NAMEALIAS], [UNITID] " +
                           " FROM [hijo_portal].[dbo].[vw_AXInventTable] " +
-                          " WHERE [NAMEALIAS] LIKE '%" + str + "%'";
+                          " WHERE [NAMEALIAS] LIKE '%" + str + "%' AND DATAAREAID = '" + EntCode + "'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;

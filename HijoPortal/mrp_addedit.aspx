@@ -96,6 +96,8 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
+    <%--<dx:ASPxLoadingPanel ID="ASPxLoadingPanel1" runat="server" Theme="Office2010Blue" HorizontalAlign="Center" VerticalAlign="Middle" ClientInstanceName="loadingPanel" Modal="true"></dx:ASPxLoadingPanel>--%>
+
     <dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%" Height="100%" ScrollBars="Auto">
         <PanelCollection>
             <dx:PanelContent>
@@ -200,7 +202,7 @@
                                 <%--OnClick="Submit_Click"--%>
                                 <%--<dx:ASPxButton ID="MRPList" runat="server" Text="List" AutoPostBack="false" Theme="Office2010Blue" OnClick="MRPList_Click"></dx:ASPxButton>
                         &nbsp--%>
-                                <dx:ASPxButton ID="Preview" runat="server" Text="Preview" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click">
+                                <dx:ASPxButton ID="Preview" runat="server" Text="Preview" CausesValidation="false" AutoPostBack="false" Theme="Office2010Blue" OnClick="Preview_Click">
                                     <ClientSideEvents Click="function(s,e){
                                         $find('ModalPopupExtenderLoading').show();
                                         e.processOnServer = true;
@@ -245,6 +247,8 @@
                                                                         OnCancelRowEditing="DirectMaterialsGrid_CancelRowEditing">
                                                                         <ClientSideEvents RowClick="function(s,e){focused(s,e,'Materials');}" />
                                                                         <ClientSideEvents CustomButtonClick="DirectMaterialsGrid_CustomButtonClick" />
+                                                                        <ClientSideEvents BeginCallback="function(s,e){loadingPanel.Show();}" />
+                                                                        <ClientSideEvents EndCallback="function(s,e){loadingPanel.Hide();}" />
                                                                         <Columns>
                                                                             <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
                                                                                 <HeaderTemplate>
@@ -330,13 +334,20 @@
                                                                                                                                 </div>
                                                                                                                             </td>
                                                                                                                             <td>
-                                                                                                                                <div id="OperatingUnit_combo" runat="server">
-                                                                                                                                    <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnit" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue" Width="300px">
-                                                                                                                                        <ClientSideEvents SelectedIndexChanged="OperatingUnitDM_SelectedIndexChanged" />
-                                                                                                                                        <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
-                                                                                                                                        </ValidationSettings>
-                                                                                                                                    </dx:ASPxComboBox>
-                                                                                                                                </div>
+                                                                                                                                <table style="width: 100%;">
+                                                                                                                                    <tr>
+                                                                                                                                        <td style="width: 7%;"></td>
+                                                                                                                                        <td>
+                                                                                                                                            <div id="OperatingUnit_combo" runat="server">
+                                                                                                                                                <dx:ASPxComboBox ID="OperatingUnit" runat="server" ClientInstanceName="OperatingUnit" OnInit="OperatingUnit_Init" AutoResizeWithContainer="true" TextFormatString="{1}" ValueType="System.String" Theme="Office2010Blue" Width="300px">
+                                                                                                                                                    <ClientSideEvents SelectedIndexChanged="OperatingUnitDM_SelectedIndexChanged" />
+                                                                                                                                                    <ValidationSettings ValidateOnLeave="False" EnableCustomValidation="True" ErrorDisplayMode="ImageWithTooltip" ErrorText="Please enter value">
+                                                                                                                                                    </ValidationSettings>
+                                                                                                                                                </dx:ASPxComboBox>
+                                                                                                                                            </div>
+                                                                                                                                        </td>
+                                                                                                                                    </tr>
+                                                                                                                                </table>
                                                                                                                             </td>
                                                                                                                         </tr>
                                                                                                                         <tr>
@@ -405,12 +416,12 @@
                                                                                                                         <tr>
                                                                                                                             <td></td>
                                                                                                                             <td style="width: 50%;">
-                                                                                                                                <table style="width: 100%;">
+                                                                                                                                <table style="width: 100%;" border="0">
                                                                                                                                     <tr>
                                                                                                                                         <td style="width: 7%;"></td>
-                                                                                                                                        <td style="width: 93%;">
+                                                                                                                                        <td>
                                                                                                                                             <div style="overflow-x: auto; width: 400px;">
-                                                                                                                                                <dx:ASPxListBox ID="listbox" ClientInstanceName="listbox" runat="server" ValueType="System.String" OnCallback="listbox_Callback" ValueField="ITEMID" ClientVisible="false" Width="450px" Theme="Office2010Blue">
+                                                                                                                                                <dx:ASPxListBox ID="listbox" ClientInstanceName="listbox" runat="server" ValueType="System.String" OnCallback="listbox_Callback" ValueField="ITEMID" ClientVisible="false" Width="100%" Theme="Office2010Blue">
                                                                                                                                                     <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
                                                                                                                                                     <Columns>
                                                                                                                                                         <dx:ListBoxColumn FieldName="ITEMID" Caption="Item Code" Width="80px"></dx:ListBoxColumn>
@@ -543,12 +554,14 @@
                                                                                 </div>
                                                                             </EditForm>
                                                                         </Templates>
+                                                                        <SettingsLoadingPanel Mode="Disabled" />
                                                                         <SettingsPager Mode="ShowAllRecords"></SettingsPager>
                                                                         <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" ShowFooter="true" />
                                                                         <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                                                             AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" ConfirmDelete="true" />
                                                                         <SettingsText ConfirmDelete="Delete This Item?" />
                                                                     </dx:ASPxGridView>
+
                                                                 </div>
                                                             </dx:PanelContent>
                                                         </PanelCollection>
@@ -574,7 +587,7 @@
                                                                     <ClientSideEvents RowClick="function(s,e){focused(s,e,'OPEX');}" />
                                                                     <ClientSideEvents BeginCallback="OnBeginCallback" />
                                                                     <ClientSideEvents CustomButtonClick="OPEXGrid_CustomButtonClick" />
-
+                                                                    <ClientSideEvents EndCallback="function(s,e){loadingPanel.Hide();}" />
                                                                     <Columns>
                                                                         <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
                                                                             <HeaderTemplate>
@@ -634,6 +647,7 @@
                                                                             <Image Width="15px" Url="Images/Add.ico"></Image>
                                                                         </NewButton>
                                                                     </SettingsCommandButton>
+                                                                    <SettingsLoadingPanel Mode="Disabled" />
                                                                     <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
 
                                                                     <TotalSummary>
@@ -918,10 +932,12 @@
                                                                     OnRowUpdating="ManPowerGrid_RowUpdating"
                                                                     OnBeforeGetCallbackResult="ManPowerGrid_BeforeGetCallbackResult"
                                                                     OnDataBound="ManPowerGrid_DataBound"
-                                                                    OnCancelRowEditing="ManPowerGrid_CancelRowEditing" 
+                                                                    OnCancelRowEditing="ManPowerGrid_CancelRowEditing"
                                                                     OnHtmlEditFormCreated="ManPowerGrid_HtmlEditFormCreated">
                                                                     <ClientSideEvents RowClick="function(s,e){focused(s,e,'Manpower');}" />
                                                                     <ClientSideEvents CustomButtonClick="ManPowerGrid_CustomButtonClick" />
+                                                                    <ClientSideEvents BeginCallback="function(s,e){loadingPanel.Show();}" />
+                                                                    <ClientSideEvents EndCallback="function(s,e){loadingPanel.Hide();}" />
                                                                     <Columns>
                                                                         <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
                                                                             <HeaderTemplate>
@@ -978,6 +994,7 @@
                                                                         </NewButton>
                                                                     </SettingsCommandButton>
                                                                     <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
+                                                                    <SettingsLoadingPanel Mode="Disabled" />
 
                                                                     <TotalSummary>
                                                                         <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
@@ -1146,10 +1163,12 @@
                                                                     OnRowUpdating="CAPEXGrid_RowUpdating"
                                                                     OnBeforeGetCallbackResult="CAPEXGrid_BeforeGetCallbackResult"
                                                                     OnDataBound="CAPEXGrid_DataBound"
-                                                                    OnCancelRowEditing="CAPEXGrid_CancelRowEditing" 
+                                                                    OnCancelRowEditing="CAPEXGrid_CancelRowEditing"
                                                                     OnHtmlEditFormCreated="CAPEXGrid_HtmlEditFormCreated">
                                                                     <ClientSideEvents RowClick="function(s,e){focused(s,e,'CAPEX');}" />
                                                                     <ClientSideEvents CustomButtonClick="CAPEXGrid_CustomButtonClick" />
+                                                                    <ClientSideEvents BeginCallback="function(s,e){loadingPanel.Show();}" />
+                                                                    <ClientSideEvents EndCallback="function(s,e){loadingPanel.Hide();}" />
                                                                     <Columns>
                                                                         <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
                                                                             <HeaderTemplate>
@@ -1205,6 +1224,7 @@
                                                                         </NewButton>
                                                                     </SettingsCommandButton>
                                                                     <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
+                                                                    <SettingsLoadingPanel Mode="Disabled" />
 
                                                                     <TotalSummary>
                                                                         <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
@@ -1373,6 +1393,8 @@
                                                                     OnCancelRowEditing="RevenueGrid_CancelRowEditing">
                                                                     <ClientSideEvents RowClick="function(s,e){focused(s,e,'Revenue');}" />
                                                                     <ClientSideEvents CustomButtonClick="RevenueGrid_CustomButtonClick" />
+                                                                    <ClientSideEvents BeginCallback="function(s,e){loadingPanel.Show();}" />
+                                                                    <ClientSideEvents EndCallback="function(s,e){loadingPanel.Hide();}" />
                                                                     <Columns>
                                                                         <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image">
                                                                             <HeaderTemplate>
@@ -1380,7 +1402,7 @@
                                                                                     <dx:ASPxButton ID="Add" runat="server" Image-Url="Images/Add.ico" Image-Width="15px" Image-ToolTip="New Row" RenderMode="Link" AutoPostBack="false" HorizontalAlign="Center" VerticalAlign="Middle">
                                                                                         <ClientSideEvents Click="RevenueGrid_Add" />
                                                                                     </dx:ASPxButton>
-                                                                                </div>  
+                                                                                </div>
                                                                             </HeaderTemplate>
                                                                             <CustomButtons>
                                                                                 <dx:GridViewCommandColumnCustomButton ID="REVEdit" Image-AlternateText="Edit" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px">
@@ -1425,6 +1447,7 @@
                                                                         </NewButton>
                                                                     </SettingsCommandButton>
                                                                     <SettingsEditing Mode="EditFormAndDisplayRow"></SettingsEditing>
+                                                                    <SettingsLoadingPanel Mode="Disabled" />
 
                                                                     <TotalSummary>
                                                                         <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
