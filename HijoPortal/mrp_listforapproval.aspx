@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_listforapproval.aspx.cs" Inherits="HijoPortal.mrp_listforapproval" %>
+﻿<%@ Page Title="for Deliberation" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="mrp_listforapproval.aspx.cs" Inherits="HijoPortal.mrp_listforapproval" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -10,6 +10,8 @@
             <dx:ASPxGridView ID="ListForApprovalGrid" runat="server" Theme="Office2010Blue" Width="100%"
                 OnCustomButtonCallback="ListForApprovalGrid_CustomButtonCallback">
                 <ClientSideEvents CustomButtonClick="ListForApprovalGrid_CustomButtonClick" />
+                <ClientSideEvents BeginCallback="function(s,e){loadingPanel.Show();}" />
+                <%--<ClientSideEvents EndCallback="function(s,e){loadingPanel.Hide();}" />--%>
                 <Columns>
                     <dx:GridViewCommandColumn ButtonRenderMode="Image" VisibleIndex="0">
                         <CustomButtons>

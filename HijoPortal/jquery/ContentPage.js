@@ -214,6 +214,9 @@ function CustomButtonClick(s, e) {
 function MainTableEndCallback(s, e) {
     var hidden_val = MRPHiddenVal.Get('hidden_value');
     var hidden_val_Stat = MRPHiddenValStatus.Get('hidden_value');
+
+    loadingPanel.Hide();
+
     if (hidden_val === "InvalidCreator") {
         MRPNotificationMessage.SetText("You are not authorized to access this item!");
         MRPNotify.SetHeaderText("Alert");
@@ -258,7 +261,7 @@ function MainTableEndCallback(s, e) {
         MainTable.Refresh();//refresh Grid
     }
 
-    loadingPanel.Hide();
+    
 }
 
 
