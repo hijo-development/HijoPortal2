@@ -154,7 +154,7 @@ namespace HijoPortal
             Double cost_float = Convert.ToDouble(cost.Value.ToString());
             Double total_float = Convert.ToDouble(total.Value.ToString());
 
-            string update = "UPDATE " + MRPClass.DirectMatTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            string update = "UPDATE " + MRPClass.DirectMatTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, ApprovedQty = @QTY, ApprovedCost = @COST, ApprovedTotalCost = @TOTAL WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@QTY", qty_float);
@@ -212,7 +212,7 @@ namespace HijoPortal
             Double cost_float = Convert.ToDouble(cost.Value.ToString());
             Double total_float = Convert.ToDouble(total.Value.ToString());
 
-            string update = "UPDATE " + MRPClass.OpexTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            string update = "UPDATE " + MRPClass.OpexTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittedTotalCost] = @TOTAL, ApprovedQty = @QTY, ApprovedCost = @COST, ApprovedTotalCost = @TOTAL WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@QTY", qty_float);
@@ -275,7 +275,7 @@ namespace HijoPortal
             Double cost_float = Convert.ToDouble(cost.Value.ToString());
             Double total_float = Convert.ToDouble(total.Value.ToString());
 
-            string update = "UPDATE " + MRPClass.ManPowerTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            string update = "UPDATE " + MRPClass.ManPowerTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, ApprovedQty = @QTY, ApprovedCost = @COST, ApprovedTotalCost = @TOTAL WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@QTY", qty_float);
@@ -358,7 +358,7 @@ namespace HijoPortal
             Double cost_float = Convert.ToDouble(cost.Value.ToString());
             Double total_float = Convert.ToDouble(total.Value.ToString());
 
-            string update = "UPDATE " + MRPClass.CapexTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL WHERE [PK] = @PK";
+            string update = "UPDATE " + MRPClass.CapexTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, ApprovedQty = @QTY, ApprovedCost = @COST, ApprovedTotalCost = @TOTAL WHERE [PK] = @PK";
             SqlCommand cmd = new SqlCommand(update, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@QTY", qty_float);
