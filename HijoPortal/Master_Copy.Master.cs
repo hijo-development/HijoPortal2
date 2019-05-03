@@ -15,7 +15,7 @@ using System.Collections;
 
 namespace HijoPortal
 {
-    public partial class Master : System.Web.UI.MasterPage
+    public partial class Master_Copy : System.Web.UI.MasterPage
     {
         private const string materialsIdentifier = "Materials", opexIdentifier = "OPEX", manpowerIdentifier = "Manpower", capexIdentifier = "CAPEX", revenueIdentifier = "Revenue";
 
@@ -24,8 +24,7 @@ namespace HijoPortal
             dvMOPSidePanel.Visible = false;
             dvItemSidePanel.Visible = false;
 
-            TimeoutControl1.TimeOutUrl = "TimeOutPage.aspx";
-            if (!IsPostBack)
+            if (!Page.IsPostBack)
             {
                 if (Session["UserCompleteName"] != null)
                 {
@@ -139,9 +138,8 @@ namespace HijoPortal
                 adp.Fill(dtable);
                 if (dtable.Rows.Count > 0)
                 {
-                    //var sb = new StringBuilder();
-                    //sb.Append("<ul>");
-                    MenuBar.Items.Clear();
+                    var sb = new StringBuilder();
+                    sb.Append("<ul>");
                     foreach (DataRow row in dtable.Rows)
                     {
                         //if (Convert.ToInt32(Session["isAdmin"]) == 1)
@@ -149,8 +147,10 @@ namespace HijoPortal
                         {
                             if (GlobalClass.IsAllowed(usrKey, row["ModuleName"].ToString().Trim(), DateTime.Now))
                             {
-                                MenuBar.Items.Add(new DevExpress.Web.MenuItem() { NavigateUrl = row["formURL"].ToString(), Text = row["formDescription"].ToString() });
-                                //MenuBar.Items.Add(new DevExpress.Web.MenuItem() { NavigateUrl = "Default.aspx", Text = "Default" });
+                                sb.Append("<li>");
+                                sb.Append(row["MenuScript"].ToString());
+                                sb.Append("</li>");
+                                
                             }
                         }
                         else
@@ -159,13 +159,15 @@ namespace HijoPortal
                             {
                                 if (GlobalClass.IsAllowed(usrKey, row["ModuleName"].ToString().Trim(), DateTime.Now))
                                 {
-                                    MenuBar.Items.Add(new DevExpress.Web.MenuItem() { NavigateUrl = row["formURL"].ToString(), Text = row["formDescription"].ToString() });
+                                    sb.Append("<li>");
+                                    sb.Append(row["MenuScript"].ToString());
+                                    sb.Append("</li>");
                                 }
                             }
                         }
                     }
-                    //sb.Append("</ul>");
-                    //dvSideNav.InnerHtml = sb.ToString();
+                    sb.Append("</ul>");
+                    dvSideNav.InnerHtml = sb.ToString();
                 }
                 dtable.Clear();
                 con.Close();

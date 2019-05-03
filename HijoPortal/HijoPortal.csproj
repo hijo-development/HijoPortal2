@@ -201,6 +201,8 @@
     <Content Include="po_uploading.aspx" />
     <Content Include="scm.aspx" />
     <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="TimeoutControl.ascx" />
+    <Content Include="TimeOutPage.aspx" />
     <Content Include="userlist.aspx" />
     <Content Include="user_list.aspx" />
     <Content Include="Web.config" />
@@ -318,6 +320,13 @@
     </Compile>
     <Compile Include="home.aspx.designer.cs">
       <DependentUpon>home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master_Copy.Master.cs">
+      <DependentUpon>Master_Copy.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Master_Copy.Master.designer.cs">
+      <DependentUpon>Master_Copy.Master</DependentUpon>
     </Compile>
     <Compile Include="Master.Master.cs">
       <DependentUpon>Master.Master</DependentUpon>
@@ -563,6 +572,20 @@
     <Compile Include="scm.aspx.designer.cs">
       <DependentUpon>scm.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TimeoutControl.ascx.cs">
+      <DependentUpon>TimeoutControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TimeoutControl.ascx.designer.cs">
+      <DependentUpon>TimeoutControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="TimeOutPage.aspx.cs">
+      <DependentUpon>TimeOutPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TimeOutPage.aspx.designer.cs">
+      <DependentUpon>TimeOutPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="userlist.aspx.cs">
       <DependentUpon>userlist.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -608,6 +631,7 @@
     <Content Include="font\opensans\OpenSans-Regular.ttf" />
     <Content Include="font\opensans\OpenSans-Semibold.ttf" />
     <Content Include="font\opensans\OpenSans-SemiboldItalic.ttf" />
+    <Content Include="Master_Copy.Master" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -10,51 +10,42 @@
 namespace HijoPortal {
     
     
-    public partial class mop_workflow {
+    public partial class TimeoutControl {
         
         /// <summary>
-        /// FinanceSetupSplitter control.
+        /// TimeoutPopup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxSplitter FinanceSetupSplitter;
+        protected global::DevExpress.Web.ASPxPopupControl TimeoutPopup;
         
         /// <summary>
-        /// grdDataFlow control.
+        /// PopupControlContentControl1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView grdDataFlow;
+        protected global::DevExpress.Web.PopupControlContentControl PopupControlContentControl1;
         
         /// <summary>
-        /// grdDataFlowDetail control.
+        /// GlobalEvents control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView grdDataFlowDetail;
+        protected global::DevExpress.Web.ASPxGlobalEvents GlobalEvents;
         
         /// <summary>
-        /// grdApproval control.
+        /// KeepAliveHelper control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView grdApproval;
-        
-        /// <summary>
-        /// grdApprovalDetail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxGridView grdApprovalDetail;
+        protected global::DevExpress.Web.ASPxCallback KeepAliveHelper;
     }
 }

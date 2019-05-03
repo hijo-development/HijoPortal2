@@ -40,6 +40,15 @@ namespace HijoPortal {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
+        /// TimeoutControl1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::HijoPortal.TimeoutControl TimeoutControl1;
+        
+        /// <summary>
         /// ScriptManager1 control.
         /// </summary>
         /// <remarks>
@@ -94,13 +103,13 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxLoadingPanel ASPxLoadingPanel1;
         
         /// <summary>
-        /// ASPxPanel1 control.
+        /// ASPxSplitter2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel ASPxPanel1;
+        protected global::DevExpress.Web.ASPxSplitter ASPxSplitter2;
         
         /// <summary>
         /// dvBanner control.
@@ -184,76 +193,13 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxLabel WelcomeLbl;
         
         /// <summary>
-        /// dvSplitter control.
+        /// MenuBar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSplitter;
-        
-        /// <summary>
-        /// PopupLogout control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPopupControl PopupLogout;
-        
-        /// <summary>
-        /// OK_LOGOUT control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxButton OK_LOGOUT;
-        
-        /// <summary>
-        /// CANCEL_LOGOUT control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxButton CANCEL_LOGOUT;
-        
-        /// <summary>
-        /// ASPxSplitter1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxSplitter ASPxSplitter1;
-        
-        /// <summary>
-        /// dvNavWapper control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvNavWapper;
-        
-        /// <summary>
-        /// dvSideNav control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSideNav;
-        
-        /// <summary>
-        /// Content control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.SplitterContentControl Content;
+        protected global::DevExpress.Web.ASPxMenu MenuBar;
         
         /// <summary>
         /// ContentPlaceHolder1 control.
@@ -382,12 +328,30 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxGridView grdInventMovement;
         
         /// <summary>
-        /// footer control.
+        /// PopupLogout control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl footer;
+        protected global::DevExpress.Web.ASPxPopupControl PopupLogout;
+        
+        /// <summary>
+        /// OK_LOGOUT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton OK_LOGOUT;
+        
+        /// <summary>
+        /// CANCEL_LOGOUT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton CANCEL_LOGOUT;
     }
 }
