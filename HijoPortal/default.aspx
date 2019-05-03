@@ -69,16 +69,16 @@
             <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
         </asp:Panel>
 
-        <dx:ASPxPopupControl ID="ResetPopUp" runat="server" ClientInstanceName="ResetPopUpClient" Width="450px" Height="80px" Theme="Office2010Silver" Modal="true" HeaderText="Reset Password" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter">
+        <dx:ASPxPopupControl ID="ResetPopUp" runat="server" ClientInstanceName="ResetPopUpClient" Width="450px" Height="80px" Theme="Moderno" Modal="true" HeaderText="Reset Password" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter">
             <ContentCollection>
                 <dx:PopupControlContentControl>
                     <table id="tblChangePW" border="0" style="width: 100%;">
                         <tr>
                             <td style="width: 100px; vertical-align: middle;">
-                                <dx:ASPxLabel runat="server" Text="ID No." Theme="iOS"></dx:ASPxLabel>
+                                <dx:ASPxLabel runat="server" Text="ID No." Theme="Moderno"></dx:ASPxLabel>
                             </td>
                             <td>
-                                <dx:ASPxTextBox ID="IdNumber" runat="server" ClientInstanceName="IdNumberClient" Width="100%" Theme="iOS" HorizontalAlign="Right">
+                                <dx:ASPxTextBox ID="IdNumber" runat="server" ClientInstanceName="IdNumberClient" Width="100%" Theme="Moderno" HorizontalAlign="Right">
                                     <ClientSideEvents KeyPress="FilterDigit_NumberOnly_KeyPress" />
                                     <ClientSideEvents KeyUp="EnableButton_KeyUp" />
                                 </dx:ASPxTextBox>
@@ -90,8 +90,8 @@
                                 <table>
                                     <tr>
                                         <td>
-                                            <dx:ASPxButton ID="ResetBtn" runat="server" OnClick="ResetBtn_Click" ClientInstanceName="ResetBtnClient" ClientEnabled="false" Text="Reset Password" Theme="Glass"></dx:ASPxButton>
-                                            <dx:ASPxButton ID="CancelBtn" runat="server" Text="Cancel" AutoPostBack="false" Theme="Glass">
+                                            <dx:ASPxButton ID="ResetBtn" runat="server" OnClick="ResetBtn_Click" ClientInstanceName="ResetBtnClient" ClientEnabled="false" Text="Reset Password" Theme="Moderno"></dx:ASPxButton>
+                                            <dx:ASPxButton ID="CancelBtn" runat="server" Text="Cancel" AutoPostBack="false" Theme="Moderno">
                                                 <ClientSideEvents Click="function(s,e){ResetPopUpClient.Hide();}" />
                                             </dx:ASPxButton>
                                         </td>
