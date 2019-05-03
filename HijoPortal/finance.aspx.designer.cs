@@ -22,15 +22,6 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxPanel ASPxPanel1;
         
         /// <summary>
-        /// dvFinanceSetup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvFinanceSetup;
-        
-        /// <summary>
         /// FinanceSetupSplitter control.
         /// </summary>
         /// <remarks>

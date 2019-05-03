@@ -10,7 +10,25 @@
 namespace HijoPortal {
     
     
-    public partial class createaccount {
+    public partial class Master_Copy {
+        
+        /// <summary>
+        /// head control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        
+        /// <summary>
+        /// MainBody control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MainBody;
         
         /// <summary>
         /// form1 control.
@@ -31,67 +49,175 @@ namespace HijoPortal {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
-        /// TextBoxLoading control.
+        /// TextBoxMasterLoading control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxLoading;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxMasterLoading;
         
         /// <summary>
-        /// ModalPopupExtenderLoading control.
+        /// ModalMasterPopupExtenderLoading control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupExtenderLoading;
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalMasterPopupExtenderLoading;
         
         /// <summary>
-        /// PanelLoading control.
+        /// PanelMasterLoading control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PanelLoading;
+        protected global::System.Web.UI.WebControls.Panel PanelMasterLoading;
         
         /// <summary>
-        /// ButtonErrorOK1 control.
+        /// ButtonMasterErrorOK1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonErrorOK1;
+        protected global::System.Web.UI.WebControls.Button ButtonMasterErrorOK1;
         
         /// <summary>
-        /// CreateAccntNotify control.
+        /// ASPxLoadingPanel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPopupControl CreateAccntNotify;
+        protected global::DevExpress.Web.ASPxLoadingPanel ASPxLoadingPanel1;
         
         /// <summary>
-        /// CreateAccntNotifyLbl control.
+        /// ASPxPanel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel CreateAccntNotifyLbl;
+        protected global::DevExpress.Web.ASPxPanel ASPxPanel1;
         
         /// <summary>
-        /// GlobalEvents control.
+        /// dvBanner control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxGlobalEvents GlobalEvents;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvBanner;
+        
+        /// <summary>
+        /// ASPxPopupControl1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl ASPxPopupControl1;
+        
+        /// <summary>
+        /// UserLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel UserLbl;
+        
+        /// <summary>
+        /// EntityLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel EntityLbl;
+        
+        /// <summary>
+        /// BULbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel BULbl;
+        
+        /// <summary>
+        /// ChangePW control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxHyperLink ChangePW;
+        
+        /// <summary>
+        /// LogOut control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxHyperLink LogOut;
+        
+        /// <summary>
+        /// ProfileImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton ProfileImage;
+        
+        /// <summary>
+        /// WelcomeLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel WelcomeLbl;
+        
+        /// <summary>
+        /// dvSplitter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSplitter;
+        
+        /// <summary>
+        /// PopupLogout control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl PopupLogout;
+        
+        /// <summary>
+        /// OK_LOGOUT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton OK_LOGOUT;
+        
+        /// <summary>
+        /// CANCEL_LOGOUT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton CANCEL_LOGOUT;
         
         /// <summary>
         /// ASPxSplitter1 control.
@@ -103,228 +229,165 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxSplitter ASPxSplitter1;
         
         /// <summary>
-        /// FormLayoutReg control.
+        /// dvNavWapper control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxFormLayout FormLayoutReg;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvNavWapper;
         
         /// <summary>
-        /// IDNumTextBox control.
+        /// dvSideNav control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox IDNumTextBox;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSideNav;
         
         /// <summary>
-        /// CallbackPanelIDNum control.
+        /// Content control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel CallbackPanelIDNum;
+        protected global::DevExpress.Web.SplitterContentControl Content;
         
         /// <summary>
-        /// IDNumTextBoxMatch control.
+        /// ContentPlaceHolder1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox IDNumTextBoxMatch;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
         
         /// <summary>
-        /// lastnameCallback control.
+        /// FloatCallbackPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel lastnameCallback;
+        protected global::DevExpress.Web.ASPxCallbackPanel FloatCallbackPanel;
         
         /// <summary>
-        /// lastNameTextBox control.
+        /// dvMOPSidePanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox lastNameTextBox;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvMOPSidePanel;
         
         /// <summary>
-        /// firstnameCallback control.
+        /// ASPxLabel3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel firstnameCallback;
+        protected global::DevExpress.Web.ASPxLabel ASPxLabel3;
         
         /// <summary>
-        /// firstNameTextBox control.
+        /// MOPDucNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox firstNameTextBox;
+        protected global::DevExpress.Web.ASPxLabel MOPDucNumber;
         
         /// <summary>
-        /// genderCallback control.
+        /// grdMOPPOList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel genderCallback;
+        protected global::DevExpress.Web.ASPxGridView grdMOPPOList;
         
         /// <summary>
-        /// GenderTextbox control.
+        /// dvItemSidePanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox GenderTextbox;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvItemSidePanel;
         
         /// <summary>
-        /// emailCallback control.
+        /// ASPxLabel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel emailCallback;
+        protected global::DevExpress.Web.ASPxLabel ASPxLabel1;
         
         /// <summary>
-        /// eMailTextBox control.
+        /// lblItemCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox eMailTextBox;
+        protected global::DevExpress.Web.ASPxLabel lblItemCode;
         
         /// <summary>
-        /// FormLayoutEmployeeImage control.
+        /// ASPxLabel2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxFormLayout FormLayoutEmployeeImage;
+        protected global::DevExpress.Web.ASPxLabel ASPxLabel2;
         
         /// <summary>
-        /// EmployeeImageCallback control.
+        /// lblDescription control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel EmployeeImageCallback;
+        protected global::DevExpress.Web.ASPxLabel lblDescription;
         
         /// <summary>
-        /// EmployeeImage control.
+        /// grdOnHand control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxImage EmployeeImage;
+        protected global::DevExpress.Web.ASPxGridView grdOnHand;
         
         /// <summary>
-        /// FormLayoutAut control.
+        /// grdPendingPO control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxFormLayout FormLayoutAut;
+        protected global::DevExpress.Web.ASPxGridView grdPendingPO;
         
         /// <summary>
-        /// userNameTextBox control.
+        /// grdInventMovement control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox userNameTextBox;
+        protected global::DevExpress.Web.ASPxGridView grdInventMovement;
         
         /// <summary>
-        /// passwordTextBox control.
+        /// footer control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox passwordTextBox;
-        
-        /// <summary>
-        /// ratingControl control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxRatingControl ratingControl;
-        
-        /// <summary>
-        /// ratingLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel ratingLabel;
-        
-        /// <summary>
-        /// confirmPasswordTextBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox confirmPasswordTextBox;
-        
-        /// <summary>
-        /// FormLayoutMed control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxFormLayout FormLayoutMed;
-        
-        /// <summary>
-        /// captcha control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCaptcha captcha;
-        
-        /// <summary>
-        /// ASPxFormLayout2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxFormLayout ASPxFormLayout2;
-        
-        /// <summary>
-        /// signUp control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxButton signUp;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl footer;
     }
 }
