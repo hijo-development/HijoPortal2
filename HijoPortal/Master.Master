@@ -97,35 +97,35 @@
                     <ContentCollection>
                         <dx:SplitterContentControl>
                             <div id="dvBanner" runat="server" style="height: auto;">
-                                <dx:ASPxPopupControl ID="ASPxPopupControl1" runat="server" ClientInstanceName="PopUpInfoClient" HeaderText="Information" Theme="Office2010Blue" Width="200px" Height="100%" PopupAnimationType="Fade" CloseAnimationType="Fade">
+                                <dx:ASPxPopupControl ID="ASPxPopupControl1" runat="server" ClientInstanceName="PopUpInfoClient" HeaderText="Information" Theme="Moderno" Width="300px" Height="100%" PopupAnimationType="Fade" CloseAnimationType="Fade">
                                     <ContentCollection>
                                         <dx:PopupControlContentControl>
                                             <table style="width: 100%;" class="popup_table">
                                                 <tr>
                                                     <td style="width: 20%; vertical-align: top;">
-                                                        <dx:ASPxLabel runat="server" Text="User" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                        <dx:ASPxLabel runat="server" Text="User" Theme="Moderno"></dx:ASPxLabel>
                                                     </td>
-                                                    <td style="width: 1%; vertical-align: top">: </td>
+                                                    <td style="width: 1%; vertical-align: top"> </td>
                                                     <td style="vertical-align: top; width: 80%;">
-                                                        <dx:ASPxLabel ID="UserLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                        <dx:ASPxLabel ID="UserLbl" runat="server" Text="" Theme="Moderno"></dx:ASPxLabel>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="vertical-align: top;">
-                                                        <dx:ASPxLabel runat="server" Text="Entity" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                        <dx:ASPxLabel runat="server" Text="Entity" Theme="Moderno"></dx:ASPxLabel>
                                                     </td>
-                                                    <td style="vertical-align: top;">: </td>
+                                                    <td style="vertical-align: top;"> </td>
                                                     <td style="vertical-align: top;">
-                                                        <dx:ASPxLabel ID="EntityLbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                        <dx:ASPxLabel ID="EntityLbl" runat="server" Text="" Theme="Moderno"></dx:ASPxLabel>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="vertical-align: top;">
-                                                        <dx:ASPxLabel runat="server" Text="BU / Dept" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                        <dx:ASPxLabel runat="server" Text="BU / Dept" Theme="Moderno"></dx:ASPxLabel>
                                                     </td>
-                                                    <td style="vertical-align: top;">: </td>
+                                                    <td style="vertical-align: top;"> </td>
                                                     <td style="vertical-align: top;">
-                                                        <dx:ASPxLabel ID="BULbl" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                        <dx:ASPxLabel ID="BULbl" runat="server" Text="" Theme="Moderno"></dx:ASPxLabel>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -133,11 +133,11 @@
                                                         <table style="width: 100%;">
                                                             <tr>
                                                                 <td style="text-align: right;">
-                                                                    <dx:ASPxHyperLink ID="ChangePW" runat="server" OnInit="ChangePW_Init" Text="Change Password" Cursor="pointer" Theme="Office2010Blue">
+                                                                    <dx:ASPxHyperLink ID="ChangePW" runat="server" OnInit="ChangePW_Init" Text="Change Password" Cursor="pointer" Theme="Moderno">
                                                                     </dx:ASPxHyperLink>
                                                                 </td>
                                                                 <td style="text-align: right;">
-                                                                    <dx:ASPxHyperLink ID="LogOut" runat="server" Text="Log Out" Cursor="pointer" Theme="Office2010Blue">
+                                                                    <dx:ASPxHyperLink ID="LogOut" runat="server" Text="Log Out" Cursor="pointer" Theme="Moderno">
                                                                         <ClientSideEvents Click="function(s,e){PopUpInfoClient.Hide(); PopupLogout.Show();}" />
                                                                     </dx:ASPxHyperLink>
                                                                 </td>
