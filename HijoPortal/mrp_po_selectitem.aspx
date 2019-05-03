@@ -185,7 +185,7 @@
                         <dx:ASPxButton ID="CancelPage" runat="server" OnClick="CancelPage_Click" CausesValidation="false" Text="CANCEL" Theme="Office2010Blue"></dx:ASPxButton>
                         <dx:ASPxButton ID="Create" runat="server" ClientInstanceName="CreatePO" OnClick="Create_Click" Text="CREATE PO" ClientEnabled="false" Theme="Office2010Blue">
                             <ClientSideEvents Click="function(s,e){
-                                    $find('ModalPopupExtenderLoading').show();
+                                    loadingPanel.Show();
                                     e.processOnServer = true;
                                     }" />
                         </dx:ASPxButton>
@@ -194,4 +194,7 @@
             </table>
         </div>
     </div>
+
+    <%--$find('ModalPopupExtenderLoading').show();--%>
+    <%--loadingPanel.Show();--%>
 </asp:Content>

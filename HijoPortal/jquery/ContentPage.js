@@ -19,73 +19,73 @@ var collapsed_string = "collapsed";
 var expanded_string = "expanded";
 changeWidth = {
     resizeWidth: function () {
-        var heightNoScrollBars = $(window).height();
-        var widthNoScrollBars = $(window).width();
+        //var heightNoScrollBars = $(window).height();
+        //var widthNoScrollBars = $(window).width();
         //var x = Math.abs($('body').width() - document.documentElement.clientWidth);
-        var fullwidthBrowser = $('body').width();
+        //var fullwidthBrowser = $('body').width();
         //var fullheightBrowser = $('body').height();
-        var leftPanel = (fullwidthBrowser * 0.15);
-        var centerPanel = fullwidthBrowser * 0.70;
-        var origCenterPanel = fullwidthBrowser * 0.85;
-        var rightPanel = leftPanel;
-        var leftCenter = rightPanel + origCenterPanel;
-        var mrpwidth = fullwidthBrowser * 0.84;
-        var mrpwidthWrapper = fullwidthBrowser * 0.85;
-        var ContentWrapperWidth = fullwidthBrowser * 0.81;
-        var containMenu = fullwidthBrowser * 0.15;
+        //var leftPanel = (fullwidthBrowser * 0.15);
+        //var centerPanel = fullwidthBrowser * 0.70;
+        //var origCenterPanel = fullwidthBrowser * 0.85;
+        //var rightPanel = leftPanel;
+        //var leftCenter = rightPanel + origCenterPanel;
+        //var mrpwidth = fullwidthBrowser * 0.84;
+        //var mrpwidthWrapper = fullwidthBrowser * 0.85;
+        //var ContentWrapperWidth = fullwidthBrowser * 0.81;
+        //var containMenu = fullwidthBrowser * 0.15;
 
         //var contentHeight = 600;
         //$('#MRPPanel').width(mrpwidth);
-        $('#MasterPanel').width(mrpwidth);
-        $('#AddFormPanel').width(mrpwidth);
-        $('#PanelLeft').width(leftPanel);
+        //$('#MasterPanel').width(mrpwidth);
+        //$('#AddFormPanel').width(mrpwidth);
+        //$('#PanelLeft').width(leftPanel);
 
-        var menupanel = MainSplitterClient.GetPaneByName('containMenu');
-        menupanel.SetSize(containMenu);
-        if (menupanel.IsCollapsed()) {
-            $('.ContentWrapper').width(fullwidthBrowser);
-            recentstatemenupane = collapsed_string;
-        } else {
-            $('.ContentWrapper').width(ContentWrapperWidth);
-            recentstatemenupane = expanded_string;
-        }
+        //var menupanel = MainSplitterClient.GetPaneByName('containMenu');
+        //menupanel.SetSize(containMenu);
+        //if (menupanel.IsCollapsed()) {
+        //    $('.ContentWrapper').width(fullwidthBrowser);
+        //    recentstatemenupane = collapsed_string;
+        //} else {
+        //    $('.ContentWrapper').width(ContentWrapperWidth);
+        //    recentstatemenupane = expanded_string;
+        //}
 
-        var h = window.innerHeight
-            || document.documentElement.clientHeight
-            || document.body.clientHeight;
+        //var h = window.innerHeight
+        //    || document.documentElement.clientHeight
+        //    || document.body.clientHeight;
 
-        var contentHeight = h - ($('#dvBanner').height() + $('#footer').height() + 10);
-        var contentHeightInside = h - ($('#dvBanner').height() + $('#footer').height() + 35);
-        //var mrpWrapperH = h - 130;
-        var mrpWrapperH = h - 200;
-        var mrpWrapperH_Details = h - 310;
+        //var contentHeight = h - ($('#dvBanner').height() + $('#footer').height() + 10);
+        //var contentHeightInside = h - ($('#dvBanner').height() + $('#footer').height() + 35);
+        ////var mrpWrapperH = h - 130;
+        //var mrpWrapperH = h - 200;
+        //var mrpWrapperH_Details = h - 310;
         //var mrpWrapperH_Details = (h - $('#divHeaderMRP')) - 170;
 
-        var HeaderH = $('#dvHeader').height();
+        //var HeaderH = $('#dvHeader').height();
 
-        $('#dvChangePW').height(mrpWrapperH + 10);
-        $('#MRP_Wrapper').height(mrpWrapperH);
-        $('#MRP_Wrapper').width(mrpwidthWrapper);
-        $('#MRP_Wrapper_Details').height(mrpWrapperH_Details);
+        //$('#dvChangePW').height(mrpWrapperH + 10);
+        //$('#MRP_Wrapper').height(mrpWrapperH);
+        //$('#MRP_Wrapper').width(mrpwidthWrapper);
+        //$('#MRP_Wrapper_Details').height(mrpWrapperH_Details);
 
-        var DetailH = mrpWrapperH - (HeaderH + 15);
+        //var DetailH = mrpWrapperH - (HeaderH + 15);
         //var DetailH = 600;
 
-        $('#dvDetails').height(DetailH);
+        //$('#dvDetails').height(DetailH);
 
         //MainSplitterClient.Setheight(contentHeight);
 
-        $('#dvSplitter').height(contentHeight);
+        //$('#dvSplitter').height(contentHeight);
 
-        $('#dvMOPWorkflow').height(contentHeight - (HeaderH + 30));
+        //$('#dvMOPWorkflow').height(contentHeight - (HeaderH + 30));
 
-        $('#dvSCMSetup').height(contentHeight - (HeaderH + 30));
-        $('#dvFinanceSetup').height(contentHeight - (HeaderH + 30));
-        $('#dvExecutiveSetup').height(contentHeight - (HeaderH + 30));
-        $('#dvWorkflowSetup').height(contentHeight - (HeaderH + 30));
-        $('#tblWelcome').height(contentHeight - (HeaderH + 30));
+        //$('#dvSCMSetup').height(contentHeight - (HeaderH + 30));
+        //$('#dvFinanceSetup').height(contentHeight - (HeaderH + 30));
+        //$('#dvExecutiveSetup').height(contentHeight - (HeaderH + 30));
+        //$('#dvWorkflowSetup').height(contentHeight - (HeaderH + 30));
+        //$('#tblWelcome').height(contentHeight - (HeaderH + 30));
 
-        $('#dvPOUploadingSetup').height(contentHeight - (HeaderH));
+        //$('#dvPOUploadingSetup').height(contentHeight - (HeaderH));
 
 
         //$('#divWelcome').height(contentHeight - (HeaderH + 100));
@@ -106,13 +106,13 @@ changeWidth = {
 }
 
 function devSplitterResize(s, e) {
-    var h = window.innerHeight
-        || document.documentElement.clientHeight
-        || document.body.clientHeight;
+    //var h = window.innerHeight
+    //    || document.documentElement.clientHeight
+    //    || document.body.clientHeight;
 
-    var contentHeight = h - ($('#dvBanner').height() + $('#footer').height() + 10);
+    //var contentHeight = h - ($('#dvBanner').height() + $('#footer').height() + 10);
 
-    $('#MainSplitterClient').height(contentHeight);
+    //$('#MainSplitterClient').height(contentHeight);
 
     //MainSplitterClient.height(contentHeight);
 
@@ -123,13 +123,13 @@ function devSplitterResize(s, e) {
 }
 
 function SplitterContentResize(s, e) {
-    var fullwidthBrowser = $('body').width();
-    var navWidth = $('#containMenu').width();
-    var sidePanelwidth = $('#SideMenu').width();
+    //var fullwidthBrowser = $('body').width();
+    //var navWidth = $('#containMenu').width();
+    //var sidePanelwidth = $('#SideMenu').width();
 
-    var contentWidth = fullwidthBrowser - (navWidth + sidePanelwidth);
+    //var contentWidth = fullwidthBrowser - (navWidth + sidePanelwidth);
 
-    $('#MRP_Wrapper').width(contentWidth);
+    //$('#MRP_Wrapper').width(contentWidth);
 
 }
 
