@@ -86,7 +86,7 @@
             <asp:Button ID="ButtonMasterErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
         </asp:Panel>
 
-        <dx:ASPxLoadingPanel ID="ASPxLoadingPanel1" runat="server" Theme="Moderno" HorizontalAlign="Center" VerticalAlign="Middle" ClientInstanceName="loadingPanel" Modal="true"></dx:ASPxLoadingPanel>
+        <dx:ASPxLoadingPanel ID="loadingPanelMaster" runat="server" Theme="Moderno" HorizontalAlign="Center" VerticalAlign="Middle" ClientInstanceName="loadingPanel" Modal="true"></dx:ASPxLoadingPanel>
 
         <dx:ASPxSplitter ID="ASPxSplitter2" runat="server" FullscreenMode="true" Height="100%" Width="100%" Orientation="Vertical" SeparatorVisible="false" Theme="Moderno" BackColor="Transparent">
             <Styles>
