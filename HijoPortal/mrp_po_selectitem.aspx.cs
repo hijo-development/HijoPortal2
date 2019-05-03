@@ -161,10 +161,13 @@ namespace HijoPortal
         {
             List<object> fieldValues = MainGrid_PO.GetSelectedFieldValues(new string[] { "PK", "TableIdentifier", "DocumentNumber", "ItemCode", "ItemDescription", "Qty", "Cost", "TotalCost", "UOM" }) as List<object>;
 
+            ASPxLoadingPanel loadingPanelMas = (ASPxLoadingPanel)this.Master.FindControl("loadingPanelMaster");
+
             //MRPClass.PrintString("--->>>" + fieldValues.Count.ToString());
             if (fieldValues.Count == 0)
             {
-                ModalPopupExtenderLoading.Hide();
+                //ModalPopupExtenderLoading.Hide();
+                loadingPanelMas.Visible = false;
                 return;
             }
             else
@@ -200,7 +203,8 @@ namespace HijoPortal
                     cmd.Parameters.AddWithValue("@uom", uom);
                     cmd.ExecuteNonQuery();
                 }
-                ModalPopupExtenderLoading.Hide();
+                //ModalPopupExtenderLoading.Hide();
+                loadingPanelMas.Visible = false;
                 Response.Redirect("mrp_po_create.aspx");
             }
         }
