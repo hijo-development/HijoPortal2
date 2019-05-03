@@ -56,10 +56,9 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeaderPO">
             <h1>for CAPEX ID Assignment</h1>
-            <table border="0" style="width: 60%;">
+            <table border="0" style="width: 100%;">
                 <tr>
                     <td style="width: 10%">
                         <dx:ASPxLabel runat="server" Text="MRP MONTH YEAR" CssClass="ASPxLabel" Theme="Office2010Blue"></dx:ASPxLabel>
@@ -222,8 +221,8 @@
                     </dx:GridViewDataColumn>
                 </Columns>
                 <Styles>
-                    <Cell Wrap="true"></Cell>
-                    <InlineEditCell Wrap="true"></InlineEditCell>
+                    <Cell Wrap="false"></Cell>
+                    <InlineEditCell Wrap="false"></InlineEditCell>
                 </Styles>
                 <SettingsCommandButton>
                     <EditButton Image-Url="images/Edit.ico" Image-AlternateText="Edit" Image-ToolTip="Edit Row" RenderMode="Image" Image-Width="15px"></EditButton>
@@ -237,7 +236,5 @@
                 <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                     AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
             </dx:ASPxGridView>
-        </div>
-        
-    </div>
+            </div>
 </asp:Content>

@@ -103,6 +103,15 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxButton CancelBtn;
         
         /// <summary>
+        /// ASPxSplitter1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxSplitter ASPxSplitter1;
+        
+        /// <summary>
         /// txtUserName control.
         /// </summary>
         /// <remarks>

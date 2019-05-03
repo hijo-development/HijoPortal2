@@ -62,7 +62,6 @@
         <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
     </asp:Panel>
 
-    <div id="dvContentWrapper" runat="server" class="ContentWrapper">
         <div id="dvHeader" style="height: 30px;">
             <h1>Select Items for Purchase Order</h1>
         </div>
@@ -193,7 +192,6 @@
                 </tr>
             </table>
         </div>
-    </div>
 
     <%--$find('ModalPopupExtenderLoading').show();--%>
     <%--loadingPanel.Show();--%>

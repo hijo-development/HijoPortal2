@@ -49,15 +49,6 @@ namespace HijoPortal {
         protected global::System.Web.UI.WebControls.Button ButtonErrorOK1;
         
         /// <summary>
-        /// dvContentWrapper control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvContentWrapper;
-        
-        /// <summary>
         /// MonthYear_Combo control.
         /// </summary>
         /// <remarks>

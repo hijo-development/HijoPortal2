@@ -67,15 +67,6 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxLabel POCreateNotifyLbl;
         
         /// <summary>
-        /// dvContentWrapper control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvContentWrapper;
-        
-        /// <summary>
         /// Vendor control.
         /// </summary>
         /// <remarks>
