@@ -237,7 +237,7 @@
                             <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="false">
                             </SettingsPager>
 
-                            <SettingsLoadingPanel Mode="Disabled" />
+                            <SettingsLoadingPanel Mode="ShowAsPopup" />
 
                             <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                                 AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />

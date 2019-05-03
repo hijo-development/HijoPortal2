@@ -8,6 +8,35 @@
 <head runat="server">
     <link href="css/ChangePassword.css" rel="stylesheet" />
     <link rel="shortcut icon" type="image/x-icon" href="../images/HijoLogo.png" />
+     <script type="text/javascript">
+         if (window.history && history.pushState) { // check for history api support
+             window.addEventListener('load', function () {
+                 // create history states
+                 history.pushState(-1, null); // back state
+                 history.pushState(0, null); // main state
+                 history.pushState(1, null); // forward state
+                 history.go(-1); // start in main state
+
+                 this.addEventListener('popstate', function (event, state) {
+                     // check history state and fire custom events
+                     if (state = event.state) {
+
+                         event = document.createEvent('Event');
+                         event.initEvent(state > 0 ? 'next' : 'previous', true, true);
+                         this.dispatchEvent(event);
+                         // reset state
+                         history.go(-state);
+                     }
+                 }, false);
+
+                 //this.addEventListener('popstate', function (e) {
+                 //    this.dispatchEvent(event);
+                 //});
+             }, false);
+         }
+
+    </script>
+
     <script type="text/javascript">this.history.forward(-1);</script>
     <script type="text/javascript" src="jquery/changePW.js"></script>
     <title>Change Password</title>

@@ -19,7 +19,38 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <script type="text/javascript">this.history.forward(-1);</script>
+    <script type="text/javascript">
+        if (window.history && history.pushState) { // check for history api support
+            window.addEventListener('load', function () {
+                // create history states
+                history.pushState(-1, null); // back state
+                history.pushState(0, null); // main state
+                history.pushState(1, null); // forward state
+                history.go(-1); // start in main state
+
+                this.addEventListener('popstate', function (event, state) {
+                    // check history state and fire custom events
+                    if (state = event.state) {
+
+                        event = document.createEvent('Event');
+                        event.initEvent(state > 0 ? 'next' : 'previous', true, true);
+                        this.dispatchEvent(event);
+
+                        // reset state
+                        history.go(-state);
+                        PopupLogout.SetHeaderText('Log Out');
+                        PopupLogout.Show();
+
+                    }
+                }, false);
+
+                //this.addEventListener('popstate', function (e) {
+                //    this.dispatchEvent(event);
+                //});
+            }, false);
+        }
+
+    </script>
 
     <script type="text/javascript" src="jquery/accounting.js"></script>
     <script type="text/javascript" src="jquery/ContentPage.js"></script>
@@ -88,7 +119,7 @@
 
         <dx:ASPxLoadingPanel ID="loadingPanelMaster" runat="server" Theme="Moderno" HorizontalAlign="Center" VerticalAlign="Middle" ClientInstanceName="loadingPanel" Modal="true"></dx:ASPxLoadingPanel>
 
-        <dx:ASPxSplitter ID="ASPxSplitter2" runat="server" FullscreenMode="true" Height="100%" Width="100%" Orientation="Vertical" SeparatorVisible="false" Theme="Moderno" BackColor="Transparent">
+        <dx:ASPxSplitter ID="ASPxSplitter2" runat="server" ClientInstanceName="MainSplitterClient" FullscreenMode="true" Height="100%" Width="100%" Orientation="Vertical" SeparatorVisible="false" Theme="Moderno" BackColor="Transparent">
             <Styles>
                 <Separator BackColor="WhiteSmoke"></Separator>
             </Styles>
@@ -138,7 +169,7 @@
                                                                 </td>
                                                                 <td style="text-align: right;">
                                                                     <dx:ASPxHyperLink ID="LogOut" runat="server" Text="Log Out" Cursor="pointer" Theme="Moderno">
-                                                                        <ClientSideEvents Click="function(s,e){PopUpInfoClient.Hide(); PopupLogout.Show();}" />
+                                                                        <ClientSideEvents Click="function(s,e){PopUpInfoClient.Hide(); PopupLogout.SetHeaderText('Log Out');PopupLogout.Show();}" />
                                                                     </dx:ASPxHyperLink>
                                                                 </td>
                                                             </tr>
@@ -186,20 +217,20 @@
                         <dx:SplitterPane Size="13%" ScrollBars="Auto" ShowCollapseForwardButton="True" ShowCollapseBackwardButton="True">
                             <ContentCollection>
                                 <dx:SplitterContentControl>
-                                    <dx:ASPxMenu ID="MenuBar" runat="server" Orientation="Vertical" Width="100%" Theme="Moderno" TabIndex="0">
+                                    <dx:ASPxMenu ID="MenuBar" runat="server" Orientation="Vertical" Width="100%" Theme="Moderno" TabIndex="0" SeparatorColor="Transparent">
                                         <ClientSideEvents ItemClick="function(s,e){loadingPanel.Show();}" />
                                     </dx:ASPxMenu>
                                 </dx:SplitterContentControl>
                             </ContentCollection>
                         </dx:SplitterPane>
-                        <dx:SplitterPane Size="87%" ScrollBars="Auto" PaneStyle-BackColor="#e6eff7">
+                        <dx:SplitterPane Name="containMenu" Size="87%" ScrollBars="Auto" PaneStyle-BackColor="#e6eff7">
                             <ContentCollection>
                                 <dx:SplitterContentControl>
                                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
                                 </dx:SplitterContentControl>
                             </ContentCollection>
                         </dx:SplitterPane>
-                        <dx:SplitterPane Size="200px" Name="containMenu" ScrollBars="Auto" AutoHeight="false" Collapsed="true" ShowCollapseForwardButton="True" ShowCollapseBackwardButton="True">
+                        <dx:SplitterPane Size="40%" Name="SideMenu" ScrollBars="Auto" AutoHeight="false" Collapsed="true" ShowCollapseForwardButton="True" ShowCollapseBackwardButton="True">
                             <ContentCollection>
                                 <dx:SplitterContentControl>
                                     <dx:ASPxCallbackPanel ID="FloatCallbackPanel" ClientInstanceName="FloatCallbackPanel" runat="server" Width="100%" OnCallback="FloatCallbackPanel_Callback">
@@ -389,20 +420,20 @@
                 </dx:SplitterPane>
             </Panes>
         </dx:ASPxSplitter>
-        <dx:ASPxPopupControl ID="PopupLogout" ClientInstanceName="PopupLogout" runat="server" HeaderText="Log Out" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <dx:ASPxPopupControl ID="PopupLogout" ClientInstanceName="PopupLogout" runat="server" HeaderText="Log Out" Width="300px" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Moderno">
             <ContentCollection>
                 <dx:PopupControlContentControl>
                     <table style="width: 100%;" border="0">
                         <tr>
                             <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
-                                <dx:ASPxLabel runat="server" Text="Are you sure you want to log out?" Theme="Office2010Blue"></dx:ASPxLabel>
+                                <dx:ASPxLabel runat="server" Text="Are you sure you want to log out?" Theme="Moderno"></dx:ASPxLabel>
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align: right;">
-                                <dx:ASPxButton ID="OK_LOGOUT" runat="server" OnClick="LogOut_Click" CausesValidation="false" Text="OK" Theme="Office2010Blue" AutoPostBack="false">
+                                <dx:ASPxButton ID="OK_LOGOUT" runat="server" OnClick="LogOut_Click" CausesValidation="false" Text="OK" Theme="Moderno" AutoPostBack="false">
                                 </dx:ASPxButton>
-                                <dx:ASPxButton ID="CANCEL_LOGOUT" runat="server" CausesValidation="false" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                                <dx:ASPxButton ID="CANCEL_LOGOUT" runat="server" CausesValidation="false" Text="CANCEL" Theme="Moderno" AutoPostBack="false">
                                     <ClientSideEvents Click="function(s,e){PopupLogout.Hide();}" />
                                 </dx:ASPxButton>
                             </td>

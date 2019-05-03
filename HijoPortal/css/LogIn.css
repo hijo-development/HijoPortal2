@@ -12,7 +12,7 @@
 .login-box {
     width: 320px;
     height: 420px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0,0,90, 1);
     color: #fff;
     top: 50%;
     left: 50%;
@@ -63,7 +63,8 @@ h1 {
         border: none;
         outline: none;
         height: 40px;
-        background: #1c8adb;
+        /*background: #1c8adb;*/
+        background: #39dc79;
         color: #fff;
         font-size: 18px;
         border-radius: 20px;
@@ -71,21 +72,46 @@ h1 {
 
         .login-box input[type="submit"]:hover {
             cursor: pointer;
-            background: #39dc79;
+            /*background: #39dc79;*/
+            background: white;
             color: #000;
+            /*background-color: green;*/
+            /*color: #000;*/
+            /*box-shadow: 0 0 8px 0 dodgerBlue;*/
         }
 
 .login-box a {
     text-decoration: none;
     font-size: 14px;
-    color: #1c8adb;
+    /*color: #1c8adb;*/
+    color: #39dc79;
     cursor: pointer;
 }
 
     .login-box a:hover {
-        color: #39dc79;
+        /*color: #39dc79;*/
+        color: white;
         cursor: pointer;
     }
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    margin: 8px 0;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+    input[type="text"]:focus, input[type="password"]:focus {
+        border-color: greenyellow;
+        box-shadow: 0 0 8px 0 greenyellow;
+        /*border-color: dodgerBlue;*/
+        /*box-shadow: 0 0 8px 0 dodgerBlue;*/
+    }
+
 
 .text-danger {
     color: #a94442;
@@ -171,4 +197,3 @@ h1 {
     color: #fff;
     font-size: 16px;
 }
-

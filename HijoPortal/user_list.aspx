@@ -182,6 +182,7 @@
                             AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />
                         <SettingsText ConfirmDelete="Delete This User?" />
                         <Styles>
+                            <Cell Wrap="False"></Cell>
                             <SelectedRow Font-Bold="False" Font-Italic="False">
                             </SelectedRow>
                             <FocusedRow Font-Bold="False" Font-Italic="False">
