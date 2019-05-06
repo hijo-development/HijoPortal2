@@ -264,6 +264,9 @@ namespace HijoPortal {
         protected global::DevExpress.Web.ASPxButton Submit;
         protected global::DevExpress.Web.ASPxPopupControl MRPNotify;
         protected global::DevExpress.Web.ASPxLabel MRPNotificationMessage;
+        protected global::DevExpress.Web.ASPxPopupControl MRPAccessRights;
+        protected global::DevExpress.Web.ASPxLabel MRPAccessRightsMsg;
+
         protected global::DevExpress.Web.ASPxGridView GridPreviewDM;
         protected global::DevExpress.Web.ASPxGridView GridPreviewOP;
         protected global::DevExpress.Web.ASPxGridView GridPreviewMAN;

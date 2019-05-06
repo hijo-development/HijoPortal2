@@ -4058,7 +4058,57 @@ namespace HijoPortal.classes
             cn.Close();
             return dtTable;
         }
+
+        public static bool PreviewRights(int CreatorKey, string DocNum, int WorkLine)
+        {
+            bool isAllowed = false;
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            cn.Open();
+            string query = "SELECT tbl_MRP_List.* FROM tbl_MRP_List WHERE (DocNumber = '"+ DocNum + "')";
+            cmd = new SqlCommand(query);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (Convert.ToInt32(row["CreatorKey"]) != CreatorKey)
+                    {
+                        switch (WorkLine)
+                        {
+                            case 1: //BU Lead
+                                {
+                                    isAllowed = GlobalClass.IsAllowed(CreatorKey, "MOPBULead", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "");
+                                    break;
+                                }
+                            case 2: //Inventory Analyst
+                                {
+                                    isAllowed = GlobalClass.IsAllowed(CreatorKey, "MOPInventoryAnalyst", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "");
+                                    break;
+                                }
+                            case 3: //Inventory Analyst (Deliberation)
+                                {
+                                    isAllowed = GlobalClass.IsAllowed(CreatorKey, "MOPInventoryAnalyst", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "");
+                                    break;
+                                }
+                        }
+                        
+                    } else
+                    {
+                        isAllowed = true;
+                    }
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            return isAllowed;
+        }
+
     }
-
-
 }
