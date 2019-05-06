@@ -446,3 +446,31 @@ function updateOpex(s, e) {
         OPEXGrid.UpdateEdit();
     }
 }
+
+
+//Manpower UPDATE/SAVE Button
+function updateManpower(s, e) {
+    var entityval = entityhiddenMAN.Get('hidden_value');
+    var bool = true;
+    if (entityval == "display") {
+        if (OperatingUnitMAN.GetText().length == 0) {
+            OperatingUnitMAN.SetIsValid(false);
+            bool = false;
+        } else {
+            OperatingUnitMAN.SetIsValid(true);
+            bool = true;
+        }
+    }
+
+    var activity = ActivityCodeMAN.GetText();
+    var type = ManPowerTypeKeyNameMAN.GetText();
+    //var itemDesc = DescriptionMAN.GetText();
+    var uom = UOMMAN.GetText();
+    var cost = CostMAN.GetText();
+    var qty = QtyMAN.GetText();
+    var totalcost = TotalCostMAN.GetText();
+
+    if (activity.length > 0 && type.length > 0 && uom.length > 0 && cost.length > 0 && qty.length > 0 && totalcost.length > 0 && bool) {
+        ManPowerGrid.UpdateEdit();
+    }
+}

@@ -1073,7 +1073,7 @@
                                                                                                                         </td>
                                                                                                                         <td>
                                                                                                                             <dx:ASPxTextBox ID="Description" runat="server" ClientInstanceName="DescriptionMAN" Text='<%#Eval("Description")%>' Width="170px" Theme="Office2010Blue">
-                                                                                                                                <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                                <%--<ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>--%>
                                                                                                                             </dx:ASPxTextBox>
                                                                                                                         </td>
                                                                                                                     </tr>

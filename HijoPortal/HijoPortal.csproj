@@ -126,6 +126,7 @@
     <Content Include="css\POAddedit.css" />
     <Content Include="css\POCreate.css" />
     <Content Include="css\POUploading.css" />
+    <Content Include="css\Preview.css" />
     <Content Include="default.aspx" />
     <Content Include="executive.aspx" />
     <Content Include="finance.aspx" />
@@ -168,6 +169,7 @@
     <Content Include="jquery\POCreate.js" />
     <Content Include="jquery\POList.js" />
     <Content Include="jquery\POUploading.js" />
+    <Content Include="jquery\windowState.js" />
     <Content Include="mop_workflow.aspx" />
     <Content Include="mrp_addedit.aspx" />
     <Content Include="mrp_capexcip.aspx" />

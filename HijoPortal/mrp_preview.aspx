@@ -183,7 +183,7 @@
                                     <table style="width: inherit">
                                         <tr>
                                             <td style="vertical-align: top; text-align: left; width: 49%">
-                                                <dx:ASPxRoundPanel ID="ASPxRoundPanel5" runat="server" HeaderText="Revenue and Assumptions" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                                                <dx:ASPxRoundPanel ID="RevRoundPanel" runat="server" ShowCollapseButton="false" Width="100%" Theme="Glass">
                                                     <PanelCollection>
                                                         <dx:PanelContent>
                                                             <dx:ASPxGridView ID="GridPreviewREV" runat="server" OnDataBound="GridPreviewREV_DataBound" Theme="Office2010Silver" Width="100%">
@@ -206,8 +206,8 @@
                                                 </dx:ASPxRoundPanel>
                                             </td>
                                             <td style="width: 2%;"></td>
-                                            <td style="vertical-align: top; text-align: left; width: 49%">
-                                                <dx:ASPxRoundPanel ID="ASPxRoundPanel6" runat="server" HeaderText="Total Summary" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                                            <td style="vertical-align: top; text-align: right; width: 49%">
+                                                <dx:ASPxRoundPanel ID="TotalRoundPanel" runat="server" ShowCollapseButton="false" Width="100%" Theme="Glass">
                                                     <PanelCollection>
                                                         <dx:PanelContent>
                                                             <dx:ASPxGridView ID="GridPreviewSummary" runat="server" OnDataBound="GridPreviewSummary_DataBound" Theme="Office2010Silver" Width="100%">
@@ -219,6 +219,7 @@
                                                                     <dx:ASPxSummaryItem FieldName="Total" ShowInColumn="Total" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
                                                                 </TotalSummary>
                                                                 <Styles>
+                                                                    <Cell HorizontalAlign="Left"></Cell>
                                                                     <Footer HorizontalAlign="Right"></Footer>
                                                                 </Styles>
                                                             </dx:ASPxGridView>
@@ -237,7 +238,7 @@
 
                     <div>
                         <div style="height: 10px;"></div>
-                        <dx:ASPxRoundPanel ID="ASPxRoundPanel1" runat="server" HeaderText="Direct Material" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                        <dx:ASPxRoundPanel ID="DMRoundPanel" runat="server" ShowCollapseButton="false" Width="100%" Theme="Glass">
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="GridPreviewDM" runat="server" OnDataBound="GridPreviewDM_DataBound" Theme="Office2010Silver" Width="100%">
@@ -263,7 +264,7 @@
 
 
                         <div style="height: 10px;"></div>
-                        <dx:ASPxRoundPanel ID="ASPxRoundPanel2" runat="server" HeaderText="Operating Expenditure" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                        <dx:ASPxRoundPanel ID="OPRoundPanel" runat="server" ShowCollapseButton="false" Width="100%" Theme="Glass">
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="GridPreviewOP" runat="server" OnDataBound="GridPreviewOP_DataBound" Theme="Office2010Silver" Width="100%">
@@ -289,7 +290,7 @@
 
 
                         <div style="height: 10px;"></div>
-                        <dx:ASPxRoundPanel ID="ASPxRoundPanel3" runat="server" HeaderText="Manpower" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                        <dx:ASPxRoundPanel ID="MANRoundPanel" runat="server" ShowCollapseButton="false" Width="100%" Theme="Glass">
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="GridPreviewMAN" runat="server" OnDataBound="GridPreviewMAN_DataBound" Theme="Office2010Silver" Width="100%">
@@ -313,7 +314,7 @@
                         </dx:ASPxRoundPanel>
 
                         <div style="height: 10px;"></div>
-                        <dx:ASPxRoundPanel ID="ASPxRoundPanel4" runat="server" HeaderText="Capital Expenditure" ShowCollapseButton="false" Width="100%" Theme="Glass">
+                        <dx:ASPxRoundPanel ID="CARoundPanel" runat="server" ShowCollapseButton="false" Width="100%" Theme="Glass">
                             <PanelCollection>
                                 <dx:PanelContent>
                                     <dx:ASPxGridView ID="GridPreviewCA" runat="server" OnDataBound="GridPreviewCA_DataBound" Theme="Office2010Silver" Width="100%">
