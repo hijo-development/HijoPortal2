@@ -18,8 +18,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="../images/HijoLogo.png" />
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="jquery/WindowState.js"></script>
-
+    <script src="jquery/windowState.js"></script>
     <script type="text/javascript" src="jquery/accounting.js"></script>
     <script type="text/javascript" src="jquery/ContentPage.js"></script>
     <script type="text/javascript" src="jquery/changePW.js"></script>
