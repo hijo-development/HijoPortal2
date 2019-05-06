@@ -41,6 +41,22 @@
         function ProdCat_ListBox_EndCallback(s, e) {
             ProdCat_ListBoxClient.SetEnabled(true);
         }
+
+        function CheckboxAll_CheckedChanged(s, e) {
+            if (s.GetChecked()) {
+                BUClient.SetText("");
+                EntityClient.SetText("");
+                MOPNum_Combo.SetValue("");
+                MOPNum_Combo.SetText("");
+                MOPNum_Combo.SetEnabled(false);
+                ProdCat_ListBoxClient.ClearItems();
+            }
+            else
+                MOPNum_Combo.SetEnabled(true);
+
+            MainGridCallbackPanel.PerformCallback();
+
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -92,11 +108,13 @@
                             <ClientSideEvents SelectedIndexChanged="MOPNum_Combo_SelectedIndexChanged" />
                         </dx:ASPxComboBox>
                     </td>
-                    <td style="width:30px;">
-                        <dx:ASPxCheckBox ID="CheckboxAll" ClientInstanceName="CheckboxAll" runat="server" ClientEnabled="false" Text = "All MOP" ForeColor="Black" Theme="Office2010Blue">
+                    <td style="width:50px; vertical-align:bottom;" colspan="2">
+                        <dx:ASPxCheckBox ID="CheckboxAll" ClientInstanceName="CheckboxAll" runat="server" ClientEnabled="false" Theme="Office2010Blue">
+                            <ClientSideEvents CheckedChanged="CheckboxAll_CheckedChanged" />
                         </dx:ASPxCheckBox>
+                        <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="All MOP" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
-                    <td style="width:20px;"></td>
+                    <%--<td style="width:20px;"></td>--%>
                     <td>
                         <dx:ASPxLabel runat="server" Text="Entity" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>

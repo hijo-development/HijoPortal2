@@ -240,5 +240,13 @@ namespace HijoPortal
 
             Bind_PO_List();
         }
+
+        protected void gridCreatedPO_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            grid.Columns["PK"].ShowInCustomizationForm = false;
+            grid.Columns["CreatorKey"].ShowInCustomizationForm = false;
+            grid.Columns["POStatus"].ShowInCustomizationForm = false;
+        }
     }
 }

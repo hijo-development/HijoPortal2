@@ -111,9 +111,15 @@
                     <dx:ASPxGridView ID="gridCreatedPO" runat="server" ClientInstanceName="gridCreatedPO"
                         EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
                         Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
-                        OnCustomButtonCallback="gridCreatedPO_CustomButtonCallback">
+                        OnCustomButtonCallback="gridCreatedPO_CustomButtonCallback" OnDataBound="gridCreatedPO_DataBound">
                         <ClientSideEvents CustomButtonClick="gridCreatedPO_CustomButtonClick" />
-
+                        <Toolbars>
+                            <dx:GridViewToolbar>
+                                <Items>
+                                    <dx:GridViewToolbarItem Command="ShowCustomizationWindow"></dx:GridViewToolbarItem>
+                                </Items>
+                            </dx:GridViewToolbar>
+                        </Toolbars>
                         <Columns>
                             <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
                                 <HeaderTemplate>
@@ -156,11 +162,11 @@
                         <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="false">
                         </SettingsPager>
 
-                        <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
-                            AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="false" />
+                        <SettingsBehavior EnableCustomizationWindow="true" AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
+                            AllowSort="true" ProcessFocusedRowChangedOnServer="False" ProcessSelectionChangedOnServer="False" AllowDragDrop="true" />
                         <SettingsText ConfirmDelete="Delete This Item?" />
                         <Styles>
-                            <Cell Wrap="true"></Cell>
+                            <Cell Wrap="false"></Cell>
                             <InlineEditCell Wrap="true"></InlineEditCell>
                             <SelectedRow Font-Bold="False" Font-Italic="False">
                             </SelectedRow>
