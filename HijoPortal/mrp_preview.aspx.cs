@@ -734,18 +734,7 @@ namespace HijoPortal
 
         private void Load_MRP(string docnumber)
         {
-            string query = "SELECT tbl_MRP_List.*, " +
-                               " vw_AXEntityTable.NAME AS EntityCodeDesc, " +
-                               " vw_AXOperatingUnitTable.NAME AS BUCodeDesc, " +
-                               " tbl_MRP_Status.StatusName, tbl_Users.Lastname, " +
-                               " tbl_Users.Firstname, tbl_MRP_List.EntityCode, " +
-                               " tbl_MRP_List.BUCode " +
-                               " FROM tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK " +
-                               " LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
-                               " LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK " +
-                               " LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID " +
-                               " WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' " +
-                               " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
+            string query = "SELECT tbl_MRP_List.*, vw_AXEntityTable.NAME AS EntityCodeDesc, vw_AXOperatingUnitTable.NAME AS BUCodeDesc, tbl_MRP_Status.StatusName, tbl_Users.Lastname, tbl_Users.Firstname, tbl_MRP_List.EntityCode, tbl_MRP_List.BUCode FROM tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
@@ -753,13 +742,13 @@ namespace HijoPortal
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
+                entitycode = reader["EntityCode"].ToString();
+                buCode = reader["BUCode"].ToString();                
                 //DocNum.Text = reader["DocNumber"].ToString();
                 //DateCreated.Text = reader["DateCreated"].ToString();
                 mrp_key = Convert.ToInt32(reader["PK"]);
-                entitycode = reader["EntityCode"].ToString();
                 dateCreated = Convert.ToDateTime(reader["DateCreated"]);
                 EntityCode.Text = reader["EntityCodeDesc"].ToString();
-                buCode = reader["BUCode"].ToString();
                 BUCode.Text = reader["BUCodeDesc"].ToString();
                 Month.Text = MRPClass.Month_Name(Int32.Parse(reader["MRPMonth"].ToString()));
                 Year.Text = reader["MRPYear"].ToString();
@@ -1185,6 +1174,11 @@ namespace HijoPortal
             ModifyGridColumns(grid);
         }
 
+        protected void RightsOK_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("default.aspx");
+        }
+
         protected void GridPreviewREV_DataBound(object sender, EventArgs e)
         {
             ASPxGridView grid = (ASPxGridView)sender;
@@ -1443,6 +1437,26 @@ namespace HijoPortal
                 DocNum.Text = Session["mrp_docNum"].ToString();
                 docnumber = Session["mrp_docNum"].ToString();
                 wrkflwln = Convert.ToInt32(Session["mrp_wrkLine"]);
+
+                //Check Access Rights
+
+                if (MRPClass.PreviewRights(Convert.ToInt32(Session["CreatorKey"]), docnumber, wrkflwln) == false)
+                {
+                    MRPAccessRightsMsg.Text = "Acces Denied!";
+                    MRPAccessRights.HeaderText = "Access Denied";
+                    MRPAccessRights.ShowOnPageLoad = true;
+                }
+
+                //if (Convert.ToInt32(reader["CreatorKey"]) != Convert.ToInt32(Session["CreatorKey"]))
+                //{
+                //    if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", Convert.ToDateTime(reader["DateCreated"]), entitycode, buCode, "") == false)
+                //    {
+                //        MRPAccessRightsMsg.Text = "Acces Denied!";
+                //        MRPAccessRights.HeaderText = "Access Denied";
+                //        MRPAccessRights.ShowOnPageLoad = true;
+                //    }
+                //}
+
 
                 //MRPClass.PrintString("wrk:" + wrkflwln);
 

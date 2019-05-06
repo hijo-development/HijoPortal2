@@ -61,6 +61,35 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
+    <dx:ASPxPopupControl ID="MRPAccessRights" ClientInstanceName="MRPAccessRights" runat="server" Modal="true" ShowCloseButton ="false" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <table style="width: 100%;" border="0">
+                    <tr>
+                        <td style="padding-right: 20px; padding-bottom: 20px;">
+                            <dx:ASPxLabel ID="MRPAccessRightsMsg" ClientInstanceName="MRPAccessRightsMsg" runat="server" Text="" Theme="Office2010Blue" ForeColor="Red"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr style ="height:10px;">
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-right: 20px; padding-bottom: 20px; text-align:right;">
+                            <dx:ASPxButton ID="RightsOK" runat="server" Text="OK" OnClick="RightsOK_Click">
+                                <ClientSideEvents Click="function(s,e){
+                                    MRPAccessRights.Hide();
+                                    $find('ModalPopupExtenderLoading').show();
+                                    e.processOnServer = true;
+                                    }" />
+                            </dx:ASPxButton>
+                        </td>
+                    </tr>
+                </table>
+                
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <dx:ASPxPopupControl ID="PopupSubmitPreview" ClientInstanceName="PopupSubmitPreview" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
