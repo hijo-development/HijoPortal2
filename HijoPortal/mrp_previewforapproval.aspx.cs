@@ -255,26 +255,41 @@ namespace HijoPortal
         private void BindAll()
         {
             string docnum = DocNum.Text.ToString();
+            DMRoundPanel.HeaderText = Constants.DM_string();
             GridPreviewDM.DataSource = DM(docnum);
             GridPreviewDM.KeyFieldName = "PK";
             GridPreviewDM.DataBind();
 
+            OPRoundPanel.HeaderText = Constants.OP_string();
             GridPreviewOP.DataSource = OP(docnum);
             GridPreviewOP.KeyFieldName = "PK";
             GridPreviewOP.DataBind();
 
+            MANRoundPanel.HeaderText = Constants.MAN_string();
             GridPreviewMAN.DataSource = MAN(docnum);
             GridPreviewMAN.KeyFieldName = "PK";
             GridPreviewMAN.DataBind();
 
+            CARoundPanel.HeaderText = Constants.CA_string();
             GridPreviewCA.DataSource = CA(docnum);
             GridPreviewCA.KeyFieldName = "PK";
             GridPreviewCA.DataBind();
 
-            GridPreviewREV.DataSource = REV(docnum);
-            GridPreviewREV.KeyFieldName = "PK";
-            GridPreviewREV.DataBind();
+            if (entitycode != Constants.HITS_CODE())
+            {
+                RevRoundPanel.HeaderText = Constants.REV_string();
 
+                GridPreviewREV.DataSource = REV(docnum);
+                GridPreviewREV.KeyFieldName = "PK";
+                GridPreviewREV.DataBind();
+            }
+            else
+            {
+                RevRoundPanel.Visible = false;
+                GridPreviewREV.Visible = false;
+            }
+
+            TotalRoundPanel.HeaderText = Constants.SUMMARY_string();
             GridPreviewSummary.DataSource = SUMMARY(docnum);
             GridPreviewSummary.KeyFieldName = "PK";
             GridPreviewSummary.DataBind();

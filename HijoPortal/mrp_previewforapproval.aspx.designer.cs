@@ -304,5 +304,12 @@ namespace HijoPortal
         protected global::DevExpress.Web.ASPxButton Submit;
         protected global::DevExpress.Web.ASPxPopupControl MRPNotifyPrevApp;
         protected global::DevExpress.Web.ASPxLabel MRPNotifyMsgPrevApp;
+
+        protected global::DevExpress.Web.ASPxRoundPanel RevRoundPanel;
+        protected global::DevExpress.Web.ASPxRoundPanel DMRoundPanel;
+        protected global::DevExpress.Web.ASPxRoundPanel CARoundPanel;
+        protected global::DevExpress.Web.ASPxRoundPanel OPRoundPanel;
+        protected global::DevExpress.Web.ASPxRoundPanel MANRoundPanel;
+        protected global::DevExpress.Web.ASPxRoundPanel TotalRoundPanel;
     }
 }

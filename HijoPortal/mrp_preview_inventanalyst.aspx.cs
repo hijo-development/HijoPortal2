@@ -115,9 +115,9 @@ namespace HijoPortal
 
         protected void btAddEdit_Click(object sender, EventArgs e)
         {
-            Session["mrp_docNum"] = docnumber.ToString();
+            //Session["mrp_docNum"] = docnumber.ToString();
             Session["mrp_wrkLine"] = wrkflwln.ToString();
-            Response.Redirect("mrp_inventanalyst.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+            Response.Redirect("mrp_inventanalyst.aspx?DocNum=" + Session["mrp_docNum"].ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
         }
 
         private void HideHeader(object sender)
@@ -241,9 +241,6 @@ namespace HijoPortal
                 //              " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID " +
                 //              " WHERE(dbo.tbl_MRP_List.DocNumber = '" + DocNum.Text.ToString().Trim() + "') " +
                 //              " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
-
-
-
             }
 
             BindAll();
@@ -252,31 +249,44 @@ namespace HijoPortal
         private void BindAll()
         {
             string docnum = DocNum.Text.ToString();
+            DMRoundPanel.HeaderText = Constants.DM_string();
             GridPreviewDM.DataSource = DM(docnum);
             GridPreviewDM.KeyFieldName = "PK";
             GridPreviewDM.DataBind();
 
+            OPRoundPanel.HeaderText = Constants.OP_string();
             GridPreviewOP.DataSource = OP(docnum);
             GridPreviewOP.KeyFieldName = "PK";
             GridPreviewOP.DataBind();
 
+            MANRoundPanel.HeaderText = Constants.MAN_string();
             GridPreviewMAN.DataSource = MAN(docnum);
             GridPreviewMAN.KeyFieldName = "PK";
             GridPreviewMAN.DataBind();
 
+            CARoundPanel.HeaderText = Constants.CA_string();
             GridPreviewCA.DataSource = CA(docnum);
             GridPreviewCA.KeyFieldName = "PK";
             GridPreviewCA.DataBind();
 
-            GridPreviewREV.DataSource = REV(docnum);
-            GridPreviewREV.KeyFieldName = "PK";
-            GridPreviewREV.DataBind();
+            if (entitycode != Constants.HITS_CODE())
+            {
+                RevRoundPanel.HeaderText = Constants.REV_string();
 
+                GridPreviewREV.DataSource = REV(docnum);
+                GridPreviewREV.KeyFieldName = "PK";
+                GridPreviewREV.DataBind();
+            }
+            else
+            {
+                RevRoundPanel.Visible = false;
+                GridPreviewREV.Visible = false;
+            }
+
+            TotalRoundPanel.HeaderText = Constants.SUMMARY_string();
             GridPreviewSummary.DataSource = SUMMARY(docnum);
             GridPreviewSummary.KeyFieldName = "PK";
             GridPreviewSummary.DataBind();
-
-
         }
 
         public static DataTable DM(string docnumber)

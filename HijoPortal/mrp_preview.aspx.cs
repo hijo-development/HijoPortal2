@@ -539,10 +539,10 @@ namespace HijoPortal
         {
             //if (wrkflwln == 0 || wrkflwln == 1)
             //{
-            Session["mrp_docNum"] = docnumber.ToString();
+            //Session["mrp_docNum"] = docnumber.ToString();
             Session["mrp_wrkLine"] = wrkflwln.ToString();
 
-            Response.Redirect("mrp_addedit.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
+            Response.Redirect("mrp_addedit.aspx?DocNum=" + Session["mrp_docNum"].ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
             //} else
             //{
             //    Response.Redirect("mrp_inventanalyst.aspx?DocNum=" + docnumber.ToString() + "&WrkFlwLn=" + wrkflwln.ToString());
@@ -1486,50 +1486,48 @@ namespace HijoPortal
 
 
             }
-
-
-
-            //string farm_query = "[dbo].[OPEXPreview]";
-            //SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
-            //cn.Open();
-            //SqlCommand cmd = new SqlCommand(farm_query, cn);
-
-            //cmd.CommandType = CommandType.StoredProcedure;
-            //cmd.Parameters.AddWithValue("@headerdocnum", docnumber);
-            //cmd.Parameters.AddWithValue("@entity", entitycode);
-            //SqlDataReader dr = cmd.ExecuteReader();
-            //DataTable dt = new DataTable();
-            //dt.Load(dr);
-
-            //GridPreviewOP.DataSource = dt;
-            //GridPreviewOP.DataBind();
-            //cn.Close();
+            
             BindAll();
         }
 
         private void BindAll()
         {
             string docnum = DocNum.Text.ToString();
+            DMRoundPanel.HeaderText = Constants.DM_string();
             GridPreviewDM.DataSource = DM(docnum);
             GridPreviewDM.KeyFieldName = "PK";
             GridPreviewDM.DataBind();
 
+            OPRoundPanel.HeaderText = Constants.OP_string();
             GridPreviewOP.DataSource = OP(docnum);
             GridPreviewOP.KeyFieldName = "PK";
             GridPreviewOP.DataBind();
 
+            MANRoundPanel.HeaderText = Constants.MAN_string();
             GridPreviewMAN.DataSource = MAN(docnum);
             GridPreviewMAN.KeyFieldName = "PK";
             GridPreviewMAN.DataBind();
 
+            CARoundPanel.HeaderText = Constants.CA_string();
             GridPreviewCA.DataSource = CA(docnum);
             GridPreviewCA.KeyFieldName = "PK";
             GridPreviewCA.DataBind();
 
-            GridPreviewREV.DataSource = REV(docnum);
-            GridPreviewREV.KeyFieldName = "PK";
-            GridPreviewREV.DataBind();
+            if (entitycode != Constants.HITS_CODE())
+            {
+                RevRoundPanel.HeaderText = Constants.REV_string();
 
+                GridPreviewREV.DataSource = REV(docnum);
+                GridPreviewREV.KeyFieldName = "PK";
+                GridPreviewREV.DataBind();
+            }
+            else
+            {
+                RevRoundPanel.Visible = false;
+                GridPreviewREV.Visible = false;
+            }
+
+            TotalRoundPanel.HeaderText = Constants.SUMMARY_string();
             GridPreviewSummary.DataSource = SUMMARY(docnum);
             GridPreviewSummary.KeyFieldName = "PK";
             GridPreviewSummary.DataBind();

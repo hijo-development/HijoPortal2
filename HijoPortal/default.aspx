@@ -31,7 +31,8 @@
 
         function enterEvent(e) {
             if (e.keyCode == 13) {
-                document.getElementById("btnLogIn").click();
+                document.getElementsByClassName("btnlogInClass")[0].click();
+                //document.getElementById("btnLogIn").click();
             }
         }
 
@@ -113,10 +114,11 @@
                                 <img src="images/HijoLogo.png" class="avatar" />
                                 <h1>Login Here</h1>
                                 <p>Username</p>
-                                <asp:TextBox ID="txtUserName" placeholder="Enter Username" runat="server" AutoCompleteType="Disabled" onkeydown="javascript:enterEvent(event);"></asp:TextBox>
+                                <asp:TextBox ID="txtUserName" placeholder="Enter Username" runat="server" AutoCompleteType="Disabled" onkeydown="javascript:enterEvent(event);">
+                                </asp:TextBox>
                                 <p>Password</p>
                                 <asp:TextBox ID="txtPassword" placeholder="Enter Password" runat="server" TextMode="Password" onkeydown="javascript:enterEvent(event);"></asp:TextBox>
-                                <asp:Button ID="btnLogIn" runat="server" Text="Log in" OnClientClick="function () { $find('ModalPopupExtenderLoading').show(); }" OnClick="btnLogIn_Click" />
+                                <asp:Button ID="btnLogIn" runat="server" CssClass="btnlogInClass" Text="Log in" OnClientClick="function () { $find('ModalPopupExtenderLoading').show(); }" OnClick="btnLogIn_Click" />
                                 <%--<asp:Button ID="btnCreateAccount" runat="server" Text="Create Account" OnClick="btnCreateAccount_Click" />--%>
                                 <%--<asp:HyperLink ID="HyperLink1" runat="server">Create Account?</asp:HyperLink>
             <asp:HyperLink ID="HyperLink2" runat="server">Forgot password?</asp:HyperLink>--%>

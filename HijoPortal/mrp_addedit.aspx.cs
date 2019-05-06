@@ -1119,7 +1119,7 @@ namespace HijoPortal
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox actCode = pageControl.FindControl("ActivityCode") as ASPxComboBox;
             ASPxComboBox type = pageControl.FindControl("ManPowerTypeKeyName") as ASPxComboBox;
-            ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
+            //ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
             ASPxTextBox qty = pageControl.FindControl("Qty") as ASPxTextBox;
@@ -1144,11 +1144,11 @@ namespace HijoPortal
 
             string insert = "INSERT INTO " + MRPClass.ManPowerTable() +
                             " ([HeaderDocNum], [ActivityCode], [ManPowerTypeKey], " +
-                            " [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit], " +
+                            " [UOM], [Cost], [Qty], [TotalCost], [OprUnit], " +
                             " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
                             " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
                             " VALUES (@HeaderDocNum, @ActivityCode, @ManPowerTypeKey, " +
-                            " @Description, @UOM, @Cost, @Qty, @TotalCost, @OprUnit, " +
+                            " @UOM, @Cost, @Qty, @TotalCost, @OprUnit, " +
                             " @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
@@ -1156,7 +1156,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ActivityCode", actCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ManPowerTypeKey", manpower_type_pk);
-            cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -1244,7 +1244,7 @@ namespace HijoPortal
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox actCode = pageControl.FindControl("ActivityCode") as ASPxComboBox;
             ASPxComboBox type = pageControl.FindControl("ManPowerTypeKeyName") as ASPxComboBox;
-            ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
+            //ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
             ASPxTextBox qty = pageControl.FindControl("Qty") as ASPxTextBox;
@@ -1272,7 +1272,7 @@ namespace HijoPortal
 
             string update_MRP = "UPDATE " + MRPClass.ManPowerTable() +
                                 " SET [ActivityCode] = @ActivityCode, [ManPowerTypeKey] = @ManPowerTypeKey, " +
-                                " [Description] = @Description, [UOM]= @UOM, " +
+                                " [UOM]= @UOM, " +
                                 " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
                                 " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
                                 " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " +
@@ -1283,7 +1283,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ActivityCode", actcodeVal);
             cmd.Parameters.AddWithValue("@ManPowerTypeKey", manpower_type_pk);
-            cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -1679,15 +1679,16 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [FarmName], [Prize], [Volume], [TotalPrize], [OprUnit]) VALUES (@HeaderDocNum, @ProductName, @FarmName, @Prize, @Volume, @TotalPrize, @OprUnit)";
+            //string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [FarmName], [Prize], [Volume], [TotalPrize], [OprUnit]) VALUES (@HeaderDocNum, @ProductName, @FarmName, @Prize, @Volume, @TotalPrize, @OprUnit)";
 
+            string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [Prize], [Volume], [TotalPrize], [OprUnit]) VALUES (@HeaderDocNum, @ProductName, @Prize, @Volume, @TotalPrize, @OprUnit)";
 
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ProductName", product.Value.ToString());
-            cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
+            //cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
             cmd.Parameters.AddWithValue("@Prize", Convert.ToDouble(prize.Value.ToString()));
             cmd.Parameters.AddWithValue("@Volume", Convert.ToDouble(volume.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
@@ -1975,6 +1976,8 @@ namespace HijoPortal
         protected void ASPxPageControl1_Load(object sender, EventArgs e)
         {
             ASPxPageControl pagecontrol = sender as ASPxPageControl;
+            pagecontrol.TabPages[0].Text = Constants.MOP_string();
+            pagecontrol.TabPages[1].Text = Constants.REV_string();
             if (entitycode == "0303")
                 pagecontrol.TabPages[1].ClientVisible = false;
             else
@@ -2118,7 +2121,7 @@ namespace HijoPortal
 
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxTextBox product = pageControl.FindControl("ProductName") as ASPxTextBox;
-            ASPxTextBox farm = pageControl.FindControl("FarmName") as ASPxTextBox;
+            //ASPxTextBox farm = pageControl.FindControl("FarmName") as ASPxTextBox;
             ASPxTextBox prize = pageControl.FindControl("Prize") as ASPxTextBox;
             ASPxTextBox volume = pageControl.FindControl("Volume") as ASPxTextBox;
             ASPxTextBox totalprize = pageControl.FindControl("TotalPrize") as ASPxTextBox;
@@ -2134,13 +2137,13 @@ namespace HijoPortal
 
 
 
-            string update_MRP = "UPDATE " + MRPClass.RevenueTable() + " SET [ProductName] = @ProductName, [FarmName]= @FarmName, [Prize] = @Prize, [Volume] = @Volume, [TotalPrize] = @TotalPrize, [OprUnit] = @OprUnit WHERE [PK] = @PK";
+            string update_MRP = "UPDATE " + MRPClass.RevenueTable() + " SET [ProductName] = @ProductName [Prize] = @Prize, [Volume] = @Volume, [TotalPrize] = @TotalPrize, [OprUnit] = @OprUnit WHERE [PK] = @PK";
 
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ProductName", product.Value.ToString());
-            cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
+            //cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
             cmd.Parameters.AddWithValue("@Prize", Convert.ToDouble(prize.Value.ToString()));
             cmd.Parameters.AddWithValue("@Volume", Convert.ToDouble(volume.Value.ToString()));
             cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
