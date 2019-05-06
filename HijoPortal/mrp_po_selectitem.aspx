@@ -9,8 +9,10 @@
             MOPNum_Combo.PerformCallback();
             MainGridCallbackPanel.PerformCallback();
             MOPNum_Combo.SetEnabled(true);
+            CheckboxAll.SetEnabled(true);
             MainGridCallbackPanel.PerformCallback();
         }
+
         function MOPNum_Combo_SelectedIndexChanged(s, e) {
             var monthyear = MonthYear_Combo.GetValue();
             var arr = s.GetText().split("; ");
@@ -90,7 +92,11 @@
                             <ClientSideEvents SelectedIndexChanged="MOPNum_Combo_SelectedIndexChanged" />
                         </dx:ASPxComboBox>
                     </td>
-                    <td></td>
+                    <td style="width:30px;">
+                        <dx:ASPxCheckBox ID="CheckboxAll" ClientInstanceName="CheckboxAll" runat="server" ClientEnabled="false" Text = "All MOP" ForeColor="Black" Theme="Office2010Blue">
+                        </dx:ASPxCheckBox>
+                    </td>
+                    <td style="width:20px;"></td>
                     <td>
                         <dx:ASPxLabel runat="server" Text="Entity" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
@@ -116,17 +122,7 @@
                         <dx:ASPxLabel runat="server" Text="Procurement Category" Theme="Office2010Blue"></dx:ASPxLabel>
                     </td>
                     <td style="vertical-align: top;">:</td>
-                    <td colspan="5">
-                        <%--<dx:ASPxComboBox ID="ProdCategory_Combo" runat="server" OnInit="ProdCategory_Combo_Init" ValueType="System.String" Theme="Office2010Blue">
-                            <ClientSideEvents SelectedIndexChanged="ProdCategory_Combo_SelectedIndexChanged" />
-                        </dx:ASPxComboBox>--%>
-                        <%--<dx:ASPxCallbackPanel ID="ProdCatCallback" runat="server" ClientInstanceName="ProdCatCallbackClient" OnCallback="ProdCat_ListBox_Callback" Width="200px">
-                            <PanelCollection>
-                                <dx:PanelContent>
-                                    
-                                </dx:PanelContent>
-                            </PanelCollection>
-                        </dx:ASPxCallbackPanel>--%>
+                    <td colspan="6">
                         <dx:ASPxListBox ID="ProdCat_ListBox" runat="server" ClientInstanceName="ProdCat_ListBoxClient" OnInit="ProdCat_ListBox_Init" OnCallback="ProdCat_ListBox_Callback" ClientEnabled="false" Width="500px" SelectionMode="CheckColumn" EnableSelectAll="true" ValueType="System.String" Theme="Office2010Blue">
                             <ClientSideEvents SelectedIndexChanged="ProdCat_ListBox_SelectedIndexChanged" EndCallback="ProdCat_ListBox_EndCallback" />
                         </dx:ASPxListBox>
@@ -156,11 +152,11 @@
                                     <HeaderStyle HorizontalAlign="Right" />
                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                 </dx:GridViewDataColumn>
-                                <dx:GridViewDataColumn FieldName="Cost">
+                                <dx:GridViewDataColumn FieldName="OnHand">
                                     <HeaderStyle HorizontalAlign="Right" />
                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                 </dx:GridViewDataColumn>
-                                <dx:GridViewDataColumn FieldName="TotalCost">
+                                <dx:GridViewDataColumn FieldName="OpenOrder">
                                     <HeaderStyle HorizontalAlign="Right" />
                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                 </dx:GridViewDataColumn>

@@ -223,7 +223,7 @@ namespace HijoPortal.classes
             return dtTable;
         }
 
-        public static DataTable POSelecetedItemTable(string docnumber, int month, string year, ArrayList groupID)
+        public static DataTable POSelecetedItemTable(int SelType, string docnumber, int month, string year, ArrayList groupID)
         {
             DataTable dtTable = new DataTable();
 
@@ -251,7 +251,9 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("TotalCost", typeof(string));
                 dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Syear", typeof(string));
-                
+                dtTable.Columns.Add("Smonth", typeof(string));
+                dtTable.Columns.Add("OnHand", typeof(string));
+                dtTable.Columns.Add("OpenOrder", typeof(string));
             }
 
             //string groupid_string = "";
@@ -272,11 +274,14 @@ namespace HijoPortal.classes
             for (i = 0; i < groupID.Count; i++)
             {
                 groupid_string = groupID[i].ToString();
-                //MRPClass.PrintString("count:" + groupID.Count.ToString());
-
                 //Direct Materials
-                //qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl,dbo.tbl_MRP_List_DirectMaterials.UOM, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_DirectMaterials.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.vw_AXInventTable.ITEMGROUPID = '" + groupid_string + "') AND (dbo.tbl_MRP_List_DirectMaterials.AvailForPO > 0)";
-                qry = "sp_SelectItemforPO_DM '" + docnumber + "', " + year + ", " + month + ", '" + groupid_string + "'";
+                if (SelType == 1)
+                {
+                    qry = "sp_SelectItemforPO_DM_All " + year + ", " + month + ", '" + groupid_string + "'";
+                } else
+                {
+                    qry = "sp_SelectItemforPO_DM '" + docnumber + "', " + year + ", " + month + ", '" + groupid_string + "'";
+                }
                 cmd = new SqlCommand(qry);
                 cmd.Connection = cn;
                 adp = new SqlDataAdapter(cmd);
@@ -286,7 +291,6 @@ namespace HijoPortal.classes
                     foreach (DataRow row in dt.Rows)
                     {
                         DataRow dtRow = dtTable.NewRow();
-                        //dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
                         dtRow["PK"] = row["PK"].ToString();
                         dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
                         dtRow["DocumentNumber"] = row["docNum"].ToString();
@@ -302,15 +306,22 @@ namespace HijoPortal.classes
                         dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                         dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
                         dtRow["Syear"] = row["Syear"].ToString();
+                        dtRow["Smonth"] = row["Smonth"].ToString();
+                        dtRow["OnHand"] = Convert.ToDouble(row["OnHand"].ToString()).ToString("N");
+                        dtRow["OpenOrder"] = Convert.ToDouble(row["OpenOrder"].ToString()).ToString("N");
                         dtTable.Rows.Add(dtRow);
                     }
                 }
                 dt.Clear();
 
                 //Operating Expense
-                //qry = "SELECT DISTINCT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.UOM,dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.vw_AXInventTable.ITEMGROUPID AS ItemCatCode, dbo.vw_AXProdCategory.DESCRIPTION AS ItemCat FROM  dbo.vw_AXProdCategory RIGHT OUTER JOIN dbo.vw_AXInventTable ON dbo.vw_AXProdCategory.NAME = dbo.vw_AXInventTable.ITEMGROUPID RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN         dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_OPEX.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.vw_AXInventTable.ITEMGROUPID = '" + groupid_string + "') AND (dbo.tbl_MRP_List_OPEX.AvailForPO > 0)";
-                //qry = "SELECT DISTINCT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.UOM, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.TotalCost, (CASE dbo.tbl_MRP_List_OPEX.ItemCode WHEN '' THEN dbo.tbl_MRP_List_OPEX.ProcCat ELSE dbo.vw_AXInventTable.ITEMGROUPID END) AS ItemCatCode, (SELECT DESCRIPTION FROM  dbo.vw_AXProdCategory  WHERE(NAME = (CASE dbo.tbl_MRP_List_OPEX.ItemCode WHEN '' THEN dbo.tbl_MRP_List_OPEX.ProcCat ELSE dbo.vw_AXInventTable.ITEMGROUPID END)) AND(dataareaid = dbo.tbl_MRP_List.EntityCode)) AS ItemCat FROM dbo.vw_AXInventTable RIGHT OUTER JOIN dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN    dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_OPEX.ItemCode WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_OPEX.AvailForPO > 0) AND ((CASE dbo.tbl_MRP_List_OPEX.ItemCode WHEN '' THEN dbo.tbl_MRP_List_OPEX.ProcCat ELSE dbo.vw_AXInventTable.ITEMGROUPID END) = '" + groupid_string + "')";
-                qry = "sp_SelectItemforPO_OPEX '" + docnumber + "', " + year + ", " + month + ", '" + groupid_string + "'"; 
+                if (SelType == 1)
+                {
+                    qry = "sp_SelectItemforPO_OPEX_All " + year + ", " + month + ", '" + groupid_string + "'";
+                } else
+                {
+                    qry = "sp_SelectItemforPO_OPEX '" + docnumber + "', " + year + ", " + month + ", '" + groupid_string + "'";
+                }
                 cmd = new SqlCommand(qry);
                 cmd.Connection = cn;
                 adp = new SqlDataAdapter(cmd);
@@ -334,38 +345,23 @@ namespace HijoPortal.classes
                         dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                         dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                         dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-
-                        //dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
-                        //dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
-                        //dtRow["DocumentNumber"] = row["DocNumber"].ToString();
-                        //dtRow["CapexCIP"] = "";
-                        //dtRow["Entity"] = row["Entity"].ToString();
-                        //dtRow["BU"] = row["BU"].ToString();
-                        //dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
-                        //dtRow["ItemCat"] = row["ItemCat"].ToString();
-                        //dtRow["ItemCode"] = row["ItemCode"].ToString();
-                        //if (row["DescriptionAddl"].ToString().Trim() != "")
-                        //{
-                        //    dtRow["ItemDescription"] = row["Description"].ToString() + " (" + row["DescriptionAddl"].ToString() + ")";
-                        //}
-                        //else
-                        //{
-                        //    dtRow["ItemDescription"] = row["Description"].ToString();
-                        //}
-                        //dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
-                        //dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
-                        //dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-                        //dtRow["UOM"] = row["UOM"].ToString();
+                        dtRow["Syear"] = row["Syear"].ToString();
+                        dtRow["Smonth"] = row["Smonth"].ToString();
+                        dtRow["OnHand"] = Convert.ToDouble(row["OnHand"].ToString()).ToString("N");
+                        dtRow["OpenOrder"] = Convert.ToDouble(row["OpenOrder"].ToString()).ToString("N");
                         dtTable.Rows.Add(dtRow);
                     }
                 }
                 dt.Clear();
 
                 //Capital Expenditure
-                //qry = "SELECT dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.PK, dbo.tbl_MRP_List_CAPEX.TableIdentifier, dbo.tbl_MRP_List_CAPEX.ProdCat, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty, dbo.tbl_MRP_List_CAPEX.TotalCost,  dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List.DocNumber FROM   dbo.vw_AXEntityTable INNER JOIN dbo.tbl_MRP_List ON dbo.vw_AXEntityTable.ID = dbo.tbl_MRP_List.EntityCode INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_CAPEX.HeaderDocNum WHERE ((dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_CAPEX.ProdCat = '" + groupid_string + "') AND (dbo.tbl_MRP_List_CAPEX.AvailForPO > 0) AND (RTRIM(LTRIM(dbo.tbl_MRP_List_CAPEX.CIPSIPNumber)) <> '')) OR ((dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_CAPEX.ProdCat = '" + groupid_string + "') AND (dbo.tbl_MRP_List_CAPEX.AvailForPO > 0) AND (RTRIM(LTRIM(dbo.tbl_MRP_List_CAPEX.ProdCat)) = 'CIP'))";
-
-                //qry = "SELECT DISTINCT dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.PK, dbo.tbl_MRP_List_CAPEX.TableIdentifier, dbo.tbl_MRP_List_CAPEX.ProdCat, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty, dbo.tbl_MRP_List_CAPEX.TotalCost, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXProdCategory.DESCRIPTION AS ProdCatDesc FROM   dbo.vw_AXEntityTable INNER JOIN dbo.tbl_MRP_List ON dbo.vw_AXEntityTable.ID = dbo.tbl_MRP_List.EntityCode INNER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_CAPEX.HeaderDocNum INNER JOIN dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME WHERE ((dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_CAPEX.ProdCat = '" + groupid_string + "') AND (dbo.tbl_MRP_List_CAPEX.AvailForPO > 0) AND (RTRIM(LTRIM(dbo.tbl_MRP_List_CAPEX.CIPSIPNumber)) <> '')) OR ((dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND (dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(dbo.tbl_MRP_List_CAPEX.ProdCat = '" + groupid_string + "') AND (dbo.tbl_MRP_List_CAPEX.AvailForPO > 0) AND (RTRIM(LTRIM(dbo.tbl_MRP_List_CAPEX.ProdCat)) = 'CIP'))";
-                qry = "SELECT DISTINCT dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.PK, dbo.tbl_MRP_List_CAPEX.TableIdentifier, dbo.tbl_MRP_List_CAPEX.ProdCat, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty, dbo.tbl_MRP_List_CAPEX.TotalCost, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXProdCategory.DESCRIPTION AS ProdCatDesc FROM  dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN      dbo.vw_AXProdCategory ON dbo.tbl_MRP_List_CAPEX.ProdCat = dbo.vw_AXProdCategory.NAME WHERE(dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(RTRIM(LTRIM(dbo.tbl_MRP_List_CAPEX.CIPSIPNumber)) <> '') AND(dbo.tbl_MRP_List_CAPEX.AvailForPO > 0) AND(dbo.tbl_MRP_List_CAPEX.ProdCat = '" + groupid_string + "') OR (dbo.tbl_MRP_List.StatusKey = 4) AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.DocNumber = '" + docnumber + "') AND(RTRIM(LTRIM(dbo.tbl_MRP_List_CAPEX.ProdCat)) <> 'CIP') AND(dbo.tbl_MRP_List_CAPEX.AvailForPO > 0) AND(dbo.tbl_MRP_List_CAPEX.ProdCat = '" + groupid_string + "')";
+                if (SelType == 1)
+                {
+                    qry = "sp_SelectItemforPO_CA_All " + year + ", " + month + ", '" + groupid_string + "'";
+                } else
+                {
+                    qry = "sp_SelectItemforPO_CA '" + docnumber + "', " + year + ", " + month + ", '" + groupid_string + "'";
+                }                    
                 cmd = new SqlCommand(qry);
                 cmd.Connection = cn;
                 adp = new SqlDataAdapter(cmd);
@@ -374,29 +370,25 @@ namespace HijoPortal.classes
                 {
                     foreach (DataRow row in dt.Rows)
                     {
-                        DataRow dtRow = dtTable.NewRow();
-                        dtRow["PK"] = row["PK"].ToString() + "-" + row["TableIdentifier"].ToString();
+                        DataRow dtRow = dtTable.NewRow();                        
+                        dtRow["PK"] = row["PK"].ToString();
                         dtRow["TableIdentifier"] = row["TableIdentifier"].ToString();
-                        dtRow["DocumentNumber"] = row["DocNumber"].ToString();
-                        dtRow["CapexCIP"] = row["CIPSIPNumber"].ToString();
+                        dtRow["DocumentNumber"] = row["docNum"].ToString();
+                        dtRow["CapexCIP"] = row["CapexCIP"].ToString();
                         dtRow["Entity"] = row["Entity"].ToString();
                         dtRow["BU"] = row["BU"].ToString();
-                        //dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
-                        dtRow["ItemCatCode"] = "";
-                        dtRow["ItemCat"] = row["ProdCatDesc"].ToString();
-                        dtRow["ItemCode"] = "";
-                        if (row["DescriptionAddl"].ToString().Trim() != "")
-                        {
-                            dtRow["ItemDescription"] = row["Description"].ToString() + " (" + row["DescriptionAddl"].ToString() + ")";
-                        }
-                        else
-                        {
-                            dtRow["ItemDescription"] = row["Description"].ToString();
-                        }
+                        dtRow["ItemCatCode"] = row["ItemCatCode"].ToString();
+                        dtRow["ItemCat"] = row["ItemCat"].ToString();
+                        dtRow["ItemCode"] = row["ItemCode"].ToString();
+                        dtRow["ItemDescription"] = row["ItemDescription"].ToString();
+                        dtRow["UOM"] = row["UOM"].ToString();
                         dtRow["Qty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                         dtRow["Cost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                         dtRow["TotalCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
-                        dtRow["UOM"] = row["UOM"].ToString();
+                        dtRow["Syear"] = row["Syear"].ToString();
+                        dtRow["Smonth"] = row["Smonth"].ToString();
+                        dtRow["OnHand"] = Convert.ToDouble(row["OnHand"].ToString()).ToString("N");
+                        dtRow["OpenOrder"] = Convert.ToDouble(row["OpenOrder"].ToString()).ToString("N");
                         dtTable.Rows.Add(dtRow);
                     }
                 }
@@ -1559,7 +1551,7 @@ namespace HijoPortal.classes
             }
 
             conn.Open();
-            qry = "SELECT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_POCreation.ExpectedDate, dbo.tbl_POCreation.VendorCode, dbo.tbl_POCreation.PaymentTerms, dbo.tbl_POCreation.CurrencyCode,dbo.tbl_POCreation.InventSite, dbo.tbl_POCreation.InventSiteWarehouse, dbo.tbl_POCreation.InventSiteWarehouseLocation, dbo.vw_AXVendTable.NAME, dbo.vw_AXVendTable.VENDGROUP, dbo.vw_AXVendTable.INCLTAX, dbo.vw_AXVendTable.PAYMMODE, dbo.vw_AXVendTable.TAXGROUP, dbo.tbl_POCreation.EntityCode, dbo.tbl_POCreation.BUSSUCode, dbo.tbl_POCreation.Remarks FROM  dbo.tbl_POCreation LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM WHERE(dbo.tbl_POCreation.PONumber = '" + poNum + "')";
+            qry = "SELECT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_POCreation.ExpectedDate, dbo.tbl_POCreation.VendorCode, dbo.tbl_POCreation.PaymentTerms, dbo.tbl_POCreation.CurrencyCode, dbo.tbl_POCreation.InventSite, dbo.tbl_POCreation.InventSiteWarehouse, dbo.tbl_POCreation.InventSiteWarehouseLocation, dbo.vw_AXVendTable.NAME, dbo.vw_AXVendTable.VENDGROUP, dbo.vw_AXVendTable.INCLTAX, dbo.vw_AXVendTable.PAYMMODE, dbo.vw_AXVendTable.TAXGROUP, dbo.tbl_POCreation.EntityCode, dbo.tbl_POCreation.BUSSUCode, dbo.tbl_POCreation.Remarks FROM  dbo.tbl_POCreation LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM WHERE(dbo.tbl_POCreation.PONumber = '" + poNum + "')";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -1580,18 +1572,6 @@ namespace HijoPortal.classes
                     }
 
                     string sDefaultDimension = "";
-                    //if (row["EntityCode"].ToString().Trim() == "0000")
-                    //{
-                    //    sDefaultDimension = row["BUSSUCode"].ToString() + "__";
-                    //}
-                    //else if (row["EntityCode"].ToString().Trim() == "0303")
-                    //{
-                    //    sDefaultDimension = "_" + row["BUSSUCode"].ToString() + "_";
-                    //}
-                    //else
-                    //{
-                    //    sDefaultDimension = "";
-                    //}
 
                     if (row["EntityCode"].ToString().Trim() == "0000")
                     {
@@ -1667,23 +1647,6 @@ namespace HijoPortal.classes
                             iLineNumber = iLineNumber + 1;
                             if (File.Exists(sFileD))
                             {
-
-                                //if (row["EntityCode"].ToString().Trim() == "0000")
-                                //{
-                                //    sDefaultDimensionLine = row["BUSSUCode"].ToString() + "__";
-                                //}
-                                //else if (row["EntityCode"].ToString().Trim() == "0303")
-                                //{
-                                //    sDefaultDimensionLine = "_" + row["BUSSUCode"].ToString() + "_";
-                                //}
-                                //else if (row["EntityCode"].ToString().Trim() == "0101")
-                                //{
-                                //    sDefaultDimensionLine = "__" + row1["OprUnit"].ToString();
-                                //}
-                                //else
-                                //{
-                                //    sDefaultDimensionLine = "";
-                                //}
 
                                 if (row["EntityCode"].ToString().Trim() == "0000")
                                 {

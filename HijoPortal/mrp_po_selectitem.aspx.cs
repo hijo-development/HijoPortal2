@@ -55,7 +55,7 @@ namespace HijoPortal
         {
             //if (month == -1) return;
 
-            MainGrid_PO.DataSource = POClass.POSelecetedItemTable(docnumber, month, year, prod);
+            MainGrid_PO.DataSource = POClass.POSelecetedItemTable( Convert.ToInt32(CheckboxAll.Value), docnumber, month, year, prod);
             MainGrid_PO.KeyFieldName = "PK";
             MainGrid_PO.DataBind();
         }
