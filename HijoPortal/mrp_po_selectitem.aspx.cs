@@ -48,14 +48,18 @@ namespace HijoPortal
                 prod_static = new ArrayList();
             }
 
+
             BindTable(doc_static, month_static, year_static, prod_static);
         }
 
         private void BindTable(string docnumber, int month, string year, ArrayList prod)
         {
             //if (month == -1) return;
+            int checkedBox = 0;
+            if (CheckboxAll.Checked)
+                checkedBox = 1;
 
-            MainGrid_PO.DataSource = POClass.POSelecetedItemTable(Convert.ToInt32(CheckboxAll.Value), docnumber, month, year, prod);
+            MainGrid_PO.DataSource = POClass.POSelecetedItemTable(checkedBox, docnumber, month, year, prod);
             MainGrid_PO.KeyFieldName = "PK";
             MainGrid_PO.DataBind();
         }
@@ -275,7 +279,7 @@ namespace HijoPortal
             list.Items.Clear();
 
             string monthyear = MonthYear_Combo.Text;
-            if (!string.IsNullOrEmpty(monthyear))
+            if (!string.IsNullOrEmpty(monthyear) && ((MOPNum_Combo.Value != null) || (CheckboxAll.Checked)))
             {
                 string[] strarr = monthyear.Split(' ');
                 string month = strarr[0].ToString();
@@ -324,18 +328,18 @@ namespace HijoPortal
         protected void ProdCat_ListBox_Callback(object sender, CallbackEventArgsBase e)
         {
             ProdCat_DataBind();
-
         }
 
         protected void MainGridCallbackPanel_Callback(object sender, CallbackEventArgsBase e)
         {
+
+            MRPClass.PrintString("list selected:" + ProdCat_ListBox.SelectedItems.Count.ToString());
             ArrayList arrlist = new ArrayList();
             List<object> Temp = new List<object>();
             foreach (ListEditItem item in ProdCat_ListBox.SelectedItems)
             {
                 if (item.Selected)
                 {
-                    MRPClass.PrintString(item.Value.ToString());
                     arrlist.Add(item.Value.ToString());
                 }
                 else
