@@ -673,8 +673,8 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ActivityCode", activity_code);
             cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
-            cmd.Parameters.AddWithValue("@ItemDesc", itemDesc.Value.ToString());
-            cmd.Parameters.AddWithValue("@itemDesc2", desc_two);
+            cmd.Parameters.AddWithValue("@ItemDesc", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -775,8 +775,8 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ActivityCode", activity_code);
             cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
-            cmd.Parameters.AddWithValue("@ItemDescription", itemDesc.Value.ToString());
-            cmd.Parameters.AddWithValue("@itemDesc2", desc_two);
+            cmd.Parameters.AddWithValue("@ItemDescription", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -918,8 +918,8 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ExpenseCode", experseCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemCode", code);
-            cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
-            cmd.Parameters.AddWithValue("@itemDesc2", desc_two);
+            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -1049,8 +1049,8 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ExpenseCode", expenseCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ItemCode", code);
-            cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
-            cmd.Parameters.AddWithValue("@itemDesc2", desc_two);
+            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -1119,7 +1119,7 @@ namespace HijoPortal
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox actCode = pageControl.FindControl("ActivityCode") as ASPxComboBox;
             ASPxComboBox type = pageControl.FindControl("ManPowerTypeKeyName") as ASPxComboBox;
-            //ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
+            ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
             ASPxTextBox qty = pageControl.FindControl("Qty") as ASPxTextBox;
@@ -1156,7 +1156,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ActivityCode", actCode.Value.ToString());
             cmd.Parameters.AddWithValue("@ManPowerTypeKey", manpower_type_pk);
-            //cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
+            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -1244,7 +1244,7 @@ namespace HijoPortal
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxComboBox actCode = pageControl.FindControl("ActivityCode") as ASPxComboBox;
             ASPxComboBox type = pageControl.FindControl("ManPowerTypeKeyName") as ASPxComboBox;
-            //ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
+            ASPxTextBox itemDesc = pageControl.FindControl("Description") as ASPxTextBox;
             ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
             ASPxTextBox cost = pageControl.FindControl("Cost") as ASPxTextBox;
             ASPxTextBox qty = pageControl.FindControl("Qty") as ASPxTextBox;
@@ -1283,7 +1283,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ActivityCode", actcodeVal);
             cmd.Parameters.AddWithValue("@ManPowerTypeKey", manpower_type_pk);
-            //cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
+            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -1377,7 +1377,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
             cmd.Parameters.AddWithValue("@ProdCat", prodcat.Value.ToString());
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
+            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -1493,7 +1493,7 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
             cmd.Parameters.AddWithValue("@ProdCat", prodcat.Value.ToString());
-            cmd.Parameters.AddWithValue("@Description", itemDesc.Value.ToString());
+            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
             cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
@@ -1687,7 +1687,7 @@ namespace HijoPortal
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ProductName", product.Value.ToString());
+            cmd.Parameters.AddWithValue("@ProductName", GlobalClass.FormatSQL(product.Value.ToString()));
             //cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
             cmd.Parameters.AddWithValue("@Prize", Convert.ToDouble(prize.Value.ToString()));
             cmd.Parameters.AddWithValue("@Volume", Convert.ToDouble(volume.Value.ToString()));
@@ -2142,7 +2142,7 @@ namespace HijoPortal
             SqlCommand cmd = new SqlCommand(update_MRP, conn);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ProductName", product.Value.ToString());
+            cmd.Parameters.AddWithValue("@ProductName", GlobalClass.FormatSQL(product.Value.ToString()));
             //cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
             cmd.Parameters.AddWithValue("@Prize", Convert.ToDouble(prize.Value.ToString()));
             cmd.Parameters.AddWithValue("@Volume", Convert.ToDouble(volume.Value.ToString()));

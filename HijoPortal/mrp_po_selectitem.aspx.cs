@@ -55,7 +55,7 @@ namespace HijoPortal
         {
             //if (month == -1) return;
 
-            MainGrid_PO.DataSource = POClass.POSelecetedItemTable( Convert.ToInt32(CheckboxAll.Value), docnumber, month, year, prod);
+            MainGrid_PO.DataSource = POClass.POSelecetedItemTable(Convert.ToInt32(CheckboxAll.Value), docnumber, month, year, prod);
             MainGrid_PO.KeyFieldName = "PK";
             MainGrid_PO.DataBind();
         }
@@ -270,30 +270,55 @@ namespace HijoPortal
 
         private void ProdCat_DataBind()
         {
-            string docnum = MOPNum_Combo.Text.ToString();
-            string entCode = EntityCode.Text.ToString();
             ASPxListBox list = ProdCat_ListBox as ASPxListBox;
             list.Columns.Clear();
             list.Items.Clear();
-            list.DataSource = MRPClass.ProCategoryTable_Filter(docnum, entCode);
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "NAME";
-            l_value.Caption = "Code";
-            l_value.Width = 100;
-            list.Columns.Add(l_value);
+            string monthyear = MonthYear_Combo.Text;
+            if (!string.IsNullOrEmpty(monthyear))
+            {
+                string[] strarr = monthyear.Split(' ');
+                string month = strarr[0].ToString();
+                string year = strarr[1].ToString();
+                string docnum = "";
+                int monthindex = Convertion.MONTH_TO_INDEX(month);
+                if (!string.IsNullOrEmpty(MOPNum_Combo.Text.ToString()))
+                {
+                    docnum = MOPNum_Combo.Text.ToString();
+                }
+                list.DataSource = MRPClass.ProCategoryTable_Filter_SelectItemPO(Convert.ToInt32(year), monthindex, docnum);
+                //combo.DataSource = POClass.DocumentNumber_By_Month_Year(monthindex, year);
+                //else
+                //{
+                //    //combo.DataSource = POClass.DocumentNumber_By_Month_Year(0, "");
+                //}
 
-            ListBoxColumn l_text = new ListBoxColumn();
-            l_text.FieldName = "DESCRIPTION";
-            l_text.Caption = "Description";
-            l_text.Width = 350;
-            list.Columns.Add(l_text);
+                //string docnum = MOPNum_Combo.Text.ToString();
+                //string entCode = EntityCode.Text.ToString();
 
-            list.ValueField = "NAME";
-            list.TextField = "DESCRIPTION";
-            list.DataBind();
-            list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
-            list.ClientEnabled = true;
+
+                //list.DataSource = MRPClass.ProCategoryTable_Filter(docnum, entCode);
+                //list.DataSource = MRPClass.ProCategoryTable_Filter_SelectItemPO(docnum, entCode);
+
+
+                ListBoxColumn l_value = new ListBoxColumn();
+                l_value.FieldName = "NAME";
+                l_value.Caption = "Code";
+                l_value.Width = 100;
+                list.Columns.Add(l_value);
+
+                ListBoxColumn l_text = new ListBoxColumn();
+                l_text.FieldName = "DESCRIPTION";
+                l_text.Caption = "Description";
+                l_text.Width = 350;
+                list.Columns.Add(l_text);
+
+                list.ValueField = "NAME";
+                list.TextField = "DESCRIPTION";
+                list.DataBind();
+                list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+                list.ClientEnabled = true;
+            }
         }
 
         protected void ProdCat_ListBox_Callback(object sender, CallbackEventArgsBase e)

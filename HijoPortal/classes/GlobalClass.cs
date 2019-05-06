@@ -141,6 +141,12 @@ namespace HijoPortal.classes
             return sConnString;
         }
 
+        public static string FormatSQL(string sText)
+        {
+            string _sText = sText;
+            _sText.Replace("'", "''");
+            return _sText;
+        }
 
         public static bool IsEmailValid(string Email)
         {
