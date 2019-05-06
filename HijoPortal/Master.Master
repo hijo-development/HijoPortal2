@@ -217,7 +217,7 @@
                         <dx:SplitterPane Size="13%" ScrollBars="Auto" ShowCollapseForwardButton="True" ShowCollapseBackwardButton="True">
                             <ContentCollection>
                                 <dx:SplitterContentControl>
-                                    <dx:ASPxMenu ID="MenuBar" runat="server" Orientation="Vertical" Width="100%" Theme="Moderno" TabIndex="0" SeparatorColor="Transparent">
+                                    <dx:ASPxMenu ID="MenuBar" runat="server" Orientation="Vertical" Width="100%" Theme="Moderno" TabIndex="0" SeparatorColor="Transparent" Font-Bold="true">
                                         <ClientSideEvents ItemClick="function(s,e){loadingPanel.Show();}" />
                                     </dx:ASPxMenu>
                                 </dx:SplitterContentControl>

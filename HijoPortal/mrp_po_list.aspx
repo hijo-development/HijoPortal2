@@ -130,8 +130,8 @@
                                 </CustomButtons>
                             </dx:GridViewCommandColumn>
                             <dx:GridViewDataColumn FieldName="PK" Visible="false"></dx:GridViewDataColumn>
-                            <dx:GridViewDataColumn FieldName="PONumber" Caption="PO Number"></dx:GridViewDataColumn>
-                            <dx:GridViewDataColumn FieldName="MOPNumber" Caption="MOP Number"></dx:GridViewDataColumn>
+                            <dx:GridViewDataColumn FieldName="PONumber" Caption="PO Number" Width="130px"></dx:GridViewDataColumn>
+                            <dx:GridViewDataColumn FieldName="MOPNumber" Caption="MOP Number" Width="140px"></dx:GridViewDataColumn>
                             <dx:GridViewDataColumn FieldName="Entity" Caption="Entity"></dx:GridViewDataColumn>
                             <dx:GridViewDataColumn FieldName="BU" Caption="SSU/BU"></dx:GridViewDataColumn>
                             <dx:GridViewDataColumn FieldName="VendorName" Caption="Supplier"></dx:GridViewDataColumn>
