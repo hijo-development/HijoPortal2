@@ -206,6 +206,7 @@
                                 <Border BorderStyle="None" />
                                 <SettingsPager Mode="ShowAllRecords"></SettingsPager>
                                 <%--<SettingsBehavior AllowDragDrop="false" />--%>
+                                <SettingsBehavior AllowFocusedRow="true" />
                                 <Settings ShowGroupPanel="true" ShowFooter="true" />
                                 <GroupSummary>
                                     <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
@@ -234,6 +235,7 @@
                                 <Border BorderStyle="None" />
                                 <SettingsPager Mode="ShowAllRecords"></SettingsPager>
                                 <%--<SettingsBehavior AllowDragDrop="false" />--%>
+                                <SettingsBehavior AllowFocusedRow="true" />
                                 <Settings ShowGroupPanel="true" ShowFooter="true" />
                                 <GroupSummary>
                                     <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
@@ -262,6 +264,7 @@
                                 <Border BorderStyle="None" />
                                 <SettingsPager Mode="ShowAllRecords"></SettingsPager>
                                 <%--<SettingsBehavior AllowDragDrop="false" />--%>
+                                <SettingsBehavior AllowFocusedRow="true" />
                                 <Settings ShowGroupPanel="true" ShowFooter="true" />
                                 <GroupSummary>
                                     <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
@@ -288,6 +291,7 @@
                                 <Border BorderStyle="None" />
                                 <SettingsPager Mode="ShowAllRecords"></SettingsPager>
                                 <%--<SettingsBehavior AllowDragDrop="false" />--%>
+                                <SettingsBehavior AllowFocusedRow="true" />
                                 <Settings ShowGroupPanel="true" ShowFooter="true" />
                                 <GroupSummary>
                                     <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />

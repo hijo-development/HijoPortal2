@@ -34,8 +34,9 @@
         function ProdCat_ListBox_SelectedIndexChanged(s, e) {
             var mop = MOPNum_Combo.GetText();
             var monthyear = MonthYear_Combo.GetText();
-            if (mop.length > 0 && monthyear.length > 0)
-                MainGridCallbackPanel.PerformCallback();
+            MainGridCallbackPanel.PerformCallback();
+            //if (monthyear.length > 0)
+                
         }
 
         function ProdCat_ListBox_EndCallback(s, e) {
@@ -49,11 +50,12 @@
                 MOPNum_Combo.SetValue("");
                 MOPNum_Combo.SetText("");
                 MOPNum_Combo.SetEnabled(false);
-                ProdCat_ListBoxClient.ClearItems();
+                //ProdCat_ListBoxClient.ClearItems();
             }
             else
                 MOPNum_Combo.SetEnabled(true);
 
+            ProdCat_ListBoxClient.PerformCallback();
             MainGridCallbackPanel.PerformCallback();
 
         }

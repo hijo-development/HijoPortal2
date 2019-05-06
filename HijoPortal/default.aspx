@@ -8,7 +8,6 @@
 <head runat="server">
     <title>Log In</title>
     <link rel="stylesheet" type="text/css" href="css/LogIn.css" />
-    <%--<link rel="stylesheet" type="text/css" href="css/LogInICON.css" />--%>
     <script src="jquery/ContentPage.js" type="text/javascript"></script>
     <script type="text/javascript">
         function FilterDigit_NumberOnly_KeyPress(s, e) {
