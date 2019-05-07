@@ -26,21 +26,21 @@
         <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
     </asp:Panel>
 
-    <dx:ASPxPopupControl ID="LogsPopup" runat="server" Modal="true" CloseAction="CloseButton"
-        PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="LogsPopup" runat="server" Modal="true" CloseAction="CloseButton" PopupAnimationType="Fade" CloseAnimationType="Fade" 
+        PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="100%">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <table>
                     <tr>
                         <td>
-                            <dx:ASPxMemo ID="LogsMemo" runat="server" Height="71px" Width="250px" Theme="Office2010Blue">
+                            <dx:ASPxMemo ID="LogsMemo" runat="server" Height="71px" Width="250px" Theme="Moderno">
                                 <DisabledStyle ForeColor="Black"></DisabledStyle>
                             </dx:ASPxMemo>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: center; padding-top: 10px;">
-                            <dx:ASPxButton ID="LogsBtn" runat="server" Text="Save" Theme="Office2010Blue"
+                            <dx:ASPxButton ID="LogsBtn" runat="server" Text="Save" Theme="Moderno"
                                 OnClick="LogsBtn_Click" AutoPostBack="false">
                             </dx:ASPxButton>
                         </td>
@@ -50,21 +50,21 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="MRPNotifyPrevApp" ClientInstanceName="MRPNotifyPrevApp" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Moderno">
+    <dx:ASPxPopupControl ID="MRPNotifyPrevApp" ClientInstanceName="MRPNotifyPrevApp" runat="server" Modal="true" CloseAction="CloseButton" PopupAnimationType="Fade" CloseAnimationType="Fade"  PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="100%">
         <ContentCollection>
             <dx:PopupControlContentControl>
-                <dx:ASPxLabel ID="MRPNotifyMsgPrevApp" ClientInstanceName="MRPNotifyMsgPrevApp" runat="server" Text="" Theme="Moderno" ForeColor="Red"></dx:ASPxLabel>
+                <dx:ASPxLabel ID="MRPNotifyMsgPrevApp" ClientInstanceName="MRPNotifyMsgPrevApp" runat="server" Text="" Theme="Moderno" ForeColor="Red" Width="300"></dx:ASPxLabel>
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="MRPAccessRights" ClientInstanceName="MRPAccessRights" runat="server" Modal="true" ShowCloseButton ="false" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Moderno">
+    <dx:ASPxPopupControl ID="MRPAccessRights" ClientInstanceName="MRPAccessRights" runat="server" Modal="true" ShowCloseButton="false" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="100%">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <table style="width: 100%;" border="0">
                     <tr>
                         <td style="padding-right: 20px; padding-bottom: 20px;">
-                            <dx:ASPxLabel ID="MRPAccessRightsMsg" ClientInstanceName="MRPAccessRightsMsg" runat="server" Text="" Theme="Moderno" ForeColor="Red"></dx:ASPxLabel>
+                            <dx:ASPxLabel ID="MRPAccessRightsMsg" ClientInstanceName="MRPAccessRightsMsg" runat="server" Text="" Theme="Moderno" ForeColor="Red" Width="300"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr style ="height:10px;">
@@ -87,13 +87,13 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="PopupSubmitAppPreview" ClientInstanceName="PopupSubmitAppPreview" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Moderno">
+    <dx:ASPxPopupControl ID="PopupSubmitAppPreview" ClientInstanceName="PopupSubmitAppPreview" runat="server" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="100%">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <table style="width: 100%;" border="0">
                     <tr>
                         <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
-                            <dx:ASPxLabel runat="server" Text="Are you sure you want to approve this document?" Theme="Moderno"></dx:ASPxLabel>
+                            <dx:ASPxLabel runat="server" Text="Are you sure you want to approve this document?" Theme="Moderno" Width="300"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr>
