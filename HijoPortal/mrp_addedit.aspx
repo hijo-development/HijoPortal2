@@ -35,21 +35,21 @@
     </asp:Panel>
 
 
-    <dx:ASPxPopupControl ID="PopUpDelete" ClientInstanceName="PopUpDelete" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="PopUpDelete" ClientInstanceName="PopUpDelete" runat="server" CloseAction="CloseButton" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="100%">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <table style="width: 100%;" border="0">
                     <tr>
                         <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
-                            <dx:ASPxLabel runat="server" Text="Delete this row?" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel runat="server" Text="Delete this row?" Theme="Moderno" Width="300"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: right;">
-                            <dx:ASPxButton ID="OK_DELETE" runat="server" Text="OK" Theme="Office2010Blue" AutoPostBack="false">
+                            <dx:ASPxButton ID="OK_DELETE" runat="server" Text="OK" Theme="Moderno" AutoPostBack="false">
                                 <ClientSideEvents Click="OK_DELETE" />
                             </dx:ASPxButton>
-                            <dx:ASPxButton ID="CANCEL_DELETE" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                            <dx:ASPxButton ID="CANCEL_DELETE" runat="server" Text="CANCEL" Theme="Moderno" AutoPostBack="false">
                                 <ClientSideEvents Click="CANCEL_DELETE" />
                             </dx:ASPxButton>
                         </td>
@@ -60,33 +60,33 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="Add_Edit_MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue" ContentStyle-Paddings-Padding="20">
+    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="Add_Edit_MRPNotify" runat="server" CloseAction="CloseButton" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="100%" ContentStyle-Paddings-Padding="20">
         <ContentCollection>
             <dx:PopupControlContentControl>
-                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="Add_Edit_MRPNotificationMessage" runat="server" Text="" ForeColor="Red" Theme="Office2010Blue"></dx:ASPxLabel>
+                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="Add_Edit_MRPNotificationMessage" runat="server" Text="" ForeColor="Red" Theme="Moderno" Width="300"></dx:ASPxLabel>
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="PopupSubmit" ClientInstanceName="PopupSubmit" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="PopupSubmit" ClientInstanceName="PopupSubmit" runat="server" CloseAction="CloseButton" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="100%">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <table style="width: 100%;" border="0">
                     <tr>
                         <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
-                            <dx:ASPxLabel runat="server" Text="Are you sure you want to submit this document?" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel runat="server" Text="Are you sure you want to submit this document?" Theme="Moderno" Width="300"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: right;">
-                            <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Office2010Blue" OnClick="Submit_Click" AutoPostBack="false">
+                            <dx:ASPxButton ID="OK_SUBMIT" runat="server" Text="SUBMIT" Theme="Moderno" OnClick="Submit_Click" AutoPostBack="false">
                                 <ClientSideEvents Click="function(s,e){
                                     PopupSubmit.Hide();
                                     $find('ModalPopupExtenderLoading').show();
                                     e.processOnServer = true;
                                     }" />
                             </dx:ASPxButton>
-                            <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                            <dx:ASPxButton ID="CANCEL_SUBMIT" runat="server" Text="CANCEL" Theme="Moderno" AutoPostBack="false">
                                 <ClientSideEvents Click="function(s,e){PopupSubmit.Hide();}" />
                             </dx:ASPxButton>
                         </td>

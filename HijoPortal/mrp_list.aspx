@@ -4,11 +4,7 @@
 
 <%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script type="text/javascript">
-        function Checkbox_CheckedChanged(s, e) {
-            MonthYearComboClient.SetEnabled(s.GetChecked());
-        }
-    </script>
+    <script src="jquery/mrpList.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -31,36 +27,38 @@
         <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
     </asp:Panel>
 
-    <dx:ASPxPopupControl ID="PopUpControl" ClientInstanceName="PopUpControl" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="PopUpControl" ClientInstanceName="PopUpControl" runat="server" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <div style="padding: 20px 10px;">
                     <table class="popup-modal">
                         <tr>
                             <td>
-                                <dx:ASPxCheckBox ID="Checkbox" runat="server" Theme="Office2010Blue">
+                                <dx:ASPxCheckBox ID="Checkbox" runat="server" ClientInstanceName="CheckboxClient" CheckState="Unchecked" Theme="Moderno">
                                     <ClientSideEvents CheckedChanged="Checkbox_CheckedChanged" />
                                 </dx:ASPxCheckBox>
-                                <dx:ASPxLabel runat="server" Text="Copy Previous MOP" Theme="Office2010Blue"></dx:ASPxLabel>
+                                <dx:ASPxLabel runat="server" Text="Copy Previous MOP" Theme="Moderno"></dx:ASPxLabel>
                             </td>
                             <td>
-                                <dx:ASPxComboBox ID="MonthYearCombo" runat="server" ClientInstanceName="MonthYearComboClient" ClientEnabled="false" ValueType="System.String" Theme="Office2010Blue" OnInit="MonthYearCombo_Init"></dx:ASPxComboBox>
+                                <dx:ASPxComboBox ID="MonthYearCombo" runat="server" ClientInstanceName="MonthYearComboClient" ClientEnabled="false" DropDownRows="5" ValueType="System.String" Theme="Moderno" OnInit="MonthYearCombo_Init">
+                                    <ClientSideEvents SelectedIndexChanged="MonthYearCombo_SelectedIndexChanged" />
+                                </dx:ASPxComboBox>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <dx:ASPxComboBox ID="Month" runat="server" ValueType="System.String" NullText="Month" Theme="Office2010Blue" OnInit="Month_Init"></dx:ASPxComboBox>
+                                <dx:ASPxComboBox ID="Month" runat="server" ClientInstanceName="MonthClient" ValueType="System.String" NullText="Month" Theme="Moderno" OnInit="Month_Init">
+                                    <ClientSideEvents SelectedIndexChanged="Month_SelectedIndexChanged" />
+                                </dx:ASPxComboBox>
                             </td>
                             <td>
-                                <dx:ASPxComboBox ID="Year" runat="server" ValueType="System.String" NullText="Year" Theme="Office2010Blue" OnInit="Year_Init"></dx:ASPxComboBox>
+                                <dx:ASPxComboBox ID="Year" runat="server" ClientInstanceName="YearClient" ValueType="System.String" NullText="Year" Theme="Moderno" OnInit="Year_Init">
+                                    <ClientSideEvents SelectedIndexChanged="Year_SelectedIndexChanged" />
+                                </dx:ASPxComboBox>
                             </td>
                             <td>
-                                <dx:ASPxButton ID="BtnAdd" runat="server" Text="Add" Theme="Office2010Blue" OnClick="BtnAdd_Click">
-                                    <ClientSideEvents Click="function(s,e){
-                                    PopUpControl.Hide();
-                                    $find('ModalPopupExtenderLoading').show();
-                                    e.processOnServer = true;
-                                    }" />
+                                <dx:ASPxButton ID="BtnAdd" runat="server" ClientInstanceName="BtnAddClient" ClientEnabled="false" Text="Add" Theme="Moderno" OnClick="BtnAdd_Click">
+                                    <ClientSideEvents Click="AddNewMOP" />
                                 </dx:ASPxButton>
                             </td>
                         </tr>
@@ -70,36 +68,36 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="WarningPopUp" runat="server" Modal="true" CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="WarningPopUp" runat="server" CloseAction="CloseButton" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <div style="padding: 5px;">
-                    <dx:ASPxLabel runat="server" ID="WarningText" Text=""></dx:ASPxLabel>
+                    <dx:ASPxLabel runat="server" ID="WarningText" Text="" Theme="Moderno"></dx:ASPxLabel>
                 </div>
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="MRPNotify" runat="server" CloseAction="CloseButton" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno">
         <ContentCollection>
             <dx:PopupControlContentControl>
-                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="MRPNotificationMessage" runat="server" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="MRPNotificationMessage" runat="server" Text="" Theme="Moderno"></dx:ASPxLabel>
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="PopupDeleteMRPList" ClientInstanceName="PopupDeleteMRPList" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="PopupDeleteMRPList" ClientInstanceName="PopupDeleteMRPList" runat="server" CloseAction="CloseButton" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="100%">
         <ContentCollection>
             <dx:PopupControlContentControl>
-                <table style="width: 100%;" border="0">
+                <table style="width: 100%;">
                     <tr>
                         <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
-                            <dx:ASPxLabel runat="server" Text="Are you sure you want to delete this document?" Theme="Office2010Blue"></dx:ASPxLabel>
+                            <dx:ASPxLabel runat="server" Text="Are you sure you want to delete this document?" Theme="Moderno" Width="300px"></dx:ASPxLabel>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: right;">
-                            <dx:ASPxButton ID="OK_DELETE" runat="server" Text="DELETE" Theme="Office2010Blue" AutoPostBack="false" OnClick="OK_DELETE_Click">
+                            <dx:ASPxButton ID="OK_DELETE" runat="server" Text="DELETE" Theme="Moderno" AutoPostBack="false" OnClick="OK_DELETE_Click">
                                 <%--<ClientSideEvents Click="OK_DELETE" />--%>
                                 <ClientSideEvents Click="function(s,e){
                                     PopupDeleteMRPList.Hide();
@@ -107,7 +105,7 @@
                                     e.processOnServer = true;
                                     }" />
                             </dx:ASPxButton>
-                            <dx:ASPxButton ID="CANCEL_DELETE" runat="server" Text="CANCEL" Theme="Office2010Blue" AutoPostBack="false">
+                            <dx:ASPxButton ID="CANCEL_DELETE" runat="server" Text="CANCEL" Theme="Moderno" AutoPostBack="false">
                                 <ClientSideEvents Click="function(s,e){PopupDeleteMRPList.Hide();}" />
                             </dx:ASPxButton>
                         </td>
@@ -118,7 +116,7 @@
     </dx:ASPxPopupControl>
 
 
-    <dx:ASPxPopupControl ID="PopupSubmitMRPList" ClientInstanceName="PopupSubmitMRPList" runat="server" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue">
+    <dx:ASPxPopupControl ID="PopupSubmitMRPList" ClientInstanceName="PopupSubmitMRPList" runat="server" CloseAction="CloseButton" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Office2010Blue">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <table style="width: 100%;" border="0">
@@ -227,7 +225,7 @@
                             <EditFormLayoutProperties>
                                 <SettingsAdaptivity AdaptivityMode="SingleColumnWindowLimit" SwitchToSingleColumnAtWindowInnerWidth="800" />
                             </EditFormLayoutProperties>
-                            <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                            <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true"/>
                             <SettingsPopup>
                                 <EditForm Width="900">
                                     <SettingsAdaptivity Mode="OnWindowInnerWidth" SwitchAtWindowInnerWidth="850" />

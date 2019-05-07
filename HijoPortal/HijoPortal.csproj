@@ -165,6 +165,7 @@
     <Content Include="jquery\createAccount.js" />
     <Content Include="jquery\MRPAddEdit.js" />
     <Content Include="jquery\MRPInventAnalyst.js" />
+    <Content Include="jquery\mrpList.js" />
     <Content Include="jquery\POAddedit.js" />
     <Content Include="jquery\POCreate.js" />
     <Content Include="jquery\POList.js" />

@@ -329,7 +329,11 @@ namespace HijoPortal
 
             if (GlobalClass.CheckWorkFlowSetup(DateTime.Now, Session["EntityCode"].ToString(), Session["BUCode"].ToString()) == true)
             {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                Checkbox.CheckState = CheckState.Unchecked;
+                MonthYearCombo.Text = "";
+                Year.Text = "";
+                Month.Text = "";
                 PopUpControl.HeaderText = "MRP";
                 PopUpControl.ShowOnPageLoad = true;
 
@@ -426,6 +430,7 @@ namespace HijoPortal
                 CopyMOP = 1;
                 string[] arr = MonthYearCombo.Text.ToString().Split('-');
                 string arr_month = arr[0];
+                //MRPClass.PrintString(MonthYearCombo.Text.ToString());
                 string arr_year = arr[1];
                 PreMonth = Convertion.MONTH_TO_INDEX(arr_month);
                 PreYear = Convert.ToInt32(arr_year);
