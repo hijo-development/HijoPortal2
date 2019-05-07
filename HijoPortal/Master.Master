@@ -244,13 +244,14 @@
                                                                                 <CellStyle HorizontalAlign="Right"></CellStyle>
                                                                             </dx:GridViewDataColumn>
                                                                         </Columns>
-                                                                        <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
+                                                                        <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" AllowSort="false" AllowDragDrop="false" />
                                                                         <Styles>
                                                                             <SelectedRow Font-Bold="False" Font-Italic="False">
                                                                             </SelectedRow>
                                                                             <FocusedRow Font-Bold="False" Font-Italic="False">
                                                                             </FocusedRow>
                                                                         </Styles>
+                                                                        <SettingsPager Mode="ShowAllRecords"></SettingsPager>
                                                                     </dx:ASPxGridView>
                                                                 </div>
                                                             </td>
@@ -307,13 +308,14 @@
                                                                     <CellStyle HorizontalAlign="Right"></CellStyle>
                                                                 </dx:GridViewDataColumn>
                                                             </Columns>
-                                                            <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
+                                                            <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"  AllowSort="false" AllowDragDrop="false"  />
                                                             <Styles>
                                                                 <SelectedRow Font-Bold="False" Font-Italic="False">
                                                                 </SelectedRow>
                                                                 <FocusedRow Font-Bold="False" Font-Italic="False">
                                                                 </FocusedRow>
                                                             </Styles>
+                                                            <SettingsPager Mode="ShowAllRecords"></SettingsPager>
                                                         </dx:ASPxGridView>
                                                         <h4>Pending Purchase Order</h4>
                                                         <dx:ASPxGridView ID="grdPendingPO" runat="server"
@@ -337,13 +339,14 @@
                                                                     <HeaderStyle Font-Bold="true" />
                                                                 </dx:GridViewDataColumn>
                                                             </Columns>
-                                                            <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
+                                                            <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" AllowSort="false" AllowDragDrop="false" />
                                                             <Styles>
                                                                 <SelectedRow Font-Bold="False" Font-Italic="False">
                                                                 </SelectedRow>
                                                                 <FocusedRow Font-Bold="False" Font-Italic="False">
                                                                 </FocusedRow>
                                                             </Styles>
+                                                            <SettingsPager Mode="ShowAllRecords"></SettingsPager>
                                                         </dx:ASPxGridView>
                                                         <h4>Inventory Movement</h4>
                                                         <dx:ASPxGridView ID="grdInventMovement" runat="server"
@@ -367,7 +370,7 @@
                                                                     <HeaderStyle Font-Bold="true" />
                                                                 </dx:GridViewDataColumn>
                                                             </Columns>
-                                                            <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" />
+                                                            <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True" AllowSort="false" AllowDragDrop="false" />
                                                             <Styles>
                                                                 <SelectedRow Font-Bold="False" Font-Italic="False">
                                                                 </SelectedRow>
@@ -407,7 +410,7 @@
                             </td>
                         </tr>
                     </table>
-                    
+
                 </dx:PopupControlContentControl>
             </ContentCollection>
         </dx:ASPxPopupControl>
