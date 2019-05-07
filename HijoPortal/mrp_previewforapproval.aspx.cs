@@ -246,6 +246,13 @@ namespace HijoPortal
                 appflwln = Convert.ToInt32(Session["mrp_appLine"]);
                 DocNum.Text = Session["mrp_docNum"].ToString();
 
+                if (MRPClass.PreviewApprovalRights(Convert.ToInt32(Session["CreatorKey"]), docnum) == false)
+                {
+                    MRPAccessRightsMsg.Text = "Acces Denied!";
+                    MRPAccessRights.HeaderText = "Access Denied";
+                    MRPAccessRights.ShowOnPageLoad = true;
+                }
+
                 Load_MRP(docnum);
             }
 
@@ -361,6 +368,11 @@ namespace HijoPortal
             cn.Close();
             return dtTable;
 
+        }
+
+        protected void RightsOK_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("default.aspx");
         }
 
         public static DataTable OP(string docnumber)

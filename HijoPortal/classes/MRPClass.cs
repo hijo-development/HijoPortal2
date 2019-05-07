@@ -4110,5 +4110,47 @@ namespace HijoPortal.classes
             return isAllowed;
         }
 
+        public static bool PreviewApprovalRights(int CreatorKey, string DocNum)
+        {
+            bool isAllowed = false;
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            cn.Open();
+            string query = "SELECT tbl_MRP_List.* FROM tbl_MRP_List WHERE (DocNumber = '" + DocNum + "')";
+            cmd = new SqlCommand(query);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (GlobalClass.IsAllowed(CreatorKey, "MOPSCMLead", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "") == true)
+                    {
+                        isAllowed = true;
+                        goto RetAllowed;
+                    }
+                    if (GlobalClass.IsAllowed(CreatorKey, "MOPFinanceLead", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "") == true)
+                    {
+                        isAllowed = true;
+                        goto RetAllowed;
+                    }
+                    if (GlobalClass.IsAllowed(CreatorKey, "MOPExecutive", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "") == true)
+                    {
+                        isAllowed = true;
+                        goto RetAllowed;
+                    }
+                }
+            }
+            dt.Clear();
+            cn.Close();
+
+            RetAllowed:
+            return isAllowed;
+        }
+
     }
 }
