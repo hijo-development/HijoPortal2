@@ -12,7 +12,8 @@
 .login-box {
     width: 320px;
     height: 420px;
-    background: rgba(0,0,90, 1);
+    /*background: rgba(0,0,90, 1);*/
+    background: #0b1a3e;
     color: #fff;
     top: 50%;
     left: 50%;
@@ -64,7 +65,8 @@ h1 {
         outline: none;
         height: 40px;
         /*background: #1c8adb;*/
-        background: #39dc79;
+        /*background: #39dc79;*/
+        background: #174d14;
         color: #fff;
         font-size: 18px;
         border-radius: 20px;
@@ -84,7 +86,8 @@ h1 {
     text-decoration: none;
     font-size: 14px;
     /*color: #1c8adb;*/
-    color: #39dc79;
+    /*color: #39dc79;*/
+    color: #174d14;
     cursor: pointer;
 }
 

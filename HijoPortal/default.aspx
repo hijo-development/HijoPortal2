@@ -117,7 +117,10 @@
                                 </asp:TextBox>
                                 <p>Password</p>
                                 <asp:TextBox ID="txtPassword" placeholder="Enter Password" runat="server" TextMode="Password" onkeydown="javascript:enterEvent(event);"></asp:TextBox>
-                                <asp:Button ID="btnLogIn" runat="server" CssClass="btnlogInClass" Text="Log in" OnClientClick="function () { $find('ModalPopupExtenderLoading').show(); }" OnClick="btnLogIn_Click" />
+                                <div style="width:100%; margin-top: 15px; ">
+                                    <asp:Button ID="btnLogIn" runat="server" CssClass="btnlogInClass" Text="Log in" OnClientClick="function () { $find('ModalPopupExtenderLoading').show(); }" OnClick="btnLogIn_Click" />
+                                </div>
+                                
                                 <%--<asp:Button ID="btnCreateAccount" runat="server" Text="Create Account" OnClick="btnCreateAccount_Click" />--%>
                                 <%--<asp:HyperLink ID="HyperLink1" runat="server">Create Account?</asp:HyperLink>
             <asp:HyperLink ID="HyperLink2" runat="server">Forgot password?</asp:HyperLink>--%>
@@ -132,7 +135,7 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div style="width: 100%">
+                                <div style="width: 100%; margin-top: 15px; text-align:center;">
                                     <%--<asp:LinkButton ID="LinkButtonCreateAccount" href="create_account.aspx" runat="server" Width="100%">Create Account</asp:LinkButton>--%>
                                     <asp:Label ID="lblerror" runat="server" CssClass="text-danger" Text=""></asp:Label>
                                 </div>
