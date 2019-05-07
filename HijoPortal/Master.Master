@@ -387,6 +387,7 @@
                 </dx:SplitterPane>
             </Panes>
         </dx:ASPxSplitter>
+
         <dx:ASPxPopupControl ID="PopupLogout" ClientInstanceName="PopupLogout" runat="server" HeaderText="Log Out" Width="300px" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Moderno">
             <ContentCollection>
                 <dx:PopupControlContentControl>
@@ -410,6 +411,7 @@
                 </dx:PopupControlContentControl>
             </ContentCollection>
         </dx:ASPxPopupControl>
+
         <%--<dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%" Height="100%">
             <PanelCollection>
                 <dx:PanelContent>
