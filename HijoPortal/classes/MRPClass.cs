@@ -317,7 +317,7 @@ namespace HijoPortal.classes
                                 //cmdIn.CommandType = CommandType.Text;
                                 //cmdIn.ExecuteNonQuery();
 
-                                QuerySPClass.InsertUpdateDirectMaterials(1, 0, 0, DOC_NUMBER, Convert.ToInt32(row["TableIdentifier"]), row["ExpenseCode"].ToString(), row["ActivityCode"].ToString(), row["OprUnit"].ToString(), row["ItemCode"].ToString(), GlobalClass.FormatSQL(row["ItemDescription"].ToString()), GlobalClass.FormatSQL(row["ItemDescriptionAddl"].ToString()), row["UOM"].ToString(), Convert.ToDouble(row["Qty"]), Convert.ToDouble(row["Cost"]), Convert.ToDouble(row["TotalCost"]));
+                                QuerySPClass.InsertUpdateDirectMaterials(0, 1, 0, DOC_NUMBER, Convert.ToInt32(row["TableIdentifier"]), row["ExpenseCode"].ToString(), row["ActivityCode"].ToString(), row["OprUnit"].ToString(), row["ItemCode"].ToString(), GlobalClass.FormatSQL(row["ItemDescription"].ToString()), GlobalClass.FormatSQL(row["ItemDescriptionAddl"].ToString()), row["UOM"].ToString(), Convert.ToDouble(row["Qty"]), Convert.ToDouble(row["Cost"]), Convert.ToDouble(row["TotalCost"]));
 
                             }
                         }

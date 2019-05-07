@@ -9,15 +9,15 @@ namespace HijoPortal.classes
 {
     public class QuerySPClass
     {
-        public static void InsertUpdateDirectMaterials(int TransType, int ModuleType, int PK, string HeaderDocNum, int TableIdentifier, string ExpenseCode, string ActivityCode, string OprUnit, string ItemCode, string ItemDescription, string ItemDescriptionAddl, string UOM, Double Qty, Double Cost, Double TotalCost)
+        public static void InsertUpdateDirectMaterials(int ModuleType, int TransType, int PK, string HeaderDocNum, int TableIdentifier, string ExpenseCode, string ActivityCode, string OprUnit, string ItemCode, string ItemDescription, string ItemDescriptionAddl, string UOM, Double Qty, Double Cost, Double TotalCost)
         {
             SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
             SqlCommand cmd = null;
             cn.Open();
             cmd = new SqlCommand("sp_InsertUpdateDM", cn);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@TransType", TransType);
             cmd.Parameters.AddWithValue("@ModuleType", ModuleType);
+            cmd.Parameters.AddWithValue("@TransType", TransType);
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.Parameters.AddWithValue("@HeaderDocNum", HeaderDocNum);
             cmd.Parameters.AddWithValue("@TableIdentifier", TableIdentifier);
