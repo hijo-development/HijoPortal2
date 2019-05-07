@@ -27,10 +27,10 @@
         <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
     </asp:Panel>
 
-    <dx:ASPxPopupControl ID="POCreateNotify" ClientInstanceName="POCreate_MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Office2010Blue" ContentStyle-Paddings-Padding="20">
+    <dx:ASPxPopupControl ID="POCreateNotify" ClientInstanceName="POCreate_MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Moderno" ContentStyle-Paddings-Padding="20" Width="400px">
         <ContentCollection>
             <dx:PopupControlContentControl>
-                <dx:ASPxLabel ID="POCreateNotifyLbl" ClientInstanceName="POCreate_MRPNotificationMessage" runat="server" Text="" ForeColor="Red" Theme="Office2010Blue"></dx:ASPxLabel>
+                <dx:ASPxLabel ID="POCreateNotifyLbl" ClientInstanceName="POCreate_MRPNotificationMessage" runat="server" Text="" ForeColor="Red" Theme="Moderno"></dx:ASPxLabel>
             </dx:PopupControlContentControl>
         </ContentCollection>
     </dx:ASPxPopupControl>
