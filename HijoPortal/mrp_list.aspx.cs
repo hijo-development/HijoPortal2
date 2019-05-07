@@ -340,7 +340,7 @@ namespace HijoPortal
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                 WarningText.Text = GlobalClass.WorkFlowSetupMsg;
                 WarningText.ForeColor = System.Drawing.Color.Red;
                 WarningPopUp.HeaderText = "Alert";

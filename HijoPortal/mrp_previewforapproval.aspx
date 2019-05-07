@@ -50,7 +50,9 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="MRPNotifyPrevApp" ClientInstanceName="MRPNotifyPrevApp" runat="server" Modal="true" CloseAction="CloseButton" PopupAnimationType="Fade" CloseAnimationType="Fade"  PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="100%">
+
+    <dx:ASPxPopupControl ID="MRPNotifyPrevApp" ClientInstanceName="MRPNotifyPrevApp" runat="server" Modal="true" CloseAction="CloseButton" PopupAnimationType="Fade" CloseAnimationType="Fade"  PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="400px">
+
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <dx:ASPxLabel ID="MRPNotifyMsgPrevApp" ClientInstanceName="MRPNotifyMsgPrevApp" runat="server" Text="" Theme="Moderno" ForeColor="Red" Width="300"></dx:ASPxLabel>
@@ -58,7 +60,9 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="MRPAccessRights" ClientInstanceName="MRPAccessRights" runat="server" Modal="true" ShowCloseButton="false" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="100%">
+
+    <dx:ASPxPopupControl ID="MRPAccessRights" ClientInstanceName="MRPAccessRights" runat="server" Modal="true" ShowCloseButton="false" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="400px">
+
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <table style="width: 100%;" border="0">
@@ -87,7 +91,9 @@
         </ContentCollection>
     </dx:ASPxPopupControl>
 
-    <dx:ASPxPopupControl ID="PopupSubmitAppPreview" ClientInstanceName="PopupSubmitAppPreview" runat="server" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="100%">
+
+    <dx:ASPxPopupControl ID="PopupSubmitAppPreview" ClientInstanceName="PopupSubmitAppPreview" runat="server" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="400px">
+
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <table style="width: 100%;" border="0">

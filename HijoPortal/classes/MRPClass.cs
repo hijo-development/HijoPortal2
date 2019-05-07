@@ -312,10 +312,13 @@ namespace HijoPortal.classes
                         {
                             foreach (DataRow row in dt.Rows)
                             {
-                                qry = "INSERT INTO tbl_MRP_List_DirectMaterials (HeaderDocNum, TableIdentifier, ExpenseCode, ActivityCode, OprUnit, ItemCode, ItemDescription, ItemDescriptionAddl, UOM, Cost, Qty, TotalCost, EdittedQty, EdittedCost, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', "+ Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["ExpenseCode"].ToString() + "', '" + row["ActivityCode"].ToString() +"', '"+ row["OprUnit"].ToString() +"', '"+ row["ItemCode"].ToString() +"', '"+ GlobalClass.FormatSQL(row["ItemDescription"].ToString()) +"', '"+ GlobalClass.FormatSQL(row["ItemDescriptionAddl"].ToString()) +"', '"+ row["UOM"].ToString() +"', "+ Convert.ToDouble(row["Cost"]) +", "+ Convert.ToDouble(row["Qty"]) +", "+ Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
-                                cmdIn = new SqlCommand(qry, cn);
-                                cmdIn.CommandType = CommandType.Text;
-                                cmdIn.ExecuteNonQuery();
+                                //qry = "INSERT INTO tbl_MRP_List_DirectMaterials (HeaderDocNum, TableIdentifier, ExpenseCode, ActivityCode, OprUnit, ItemCode, ItemDescription, ItemDescriptionAddl, UOM, Cost, Qty, TotalCost, EdittedQty, EdittedCost, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', "+ Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["ExpenseCode"].ToString() + "', '" + row["ActivityCode"].ToString() +"', '"+ row["OprUnit"].ToString() +"', '"+ row["ItemCode"].ToString() +"', '"+ GlobalClass.FormatSQL(row["ItemDescription"].ToString()) +"', '"+ GlobalClass.FormatSQL(row["ItemDescriptionAddl"].ToString()) +"', '"+ row["UOM"].ToString() +"', "+ Convert.ToDouble(row["Cost"]) +", "+ Convert.ToDouble(row["Qty"]) +", "+ Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
+                                //cmdIn = new SqlCommand(qry, cn);
+                                //cmdIn.CommandType = CommandType.Text;
+                                //cmdIn.ExecuteNonQuery();
+
+                                QuerySPClass.InsertUpdateDirectMaterials(1, 0, 0, DOC_NUMBER, Convert.ToInt32(row["TableIdentifier"]), row["ExpenseCode"].ToString(), row["ActivityCode"].ToString(), row["OprUnit"].ToString(), row["ItemCode"].ToString(), GlobalClass.FormatSQL(row["ItemDescription"].ToString()), GlobalClass.FormatSQL(row["ItemDescriptionAddl"].ToString()), row["UOM"].ToString(), Convert.ToDouble(row["Qty"]), Convert.ToDouble(row["Cost"]), Convert.ToDouble(row["TotalCost"]));
+
                             }
                         }
                         dt.Clear();
@@ -384,7 +387,7 @@ namespace HijoPortal.classes
                         {
                             foreach (DataRow row in dt.Rows)
                             {
-                                qry = "INSERT INTO tbl_MRP_List_RevenueAssumptions (HeaderDocNum, OprUnit, ProductName, FarmName, Prize, Volume, TotalPrize) VALUES ('" + DOC_NUMBER + "', '" + row["OprUnit"].ToString() + "', '" + GlobalClass.FormatSQL(row["ProductName"].ToString()) + "', '" + GlobalClass.FormatSQL(row["FarmName"].ToString()) + "', '" + GlobalClass.FormatSQL(row["Description"].ToString()) + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Prize"]) + ", " + Convert.ToDouble(row["Volume"]) + ", " + Convert.ToDouble(row["TotalPrize"]) + ")";
+                                qry = "INSERT INTO tbl_MRP_List_RevenueAssumptions (HeaderDocNum, OprUnit, ProductName, FarmName, Prize, Volume, TotalPrize) VALUES ('" + DOC_NUMBER + "', '" + row["OprUnit"].ToString() + "', '" + GlobalClass.FormatSQL(row["ProductName"].ToString()) + "', '" + GlobalClass.FormatSQL(row["FarmName"].ToString()) + "', " + Convert.ToDouble(row["Prize"]) + ", " + Convert.ToDouble(row["Volume"]) + ", " + Convert.ToDouble(row["TotalPrize"]) + ")";
                                 cmdIn = new SqlCommand(qry, cn);
                                 cmdIn.CommandType = CommandType.Text;
                                 cmdIn.ExecuteNonQuery();
