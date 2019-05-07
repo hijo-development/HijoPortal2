@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
 
     $("#LogOut").click(function (e) {
-        PopupLogout.SetHeaderText("Alert");
         PopupLogout.Show();
     });
 

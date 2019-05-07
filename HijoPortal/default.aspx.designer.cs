@@ -13,6 +13,15 @@ namespace HijoPortal {
     public partial class _default {
         
         /// <summary>
+        /// headID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlHead headID;
+        
+        /// <summary>
         /// form1 control.
         /// </summary>
         /// <remarks>

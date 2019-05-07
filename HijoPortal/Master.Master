@@ -95,7 +95,7 @@
                     <ContentCollection>
                         <dx:SplitterContentControl>
                             <div id="dvBanner" runat="server" style="height: auto;">
-                                <dx:ASPxPopupControl ID="ASPxPopupControl1" runat="server" ClientInstanceName="PopUpInfoClient" HeaderText="Information" Theme="Moderno" Width="300px" Height="100%" PopupAnimationType="Fade" CloseAnimationType="Fade">
+                                <dx:ASPxPopupControl ID="ASPxPopupControl1" runat="server" ClientInstanceName="PopUpInfoClient" HeaderText="Information" Theme="Moderno" Width="300px" Height="100%" PopupAnimationType="Fade" CloseAnimationType="Fade" AutoUpdatePosition="false">
                                     <ContentCollection>
                                         <dx:PopupControlContentControl>
                                             <table style="width: 100%;" class="popup_table">
@@ -388,7 +388,7 @@
             </Panes>
         </dx:ASPxSplitter>
 
-        <dx:ASPxPopupControl ID="PopupLogout" ClientInstanceName="PopupLogout" runat="server" HeaderText="Log Out" Width="300px" Modal="true" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Moderno">
+        <dx:ASPxPopupControl ID="PopupLogout" ClientInstanceName="PopupLogout" runat="server" HeaderText="Log Out" Width="300px" CloseAction="CloseButton" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" Theme="Moderno" AutoUpdatePosition="true">
             <ContentCollection>
                 <dx:PopupControlContentControl>
                     <table style="width: 100%;" border="0">
@@ -407,7 +407,7 @@
                             </td>
                         </tr>
                     </table>
-
+                    
                 </dx:PopupControlContentControl>
             </ContentCollection>
         </dx:ASPxPopupControl>
