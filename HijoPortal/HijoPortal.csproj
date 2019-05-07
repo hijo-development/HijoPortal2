@@ -259,6 +259,7 @@
     <Compile Include="classes\POClass.cs" />
     <Compile Include="classes\PO_Constants.cs" />
     <Compile Include="classes\Preview.cs" />
+    <Compile Include="classes\QuerySPClass.cs" />
     <Compile Include="classes\SCMClass.cs" />
     <Compile Include="classes\WorkflowClass.cs" />
     <Compile Include="createaccount.aspx.cs">
