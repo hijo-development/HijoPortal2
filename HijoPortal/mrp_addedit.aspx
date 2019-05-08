@@ -1424,7 +1424,7 @@
                                                                             <CellStyle HorizontalAlign="Right"></CellStyle>
                                                                             <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                                         </dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="Prize" VisibleIndex="7" CellStyle-HorizontalAlign="Right">
+                                                                        <dx:GridViewDataColumn FieldName="Prize" Caption ="Price" VisibleIndex="7" CellStyle-HorizontalAlign="Right">
                                                                             <HeaderStyle HorizontalAlign="Right" />
                                                                             <CellStyle HorizontalAlign="Right"></CellStyle>
                                                                         </dx:GridViewDataColumn>
@@ -1450,8 +1450,8 @@
                                                                     <SettingsLoadingPanel Mode="Disabled" />
 
                                                                     <TotalSummary>
-                                                                        <dx:ASPxSummaryItem FieldName="TotalCost" SummaryType="Sum" ShowInColumn="TotalCost" DisplayFormat="Total: {0:0,0.00}" />
-                                                                        <dx:ASPxSummaryItem FieldName="Qty" SummaryType="Sum" ShowInColumn="Qty" DisplayFormat="Total: {0:0,0.00}" />
+                                                                        <dx:ASPxSummaryItem FieldName="Volume" SummaryType="Sum" ShowInColumn="Volume" DisplayFormat="Total: {0:0,0.00}" />
+                                                                        <dx:ASPxSummaryItem FieldName="TotalPrize" SummaryType="Sum" ShowInColumn="TotalPrize" DisplayFormat="Total: {0:0,0.00}" />
                                                                     </TotalSummary>
 
                                                                     <Templates>

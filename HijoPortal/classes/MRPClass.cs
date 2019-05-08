@@ -156,20 +156,22 @@ namespace HijoPortal.classes
             dt.Clear();
 
             //Insert MRP
-            qry = "INSERT INTO [dbo].[tbl_MRP_List] ([DocNumber], [DateCreated], [EntityCode], [BUCode], [MRPMonth], [MRPYear], [StatusKey], [CreatorKey], [LastModified]) VALUES (@DocNumber, @DateCreated, @EntityCode, @BUCode, @Month, @Year, @StatusKey, @CreatorKey, @LastModified)";
+            //qry = "INSERT INTO [dbo].[tbl_MRP_List] ([DocNumber], [DateCreated], [EntityCode], [BUCode], [MRPMonth], [MRPYear], [StatusKey], [CreatorKey], [LastModified]) VALUES (@DocNumber, @DateCreated, @EntityCode, @BUCode, @Month, @Year, @StatusKey, @CreatorKey, @LastModified)";
 
-            cmdIn = new SqlCommand(qry, cn);
-            cmdIn.Parameters.AddWithValue("@DocNumber", DOC_NUMBER);
-            cmdIn.Parameters.AddWithValue("@DateCreated", DATE_CREATED);
-            cmdIn.Parameters.AddWithValue("@EntityCode", ENTITY_CODE);
-            cmdIn.Parameters.AddWithValue("@BUCode", BU_CODE);
-            cmdIn.Parameters.AddWithValue("@Month", MRP_MONTH);
-            cmdIn.Parameters.AddWithValue("@Year", MRP_YEAR);
-            cmdIn.Parameters.AddWithValue("@StatusKey", STATUS_KEY);
-            cmdIn.Parameters.AddWithValue("@CreatorKey", CREATOR_KEY);
-            cmdIn.Parameters.AddWithValue("@LastModified", DATE_CREATED.ToString("MM/dd/yyyy hh:mm:ss tt"));
-            cmdIn.CommandType = CommandType.Text;
-            cmdIn.ExecuteNonQuery();
+            //cmdIn = new SqlCommand(qry, cn);
+            //cmdIn.Parameters.AddWithValue("@DocNumber", DOC_NUMBER);
+            //cmdIn.Parameters.AddWithValue("@DateCreated", DATE_CREATED);
+            //cmdIn.Parameters.AddWithValue("@EntityCode", ENTITY_CODE);
+            //cmdIn.Parameters.AddWithValue("@BUCode", BU_CODE);
+            //cmdIn.Parameters.AddWithValue("@Month", MRP_MONTH);
+            //cmdIn.Parameters.AddWithValue("@Year", MRP_YEAR);
+            //cmdIn.Parameters.AddWithValue("@StatusKey", STATUS_KEY);
+            //cmdIn.Parameters.AddWithValue("@CreatorKey", CREATOR_KEY);
+            //cmdIn.Parameters.AddWithValue("@LastModified", DATE_CREATED.ToString("MM/dd/yyyy hh:mm:ss tt"));
+            //cmdIn.CommandType = CommandType.Text;
+            //cmdIn.ExecuteNonQuery();
+
+            QuerySPClass.InsertMRPList(DOC_NUMBER, DATE_CREATED, ENTITY_CODE, BU_CODE, MRP_MONTH, MRP_YEAR, STATUS_KEY, Convert.ToInt32(CREATOR_KEY), DATE_CREATED.ToString("MM/dd/yyyy hh:mm:ss tt"));
 
             //Get MRP Key
             int MRPKey = 0;
@@ -317,8 +319,14 @@ namespace HijoPortal.classes
                                 //cmdIn.CommandType = CommandType.Text;
                                 //cmdIn.ExecuteNonQuery();
 
-                                QuerySPClass.InsertUpdateDirectMaterials(0, 1, 0, DOC_NUMBER, Convert.ToInt32(row["TableIdentifier"]), row["ExpenseCode"].ToString(), row["ActivityCode"].ToString(), row["OprUnit"].ToString(), row["ItemCode"].ToString(), GlobalClass.FormatSQL(row["ItemDescription"].ToString()), GlobalClass.FormatSQL(row["ItemDescriptionAddl"].ToString()), row["UOM"].ToString(), Convert.ToDouble(row["Qty"]), Convert.ToDouble(row["Cost"]), Convert.ToDouble(row["TotalCost"]));
+                                int result = QuerySPClass.InsertUpdateDirectMaterials(0, 1, 0, DOC_NUMBER, Convert.ToInt32(row["TableIdentifier"]), row["ExpenseCode"].ToString(), row["ActivityCode"].ToString(), row["OprUnit"].ToString(), row["ItemCode"].ToString(), GlobalClass.FormatSQL(row["ItemDescription"].ToString()), GlobalClass.FormatSQL(row["ItemDescriptionAddl"].ToString()), row["UOM"].ToString(), Convert.ToDouble(row["Qty"]), Convert.ToDouble(row["Cost"]), Convert.ToDouble(row["TotalCost"]));
 
+                                if (result > 0)
+                                {
+                                    MRPClass.UpdateLastModified(cn, DOC_NUMBER);
+                                    string mrp_remarks = MRPClass.directmaterials_logs + "-" + MRPClass.add_logs;
+                                    MRPClass.AddLogsMOPList(cn, MRPKey, mrp_remarks);
+                                }
                             }
                         }
                         dt.Clear();
@@ -333,10 +341,17 @@ namespace HijoPortal.classes
                         {
                             foreach (DataRow row in dt.Rows)
                             {
-                                qry = "INSERT INTO tbl_MRP_List_OPEX (HeaderDocNum, TableIdentifier, ExpenseCode, OprUnit, ProcCat, ItemCode, Description, DescriptionAddl, UOM, Cost, Qty, TotalCost, EdittedQty, EdittedCost, EdittedTotalCost) VALUES ('" + DOC_NUMBER + "', " + Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["ExpenseCode"].ToString() + "', '" + row["OprUnit"].ToString() + "', '"+ row["ProcCat"].ToString() +"', '" + row["ItemCode"].ToString() + "', '" + GlobalClass.FormatSQL(row["Description"].ToString()) + "', '" + GlobalClass.FormatSQL(row["DescriptionAddl"].ToString()) + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
-                                cmdIn = new SqlCommand(qry, cn);
-                                cmdIn.CommandType = CommandType.Text;
-                                cmdIn.ExecuteNonQuery();
+                                //qry = "INSERT INTO tbl_MRP_List_OPEX (HeaderDocNum, TableIdentifier, ExpenseCode, OprUnit, ProcCat, ItemCode, Description, DescriptionAddl, UOM, Cost, Qty, TotalCost, EdittedQty, EdittedCost, EdittedTotalCost) VALUES ('" + DOC_NUMBER + "', " + Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["ExpenseCode"].ToString() + "', '" + row["OprUnit"].ToString() + "', '"+ row["ProcCat"].ToString() +"', '" + row["ItemCode"].ToString() + "', '" + GlobalClass.FormatSQL(row["Description"].ToString()) + "', '" + GlobalClass.FormatSQL(row["DescriptionAddl"].ToString()) + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
+                                //cmdIn = new SqlCommand(qry, cn);
+                                //cmdIn.CommandType = CommandType.Text;
+                                //cmdIn.ExecuteNonQuery();
+                                int result = QuerySPClass.InsertUpdateOperatingExpense(0, 1, 0, DOC_NUMBER, Convert.ToInt32(row["TableIdentifier"]), row["ExpenseCode"].ToString(), row["OprUnit"].ToString(), row["ProcCat"].ToString(), row["ItemCode"].ToString(), GlobalClass.FormatSQL(row["Description"].ToString()), GlobalClass.FormatSQL(row["DescriptionAddl"].ToString()), row["UOM"].ToString(), Convert.ToDouble(row["Qty"]), Convert.ToDouble(row["Cost"]), Convert.ToDouble(row["TotalCost"]));
+                                if (result > 0)
+                                {
+                                    MRPClass.UpdateLastModified(cn, DOC_NUMBER);
+                                    string mrp_remarks = MRPClass.opex_logs + "-" + MRPClass.add_logs;
+                                    MRPClass.AddLogsMOPList(cn, MRPKey, mrp_remarks);
+                                }
                             }
                         }
                         dt.Clear();
@@ -351,10 +366,17 @@ namespace HijoPortal.classes
                         {
                             foreach (DataRow row in dt.Rows)
                             {
-                                qry = "INSERT INTO tbl_MRP_List_ManPower (HeaderDocNum, TableIdentifier, ActivityCode, ManPowerTypeKey, OprUnit, Description, UOM, Cost, Qty, TotalCost, EdittedQty, EdittedCost, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', " + Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["ActivityCode"].ToString() + "', " + Convert.ToInt32(row["ManPowerTypeKey"]) + ", '" + row["OprUnit"].ToString() + "', '" + GlobalClass.FormatSQL(row["Description"].ToString()) + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
-                                cmdIn = new SqlCommand(qry, cn);
-                                cmdIn.CommandType = CommandType.Text;
-                                cmdIn.ExecuteNonQuery();
+                                //qry = "INSERT INTO tbl_MRP_List_ManPower (HeaderDocNum, TableIdentifier, ActivityCode, ManPowerTypeKey, OprUnit, Description, UOM, Cost, Qty, TotalCost, EdittedQty, EdittedCost, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', " + Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["ActivityCode"].ToString() + "', " + Convert.ToInt32(row["ManPowerTypeKey"]) + ", '" + row["OprUnit"].ToString() + "', '" + GlobalClass.FormatSQL(row["Description"].ToString()) + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
+                                //cmdIn = new SqlCommand(qry, cn);
+                                //cmdIn.CommandType = CommandType.Text;
+                                //cmdIn.ExecuteNonQuery();
+                                int result = QuerySPClass.InsertUpdateManPower(0, 1, 0, DOC_NUMBER, Convert.ToInt32(row["TableIdentifier"]), row["ActivityCode"].ToString(), row["OprUnit"].ToString(), Convert.ToInt32(row["ManPowerTypeKey"]), GlobalClass.FormatSQL(row["Description"].ToString()), row["UOM"].ToString(), Convert.ToDouble(row["Qty"]), Convert.ToDouble(row["Cost"]), Convert.ToDouble(row["TotalCost"]));
+                                if (result > 0)
+                                {
+                                    MRPClass.UpdateLastModified(cn, DOC_NUMBER);
+                                    string mrp_remarks = MRPClass.manpower_logs + "-" + MRPClass.add_logs;
+                                    MRPClass.AddLogsMOPList(cn, MRPKey, mrp_remarks);
+                                }
                             }
                         }
                         dt.Clear();
@@ -369,10 +391,17 @@ namespace HijoPortal.classes
                         {
                             foreach (DataRow row in dt.Rows)
                             {
-                                qry = "INSERT INTO tbl_MRP_List_CAPEX (HeaderDocNum, TableIdentifier, OprUnit, ProdCat, Description, UOM, Cost, Qty, TotalCost, EdittedQty, EdittedCost, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', " + Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["OprUnit"].ToString() + "', '"+ row["ProdCat"].ToString() +"', '" + GlobalClass.FormatSQL(row["Description"].ToString()) + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
-                                cmdIn = new SqlCommand(qry, cn);
-                                cmdIn.CommandType = CommandType.Text;
-                                cmdIn.ExecuteNonQuery();
+                                //qry = "INSERT INTO tbl_MRP_List_CAPEX (HeaderDocNum, TableIdentifier, OprUnit, ProdCat, Description, UOM, Cost, Qty, TotalCost, EdittedQty, EdittedCost, EdittiedTotalCost) VALUES ('" + DOC_NUMBER + "', " + Convert.ToInt32(row["TableIdentifier"]) + ", '" + row["OprUnit"].ToString() + "', '"+ row["ProdCat"].ToString() +"', '" + GlobalClass.FormatSQL(row["Description"].ToString()) + "', '" + row["UOM"].ToString() + "', " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ", " + Convert.ToDouble(row["Qty"]) + ", " + Convert.ToDouble(row["Cost"]) + ", " + Convert.ToDouble(row["TotalCost"]) + ")";
+                                //cmdIn = new SqlCommand(qry, cn);
+                                //cmdIn.CommandType = CommandType.Text;
+                                //cmdIn.ExecuteNonQuery();
+                                int result = QuerySPClass.InsertUpdateCapitalExpenditures(0, 1, 0, DOC_NUMBER, Convert.ToInt32(row["TableIdentifier"]), row["OprUnit"].ToString(), row["ProdCat"].ToString(), GlobalClass.FormatSQL(row["Description"].ToString()), row["UOM"].ToString(), Convert.ToDouble(row["Qty"]), Convert.ToDouble(row["Cost"]), Convert.ToDouble(row["TotalCost"]));
+                                if (result > 0)
+                                {
+                                    MRPClass.UpdateLastModified(cn, DOC_NUMBER);
+                                    string mrp_remarks = MRPClass.capex_logs + "-" + MRPClass.add_logs;
+                                    MRPClass.AddLogsMOPList(cn, MRPKey, mrp_remarks);
+                                }
                             }
                         }
                         dt.Clear();
@@ -387,10 +416,17 @@ namespace HijoPortal.classes
                         {
                             foreach (DataRow row in dt.Rows)
                             {
-                                qry = "INSERT INTO tbl_MRP_List_RevenueAssumptions (HeaderDocNum, OprUnit, ProductName, FarmName, Prize, Volume, TotalPrize) VALUES ('" + DOC_NUMBER + "', '" + row["OprUnit"].ToString() + "', '" + GlobalClass.FormatSQL(row["ProductName"].ToString()) + "', '" + GlobalClass.FormatSQL(row["FarmName"].ToString()) + "', " + Convert.ToDouble(row["Prize"]) + ", " + Convert.ToDouble(row["Volume"]) + ", " + Convert.ToDouble(row["TotalPrize"]) + ")";
-                                cmdIn = new SqlCommand(qry, cn);
-                                cmdIn.CommandType = CommandType.Text;
-                                cmdIn.ExecuteNonQuery();
+                                //qry = "INSERT INTO tbl_MRP_List_RevenueAssumptions (HeaderDocNum, OprUnit, ProductName, FarmName, Prize, Volume, TotalPrize) VALUES ('" + DOC_NUMBER + "', '" + row["OprUnit"].ToString() + "', '" + GlobalClass.FormatSQL(row["ProductName"].ToString()) + "', '" + GlobalClass.FormatSQL(row["FarmName"].ToString()) + "', " + Convert.ToDouble(row["Prize"]) + ", " + Convert.ToDouble(row["Volume"]) + ", " + Convert.ToDouble(row["TotalPrize"]) + ")";
+                                //cmdIn = new SqlCommand(qry, cn);
+                                //cmdIn.CommandType = CommandType.Text;
+                                //cmdIn.ExecuteNonQuery();
+                                int result = QuerySPClass.InsertUpdateRevenueAssumptions(1, 0, DOC_NUMBER, row["OprUnit"].ToString(), GlobalClass.FormatSQL(row["ProductName"].ToString()), GlobalClass.FormatSQL(row["FarmName"].ToString()), Convert.ToDouble(row["Prize"]), Convert.ToDouble(row["Volume"]), Convert.ToDouble(row["TotalPrize"]));
+                                if (result > 0)
+                                {
+                                    MRPClass.UpdateLastModified(cn, DOC_NUMBER);
+                                    string mrp_remarks = MRPClass.revenueassumption_logs + "-" + MRPClass.add_logs;
+                                    MRPClass.AddLogsMOPList(cn, MRPKey, mrp_remarks);
+                                }
                             }
                         }
                         dt.Clear();

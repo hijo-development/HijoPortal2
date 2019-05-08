@@ -364,6 +364,8 @@ namespace HijoPortal
             {
                 HttpCookie cookie_value = null;
                 HttpCookie cookie_text = null;
+                HttpCookie cookie_value_act = null;
+                HttpCookie cookie_text_act = null;
                 switch (combo.ClientInstanceName)
                 {
                     case "ActivityCodeDirect":
@@ -378,19 +380,17 @@ namespace HijoPortal
                         }
                         break;
                     case "ActivityCodeMAN":
-                        cookie_value = Request.Cookies["manvalue"];
-                        cookie_text = Request.Cookies["mantext"];
-                        if (cookie_value != null && cookie_text != null)
+                        cookie_value_act = Request.Cookies["manvalue"];
+                        cookie_text_act = Request.Cookies["mantext"];
+                        if (cookie_value_act != null && cookie_text_act != null)
                         {
-                            object val = cookie_value.Value;
-                            object text = cookie_text.Value;
-                            combo.Value = val;
-                            combo.Text = text.ToString();
+                            object valAct = cookie_value_act.Value;
+                            object textAct = cookie_text_act.Value;
+                            combo.Value = valAct;
+                            combo.Text = textAct.ToString();
                         }
                         break;
                 }
-
-
             }
         }
 
@@ -659,29 +659,48 @@ namespace HijoPortal
             if (expcode.Value != null)
                 exp_code = expcode.Value.ToString();
 
-            string insert = "INSERT INTO " + MRPClass.DirectMatTable() +
-                            " ([HeaderDocNum], [ActivityCode], [ItemCode], [ItemDescription], [UOM], " +
-                            " [Cost], [Qty], [TotalCost], [OprUnit], " +
-                            " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
-                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost], [ItemDescriptionAddl], [ExpenseCode]) " +
-                            " VALUES (@HeaderDocNum, @ActivityCode, @ItemCode, @ItemDesc, @UOM, " +
-                            " @Cost, @Qty, @TotalCost, @OprUnit, " +
-                            " @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost, @itemDesc2, @ExpenseCode)";
+            //string insert = "INSERT INTO " + MRPClass.DirectMatTable() +
+            //                " ([HeaderDocNum], [ActivityCode], [ItemCode], [ItemDescription], [UOM], " +
+            //                " [Cost], [Qty], [TotalCost], [OprUnit], " +
+            //                " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
+            //                " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost], [ItemDescriptionAddl], [ExpenseCode]) " +
+            //                " VALUES (@HeaderDocNum, @ActivityCode, @ItemCode, @ItemDesc, @UOM, " +
+            //                " @Cost, @Qty, @TotalCost, @OprUnit, " +
+            //                " @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost, @itemDesc2, @ExpenseCode)";
 
-            SqlCommand cmd = new SqlCommand(insert, conn);
-            cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
-            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ActivityCode", activity_code);
-            cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
-            cmd.Parameters.AddWithValue("@ItemDesc", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
-            cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
-            cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
-            cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
-            cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@ExpenseCode", exp_code);
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
+            //SqlCommand cmd = new SqlCommand(insert, conn);
+            //cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@ActivityCode", activity_code);
+            //cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
+            //cmd.Parameters.AddWithValue("@ItemDesc", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
+            //cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@ExpenseCode", exp_code);
+            //cmd.CommandType = CommandType.Text;
+
+            //SqlCommand cmd = new SqlCommand("sp_InsertUpdateDM", conn);
+            //cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.AddWithValue("@ModuleType", wrkflwln);
+            //cmd.Parameters.AddWithValue("@TransType", 1);
+            //cmd.Parameters.AddWithValue("@PK", 0);
+            //cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            //cmd.Parameters.AddWithValue("@TableIdentifier", 1);
+            //cmd.Parameters.AddWithValue("@ExpenseCode", exp_code);
+            //cmd.Parameters.AddWithValue("@ActivityCode", activity_code);
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
+            //cmd.Parameters.AddWithValue("@ItemDescription", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@ItemDescriptionAddl", GlobalClass.FormatSQL(desc_two));
+            //cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            //int result = cmd.ExecuteNonQuery();
+            int result = QuerySPClass.InsertUpdateDirectMaterials(wrkflwln, 1, 0, docnumber, 1, exp_code, activity_code, operating_unit, itemCode.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
             if (result > 0)
             {
                 string remarks = MRPClass.directmaterials_logs + "-" + MRPClass.add_logs;
@@ -747,7 +766,8 @@ namespace HijoPortal
 
             string activity_code = "";
             if (actCode.Value != null)
-                activity_code = MRPClass.ActivityCodeDESCRIPTION(actCode.Value.ToString());
+                //activity_code = MRPClass.ActivityCodeDESCRIPTION(actCode.Value.ToString());
+                activity_code = actCode.Value.ToString();
 
             string operating_unit = "";
             if (opunit.Value != null)
@@ -762,29 +782,48 @@ namespace HijoPortal
                 exp_code = expcode.Value.ToString();
 
 
-            string update_MRP = "UPDATE " + MRPClass.DirectMatTable() +
-                                " SET [ActivityCode] = @ActivityCode, [ItemCode] = @ItemCode , " +
-                                " [ItemDescription] = @ItemDescription, [UOM]= @UOM, " +
-                                " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
-                                " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
-                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost, [ItemDescriptionAddl] = @itemDesc2, [ExpenseCode] = @ExpenseCode " +
-                                " WHERE [PK] = @PK";
+            //string update_MRP = "UPDATE " + MRPClass.DirectMatTable() +
+            //                    " SET [ActivityCode] = @ActivityCode, [ItemCode] = @ItemCode , " +
+            //                    " [ItemDescription] = @ItemDescription, [UOM]= @UOM, " +
+            //                    " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
+            //                    " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
+            //                    " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost, [ItemDescriptionAddl] = @itemDesc2, [ExpenseCode] = @ExpenseCode " +
+            //                    " WHERE [PK] = @PK";
 
-            SqlCommand cmd = new SqlCommand(update_MRP, conn);
-            cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ActivityCode", activity_code);
-            cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
-            cmd.Parameters.AddWithValue("@ItemDescription", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
-            cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
-            cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
-            cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
-            cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@ExpenseCode", exp_code);
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
+            //SqlCommand cmd = new SqlCommand(update_MRP, conn);
+            //cmd.Parameters.AddWithValue("@PK", PK);
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@ActivityCode", activity_code);
+            //cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
+            //cmd.Parameters.AddWithValue("@ItemDescription", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
+            //cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@ExpenseCode", exp_code);
 
+            //MRPClass.PrintString(activity_code);
+
+            //SqlCommand cmd = new SqlCommand("sp_InsertUpdateDM", conn);
+            //cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.AddWithValue("@ModuleType", wrkflwln);
+            //cmd.Parameters.AddWithValue("@TransType", 2);
+            //cmd.Parameters.AddWithValue("@PK", PK);
+            //cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            //cmd.Parameters.AddWithValue("@TableIdentifier", 1);
+            //cmd.Parameters.AddWithValue("@ExpenseCode", exp_code);
+            //cmd.Parameters.AddWithValue("@ActivityCode", activity_code);
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@ItemCode", itemCode.Value.ToString());
+            //cmd.Parameters.AddWithValue("@ItemDescription", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@ItemDescriptionAddl", GlobalClass.FormatSQL(desc_two));
+            //cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            //int result = cmd.ExecuteNonQuery();
+            int result = QuerySPClass.InsertUpdateDirectMaterials(wrkflwln, 2, Convert.ToInt32(PK), docnumber,1, exp_code, activity_code, operating_unit, itemCode.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -893,7 +932,7 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string insert = "INSERT INTO " + MRPClass.OpexTable() + " ([HeaderDocNum], [ExpenseCode], [ItemCode], [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit], [EdittedQty], [EdittedCost], [EdittedTotalCost], [ApprovedQty], [ApprovedCost], [ApprovedTotalCost],  [DescriptionAddl], [ProcCat]) VALUES (@HeaderDocNum, @ExpenseCode, @ItemCode, @Description, @UOM, @Cost, @Qty, @TotalCost, @OprUnit, @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost, @itemDesc2, @ProcCat)";
+            //string insert = "INSERT INTO " + MRPClass.OpexTable() + " ([HeaderDocNum], [ExpenseCode], [ItemCode], [Description], [UOM], [Cost], [Qty], [TotalCost], [OprUnit], [EdittedQty], [EdittedCost], [EdittedTotalCost], [ApprovedQty], [ApprovedCost], [ApprovedTotalCost],  [DescriptionAddl], [ProcCat]) VALUES (@HeaderDocNum, @ExpenseCode, @ItemCode, @Description, @UOM, @Cost, @Qty, @TotalCost, @OprUnit, @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost, @itemDesc2, @ProcCat)";
 
             string code = "";
             if (itemCode.Value != null) code = itemCode.Value.ToString();
@@ -911,23 +950,23 @@ namespace HijoPortal
             if (ProCatCode.Value != null)
                 prod_cat = ProCatCode.Value.ToString();
 
-            MRPClass.PrintString(prod_cat);
+            //MRPClass.PrintString(prod_cat);
 
-            SqlCommand cmd = new SqlCommand(insert, conn);
-            cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
-            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ExpenseCode", experseCode.Value.ToString());
-            cmd.Parameters.AddWithValue("@ItemCode", code);
-            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
-            cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
-            cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
-            cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
-            cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@ProcCat", prod_cat);
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
-
+            //SqlCommand cmd = new SqlCommand(insert, conn);
+            //cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@ExpenseCode", experseCode.Value.ToString());
+            //cmd.Parameters.AddWithValue("@ItemCode", code);
+            //cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
+            //cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@ProcCat", prod_cat);
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
+            int result = QuerySPClass.InsertUpdateOperatingExpense(wrkflwln, 1, 0, docnumber, 2, experseCode.Value.ToString(), operating_unit, prod_cat, code, GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1025,7 +1064,7 @@ namespace HijoPortal
 
             string PK = e.Keys[0].ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.OpexTable() + " SET [ExpenseCode] = @ExpenseCode, [ItemCode] = @ItemCode , [Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittedTotalCost] = @TotalCost, [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost, [DescriptionAddl] = @itemDesc2, [ProcCat] = @ProcCat WHERE [PK] = @PK";
+            //string update_MRP = "UPDATE " + MRPClass.OpexTable() + " SET [ExpenseCode] = @ExpenseCode, [ItemCode] = @ItemCode , [Description] = @Description, [UOM]= @UOM, [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittedTotalCost] = @TotalCost, [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost, [DescriptionAddl] = @itemDesc2, [ProcCat] = @ProcCat WHERE [PK] = @PK";
 
             string code = "";
             if (itemCode.Value != null) code = itemCode.Value.ToString();
@@ -1039,26 +1078,26 @@ namespace HijoPortal
                 desc_two = itemDesc2.Value.ToString();
 
             string prod_cat = "";
-            MRPClass.PrintString((ProCatCode != null).ToString());
+            //MRPClass.PrintString((ProCatCode != null).ToString());
             if (ProCatCode != null)
                 if (ProCatCode.Value != null)
                     prod_cat = ProCatCode.Value.ToString();
 
-            SqlCommand cmd = new SqlCommand(update_MRP, conn);
-            cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ExpenseCode", expenseCode.Value.ToString());
-            cmd.Parameters.AddWithValue("@ItemCode", code);
-            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
-            cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
-            cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
-            cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
-            cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@ProcCat", prod_cat);
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
-
+            //SqlCommand cmd = new SqlCommand(update_MRP, conn);
+            //cmd.Parameters.AddWithValue("@PK", PK);
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@ExpenseCode", expenseCode.Value.ToString());
+            //cmd.Parameters.AddWithValue("@ItemCode", code);
+            //cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@itemDesc2", GlobalClass.FormatSQL(desc_two));
+            //cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@ProcCat", prod_cat);
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
+            int result = QuerySPClass.InsertUpdateOperatingExpense(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 2, expenseCode.Value.ToString(), operating_unit, prod_cat, code, GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1142,28 +1181,29 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string insert = "INSERT INTO " + MRPClass.ManPowerTable() +
-                            " ([HeaderDocNum], [ActivityCode], [ManPowerTypeKey], " +
-                            " [UOM], [Cost], [Qty], [TotalCost], [OprUnit], " +
-                            " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
-                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
-                            " VALUES (@HeaderDocNum, @ActivityCode, @ManPowerTypeKey, " +
-                            " @UOM, @Cost, @Qty, @TotalCost, @OprUnit, " +
-                            " @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost)";
+            //string insert = "INSERT INTO " + MRPClass.ManPowerTable() +
+            //                " ([HeaderDocNum], [ActivityCode], [ManPowerTypeKey], " +
+            //                " [UOM], [Cost], [Qty], [TotalCost], [OprUnit], " +
+            //                " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
+            //                " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
+            //                " VALUES (@HeaderDocNum, @ActivityCode, @ManPowerTypeKey, " +
+            //                " @UOM, @Cost, @Qty, @TotalCost, @OprUnit, " +
+            //                " @Qty, @Cost, @TotalCost, @Qty, @Cost, @TotalCost)";
 
-            SqlCommand cmd = new SqlCommand(insert, conn);
-            cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
-            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ActivityCode", actCode.Value.ToString());
-            cmd.Parameters.AddWithValue("@ManPowerTypeKey", manpower_type_pk);
-            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
-            cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
-            cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
-            cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
+            //SqlCommand cmd = new SqlCommand(insert, conn);
+            //cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@ActivityCode", actCode.Value.ToString());
+            //cmd.Parameters.AddWithValue("@ManPowerTypeKey", manpower_type_pk);
+            //cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
 
+            int result = QuerySPClass.InsertUpdateManPower(wrkflwln, 1, 0, docnumber, 3, actCode.Value.ToString(), operating_unit, manpower_type_pk, GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1270,27 +1310,28 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.ManPowerTable() +
-                                " SET [ActivityCode] = @ActivityCode, [ManPowerTypeKey] = @ManPowerTypeKey, " +
-                                " [UOM]= @UOM, " +
-                                " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
-                                " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
-                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " +
-                                " WHERE [PK] = @PK";
+            //string update_MRP = "UPDATE " + MRPClass.ManPowerTable() +
+            //                    " SET [ActivityCode] = @ActivityCode, [ManPowerTypeKey] = @ManPowerTypeKey, " +
+            //                    " [UOM]= @UOM, " +
+            //                    " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, [OprUnit] = @OprUnit, " +
+            //                    " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
+            //                    " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " +
+            //                    " WHERE [PK] = @PK";
 
-            SqlCommand cmd = new SqlCommand(update_MRP, conn);
-            cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ActivityCode", actcodeVal);
-            cmd.Parameters.AddWithValue("@ManPowerTypeKey", manpower_type_pk);
-            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
-            cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
-            cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
-            cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
+            //SqlCommand cmd = new SqlCommand(update_MRP, conn);
+            //cmd.Parameters.AddWithValue("@PK", PK);
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@ActivityCode", actcodeVal);
+            //cmd.Parameters.AddWithValue("@ManPowerTypeKey", manpower_type_pk);
+            //cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
 
+            int result = QuerySPClass.InsertUpdateManPower(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 3, actCode.Value.ToString(), operating_unit, manpower_type_pk, GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1363,28 +1404,28 @@ namespace HijoPortal
 
             MRPClass.PrintString(prodcat.Value.ToString());
 
-            string insert = "INSERT INTO " + MRPClass.CapexTable() +
-                            " ([HeaderDocNum],[ProdCat], [Description], [UOM], " +
-                            " [Cost], [Qty], [TotalCost], [OprUnit], " +
-                            " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
-                            " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
-                            " VALUES (@HeaderDocNum,@ProdCat, @Description, @UOM, " +
-                            " @Cost, @Qty, @TotalCost, @OprUnit, " +
-                            " @Qty, @Cost, @TotalCost, " +
-                            " @Qty, @Cost, @TotalCost)";
+            //string insert = "INSERT INTO " + MRPClass.CapexTable() +
+            //                " ([HeaderDocNum],[ProdCat], [Description], [UOM], " +
+            //                " [Cost], [Qty], [TotalCost], [OprUnit], " +
+            //                " [EdittedQty], [EdittedCost], [EdittiedTotalCost], " +
+            //                " [ApprovedQty], [ApprovedCost], [ApprovedTotalCost]) " +
+            //                " VALUES (@HeaderDocNum,@ProdCat, @Description, @UOM, " +
+            //                " @Cost, @Qty, @TotalCost, @OprUnit, " +
+            //                " @Qty, @Cost, @TotalCost, " +
+            //                " @Qty, @Cost, @TotalCost)";
 
-            SqlCommand cmd = new SqlCommand(insert, conn);
-            cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
-            cmd.Parameters.AddWithValue("@ProdCat", prodcat.Value.ToString());
-            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
-            cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
-            cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
-            cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
-
+            //SqlCommand cmd = new SqlCommand(insert, conn);
+            //cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            //cmd.Parameters.AddWithValue("@ProdCat", prodcat.Value.ToString());
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
+            int result = QuerySPClass.InsertUpdateCapitalExpenditures(wrkflwln, 1, 0, docnumber, 4, operating_unit, prodcat.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1482,25 +1523,25 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            string update_MRP = "UPDATE " + MRPClass.CapexTable() +
-                                " SET [Description] = @Description, [ProdCat] = @ProdCat, [UOM]= @UOM, [OprUnit] = @OprUnit, " +
-                                " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, " +
-                                " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
-                                " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " +
-                                " WHERE [PK] = @PK";
+            //string update_MRP = "UPDATE " + MRPClass.CapexTable() +
+            //                    " SET [Description] = @Description, [ProdCat] = @ProdCat, [UOM]= @UOM, [OprUnit] = @OprUnit, " +
+            //                    " [Cost] = @Cost, [Qty] = @Qty, [TotalCost] = @TotalCost, " +
+            //                    " [EdittedQty] = @Qty, [EdittedCost] = @Cost, [EdittiedTotalCost] = @TotalCost, " +
+            //                    " [ApprovedQty] = @Qty, [ApprovedCost] = @Cost, [ApprovedTotalCost] = @TotalCost " +
+            //                    " WHERE [PK] = @PK";
 
-            SqlCommand cmd = new SqlCommand(update_MRP, conn);
-            cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ProdCat", prodcat.Value.ToString());
-            cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
-            cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
-            cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
-            cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
-            cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
-
+            //SqlCommand cmd = new SqlCommand(update_MRP, conn);
+            //cmd.Parameters.AddWithValue("@PK", PK);
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@ProdCat", prodcat.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Description", GlobalClass.FormatSQL(itemDesc.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@UOM", uom.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
+            int result = QuerySPClass.InsertUpdateCapitalExpenditures(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 4, operating_unit, prodcat.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1681,20 +1722,20 @@ namespace HijoPortal
 
             //string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [FarmName], [Prize], [Volume], [TotalPrize], [OprUnit]) VALUES (@HeaderDocNum, @ProductName, @FarmName, @Prize, @Volume, @TotalPrize, @OprUnit)";
 
-            string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [Prize], [Volume], [TotalPrize], [OprUnit]) VALUES (@HeaderDocNum, @ProductName, @Prize, @Volume, @TotalPrize, @OprUnit)";
+            //string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [Prize], [Volume], [TotalPrize], [OprUnit]) VALUES (@HeaderDocNum, @ProductName, @Prize, @Volume, @TotalPrize, @OprUnit)";
 
 
-            SqlCommand cmd = new SqlCommand(insert, conn);
-            cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
-            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ProductName", GlobalClass.FormatSQL(product.Value.ToString()));
-            //cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
-            cmd.Parameters.AddWithValue("@Prize", Convert.ToDouble(prize.Value.ToString()));
-            cmd.Parameters.AddWithValue("@Volume", Convert.ToDouble(volume.Value.ToString()));
-            cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
-
+            //SqlCommand cmd = new SqlCommand(insert, conn);
+            //cmd.Parameters.AddWithValue("@HeaderDocNum", docnumber);
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@ProductName", GlobalClass.FormatSQL(product.Value.ToString()));
+            ////cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Prize", Convert.ToDouble(prize.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Volume", Convert.ToDouble(volume.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
+            int result = QuerySPClass.InsertUpdateRevenueAssumptions(1, 0, docnumber, operating_unit, GlobalClass.FormatSQL(product.Value.ToString()), GlobalClass.FormatSQL(farm.Value.ToString()), Convert.ToDouble(prize.Value.ToString()), Convert.ToDouble(volume.Value.ToString()), Convert.ToDouble(totalprize.Value.ToString()));
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -2121,7 +2162,7 @@ namespace HijoPortal
 
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxTextBox product = pageControl.FindControl("ProductName") as ASPxTextBox;
-            //ASPxTextBox farm = pageControl.FindControl("FarmName") as ASPxTextBox;
+            ASPxTextBox farm = pageControl.FindControl("FarmName") as ASPxTextBox;
             ASPxTextBox prize = pageControl.FindControl("Prize") as ASPxTextBox;
             ASPxTextBox volume = pageControl.FindControl("Volume") as ASPxTextBox;
             ASPxTextBox totalprize = pageControl.FindControl("TotalPrize") as ASPxTextBox;
@@ -2137,19 +2178,19 @@ namespace HijoPortal
 
 
 
-            string update_MRP = "UPDATE " + MRPClass.RevenueTable() + " SET [ProductName] = @ProductName [Prize] = @Prize, [Volume] = @Volume, [TotalPrize] = @TotalPrize, [OprUnit] = @OprUnit WHERE [PK] = @PK";
+            //string update_MRP = "UPDATE " + MRPClass.RevenueTable() + " SET [ProductName] = @ProductName [Prize] = @Prize, [Volume] = @Volume, [TotalPrize] = @TotalPrize, [OprUnit] = @OprUnit WHERE [PK] = @PK";
 
-            SqlCommand cmd = new SqlCommand(update_MRP, conn);
-            cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
-            cmd.Parameters.AddWithValue("@ProductName", GlobalClass.FormatSQL(product.Value.ToString()));
-            //cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
-            cmd.Parameters.AddWithValue("@Prize", Convert.ToDouble(prize.Value.ToString()));
-            cmd.Parameters.AddWithValue("@Volume", Convert.ToDouble(volume.Value.ToString()));
-            cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
-
+            //SqlCommand cmd = new SqlCommand(update_MRP, conn);
+            //cmd.Parameters.AddWithValue("@PK", PK);
+            //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
+            //cmd.Parameters.AddWithValue("@ProductName", GlobalClass.FormatSQL(product.Value.ToString()));
+            ////cmd.Parameters.AddWithValue("@FarmName", farm.Value.ToString());
+            //cmd.Parameters.AddWithValue("@Prize", Convert.ToDouble(prize.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@Volume", Convert.ToDouble(volume.Value.ToString()));
+            //cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
+            int result = QuerySPClass.InsertUpdateRevenueAssumptions(2, Convert.ToInt32(PK), docnumber, operating_unit, GlobalClass.FormatSQL(product.Value.ToString()), GlobalClass.FormatSQL(farm.Value.ToString()), Convert.ToDouble(prize.Value.ToString()), Convert.ToDouble(volume.Value.ToString()), Convert.ToDouble(totalprize.Value.ToString()));
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
