@@ -593,9 +593,9 @@ namespace HijoPortal
                 dtTable.Columns.Add("OperatingUnit", typeof(string));
                 dtTable.Columns.Add("ProductName", typeof(string));
                 dtTable.Columns.Add("FarmName", typeof(string));
-                dtTable.Columns.Add("Prize", typeof(string));
+                dtTable.Columns.Add("Price", typeof(string));
                 dtTable.Columns.Add("Volume", typeof(string));
-                dtTable.Columns.Add("TotalPrize", typeof(string));
+                dtTable.Columns.Add("TotalPrice", typeof(string));
             }
 
             string farm_query = "[dbo].[RevenueAssumptionPreview]";
@@ -616,9 +616,9 @@ namespace HijoPortal
                     dtRow["OperatingUnit"] = row["OperUinit"].ToString();
                     dtRow["ProductName"] = row["ProductName"].ToString();
                     dtRow["FarmName"] = row["FarmName"].ToString();
-                    dtRow["Prize"] = Convert.ToDouble(row["Prize"].ToString()).ToString("N");
+                    dtRow["Price"] = Convert.ToDouble(row["Price"].ToString()).ToString("N");
                     dtRow["Volume"] = Convert.ToDouble(row["Volume"].ToString()).ToString("N");
-                    dtRow["TotalPrize"] = Convert.ToDouble(row["TotalPrize"].ToString()).ToString("N");
+                    dtRow["TotalPrice"] = Convert.ToDouble(row["TotalPrice"].ToString()).ToString("N");
                     dtTable.Rows.Add(dtRow);
                 }
             }
@@ -725,9 +725,9 @@ namespace HijoPortal
         {
             ASPxGridView grid = (ASPxGridView)sender;
             grid.Columns["PK"].Visible = false;
-            grid.Columns["Prize"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["Price"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
             grid.Columns["Volume"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
-            grid.Columns["TotalPrize"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            grid.Columns["TotalPrice"].CellStyle.HorizontalAlign = HorizontalAlign.Right;
 
             if (entitycode != Constants.TRAIN_CODE())
                 grid.Columns["OperatingUnit"].Visible = false;
