@@ -1331,7 +1331,7 @@ namespace HijoPortal
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
 
-            int result = QuerySPClass.InsertUpdateManPower(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 3, actCode.Value.ToString(), operating_unit, manpower_type_pk, GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
+            int result = QuerySPClass.InsertUpdateManPower(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 3, actcodeVal, operating_unit, manpower_type_pk, GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
