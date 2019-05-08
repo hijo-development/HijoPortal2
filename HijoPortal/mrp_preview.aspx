@@ -228,7 +228,7 @@
                                                                     <dx:ASPxSummaryItem FieldName="TotalPrize" ShowInColumn="TotalPrize" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
                                                                 </TotalSummary>
                                                                 <Styles>
-                                                                    <Footer HorizontalAlign="Right"></Footer>
+                                                                    <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                                                 </Styles>
                                                             </dx:ASPxGridView>
                                                         </dx:PanelContent>
@@ -250,7 +250,7 @@
                                                                 </TotalSummary>
                                                                 <Styles>
                                                                     <Cell HorizontalAlign="Left"></Cell>
-                                                                    <Footer HorizontalAlign="Right"></Footer>
+                                                                    <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                                                 </Styles>
                                                             </dx:ASPxGridView>
                                                         </dx:PanelContent>
@@ -286,7 +286,7 @@
                                             <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
                                         </TotalSummary>
                                         <Styles>
-                                            <Footer HorizontalAlign="Right"></Footer>
+                                            <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                         </Styles>
                                     </dx:ASPxGridView>
                                 </dx:PanelContent>
@@ -313,7 +313,7 @@
                                             <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
                                         </TotalSummary>
                                         <Styles>
-                                            <Footer HorizontalAlign="Right"></Footer>
+                                            <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                         </Styles>
                                     </dx:ASPxGridView>
                                 </dx:PanelContent>
@@ -339,7 +339,7 @@
                                             <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
                                         </TotalSummary>
                                         <Styles>
-                                            <Footer HorizontalAlign="Right"></Footer>
+                                            <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                         </Styles>
                                     </dx:ASPxGridView>
                                 </dx:PanelContent>
@@ -365,7 +365,7 @@
                                             <dx:ASPxSummaryItem FieldName="TotalCost" ShowInColumn="TotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
                                         </TotalSummary>
                                         <Styles>
-                                            <Footer HorizontalAlign="Right"></Footer>
+                                            <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                         </Styles>
                                     </dx:ASPxGridView>
                                 </dx:PanelContent>
