@@ -328,7 +328,6 @@ namespace HijoPortal
                 dtTable.Columns.Add("Qty", typeof(string));
                 dtTable.Columns.Add("Cost", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
-
                 dtTable.Columns.Add("RecQty", typeof(string));
                 dtTable.Columns.Add("RecCost", typeof(string));
                 dtTable.Columns.Add("RecTotalCost", typeof(string));
