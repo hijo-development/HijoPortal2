@@ -7,6 +7,9 @@ namespace HijoPortal.classes
 {
     public class Constants
     {
+        private const string 
+            default_page = "default.aspx", 
+            home_page = "home.aspx";
         private const string
             mop = "MRP",
             dm = "Direct Materials",
@@ -34,7 +37,12 @@ namespace HijoPortal.classes
 
         public static string DefaultPage()
         {
-            return "default.aspx";
+            return default_page;
+        }
+
+        public static string HomePage()
+        {
+            return home_page;
         }
 
         public static class Foo

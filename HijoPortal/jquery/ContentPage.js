@@ -4,13 +4,13 @@
         PopupLogout.Show();
     });
 
-    changeWidth.resizeWidth();
+    //changeWidth.resizeWidth();
 
     //AddEditDisplay.cookiesCondition();
 });
 
 $(window).resize(function () {
-    changeWidth.resizeWidth();
+    //changeWidth.resizeWidth();
 });
 
 var recentstatemenupane = "";

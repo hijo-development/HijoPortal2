@@ -14,8 +14,10 @@ namespace HijoPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["CreatorKey"] = null;
-            txtUserName.Focus();
+            if (Session["CreatorKey"] != null)
+                Response.Redirect(Constants.HomePage());
+            else
+                txtUserName.Focus();
         }
 
         protected void btnCreateAccount_Click(object sender, EventArgs e)
@@ -62,17 +64,18 @@ namespace HijoPortal
                     if (Convert.ToUInt32(foundRows[0]["StatusKey"]) == 1)
                     {
                         Response.Redirect("home.aspx");
-                    } else
+                    }
+                    else
                     {
                         lblerror.Text = "Your account is inactive, Please call administrator.";
-                    }                    
+                    }
                 }
             }
             else
             {
                 lblerror.Text = "Invalid Login Details. Try to enter Username/password Carefully";
             }
-            
+
         }
 
         protected void ResetBtn_Click(object sender, EventArgs e)
