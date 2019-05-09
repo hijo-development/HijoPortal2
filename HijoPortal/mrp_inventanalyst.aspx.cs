@@ -191,6 +191,7 @@ namespace HijoPortal
 
         private void BindDirectMaterials(string DOC_NUMBER)
         {
+            //MRPClass.PrintString(DOC_NUMBER);
             DataTable dtRecord = MRPClass.MRPInvent_Direct_Materials(DOC_NUMBER, entitycode);
             DMGrid.DataSource = dtRecord;
             DMGrid.KeyFieldName = "PK";
@@ -268,18 +269,19 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string update = "UPDATE " + MRPClass.DirectMatTable() + 
-                            " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, " +
-                            " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " +
-                            " WHERE [PK] = @PK";
-            SqlCommand cmd = new SqlCommand(update, conn);
-            cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@QTY", qty_float);
-            cmd.Parameters.AddWithValue("@COST", cost_float);
-            cmd.Parameters.AddWithValue("@TOTAL", total_float);
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
+            //string update = "UPDATE " + MRPClass.DirectMatTable() + 
+            //                " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, " +
+            //                " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " +
+            //                " WHERE [PK] = @PK";
+            //SqlCommand cmd = new SqlCommand(update, conn);
+            //cmd.Parameters.AddWithValue("@PK", PK);
+            //cmd.Parameters.AddWithValue("@QTY", qty_float);
+            //cmd.Parameters.AddWithValue("@COST", cost_float);
+            //cmd.Parameters.AddWithValue("@TOTAL", total_float);
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
 
+            int result = QuerySPClass.InsertUpdateDirectMaterials(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 1, "", "", "", "", "", "", "", qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -319,18 +321,18 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string update = "UPDATE " + MRPClass.OpexTable() + 
-                            " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittedTotalCost] = @TOTAL, " +
-                            " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " +
-                            " WHERE [PK] = @PK";
-            SqlCommand cmd = new SqlCommand(update, conn);
-            cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@QTY", qty_float);
-            cmd.Parameters.AddWithValue("@COST", cost_float);
-            cmd.Parameters.AddWithValue("@TOTAL", total_float);
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
-
+            //string update = "UPDATE " + MRPClass.OpexTable() + 
+            //                " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittedTotalCost] = @TOTAL, " +
+            //                " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " +
+            //                " WHERE [PK] = @PK";
+            //SqlCommand cmd = new SqlCommand(update, conn);
+            //cmd.Parameters.AddWithValue("@PK", PK);
+            //cmd.Parameters.AddWithValue("@QTY", qty_float);
+            //cmd.Parameters.AddWithValue("@COST", cost_float);
+            //cmd.Parameters.AddWithValue("@TOTAL", total_float);
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
+            int result = QuerySPClass.InsertUpdateOperatingExpense(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 2, "", "", "", "", "", "", "", qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -373,18 +375,18 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string update = "UPDATE " + MRPClass.ManPowerTable() + 
-                            " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, " +
-                            " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " + 
-                            " WHERE [PK] = @PK";
-            SqlCommand cmd = new SqlCommand(update, conn);
-            cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@QTY", qty_float);
-            cmd.Parameters.AddWithValue("@COST", cost_float);
-            cmd.Parameters.AddWithValue("@TOTAL", total_float);
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
-
+            //string update = "UPDATE " + MRPClass.ManPowerTable() + 
+            //                " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, " +
+            //                " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " + 
+            //                " WHERE [PK] = @PK";
+            //SqlCommand cmd = new SqlCommand(update, conn);
+            //cmd.Parameters.AddWithValue("@PK", PK);
+            //cmd.Parameters.AddWithValue("@QTY", qty_float);
+            //cmd.Parameters.AddWithValue("@COST", cost_float);
+            //cmd.Parameters.AddWithValue("@TOTAL", total_float);
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
+            int result = QuerySPClass.InsertUpdateManPower(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 3, "", "", 0, "", "", qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -422,18 +424,18 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string update = "UPDATE " + MRPClass.CapexTable() + 
-                            " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, " +
-                            " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " +
-                            " WHERE [PK] = @PK";
-            SqlCommand cmd = new SqlCommand(update, conn);
-            cmd.Parameters.AddWithValue("@PK", PK);
-            cmd.Parameters.AddWithValue("@QTY", qty_float);
-            cmd.Parameters.AddWithValue("@COST", cost_float);
-            cmd.Parameters.AddWithValue("@TOTAL", total_float);
-            cmd.CommandType = CommandType.Text;
-            int result = cmd.ExecuteNonQuery();
-
+            //string update = "UPDATE " + MRPClass.CapexTable() + 
+            //                " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, " +
+            //                " [ApprovedQty] = @QTY, [ApprovedCost] = @COST, [ApprovedTotalCost] = @TOTAL " +
+            //                " WHERE [PK] = @PK";
+            //SqlCommand cmd = new SqlCommand(update, conn);
+            //cmd.Parameters.AddWithValue("@PK", PK);
+            //cmd.Parameters.AddWithValue("@QTY", qty_float);
+            //cmd.Parameters.AddWithValue("@COST", cost_float);
+            //cmd.Parameters.AddWithValue("@TOTAL", total_float);
+            //cmd.CommandType = CommandType.Text;
+            //int result = cmd.ExecuteNonQuery();
+            int result = QuerySPClass.InsertUpdateCapitalExpenditures(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 4, "", "", "", "", qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);

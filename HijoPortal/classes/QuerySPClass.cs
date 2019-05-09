@@ -163,5 +163,18 @@ namespace HijoPortal.classes
             cn.Close();
             return retVal;
         }
+
+        public static int MRP_Details_Latest_PK(string docNum, int Identifier)
+        {
+            int latestPK = 0;
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            SqlCommand cmd = null;
+            string qry = "";
+            cn.Open();
+           
+
+            cn.Close();
+            return latestPK;
+        }
     }
 }
