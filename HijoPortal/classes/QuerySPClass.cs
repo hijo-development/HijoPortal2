@@ -168,11 +168,22 @@ namespace HijoPortal.classes
         {
             int latestPK = 0;
             SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
             SqlCommand cmd = null;
-            string qry = "";
+            SqlDataAdapter adp;
+            string qry = "sp_MRPList_Details_Latest_PK '" + docNum + "', "+ Identifier + "";
             cn.Open();
-           
-
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach(DataRow row in dt.Rows)
+                {
+                    latestPK = Convert.ToInt32(row["PK"]);
+                }
+            }
+            dt.Clear();
             cn.Close();
             return latestPK;
         }

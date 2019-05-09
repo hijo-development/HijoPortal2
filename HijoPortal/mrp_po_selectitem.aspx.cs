@@ -279,49 +279,46 @@ namespace HijoPortal
             list.Items.Clear();
 
             string monthyear = MonthYear_Combo.Text;
-            if (!string.IsNullOrEmpty(monthyear) && ((MOPNum_Combo.Value != null) || (CheckboxAll.Checked)))
+            //if (!string.IsNullOrEmpty(monthyear) && ((MOPNum_Combo.Value != null) || (CheckboxAll.Checked)))
+            //if ((!string.IsNullOrEmpty(monthyear) && MOPNum_Combo.Value != null) || (!string.IsNullOrEmpty(monthyear) && CheckboxAll.Checked))
+            if (!string.IsNullOrEmpty(monthyear))
             {
-                string[] strarr = monthyear.Split(' ');
-                string month = strarr[0].ToString();
-                string year = strarr[1].ToString();
-                string docnum = "";
-                int monthindex = Convertion.MONTH_TO_INDEX(month);
-                if (!string.IsNullOrEmpty(MOPNum_Combo.Text.ToString()))
+                if (!string.IsNullOrEmpty(MOPNum_Combo.Text.ToString()) || CheckboxAll.Checked)
                 {
-                    docnum = MOPNum_Combo.Text.ToString();
+                    string[] strarr = monthyear.Split(' ');
+                    string month = strarr[0].ToString();
+                    string year = strarr[1].ToString();
+                    string docnum = "";
+                    int monthindex = Convertion.MONTH_TO_INDEX(month);
+                    if (!string.IsNullOrEmpty(MOPNum_Combo.Text.ToString()))
+                    {
+                        docnum = MOPNum_Combo.Text.ToString();
+                    }
+
+                    //MRPClass.PrintString(docnum);
+
+                    list.DataSource = MRPClass.ProCategoryTable_Filter_SelectItemPO(Convert.ToInt32(year), monthindex, docnum);
+
+
+                    ListBoxColumn l_value = new ListBoxColumn();
+                    l_value.FieldName = "NAME";
+                    l_value.Caption = "Code";
+                    l_value.Width = 100;
+                    list.Columns.Add(l_value);
+
+                    ListBoxColumn l_text = new ListBoxColumn();
+                    l_text.FieldName = "DESCRIPTION";
+                    l_text.Caption = "Description";
+                    l_text.Width = 350;
+                    list.Columns.Add(l_text);
+
+                    list.ValueField = "NAME";
+                    list.TextField = "DESCRIPTION";
+                    list.DataBind();
+                    list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+                    list.ClientEnabled = true;
                 }
-                list.DataSource = MRPClass.ProCategoryTable_Filter_SelectItemPO(Convert.ToInt32(year), monthindex, docnum);
-                //combo.DataSource = POClass.DocumentNumber_By_Month_Year(monthindex, year);
-                //else
-                //{
-                //    //combo.DataSource = POClass.DocumentNumber_By_Month_Year(0, "");
-                //}
-
-                //string docnum = MOPNum_Combo.Text.ToString();
-                //string entCode = EntityCode.Text.ToString();
-
-
-                //list.DataSource = MRPClass.ProCategoryTable_Filter(docnum, entCode);
-                //list.DataSource = MRPClass.ProCategoryTable_Filter_SelectItemPO(docnum, entCode);
-
-
-                ListBoxColumn l_value = new ListBoxColumn();
-                l_value.FieldName = "NAME";
-                l_value.Caption = "Code";
-                l_value.Width = 100;
-                list.Columns.Add(l_value);
-
-                ListBoxColumn l_text = new ListBoxColumn();
-                l_text.FieldName = "DESCRIPTION";
-                l_text.Caption = "Description";
-                l_text.Width = 350;
-                list.Columns.Add(l_text);
-
-                list.ValueField = "NAME";
-                list.TextField = "DESCRIPTION";
-                list.DataBind();
-                list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
-                list.ClientEnabled = true;
+                
             }
         }
 

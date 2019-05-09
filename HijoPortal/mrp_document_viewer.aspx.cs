@@ -27,7 +27,7 @@ namespace HijoPortal
             string connectionString = "SERVER=hijo-axdb;DATABASE=hijo_portal;UID=it_dev;PASSWORD=itdev@2019;";
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
-            string sql = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.QtyPO, dbo.tbl_MRP_List_DirectMaterials.AvailForPO, dbo.tbl_POCreation_Details.ItemPK, dbo.tbl_POCreation_Details.PK FROM   dbo.tbl_MRP_List_DirectMaterials INNER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_MRP_List_DirectMaterials.PK = dbo.tbl_POCreation_Details.ItemPK WHERE(dbo.tbl_POCreation_Details.MOPNumber = '" + "0000-0319MRP-000064" + "') AND (dbo.tbl_POCreation_Details.Identifier = '1')";
+            string sql = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.QtyPO, dbo.tbl_MRP_List_DirectMaterials.AvailForPO, dbo.tbl_POCreation_Details.ItemPK, dbo.tbl_POCreation_Details.PK FROM   dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_MRP_List_DirectMaterials.PK = dbo.tbl_POCreation_Details.ItemPK WHERE(dbo.tbl_POCreation_Details.MOPNumber = '" + "0000-0319MRP-000064" + "') AND (dbo.tbl_POCreation_Details.Identifier = '1')";
 
             //SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
             //DataSet DS = new DataSet();
@@ -74,7 +74,7 @@ namespace HijoPortal
                 dtTable.Columns.Add("RemainingQty", typeof(string));
             }
 
-            string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.QtyPO, dbo.tbl_MRP_List_DirectMaterials.AvailForPO, dbo.tbl_POCreation_Details.ItemPK, dbo.tbl_POCreation_Details.PK FROM   dbo.tbl_MRP_List_DirectMaterials INNER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_MRP_List_DirectMaterials.PK = dbo.tbl_POCreation_Details.ItemPK WHERE(dbo.tbl_POCreation_Details.MOPNumber = '" + docnumber + "') AND (dbo.tbl_POCreation_Details.Identifier = '1')";
+            string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.QtyPO, dbo.tbl_MRP_List_DirectMaterials.AvailForPO, dbo.tbl_POCreation_Details.ItemPK, dbo.tbl_POCreation_Details.PK FROM   dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_MRP_List_DirectMaterials.PK = dbo.tbl_POCreation_Details.ItemPK WHERE(dbo.tbl_POCreation_Details.MOPNumber = '" + docnumber + "') AND (dbo.tbl_POCreation_Details.Identifier = '1')";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;

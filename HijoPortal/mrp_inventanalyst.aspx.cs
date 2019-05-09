@@ -114,7 +114,7 @@ namespace HijoPortal
                            " tbl_MRP_Status.StatusName, tbl_Users.Lastname, " +
                            " tbl_Users.Firstname, tbl_MRP_List.EntityCode, " +
                            " tbl_MRP_List.BUCode " +
-                           " FROM tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK " +
+                           " FROM tbl_MRP_List LEFT OUTER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK " +
                            " LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
                            " LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK " +
                            " LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID " +
@@ -261,10 +261,23 @@ namespace HijoPortal
             ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["EdittiedTotalCost"], "InvEdittiedTotalCost") as ASPxTextBox;
 
             string PK = e.Keys[0].ToString();
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (total.Value != null)
+            {
+                total_float = Convert.ToDouble(total.Value.ToString());
+            }
 
-            Double qty_float = Convert.ToDouble(qty.Value.ToString());
-            Double cost_float = Convert.ToDouble(cost.Value.ToString());
-            Double total_float = Convert.ToDouble(total.Value.ToString());
+            //Double qty_float = Convert.ToDouble(qty.Value.ToString());
+            //Double cost_float = Convert.ToDouble(cost.Value.ToString());
+            //Double total_float = Convert.ToDouble(total.Value.ToString());
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -313,10 +326,19 @@ namespace HijoPortal
             ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["EdittedTotalCost"], "InvEdittiedTotalCostOp") as ASPxTextBox;
 
             string PK = e.Keys[0].ToString();
-
-            Double qty_float = Convert.ToDouble(qty.Value.ToString());
-            Double cost_float = Convert.ToDouble(cost.Value.ToString());
-            Double total_float = Convert.ToDouble(total.Value.ToString());
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (total.Value != null)
+            {
+                total_float = Convert.ToDouble(total.Value.ToString());
+            }
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -367,10 +389,23 @@ namespace HijoPortal
             ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["EdittiedTotalCost"], "InvEdittiedTotalCostManPo") as ASPxTextBox;
 
             string PK = e.Keys[0].ToString();
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (total.Value != null)
+            {
+                total_float = Convert.ToDouble(total.Value.ToString());
+            }
 
-            Double qty_float = Convert.ToDouble(qty.Value.ToString());
-            Double cost_float = Convert.ToDouble(cost.Value.ToString());
-            Double total_float = Convert.ToDouble(total.Value.ToString());
+            //Double qty_float = Convert.ToDouble(qty.Value.ToString());
+            //Double cost_float = Convert.ToDouble(cost.Value.ToString());
+            //Double total_float = Convert.ToDouble(total.Value.ToString());
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -416,10 +451,23 @@ namespace HijoPortal
             ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["EdittiedTotalCost"], "InvEdittiedTotalCostCapex") as ASPxTextBox;
 
             string PK = e.Keys[0].ToString();
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (total.Value != null)
+            {
+                total_float = Convert.ToDouble(total.Value.ToString());
+            }
 
-            Double qty_float = Convert.ToDouble(qty.Value.ToString());
-            Double cost_float = Convert.ToDouble(cost.Value.ToString());
-            Double total_float = Convert.ToDouble(total.Value.ToString());
+            //Double qty_float = Convert.ToDouble(qty.Value.ToString());
+            //Double cost_float = Convert.ToDouble(cost.Value.ToString());
+            //Double total_float = Convert.ToDouble(total.Value.ToString());
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();

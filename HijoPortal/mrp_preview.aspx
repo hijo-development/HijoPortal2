@@ -222,10 +222,10 @@
                                                                 <%--<SettingsBehavior AllowDragDrop="false" />--%>
                                                                 <Settings ShowGroupPanel="true" ShowFooter="true" />
                                                                 <GroupSummary>
-                                                                    <dx:ASPxSummaryItem FieldName="TotalPrize" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
+                                                                    <dx:ASPxSummaryItem FieldName="TotalPrice" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
                                                                 </GroupSummary>
                                                                 <TotalSummary>
-                                                                    <dx:ASPxSummaryItem FieldName="TotalPrize" ShowInColumn="TotalPrize" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
+                                                                    <dx:ASPxSummaryItem FieldName="TotalPrice" ShowInColumn="TotalPrice" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
                                                                 </TotalSummary>
                                                                 <Styles>
                                                                     <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>

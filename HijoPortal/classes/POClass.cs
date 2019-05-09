@@ -45,7 +45,7 @@ namespace HijoPortal.classes
 
             //string qry = "SELECT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.VendorCode, dbo.vw_AXVendTable.NAME AS VendorName, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_Users.Firstname, dbo.tbl_Users.Lastname, dbo.tbl_POCreation.ExpectedDate,  dbo.tbl_POCreation.POStatus FROM dbo.tbl_POCreation LEFT OUTER JOIN dbo.tbl_Users ON dbo.tbl_POCreation.CreatorKey = dbo.tbl_Users.PK LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM ORDER BY dbo.tbl_POCreation.PONumber DESC";
 
-            string qry = "SELECT DISTINCT TOP(100) PERCENT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.VendorCode, dbo.vw_AXVendTable.NAME AS VendorName, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_Users.Firstname, dbo.tbl_Users.Lastname, dbo.tbl_POCreation.ExpectedDate, dbo.tbl_POCreation.POStatus, dbo.vw_AXEntityTable.NAME as EntityName, dbo.vw_AXOperatingUnitTable.NAME AS BU FROM   dbo.tbl_POCreation INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_POCreation.MRPNumber = dbo.tbl_MRP_List.DocNumber INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.tbl_Users ON dbo.tbl_POCreation.CreatorKey = dbo.tbl_Users.PK LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM ORDER BY dbo.tbl_POCreation.PONumber DESC";
+            string qry = "SELECT DISTINCT TOP(100) PERCENT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.VendorCode, dbo.vw_AXVendTable.NAME AS VendorName, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_Users.Firstname, dbo.tbl_Users.Lastname, dbo.tbl_POCreation.ExpectedDate, dbo.tbl_POCreation.POStatus, dbo.vw_AXEntityTable.NAME as EntityName, dbo.vw_AXOperatingUnitTable.NAME AS BU FROM   dbo.tbl_POCreation LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_POCreation.MRPNumber = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN dbo.tbl_Users ON dbo.tbl_POCreation.CreatorKey = dbo.tbl_Users.PK LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM ORDER BY dbo.tbl_POCreation.PONumber DESC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -198,7 +198,7 @@ namespace HijoPortal.classes
                 year_string = "MRPYear";
             }
 
-            string qry = "SELECT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.ID AS EntityCode, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU FROM dbo.tbl_MRP_List INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER WHERE MRPMonth = " + month_string + " AND MRPYear = " + year_string + " AND StatusKey = '4' ORDER BY MRPMonth, MRPYear ASC";
+            string qry = "SELECT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, dbo.vw_AXEntityTable.ID AS EntityCode, dbo.vw_AXEntityTable.NAME AS Entity, dbo.vw_AXOperatingUnitTable.NAME AS BU FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER WHERE MRPMonth = " + month_string + " AND MRPYear = " + year_string + " AND StatusKey = '4' ORDER BY MRPMonth, MRPYear ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -260,10 +260,10 @@ namespace HijoPortal.classes
             //if (string.IsNullOrEmpty(groupID) || groupID == "ALL") groupid_string = "dbo.vw_AXInventTable.ITEMGROUPID";
             //else groupid_string = "'" + groupID + "'";
 
-            MRPClass.PrintString("year:" + year);
-            MRPClass.PrintString("month:" + month);
-            MRPClass.PrintString("doc:" + docnumber);
-            MRPClass.PrintString("count:" + groupID.Count);
+            //MRPClass.PrintString("year:" + year);
+            //MRPClass.PrintString("month:" + month);
+            //MRPClass.PrintString("doc:" + docnumber);
+            //MRPClass.PrintString("count:" + groupID.Count);
 
             if (groupID.Count == 0)
                 return dtTable;
@@ -669,7 +669,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("TaxItemGroup", typeof(string));
             }
 
-            string qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_DirectMaterials.UOM FROM   dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_DirectMaterials.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '1'";
+            string qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_DirectMaterials.UOM FROM   dbo.tbl_POCreation_Tmp LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_DirectMaterials.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '1'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -727,7 +727,7 @@ namespace HijoPortal.classes
             }
             dt.Clear();
 
-            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_OPEX.UOM FROM   dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_OPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '2'";
+            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_OPEX.UOM FROM   dbo.tbl_POCreation_Tmp LEFT OUTER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_OPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '2'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -786,7 +786,7 @@ namespace HijoPortal.classes
             dt.Clear();
 
             //CAPEX
-            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty,  dbo.tbl_MRP_List_CAPEX.TotalCost, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber FROM dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '4'";
+            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty,  dbo.tbl_MRP_List_CAPEX.TotalCost, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber FROM dbo.tbl_POCreation_Tmp LEFT OUTER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '4'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -995,7 +995,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("ProdCat", typeof(string));
             }
 
-            string qry = "SELECT dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Cost AS DMCost, dbo.tbl_MRP_List_DirectMaterials.Qty AS DMQty, dbo.tbl_MRP_List_DirectMaterials.TotalCost AS DMTotal, dbo.tbl_POCreation_Details.* FROM dbo.tbl_MRP_List_DirectMaterials INNER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_MRP_List_DirectMaterials.PK = dbo.tbl_POCreation_Details.ItemPK WHERE (dbo.tbl_POCreation_Details.Identifier = '1') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
+            string qry = "SELECT dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Cost AS DMCost, dbo.tbl_MRP_List_DirectMaterials.Qty AS DMQty, dbo.tbl_MRP_List_DirectMaterials.TotalCost AS DMTotal, dbo.tbl_POCreation_Details.* FROM dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_MRP_List_DirectMaterials.PK = dbo.tbl_POCreation_Details.ItemPK WHERE (dbo.tbl_POCreation_Details.Identifier = '1') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -1033,7 +1033,7 @@ namespace HijoPortal.classes
             }
             dt.Clear();
 
-            qry = "SELECT dbo.tbl_POCreation_Details.*, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Cost AS OPCost, dbo.tbl_MRP_List_OPEX.Qty AS OPQty, dbo.tbl_MRP_List_OPEX.TotalCost AS OPTotal FROM   dbo.tbl_POCreation_Details INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_OPEX.PK WHERE (dbo.tbl_POCreation_Details.Identifier = '2') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
+            qry = "SELECT dbo.tbl_POCreation_Details.*, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Cost AS OPCost, dbo.tbl_MRP_List_OPEX.Qty AS OPQty, dbo.tbl_MRP_List_OPEX.TotalCost AS OPTotal FROM   dbo.tbl_POCreation_Details LEFT OUTER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_OPEX.PK WHERE (dbo.tbl_POCreation_Details.Identifier = '2') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
 
 
             cmd = new SqlCommand(qry);
@@ -1074,7 +1074,7 @@ namespace HijoPortal.classes
 
 
             //CAPEX
-            qry = "SELECT dbo.tbl_POCreation_Details.PK, dbo.tbl_POCreation_Details.PONumber, dbo.tbl_POCreation_Details.MOPNumber, dbo.tbl_POCreation_Details.ItemPK, dbo.tbl_POCreation_Details.Identifier, dbo.tbl_POCreation_Details.ItemCode, dbo.tbl_POCreation_Details.TaxGroup, dbo.tbl_POCreation_Details.TaxItemGroup, dbo.tbl_POCreation_Details.POUOM, dbo.tbl_POCreation_Details.Qty, dbo.tbl_POCreation_Details.Cost, dbo.tbl_POCreation_Details.TotalCost, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.Cost AS CACost, dbo.tbl_MRP_List_CAPEX.Qty AS CAQty, dbo.tbl_MRP_List_CAPEX.TotalCost AS CATotal, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.ProdCat FROM dbo.tbl_POCreation_Details INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE(dbo.tbl_POCreation_Details.Identifier = '4') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
+            qry = "SELECT dbo.tbl_POCreation_Details.PK, dbo.tbl_POCreation_Details.PONumber, dbo.tbl_POCreation_Details.MOPNumber, dbo.tbl_POCreation_Details.ItemPK, dbo.tbl_POCreation_Details.Identifier, dbo.tbl_POCreation_Details.ItemCode, dbo.tbl_POCreation_Details.TaxGroup, dbo.tbl_POCreation_Details.TaxItemGroup, dbo.tbl_POCreation_Details.POUOM, dbo.tbl_POCreation_Details.Qty, dbo.tbl_POCreation_Details.Cost, dbo.tbl_POCreation_Details.TotalCost, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.Cost AS CACost, dbo.tbl_MRP_List_CAPEX.Qty AS CAQty, dbo.tbl_MRP_List_CAPEX.TotalCost AS CATotal, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.ProdCat FROM dbo.tbl_POCreation_Details LEFT OUTER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE(dbo.tbl_POCreation_Details.Identifier = '4') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
 
 
             cmd = new SqlCommand(qry);
@@ -1188,7 +1188,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("LastNumber", typeof(string));
             }
 
-            string qry = "SELECT TOP (1000) dbo.tbl_PONumber.*, dbo.vw_AXEntityTable.NAME AS EntityName FROM dbo.tbl_PONumber INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_PONumber.EntityCode = dbo.vw_AXEntityTable.ID";
+            string qry = "SELECT TOP (1000) dbo.tbl_PONumber.*, dbo.vw_AXEntityTable.NAME AS EntityName FROM dbo.tbl_PONumber LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_PONumber.EntityCode = dbo.vw_AXEntityTable.ID";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;

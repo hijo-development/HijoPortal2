@@ -69,7 +69,7 @@ namespace HijoPortal
 
         private void Load_MRP(string docnumber)
         {
-            string query = "SELECT TOP (100) PERCENT  tbl_MRP_List.*, vw_AXEntityTable.NAME AS EntityCodeDesc, vw_AXOperatingUnitTable.NAME AS BUCodeDesc, tbl_MRP_Status.StatusName, tbl_Users.Lastname, tbl_Users.Firstname FROM   tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
+            string query = "SELECT TOP (100) PERCENT  tbl_MRP_List.*, vw_AXEntityTable.NAME AS EntityCodeDesc, vw_AXOperatingUnitTable.NAME AS BUCodeDesc, tbl_MRP_Status.StatusName, tbl_Users.Lastname, tbl_Users.Firstname FROM   tbl_MRP_List LEFT OUTER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID WHERE dbo.tbl_MRP_List.DocNumber = '" + docnumber + "' ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -146,13 +146,26 @@ namespace HijoPortal
             ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["EdittiedTotalCost"], "EdittiedTotalCost") as ASPxTextBox;
 
             string PK = e.Keys[0].ToString();
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (total.Value != null)
+            {
+                total_float = Convert.ToDouble(total.Value.ToString());
+            }
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            Double qty_float = Convert.ToDouble(qty.Value.ToString());
-            Double cost_float = Convert.ToDouble(cost.Value.ToString());
-            Double total_float = Convert.ToDouble(total.Value.ToString());
+            //Double qty_float = Convert.ToDouble(qty.Value.ToString());
+            //Double cost_float = Convert.ToDouble(cost.Value.ToString());
+            //Double total_float = Convert.ToDouble(total.Value.ToString());
 
             //string update = "UPDATE " + MRPClass.DirectMatTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, ApprovedQty = @QTY, ApprovedCost = @COST, ApprovedTotalCost = @TOTAL WHERE [PK] = @PK";
             //SqlCommand cmd = new SqlCommand(update, conn);
@@ -204,13 +217,26 @@ namespace HijoPortal
             ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["EdittedTotalCost"], "EdittedTotalCost") as ASPxTextBox;
 
             string PK = e.Keys[0].ToString();
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (total.Value != null)
+            {
+                total_float = Convert.ToDouble(total.Value.ToString());
+            }
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            Double qty_float = Convert.ToDouble(qty.Value.ToString());
-            Double cost_float = Convert.ToDouble(cost.Value.ToString());
-            Double total_float = Convert.ToDouble(total.Value.ToString());
+            //Double qty_float = Convert.ToDouble(qty.Value.ToString());
+            //Double cost_float = Convert.ToDouble(cost.Value.ToString());
+            //Double total_float = Convert.ToDouble(total.Value.ToString());
 
             //string update = "UPDATE " + MRPClass.OpexTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittedTotalCost] = @TOTAL, ApprovedQty = @QTY, ApprovedCost = @COST, ApprovedTotalCost = @TOTAL WHERE [PK] = @PK";
             //SqlCommand cmd = new SqlCommand(update, conn);
@@ -267,13 +293,26 @@ namespace HijoPortal
             ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["EdittiedTotalCost"], "EdittiedTotalCost") as ASPxTextBox;
 
             string PK = e.Keys[0].ToString();
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (total.Value != null)
+            {
+                total_float = Convert.ToDouble(total.Value.ToString());
+            }
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            Double qty_float = Convert.ToDouble(qty.Value.ToString());
-            Double cost_float = Convert.ToDouble(cost.Value.ToString());
-            Double total_float = Convert.ToDouble(total.Value.ToString());
+            //Double qty_float = Convert.ToDouble(qty.Value.ToString());
+            //Double cost_float = Convert.ToDouble(cost.Value.ToString());
+            //Double total_float = Convert.ToDouble(total.Value.ToString());
 
             //string update = "UPDATE " + MRPClass.ManPowerTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, ApprovedQty = @QTY, ApprovedCost = @COST, ApprovedTotalCost = @TOTAL WHERE [PK] = @PK";
             //SqlCommand cmd = new SqlCommand(update, conn);
@@ -350,13 +389,26 @@ namespace HijoPortal
             ASPxTextBox total = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["EdittiedTotalCost"], "EdittiedTotalCost") as ASPxTextBox;
 
             string PK = e.Keys[0].ToString();
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (total.Value != null)
+            {
+                total_float = Convert.ToDouble(total.Value.ToString());
+            }
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            Double qty_float = Convert.ToDouble(qty.Value.ToString());
-            Double cost_float = Convert.ToDouble(cost.Value.ToString());
-            Double total_float = Convert.ToDouble(total.Value.ToString());
+            //Double qty_float = Convert.ToDouble(qty.Value.ToString());
+            //Double cost_float = Convert.ToDouble(cost.Value.ToString());
+            //Double total_float = Convert.ToDouble(total.Value.ToString());
 
             //string update = "UPDATE " + MRPClass.CapexTable() + " SET [EdittedQty] = @QTY, [EdittedCost] = @COST, [EdittiedTotalCost] = @TOTAL, ApprovedQty = @QTY, ApprovedCost = @COST, ApprovedTotalCost = @TOTAL WHERE [PK] = @PK";
             //SqlCommand cmd = new SqlCommand(update, conn);

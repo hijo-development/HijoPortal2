@@ -335,7 +335,7 @@ namespace HijoPortal
                             //reader.Close();
                         }
 
-                        query_2 = "SELECT tbl_MRP_List_DirectMaterials_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM   tbl_MRP_List_DirectMaterials_Logs INNER JOIN tbl_Users ON tbl_MRP_List_DirectMaterials_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
+                        query_2 = "SELECT tbl_MRP_List_DirectMaterials_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM   tbl_MRP_List_DirectMaterials_Logs LEFT OUTER JOIN tbl_Users ON tbl_MRP_List_DirectMaterials_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
                         cmd = new SqlCommand(query_2);
                         cmd.Connection = conn;
                         adp = new SqlDataAdapter(cmd);
@@ -431,7 +431,7 @@ namespace HijoPortal
                             dt.Clear();
                         }
 
-                        query_2 = "SELECT tbl_MRP_List_OPEX_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_OPEX_Logs INNER JOIN tbl_Users ON tbl_MRP_List_OPEX_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
+                        query_2 = "SELECT tbl_MRP_List_OPEX_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_OPEX_Logs LEFT OUTER JOIN tbl_Users ON tbl_MRP_List_OPEX_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
                         cmd = new SqlCommand(query_2);
                         cmd.Connection = conn;
                         adp = new SqlDataAdapter(cmd);
@@ -465,7 +465,7 @@ namespace HijoPortal
                         }
                         dt.Clear();
 
-                        query_2 = "SELECT tbl_MRP_List_ManPower_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_ManPower_Logs INNER JOIN tbl_Users ON tbl_MRP_List_ManPower_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
+                        query_2 = "SELECT tbl_MRP_List_ManPower_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_ManPower_Logs LEFT OUTER JOIN tbl_Users ON tbl_MRP_List_ManPower_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
                         cmd = new SqlCommand(query_2);
                         cmd.Connection = conn;
                         adp = new SqlDataAdapter(cmd);
@@ -499,7 +499,7 @@ namespace HijoPortal
                         }
                         dt.Clear();
 
-                        query_2 = "SELECT tbl_MRP_List_CAPEX_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_CAPEX_Logs INNER JOIN tbl_Users ON tbl_MRP_List_CAPEX_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
+                        query_2 = "SELECT tbl_MRP_List_CAPEX_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_MRP_List_CAPEX_Logs LEFT OUTER JOIN tbl_Users ON tbl_MRP_List_CAPEX_Logs.UserKey = tbl_Users.PK WHERE MasterKey = '" + PK + "'";
                         cmd = new SqlCommand(query_2);
                         cmd.Connection = conn;
                         adp = new SqlDataAdapter(cmd);
@@ -533,7 +533,7 @@ namespace HijoPortal
                         }
                         dt.Clear();
 
-                        query_2 = "SELECT tbl_MRP_List_RevenueAssumptions_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_Users INNER JOIN tbl_MRP_List_RevenueAssumptions_Logs ON tbl_Users.PK = tbl_MRP_List_RevenueAssumptions_Logs.UserKey WHERE MasterKey = '" + PK + "'";
+                        query_2 = "SELECT tbl_MRP_List_RevenueAssumptions_Logs.Remarks, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_Users LEFT OUTER JOIN tbl_MRP_List_RevenueAssumptions_Logs ON tbl_Users.PK = tbl_MRP_List_RevenueAssumptions_Logs.UserKey WHERE MasterKey = '" + PK + "'";
                         cmd = new SqlCommand(query_2);
                         cmd.Connection = conn;
                         adp = new SqlDataAdapter(cmd);

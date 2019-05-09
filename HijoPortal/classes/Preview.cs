@@ -32,7 +32,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("RemainingQty", typeof(string));
             }
 
-            string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.QtyPO, dbo.tbl_MRP_List_DirectMaterials.AvailForPO, dbo.tbl_POCreation_Details.ItemPK, dbo.tbl_POCreation_Details.PK FROM   dbo.tbl_MRP_List_DirectMaterials INNER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_MRP_List_DirectMaterials.PK = dbo.tbl_POCreation_Details.ItemPK WHERE(dbo.tbl_POCreation_Details.MOPNumber = '" + docnumber + "') AND (dbo.tbl_POCreation_Details.Identifier = '1')";
+            string qry = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.QtyPO, dbo.tbl_MRP_List_DirectMaterials.AvailForPO, dbo.tbl_POCreation_Details.ItemPK, dbo.tbl_POCreation_Details.PK FROM   dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.tbl_POCreation_Details ON dbo.tbl_MRP_List_DirectMaterials.PK = dbo.tbl_POCreation_Details.ItemPK WHERE(dbo.tbl_POCreation_Details.MOPNumber = '" + docnumber + "') AND (dbo.tbl_POCreation_Details.Identifier = '1')";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -86,7 +86,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("RemainingQty", typeof(string));
             }
 
-            string qry = "SELECT DISTINCT dbo.tbl_POCreation_Details.PK, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.QtyPO, dbo.tbl_MRP_List_OPEX.AvailForPO FROM dbo.tbl_POCreation_Details INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_OPEX.PK WHERE(dbo.tbl_POCreation_Details.MOPNumber = '" + docnumber + "') AND (dbo.tbl_POCreation_Details.Identifier = '2')";
+            string qry = "SELECT DISTINCT dbo.tbl_POCreation_Details.PK, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.QtyPO, dbo.tbl_MRP_List_OPEX.AvailForPO FROM dbo.tbl_POCreation_Details LEFT OUTER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_OPEX.PK WHERE(dbo.tbl_POCreation_Details.MOPNumber = '" + docnumber + "') AND (dbo.tbl_POCreation_Details.Identifier = '2')";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -140,7 +140,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("RemainingQty", typeof(string));
             }
 
-            string qry = "SELECT dbo.tbl_POCreation_Details.PK, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.Qty, dbo.tbl_MRP_List_CAPEX.QtyPO, dbo.tbl_MRP_List_CAPEX.AvailForPO FROM dbo.tbl_POCreation_Details INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE(dbo.tbl_POCreation_Details.MOPNumber = '" + docnumber + "') AND (dbo.tbl_POCreation_Details.Identifier = '4')";
+            string qry = "SELECT dbo.tbl_POCreation_Details.PK, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.Qty, dbo.tbl_MRP_List_CAPEX.QtyPO, dbo.tbl_MRP_List_CAPEX.AvailForPO FROM dbo.tbl_POCreation_Details LEFT OUTER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE(dbo.tbl_POCreation_Details.MOPNumber = '" + docnumber + "') AND (dbo.tbl_POCreation_Details.Identifier = '4')";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -214,7 +214,7 @@ namespace HijoPortal.classes
             }
             reader.Close();
 
-            string query_farmunit = "SELECT DISTINCT dbo.vw_AXFindimBananaRevenue.VALUE FROM dbo.tbl_MRP_List_OPEX INNER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_OPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE HeaderDocNum = '" + DOC_NUMBER + "'";
+            string query_farmunit = "SELECT DISTINCT dbo.vw_AXFindimBananaRevenue.VALUE FROM dbo.tbl_MRP_List_OPEX LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_OPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE HeaderDocNum = '" + DOC_NUMBER + "'";
 
             cmd = new SqlCommand(query_farmunit, conn);
             reader = cmd.ExecuteReader();
@@ -229,12 +229,12 @@ namespace HijoPortal.classes
             {
                 for (int i = 0; i < list.Count; i++)
                 {
-                    //string query_1 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID INNER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_OPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE INNER JOIN tbl_MRP_List ON tbl_MRP_List_OPEX.HeaderDocNum = tbl_MRP_List.DocNumber WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_OPEX.ExpenseCode = '" + list[i] + "' ";
+                    //string query_1 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_OPEX LEFT OUTER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID LEFT OUTER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_OPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN tbl_MRP_List ON tbl_MRP_List_OPEX.HeaderDocNum = tbl_MRP_List.DocNumber WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_OPEX.ExpenseCode = '" + list[i] + "' ";
 
-                    string query_1 = "SELECT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.HeaderDocNum, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.ExpenseCode, dbo.tbl_MRP_List_OPEX.OprUnit, dbo.tbl_MRP_List_OPEX.ProcCat, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.UOM, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.tbl_MRP_List_OPEX.EdittedQty, dbo.tbl_MRP_List_OPEX.EdittedCost, dbo.tbl_MRP_List_OPEX.EdittedTotalCost, dbo.tbl_MRP_List_OPEX.ApprovedQty, dbo.tbl_MRP_List_OPEX.ApprovedCost, dbo.tbl_MRP_List_OPEX.ApprovedTotalCost, dbo.tbl_MRP_List_OPEX.QtyPO, dbo.tbl_MRP_List_OPEX.AvailForPO, dbo.vw_AXExpenseAccount.NAME, dbo.vw_AXExpenseAccount.isItem, dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM dbo.tbl_MRP_List_OPEX INNER JOIN dbo.vw_AXExpenseAccount ON dbo.tbl_MRP_List_OPEX.ExpenseCode = dbo.vw_AXExpenseAccount.MAINACCOUNTID INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_OPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_OPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_OPEX.ExpenseCode = '" + list[i] + "' AND (dbo.tbl_MRP_List_OPEX.OprUnit = '" + farm_list[c] + "') ";
+                    string query_1 = "SELECT dbo.tbl_MRP_List_OPEX.PK, dbo.tbl_MRP_List_OPEX.HeaderDocNum, dbo.tbl_MRP_List_OPEX.TableIdentifier, dbo.tbl_MRP_List_OPEX.ExpenseCode, dbo.tbl_MRP_List_OPEX.OprUnit, dbo.tbl_MRP_List_OPEX.ProcCat, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.UOM, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.tbl_MRP_List_OPEX.EdittedQty, dbo.tbl_MRP_List_OPEX.EdittedCost, dbo.tbl_MRP_List_OPEX.EdittedTotalCost, dbo.tbl_MRP_List_OPEX.ApprovedQty, dbo.tbl_MRP_List_OPEX.ApprovedCost, dbo.tbl_MRP_List_OPEX.ApprovedTotalCost, dbo.tbl_MRP_List_OPEX.QtyPO, dbo.tbl_MRP_List_OPEX.AvailForPO, dbo.vw_AXExpenseAccount.NAME, dbo.vw_AXExpenseAccount.isItem, dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM dbo.tbl_MRP_List_OPEX LEFT OUTER JOIN dbo.vw_AXExpenseAccount ON dbo.tbl_MRP_List_OPEX.ExpenseCode = dbo.vw_AXExpenseAccount.MAINACCOUNTID LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_OPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_OPEX.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_OPEX.ExpenseCode = '" + list[i] + "' AND (dbo.tbl_MRP_List_OPEX.OprUnit = '" + farm_list[c] + "') ";
 
                     //for NON TRAIN  TODO: Explain this
-                    string query_2 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX INNER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_OPEX.ExpenseCode = '" + list[i] + "' ";
+                    string query_2 = "SELECT tbl_MRP_List_OPEX.*, vw_AXExpenseAccount.NAME, vw_AXExpenseAccount.isItem FROM   tbl_MRP_List_OPEX LEFT OUTER JOIN vw_AXExpenseAccount ON tbl_MRP_List_OPEX.ExpenseCode = vw_AXExpenseAccount.MAINACCOUNTID WHERE [HeaderDocNum] = '" + DOC_NUMBER + "' AND tbl_MRP_List_OPEX.ExpenseCode = '" + list[i] + "' ";
 
                     if (entity == Constants.TRAIN_CODE())
                         cmd = new SqlCommand(query_1);
@@ -442,7 +442,7 @@ namespace HijoPortal.classes
             }
             reader.Close();
 
-            string query_farmunit = "SELECT DISTINCT dbo.vw_AXFindimBananaRevenue.VALUE FROM dbo.tbl_MRP_List_DirectMaterials INNER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE HeaderDocNum = '" + DOC_NUMBER + "'";
+            string query_farmunit = "SELECT DISTINCT dbo.vw_AXFindimBananaRevenue.VALUE FROM dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE HeaderDocNum = '" + DOC_NUMBER + "'";
 
             cmd = new SqlCommand(query_farmunit, conn);
             reader = cmd.ExecuteReader();
@@ -463,7 +463,7 @@ namespace HijoPortal.classes
                         string query_1 = "SELECT DISTINCT dbo.tbl_MRP_List_DirectMaterials.PK, dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum, dbo.tbl_MRP_List_DirectMaterials.TableIdentifier, dbo.tbl_MRP_List_DirectMaterials.ExpenseCode, dbo.tbl_MRP_List_DirectMaterials.ActivityCode, dbo.tbl_MRP_List_DirectMaterials.OprUnit, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.UOM, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.tbl_MRP_List_DirectMaterials.EdittedQty, dbo.tbl_MRP_List_DirectMaterials.EdittedCost, dbo.tbl_MRP_List_DirectMaterials.EdittiedTotalCost, dbo.tbl_MRP_List_DirectMaterials.ApprovedQty, dbo.tbl_MRP_List_DirectMaterials.ApprovedCost, dbo.tbl_MRP_List_DirectMaterials.ApprovedTotalCost, dbo.tbl_MRP_List_DirectMaterials.QtyPO, dbo.tbl_MRP_List_DirectMaterials.AvailForPO, dbo.vw_AXFindimActivity.DESCRIPTION, dbo.vw_AXFindimBananaRevenue.VALUE, dbo.vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc, dbo.tbl_MRP_List.EntityCode FROM   dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXFindimBananaRevenue.Entity AND dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE LEFT OUTER JOIN dbo.vw_AXFindimActivity ON dbo.tbl_MRP_List_DirectMaterials.ActivityCode = dbo.vw_AXFindimActivity.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "' AND tbl_MRP_List_DirectMaterials.ActivityCode = '" + list[i] + "' AND (dbo.tbl_MRP_List_DirectMaterials.OprUnit = '" + farm_list[c] + "')";
 
 
-                        string query_2 = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "' AND tbl_MRP_List_DirectMaterials.ActivityCode = '" + list[i] + "' ";
+                        string query_2 = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials LEFT OUTER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "' AND tbl_MRP_List_DirectMaterials.ActivityCode = '" + list[i] + "' ";
 
                         if (entity == Constants.TRAIN_CODE()) cmd = new SqlCommand(query_1);
                         else cmd = new SqlCommand(query_2);
@@ -569,7 +569,7 @@ namespace HijoPortal.classes
             {
                 for (int i = 0; i < list.Count; i++)
                 {
-                    string query_2 = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials INNER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "' AND tbl_MRP_List_DirectMaterials.ActivityCode = '" + list[i] + "' ";
+                    string query_2 = "SELECT DISTINCT tbl_MRP_List_DirectMaterials.*, vw_AXFindimActivity.DESCRIPTION FROM   tbl_MRP_List_DirectMaterials LEFT OUTER JOIN vw_AXFindimActivity ON tbl_MRP_List_DirectMaterials.ActivityCode = vw_AXFindimActivity.VALUE WHERE tbl_MRP_List_DirectMaterials.HeaderDocNum = '" + DOC_NUMBER + "' AND tbl_MRP_List_DirectMaterials.ActivityCode = '" + list[i] + "' ";
 
                     cmd = new SqlCommand(query_2);
                     cmd.Connection = cn;
@@ -667,7 +667,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("ATotalCost", typeof(string));
             }
 
-            string query_farmunit = "SELECT DISTINCT dbo.vw_AXFindimBananaRevenue.VALUE FROM dbo.tbl_MRP_List_DirectMaterials INNER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE HeaderDocNum = '" + DOC_NUMBER + "'";
+            string query_farmunit = "SELECT DISTINCT dbo.vw_AXFindimBananaRevenue.VALUE FROM dbo.tbl_MRP_List_DirectMaterials LEFT OUTER JOIN dbo.vw_AXFindimBananaRevenue ON dbo.tbl_MRP_List_DirectMaterials.OprUnit = dbo.vw_AXFindimBananaRevenue.VALUE WHERE HeaderDocNum = '" + DOC_NUMBER + "'";
 
             cmd = new SqlCommand(query_farmunit, cn);
             SqlDataReader reader = cmd.ExecuteReader();
@@ -839,7 +839,7 @@ namespace HijoPortal.classes
             }
             reader.Close();
 
-            string query_farmunit = "SELECT DISTINCT dbo.vw_AXFindimBananaRevenue.VALUE FROM dbo.vw_AXFindimBananaRevenue INNER JOIN dbo.tbl_MRP_List_ManPower ON dbo.vw_AXFindimBananaRevenue.VALUE = dbo.tbl_MRP_List_ManPower.OprUnit WHERE HeaderDocNum = '" + DOC_NUMBER + "'";
+            string query_farmunit = "SELECT DISTINCT dbo.vw_AXFindimBananaRevenue.VALUE FROM dbo.vw_AXFindimBananaRevenue LEFT OUTER JOIN dbo.tbl_MRP_List_ManPower ON dbo.vw_AXFindimBananaRevenue.VALUE = dbo.tbl_MRP_List_ManPower.OprUnit WHERE HeaderDocNum = '" + DOC_NUMBER + "'";
 
             cmd = new SqlCommand(query_farmunit, conn);
             reader = cmd.ExecuteReader();
@@ -1160,7 +1160,7 @@ namespace HijoPortal.classes
         public static string preview_total_opex(string DOC_NUMBER)
         {
             string total = "";
-            string query = "SELECT SUM(dbo.tbl_MRP_List_OPEX.TotalCost) AS TotalSum FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query = "SELECT SUM(dbo.tbl_MRP_List_OPEX.TotalCost) AS TotalSum FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_OPEX.HeaderDocNum WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -1206,7 +1206,7 @@ namespace HijoPortal.classes
         public static string preview_total_directmaterials(string DOC_NUMBER)
         {
             string total = "";
-            string query = "SELECT SUM(dbo.tbl_MRP_List_DirectMaterials.TotalCost) AS TotalSum FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query = "SELECT SUM(dbo.tbl_MRP_List_DirectMaterials.TotalCost) AS TotalSum FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_DirectMaterials.HeaderDocNum WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -1252,7 +1252,7 @@ namespace HijoPortal.classes
         public static string preview_total_capex(string DOC_NUMBER)
         {
             string total = "";
-            string query = "SELECT SUM(dbo.tbl_MRP_List_CAPEX.TotalCost) AS TotalSum FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_CAPEX.HeaderDocNum WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query = "SELECT SUM(dbo.tbl_MRP_List_CAPEX.TotalCost) AS TotalSum FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_CAPEX.HeaderDocNum WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -1298,7 +1298,7 @@ namespace HijoPortal.classes
         public static string preview_total_manpower(string DOC_NUMBER)
         {
             string total = "";
-            string query = "SELECT SUM(dbo.tbl_MRP_List_ManPower.TotalCost) AS TotalSum FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_ManPower ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_ManPower.HeaderDocNum WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query = "SELECT SUM(dbo.tbl_MRP_List_ManPower.TotalCost) AS TotalSum FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.tbl_MRP_List_ManPower ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_ManPower.HeaderDocNum WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -1344,7 +1344,7 @@ namespace HijoPortal.classes
         public static string preview_total_revenue(string DOC_NUMBER)
         {
             string total = "";
-            string query = "SELECT SUM(dbo.tbl_MRP_List_RevenueAssumptions.TotalPrize) AS TotalSum FROM dbo.tbl_MRP_List INNER JOIN dbo.tbl_MRP_List_RevenueAssumptions ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_RevenueAssumptions.HeaderDocNum WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query = "SELECT SUM(dbo.tbl_MRP_List_RevenueAssumptions.TotalPrize) AS TotalSum FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.tbl_MRP_List_RevenueAssumptions ON dbo.tbl_MRP_List.DocNumber = dbo.tbl_MRP_List_RevenueAssumptions.HeaderDocNum WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
