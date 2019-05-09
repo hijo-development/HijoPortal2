@@ -170,7 +170,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT DISTINCT dbo.vw_AXEntityTable.NAME, dbo.tbl_MRP_List.EntityCode FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.MRPYear = '" + year + "')";
+            string qry = "SELECT DISTINCT dbo.vw_AXEntityTable.NAME, dbo.tbl_MRP_List.EntityCode FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE(dbo.tbl_MRP_List.MRPMonth = '" + month + "') AND(dbo.tbl_MRP_List.MRPYear = '" + year + "')";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -210,7 +210,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            //string qry = "SELECT DISTINCT dbo.vw_AXEntityTable.NAME, dbo.tbl_MRP_List.BUCode FROM dbo.tbl_MRP_List_CAPEX INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber INNER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE(dbo.tbl_MRP_List.EntityCode = '" + entity + "')";
+            //string qry = "SELECT DISTINCT dbo.vw_AXEntityTable.NAME, dbo.tbl_MRP_List.BUCode FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber LEFT OUTER JOIN dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID WHERE(dbo.tbl_MRP_List.EntityCode = '" + entity + "')";
 
             string qry = "SELECT dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER, dbo.vw_AXOperatingUnitTable.NAME FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER WHERE(dbo.tbl_MRP_List.MRPMonth = " + month + ") AND(dbo.tbl_MRP_List.MRPYear = '" + year + "') AND(dbo.tbl_MRP_List.EntityCode = '" + entity + "') GROUP BY dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER, dbo.vw_AXOperatingUnitTable.NAME HAVING(dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER IS NOT NULL)";
             cmd = new SqlCommand(qry);

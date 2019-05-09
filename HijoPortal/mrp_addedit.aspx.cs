@@ -133,7 +133,7 @@ namespace HijoPortal
                            " tbl_MRP_Status.StatusName, tbl_Users.Lastname, " +
                            " tbl_Users.Firstname, tbl_MRP_List.EntityCode, " +
                            " tbl_MRP_List.BUCode " +
-                           " FROM tbl_MRP_List INNER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK " +
+                           " FROM tbl_MRP_List LEFT OUTER JOIN tbl_Users ON tbl_MRP_List.CreatorKey = tbl_Users.PK " +
                            " LEFT OUTER JOIN vw_AXOperatingUnitTable ON tbl_MRP_List.BUCode = vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER " +
                            " LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK " +
                            " LEFT OUTER JOIN vw_AXEntityTable ON tbl_MRP_List.EntityCode = vw_AXEntityTable.ID " +
@@ -659,6 +659,20 @@ namespace HijoPortal
             if (expcode.Value != null)
                 exp_code = expcode.Value.ToString();
 
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (totalcost.Value != null)
+            {
+                total_float = Convert.ToDouble(totalcost.Value.ToString());
+            }
+
             //string insert = "INSERT INTO " + MRPClass.DirectMatTable() +
             //                " ([HeaderDocNum], [ActivityCode], [ItemCode], [ItemDescription], [UOM], " +
             //                " [Cost], [Qty], [TotalCost], [OprUnit], " +
@@ -700,7 +714,7 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             //int result = cmd.ExecuteNonQuery();
-            int result = QuerySPClass.InsertUpdateDirectMaterials(wrkflwln, 1, 0, docnumber, 1, exp_code, activity_code, operating_unit, itemCode.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
+            int result = QuerySPClass.InsertUpdateDirectMaterials(wrkflwln, 1, 0, docnumber, 1, exp_code, activity_code, operating_unit, itemCode.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), qty_float, cost_float, total_float);
             if (result > 0)
             {
                 string remarks = MRPClass.directmaterials_logs + "-" + MRPClass.add_logs;
@@ -708,14 +722,16 @@ namespace HijoPortal
                 MRPClass.AddLogsMOPList(conn, mrp_key, remarks);
             }
 
-            int pk_latest = 0;
-            string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.DirectMatTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
-            SqlCommand comm = new SqlCommand(query_pk, conn);
-            SqlDataReader r = comm.ExecuteReader();
-            while (r.Read())
-            {
-                pk_latest = Convert.ToInt32(r[0].ToString());
-            }
+            int pk_latest = QuerySPClass.MRP_Details_Latest_PK(docnumber, 1);
+            //string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.DirectMatTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
+            //SqlCommand comm = new SqlCommand(query_pk, conn);
+            //SqlDataReader r = comm.ExecuteReader();
+            //while (r.Read())
+            //{
+            //    pk_latest = Convert.ToInt32(r[0].ToString());
+            //}
+
+
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -781,6 +797,19 @@ namespace HijoPortal
             if (expcode.Value != null)
                 exp_code = expcode.Value.ToString();
 
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (totalcost.Value != null)
+            {
+                total_float = Convert.ToDouble(totalcost.Value.ToString());
+            }
 
             //string update_MRP = "UPDATE " + MRPClass.DirectMatTable() +
             //                    " SET [ActivityCode] = @ActivityCode, [ItemCode] = @ItemCode , " +
@@ -823,7 +852,7 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             //int result = cmd.ExecuteNonQuery();
-            int result = QuerySPClass.InsertUpdateDirectMaterials(wrkflwln, 2, Convert.ToInt32(PK), docnumber,1, exp_code, activity_code, operating_unit, itemCode.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
+            int result = QuerySPClass.InsertUpdateDirectMaterials(wrkflwln, 2, Convert.ToInt32(PK), docnumber,1, exp_code, activity_code, operating_unit, itemCode.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -950,6 +979,20 @@ namespace HijoPortal
             if (ProCatCode.Value != null)
                 prod_cat = ProCatCode.Value.ToString();
 
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (totalcost.Value != null)
+            {
+                total_float = Convert.ToDouble(totalcost.Value.ToString());
+            }
+
             //MRPClass.PrintString(prod_cat);
 
             //SqlCommand cmd = new SqlCommand(insert, conn);
@@ -966,7 +1009,7 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@ProcCat", prod_cat);
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
-            int result = QuerySPClass.InsertUpdateOperatingExpense(wrkflwln, 1, 0, docnumber, 2, experseCode.Value.ToString(), operating_unit, prod_cat, code, GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
+            int result = QuerySPClass.InsertUpdateOperatingExpense(wrkflwln, 1, 0, docnumber, 2, experseCode.Value.ToString(), operating_unit, prod_cat, code, GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -977,14 +1020,14 @@ namespace HijoPortal
             //e.Cancel = true;
             //grid.CancelEdit();
             //BindOPEX(docnumber);
-            int pk_latest = 0;
-            string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.OpexTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
-            SqlCommand comm1 = new SqlCommand(query_pk, conn);
-            SqlDataReader r = comm1.ExecuteReader();
-            while (r.Read())
-            {
-                pk_latest = Convert.ToInt32(r[0].ToString());
-            }
+            int pk_latest = QuerySPClass.MRP_Details_Latest_PK(docnumber, 2);
+            //string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.OpexTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
+            //SqlCommand comm1 = new SqlCommand(query_pk, conn);
+            //SqlDataReader r = comm1.ExecuteReader();
+            //while (r.Read())
+            //{
+            //    pk_latest = Convert.ToInt32(r[0].ToString());
+            //}
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -1083,6 +1126,20 @@ namespace HijoPortal
                 if (ProCatCode.Value != null)
                     prod_cat = ProCatCode.Value.ToString();
 
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (totalcost.Value != null)
+            {
+                total_float = Convert.ToDouble(totalcost.Value.ToString());
+            }
+
             //SqlCommand cmd = new SqlCommand(update_MRP, conn);
             //cmd.Parameters.AddWithValue("@PK", PK);
             //cmd.Parameters.AddWithValue("@OprUnit", operating_unit);
@@ -1097,7 +1154,7 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@ProcCat", prod_cat);
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
-            int result = QuerySPClass.InsertUpdateOperatingExpense(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 2, expenseCode.Value.ToString(), operating_unit, prod_cat, code, GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
+            int result = QuerySPClass.InsertUpdateOperatingExpense(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 2, expenseCode.Value.ToString(), operating_unit, prod_cat, code, GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1181,6 +1238,20 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (totalcost.Value != null)
+            {
+                total_float = Convert.ToDouble(totalcost.Value.ToString());
+            }
+
             //string insert = "INSERT INTO " + MRPClass.ManPowerTable() +
             //                " ([HeaderDocNum], [ActivityCode], [ManPowerTypeKey], " +
             //                " [UOM], [Cost], [Qty], [TotalCost], [OprUnit], " +
@@ -1203,7 +1274,7 @@ namespace HijoPortal
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
 
-            int result = QuerySPClass.InsertUpdateManPower(wrkflwln, 1, 0, docnumber, 3, actCode.Value.ToString(), operating_unit, manpower_type_pk, GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
+            int result = QuerySPClass.InsertUpdateManPower(wrkflwln, 1, 0, docnumber, 3, actCode.Value.ToString(), operating_unit, manpower_type_pk, GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1214,14 +1285,14 @@ namespace HijoPortal
             //e.Cancel = true;
             //grid.CancelEdit();
             //BindManPower(docnumber);
-            int pk_latest = 0;
-            string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.ManPowerTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
-            SqlCommand comm1 = new SqlCommand(query_pk, conn);
-            SqlDataReader r = comm1.ExecuteReader();
-            while (r.Read())
-            {
-                pk_latest = Convert.ToInt32(r[0].ToString());
-            }
+            int pk_latest = QuerySPClass.MRP_Details_Latest_PK(docnumber, 3);
+            //string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.ManPowerTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
+            //SqlCommand comm1 = new SqlCommand(query_pk, conn);
+            //SqlDataReader r = comm1.ExecuteReader();
+            //while (r.Read())
+            //{
+            //    pk_latest = Convert.ToInt32(r[0].ToString());
+            //}
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -1310,6 +1381,20 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (totalcost.Value != null)
+            {
+                total_float = Convert.ToDouble(totalcost.Value.ToString());
+            }
+
             //string update_MRP = "UPDATE " + MRPClass.ManPowerTable() +
             //                    " SET [ActivityCode] = @ActivityCode, [ManPowerTypeKey] = @ManPowerTypeKey, " +
             //                    " [UOM]= @UOM, " +
@@ -1331,7 +1416,7 @@ namespace HijoPortal
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
 
-            int result = QuerySPClass.InsertUpdateManPower(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 3, actcodeVal, operating_unit, manpower_type_pk, GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
+            int result = QuerySPClass.InsertUpdateManPower(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 3, actcodeVal, operating_unit, manpower_type_pk, GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1402,7 +1487,21 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
-            MRPClass.PrintString(prodcat.Value.ToString());
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (totalcost.Value != null)
+            {
+                total_float = Convert.ToDouble(totalcost.Value.ToString());
+            }
+
+            //MRPClass.PrintString(prodcat.Value.ToString());
 
             //string insert = "INSERT INTO " + MRPClass.CapexTable() +
             //                " ([HeaderDocNum],[ProdCat], [Description], [UOM], " +
@@ -1425,7 +1524,7 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
-            int result = QuerySPClass.InsertUpdateCapitalExpenditures(wrkflwln, 1, 0, docnumber, 4, operating_unit, prodcat.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
+            int result = QuerySPClass.InsertUpdateCapitalExpenditures(wrkflwln, 1, 0, docnumber, 4, operating_unit, prodcat.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1436,14 +1535,14 @@ namespace HijoPortal
             //e.Cancel = true;
             //grid.CancelEdit();
             //BindCAPEX(docnumber);
-            int pk_latest = 0;
-            string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.CapexTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
-            SqlCommand comm = new SqlCommand(query_pk, conn);
-            SqlDataReader r = comm.ExecuteReader();
-            while (r.Read())
-            {
-                pk_latest = Convert.ToInt32(r[0].ToString());
-            }
+            int pk_latest = QuerySPClass.MRP_Details_Latest_PK(docnumber, 4);
+            //string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.CapexTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
+            //SqlCommand comm = new SqlCommand(query_pk, conn);
+            //SqlDataReader r = comm.ExecuteReader();
+            //while (r.Read())
+            //{
+            //    pk_latest = Convert.ToInt32(r[0].ToString());
+            //}
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -1522,6 +1621,19 @@ namespace HijoPortal
             string operating_unit = "";
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
+            Double qty_float = 0, cost_float = 0, total_float = 0;
+            if (qty.Value != null)
+            {
+                qty_float = Convert.ToDouble(qty.Value.ToString());
+            }
+            if (cost.Value != null)
+            {
+                cost_float = Convert.ToDouble(cost.Value.ToString());
+            }
+            if (totalcost.Value != null)
+            {
+                total_float = Convert.ToDouble(totalcost.Value.ToString());
+            }
 
             //string update_MRP = "UPDATE " + MRPClass.CapexTable() +
             //                    " SET [Description] = @Description, [ProdCat] = @ProdCat, [UOM]= @UOM, [OprUnit] = @OprUnit, " +
@@ -1541,7 +1653,7 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
-            int result = QuerySPClass.InsertUpdateCapitalExpenditures(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 4, operating_unit, prodcat.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), Convert.ToDouble(qty.Value.ToString()), Convert.ToDouble(cost.Value.ToString()), Convert.ToDouble(totalcost.Value.ToString()));
+            int result = QuerySPClass.InsertUpdateCapitalExpenditures(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 4, operating_unit, prodcat.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), uom.Value.ToString(), qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1720,6 +1832,20 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
+            Double prize_float = 0, volume_float = 0, total_float = 0;
+            if (prize.Value != null)
+            {
+                prize_float = Convert.ToDouble(prize.Value.ToString());
+            }
+            if (volume.Value != null)
+            {
+                volume_float = Convert.ToDouble(volume.Value.ToString());
+            }
+            if (totalprize.Value != null)
+            {
+                total_float = Convert.ToDouble(totalprize.Value.ToString());
+            }
+
             //string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [FarmName], [Prize], [Volume], [TotalPrize], [OprUnit]) VALUES (@HeaderDocNum, @ProductName, @FarmName, @Prize, @Volume, @TotalPrize, @OprUnit)";
 
             //string insert = "INSERT INTO " + MRPClass.RevenueTable() + " ([HeaderDocNum], [ProductName], [Prize], [Volume], [TotalPrize], [OprUnit]) VALUES (@HeaderDocNum, @ProductName, @Prize, @Volume, @TotalPrize, @OprUnit)";
@@ -1735,7 +1861,7 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
-            int result = QuerySPClass.InsertUpdateRevenueAssumptions(1, 0, docnumber, operating_unit, GlobalClass.FormatSQL(product.Value.ToString()), GlobalClass.FormatSQL(farm.Value.ToString()), Convert.ToDouble(prize.Value.ToString()), Convert.ToDouble(volume.Value.ToString()), Convert.ToDouble(totalprize.Value.ToString()));
+            int result = QuerySPClass.InsertUpdateRevenueAssumptions(1, 0, docnumber, operating_unit, GlobalClass.FormatSQL(product.Value.ToString()), GlobalClass.FormatSQL(farm.Value.ToString()), prize_float, volume_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1746,14 +1872,14 @@ namespace HijoPortal
             //e.Cancel = true;
             //grid.CancelEdit();
             //BindRevenue(docnumber);
-            int pk_latest = 0;
-            string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.RevenueTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
-            SqlCommand comm1 = new SqlCommand(query_pk, conn);
-            SqlDataReader r = comm1.ExecuteReader();
-            while (r.Read())
-            {
-                pk_latest = Convert.ToInt32(r[0].ToString());
-            }
+            int pk_latest = QuerySPClass.MRP_Details_Latest_PK(docnumber, 5);
+            //string query_pk = "SELECT TOP 1 [PK] FROM " + MRPClass.RevenueTable() + " WHERE ([HeaderDocNum] = '" + docnumber + "') ORDER BY [PK] DESC";
+            //SqlCommand comm1 = new SqlCommand(query_pk, conn);
+            //SqlDataReader r = comm1.ExecuteReader();
+            //while (r.Read())
+            //{
+            //    pk_latest = Convert.ToInt32(r[0].ToString());
+            //}
 
             e.Cancel = true;
             grid.CancelEdit();
@@ -2176,6 +2302,19 @@ namespace HijoPortal
             if (opunit.Value != null)
                 operating_unit = opunit.Value.ToString();
 
+            Double prize_float = 0, volume_float = 0, total_float = 0;
+            if (prize.Value != null)
+            {
+                prize_float = Convert.ToDouble(prize.Value.ToString());
+            }
+            if (volume.Value != null)
+            {
+                volume_float = Convert.ToDouble(volume.Value.ToString());
+            }
+            if (totalprize.Value != null)
+            {
+                total_float = Convert.ToDouble(totalprize.Value.ToString());
+            }
 
 
             //string update_MRP = "UPDATE " + MRPClass.RevenueTable() + " SET [ProductName] = @ProductName [Prize] = @Prize, [Volume] = @Volume, [TotalPrize] = @TotalPrize, [OprUnit] = @OprUnit WHERE [PK] = @PK";
@@ -2190,7 +2329,7 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
-            int result = QuerySPClass.InsertUpdateRevenueAssumptions(2, Convert.ToInt32(PK), docnumber, operating_unit, GlobalClass.FormatSQL(product.Value.ToString()), GlobalClass.FormatSQL(farm.Value.ToString()), Convert.ToDouble(prize.Value.ToString()), Convert.ToDouble(volume.Value.ToString()), Convert.ToDouble(totalprize.Value.ToString()));
+            int result = QuerySPClass.InsertUpdateRevenueAssumptions(2, Convert.ToInt32(PK), docnumber, operating_unit, GlobalClass.FormatSQL(product.Value.ToString()), GlobalClass.FormatSQL(farm.Value.ToString()), prize_float, volume_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);

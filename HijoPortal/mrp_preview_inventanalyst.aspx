@@ -28,7 +28,7 @@
     </asp:Panel>
 
 
-    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupAnimationType="Fade" CloseAnimationType="Fade"  PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="400px">
+    <dx:ASPxPopupControl ID="MRPNotify" ClientInstanceName="MRPNotify" runat="server" Modal="true" CloseAction="CloseButton" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="400px">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <dx:ASPxLabel ID="MRPNotificationMessage" ClientInstanceName="MRPNotificationMessage" runat="server" Text="" Theme="Moderno" ForeColor="Red" Width="300"></dx:ASPxLabel>
@@ -38,7 +38,7 @@
     </dx:ASPxPopupControl>
 
 
-    <dx:ASPxPopupControl ID="PopupSubmitPreviewAnal" ClientInstanceName="PopupSubmitPreviewAnal" runat="server" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade"  PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="400px">
+    <dx:ASPxPopupControl ID="PopupSubmitPreviewAnal" ClientInstanceName="PopupSubmitPreviewAnal" runat="server" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="400px">
 
         <ContentCollection>
             <dx:PopupControlContentControl>
@@ -164,15 +164,21 @@
                                             <SettingsPager Mode="ShowAllRecords"></SettingsPager>
                                             <%--<SettingsBehavior AllowDragDrop="false" />--%>
                                             <Settings ShowGroupPanel="true" ShowFooter="true" />
-                                            <GroupSummary>
+                                            <%--<GroupSummary>
                                                 <dx:ASPxSummaryItem FieldName="TotalPrize" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
                                             </GroupSummary>
                                             <TotalSummary>
                                                 <dx:ASPxSummaryItem FieldName="TotalPrize" ShowInColumn="TotalPrize" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
                                                 <dx:ASPxSummaryItem FieldName="RecTotalCost" ShowInColumn="RecTotalCost" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
+                                            </TotalSummary>--%>
+                                            <GroupSummary>
+                                                <dx:ASPxSummaryItem FieldName="TotalPrice" SummaryType="Sum" ShowInColumn="OperatingUnit" DisplayFormat="Total: {0:0,0.00}" />
+                                            </GroupSummary>
+                                            <TotalSummary>
+                                                <dx:ASPxSummaryItem FieldName="TotalPrice" ShowInColumn="TotalPrice" SummaryType="Sum" DisplayFormat="Total: {0:0,0.00}" />
                                             </TotalSummary>
                                             <Styles>
-                                                <Footer HorizontalAlign="Right"></Footer>
+                                                <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                             </Styles>
                                         </dx:ASPxGridView>
                                     </dx:PanelContent>
@@ -195,7 +201,7 @@
                                             </TotalSummary>
                                             <Styles>
                                                 <Cell HorizontalAlign="Left"></Cell>
-                                                <Footer HorizontalAlign="Right"></Footer>
+                                                <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                             </Styles>
                                         </dx:ASPxGridView>
                                     </dx:PanelContent>
@@ -225,7 +231,7 @@
                                 </TotalSummary>
                                 <Styles>
                                     <Header Wrap="True"></Header>
-                                    <Footer HorizontalAlign="Right"></Footer>
+                                    <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                 </Styles>
                             </dx:ASPxGridView>
                         </dx:PanelContent>
@@ -254,7 +260,7 @@
                                 </TotalSummary>
                                 <Styles>
                                     <Header Wrap="True"></Header>
-                                    <Footer HorizontalAlign="Right"></Footer>
+                                    <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                 </Styles>
                             </dx:ASPxGridView>
                         </dx:PanelContent>
@@ -282,7 +288,7 @@
                                 </TotalSummary>
                                 <Styles>
                                     <Header Wrap="True"></Header>
-                                    <Footer HorizontalAlign="Right"></Footer>
+                                    <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                 </Styles>
                             </dx:ASPxGridView>
                         </dx:PanelContent>
@@ -310,7 +316,7 @@
                                 </TotalSummary>
                                 <Styles>
                                     <Header Wrap="True"></Header>
-                                    <Footer HorizontalAlign="Right"></Footer>
+                                    <Footer HorizontalAlign="Right" Font-Bold="true"></Footer>
                                 </Styles>
                             </dx:ASPxGridView>
                         </dx:PanelContent>

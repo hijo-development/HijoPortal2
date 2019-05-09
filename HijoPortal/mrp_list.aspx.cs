@@ -465,14 +465,14 @@ namespace HijoPortal
                 if (Session["EntityCode"].ToString().Trim() != "")
                 {
                     //MRPClass.PrintString("pass with entity");
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                     PopUpControl.HeaderText = "MRP";
                     PopUpControl.ShowOnPageLoad = true;
                 }
                 else
                 {
                     //MRPClass.PrintString("pass script");
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "CheckEnt", "AddMOPCheckEntity();", true);
+                    //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "CheckEnt", "AddMOPCheckEntity();", true);
                 }
             }
         }
@@ -480,7 +480,7 @@ namespace HijoPortal
         protected void OK_SUBMIT_Click(object sender, EventArgs e)
         {
             PopupSubmitMRPList.ShowOnPageLoad = false;
-            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             //MRPClass.Submit_MRP(docNum.ToString(), Convert.ToInt32(PK), 1, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
             MRPSubmitClass.MRP_Submit(docNum.ToString(), Convert.ToInt32(PK), dteCreated, 0, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
@@ -499,7 +499,7 @@ namespace HijoPortal
         protected void OK_DELETE_Click(object sender, EventArgs e)
         {
             PopupDeleteMRPList.ShowOnPageLoad = false;
-            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
             string PK = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();

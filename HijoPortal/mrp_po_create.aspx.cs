@@ -140,7 +140,7 @@ namespace HijoPortal
 
         protected void CurrencyCallback_Callback(object sender, CallbackEventArgsBase e)
         {
-            string query = "SELECT dbo.vw_AXVendTable.VENDGROUP, dbo.vw_AXVendTable.PAYMTERMID, dbo.vw_AXVendTable.CURRENCY, dbo.vw_AXCurrency.TXT FROM dbo.vw_AXVendTable INNER JOIN dbo.vw_AXCurrency ON dbo.vw_AXVendTable.CURRENCY = dbo.vw_AXCurrency.CURRENCYCODE WHERE[ACCOUNTNUM] = '" + Vendor.Text.ToString() + "'";
+            string query = "SELECT dbo.vw_AXVendTable.VENDGROUP, dbo.vw_AXVendTable.PAYMTERMID, dbo.vw_AXVendTable.CURRENCY, dbo.vw_AXCurrency.TXT FROM dbo.vw_AXVendTable LEFT OUTER JOIN dbo.vw_AXCurrency ON dbo.vw_AXVendTable.CURRENCY = dbo.vw_AXCurrency.CURRENCYCODE WHERE[ACCOUNTNUM] = '" + Vendor.Text.ToString() + "'";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -182,7 +182,7 @@ namespace HijoPortal
         protected void Site_Init(object sender, EventArgs e)
         {
 
-            string query = "SELECT DISTINCT dbo.tbl_MRP_List.EntityCode FROM dbo.tbl_POCreation_Tmp INNER JOIN dbo.tbl_MRP_List ON dbo.tbl_POCreation_Tmp.MOPNumber = dbo.tbl_MRP_List.DocNumber WHERE UserKey = '" + Session["CreatorKey"].ToString() + "'";
+            string query = "SELECT DISTINCT dbo.tbl_MRP_List.EntityCode FROM dbo.tbl_POCreation_Tmp LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_POCreation_Tmp.MOPNumber = dbo.tbl_MRP_List.DocNumber WHERE UserKey = '" + Session["CreatorKey"].ToString() + "'";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
