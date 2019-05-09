@@ -37,7 +37,7 @@ namespace HijoPortal
 
             if (!Page.IsPostBack)
             {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 wrkTable = MRPClass.MRP_Work_Assigned_To_Me(Convert.ToInt32(Session["CreatorKey"]));
 

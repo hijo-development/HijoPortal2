@@ -26,7 +26,7 @@ namespace HijoPortal
 
             if (!Page.IsPostBack)
             {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 ASPxHiddenField entText = MainTable.FindHeaderTemplateControl(MainTable.Columns[0], "ASPxHiddenFieldEnt") as ASPxHiddenField;
                 entText["hidden_value"] = Session["EntityCode"].ToString();
