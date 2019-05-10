@@ -92,7 +92,7 @@
                                                 <dx:ASPxHiddenField ID="WrkFlowHidden" runat="server" ClientInstanceName="WrkFlowHiddenAnal"></dx:ASPxHiddenField>
                                                 <dx:ASPxHiddenField ID="StatusHidden" runat="server" ClientInstanceName="StatusHiddenAnal"></dx:ASPxHiddenField>
                                             </div>
-                                            <dx:ASPxButton ID="btAddEdit" runat="server" Text="MOP Details" OnClick="btAddEdit_Click" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
+                                            <dx:ASPxButton ID="btAddEdit" runat="server" Text="Add/Edit" OnClick="btAddEdit_Click" AutoPostBack="false" Theme="Office2010Blue"></dx:ASPxButton>
                                             <dx:ASPxButton ID="Submit" runat="server" Text="Submit" AutoPostBack="false" Theme="Office2010Blue">
                                                 <ClientSideEvents Click="Preview_Submit_Analyst_Click" />
                                             </dx:ASPxButton>
