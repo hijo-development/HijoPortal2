@@ -295,6 +295,8 @@ namespace HijoPortal
                         docnum = MOPNum_Combo.Text.ToString();
                     }
 
+                    //MRPClass.PrintString("pass");
+
                     //MRPClass.PrintString(docnum);
 
                     list.DataSource = MRPClass.ProCategoryTable_Filter_SelectItemPO(Convert.ToInt32(year), monthindex, docnum);
@@ -357,11 +359,11 @@ namespace HijoPortal
                 month_static = Convertion.MONTH_TO_INDEX(month);
             }
 
-            if (MOPNum_Combo.Text != null)
+            doc_static = "";
+            if (!string.IsNullOrEmpty(MOPNum_Combo.Text))
+            {
                 doc_static = MOPNum_Combo.Text.ToString();
-            else
-                doc_static = "";
-
+            }
             prod_static = new ArrayList();
             prod_static = arrlist;
             BindTable(doc_static, month_static, year_static, arrlist);

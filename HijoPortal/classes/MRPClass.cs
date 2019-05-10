@@ -2457,9 +2457,10 @@ namespace HijoPortal.classes
 
             cn.Close();
 
-            DataTable uniqdtTable = RemoveDuplicateRows(dtTable, "NAME", "DESCRIPTION");
+            //DataTable uniqdtTable = RemoveDuplicateRows(dtTable, "NAME", "DESCRIPTION");
 
-            return uniqdtTable;
+            return dtTable;
+            //return uniqdtTable;
         }
 
         public static DataTable ProCategoryTable_Filter(string docnum, string entCode)
