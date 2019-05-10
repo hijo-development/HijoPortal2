@@ -154,7 +154,7 @@
             <dx:ASPxCallbackPanel ID="MainGridCallbackPanel" runat="server" ClientInstanceName="MainGridCallbackPanel" OnCallback="MainGridCallbackPanel_Callback" Width="100%">
                 <PanelCollection>
                     <dx:PanelContent>
-                        <dx:ASPxGridView ID="MainGrid_PO" runat="server" ClientInstanceName="MainGrid_POClient" Theme="Office2010Blue" Width="100%" KeyFieldName="PK;TableIdentifier">
+                        <dx:ASPxGridView ID="MainGrid_PO" runat="server" ClientInstanceName="MainGrid_POClient" OnDataBound="MainGrid_PO_DataBound" Theme="Office2010Blue" Width="100%" KeyFieldName="PK;TableIdentifier">
                             <ClientSideEvents SelectionChanged="MainGrid_PO_SelectionChanged" />
                             <Columns>
                                 <dx:GridViewCommandColumn ShowSelectCheckbox="true" SelectAllCheckboxMode="Page"></dx:GridViewCommandColumn>

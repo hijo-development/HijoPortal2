@@ -16,6 +16,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="css/ContentPage.css" rel="stylesheet" />
     <link rel="shortcut icon" type="image/x-icon" href="../images/HijoLogo.png" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="jquery/windowState.js"></script>
@@ -86,12 +92,12 @@
 
         <dx:ASPxLoadingPanel ID="loadingPanelMaster" runat="server" Theme="Moderno" HorizontalAlign="Center" VerticalAlign="Middle" ClientInstanceName="loadingPanel" Modal="true"></dx:ASPxLoadingPanel>
 
-        <dx:ASPxSplitter ID="ASPxSplitter2" runat="server" ClientInstanceName="MainSplitterClient" FullscreenMode="true" Height="100%" Width="100%" Orientation="Vertical" SeparatorVisible="false" Theme="Moderno" BackColor="Transparent">
+        <dx:ASPxSplitter ID="ASPxSplitter2" runat="server" ClientInstanceName="MainSplitterClient" FullscreenMode="true" Height="100%" Width="100%" Orientation="Vertical" EnableHierarchyRecreation="false" SeparatorVisible="false" Theme="Moderno" BackColor="Transparent">
             <Styles>
                 <Separator BackColor="WhiteSmoke"></Separator>
             </Styles>
             <Panes>
-                <dx:SplitterPane Size="14%" ScrollBars="Auto">
+                <dx:SplitterPane Size="14%" ScrollBars="Auto" AutoHeight="true">
                     <ContentCollection>
                         <dx:SplitterContentControl>
                             <div id="dvBanner" runat="server" style="height: auto;">

@@ -324,6 +324,12 @@ namespace HijoPortal
             }
         }
 
+        protected void MainGrid_PO_DataBound(object sender, EventArgs e)
+        {
+            ASPxGridView grid = sender as ASPxGridView;
+            ((GridViewDataColumn)grid.Columns["DocumentNumber"]).SortAscending();
+        }
+
         protected void ProdCat_ListBox_Callback(object sender, CallbackEventArgsBase e)
         {
             ProdCat_DataBind();
