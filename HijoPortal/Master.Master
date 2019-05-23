@@ -97,7 +97,7 @@
                 <Separator BackColor="WhiteSmoke"></Separator>
             </Styles>
             <Panes>
-                <dx:SplitterPane Size="14%" ScrollBars="Auto" AutoHeight="true">
+                <dx:SplitterPane Size="14%" ScrollBars="Auto">
                     <ContentCollection>
                         <dx:SplitterContentControl>
                             <div id="dvBanner" runat="server" style="height: auto;">

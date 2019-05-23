@@ -173,6 +173,7 @@ namespace HijoPortal.classes
             SqlDataAdapter adp;
             string qry = "sp_MRPList_Details_Latest_PK '" + docNum + "', "+ Identifier + "";
             cn.Open();
+            cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
             adp.Fill(dt);
