@@ -1828,9 +1828,21 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string operating_unit = "";
+            string operating_unit = "", product_val = "", farm_val ="";
             if (opunit.Value != null)
+            {
                 operating_unit = opunit.Value.ToString();
+            }
+                
+            if (product.Value != null)
+            {
+                product_val = product.Value.ToString();
+            }
+
+            //if (farm.Value != null)
+            //{
+            //    farm_val = farm.Value.ToString();
+            //}
 
             Double prize_float = 0, volume_float = 0, total_float = 0;
             if (prize.Value != null)
@@ -1861,7 +1873,8 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
-            int result = QuerySPClass.InsertUpdateRevenueAssumptions(1, 0, docnumber, operating_unit, GlobalClass.FormatSQL(product.Value.ToString()), GlobalClass.FormatSQL(farm.Value.ToString()), prize_float, volume_float, total_float);
+
+            int result = QuerySPClass.InsertUpdateRevenueAssumptions(1, 0, docnumber, operating_unit, GlobalClass.FormatSQL(product_val.ToString()), GlobalClass.FormatSQL(farm_val.ToString()), prize_float, volume_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);

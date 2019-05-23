@@ -2886,8 +2886,6 @@ namespace HijoPortal.classes
                 grid.Columns["RevDesc"].Visible = true;
             else
                 grid.Columns["RevDesc"].Visible = false;
-
-
         }
 
         public static int MRP_Line_Status(int masterKey, int line)
