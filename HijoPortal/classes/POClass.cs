@@ -68,12 +68,13 @@ namespace HijoPortal.classes
                     dtRow["Creator"] = EncryptionClass.Decrypt(row["Firstname"].ToString()) + " " + EncryptionClass.Decrypt(row["Lastname"].ToString());
                     dtRow["ExpectedDate"] = Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy");
 
-                    string query = "SELECT SUM([TotalCost]) FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PONumber] = '" + row["PONumber"].ToString() + "' GROUP BY MOPNumber";
+                    string query = "SELECT SUM([TotalCost]), SUM([TotalCostwVAT]) FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PONumber] = '" + row["PONumber"].ToString() + "' GROUP BY MOPNumber";
                     cmd = new SqlCommand(query, cn);
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        dtRow["TotalAmount"] = Convert.ToDouble(reader[0].ToString()).ToString("N");
+                        //dtRow["TotalAmount"] = Convert.ToDouble(reader[0].ToString()).ToString("N");
+                        dtRow["TotalAmount"] = Convert.ToDouble(reader[1].ToString()).ToString("N");
                     }
                     reader.Close();
 
@@ -662,14 +663,17 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Cost", typeof(string));
                 dtTable.Columns.Add("TotalCost", typeof(string));
                 dtTable.Columns.Add("POUOM", typeof(string));
+                dtTable.Columns.Add("wVAT", typeof(bool));
                 dtTable.Columns.Add("POQty", typeof(string));
                 dtTable.Columns.Add("POCost", typeof(string));
+                dtTable.Columns.Add("POCostwVAT", typeof(string));
                 dtTable.Columns.Add("TotalPOCost", typeof(string));
+                dtTable.Columns.Add("TotalPOCostwVAT", typeof(string));
                 dtTable.Columns.Add("TaxGroup", typeof(string));
                 dtTable.Columns.Add("TaxItemGroup", typeof(string));
             }
 
-            string qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_DirectMaterials.UOM FROM   dbo.tbl_POCreation_Tmp LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_DirectMaterials.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '1'";
+            string qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_DirectMaterials.ItemCode, dbo.tbl_MRP_List_DirectMaterials.ItemDescription, dbo.tbl_MRP_List_DirectMaterials.ItemDescriptionAddl, dbo.tbl_MRP_List_DirectMaterials.Qty, dbo.tbl_MRP_List_DirectMaterials.TotalCost, dbo.tbl_MRP_List_DirectMaterials.Cost, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.wVAT, dbo.tbl_POCreation_Tmp.POCostwVAT, dbo.tbl_POCreation_Tmp.POTotalCostwVAT, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_DirectMaterials.UOM FROM dbo.tbl_POCreation_Tmp LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_DirectMaterials.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '1'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -702,22 +706,57 @@ namespace HijoPortal.classes
                     else
                         dtRow["POUOM"] = row["UOM"].ToString();
 
+                    bool wVAT = false;
+                    if (Convert.ToInt32(row["wVAT"]) == 1)
+                    {
+                        wVAT = true;
+                    }
+                    dtRow["wVAT"] = wVAT;
+                   
                     string poqty = row["POQty"].ToString();
                     string pocost = row["POCost"].ToString();
                     string pototalcost = row["POTotalCost"].ToString();
+                    string pocostwVAT = row["POCostwVAT"].ToString();
+                    string pototalcostwVAT = row["POTotalCostwVAT"].ToString();
 
-
-                    if (Convert.ToDouble(poqty) == 0 && Convert.ToDouble(pocost) == 0 && Convert.ToDouble(pototalcost) == 0)
+                    if (Convert.ToDouble(poqty) == 0)
                     {
                         dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
+                    } else
+                    {
+                        dtRow["POQty"] = Convert.ToDouble(poqty).ToString("N");
+                    }
+                    if (Convert.ToDouble(pocost) == 0)
+                    {
                         dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
+                        dtRow["POCost"] = Convert.ToDouble(pocost).ToString("N");
+                    }
+                    if (Convert.ToDouble(pototalcost) == 0)
+                    {
                         dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
                     }
                     else
                     {
-                        dtRow["POQty"] = Convert.ToDouble(poqty).ToString("N");
-                        dtRow["POCost"] = Convert.ToDouble(pocost).ToString("N");
                         dtRow["TotalPOCost"] = Convert.ToDouble(pototalcost).ToString("N");
+                    }
+                    if (Convert.ToDouble(pocostwVAT) == 0)
+                    {
+                        dtRow["POCostwVAT"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
+                        dtRow["POCostwVAT"] = Convert.ToDouble(pocostwVAT).ToString("N");
+                    }
+                    if (Convert.ToDouble(pototalcostwVAT) == 0)
+                    {
+                        dtRow["TotalPOCostwVAT"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
+                        dtRow["TotalPOCostwVAT"] = Convert.ToDouble(pototalcostwVAT).ToString("N");
                     }
 
                     dtRow["TaxGroup"] = row["TaxGroup"].ToString();
@@ -727,7 +766,7 @@ namespace HijoPortal.classes
             }
             dt.Clear();
 
-            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_OPEX.UOM FROM   dbo.tbl_POCreation_Tmp LEFT OUTER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_OPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '2'";
+            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_MRP_List_OPEX.ItemCode, dbo.tbl_MRP_List_OPEX.Description, dbo.tbl_MRP_List_OPEX.DescriptionAddl, dbo.tbl_MRP_List_OPEX.Cost, dbo.tbl_MRP_List_OPEX.Qty, dbo.tbl_MRP_List_OPEX.TotalCost, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.wVAT, dbo.tbl_POCreation_Tmp.POCostwVAT, dbo.tbl_POCreation_Tmp.POTotalCostwVAT, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_OPEX.UOM FROM dbo.tbl_POCreation_Tmp LEFT OUTER JOIN dbo.tbl_MRP_List_OPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_OPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '2'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -760,22 +799,59 @@ namespace HijoPortal.classes
                     else
                         dtRow["POUOM"] = row["UOM"].ToString();
 
+
+                    bool wVAT = false;
+                    if (Convert.ToInt32(row["wVAT"]) == 1)
+                    {
+                        wVAT = true;
+                    }
+                    dtRow["wVAT"] = wVAT;
+
                     string poqty = row["POQty"].ToString();
                     string pocost = row["POCost"].ToString();
                     string pototalcost = row["POTotalCost"].ToString();
+                    string pocostwVAT = row["POCostwVAT"].ToString();
+                    string pototalcostwVAT = row["POTotalCostwVAT"].ToString();
 
-
-                    if (Convert.ToDouble(poqty) == 0 && Convert.ToDouble(pocost) == 0 && Convert.ToDouble(pototalcost) == 0)
+                    if (Convert.ToDouble(poqty) == 0)
                     {
                         dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
-                        dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
-                        dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
                     }
                     else
                     {
                         dtRow["POQty"] = Convert.ToDouble(poqty).ToString("N");
+                    }
+                    if (Convert.ToDouble(pocost) == 0)
+                    {
+                        dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
                         dtRow["POCost"] = Convert.ToDouble(pocost).ToString("N");
+                    }
+                    if (Convert.ToDouble(pototalcost) == 0)
+                    {
+                        dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
                         dtRow["TotalPOCost"] = Convert.ToDouble(pototalcost).ToString("N");
+                    }
+                    if (Convert.ToDouble(pocostwVAT) == 0)
+                    {
+                        dtRow["POCostwVAT"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
+                        dtRow["POCostwVAT"] = Convert.ToDouble(pocostwVAT).ToString("N");
+                    }
+                    if (Convert.ToDouble(pototalcostwVAT) == 0)
+                    {
+                        dtRow["TotalPOCostwVAT"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
+                        dtRow["TotalPOCostwVAT"] = Convert.ToDouble(pototalcostwVAT).ToString("N");
                     }
 
                     dtRow["TaxGroup"] = row["TaxGroup"].ToString();
@@ -786,7 +862,7 @@ namespace HijoPortal.classes
             dt.Clear();
 
             //CAPEX
-            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty,  dbo.tbl_MRP_List_CAPEX.TotalCost, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber FROM dbo.tbl_POCreation_Tmp LEFT OUTER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '4'";
+            qry = "SELECT dbo.tbl_POCreation_Tmp.PK, dbo.tbl_POCreation_Tmp.MOPNumber, dbo.tbl_POCreation_Tmp.ItemPK, dbo.tbl_POCreation_Tmp.ItemIdentifier, dbo.tbl_POCreation_Tmp.TaxGroup, dbo.tbl_POCreation_Tmp.TaxItemGroup, dbo.tbl_POCreation_Tmp.POQty, dbo.tbl_POCreation_Tmp.POCost, dbo.tbl_POCreation_Tmp.POTotalCost, dbo.tbl_POCreation_Tmp.POUOM, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.UOM, dbo.tbl_MRP_List_CAPEX.Cost, dbo.tbl_MRP_List_CAPEX.Qty,  dbo.tbl_MRP_List_CAPEX.TotalCost, dbo.tbl_POCreation_Tmp.wVAT, dbo.tbl_POCreation_Tmp.POCostwVAT, dbo.tbl_POCreation_Tmp.POTotalCostwVAT, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber FROM dbo.tbl_POCreation_Tmp LEFT OUTER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Tmp.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE UserKey = '" + creatorkey + "' AND ItemIdentifier = '4'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -819,22 +895,58 @@ namespace HijoPortal.classes
                     else
                         dtRow["POUOM"] = row["UOM"].ToString();
 
+                    bool wVAT = false;
+                    if (Convert.ToInt32(row["wVAT"]) == 1)
+                    {
+                        wVAT = true;
+                    }
+                    dtRow["wVAT"] = wVAT;
+
                     string poqty = row["POQty"].ToString();
                     string pocost = row["POCost"].ToString();
                     string pototalcost = row["POTotalCost"].ToString();
+                    string pocostwVAT = row["POCostwVAT"].ToString();
+                    string pototalcostwVAT = row["POTotalCostwVAT"].ToString();
 
-
-                    if (Convert.ToDouble(poqty) == 0 && Convert.ToDouble(pocost) == 0 && Convert.ToDouble(pototalcost) == 0)
+                    if (Convert.ToDouble(poqty) == 0)
                     {
                         dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
-                        dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
-                        dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
                     }
                     else
                     {
                         dtRow["POQty"] = Convert.ToDouble(poqty).ToString("N");
+                    }
+                    if (Convert.ToDouble(pocost) == 0)
+                    {
+                        dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
                         dtRow["POCost"] = Convert.ToDouble(pocost).ToString("N");
+                    }
+                    if (Convert.ToDouble(pototalcost) == 0)
+                    {
+                        dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
                         dtRow["TotalPOCost"] = Convert.ToDouble(pototalcost).ToString("N");
+                    }
+                    if (Convert.ToDouble(pocostwVAT) == 0)
+                    {
+                        dtRow["POCostwVAT"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
+                        dtRow["POCostwVAT"] = Convert.ToDouble(pocostwVAT).ToString("N");
+                    }
+                    if (Convert.ToDouble(pototalcostwVAT) == 0)
+                    {
+                        dtRow["TotalPOCostwVAT"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    }
+                    else
+                    {
+                        dtRow["TotalPOCostwVAT"] = Convert.ToDouble(pototalcostwVAT).ToString("N");
                     }
 
                     dtRow["TaxGroup"] = row["TaxGroup"].ToString();
@@ -990,6 +1102,9 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("POQty", typeof(string));
                 dtTable.Columns.Add("POCost", typeof(string));
                 dtTable.Columns.Add("TotalPOCost", typeof(string));
+                dtTable.Columns.Add("wVAT", typeof(bool));
+                dtTable.Columns.Add("POCostwVAT", typeof(string));
+                dtTable.Columns.Add("TotalPOCostwVAT", typeof(string));
                 dtTable.Columns.Add("TaxGroup", typeof(string));
                 dtTable.Columns.Add("TaxItemGroup", typeof(string));
                 dtTable.Columns.Add("ProdCat", typeof(string));
@@ -1026,8 +1141,16 @@ namespace HijoPortal.classes
                     dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                     dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                     dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtRow["POCostwVAT"] = Convert.ToDouble(row["CostwVAT"].ToString()).ToString("N");
+                    dtRow["TotalPOCostwVAT"] = Convert.ToDouble(row["TotalCostwVAT"].ToString()).ToString("N");
                     dtRow["TaxGroup"] = row["TaxGroup"].ToString();
                     dtRow["TaxItemGroup"] = row["TaxItemGroup"].ToString();
+                    bool wVAT = false;
+                    if (Convert.ToInt32(row["wVAT"]) == 1)
+                    {
+                        wVAT = true;
+                    }
+                    dtRow["wVAT"] = wVAT;
                     dtTable.Rows.Add(dtRow);
                 }
             }
@@ -1065,8 +1188,17 @@ namespace HijoPortal.classes
                     dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                     dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                     dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtRow["POCostwVAT"] = Convert.ToDouble(row["CostwVAT"].ToString()).ToString("N");
+                    dtRow["TotalPOCostwVAT"] = Convert.ToDouble(row["TotalCostwVAT"].ToString()).ToString("N");
                     dtRow["TaxGroup"] = row["TaxGroup"].ToString();
                     dtRow["TaxItemGroup"] = row["TaxItemGroup"].ToString();
+                    bool wVAT = false;
+                    if (Convert.ToInt32(row["wVAT"]) == 1)
+                    {
+                        wVAT = true;
+                    }
+                    dtRow["wVAT"] = wVAT;
+
                     dtTable.Rows.Add(dtRow);
                 }
             }
@@ -1100,8 +1232,16 @@ namespace HijoPortal.classes
                     dtRow["POQty"] = Convert.ToDouble(row["Qty"].ToString()).ToString("N");
                     dtRow["POCost"] = Convert.ToDouble(row["Cost"].ToString()).ToString("N");
                     dtRow["TotalPOCost"] = Convert.ToDouble(row["TotalCost"].ToString()).ToString("N");
+                    dtRow["POCostwVAT"] = Convert.ToDouble(row["CostwVAT"].ToString()).ToString("N");
+                    dtRow["TotalPOCostwVAT"] = Convert.ToDouble(row["TotalCostwVAT"].ToString()).ToString("N");
                     dtRow["TaxGroup"] = row["TaxGroup"].ToString();
                     dtRow["TaxItemGroup"] = row["TaxItemGroup"].ToString();
+                    bool wVAT = false;
+                    if (Convert.ToInt32(row["wVAT"]) == 1)
+                    {
+                        wVAT = true;
+                    }
+                    dtRow["wVAT"] = wVAT;
                     dtTable.Rows.Add(dtRow);
                 }
             }

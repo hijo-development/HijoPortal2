@@ -157,6 +157,9 @@
                                     <tr style="height: auto;">
                                         <td style="width: 60px; height: 60px; vertical-align: middle;">
                                             <img src="images/Hijo Logo.png" style="height: 60px; width: 260px;" />
+                                            <div style="display:none;">
+                                                <dx:ASPxTextBox ID="txtVAT" runat="server" ClientInstanceName="txtVATClient" ></dx:ASPxTextBox>
+                                            </div>
                                         </td>
                                         <td style="width: 20%">
                                             <table style="width: 100%;">

@@ -102,11 +102,37 @@ function DeleteItem(s, e) {
 }
 
 function POQty_KeyUp(s, e) {
+    //var avail_qty = accounting.unformat(ReqQtyClient.GetText());
+    ////var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    //var qty = parseFloat(s.GetText()).toFixed(2);
+    //var cost = parseFloat(accounting.unformat(POCostClient.GetText()));
+    //var total = 0;
+    //if (parseFloat(s.GetText()) <= parseFloat(avail_qty)) {
+    //    if (qty > 0) {
+    //        if (cost > 0) {
+    //            total = cost * qty;
+    //            TotalPOCostClient.SetIsValid(true);
+    //            TotalPOCostClient.SetText(parseFloat(total).toFixed(2));
+    //        }
+    //    } else {
+    //        TotalPOCostClient.SetIsValid(false);
+    //        TotalPOCostClient.SetText("");
+    //    }
+    //} else {
+    //    if (cost > 0) {
+    //        s.SetText(avail_qty);
+    //        total = cost * avail_qty;
+    //        TotalPOCostClient.SetIsValid(true);
+    //        TotalPOCostClient.SetText(parseFloat(total).toFixed(2));
+    //    }
+    //}
     var avail_qty = accounting.unformat(ReqQtyClient.GetText());
-    //var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+    var key = ASPxClientUtils.GetKeyCode(e.htmlEvent);
     var qty = parseFloat(s.GetText()).toFixed(2);
     var cost = parseFloat(accounting.unformat(POCostClient.GetText()));
+    var costwVAT = parseFloat(accounting.unformat(POCostwVATClient.GetText()));
     var total = 0;
+    var totalwVAT = 0;
     if (parseFloat(s.GetText()) <= parseFloat(avail_qty)) {
         if (qty > 0) {
             if (cost > 0) {
@@ -114,9 +140,16 @@ function POQty_KeyUp(s, e) {
                 TotalPOCostClient.SetIsValid(true);
                 TotalPOCostClient.SetText(parseFloat(total).toFixed(2));
             }
+            if (costwVAT > 0) {
+                totalwVAT = costwVAT * qty;
+                TotalPOCostwVATClient.SetIsValid(true);
+                TotalPOCostwVATClient.SetText(parseFloat(totalwVAT).toFixed(2));
+            }
         } else {
             TotalPOCostClient.SetIsValid(false);
             TotalPOCostClient.SetText("");
+            TotalPOCostwVATClient.SetIsValid(false);
+            TotalPOCostwVATClient.SetText("");
         }
     } else {
         if (cost > 0) {
@@ -125,27 +158,92 @@ function POQty_KeyUp(s, e) {
             TotalPOCostClient.SetIsValid(true);
             TotalPOCostClient.SetText(parseFloat(total).toFixed(2));
         }
+        if (costwVAT > 0) {
+            totalwVAT = costwVAT * qty;
+            TotalPOCostwVATClient.SetIsValid(true);
+            TotalPOCostwVATClient.SetText(parseFloat(totalwVAT).toFixed(2));
+        }
     }
 }
 
 function POCost_KeyUp(s, e) {
+    //var cost = parseFloat(accounting.unformat(s.GetText()));
+    //var qty = parseFloat(accounting.unformat(POQtyClient.GetText()));
+    //var total = 0;
+    //if (qty > 0) {
+    //    if (cost > 0) {
+    //        total = cost * qty;
+    //        TotalPOCostClient.SetText(accounting.formatMoney(total));
+    //        TotalPOCostClient.SetIsValid(true);
+    //    }
+    //    else {
+    //        TotalPOCostClient.SetIsValid(false);
+    //        TotalPOCostClient.SetText("");
+    //    }
+    //} else {
+    //    TotalPOCostClient.SetText("");
+    //    TotalPOCostClient.SetIsValid(false);
+    //}
+    var checkVal = CheckwVATClient.GetValue();
     var cost = parseFloat(accounting.unformat(s.GetText()));
-    var qty = parseFloat(accounting.unformat(POQtyClient.GetText()));
+    var costwVAT = 0;
+    var qty = parseFloat(POQtyClient.GetText()).toFixed(2);
+    //var VAT = 1.12;
+    var VAT = txtVATClient.GetText(); // 1.12;
     var total = 0;
+    var totalwVAT = 0;
+
+    if (checkVal == true) {
+        costwVAT = cost * VAT;
+        POCostwVATClient.SetText(accounting.formatMoney(costwVAT));
+    }
+    if (checkVal == false) {
+        costwVAT = cost;
+        POCostwVATClient.SetText(accounting.formatMoney(costwVAT));
+    }
+
     if (qty > 0) {
         if (cost > 0) {
             total = cost * qty;
-            TotalPOCostClient.SetText(accounting.formatMoney(total));
-            TotalPOCostClient.SetIsValid(true);
         }
-        else {
-            TotalPOCostClient.SetIsValid(false);
-            TotalPOCostClient.SetText("");
+        if (costwVAT > 0) {
+            totalwVAT = costwVAT * qty;
         }
-    } else {
-        TotalPOCostClient.SetText("");
-        TotalPOCostClient.SetIsValid(false);
     }
+
+    TotalPOCostClient.SetText(accounting.formatMoney(total));
+    TotalPOCostwVATClient.SetText(accounting.formatMoney(totalwVAT));
+}
+
+function POCheck_Changed(s, e) {
+    var checkVal = s.GetValue();
+    var cost = parseFloat(accounting.unformat(POCostClient.GetText()));
+    var qty = parseFloat(POQtyClient.GetText()).toFixed(2);
+    var VAT = txtVATClient.GetText(); // 1.12;
+    var costwVAT = 0;
+    var totalwVAT = 0;
+    //console.log(checkVal);
+    if (checkVal == true) {
+        if (cost > 0) {
+            costwVAT = cost * VAT;
+            POCostwVATClient.SetText(accounting.formatMoney(costwVAT));
+        } else {
+            costwVAT = cost;
+            POCostwVATClient.SetText("");
+        }
+    }
+    if (checkVal == false) {
+        if (cost > 0) {
+            costwVAT = cost;
+            POCostwVATClient.SetText(accounting.formatMoney(costwVAT));
+        } else {
+            costwVAT = cost;
+            POCostwVATClient.SetText("");
+        }
+    }
+
+    totalwVAT = costwVAT * qty;
+    TotalPOCostwVATClient.SetText(accounting.formatMoney(totalwVAT));
 }
 
 function POAddEditSubmitBtn_Click(s, e) {
