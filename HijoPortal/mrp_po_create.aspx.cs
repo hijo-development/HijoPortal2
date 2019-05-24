@@ -105,20 +105,25 @@ namespace HijoPortal
 
         protected void TermsCallback_Callback(object sender, CallbackEventArgsBase e)
         {
-            string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Text.ToString() + "'";
+            ASPxComboBox combo = Terms;
+            //string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Text.ToString() + "'";
+
+            string query = "SELECT dbo.vw_AXVendTable.PAYMTERMID, ISNULL(dbo.vw_AXPaymTerm.DESCRIPTION, N'') AS DESCRIPTION, dbo.vw_AXVendTable.ACCOUNTNUM FROM dbo.vw_AXVendTable LEFT OUTER JOIN  dbo.vw_AXPaymTerm ON dbo.vw_AXVendTable.PAYMTERMID = dbo.vw_AXPaymTerm.PAYMTERMID WHERE(dbo.vw_AXVendTable.ACCOUNTNUM = '" + Vendor.Text.ToString() + "')";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
+            string value = "",text = "";
             SqlCommand cmd = new SqlCommand(query, conn);
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                Terms.Value = reader["PAYMTERMID"].ToString();
+                value = reader["PAYMTERMID"].ToString();
+                text = reader["DESCRIPTION"].ToString();
             }
             reader.Close();
             conn.Close();
 
-            Terms.DataSource = POClass.PaymTermTable(); ;
+            combo.DataSource = POClass.PaymTermTable();
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "PAYMTERMID";
@@ -128,14 +133,21 @@ namespace HijoPortal
             ListBoxColumn l_text = new ListBoxColumn();
             l_text.FieldName = "DESCRIPTION";
             l_text.Width = 250;
-            Terms.Columns.Add(l_text);
+            combo.Columns.Add(l_text);
 
-            Terms.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
-            Terms.ValueField = "PAYMTERMID";
-            Terms.TextField = "DESCRIPTION";
-            Terms.DataBind();
+            combo.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+            combo.ValueField = "PAYMTERMID";
+            combo.TextField = "DESCRIPTION";
+            combo.DataBind();
             //Terms.TextFormatString = "{0}";
+
+            combo.Value = value;
+            combo.Text = value;
+
+            combo.IsValid = (!string.IsNullOrEmpty(value)) ? true : false;
+
             Terms.ClientEnabled = true;
+            TermsLbl.Text = text;   //set text label of terms
         }
 
         protected void CurrencyCallback_Callback(object sender, CallbackEventArgsBase e)

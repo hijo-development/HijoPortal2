@@ -49,5 +49,7 @@ namespace HijoPortal.classes
         {
             public const string Bar = "hello world.";
         }
+
+        public const string default_pagename = "default.aspx";
     }
 }
