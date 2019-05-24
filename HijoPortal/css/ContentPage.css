@@ -2,8 +2,8 @@
     margin: 0;
     padding: 0;
     background-color: rgb(230,239,247);
-    background: url('../images/hijosign.png');
-    background-repeat: repeat;
+    /*background: url('../images/hijosign.png');*/
+    /*background-repeat: repeat;*/
     /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
     font-family: 'Open Sans';
     overflow: hidden;

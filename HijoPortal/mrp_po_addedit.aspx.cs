@@ -228,7 +228,7 @@ namespace HijoPortal
             conn.Close();
 
             combo.DataSource = null;
-            combo.DataSource = POClass.PaymTermTable(); ;
+            combo.DataSource = POClass.PaymTermTable();
 
             ListBoxColumn l_value = new ListBoxColumn();
             l_value.FieldName = "PAYMTERMID";
@@ -249,7 +249,9 @@ namespace HijoPortal
             combo.Value = value;
             combo.Text = value;
 
-            TermsLbl.Text = text;
+            combo.IsValid = (!string.IsNullOrEmpty(value)) ? true : false;
+
+            TermsLbl.Text = text;   //set text label of terms
         }
 
         private void CurrencyCombo_Data()

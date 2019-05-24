@@ -96,26 +96,26 @@
                 </td>
                 <td class="table_po_semi">:</td>
                 <td class="table_po_td_data">
-                    <table style="width: 100%">
-                        <tr>
-                            <td class="innertable_width_thirty">
-                                <dx:ASPxCallbackPanel ID="TermsCallback" runat="server" ClientInstanceName="TermsCallbackPO" OnCallback="TermsCallback_Callback" Width="100%">
-                                    <PanelCollection>
-                                        <dx:PanelContent>
+                    <dx:ASPxCallbackPanel ID="TermsCallback" runat="server" ClientInstanceName="TermsCallbackPO" OnCallback="TermsCallback_Callback" Width="100%">
+                        <PanelCollection>
+                            <dx:PanelContent>
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td class="innertable_width_thirty">
+
                                             <dx:ASPxComboBox ID="Terms" runat="server" ClientInstanceName="TermsClient" ClientEnabled="false" ValueType="System.String" Theme="Office2010Blue" Width="100%">
                                                 <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-IsRequired="true"></ValidationSettings>
                                                 <ClientSideEvents SelectedIndexChanged="TermsPO_SelectedIndexChanged" />
                                             </dx:ASPxComboBox>
-
-                                        </dx:PanelContent>
-                                    </PanelCollection>
-                                </dx:ASPxCallbackPanel>
-                            </td>
-                            <td class="small_data_width all_label">
-                                <dx:ASPxLabel ID="TermsLbl" runat="server" ClientInstanceName="TermsLblClient" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
-                            </td>
-                        </tr>
-                    </table>
+                                        </td>
+                                        <td class="small_data_width all_label">
+                                            <dx:ASPxLabel ID="TermsLbl" runat="server" ClientInstanceName="TermsLblClient" Text="" Theme="Office2010Blue"></dx:ASPxLabel>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </dx:PanelContent>
+                        </PanelCollection>
+                    </dx:ASPxCallbackPanel>
 
                 </td>
                 <td class="table_po_td_label">
@@ -346,11 +346,11 @@
                         </dx:ASPxTextBox>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
-                <dx:GridViewDataColumn FieldName="wVAT" Caption ="w/ VAT">
+                <dx:GridViewDataColumn FieldName="wVAT" Caption="w/ VAT">
                     <HeaderStyle HorizontalAlign="Center" />
                     <CellStyle HorizontalAlign="Center"></CellStyle>
                     <DataItemTemplate>
-                        <dx:ASPxCheckBox runat="server" Checked='<%#Eval("wVAT") %>' Theme="Office2010Blue" ReadOnly ="true" ></dx:ASPxCheckBox>
+                        <dx:ASPxCheckBox runat="server" Checked='<%#Eval("wVAT") %>' Theme="Office2010Blue" ReadOnly="true"></dx:ASPxCheckBox>
                     </DataItemTemplate>
                     <EditItemTemplate>
                         <dx:ASPxCheckBox ID="CheckwVAT" runat="server" ClientInstanceName="CheckwVAT" Checked='<%#Eval("wVAT") %>' Theme="Office2010Blue">

@@ -20,7 +20,11 @@ namespace HijoPortal
         {
             if (Session["CreatorKey"] == null)
             {
-                Response.Redirect("default.aspx");
+                if (Page.IsCallback)
+                    ASPxWebControl.RedirectOnCallback(Constants.default_pagename);
+                else
+                    Response.Redirect(Constants.default_pagename);
+                //Response.Redirect("default.aspx");
                 return;
             }
         }
@@ -49,12 +53,13 @@ namespace HijoPortal
                     divWorkAssigned.Visible = true;
                     BindHomeGrid(Convert.ToInt32(Session["CreatorKey"]));
 
-                } else
+                }
+                else
                 {
                     divWelcome.Visible = true;
                 }
             }
-            
+
         }
 
         private void BindHomeGrid(int usrKey)
@@ -114,7 +119,7 @@ namespace HijoPortal
                 link.NavigateUrl = page + "?DocNum=" + value.ToString() + "&ApprvLn=" + wrklineval.ToString();
             }
 
-            
+
         }
 
         protected void HomeGrid_CustomButtonCallback(object sender, ASPxGridViewCustomButtonCallbackEventArgs e)
