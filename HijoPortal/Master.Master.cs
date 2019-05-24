@@ -27,6 +27,8 @@ namespace HijoPortal
             TimeoutControl1.TimeOutUrl = "TimeOutPage.aspx";
             if (!IsPostBack)
             {
+                txtVAT.Text = "1.12";
+
                 if (Session["UserCompleteName"] != null)
                 {
 

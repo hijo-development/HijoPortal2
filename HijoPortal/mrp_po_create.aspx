@@ -341,11 +341,43 @@
                     <CellStyle HorizontalAlign="Right"></CellStyle>
                     <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
                     <EditItemTemplate>
-                        <dx:ASPxTextBox ID="TotalPOCost" ClientInstanceName="POTotalCost" Text='<%#Eval("TotalPOCost") %>' runat="server" Width="100px" Border-BorderColor="Transparent" Theme="Office2010Blue">
+                        <dx:ASPxTextBox ID="TotalPOCost" ClientInstanceName="POTotalCost" Text='<%#Eval("TotalPOCost") %>' runat="server" Width="100px" HorizontalAlign="Right" Border-BorderColor="Transparent" Theme="Office2010Blue" ReadOnly="true">
                             <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
                         </dx:ASPxTextBox>
-                        <%--<dx:ASPxLabel ID="TotalPOCost" ClientInstanceName="POTotalCost" Text='<%#Eval("TotalPOCost") %>' runat="server" Width="100px" Theme="Office2010Blue">
-                            </dx:ASPxLabel>--%>
+                    </EditItemTemplate>
+                </dx:GridViewDataColumn>
+                <dx:GridViewDataColumn FieldName="wVAT" Caption ="w/ VAT">
+                    <HeaderStyle HorizontalAlign="Center" />
+                    <CellStyle HorizontalAlign="Center"></CellStyle>
+                    <DataItemTemplate>
+                        <dx:ASPxCheckBox runat="server" Checked='<%#Eval("wVAT") %>' Theme="Office2010Blue" ReadOnly ="true" ></dx:ASPxCheckBox>
+                    </DataItemTemplate>
+                    <EditItemTemplate>
+                        <dx:ASPxCheckBox ID="CheckwVAT" runat="server" ClientInstanceName="CheckwVAT" Checked='<%#Eval("wVAT") %>' Theme="Office2010Blue">
+                            <ClientSideEvents CheckedChanged="POCheck_Changed" />
+                        </dx:ASPxCheckBox>
+                    </EditItemTemplate>
+                </dx:GridViewDataColumn>
+                <dx:GridViewDataColumn FieldName="POCostwVAT" Caption="PO Cost w/ VAT">
+                    <HeaderStyle HorizontalAlign="Right" />
+                    <CellStyle HorizontalAlign="Right"></CellStyle>
+                    <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
+                    <EditItemTemplate>
+                        <dx:ASPxTextBox ID="POCostwVAT" ClientInstanceName="POCostwVAT" Text='<%#Eval("POCostwVAT") %>' runat="server" Width="100px" HorizontalAlign="Right" Border-BorderColor="Transparent" Theme="Office2010Blue" ReadOnly="true">
+                            <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
+                            <%--<ClientSideEvents ValueChanged="POCostwVAT_Changed" />--%>
+                            <%--<ClientSideEvents TextChanged ="POCostwVAT_Changed" />--%>
+                        </dx:ASPxTextBox>
+                    </EditItemTemplate>
+                </dx:GridViewDataColumn>
+                <dx:GridViewDataColumn FieldName="TotalPOCostwVAT" Caption="Total Cost w/ VAT">
+                    <HeaderStyle HorizontalAlign="Right" />
+                    <CellStyle HorizontalAlign="Right"></CellStyle>
+                    <EditCellStyle HorizontalAlign="Right"></EditCellStyle>
+                    <EditItemTemplate>
+                        <dx:ASPxTextBox ID="TotalPOCostwVAT" ClientInstanceName="TotalPOCostwVAT" Text='<%#Eval("TotalPOCostwVAT") %>' runat="server" Width="100px" HorizontalAlign="Right" Border-BorderColor="Transparent" Theme="Office2010Blue" ReadOnly="true">
+                            <ValidationSettings RequiredField-IsRequired="true" ErrorDisplayMode="ImageWithTooltip"></ValidationSettings>
+                        </dx:ASPxTextBox>
                     </EditItemTemplate>
                 </dx:GridViewDataColumn>
                 <dx:GridViewDataComboBoxColumn FieldName="TaxGroup">

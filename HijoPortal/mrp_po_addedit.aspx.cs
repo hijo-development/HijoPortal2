@@ -202,18 +202,27 @@ namespace HijoPortal
 
         private void TermsCombo_Data()
         {
-            string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + VendorCombo.Text.ToString() + "'";
-
+            //string query = "SELECT PAYMTERMID, DESCRIPTION FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + VendorCombo.Text.ToString() + "'";
+            string query = "SELECT dbo.vw_AXVendTable.PAYMTERMID, ISNULL(dbo.vw_AXPaymTerm.DESCRIPTION, N'') AS DESCRIPTION, dbo.vw_AXVendTable.ACCOUNTNUM FROM dbo.vw_AXVendTable LEFT OUTER JOIN  dbo.vw_AXPaymTerm ON dbo.vw_AXVendTable.PAYMTERMID = dbo.vw_AXPaymTerm.PAYMTERMID WHERE(dbo.vw_AXVendTable.ACCOUNTNUM = '" + VendorCombo.Text.ToString() + "')";
             ASPxComboBox combo = TermsCombo as ASPxComboBox;
             combo.Columns.Clear();
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
             SqlCommand cmd = new SqlCommand(query, conn);
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    combo.Value = reader["PAYMTERMID"].ToString();
+            //}
+            //reader.Close();
+
+            string value = "", text = "";
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                combo.Value = reader["PAYMTERMID"].ToString();
+                value = reader["PAYMTERMID"].ToString();
+                text = reader["DESCRIPTION"].ToString();
             }
             reader.Close();
             conn.Close();
@@ -237,7 +246,10 @@ namespace HijoPortal
             combo.DataBind();
             combo.ClientEnabled = true;
 
-            TermsLbl.Text = "";
+            combo.Value = value;
+            combo.Text = value;
+
+            TermsLbl.Text = text;
         }
 
         private void CurrencyCombo_Data()
@@ -524,15 +536,23 @@ namespace HijoPortal
             ASPxTextBox POQty = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POQty"], "POQty") as ASPxTextBox;
             ASPxTextBox POCost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POCost"], "POCost") as ASPxTextBox;
             ASPxTextBox TotalPOCost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TotalPOCost"], "TotalPOCost") as ASPxTextBox;
+            ASPxTextBox POCostwVAT = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POCostwVAT"], "POCostwVAT") as ASPxTextBox;
+            ASPxTextBox TotalPOCostwVAT = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TotalPOCostwVAT"], "TotalPOCostwVAT") as ASPxTextBox;
             ASPxComboBox TaxGroup = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TaxGroup"], "TaxGroup") as ASPxComboBox;
             ASPxComboBox TaxItemGroup = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TaxItemGroup"], "TaxItemGroup") as ASPxComboBox;
+
+            ASPxCheckBox wVAT = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["wVAT"], "CheckwVAT") as ASPxCheckBox;
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
             SqlCommand cmd = null;
 
             string PK = e.Keys[0].ToString();
-
+            int iVAT = 0;
+            if (Convert.ToBoolean(wVAT.Value))
+            {
+                iVAT = 1;
+            }
             string ItemPK = "", Identifier = ""; Double old_qty = 0;
             string query = "SELECT ItemPK, Identifier, Qty FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PK] = '" + PK + "'";
             cmd = new SqlCommand(query, conn);
@@ -545,12 +565,14 @@ namespace HijoPortal
             }
             reader.Close();
 
-            string update = "UPDATE [hijo_portal].[dbo].[tbl_POCreation_Details] SET [TaxGroup] = @TaxGroup, [TaxItemGroup] = @TaxItemGroup, [Qty] = @Qty, [Cost] = @Cost, [TotalCost] = @TotalCost, [POUOM] = @POUOM WHERE [PK] = @PK";
+            string update = "UPDATE [hijo_portal].[dbo].[tbl_POCreation_Details] SET [TaxGroup] = @TaxGroup, [TaxItemGroup] = @TaxItemGroup, [Qty] = @Qty, [Cost] = @Cost, [POUOM] = @POUOM, [wVAT] = @wVAT, [CostwVAT] = @CostwVAT WHERE [PK] = @PK";
 
             string pouom = POUOM.Value.ToString();
             string qty = POQty.Value.ToString();
             string cost = POCost.Value.ToString();
             string total = TotalPOCost.Value.ToString();
+            string costwVAT = POCostwVAT.Value.ToString();
+            string totalwVAT = TotalPOCostwVAT.Value.ToString();
             string tax_group = TaxGroup.Value.ToString();
             string tax_item_group = TaxItemGroup.Value.ToString();
 
@@ -558,9 +580,12 @@ namespace HijoPortal
             cmd.Parameters.AddWithValue("@POUOM", pouom);
             cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(qty));
             cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost));
-            cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(total));
+            //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(total));
             cmd.Parameters.AddWithValue("@TaxGroup", tax_group);
             cmd.Parameters.AddWithValue("@TaxItemGroup", tax_item_group);
+            cmd.Parameters.AddWithValue("@wVAT", iVAT);
+            cmd.Parameters.AddWithValue("@CostwVAT", Convert.ToDouble(costwVAT));
+            //cmd.Parameters.AddWithValue("@TotalCostwVAT", Convert.ToDouble(totalwVAT));
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();

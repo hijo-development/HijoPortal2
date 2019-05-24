@@ -196,8 +196,9 @@ namespace HijoPortal
                     string cost = obj[6].ToString();
                     string totalcost = obj[7].ToString();
                     string uom = obj[8].ToString();
+                    int wVAT = 0;
 
-                    string insert = "INSERT INTO [dbo].[tbl_POCreation_Tmp] ([UserKey], [MOPNumber], [ItemPK], [ItemIdentifier], [POUOM]) VALUES (@userkey, @mopnumber, @itempk, @itemidentifier, @uom)";
+                    string insert = "INSERT INTO [dbo].[tbl_POCreation_Tmp] ([UserKey], [MOPNumber], [ItemPK], [ItemIdentifier], [POUOM], [wVAT]) VALUES (@userkey, @mopnumber, @itempk, @itemidentifier, @uom, @wVAT)";
 
                     cmd = new SqlCommand(insert, conn);
                     cmd.Parameters.AddWithValue("@userkey", userkey);
@@ -205,6 +206,7 @@ namespace HijoPortal
                     cmd.Parameters.AddWithValue("@itempk", pk);
                     cmd.Parameters.AddWithValue("@itemidentifier", identifier);
                     cmd.Parameters.AddWithValue("@uom", uom);
+                    cmd.Parameters.AddWithValue("@wVAT", wVAT);
                     cmd.ExecuteNonQuery();
                 }
                 //ModalPopupExtenderLoading.Hide();

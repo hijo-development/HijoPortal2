@@ -342,10 +342,21 @@ namespace HijoPortal
                         object POQty = grid.GetRowValues(i, "POQty");
                         object POCost = grid.GetRowValues(i, "POCost");
                         object TotalPOCost = grid.GetRowValues(i, "TotalPOCost");
+                        object wVAT = grid.GetRowValues(i, "wVAT");
+                        object POCostwVAT = grid.GetRowValues(i, "POCostwVAT");
+                        object TotalPOCostwVAT = grid.GetRowValues(i, "TotalPOCostwVAT");
                         object TaxGroup = grid.GetRowValues(i, "TaxGroup");
                         object TaxItemGroup = grid.GetRowValues(i, "TaxItemGroup");
 
-                        insert_po_details = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[MOPNumber], [ItemPK], [Identifier], [ItemCode], [TaxGroup], [TaxItemGroup], [Qty], [Cost], [TotalCost], [POUOM]) VALUES (@PONumber,@MOPNumber, @ItemPK, @Identifier, @ItemCode, @TaxGroup, @TaxItemGroup, @Qty, @Cost, @TotalCost, @POUOM)";
+
+                        int iVat = 0;
+
+                        if (Convert.ToBoolean(wVAT))
+                        {
+                            iVat = 1;
+                        }
+
+                        insert_po_details = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[MOPNumber], [ItemPK], [Identifier], [ItemCode], [TaxGroup], [TaxItemGroup], [Qty], [Cost], [POUOM], [wVAT], [CostwVAT]) VALUES (@PONumber,@MOPNumber, @ItemPK, @Identifier, @ItemCode, @TaxGroup, @TaxItemGroup, @Qty, @Cost, @POUOM, @wVAT, @CostwVAT)";
 
                         cmd = new SqlCommand(insert_po_details, conn);
                         cmd.Parameters.AddWithValue("@PONumber", PONumber);
@@ -358,7 +369,10 @@ namespace HijoPortal
                         cmd.Parameters.AddWithValue("@POUOM", POUOM);
                         cmd.Parameters.AddWithValue("@Qty", Convert.ToDouble(POQty));
                         cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(POCost));
-                        cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(TotalPOCost));
+                        //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(TotalPOCost));
+                        cmd.Parameters.AddWithValue("@CostwVAT", Convert.ToDouble(POCostwVAT));
+                        //cmd.Parameters.AddWithValue("@TotalCostwVAT", Convert.ToDouble(TotalPOCostwVAT));
+                        cmd.Parameters.AddWithValue("@wVAT", iVat);
                         cmd.CommandType = CommandType.Text;
                         cmd.ExecuteNonQuery();
 
@@ -446,16 +460,25 @@ namespace HijoPortal
             ASPxTextBox POQty = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POQty"], "POQty") as ASPxTextBox;
             ASPxTextBox POCost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POCost"], "POCost") as ASPxTextBox;
             ASPxTextBox TotalPOCost = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TotalPOCost"], "TotalPOCost") as ASPxTextBox;
+            ASPxTextBox POCostwVAT = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["POCostwVAT"], "POCostwVAT") as ASPxTextBox;
+            ASPxTextBox TotalPOCostwVAT = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TotalPOCostwVAT"], "TotalPOCostwVAT") as ASPxTextBox;
             ASPxComboBox TaxGroup = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TaxGroup"], "TaxGroup") as ASPxComboBox;
             ASPxComboBox TaxItemGroup = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["TaxItemGroup"], "TaxItemGroup") as ASPxComboBox;
 
-            string PK = e.Keys[0].ToString();
+            ASPxCheckBox wVAT = grid.FindEditRowCellTemplateControl((GridViewDataColumn)grid.Columns["wVAT"], "CheckwVAT") as ASPxCheckBox;
 
-            string update = "UPDATE dbo.tbl_POCreation_Tmp SET [TaxGroup] = @TaxGroup, [TaxItemGroup] = @TaxItemGroup,[POUOM] = @POUOM, [POQty] = @POQty, [POCost] = @POCost WHERE [PK] = @PK";
+            string PK = e.Keys[0].ToString();
+            int iVAT = 0;
+            if (Convert.ToBoolean(wVAT.Value))
+            {
+                iVAT = 1;
+            }
+            string update = "UPDATE dbo.tbl_POCreation_Tmp SET [TaxGroup] = @TaxGroup, [TaxItemGroup] = @TaxItemGroup,[POUOM] = @POUOM, [POQty] = @POQty, [POCost] = @POCost, [wVAT] = @wVAT, [POCostwVAT] = @POCostwVAT WHERE [PK] = @PK";
 
             string pouom = POUOM.Value.ToString();
             string qty = POQty.Value.ToString();
             string cost = POCost.Value.ToString();
+            string costwVAT = POCostwVAT.Value.ToString();
             //string total = TotalPOCost.Value.ToString();
             string tax_group = TaxGroup.Text.ToString();
             string tax_item_group = TaxItemGroup.Text.ToString();
@@ -469,6 +492,8 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@POTotalCost", total);
             cmd.Parameters.AddWithValue("@TaxGroup", tax_group);
             cmd.Parameters.AddWithValue("@TaxItemGroup", tax_item_group);
+            cmd.Parameters.AddWithValue("@wVAT", iVAT);
+            cmd.Parameters.AddWithValue("@POCostwVAT", Convert.ToDouble(costwVAT));
             cmd.Parameters.AddWithValue("@PK", PK);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
