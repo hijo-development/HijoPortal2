@@ -1665,6 +1665,8 @@ namespace HijoPortal.classes
             return sLineDefault;
         }
 
+        
+
         public static void SubmitToAX(string poNum, ASPxPopupControl popNotify, ASPxLabel lblNotify, ModalPopupExtender modExtender)
         {
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
@@ -1756,7 +1758,7 @@ namespace HijoPortal.classes
                     int iLineNumber = 0;
                     string sDefaultDimensionLine = "";
                     //qry = "SELECT ItemCode, TaxGroup, TaxItemGroup, Qty, Cost, TotalCost, POUOM, (CASE Identifier WHEN 1 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT OprUnit FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS OprUnit, (CASE Identifier WHEN 1 THEN (SELECT ItemDescription + (CASE LTRIM(RTRIM(ItemDescriptionAddl)) WHEN '' THEN '' ELSE ' (' + ItemDescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE (SELECT Description + (CASE LTRIM(RTRIM(DescriptionAddl)) WHEN '' THEN '' ELSE ' (' + DescriptionAddl + ')' END) AS ItemDesc FROM dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) END) AS ItemDesc FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + poNum + "')";
-                    qry = "SELECT ItemCode, TaxGroup, TaxItemGroup, Qty, Cost, TotalCost, POUOM, (CASE Identifier WHEN 1 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE(CASE Identifier WHEN 2 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) ELSE (SELECT OprUnit FROM  dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 4)) END) END) AS OprUnit, (CASE Identifier WHEN 1 THEN (SELECT ItemDescription + (CASE LTRIM(RTRIM(ItemDescriptionAddl)) WHEN '' THEN '' ELSE ' (' + ItemDescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE(CASE Identifier WHEN 2 THEN (SELECT Description + (CASE LTRIM(RTRIM(DescriptionAddl)) WHEN '' THEN '' ELSE ' (' + DescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) ELSE (SELECT Description AS ItemDesc FROM  dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 4)) END) END) AS ItemDesc, ItemPK, Identifier, ISNULL((SELECT CIPSIPNumber FROM dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK)),'') AS FixedAssetID FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + poNum + "')";
+                    qry = "SELECT ItemCode, TaxGroup, TaxItemGroup, Qty, Cost, TotalCost, CostwVAT, TotalCostwVAT, POUOM, (CASE Identifier WHEN 1 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE(CASE Identifier WHEN 2 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) ELSE (SELECT OprUnit FROM  dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 4)) END) END) AS OprUnit, (CASE Identifier WHEN 1 THEN (SELECT ItemDescription + (CASE LTRIM(RTRIM(ItemDescriptionAddl)) WHEN '' THEN '' ELSE ' (' + ItemDescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE(CASE Identifier WHEN 2 THEN (SELECT Description + (CASE LTRIM(RTRIM(DescriptionAddl)) WHEN '' THEN '' ELSE ' (' + DescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) ELSE (SELECT Description AS ItemDesc FROM  dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 4)) END) END) AS ItemDesc, ItemPK, Identifier, ISNULL((SELECT CIPSIPNumber FROM dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK)),'') AS FixedAssetID FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + poNum + "')";
                     cmd1 = new SqlCommand(qry);
                     cmd1.Connection = conn;
                     adp1 = new SqlDataAdapter(cmd1);
@@ -2008,6 +2010,262 @@ namespace HijoPortal.classes
                         popNotify.ShowOnPageLoad = true;
                     }
                     dt1.Clear();
+                }
+            }
+            dt.Clear();
+
+            conn.Close();
+        }
+
+        public static void SubmitToAXTable(string poNum, ASPxPopupControl popNotify, ASPxLabel lblNotify, ModalPopupExtender modExtender)
+        {
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dt = new DataTable();
+            SqlCommand cmdIn = null;
+            SqlCommand cmddDel = null;
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            DataTable dt1 = new DataTable();
+            SqlCommand cmd1 = null;
+            SqlDataAdapter adp1;
+            DataTable dt2 = new DataTable();
+            SqlCommand cmd2 = null;
+            SqlDataAdapter adp2;
+
+            string qry = "";
+
+            conn.Open();
+            qry = "SELECT dbo.tbl_POCreation.PK, dbo.tbl_POCreation.PONumber, dbo.tbl_POCreation.MRPNumber, dbo.tbl_POCreation.DateCreated, dbo.tbl_POCreation.CreatorKey, dbo.tbl_POCreation.ExpectedDate, dbo.tbl_POCreation.VendorCode, dbo.tbl_POCreation.PaymentTerms, dbo.tbl_POCreation.CurrencyCode, dbo.tbl_POCreation.InventSite, dbo.tbl_POCreation.InventSiteWarehouse, dbo.tbl_POCreation.InventSiteWarehouseLocation, dbo.vw_AXVendTable.NAME AS VendorName, dbo.vw_AXVendTable.VENDGROUP, dbo.vw_AXVendTable.INCLTAX, dbo.vw_AXVendTable.PAYMMODE, dbo.vw_AXVendTable.TAXGROUP, dbo.tbl_POCreation.EntityCode, dbo.tbl_POCreation.BUSSUCode, dbo.tbl_POCreation.Remarks FROM  dbo.tbl_POCreation LEFT OUTER JOIN dbo.vw_AXVendTable ON dbo.tbl_POCreation.VendorCode = dbo.vw_AXVendTable.ACCOUNTNUM WHERE(dbo.tbl_POCreation.PONumber = '" + poNum + "')";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = conn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    //Delete  from PO Header
+                    qry = "DELETE FROM tbl_AX_POHeader WHERE([PurchId] = '" + poNum + "')";
+                    cmddDel = new SqlCommand(qry, conn);
+                    cmddDel.CommandType = CommandType.Text;
+                    cmddDel.ExecuteNonQuery();
+
+                    string sPORemarks = row["MRPNumber"].ToString();
+                    string sDefaultDimension = "";
+                    if (row["EntityCode"].ToString().Trim() == "0000")
+                    {
+                        sDefaultDimension = row["BUSSUCode"].ToString() + "";
+                    }
+                    else if (row["EntityCode"].ToString().Trim() == "0303")
+                    {
+                        sDefaultDimension = "" + row["BUSSUCode"].ToString() + "";
+                    }
+                    else
+                    {
+                        sDefaultDimension = "";
+                    }
+
+                    // Insert Header
+                    qry = "INSERT INTO tbl_AX_POHeader ([PurchId], [AccountingDate], [CurrencyCode], [DeliveryDate], [DeliveryName], [DocumentState], [DocumentStatus], [InclTax], [InventSiteId], [InvoiceAccount], [LanguageId], [OrderAccount], [Payment], [PaymMode], [PORemarks], [PostingProfile], [PurchaseType], [PurchName], [PurchPoolId], [PurchStatus], [Remarks], [TaxGroup], [VendGroup], [DefaultDimension], [CreatedDatetime]) VALUES (@PurchId, @AccountingDate, @CurrencyCode, @DeliveryDate, @DeliveryName, @DocumentState, @DocumentStatus, @InclTax, @InventSiteId, @InvoiceAccount, @LanguageId, @OrderAccount, @Payment, @PaymMode, @PORemarks, @PostingProfile, @PurchaseType, @PurchName, @PurchPoolId, @PurchStatus, @Remarks, @TaxGroup, @VendGroup, @DefaultDimension, @CreatedDatetime)";
+                    cmdIn = new SqlCommand(qry, conn);
+
+                    cmdIn.Parameters.AddWithValue("@PurchId", row["PONumber"].ToString());
+                    cmdIn.Parameters.AddWithValue("@AccountingDate", Convert.ToDateTime(row["ExpectedDate"]));
+                    cmdIn.Parameters.AddWithValue("@CurrencyCode", row["CurrencyCode"].ToString());
+                    cmdIn.Parameters.AddWithValue("@DeliveryDate", Convert.ToDateTime(row["ExpectedDate"]));
+                    cmdIn.Parameters.AddWithValue("@DeliveryName", row["VendorName"].ToString());
+                    cmdIn.Parameters.AddWithValue("@DocumentState", "Draft");
+                    cmdIn.Parameters.AddWithValue("@DocumentStatus", "None");
+                    cmdIn.Parameters.AddWithValue("@InclTax", Convert.ToInt32(row["INCLTAX"]));
+                    cmdIn.Parameters.AddWithValue("@InventSiteId", row["InventSite"].ToString());
+                    cmdIn.Parameters.AddWithValue("@InvoiceAccount", row["VendorCode"].ToString());
+                    cmdIn.Parameters.AddWithValue("@LanguageId", "en-us");
+                    cmdIn.Parameters.AddWithValue("@OrderAccount", row["VendorCode"].ToString());
+                    cmdIn.Parameters.AddWithValue("@Payment", row["PaymentTerms"].ToString());
+                    cmdIn.Parameters.AddWithValue("@PaymMode", row["PAYMMODE"].ToString());
+                    cmdIn.Parameters.AddWithValue("@PORemarks", sPORemarks);
+                    cmdIn.Parameters.AddWithValue("@PostingProfile", "Gen");
+                    cmdIn.Parameters.AddWithValue("@PurchaseType", "Purchase order");
+                    cmdIn.Parameters.AddWithValue("@PurchName", row["VendorName"].ToString());
+                    cmdIn.Parameters.AddWithValue("@PurchPoolId", "");
+                    cmdIn.Parameters.AddWithValue("@PurchStatus", "Open order");
+                    cmdIn.Parameters.AddWithValue("@Remarks", sPORemarks);
+                    cmdIn.Parameters.AddWithValue("@TaxGroup", row["TAXGROUP"].ToString());
+                    cmdIn.Parameters.AddWithValue("@VendGroup", row["VENDGROUP"].ToString());
+                    cmdIn.Parameters.AddWithValue("@DefaultDimension", sDefaultDimension);
+                    cmdIn.Parameters.AddWithValue("@CreatedDatetime", DateTime.Now);
+                    cmdIn.CommandType = CommandType.Text;
+                    cmdIn.ExecuteNonQuery();
+
+                    int iLineNumber = 0;
+                    string sDefaultDimensionLine = "";
+                    qry = "SELECT ItemCode, TaxGroup, TaxItemGroup, Qty, Cost, TotalCost, CostwVAT, TotalCostwVAT, POUOM, (CASE Identifier WHEN 1 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE(CASE Identifier WHEN 2 THEN (SELECT OprUnit FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) ELSE (SELECT OprUnit FROM  dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 4)) END) END) AS OprUnit, (CASE Identifier WHEN 1 THEN (SELECT ItemDescription + (CASE LTRIM(RTRIM(ItemDescriptionAddl)) WHEN '' THEN '' ELSE ' (' + ItemDescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_DirectMaterials WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 1)) ELSE(CASE Identifier WHEN 2 THEN (SELECT Description + (CASE LTRIM(RTRIM(DescriptionAddl)) WHEN '' THEN '' ELSE ' (' + DescriptionAddl + ')' END) AS ItemDesc FROM  dbo.tbl_MRP_List_OPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 2)) ELSE (SELECT Description AS ItemDesc FROM  dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK) AND(TableIdentifier = 4)) END) END) AS ItemDesc, ItemPK, Identifier, ISNULL((SELECT CIPSIPNumber FROM dbo.tbl_MRP_List_CAPEX WHERE(PK = dbo.tbl_POCreation_Details.ItemPK)),'') AS FixedAssetID FROM dbo.tbl_POCreation_Details WHERE(PONumber = '" + poNum + "')";
+                    cmd1 = new SqlCommand(qry);
+                    cmd1.Connection = conn;
+                    adp1 = new SqlDataAdapter(cmd1);
+                    adp1.Fill(dt1);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        foreach (DataRow row1 in dt1.Rows)
+                        {
+                            if (row["EntityCode"].ToString().Trim() == "0000")
+                            {
+                                sDefaultDimensionLine = row["BUSSUCode"].ToString() + "";
+                            }
+                            else if (row["EntityCode"].ToString().Trim() == "0303")
+                            {
+                                sDefaultDimensionLine = "" + row["BUSSUCode"].ToString() + "";
+                            }
+                            else if (row["EntityCode"].ToString().Trim() == "0101")
+                            {
+                                sDefaultDimensionLine = "" + row1["OprUnit"].ToString();
+                            }
+                            else
+                            {
+                                sDefaultDimensionLine = "";
+                            }
+                            iLineNumber = iLineNumber + 1;
+
+                            string sItemCode = "", sProcCatID = "" , sFixedAssetID = "", sAssetBookID = "";
+                            if (row["EntityCode"].ToString().Trim() == "0303")
+                            {
+                                sItemCode = "";
+                            }
+                            else
+                            {
+                                sItemCode = row1["ItemCode"].ToString();
+                            }
+
+                            if (sItemCode == "")
+                            {
+                                switch (Convert.ToInt32(row1["Identifier"]))
+                                {
+                                    case 1:
+                                        {
+                                            sProcCatID = "";
+                                            sFixedAssetID = "";
+                                            sAssetBookID = "";
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            sFixedAssetID = "";
+                                            sAssetBookID = "";
+                                            qry = "SELECT ISNULL((SELECT recid FROM  dbo.vw_AXProdCategory WHERE(NAME = dbo.tbl_MRP_List_OPEX.ProcCat) AND(dataareaid = dbo.tbl_MRP_List.EntityCode) AND(LedgerType = 'Expense')), '') AS ProcCatID FROM dbo.tbl_MRP_List_OPEX LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_OPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber WHERE(dbo.tbl_MRP_List_OPEX.PK = " + row1["ItemPK"] + ")";
+                                            cmd2 = new SqlCommand(qry);
+                                            cmd2.Connection = conn;
+                                            adp2 = new SqlDataAdapter(cmd2);
+                                            adp2.Fill(dt2);
+                                            if (dt2.Rows.Count > 0)
+                                            {
+                                                foreach (DataRow row2 in dt2.Rows)
+                                                {
+                                                    if (Convert.ToDouble(row2["ProcCatID"]) == 0)
+                                                    {
+                                                        sProcCatID = "";
+                                                    }
+                                                    else
+                                                    {
+                                                        sProcCatID = row2["ProcCatID"].ToString();
+                                                    }
+                                                }
+                                            }
+                                            dt2.Clear();
+                                            break;
+                                        }
+                                    case 4:
+                                        {
+                                            sFixedAssetID = row1["FixedAssetID"].ToString();
+                                            sAssetBookID = "DEP";
+                                            qry = "SELECT ISNULL((SELECT recid FROM  dbo.vw_AXProdCategory WHERE(NAME = dbo.tbl_MRP_List_CAPEX.ProdCat) AND(dataareaid = dbo.tbl_MRP_List.EntityCode) AND(LedgerType = 'FixedAsset')), '') AS ProcCatID FROM dbo.tbl_MRP_List_CAPEX LEFT OUTER JOIN dbo.tbl_MRP_List ON dbo.tbl_MRP_List_CAPEX.HeaderDocNum = dbo.tbl_MRP_List.DocNumber WHERE(dbo.tbl_MRP_List_CAPEX.PK = " + row1["ItemPK"] + ")";
+                                            cmd2 = new SqlCommand(qry);
+                                            cmd2.Connection = conn;
+                                            adp2 = new SqlDataAdapter(cmd2);
+                                            adp2.Fill(dt2);
+                                            if (dt2.Rows.Count > 0)
+                                            {
+                                                foreach (DataRow row2 in dt2.Rows)
+                                                {
+                                                    if (Convert.ToDouble(row2["ProcCatID"]) == 0)
+                                                    {
+                                                        sProcCatID = "";
+                                                    }
+                                                    else
+                                                    {
+                                                        sProcCatID = row2["ProcCatID"].ToString();
+                                                    }
+                                                }
+                                            }
+                                            dt2.Clear();
+                                            break;
+                                        }
+                                }
+                            }
+                            else
+                            {
+                                sProcCatID = "";
+                            }
+
+                            string sPriceUnit = "1";
+                            // Insert Line
+                            qry = "INSERT INTO tbl_AX_POLines ([PURCHID], [VENDACCOUNT], [VENDGROUP], [ITEMID], [COMPLETE], [CREATEFIXEDASSET], [CURRENCYCODE], [DELIVERYDATE], [DELIVERYNAME], [ISFINALIZED], [ISPWP], [LINEAMOUNT], [LINENUMBER], [MatchingPolicy], [NAME], [OVERDELIVERYPCT], [PRICEUNIT], [PURCHASETYPE], [PURCHPRICE], [PURCHQTY], [PURCHSTATUS], [PURCHUNIT], [PROJTAXGROUPID], [TAXITEMGROUP], [UNDERDELIVERYPCT], [VARIANTID], [InventSiteID], [CreatedDateTime], [InventLocationID], [wMSLocationId], [WorkflowState], [DefaultDimension], [ProcurementCategory], [AssetId], [AssetBookId]) VALUES (@PURCHID, @VENDACCOUNT, @VENDGROUP, @ITEMID, @COMPLETE, @CREATEFIXEDASSET, @CURRENCYCODE, @DELIVERYDATE, @DELIVERYNAME, @ISFINALIZED, @ISPWP, @LINEAMOUNT, @LINENUMBER, @MatchingPolicy, @NAME, @OVERDELIVERYPCT, @PRICEUNIT, @PURCHASETYPE, @PURCHPRICE, @PURCHQTY, @PURCHSTATUS, @PURCHUNIT, @PROJTAXGROUPID, @TAXITEMGROUP, @UNDERDELIVERYPCT, @VARIANTID, @InventSiteID, @CreatedDateTime, @InventLocationID, @wMSLocationId, @WorkflowState, @DefaultDimension, @ProcurementCategory, @AssetId, @AssetBookId)";
+                            cmdIn = new SqlCommand(qry, conn);
+
+                            cmdIn.Parameters.AddWithValue("@PURCHID", row["PONumber"].ToString());
+                            cmdIn.Parameters.AddWithValue("@VENDACCOUNT", row["VendorCode"].ToString());
+                            cmdIn.Parameters.AddWithValue("@VENDGROUP", row["VENDGROUP"].ToString());
+                            cmdIn.Parameters.AddWithValue("@ITEMID", sItemCode);
+                            cmdIn.Parameters.AddWithValue("@COMPLETE", 0);
+                            cmdIn.Parameters.AddWithValue("@CREATEFIXEDASSET", 0);
+                            cmdIn.Parameters.AddWithValue("@CURRENCYCODE", row["CurrencyCode"].ToString());
+                            cmdIn.Parameters.AddWithValue("@DELIVERYDATE", Convert.ToDateTime(row["ExpectedDate"]));
+                            cmdIn.Parameters.AddWithValue("@DELIVERYNAME", row["VendorName"].ToString());
+                            cmdIn.Parameters.AddWithValue("@ISFINALIZED", 0);
+                            cmdIn.Parameters.AddWithValue("@ISPWP", 0);
+                            cmdIn.Parameters.AddWithValue("@LINEAMOUNT", Convert.ToDouble(Convert.ToDouble(row1["TotalCostwVAT"]).ToString("#0.0000")));
+                            cmdIn.Parameters.AddWithValue("@LINENUMBER", iLineNumber);
+                            cmdIn.Parameters.AddWithValue("@MatchingPolicy", "Three-way matching");
+                            cmdIn.Parameters.AddWithValue("@NAME", row1["ItemDesc"].ToString());
+                            cmdIn.Parameters.AddWithValue("@OVERDELIVERYPCT", 0);
+                            cmdIn.Parameters.AddWithValue("@PRICEUNIT", sPriceUnit);
+                            cmdIn.Parameters.AddWithValue("@PURCHASETYPE", "Purchase order");
+                            cmdIn.Parameters.AddWithValue("@PURCHPRICE", Convert.ToDouble(Convert.ToDouble(row1["CostwVAT"]).ToString("#0.0000")));
+                            cmdIn.Parameters.AddWithValue("@PURCHQTY", Convert.ToDouble(Convert.ToDouble(row1["Qty"]).ToString("#0.0000")));
+                            cmdIn.Parameters.AddWithValue("@PURCHSTATUS", "Open order");
+                            cmdIn.Parameters.AddWithValue("@PURCHUNIT", row1["POUOM"].ToString());
+                            cmdIn.Parameters.AddWithValue("@PROJTAXGROUPID", row1["TaxGroup"].ToString());
+                            cmdIn.Parameters.AddWithValue("@TAXITEMGROUP", row1["TaxItemGroup"].ToString());
+                            cmdIn.Parameters.AddWithValue("@UNDERDELIVERYPCT", 100);
+                            cmdIn.Parameters.AddWithValue("@VARIANTID", "");
+                            cmdIn.Parameters.AddWithValue("@InventSiteID", row["InventSite"].ToString());
+                            cmdIn.Parameters.AddWithValue("@InventLocationID", row["InventSiteWarehouse"].ToString());
+                            cmdIn.Parameters.AddWithValue("@wMSLocationId", row["InventSiteWarehouseLocation"].ToString());
+                            cmdIn.Parameters.AddWithValue("@WorkflowState", "Not submitted");
+                            cmdIn.Parameters.AddWithValue("@DefaultDimension", sDefaultDimensionLine);
+                            cmdIn.Parameters.AddWithValue("@ProcurementCategory", sProcCatID);
+                            cmdIn.Parameters.AddWithValue("@AssetId", sFixedAssetID);
+                            cmdIn.Parameters.AddWithValue("@AssetBookId", sAssetBookID);
+                            cmdIn.Parameters.AddWithValue("@CreatedDateTime", DateTime.Now);
+                            cmdIn.CommandType = CommandType.Text;
+                            cmdIn.ExecuteNonQuery();
+
+                        }
+                    }
+                    dt1.Clear();
+
+                    qry = "UPDATE tbl_POCreation SET [POStatus] = 1 WHERE ([PONumber] = @PONumber)";
+                    cmd = new SqlCommand(qry, conn);
+                    cmd.Parameters.AddWithValue("@PONumber", poNum);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
+
+                    modExtender.Hide();
+
+                    lblNotify.ForeColor = System.Drawing.Color.Black;
+                    lblNotify.Text = "Sucessfully submitted to AX";
+                    popNotify.HeaderText = "Info";
+                    popNotify.ShowOnPageLoad = true;
+
                 }
             }
             dt.Clear();

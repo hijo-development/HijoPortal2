@@ -278,11 +278,21 @@ namespace HijoPortal.classes
                 string remarks = "MRP-ADD";
                 MRPClass.AddLogsMOPList(cn, MRPKey, remarks);
 
+                // Check if BU Lead = true then bypass creator 
+                bool isBULead = false;
+                isBULead = GlobalClass.IsAllowed(iCreator, "MOPBULead", DATE_CREATED, ENTITY_CODE, BU_CODE);
+                if (isBULead)
+                {
+                    //Update Workflow
+                    qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 1, Status = 0 WHERE (MasterKey = " + MRPKey + ") AND (Line = 1)";
+                    cmdUp = new SqlCommand(qry, cn);
+                    cmdUp.ExecuteNonQuery();
+                }
+    
                 //Update Document Number
                 qry = "UPDATE [dbo].[tbl_DocumentNumber] SET [DocumentNum] = '" + doc_num + "' WHERE [DocumentPrefix] = 'MRP'";
                 cmdUp = new SqlCommand(qry, cn);
                 cmdUp.ExecuteNonQuery();
-                
 
                 //Copy previous MOP
                 if (iCopyPreMOP == 1)
