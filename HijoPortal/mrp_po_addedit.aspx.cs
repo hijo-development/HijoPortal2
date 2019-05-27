@@ -508,7 +508,10 @@ namespace HijoPortal
             {
                 if (grid.VisibleRowCount > 0)
                     //Submit_Method();
-                    POClass.SubmitToAX(ponumber, PONotify, PONotifyLbl, ModalPopupExtenderLoading);
+                    //POClass.SubmitToAX(ponumber, PONotify, PONotifyLbl, ModalPopupExtenderLoading);
+
+                    POClass.SubmitToAXTable(ponumber, PONotify, PONotifyLbl, ModalPopupExtenderLoading);
+                
                 else
                 {
                     ModalPopupExtenderLoading.Hide();
