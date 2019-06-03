@@ -2222,14 +2222,16 @@ namespace HijoPortal.classes
                             cmdIn.Parameters.AddWithValue("@DELIVERYNAME", row["VendorName"].ToString());
                             cmdIn.Parameters.AddWithValue("@ISFINALIZED", 0);
                             cmdIn.Parameters.AddWithValue("@ISPWP", 0);
-                            cmdIn.Parameters.AddWithValue("@LINEAMOUNT", Convert.ToDouble(Convert.ToDouble(row1["TotalCostwVAT"]).ToString("#0.0000")));
+                            //cmdIn.Parameters.AddWithValue("@LINEAMOUNT", Convert.ToDouble(Convert.ToDouble(row1["TotalCostwVAT"]).ToString("#0.0000")));
+                            cmdIn.Parameters.AddWithValue("@LINEAMOUNT", Convert.ToDouble(Convert.ToDouble(row1["TotalCost"]).ToString("#0.0000")));
                             cmdIn.Parameters.AddWithValue("@LINENUMBER", iLineNumber);
                             cmdIn.Parameters.AddWithValue("@MatchingPolicy", "Three-way matching");
                             cmdIn.Parameters.AddWithValue("@NAME", row1["ItemDesc"].ToString());
                             cmdIn.Parameters.AddWithValue("@OVERDELIVERYPCT", 0);
                             cmdIn.Parameters.AddWithValue("@PRICEUNIT", sPriceUnit);
                             cmdIn.Parameters.AddWithValue("@PURCHASETYPE", "Purchase order");
-                            cmdIn.Parameters.AddWithValue("@PURCHPRICE", Convert.ToDouble(Convert.ToDouble(row1["CostwVAT"]).ToString("#0.0000")));
+                            //cmdIn.Parameters.AddWithValue("@PURCHPRICE", Convert.ToDouble(Convert.ToDouble(row1["CostwVAT"]).ToString("#0.0000")));
+                            cmdIn.Parameters.AddWithValue("@PURCHPRICE", Convert.ToDouble(Convert.ToDouble(row1["Cost"]).ToString("#0.0000")));
                             cmdIn.Parameters.AddWithValue("@PURCHQTY", Convert.ToDouble(Convert.ToDouble(row1["Qty"]).ToString("#0.0000")));
                             cmdIn.Parameters.AddWithValue("@PURCHSTATUS", "Open order");
                             cmdIn.Parameters.AddWithValue("@PURCHUNIT", row1["POUOM"].ToString());
