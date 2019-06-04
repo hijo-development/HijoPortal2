@@ -430,7 +430,7 @@ namespace HijoPortal.classes
                                 //cmdIn = new SqlCommand(qry, cn);
                                 //cmdIn.CommandType = CommandType.Text;
                                 //cmdIn.ExecuteNonQuery();
-                                int result = QuerySPClass.InsertUpdateRevenueAssumptions(1, 0, DOC_NUMBER, row["OprUnit"].ToString(), GlobalClass.FormatSQL(row["ProductName"].ToString()), GlobalClass.FormatSQL(row["FarmName"].ToString()), Convert.ToDouble(row["Prize"]), Convert.ToDouble(row["Volume"]), Convert.ToDouble(row["TotalPrize"]));
+                                int result = QuerySPClass.InsertUpdateRevenueAssumptions(1, 0, DOC_NUMBER, row["OprUnit"].ToString(), GlobalClass.FormatSQL(row["ProductName"].ToString()), GlobalClass.FormatSQL(row["FarmName"].ToString()), Convert.ToDouble(row["Prize"]), Convert.ToDouble(row["Volume"]), Convert.ToDouble(row["TotalPrize"]), row["UOM"].ToString());
                                 if (result > 0)
                                 {
                                     MRPClass.UpdateLastModified(cn, DOC_NUMBER);
@@ -1457,6 +1457,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("ProductName", typeof(string));
                 dtTable.Columns.Add("FarmName", typeof(string));
                 dtTable.Columns.Add("Prize", typeof(string));
+                dtTable.Columns.Add("UOM", typeof(string));
                 dtTable.Columns.Add("Volume", typeof(string));
                 dtTable.Columns.Add("TotalPrize", typeof(string));
                 dtTable.Columns.Add("VALUE", typeof(string));
@@ -1485,6 +1486,7 @@ namespace HijoPortal.classes
                     dtRow["HeaderDocNum"] = row["HeaderDocNum"].ToString();
                     dtRow["ProductName"] = row["ProductName"].ToString();
                     dtRow["FarmName"] = row["FarmName"].ToString();
+                    dtRow["UOM"] = row["UOM"].ToString();
                     dtRow["Prize"] = Convert.ToDouble(row["Prize"]).ToString("N");
                     dtRow["Volume"] = Convert.ToDouble(row["Volume"]).ToString("N");
                     dtRow["TotalPrize"] = Convert.ToDouble(row["TotalPrize"]).ToString("N");
