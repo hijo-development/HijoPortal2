@@ -152,7 +152,8 @@ function ExpenseCodeIndexChangeOPEX(s, e) {
             document.getElementsByClassName("div1Class")[0].style.display = "none";
             document.getElementsByClassName("div2Class")[0].style.display = "none";
             DescriptionOPEX.SetText("");
-            DescriptionOPEX.GetInputElement().readOnly = false;
+            //old function change June 4, 2019 (See Documentation)
+            //DescriptionOPEX.GetInputElement().readOnly = false;
             ItemCodeOPEX.SetText("");
             break;
         case 1://PO
@@ -160,7 +161,8 @@ function ExpenseCodeIndexChangeOPEX(s, e) {
             document.getElementsByClassName("div2Class")[0].style.display = "block";
             ItemCodeChkbxClient.SetChecked(true);
             DescriptionOPEX.SetText("");
-            DescriptionOPEX.GetInputElement().readOnly = true;
+            //old function change June 4, 2019 (See Documentation)
+            //DescriptionOPEX.GetInputElement().readOnly = true;
             ItemCodeOPEX.SetText("");
             break;
     }
@@ -306,7 +308,9 @@ function ItemCodeOPEX_KeyPress(s, e) {
     if (key == 13) {
         ASPxClientUtils.PreventEvent(e.htmlEvent);
         listboxOPEX.SetVisible(true);
-        listboxOPEX.PerformCallback(ItemCodeOPEX.GetInputElement().value);
+        
+        listboxOPEX.PerformCallback(DescriptionOPEX.GetInputElement().value);
+        //listboxOPEX.PerformCallback(ItemCodeOPEX.GetInputElement().value);
     }
 }
 
@@ -337,7 +341,8 @@ function ItemCodeChkbx_CheckedChanged(s, e) {
     if (s.GetChecked()) {
         ItemCodeOPEX.SetEnabled(true);
         ItemCodeOPEX.SetIsValid(true);
-        DescriptionOPEX.GetInputElement().readOnly = true;
+        //old function change June 4, 2019 (See Documentation)
+        //DescriptionOPEX.GetInputElement().readOnly = true;
     } else {
         ItemCodeOPEX.SetValue("");
         ItemCodeOPEX.SetText("");
@@ -345,7 +350,8 @@ function ItemCodeChkbx_CheckedChanged(s, e) {
         ItemCodeOPEX.SetIsValid(false);
         DescriptionOPEX.SetValue("");
         DescriptionOPEX.SetText("");
-        DescriptionOPEX.GetInputElement().readOnly = false;
+        //old function change June 4, 2019 (See Documentation)
+        //DescriptionOPEX.GetInputElement().readOnly = false;
     }
 }
 

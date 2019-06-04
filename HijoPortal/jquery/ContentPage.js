@@ -1464,9 +1464,16 @@ function listbox_selected(s, e) {
     var selText = s.GetSelectedItem().text;
     var arrSelText = selText.split(';');
 
+    //old function
+    //ItemCodeDirect.SetText(selValue);
+    //ItemDescriptionDirect.SetText(arrSelText[1].trim());
+    //ItemDescriptionDirect.SetIsValid(true);
+
+    //new function
     ItemCodeDirect.SetText(selValue);
     ItemDescriptionDirect.SetText(arrSelText[1].trim());
     ItemDescriptionDirect.SetIsValid(true);
+
     UOMDirect.SetText(arrSelText[2].trim());
     CostDirect.SetText(arrSelText[3].trim());
 
@@ -1499,7 +1506,12 @@ function ItemCodeDirect_KeyPress(s, e) {
     if (key == 13) {
         ASPxClientUtils.PreventEvent(e.htmlEvent);
         listbox.SetVisible(true);
-        listbox.PerformCallback(ItemCodeDirect.GetInputElement().value);
+
+        //new function
+        listbox.PerformCallback(ItemDescriptionDirect.GetInputElement().value);
+
+        //old function
+        //listbox.PerformCallback(ItemCodeDirect.GetInputElement().value);
     }
 }
 
