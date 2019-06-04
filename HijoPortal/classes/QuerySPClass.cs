@@ -142,7 +142,7 @@ namespace HijoPortal.classes
             return retVal;
         }
 
-        public static int InsertUpdateRevenueAssumptions(int TransType, int PK, string HeaderDocNum, string OprUnit, string ProductName, string FarmName, Double Prize, Double Volume, Double TotalPrize)
+        public static int InsertUpdateRevenueAssumptions(int TransType, int PK, string HeaderDocNum, string OprUnit, string ProductName, string FarmName, Double Prize, Double Volume, Double TotalPrize, string UOM)
         {
             int retVal = 0;
             SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
@@ -159,6 +159,7 @@ namespace HijoPortal.classes
             cmd.Parameters.AddWithValue("@Prize", Prize);
             cmd.Parameters.AddWithValue("@Volume", Volume);
             cmd.Parameters.AddWithValue("@TotalPrize", TotalPrize);
+            cmd.Parameters.AddWithValue("@UOM", UOM);
             retVal = cmd.ExecuteNonQuery();
             cn.Close();
             return retVal;

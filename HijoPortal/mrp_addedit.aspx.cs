@@ -852,7 +852,7 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@Cost", Convert.ToDouble(cost.Value.ToString()));
             //cmd.Parameters.AddWithValue("@TotalCost", Convert.ToDouble(totalcost.Value.ToString()));
             //int result = cmd.ExecuteNonQuery();
-            int result = QuerySPClass.InsertUpdateDirectMaterials(wrkflwln, 2, Convert.ToInt32(PK), docnumber,1, exp_code, activity_code, operating_unit, itemCode.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), qty_float, cost_float, total_float);
+            int result = QuerySPClass.InsertUpdateDirectMaterials(wrkflwln, 2, Convert.ToInt32(PK), docnumber, 1, exp_code, activity_code, operating_unit, itemCode.Value.ToString(), GlobalClass.FormatSQL(itemDesc.Value.ToString()), GlobalClass.FormatSQL(desc_two), uom.Value.ToString(), qty_float, cost_float, total_float);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -1824,20 +1824,23 @@ namespace HijoPortal
             ASPxTextBox prize = pageControl.FindControl("Prize") as ASPxTextBox;
             ASPxTextBox volume = pageControl.FindControl("Volume") as ASPxTextBox;
             ASPxTextBox totalprize = pageControl.FindControl("TotalPrize") as ASPxTextBox;
+            ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string operating_unit = "", product_val = "", farm_val ="";
+            string operating_unit = "", product_val = "", farm_val = "";
             if (opunit.Value != null)
             {
                 operating_unit = opunit.Value.ToString();
             }
-                
+
             if (product.Value != null)
             {
                 product_val = product.Value.ToString();
             }
+
+            string uom_val = (uom.Value != null) ? uom.Value.ToString() : "";
 
             //if (farm.Value != null)
             //{
@@ -1874,7 +1877,7 @@ namespace HijoPortal
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
 
-            int result = QuerySPClass.InsertUpdateRevenueAssumptions(1, 0, docnumber, operating_unit, GlobalClass.FormatSQL(product_val.ToString()), GlobalClass.FormatSQL(farm_val.ToString()), prize_float, volume_float, total_float);
+            int result = QuerySPClass.InsertUpdateRevenueAssumptions(1, 0, docnumber, operating_unit, GlobalClass.FormatSQL(product_val.ToString()), GlobalClass.FormatSQL(farm_val.ToString()), prize_float, volume_float, total_float, uom_val);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);
@@ -2306,10 +2309,11 @@ namespace HijoPortal
 
             ASPxComboBox opunit = pageControl.FindControl("OperatingUnit") as ASPxComboBox;
             ASPxTextBox product = pageControl.FindControl("ProductName") as ASPxTextBox;
-            ASPxTextBox farm = pageControl.FindControl("FarmName") as ASPxTextBox;
+            //ASPxTextBox farm = pageControl.FindControl("FarmName") as ASPxTextBox;
             ASPxTextBox prize = pageControl.FindControl("Prize") as ASPxTextBox;
             ASPxTextBox volume = pageControl.FindControl("Volume") as ASPxTextBox;
             ASPxTextBox totalprize = pageControl.FindControl("TotalPrize") as ASPxTextBox;
+            ASPxComboBox uom = pageControl.FindControl("UOM") as ASPxComboBox;
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -2334,6 +2338,10 @@ namespace HijoPortal
                 total_float = Convert.ToDouble(totalprize.Value.ToString());
             }
 
+            string uom_val = (uom.Value != null) ? uom.Value.ToString() : "";
+            //string farm_val = (farm.Value != null) ? farm.Value.ToString() : "";
+
+            System.Diagnostics.Debug.WriteLine(uom_val);
 
             //string update_MRP = "UPDATE " + MRPClass.RevenueTable() + " SET [ProductName] = @ProductName [Prize] = @Prize, [Volume] = @Volume, [TotalPrize] = @TotalPrize, [OprUnit] = @OprUnit WHERE [PK] = @PK";
 
@@ -2347,7 +2355,7 @@ namespace HijoPortal
             //cmd.Parameters.AddWithValue("@TotalPrize", Convert.ToDouble(totalprize.Value.ToString()));
             //cmd.CommandType = CommandType.Text;
             //int result = cmd.ExecuteNonQuery();
-            int result = QuerySPClass.InsertUpdateRevenueAssumptions(2, Convert.ToInt32(PK), docnumber, operating_unit, GlobalClass.FormatSQL(product.Value.ToString()), GlobalClass.FormatSQL(farm.Value.ToString()), prize_float, volume_float, total_float);
+            int result = QuerySPClass.InsertUpdateRevenueAssumptions(2, Convert.ToInt32(PK), docnumber, operating_unit, GlobalClass.FormatSQL(product.Value.ToString()), GlobalClass.FormatSQL(""), prize_float, volume_float, total_float, uom_val);
             if (result > 0)
             {
                 MRPClass.UpdateLastModified(conn, docnumber);

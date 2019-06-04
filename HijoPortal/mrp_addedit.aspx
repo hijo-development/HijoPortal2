@@ -1416,22 +1416,23 @@
                                                                                 </dx:GridViewCommandColumnCustomButton>
                                                                             </CustomButtons>
                                                                         </dx:GridViewCommandColumn>
-                                                                        <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" VisibleIndex="2"></dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="PK" Visible="false" ></dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="HeaderDocNum" Visible="false" ></dx:GridViewDataColumn>
                                                                         <dx:GridViewDataColumn FieldName="VALUE" Visible="false"></dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" VisibleIndex="3"></dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="ProductName" Caption="Product" Width="400px" VisibleIndex="4"></dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="FarmName" Visible="false" Caption="Location" VisibleIndex="5"></dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="Volume" VisibleIndex="6" CellStyle-HorizontalAlign="Right">
+                                                                        <dx:GridViewDataColumn FieldName="RevDesc" Caption="Operating Unit" ></dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="ProductName" Caption="Product" Width="400px"> </dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="FarmName" Visible="false" Caption="Location" ></dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="UOM"></dx:GridViewDataColumn>
+                                                                        <dx:GridViewDataColumn FieldName="Volume"  CellStyle-HorizontalAlign="Right">
                                                                             <HeaderStyle HorizontalAlign="Right" />
                                                                             <CellStyle HorizontalAlign="Right"></CellStyle>
                                                                             <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
                                                                         </dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="Prize" Caption="Price" VisibleIndex="7" CellStyle-HorizontalAlign="Right">
+                                                                        <dx:GridViewDataColumn FieldName="Prize" Caption="Price" CellStyle-HorizontalAlign="Right">
                                                                             <HeaderStyle HorizontalAlign="Right" />
                                                                             <CellStyle HorizontalAlign="Right"></CellStyle>
                                                                         </dx:GridViewDataColumn>
-                                                                        <dx:GridViewDataColumn FieldName="TotalPrize" Caption="Total" VisibleIndex="8" CellStyle-HorizontalAlign="Right">
+                                                                        <dx:GridViewDataColumn FieldName="TotalPrize" Caption="Total"  CellStyle-HorizontalAlign="Right">
                                                                             <HeaderStyle HorizontalAlign="Right" />
                                                                             <CellStyle HorizontalAlign="Right"></CellStyle>
                                                                             <FooterCellStyle HorizontalAlign="Right" Font-Bold="true"></FooterCellStyle>
@@ -1496,6 +1497,14 @@
                                                                                                                             </dx:ASPxTextBox>
                                                                                                                         </td>
                                                                                                                     </tr>
+                                                                                                                    <tr>
+                                                                                                                         <td style="width: 40%">
+                                                                                                                            <dx:ASPxLabel runat="server" Text="UOM"></dx:ASPxLabel>
+                                                                                                                        </td>
+                                                                                                                        <td>
+                                                                                                                            <dx:ASPxComboBox ID="UOM" runat="server" ValueType="System.String" OnInit="UOM_Init" Width="300px"></dx:ASPxComboBox>
+                                                                                                                        </td>
+                                                                                                                    </tr>
                                                                                                                     <%--<tr>
                                                                                                                         <td>
                                                                                                                             <dx:ASPxLabel runat="server" Text="Location" Theme="Office2010Blue"></dx:ASPxLabel>
@@ -1525,7 +1534,7 @@
                                                                                                                     </tr>
                                                                                                                     <tr>
                                                                                                                         <td style="width: 40%">
-                                                                                                                            <dx:ASPxLabel runat="server" Text="Prize" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                                            <dx:ASPxLabel runat="server" Text="Price" Theme="Office2010Blue"></dx:ASPxLabel>
                                                                                                                         </td>
                                                                                                                         <td>
                                                                                                                             <dx:ASPxTextBox ID="Prize" runat="server" ClientInstanceName="PrizeRev" Text='<%#Eval("Prize")%>' HorizontalAlign="Right" Width="300px" Theme="Office2010Blue">
