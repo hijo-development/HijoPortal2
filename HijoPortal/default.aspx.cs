@@ -61,6 +61,36 @@ namespace HijoPortal
                     Session["BUCodeDesc"] = foundRows[0]["BUCodeDesc"].ToString();
                     Session["isAdmin"] = foundRows[0]["UserLevelKey"].ToString();
 
+                    Session["viewAllMRP"] = "0";
+                    if (GlobalClass.IsAdmin(Convert.ToInt32(foundRows[0]["PK"])))
+                    {
+                        Session["viewAllMRP"] = "1";
+                    } else
+                    {
+                        if (GlobalClass.IsAllowed(Convert.ToInt32(foundRows[0]["PK"]), "MOPInventoryAnalyst", DateTime.Now, foundRows[0]["EntityCode"].ToString(), foundRows[0]["BUCode"].ToString(), ""))
+                        {
+                            Session["viewAllMRP"] = "1";
+                        } else
+                        {
+                            if (GlobalClass.IsAllowed(Convert.ToInt32(foundRows[0]["PK"]), "MOPSCMLead", DateTime.Now, foundRows[0]["EntityCode"].ToString(), foundRows[0]["BUCode"].ToString(), ""))
+                            {
+                                Session["viewAllMRP"] = "1";
+                            } else
+                            {
+                                if (GlobalClass.IsAllowed(Convert.ToInt32(foundRows[0]["PK"]), "MOPFinanceLead", DateTime.Now, foundRows[0]["EntityCode"].ToString(), foundRows[0]["BUCode"].ToString(), ""))
+                                {
+                                    Session["viewAllMRP"] = "1";
+                                } else
+                                {
+                                    if (GlobalClass.IsAllowed(Convert.ToInt32(foundRows[0]["PK"]), "MOPExecutive", DateTime.Now, foundRows[0]["EntityCode"].ToString(), foundRows[0]["BUCode"].ToString(), ""))
+                                    {
+                                        Session["viewAllMRP"] = "1";
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     if (Convert.ToUInt32(foundRows[0]["StatusKey"]) == 1)
                     {
                         Response.Redirect("home.aspx");

@@ -459,7 +459,7 @@ namespace HijoPortal.classes
             return sMonth;
         }        
 
-        public static DataTable Master_MRP_List()
+        public static DataTable Master_MRP_List(int ViewAll, string EntityCode, string BUCode)
         {
             DataTable dtTable = new DataTable();
             SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
@@ -488,6 +488,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("MRPMonthDesc", typeof(string));
                 dtTable.Columns.Add("MRPYear", typeof(Int32));
                 dtTable.Columns.Add("Amount", typeof(string));
+                dtTable.Columns.Add("Creator", typeof(string));
                 dtTable.Columns.Add("StatusKey", typeof(string));
                 dtTable.Columns.Add("StatusKeyDesc", typeof(string));
                 dtTable.Columns.Add("WorkflowStatusLine", typeof(string));
@@ -497,16 +498,17 @@ namespace HijoPortal.classes
             }
 
             //string query = "SELECT tbl_MRP_List.*, tbl_MRP_Status.StatusName FROM tbl_MRP_List LEFT OUTER JOIN tbl_MRP_Status ON tbl_MRP_List.StatusKey = tbl_MRP_Status.PK";
-            string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
-                           " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
-                           " dbo.tbl_MRP_List.BUCode, dbo.vw_AXOperatingUnitTable.NAME AS BUCodeDesc, dbo.tbl_MRP_List.MRPMonth, " +
-                           " dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.StatusKey, dbo.tbl_MRP_Status.StatusName, " +
-                           " dbo.tbl_MRP_List.CreatorKey, dbo.tbl_MRP_List.LastModified " +
-                           " FROM  dbo.tbl_MRP_List LEFT OUTER JOIN " +
-                           " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
-                           " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK LEFT OUTER JOIN " +
-                           " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID " +
-                           " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
+            //string query = "SELECT TOP (100) PERCENT dbo.tbl_MRP_List.PK, dbo.tbl_MRP_List.DocNumber, " +
+            //               " dbo.tbl_MRP_List.DateCreated, dbo.tbl_MRP_List.EntityCode, dbo.vw_AXEntityTable.NAME AS EntityCodeDesc, " +
+            //               " dbo.tbl_MRP_List.BUCode, dbo.vw_AXOperatingUnitTable.NAME AS BUCodeDesc, dbo.tbl_MRP_List.MRPMonth, " +
+            //               " dbo.tbl_MRP_List.MRPYear, dbo.tbl_MRP_List.StatusKey, dbo.tbl_MRP_Status.StatusName, " +
+            //               " dbo.tbl_MRP_List.CreatorKey, dbo.tbl_MRP_List.LastModified " +
+            //               " FROM  dbo.tbl_MRP_List LEFT OUTER JOIN " +
+            //               " dbo.vw_AXOperatingUnitTable ON dbo.tbl_MRP_List.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
+            //               " dbo.tbl_MRP_Status ON dbo.tbl_MRP_List.StatusKey = dbo.tbl_MRP_Status.PK LEFT OUTER JOIN " +
+            //               " dbo.vw_AXEntityTable ON dbo.tbl_MRP_List.EntityCode = dbo.vw_AXEntityTable.ID " +
+            //               " ORDER BY dbo.tbl_MRP_List.DocNumber DESC";
+            string query = "sp_MRPList " + ViewAll + ", '" + EntityCode + "', '" + BUCode + "'";
             cmd = new SqlCommand(query);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -527,37 +529,38 @@ namespace HijoPortal.classes
                     dtRow["MRPMonth"] = Convert.ToInt32(row["MRPMonth"]);
                     dtRow["MRPMonthDesc"] = Month_Name(Convert.ToInt32(row["MRPMonth"]));
                     dtRow["MRPYear"] = Convert.ToInt32(row["MRPYear"]);
-
+                    
+                    dtRow["Creator"] = EncryptionClass.Decrypt(row["FirstName"].ToString()) + " " + EncryptionClass.Decrypt(row["LastName"].ToString());
                     string docnum = row["DocNumber"].ToString();
-                    double amount = 0;
+                    double amount = Convert.ToDouble(row["TotalCost"]);
 
-                    string query_1 = "SELECT SUM(TotalCost) AS Total FROM " + DirectMatTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
-                    SqlCommand com = new SqlCommand(query_1, cn);
-                    SqlDataReader reader = com.ExecuteReader();
-                    while (reader.Read())
-                        amount += Convert.ToDouble(reader[0].ToString());
-                    reader.Close();
+                    //string query_1 = "SELECT SUM(TotalCost) AS Total FROM " + DirectMatTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
+                    //SqlCommand com = new SqlCommand(query_1, cn);
+                    //SqlDataReader reader = com.ExecuteReader();
+                    //while (reader.Read())
+                    //    amount += Convert.ToDouble(reader[0].ToString());
+                    //reader.Close();
 
-                    string query_2 = "SELECT SUM(TotalCost) AS Total FROM " + OpexTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
-                    com = new SqlCommand(query_2, cn);
-                    reader = com.ExecuteReader();
-                    while (reader.Read())
-                        amount += Convert.ToDouble(reader[0].ToString());
-                    reader.Close();
+                    //string query_2 = "SELECT SUM(TotalCost) AS Total FROM " + OpexTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
+                    //com = new SqlCommand(query_2, cn);
+                    //reader = com.ExecuteReader();
+                    //while (reader.Read())
+                    //    amount += Convert.ToDouble(reader[0].ToString());
+                    //reader.Close();
 
-                    string query_3 = "SELECT SUM(TotalCost) AS Total FROM " + ManPowerTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
-                    com = new SqlCommand(query_3, cn);
-                    reader = com.ExecuteReader();
-                    while (reader.Read())
-                        amount += Convert.ToDouble(reader[0].ToString());
-                    reader.Close();
+                    //string query_3 = "SELECT SUM(TotalCost) AS Total FROM " + ManPowerTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
+                    //com = new SqlCommand(query_3, cn);
+                    //reader = com.ExecuteReader();
+                    //while (reader.Read())
+                    //    amount += Convert.ToDouble(reader[0].ToString());
+                    //reader.Close();
 
-                    string query_4 = "SELECT SUM(TotalCost) AS Total FROM " + CapexTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
-                    com = new SqlCommand(query_4, cn);
-                    reader = com.ExecuteReader();
-                    while (reader.Read())
-                        amount += Convert.ToDouble(reader[0].ToString());
-                    reader.Close();
+                    //string query_4 = "SELECT SUM(TotalCost) AS Total FROM " + CapexTable() + " WHERE(HeaderDocNum = '" + docnum + "')GROUP BY HeaderDocNum";
+                    //com = new SqlCommand(query_4, cn);
+                    //reader = com.ExecuteReader();
+                    //while (reader.Read())
+                    //    amount += Convert.ToDouble(reader[0].ToString());
+                    //reader.Close();
 
                     dtRow["Amount"] = String.Format("{0:n}", amount);
                     dtRow["StatusKey"] = row["StatusKey"].ToString();

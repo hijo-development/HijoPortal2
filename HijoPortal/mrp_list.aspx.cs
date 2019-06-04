@@ -32,7 +32,7 @@ namespace HijoPortal
                 entText["hidden_value"] = Session["EntityCode"].ToString();
             }
 
-            BindMRP();
+            BindMRP(Convert.ToInt32(Session["viewAllMRP"]), Session["EntityCode"].ToString(), Session["BUCode"].ToString());
 
             if (!Page.IsAsync)
             {
@@ -55,10 +55,10 @@ namespace HijoPortal
             }
         }
 
-        private void BindMRP()
+        private void BindMRP(int ViewAll, string EntityCode, string BUCode)
         {
             //MRPClass.PrintString("MRP is bind");
-            DataTable dtRecord = MRPClass.Master_MRP_List();
+            DataTable dtRecord = MRPClass.Master_MRP_List(ViewAll, EntityCode, BUCode);
             MainTable.DataSource = dtRecord;
             MainTable.KeyFieldName = "PK";
             MainTable.DataBind();
@@ -180,47 +180,32 @@ namespace HijoPortal
             {
                 if (e.ButtonID == "Edit" || e.ButtonID == "Submit" || e.ButtonID == "Delete")
                 {
-                    //if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dteCreated, entCode, buCode) == true)
-                    //{
-                    //    if (e.ButtonID == "Edit")
-                    //    {
-                    //        if (MainTable.FocusedRowIndex > -1)
-                    //        {
-                    //            string mrp_pk = MainTable.GetRowValues(MainTable.FocusedRowIndex, "PK").ToString();
-                    //            string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
-                    //            string statusKey = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
-                    //            string wrkLine = "0";
+                    if (e.ButtonID == "Edit")
+                    {
+                        if (StatusKey == 2 )
+                        {
+                            if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", DateTime.Now, entCode, buCode))
+                            {
+                                string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
+                                Session["mrp_creator"] = mrp_creator;
 
-                    //            Session["mrp_creator"] = mrp_creator;
-
-                    //            //DEBUGGING ONLY
-                    //            Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + wrkLine;
-                    //        }
-                    //    }
-                    //    if (e.ButtonID == "Delete")
-                    //    {
-                    //        //msgTrans.Text = "Pass Delete";
-                    //        if (MainTable.FocusedRowIndex > -1)
-                    //        {
-                    //            Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
-
-                    //        }
-                    //    }
-                    //    if (e.ButtonID == "Submit")
-                    //    {
-                    //        if (MainTable.FocusedRowIndex > -1)
-                    //        {
-                    //            //MRPClass.PrintString(StatusKey.ToString());
-
-                    //            Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
-
-
-                    //        }
-                    //    }
-                    //} else
-                    //{
+                                Session["mrp_docNum"] = docNum.ToString();
+                                Session["mrp_wrkLine"] = CurrentWorkFlow;
+                                Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + CurrentWorkFlow.ToString();
+                            } else
+                            {
+                                text["hidden_value"] = "InvalidCreator";
+                            }
+                        } else
+                        {
+                            text["hidden_value"] = "InvalidCreator";
+                        }
+                        
+                    } else
+                    {
                         text["hidden_value"] = "InvalidCreator";
-                    //}
+                    }
+                        
                 } else if (e.ButtonID == "Preview")
                 {
                     string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
@@ -244,8 +229,8 @@ namespace HijoPortal
                             if (CurrentWorkFlow == 0 || CurrentWorkFlow == 1)
                             {
                                 Session["mrp_docNum"] = docNum.ToString();
-                                Session["mrp_wrkLine"] = "0";
-                                Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
+                                Session["mrp_wrkLine"] = CurrentWorkFlow.ToString();
+                                Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + CurrentWorkFlow.ToString();
                             }
                             else
                             {
@@ -486,7 +471,7 @@ namespace HijoPortal
             MRPSubmitClass.MRP_Submit(docNum.ToString(), Convert.ToInt32(PK), dteCreated, 0, entCode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
 
-            BindMRP();
+            BindMRP(Convert.ToInt32(Session["viewAllMRP"]), Session["EntityCode"].ToString(), Session["BUCode"].ToString());
 
             MRPNotify.HeaderText = "Info";
             MRPNotificationMessage.Text = "Successfully Submitted!";
@@ -511,7 +496,7 @@ namespace HijoPortal
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
-                BindMRP();
+                BindMRP(Convert.ToInt32(Session["viewAllMRP"]), Session["EntityCode"].ToString(), Session["BUCode"].ToString());
 
                 MRPNotify.HeaderText = "Info";
                 MRPNotificationMessage.Text = "Successfully Deleted!";

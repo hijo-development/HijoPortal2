@@ -510,7 +510,7 @@ namespace HijoPortal
                     //Submit_Method();
                     //POClass.SubmitToAX(ponumber, PONotify, PONotifyLbl, ModalPopupExtenderLoading);
 
-                    POClass.SubmitToAXTable(ponumber, PONotify, PONotifyLbl, ModalPopupExtenderLoading);
+                    POClass.SubmitToAXTable(ponumber, Session["UserCompleteName"].ToString(), PONotify, PONotifyLbl, ModalPopupExtenderLoading);
                 
                 else
                 {
