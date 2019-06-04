@@ -2017,7 +2017,7 @@ namespace HijoPortal.classes
             conn.Close();
         }
 
-        public static void SubmitToAXTable(string poNum, ASPxPopupControl popNotify, ASPxLabel lblNotify, ModalPopupExtender modExtender)
+        public static void SubmitToAXTable(string poNum, string CreatedBy, ASPxPopupControl popNotify, ASPxLabel lblNotify, ModalPopupExtender modExtender)
         {
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             DataTable dt = new DataTable();
@@ -2066,7 +2066,7 @@ namespace HijoPortal.classes
                     }
 
                     // Insert Header
-                    qry = "INSERT INTO tbl_AX_POHeader ([PurchId], [AccountingDate], [CurrencyCode], [DeliveryDate], [DeliveryName], [DocumentState], [DocumentStatus], [InclTax], [InventSiteId], [InvoiceAccount], [LanguageId], [OrderAccount], [Payment], [PaymMode], [PORemarks], [PostingProfile], [PurchaseType], [PurchName], [PurchPoolId], [PurchStatus], [Remarks], [TaxGroup], [VendGroup], [DefaultDimension], [CreatedDatetime]) VALUES (@PurchId, @AccountingDate, @CurrencyCode, @DeliveryDate, @DeliveryName, @DocumentState, @DocumentStatus, @InclTax, @InventSiteId, @InvoiceAccount, @LanguageId, @OrderAccount, @Payment, @PaymMode, @PORemarks, @PostingProfile, @PurchaseType, @PurchName, @PurchPoolId, @PurchStatus, @Remarks, @TaxGroup, @VendGroup, @DefaultDimension, @CreatedDatetime)";
+                    qry = "INSERT INTO tbl_AX_POHeader ([PurchId], [AccountingDate], [CurrencyCode], [DeliveryDate], [DeliveryName], [DocumentState], [DocumentStatus], [InclTax], [InventSiteId], [InvoiceAccount], [LanguageId], [OrderAccount], [Payment], [PaymMode], [PORemarks], [PostingProfile], [PurchaseType], [PurchName], [PurchPoolId], [PurchStatus], [Remarks], [TaxGroup], [VendGroup], [DefaultDimension], [CreatedDatetime], [CreatedBy]) VALUES (@PurchId, @AccountingDate, @CurrencyCode, @DeliveryDate, @DeliveryName, @DocumentState, @DocumentStatus, @InclTax, @InventSiteId, @InvoiceAccount, @LanguageId, @OrderAccount, @Payment, @PaymMode, @PORemarks, @PostingProfile, @PurchaseType, @PurchName, @PurchPoolId, @PurchStatus, @Remarks, @TaxGroup, @VendGroup, @DefaultDimension, @CreatedDatetime, @CreatedBy)";
                     cmdIn = new SqlCommand(qry, conn);
 
                     cmdIn.Parameters.AddWithValue("@PurchId", row["PONumber"].ToString());
@@ -2094,6 +2094,7 @@ namespace HijoPortal.classes
                     cmdIn.Parameters.AddWithValue("@VendGroup", row["VENDGROUP"].ToString());
                     cmdIn.Parameters.AddWithValue("@DefaultDimension", sDefaultDimension);
                     cmdIn.Parameters.AddWithValue("@CreatedDatetime", DateTime.Now);
+                    cmdIn.Parameters.AddWithValue("@CreatedBy", CreatedBy);
                     cmdIn.CommandType = CommandType.Text;
                     cmdIn.ExecuteNonQuery();
 
@@ -2208,7 +2209,7 @@ namespace HijoPortal.classes
 
                             string sPriceUnit = "1";
                             // Insert Line
-                            qry = "INSERT INTO tbl_AX_POLines ([PURCHID], [VENDACCOUNT], [VENDGROUP], [ITEMID], [COMPLETE], [CREATEFIXEDASSET], [CURRENCYCODE], [DELIVERYDATE], [DELIVERYNAME], [ISFINALIZED], [ISPWP], [LINEAMOUNT], [LINENUMBER], [MatchingPolicy], [NAME], [OVERDELIVERYPCT], [PRICEUNIT], [PURCHASETYPE], [PURCHPRICE], [PURCHQTY], [PURCHSTATUS], [PURCHUNIT], [PROJTAXGROUPID], [TAXITEMGROUP], [UNDERDELIVERYPCT], [VARIANTID], [InventSiteID], [CreatedDateTime], [InventLocationID], [wMSLocationId], [WorkflowState], [DefaultDimension], [ProcurementCategory], [AssetId], [AssetBookId]) VALUES (@PURCHID, @VENDACCOUNT, @VENDGROUP, @ITEMID, @COMPLETE, @CREATEFIXEDASSET, @CURRENCYCODE, @DELIVERYDATE, @DELIVERYNAME, @ISFINALIZED, @ISPWP, @LINEAMOUNT, @LINENUMBER, @MatchingPolicy, @NAME, @OVERDELIVERYPCT, @PRICEUNIT, @PURCHASETYPE, @PURCHPRICE, @PURCHQTY, @PURCHSTATUS, @PURCHUNIT, @PROJTAXGROUPID, @TAXITEMGROUP, @UNDERDELIVERYPCT, @VARIANTID, @InventSiteID, @CreatedDateTime, @InventLocationID, @wMSLocationId, @WorkflowState, @DefaultDimension, @ProcurementCategory, @AssetId, @AssetBookId)";
+                            qry = "INSERT INTO tbl_AX_POLines ([PURCHID], [VENDACCOUNT], [VENDGROUP], [ITEMID], [COMPLETE], [CREATEFIXEDASSET], [CURRENCYCODE], [DELIVERYDATE], [DELIVERYNAME], [ISFINALIZED], [ISPWP], [LINEAMOUNT], [LINENUMBER], [MatchingPolicy], [NAME], [OVERDELIVERYPCT], [PRICEUNIT], [PURCHASETYPE], [PURCHPRICE], [PURCHQTY], [PURCHSTATUS], [PURCHUNIT], [PROJTAXGROUPID], [TAXITEMGROUP], [UNDERDELIVERYPCT], [VARIANTID], [InventSiteID], [CreatedDateTime], [InventLocationID], [wMSLocationId], [WorkflowState], [DefaultDimension], [ProcurementCategory], [AssetId], [AssetBookId], [CreatedBy]) VALUES (@PURCHID, @VENDACCOUNT, @VENDGROUP, @ITEMID, @COMPLETE, @CREATEFIXEDASSET, @CURRENCYCODE, @DELIVERYDATE, @DELIVERYNAME, @ISFINALIZED, @ISPWP, @LINEAMOUNT, @LINENUMBER, @MatchingPolicy, @NAME, @OVERDELIVERYPCT, @PRICEUNIT, @PURCHASETYPE, @PURCHPRICE, @PURCHQTY, @PURCHSTATUS, @PURCHUNIT, @PROJTAXGROUPID, @TAXITEMGROUP, @UNDERDELIVERYPCT, @VARIANTID, @InventSiteID, @CreatedDateTime, @InventLocationID, @wMSLocationId, @WorkflowState, @DefaultDimension, @ProcurementCategory, @AssetId, @AssetBookId, @CreatedBy)";
                             cmdIn = new SqlCommand(qry, conn);
 
                             cmdIn.Parameters.AddWithValue("@PURCHID", row["PONumber"].ToString());
@@ -2248,6 +2249,7 @@ namespace HijoPortal.classes
                             cmdIn.Parameters.AddWithValue("@AssetId", sFixedAssetID);
                             cmdIn.Parameters.AddWithValue("@AssetBookId", sAssetBookID);
                             cmdIn.Parameters.AddWithValue("@CreatedDateTime", DateTime.Now);
+                            cmdIn.Parameters.AddWithValue("@CreatedBy", CreatedBy);
                             cmdIn.CommandType = CommandType.Text;
                             cmdIn.ExecuteNonQuery();
 

@@ -238,7 +238,7 @@ namespace HijoPortal
 
             //POClass.SubmitToAX(ponumber, POListNotify, POListNotifyLbl, ModalPopupExtenderLoading);
 
-            POClass.SubmitToAXTable(ponumber, POListNotify, POListNotifyLbl, ModalPopupExtenderLoading);
+            POClass.SubmitToAXTable(ponumber, Session["UserCompleteName"].ToString(), POListNotify, POListNotifyLbl, ModalPopupExtenderLoading);
             
 
             Bind_PO_List();

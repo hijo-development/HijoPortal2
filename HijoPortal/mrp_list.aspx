@@ -201,12 +201,13 @@
                                 <dx:GridViewDataColumn FieldName="MRPMonthDesc" Caption="Month" VisibleIndex="7"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="MRPYear" Caption="Year" VisibleIndex="8"></dx:GridViewDataColumn>
                                 <dx:GridViewDataColumn FieldName="Amount" VisibleIndex="9" CellStyle-HorizontalAlign="Right"></dx:GridViewDataColumn>
-                                <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="10"></dx:GridViewDataColumn>
-                                <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="11"></dx:GridViewDataColumn>
-                                <dx:GridViewDataColumn FieldName="WorkflowStatusLine" Visible="false" VisibleIndex="12"></dx:GridViewDataColumn>
-                                <dx:GridViewDataColumn FieldName="WorkflowStatus" Caption="Worflow Level" VisibleIndex="13"></dx:GridViewDataColumn>
-                                <dx:GridViewDataColumn FieldName="DateCreated" Visible="false" VisibleIndex="14"></dx:GridViewDataColumn>
-                                <dx:GridViewCommandColumn VisibleIndex="15" ButtonRenderMode="Image" Width="20">
+                                <dx:GridViewDataColumn FieldName="Creator" Caption ="Creator" VisibleIndex="10"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="StatusKey" Visible="false" VisibleIndex="11"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="StatusKeyDesc" Caption="Status" VisibleIndex="12"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="WorkflowStatusLine" Visible="false" VisibleIndex="13"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="WorkflowStatus" Caption="Worflow Level" VisibleIndex="14"></dx:GridViewDataColumn>
+                                <dx:GridViewDataColumn FieldName="DateCreated" Visible="false" VisibleIndex="15"></dx:GridViewDataColumn>
+                                <dx:GridViewCommandColumn VisibleIndex="16" ButtonRenderMode="Image" Width="20">
                                     <CustomButtons>
                                         <dx:GridViewCommandColumnCustomButton ID="Submit" Text="" Image-Url="Images/Submit.ico" Image-ToolTip="Submit Row" Image-Width="15px">
                                         </dx:GridViewCommandColumnCustomButton>

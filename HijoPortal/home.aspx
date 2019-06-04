@@ -40,7 +40,7 @@
                                 <p><b>HIJO</b> nurtures nature today to benefit the generation of tomorrow.</p>
                                 <br />
                                 <h4 style="color:darkblue;">Mission:</h4>
-                                <p>To build enterprises in <b>Agribusines</b>, <b>Port & Logistics</b>, <b>Property Development</b>, <b>Leisure & Tourism</b> & <b>Renewable Energy</b> in line with the <b>FELICE</b> principle.</p>
+                                <p>To build enterprises in <b>Agribusiness</b>, <b>Port & Logistics</b>, <b>Property Development</b>, <b>Leisure & Tourism</b> & <b>Renewable Energy</b> in line with the <b>FELICE</b> principle.</p>
                                 <br />
                                 <h4 style="color:darkgreen;">Core Values:</h4>
                                 <p>We aim for <b>EXCELLENCE</b>. We work as a <b>TEAM</b>. We have <b>INTEGRITY</b>. We are <b>STEWARDS</b> of God's creation. We are <b>ENTREPRENEURS</b>. We will <b>GROW</b> while having <b>FUN</b>.</p>
