@@ -2066,7 +2066,9 @@ namespace HijoPortal
                             div2.Style.Add("display", "none");
 
                             Description.Text = "";
-                            Description.ReadOnly = false;
+                            //old function change June 4, 2019 (See Documentation)
+                            //Description.ReadOnly = false;
+
                             ItemCode.Text = "";
                             break;
                         case "1":
@@ -2074,7 +2076,8 @@ namespace HijoPortal
                             div2.Style.Add("display", "block");
 
                             Description.Text = "";
-                            Description.ReadOnly = true;
+                            //old function change June 4, 2019 (See Documentation)
+                            //Description.ReadOnly = true;
                             ItemCode.Text = "";
                             break;
                     }
@@ -2109,7 +2112,8 @@ namespace HijoPortal
                         div2.Style.Add("display", "none");
 
                         Description.Text = "";
-                        Description.ReadOnly = false;
+                        //old function change June 4, 2019 (See Documentation)
+                        //Description.ReadOnly = false;
                         ItemCode.Text = "";
                         break;
                     case "1":
@@ -2117,7 +2121,8 @@ namespace HijoPortal
                         div2.Style.Add("display", "block");
 
                         Description.Text = "";
-                        Description.ReadOnly = true;
+                        //old function change June 4, 2019 (See Documentation)
+                        //Description.ReadOnly = true;
                         ItemCode.Text = "";
                         break;
                 }
