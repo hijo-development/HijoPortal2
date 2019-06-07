@@ -300,5 +300,20 @@ namespace HijoPortal
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.SetBehaviorGrid(grid);
         }
+
+        protected void UserListGrid_RowDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
+        {
+            string PK = UserListGrid.GetRowValues(UserListGrid.FocusedRowIndex, "PK").ToString();
+            string delete = "DELETE FROM [dbo].[tbl_Users] WHERE [PK] ='" + PK + "'";
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(delete, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+            BindUserList();
+
+            e.Cancel = true;
+        }
     }
 }

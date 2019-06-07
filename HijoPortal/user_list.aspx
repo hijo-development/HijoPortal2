@@ -1,9 +1,60 @@
 ﻿<%@ Page Title="User List" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="user_list.aspx.cs" Inherits="HijoPortal.user_list" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:TextBox ID="TextBoxLoading" runat="server" Visible="true" Style="display: none;"></asp:TextBox>
+
+    <ajaxToolkit:ModalPopupExtender runat="server"
+        ID="ModalPopupExtenderLoading"
+        BackgroundCssClass="modalBackground"
+        PopupControlID="PanelLoading"
+        TargetControlID="TextBoxLoading"
+        CancelControlID="ButtonErrorOK1"
+        ClientIDMode="Static">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PanelLoading" runat="server"
+        CssClass="modalPopupLoading"
+        Height="200px"
+        Width="200px"
+        align="center"
+        Style="display: none;">
+        <img src="images/Loading.gif" style="height: 200px; width: 200px;" />
+        <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
+    </asp:Panel>
+
+    <dx:ASPxPopupControl ID="PopupDeleteUserList" ClientInstanceName="PopupDeleteUserList" runat="server" CloseAction="CloseButton" Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" PopupVerticalAlign="WindowCenter" PopupHorizontalAlign="WindowCenter" AutoUpdatePosition="true" Theme="Moderno" Width="400px">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <table style="width: 100%;">
+                    <tr>
+                        <td colspan="2" style="padding-right: 20px; padding-bottom: 20px;">
+                            <dx:ASPxLabel runat="server" Text="Are you sure you want to delete this document?" Theme="Moderno" Width="300px"></dx:ASPxLabel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <dx:ASPxButton ID="OK_DELETE" runat="server" Text="DELETE" Theme="Moderno" AutoPostBack="false">
+                                <%--<ClientSideEvents Click="OK_DELETE" />--%>
+                                <ClientSideEvents Click="function(s,e){
+                                    PopupDeleteUserList.Hide();
+                                    $find('ModalPopupExtenderLoading').show();
+                                    e.processOnServer = true;
+                                    }" />
+                            </dx:ASPxButton>
+                            <dx:ASPxButton ID="CANCEL_DELETE" runat="server" Text="CANCEL" Theme="Moderno" AutoPostBack="false">
+                                <ClientSideEvents Click="function(s,e){PopupDeleteUserList.Hide();}" />
+                            </dx:ASPxButton>
+                        </td>
+                    </tr>
+                </table>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
+
     <dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%" Height="100%" ScrollBars="Auto">
         <PanelCollection>
             <dx:PanelContent>
@@ -16,12 +67,19 @@
                         Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue"
                         OnStartRowEditing="UserListGrid_StartRowEditing"
                         OnRowUpdating="UserListGrid_RowUpdating"
+                        OnRowDeleting="UserListGrid_RowDeleting"
                         OnCustomButtonCallback="UserListGrid_CustomButtonCallback"
                         OnBeforeGetCallbackResult="UserListGrid_BeforeGetCallbackResult">
                         <SettingsBehavior AllowSort="true" SortMode="Value" />
 
                         <Columns>
-                            <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="false" VisibleIndex="0"></dx:GridViewCommandColumn>
+                            <dx:GridViewCommandColumn ShowDeleteButton="true" ShowEditButton="true" ShowNewButtonInHeader="false" VisibleIndex="0">
+                                <%--<CustomButtons>
+                                    <dx:GridViewCommandColumnCustomButton ID="Edit" Text="" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                    <dx:GridViewCommandColumnCustomButton ID="Delete" Text="" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                    <dx:GridViewCommandColumnCustomButton ID="Preview" Text="" Image-Url="Images/Refresh.ico" Image-ToolTip="Preview Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                </CustomButtons>--%>
+                            </dx:GridViewCommandColumn>
                             <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
                             <dx:GridViewDataColumn FieldName="LastName" Caption="Last Name" VisibleIndex="2" SortOrder="Ascending"></dx:GridViewDataColumn>
                             <dx:GridViewDataColumn FieldName="FirstName" Caption="First Name" VisibleIndex="3"></dx:GridViewDataColumn>
@@ -41,10 +99,10 @@
                             <dx:GridViewDataColumn FieldName="StatusDesc" Caption="Status" VisibleIndex="17"></dx:GridViewDataColumn>
                         </Columns>
 
-                        <SettingsCommandButton>
+
+                         <SettingsCommandButton>
                             <EditButton ButtonType="Image" Image-Url="Images/Edit.ico" Image-Width="15px"></EditButton>
                             <DeleteButton ButtonType="Image" Image-Url="Images/Delete.ico" Image-Width="15px"></DeleteButton>
-                            <%--<NewButton ButtonType="Image" Image-Url="Images/Add.ico" Image-Width="15px"></NewButton>--%>
                         </SettingsCommandButton>
 
                         <%--Edit Form--%>
@@ -180,7 +238,7 @@
                         </SettingsPager>
                         <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" AllowSelectSingleRowOnly="True"
                             AllowSort="true" ProcessFocusedRowChangedOnServer="True" ProcessSelectionChangedOnServer="True" AllowDragDrop="false" ConfirmDelete="true" />
-                        <SettingsText ConfirmDelete="Delete This User?" />
+                        <%--<SettingsText ConfirmDelete="Delete This User?" />--%>
                         <Styles>
                             <Cell Wrap="False"></Cell>
                             <SelectedRow Font-Bold="False" Font-Italic="False">

@@ -222,20 +222,7 @@ namespace HijoPortal.classes
             using (SqlConnection con = new SqlConnection(GlobalClass.SQLConnString()))
             {
                 con.Open();
-                string qry = "SELECT dbo.tbl_Users.PK, dbo.tbl_Users.UserType, dbo.tbl_UsersType.UserType AS UserTypeDesc, " +
-                             " dbo.tbl_Users.UserLevelKey, dbo.tbl_UserLevel.UserLevel, dbo.tbl_Users.Username, " +
-                             " dbo.tbl_Users.Password, dbo.tbl_Users.DomainAccount, dbo.tbl_Users.Lastname, " +
-                             " dbo.tbl_Users.Firstname, dbo.tbl_Users.Email, dbo.tbl_Users.Gender, " +
-                             " dbo.tbl_Users.EmployeeKey, dbo.tbl_Users.EntityCode, dbo.tbl_Users.BUCode, " +
-                             " dbo.tbl_Users.Image, ISNULL(dbo.vw_AXEntityTable.NAME, '') AS EntityCodeDesc, " +
-                             " ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUCodeDesc, dbo.tbl_Users.DomainAccount, " +
-                             " dbo.tbl_Users.Active, dbo.tbl_Users.EmployeeKey " +
-                             " FROM dbo.tbl_Users LEFT OUTER JOIN " +
-                             " dbo.vw_AXOperatingUnitTable ON dbo.tbl_Users.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN " +
-                             " dbo.vw_AXEntityTable ON dbo.tbl_Users.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN " +
-                             " dbo.tbl_UsersType ON dbo.tbl_Users.UserType = dbo.tbl_UsersType.PK LEFT OUTER JOIN " +
-                             " dbo.tbl_UserLevel ON dbo.tbl_Users.UserLevelKey = dbo.tbl_UserLevel.PK " +
-                             " ORDER BY dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname ";
+                string qry = "SELECT dbo.tbl_Users.PK, dbo.tbl_Users.UserType, dbo.tbl_UsersType.UserType AS UserTypeDesc, dbo.tbl_Users.UserLevelKey, dbo.tbl_UserLevel.UserLevel, dbo.tbl_Users.Username, dbo.tbl_Users.Password, dbo.tbl_Users.DomainAccount, dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname, dbo.tbl_Users.Email, dbo.tbl_Users.Gender, dbo.tbl_Users.EmployeeKey, dbo.tbl_Users.EntityCode, dbo.tbl_Users.BUCode, dbo.tbl_Users.Image, ISNULL(dbo.vw_AXEntityTable.NAME, '') AS EntityCodeDesc, ISNULL(dbo.vw_AXOperatingUnitTable.NAME, '') AS BUCodeDesc, dbo.tbl_Users.DomainAccount, dbo.tbl_Users.Active, dbo.tbl_Users.EmployeeKey FROM dbo.tbl_Users LEFT OUTER JOIN dbo.vw_AXOperatingUnitTable ON dbo.tbl_Users.BUCode = dbo.vw_AXOperatingUnitTable.OMOPERATINGUNITNUMBER LEFT OUTER JOIN  dbo.vw_AXEntityTable ON dbo.tbl_Users.EntityCode = dbo.vw_AXEntityTable.ID LEFT OUTER JOIN dbo.tbl_UsersType ON dbo.tbl_Users.UserType = dbo.tbl_UsersType.PK LEFT OUTER JOIN dbo.tbl_UserLevel ON dbo.tbl_Users.UserLevelKey = dbo.tbl_UserLevel.PK ORDER BY dbo.tbl_Users.Lastname, dbo.tbl_Users.Firstname";
                 cmd = new SqlCommand(qry);
                 cmd.Connection = con;
                 adp = new SqlDataAdapter(cmd);
