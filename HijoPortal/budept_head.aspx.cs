@@ -107,8 +107,7 @@ namespace HijoPortal
                 sbuCode = buCode.Value.ToString();
             }
 
-            string insert = "INSERT INTO tbl_System_BUDeptHead ([Ctrl], [EffectDate], [EntityCode], [BUDeptCode], [UserKey], [StatusKey], [LastModified]) " +
-                            " VALUES (@Ctrl, @EffectDate, @EntityCode, @BUDeptCode, @UserKey, @StatusKey, @LastModified)";
+            string insert = "INSERT INTO tbl_System_BUDeptHead ([Ctrl], [EffectDate], [EntityCode], [BUDeptCode], [UserKey], [StatusKey], [LastModified]) VALUES (@Ctrl, @EffectDate, @EntityCode, @BUDeptCode, @UserKey, @StatusKey, @LastModified)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@Ctrl", sCtrlNum);

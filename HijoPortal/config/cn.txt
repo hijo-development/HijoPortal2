@@ -1,2 +1,2 @@
-﻿1{192.168.100.11,1433|hijo_portal|it_dev|itdev@2019
+﻿1{192.168.100.11,1433|hijo_portal_live|it_dev|itdev@2019
 2{192.168.100.14,2019|H_R_I_S|Archie|management
