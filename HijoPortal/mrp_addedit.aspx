@@ -394,25 +394,7 @@
                                                                                                                                 </table>
                                                                                                                             </td>
                                                                                                                         </tr>
-                                                                                                                        <tr>
-                                                                                                                            <td style="width: 50%;">
-                                                                                                                                <dx:ASPxLabel runat="server" Text="Item Code" Theme="Office2010Blue" />
-                                                                                                                            </td>
-                                                                                                                            <td style="width: 50%;">
-                                                                                                                                <table style="width: 100%;">
-                                                                                                                                    <tr>
-                                                                                                                                        <td style="width: 7%;"></td>
-                                                                                                                                        <td>
-                                                                                                                                            <dx:ASPxTextBox ID="ItemCode" ClientInstanceName="ItemCodeDirect" runat="server" Text='<%#Eval("ItemCode")%>' AutoResizeWithContainer="true" Theme="Office2010Blue" Width="300px" ReadOnly="true">
-                                                                                                                                                <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
-                                                                                                                                                <%--<ClientSideEvents KeyPress="ItemCodeDirect_KeyPress" />--%>
-                                                                                                                                            </dx:ASPxTextBox>
-                                                                                                                                        </td>
-                                                                                                                                    </tr>
-                                                                                                                                </table>
-
-                                                                                                                            </td>
-                                                                                                                        </tr>
+                                                                                                                        
 
                                                                                                                         <tr>
                                                                                                                             <td>
@@ -475,6 +457,27 @@
                                                                                                                                 </table>
                                                                                                                             </td>
                                                                                                                         </tr>
+
+<tr>
+                                                                                                                            <td style="width: 50%;">
+                                                                                                                                <dx:ASPxLabel runat="server" Text="Item Code" Theme="Office2010Blue" />
+                                                                                                                            </td>
+                                                                                                                            <td style="width: 50%;">
+                                                                                                                                <table style="width: 100%;">
+                                                                                                                                    <tr>
+                                                                                                                                        <td style="width: 7%;"></td>
+                                                                                                                                        <td>
+                                                                                                                                            <dx:ASPxTextBox ID="ItemCode" ClientInstanceName="ItemCodeDirect" runat="server" Text='<%#Eval("ItemCode")%>' AutoResizeWithContainer="true" Theme="Office2010Blue" Width="300px" ReadOnly="true">
+                                                                                                                                                <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                                                <%--<ClientSideEvents KeyPress="ItemCodeDirect_KeyPress" />--%>
+                                                                                                                                            </dx:ASPxTextBox>
+                                                                                                                                        </td>
+                                                                                                                                    </tr>
+                                                                                                                                </table>
+
+                                                                                                                            </td>
+                                                                                                                        </tr>
+
 
                                                                                                                         <tr>
                                                                                                                             <td></td>
@@ -747,33 +750,7 @@
                                                                                                                             </div>
                                                                                                                         </td>
                                                                                                                     </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td style="width: 20%;">
-                                                                                                                            <div id="div1" class="div1Class" runat="server">
-                                                                                                                                <dx:ASPxLabel runat="server" Text="Item Code" Theme="Office2010Blue"></dx:ASPxLabel>
-                                                                                                                            </div>
-                                                                                                                        </td>
-                                                                                                                        <td>
-                                                                                                                            <div id="div2" class="div2Class" runat="server">
-                                                                                                                                <table style="width: 100%;">
-                                                                                                                                    <tr>
-                                                                                                                                        <td class="width_for_chkbx">
-                                                                                                                                            <dx:ASPxCheckBox ID="ItemCodeChkbx" runat="server" ClientInstanceName="ItemCodeChkbxClient" Checked="true" Theme="Office2010Blue">
-                                                                                                                                                <ClientSideEvents CheckedChanged="ItemCodeChkbx_CheckedChanged" />
-                                                                                                                                            </dx:ASPxCheckBox>
-                                                                                                                                        </td>
-                                                                                                                                        <td>
-                                                                                                                                            <dx:ASPxTextBox ID="ItemCode" runat="server" ClientInstanceName="ItemCodeOPEX" Text='<%#Eval("ItemCode")%>' Theme="Office2010Blue" Width="300px" ReadOnly="true">
-                                                                                                                                                <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
-                                                                                                                                                <%--<ClientSideEvents KeyPress="ItemCodeOPEX_KeyPress" />--%>
-                                                                                                                                            </dx:ASPxTextBox>
-                                                                                                                                        </td>
-
-                                                                                                                                    </tr>
-                                                                                                                                </table>
-                                                                                                                            </div>
-                                                                                                                        </td>
-                                                                                                                    </tr>
+                                                                                                                    
 
                                                                                                                     <tr>
                                                                                                                         <td style="width: 20%;">
@@ -837,6 +814,32 @@
                                                                                                                                 </tr>
                                                                                                                             </table>
 
+                                                                                                                        </td>
+                                                                                                                    </tr><tr>
+                                                                                                                        <td style="width: 20%;">
+                                                                                                                            <div id="div1" class="div1Class" runat="server">
+                                                                                                                                <dx:ASPxLabel runat="server" Text="Item Code" Theme="Office2010Blue"></dx:ASPxLabel>
+                                                                                                                            </div>
+                                                                                                                        </td>
+                                                                                                                        <td>
+                                                                                                                            <div id="div2" class="div2Class" runat="server">
+                                                                                                                                <table style="width: 100%;">
+                                                                                                                                    <tr>
+                                                                                                                                        <td class="width_for_chkbx">
+                                                                                                                                            <dx:ASPxCheckBox ID="ItemCodeChkbx" runat="server" ClientInstanceName="ItemCodeChkbxClient" Checked="true" Theme="Office2010Blue">
+                                                                                                                                                <ClientSideEvents CheckedChanged="ItemCodeChkbx_CheckedChanged" />
+                                                                                                                                            </dx:ASPxCheckBox>
+                                                                                                                                        </td>
+                                                                                                                                        <td>
+                                                                                                                                            <dx:ASPxTextBox ID="ItemCode" runat="server" ClientInstanceName="ItemCodeOPEX" Text='<%#Eval("ItemCode")%>' Theme="Office2010Blue" Width="300px" ReadOnly="true">
+                                                                                                                                                <ValidationSettings ErrorDisplayMode="ImageWithTooltip" RequiredField-ErrorText="Please enter value" RequiredField-IsRequired="true"></ValidationSettings>
+                                                                                                                                                <%--<ClientSideEvents KeyPress="ItemCodeOPEX_KeyPress" />--%>
+                                                                                                                                            </dx:ASPxTextBox>
+                                                                                                                                        </td>
+
+                                                                                                                                    </tr>
+                                                                                                                                </table>
+                                                                                                                            </div>
                                                                                                                         </td>
                                                                                                                     </tr>
                                                                                                                 </table>
