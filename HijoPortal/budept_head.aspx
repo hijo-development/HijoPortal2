@@ -159,6 +159,7 @@
                             <SettingsAdaptivity AdaptivityMode="SingleColumnWindowLimit" SwitchToSingleColumnAtWindowInnerWidth="800" />
                         </EditFormLayoutProperties>
                         <Settings ShowHeaderFilterButton="true" ShowFilterBar="Auto" ShowFilterRow="true" />
+                        <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="true"></SettingsPager>
                         <SettingsPopup>
                             <EditForm Width="900">
                                 <SettingsAdaptivity Mode="OnWindowInnerWidth" SwitchAtWindowInnerWidth="850" />

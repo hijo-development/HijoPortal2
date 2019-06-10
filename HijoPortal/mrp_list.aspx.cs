@@ -184,18 +184,42 @@ namespace HijoPortal
                     {
                         if (StatusKey == 2 )
                         {
-                            if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", DateTime.Now, entCode, buCode))
+                            if (CurrentWorkFlow == 1)
                             {
-                                string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
-                                Session["mrp_creator"] = mrp_creator;
+                                if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", DateTime.Now, entCode, buCode))
+                                {
+                                    string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
+                                    Session["mrp_creator"] = mrp_creator;
 
-                                Session["mrp_docNum"] = docNum.ToString();
-                                Session["mrp_wrkLine"] = CurrentWorkFlow;
-                                Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + CurrentWorkFlow.ToString();
-                            } else
+                                    Session["mrp_docNum"] = docNum.ToString();
+                                    Session["mrp_wrkLine"] = CurrentWorkFlow;
+                                    Response.RedirectLocation = "mrp_addedit.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + CurrentWorkFlow.ToString();
+                                }
+                                else
+                                {
+                                    text["hidden_value"] = "InvalidCreator";
+                                }
+                            } else if (CurrentWorkFlow == 2 || CurrentWorkFlow == 3)
+                            {
+                                if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", DateTime.Now, entCode, buCode))
+                                {
+                                    string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
+                                    Session["mrp_creator"] = mrp_creator;
+
+                                    Session["mrp_docNum"] = docNum.ToString();
+                                    Session["mrp_wrkLine"] = CurrentWorkFlow;
+                                    Response.RedirectLocation = "mrp_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + CurrentWorkFlow.ToString();
+                                }
+                                else
+                                {
+                                    text["hidden_value"] = "InvalidCreator";
+                                }
+                            }
+                            else
                             {
                                 text["hidden_value"] = "InvalidCreator";
                             }
+
                         } else
                         {
                             text["hidden_value"] = "InvalidCreator";
