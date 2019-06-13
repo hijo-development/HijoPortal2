@@ -200,7 +200,7 @@ namespace HijoPortal.classes
             }
 
 
-            string query_arraycode = "SELECT DISTINCT ExpenseCode FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ExpenseCode ASC";
+            string query_arraycode = "SELECT DISTINCT ExpenseCode FROM [dbo].[tbl_MRP_List_OPEX] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ExpenseCode ASC";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -428,7 +428,7 @@ namespace HijoPortal.classes
             }
 
 
-            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ActivityCode ASC";
+            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ActivityCode ASC";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -825,7 +825,7 @@ namespace HijoPortal.classes
             }
 
 
-            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [hijo_portal].[dbo].[tbl_MRP_List_ManPower] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ActivityCode ASC";
+            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [dbo].[tbl_MRP_List_ManPower] WHERE HeaderDocNum = '" + DOC_NUMBER + "' ORDER BY ActivityCode ASC";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -1126,7 +1126,7 @@ namespace HijoPortal.classes
             }
             else
             {
-                string query_2 = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_RevenueAssumptions] WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+                string query_2 = "SELECT * FROM [dbo].[tbl_MRP_List_RevenueAssumptions] WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
                 cmd = new SqlCommand(query_2);
                 cmd.Connection = cn;
@@ -1394,25 +1394,25 @@ namespace HijoPortal.classes
                 {
                     case 0:
                         name = Constants.DM_string();
-                        string query_1 = "SELECT SUM(TotalCost) AS Total FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
+                        string query_1 = "SELECT SUM(TotalCost) AS Total FROM [dbo].[tbl_MRP_List_DirectMaterials] WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
                         com = new SqlCommand(query_1, cn);
                         break;
 
                     case 1:
                         name = Constants.OP_string();
-                        string query_2 = "SELECT SUM(TotalCost) AS Total FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
+                        string query_2 = "SELECT SUM(TotalCost) AS Total FROM [dbo].[tbl_MRP_List_OPEX] WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
                         com = new SqlCommand(query_2, cn);
                         break;
 
                     case 2:
                         name = Constants.MAN_string();
-                        string query_3 = "SELECT SUM(TotalCost) AS Total FROM [hijo_portal].[dbo].[tbl_MRP_List_ManPower] WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
+                        string query_3 = "SELECT SUM(TotalCost) AS Total FROM [dbo].[tbl_MRP_List_ManPower] WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
                         com = new SqlCommand(query_3, cn);
                         break;
 
                     case 3:
                         name = Constants.CA_string();
-                        string query_4 = "SELECT SUM(TotalCost) AS Total FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
+                        string query_4 = "SELECT SUM(TotalCost) AS Total FROM [dbo].[tbl_MRP_List_CAPEX] WHERE(HeaderDocNum = '" + DOC_NUMBER + "')GROUP BY HeaderDocNum";
                         com = new SqlCommand(query_4, cn);
                         break;
                 }

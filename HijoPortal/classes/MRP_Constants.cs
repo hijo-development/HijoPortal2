@@ -9,12 +9,12 @@ namespace HijoPortal.classes
     {
         public static string DirectMaterials_TableName()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials]";
+            return "[dbo].[tbl_MRP_List_DirectMaterials]";
         }
 
         public static string OperatingExpense_TableName()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_OPEX]";
+            return "[dbo].[tbl_MRP_List_OPEX]";
         }
     }
 }

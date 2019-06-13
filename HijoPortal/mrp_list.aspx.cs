@@ -90,10 +90,15 @@ namespace HijoPortal
             dteCreated = Convert.ToDateTime(MainTable.GetRowValues(MainTable.FocusedRowIndex, "DateCreated").ToString());
             CurrentWorkFlow = Convert.ToInt32(MainTable.GetRowValues(MainTable.FocusedRowIndex, "WorkflowStatusLine").ToString());
 
-            string query = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "' AND PK = '" + PK + "'";
+            //MRPClass.PrintString(Session["CreatorKey"].ToString() + " | " + PK.ToString());
+
+            string query = "SELECT COUNT(*) FROM [dbo].[tbl_MRP_List] WHERE CreatorKey = '" + Session["CreatorKey"].ToString() + "' AND PK = '" + PK + "'";
 
             SqlCommand comm = new SqlCommand(query, conn);
             int count = Convert.ToInt32(comm.ExecuteScalar());
+
+            //MRPClass.PrintString(count.ToString());
+
             if (count > 0)
             {
                 text["hidden_value"] = "Creator";

@@ -109,7 +109,8 @@ namespace HijoPortal.classes
             cmdUp = new SqlCommand(qry, conn);
             cmdUp.ExecuteNonQuery();
 
-            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+            //bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+            GlobalClass.CreateEmailNotification(CreatorEmail, CreatorGreetings, docNum, "has been approved by Supply Chain Management Lead", 4);
 
             //Check if Approve All
             qry = "SELECT COUNT(*) AS RecCnt " +
@@ -223,7 +224,8 @@ namespace HijoPortal.classes
             cmdUp = new SqlCommand(qry, conn);
             cmdUp.ExecuteNonQuery();
 
-            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+            //bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+            GlobalClass.CreateEmailNotification(CreatorEmail, CreatorGreetings, docNum, "has been approved by Finance Lead", 4);
 
             //Check if Approve All
             qry = "SELECT COUNT(*) AS RecCnt " +
@@ -337,7 +339,8 @@ namespace HijoPortal.classes
             cmdUp = new SqlCommand(qry, conn);
             cmdUp.ExecuteNonQuery();
 
-            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+            //bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+            GlobalClass.CreateEmailNotification(CreatorEmail, CreatorGreetings, docNum, "has been approved by Executive", 4);
 
             //Check if Approve All
             qry = "SELECT COUNT(*) AS RecCnt " +

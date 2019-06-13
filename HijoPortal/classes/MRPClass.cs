@@ -75,7 +75,7 @@ namespace HijoPortal.classes
 
             cn.Open();
 
-            qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE ([MRPMonth] = " + MRP_MONTH + ") AND ([MRPYear] = " + MRP_YEAR + ") AND ([EntityCode] = '"+ ENTITY_CODE + "') AND ([BUCode] = '" + BU_CODE + "')";
+            qry = "SELECT * FROM [dbo].[tbl_MRP_List] WHERE ([MRPMonth] = " + MRP_MONTH + ") AND ([MRPYear] = " + MRP_YEAR + ") AND ([EntityCode] = '"+ ENTITY_CODE + "') AND ([BUCode] = '" + BU_CODE + "')";
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -91,7 +91,7 @@ namespace HijoPortal.classes
             dt.Clear();
 
 
-            qry = "SELECT [DocumentPrefix],[DocumentNum] FROM [hijo_portal].[dbo].[tbl_DocumentNumber] WHERE [DocumentPrefix] = 'MRP'";
+            qry = "SELECT [DocumentPrefix],[DocumentNum] FROM [dbo].[tbl_DocumentNumber] WHERE [DocumentPrefix] = 'MRP'";
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -112,7 +112,7 @@ namespace HijoPortal.classes
             string DOC_NUMBER = (doc_num).ToString("00000#");
             DOC_NUMBER = ENTITY_CODE + "-" + monthStringTwoDigits + yearStringTwoDigits + DocumentPrefix + "-" + DOC_NUMBER;
 
-            qry= "SELECT TOP (1) [PK] FROM [hijo_portal].[dbo].[tbl_System_MOP_DataFlow] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
+            qry= "SELECT TOP (1) [PK] FROM [dbo].[tbl_System_MOP_DataFlow] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -133,7 +133,7 @@ namespace HijoPortal.classes
             }
             dt.Clear();
 
-            qry = "SELECT TOP (1) [PK] FROM [hijo_portal].[dbo].[tbl_System_Approval] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
+            qry = "SELECT TOP (1) [PK] FROM [dbo].[tbl_System_Approval] WHERE [EffectDate] <= '" + DATE_CREATED + "' ORDER BY EffectDate DESC";
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -298,7 +298,7 @@ namespace HijoPortal.classes
                 if (iCopyPreMOP == 1)
                 {
                     string preMRPDocNum = "";
-                    qry = "SELECT [DocNumber] FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE ([MRPMonth] = " + iPreMonth + ") AND ([MRPYear] = " + iPreYear + ") AND ([EntityCode] = '" + ENTITY_CODE + "') AND ([BUCode] = '" + BU_CODE + "')";
+                    qry = "SELECT [DocNumber] FROM [dbo].[tbl_MRP_List] WHERE ([MRPMonth] = " + iPreMonth + ") AND ([MRPYear] = " + iPreYear + ") AND ([EntityCode] = '" + ENTITY_CODE + "') AND ([BUCode] = '" + BU_CODE + "')";
                     cmd = new SqlCommand(qry);
                     cmd.Connection = cn;
                     adp = new SqlDataAdapter(cmd);
@@ -315,7 +315,7 @@ namespace HijoPortal.classes
                     if (preMRPDocNum != "")
                     {
                         // Copy Direct Materials
-                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
+                        qry = "SELECT * FROM [dbo].[tbl_MRP_List_DirectMaterials] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
                         cmd = new SqlCommand(qry);
                         cmd.Connection = cn;
                         adp = new SqlDataAdapter(cmd);
@@ -342,7 +342,7 @@ namespace HijoPortal.classes
                         dt.Clear();
 
                         // Copy OPEX
-                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
+                        qry = "SELECT * FROM [dbo].[tbl_MRP_List_OPEX] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
                         cmd = new SqlCommand(qry);
                         cmd.Connection = cn;
                         adp = new SqlDataAdapter(cmd);
@@ -367,7 +367,7 @@ namespace HijoPortal.classes
                         dt.Clear();
 
                         // Copy Manpower
-                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_ManPower] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
+                        qry = "SELECT * FROM [dbo].[tbl_MRP_List_ManPower] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
                         cmd = new SqlCommand(qry);
                         cmd.Connection = cn;
                         adp = new SqlDataAdapter(cmd);
@@ -392,7 +392,7 @@ namespace HijoPortal.classes
                         dt.Clear();
 
                         //Copy CAPEX
-                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
+                        qry = "SELECT * FROM [dbo].[tbl_MRP_List_CAPEX] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
                         cmd = new SqlCommand(qry);
                         cmd.Connection = cn;
                         adp = new SqlDataAdapter(cmd);
@@ -417,7 +417,7 @@ namespace HijoPortal.classes
                         dt.Clear();
 
                         //Copy Revenue Assumption
-                        qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_RevenueAssumptions] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
+                        qry = "SELECT * FROM [dbo].[tbl_MRP_List_RevenueAssumptions] WHERE ([HeaderDocNum] = '" + preMRPDocNum + "')";
                         cmd = new SqlCommand(qry);
                         cmd.Connection = cn;
                         adp = new SqlDataAdapter(cmd);
@@ -1466,7 +1466,7 @@ namespace HijoPortal.classes
 
             string query_1 = "SELECT tbl_MRP_List_RevenueAssumptions.*, vw_AXFindimBananaRevenue.VALUE, vw_AXFindimBananaRevenue.DESCRIPTION as RevDesc FROM tbl_MRP_List_RevenueAssumptions LEFT OUTER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_RevenueAssumptions.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
-            string query_2 = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_RevenueAssumptions] WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query_2 = "SELECT * FROM [dbo].[tbl_MRP_List_RevenueAssumptions] WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             bool execute = entitycode == train_entity;
             if (execute)
@@ -1700,7 +1700,7 @@ namespace HijoPortal.classes
             //string query_1 = "SELECT tbl_MRP_List_CAPEX.*, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_CAPEX LEFT OUTER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_CAPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
             string query_1 = "SELECT tbl_MRP_List_CAPEX.*, vw_AXFindimBananaRevenue.DESCRIPTION AS RevDesc FROM tbl_MRP_List_CAPEX LEFT OUTER JOIN vw_AXFindimBananaRevenue ON tbl_MRP_List_CAPEX.OprUnit = vw_AXFindimBananaRevenue.VALUE WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
             
-            string query_2 = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
+            string query_2 = "SELECT * FROM [dbo].[tbl_MRP_List_CAPEX] WHERE [HeaderDocNum] = '" + DOC_NUMBER + "'";
 
             bool exec = entitycode == train_entity;
             if (exec)
@@ -1773,7 +1773,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("VendorCode", typeof(string));
             }
 
-            //string query = "SELECT * FROM [hijo_portal].[dbo].[tbl_POCreation]";
+            //string query = "SELECT * FROM [dbo].[tbl_POCreation]";
             string query = "SELECT tbl_POCreation.PK, tbl_POCreation.PONumber, tbl_POCreation.MRPNumber, tbl_POCreation.DateCreated, tbl_POCreation.CreatorKey, tbl_POCreation.ExpectedDate, tbl_POCreation.VendorCode, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_POCreation LEFT OUTER JOIN tbl_Users ON tbl_POCreation.CreatorKey = tbl_Users.PK";
 
             cmd = new SqlCommand(query);
@@ -1921,12 +1921,12 @@ namespace HijoPortal.classes
             //    MAINACCOUNT = "'" +mainaccoundid + "'";
 
             //string qry = "SELECT [ITEMID],[NAMEALIAS], [UNITID] " +
-            //              " FROM [hijo_portal].[dbo].[vw_AXInventTable] " +
+            //              " FROM [dbo].[vw_AXInventTable] " +
             //              " WHERE [NAMEALIAS] LIKE '%" + str + "%'" +
             //              " AND DATAAREAID = '" + EntCode + "' AND MAINACCOUNT = " + MAINACCOUNT;
 
             string qry = "SELECT DISTINCT [ITEMID],[NAMEALIAS], [UNITID] " +
-                          " FROM [hijo_portal].[dbo].[vw_AXInventTable] " +
+                          " FROM [dbo].[vw_AXInventTable] " +
                           " WHERE [NAMEALIAS] LIKE '%" + str + "%' AND DATAAREAID = '" + EntCode + "'";
 
             cmd = new SqlCommand(qry);
@@ -1992,7 +1992,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("isProdCategory", typeof(int));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXExpenseAccount] WHERE isOPEX = '" + isOPEX + "'";
+            string qry = "SELECT * FROM [dbo].[vw_AXExpenseAccount] WHERE isOPEX = '" + isOPEX + "'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -2035,7 +2035,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("DESCRIPTION", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXFindimActivity]";
+            string qry = "SELECT * FROM [dbo].[vw_AXFindimActivity]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -2075,7 +2075,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("description", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXUnitOfMeasure]";
+            string qry = "SELECT * FROM [dbo].[vw_AXUnitOfMeasure]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -2099,7 +2099,7 @@ namespace HijoPortal.classes
 
         public static string ActivityCodeDESCRIPTION(string code)
         {
-            string query = "SELECT VALUE FROM [hijo_portal].[dbo].[vw_AXFindimActivity] where DESCRIPTION = '" + code + "'";
+            string query = "SELECT VALUE FROM [dbo].[vw_AXFindimActivity] where DESCRIPTION = '" + code + "'";
 
             string actcodeVal = "";
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
@@ -2152,7 +2152,7 @@ namespace HijoPortal.classes
             }
             else
             {
-                query = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_Items] WHERE [HeaderDocNum] = '" + DocNumber + "'";
+                query = "SELECT * FROM [dbo].[tbl_MRP_Items] WHERE [HeaderDocNum] = '" + DocNumber + "'";
             }
 
             cmd = new SqlCommand(query);
@@ -2208,7 +2208,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("LastModified", typeof(DateTime));
             }
 
-            string query = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_RevenueAssumptions]";
+            string query = "SELECT * FROM [dbo].[tbl_MRP_RevenueAssumptions]";
             cmd = new SqlCommand(query);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -2256,7 +2256,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Amount", typeof(Double));
             }
 
-            string query = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_RevenueAssumptions_Details] WHERE [MasterKey] = '" + pk + "'";
+            string query = "SELECT * FROM [dbo].[tbl_MRP_RevenueAssumptions_Details] WHERE [MasterKey] = '" + pk + "'";
             cmd = new SqlCommand(query);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -2316,7 +2316,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("TaxItemGroup", typeof(string));
             }
 
-            //string query = "SELECT * FROM [hijo_portal].[dbo].[tbl_POCreation]";
+            //string query = "SELECT * FROM [dbo].[tbl_POCreation]";
             //string query = "SELECT tbl_POCreation.PK, tbl_POCreation.PONumber, tbl_POCreation.MRPNumber, tbl_POCreation.DateCreated, tbl_POCreation.CreatorKey, tbl_POCreation.ExpectedDate, tbl_POCreation.VendorCode, tbl_Users.Firstname, tbl_Users.Lastname FROM tbl_POCreation LEFT OUTER JOIN tbl_Users ON tbl_POCreation.CreatorKey = tbl_Users.PK";
 
             string query = "SELECT tbl_MRP_List_DirectMaterials.PK, tbl_MRP_List_DirectMaterials.TableIdentifier, tbl_MRP_List_DirectMaterials.ItemCode, tbl_MRP_List_DirectMaterials.ItemDescription, tbl_MRP_List_DirectMaterials.Qty, tbl_MRP_List_DirectMaterials.UOM, tbl_MRP_List_DirectMaterials.Cost, tbl_MRP_List_DirectMaterials.TotalCost, vw_AXInventTable.ITEMGROUPID FROM tbl_MRP_List_DirectMaterials LEFT OUTER JOIN vw_AXInventTable ON tbl_MRP_List_DirectMaterials.ItemCode = vw_AXInventTable.ITEMID " +
@@ -2372,7 +2372,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("DESCRIPTION", typeof(string));
             }
 
-            string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
+            string qry = "SELECT [NAME],[DESCRIPTION] FROM [dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -2414,7 +2414,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("DESCRIPTION", typeof(string));
             }
 
-            string qry = "SELECT DISTINCT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
+            string qry = "SELECT DISTINCT [NAME],[DESCRIPTION] FROM [dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -2496,7 +2496,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("DESCRIPTION", typeof(string));
             }
 
-            //string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
+            //string qry = "SELECT [NAME],[DESCRIPTION] FROM [dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
             query = "SELECT DISTINCT dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION FROM dbo.vw_AXInventTable LEFT OUTER JOIN dbo.vw_AXProdCategory ON dbo.vw_AXInventTable.ITEMGROUPID = dbo.vw_AXProdCategory.NAME LEFT OUTER JOIN dbo.tbl_MRP_List_DirectMaterials ON dbo.vw_AXInventTable.ITEMID = dbo.tbl_MRP_List_DirectMaterials.ItemCode WHERE HeaderDocNum = '" + docnum + "' AND (dbo.tbl_MRP_List_DirectMaterials.AvailForPO > 0) GROUP BY dbo.vw_AXProdCategory.NAME, dbo.vw_AXProdCategory.DESCRIPTION";
 
             cmd = new SqlCommand(query);
@@ -2582,11 +2582,11 @@ namespace HijoPortal.classes
 
             if (sExpenseCode == "")
             {
-                qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] WHERE ([dataareaid] = '" + entCode + "') AND ([LedgerType] ='" + sType + "') AND ([isallowedProcCat] = 1) ORDER BY NAME ASC";
+                qry = "SELECT [NAME],[DESCRIPTION] FROM [dbo].[vw_AXProdCategory] WHERE ([dataareaid] = '" + entCode + "') AND ([LedgerType] ='" + sType + "') AND ([isallowedProcCat] = 1) ORDER BY NAME ASC";
             }
             else
             {
-                qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] WHERE ([dataareaid] = '" + entCode + "') AND ([LedgerType] ='" + sType + "') AND ([mainaccount] = '" + sExpenseCode + "') AND ([isallowedProcCat] = 1) ORDER BY NAME ASC";
+                qry = "SELECT [NAME],[DESCRIPTION] FROM [dbo].[vw_AXProdCategory] WHERE ([dataareaid] = '" + entCode + "') AND ([LedgerType] ='" + sType + "') AND ([mainaccount] = '" + sExpenseCode + "') AND ([isallowedProcCat] = 1) ORDER BY NAME ASC";
             }
 
 
@@ -2665,7 +2665,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("DESCRIPTION", typeof(string));
             }
 
-            string qry = "SELECT [VALUE], [DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXFindimBananaRevenue] WHERE [Entity] ='" + entity + "'";
+            string qry = "SELECT [VALUE], [DESCRIPTION] FROM [dbo].[vw_AXFindimBananaRevenue] WHERE [Entity] ='" + entity + "'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -2697,32 +2697,32 @@ namespace HijoPortal.classes
 
         public static string MOPTableName()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List]";
+            return "[dbo].[tbl_MRP_List]";
         }
 
         public static string DirectMatTable()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials]";
+            return "[dbo].[tbl_MRP_List_DirectMaterials]";
         }
 
         public static string OpexTable()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_OPEX]";
+            return "[dbo].[tbl_MRP_List_OPEX]";
         }
 
         public static string ManPowerTable()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_ManPower]";
+            return "[dbo].[tbl_MRP_List_ManPower]";
         }
 
         public static string CapexTable()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_CAPEX]";
+            return "[dbo].[tbl_MRP_List_CAPEX]";
         }
 
         public static string RevenueTable()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_RevenueAssumptions]";
+            return "[dbo].[tbl_MRP_List_RevenueAssumptions]";
         }
 
         public static void PrintString(string str)
@@ -2732,42 +2732,42 @@ namespace HijoPortal.classes
 
         public static string MaterialsTableLogs()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials_Logs]";
+            return "[dbo].[tbl_MRP_List_DirectMaterials_Logs]";
         }
 
         public static string OpexTableLogs()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_OPEX_Logs]";
+            return "[dbo].[tbl_MRP_List_OPEX_Logs]";
         }
 
         public static string ManpowerTableLogs()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_ManPower_Logs]";
+            return "[dbo].[tbl_MRP_List_ManPower_Logs]";
         }
 
         public static string CapexTableLogs()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_CAPEX_Logs]";
+            return "[dbo].[tbl_MRP_List_CAPEX_Logs]";
         }
 
         public static string RevenueTableLogs()
         {
-            return "[hijo_portal].[dbo].[tbl_MRP_List_RevenueAssumptions_Logs]";
+            return "[dbo].[tbl_MRP_List_RevenueAssumptions_Logs]";
         }
 
         public static string POTableName()
         {
-            return "[hijo_portal].[dbo].[tbl_POCreation]";
+            return "[dbo].[tbl_POCreation]";
         }
 
         public static string POCreationTableName()
         {
-            return "[hijo_portal].[dbo].[tbl_POCreation_Details]";
+            return "[dbo].[tbl_POCreation_Details]";
         }
 
         public static string DocNumberTableName()
         {
-            return "[hijo_portal].[dbo].[tbl_DocumentNumber]";
+            return "[dbo].[tbl_DocumentNumber]";
         }
 
         public static string DefaultPage()
@@ -2855,7 +2855,7 @@ namespace HijoPortal.classes
 
         public static void UpdateLastModified(SqlConnection conn, string docnumber)
         {
-            string update_last_modified = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List] SET [LastModified] = '" + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss tt") + "' WHERE [DocNumber] = '" + docnumber + "'";
+            string update_last_modified = "UPDATE [dbo].[tbl_MRP_List] SET [LastModified] = '" + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss tt") + "' WHERE [DocNumber] = '" + docnumber + "'";
             SqlCommand comm = new SqlCommand(update_last_modified, conn);
             comm.ExecuteNonQuery();
         }
@@ -2869,7 +2869,7 @@ namespace HijoPortal.classes
 
             string ComputerUN = Environment.UserName;
 
-            string add_logs = "INSERT INTO [hijo_portal].[dbo].[tbl_MRP_List_ModifiedLogs] ([MRPKey], [DateModified],[PhysicalAdd], [ComputerUN], [Remarks]) VALUES (@MRPKey, @DateModified, @PhysicalAdd, @ComputerUN, @Remarks)";
+            string add_logs = "INSERT INTO [dbo].[tbl_MRP_List_ModifiedLogs] ([MRPKey], [DateModified],[PhysicalAdd], [ComputerUN], [Remarks]) VALUES (@MRPKey, @DateModified, @PhysicalAdd, @ComputerUN, @Remarks)";
             SqlCommand comm = new SqlCommand(add_logs, conn);
             comm.Parameters.AddWithValue("@MRPKey", MRPKey);
             comm.Parameters.AddWithValue("@DateModified", DateTime.Now.ToString());
@@ -3966,7 +3966,7 @@ namespace HijoPortal.classes
 
         public static void trial()
         {
-            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '0000-0119MRP-000019' ORDER BY ActivityCode ASC";
+            string query_arraycode = "SELECT DISTINCT ActivityCode FROM [dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '0000-0119MRP-000019' ORDER BY ActivityCode ASC";
 
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
@@ -3982,7 +3982,7 @@ namespace HijoPortal.classes
 
             for (int i = 0; i < list.Count; i++)
             {
-                string query = "SELECT * FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '0000-0119MRP-000019' AND ActivityCode = '" + list[i] + "' ";
+                string query = "SELECT * FROM [dbo].[tbl_MRP_List_DirectMaterials] WHERE HeaderDocNum = '0000-0119MRP-000019' AND ActivityCode = '" + list[i] + "' ";
 
                 cmd = new SqlCommand(query, conn);
                 reader = cmd.ExecuteReader();
@@ -4094,7 +4094,7 @@ namespace HijoPortal.classes
 
             }
 
-            string query = "SELECT [PK],[DocNumber],[MRPMonth],[MRPYear] FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE EntityCode = '" + entitycode + "' AND BUCode = '" + bucode + "'";
+            string query = "SELECT [PK],[DocNumber],[MRPMonth],[MRPYear] FROM [dbo].[tbl_MRP_List] WHERE EntityCode = '" + entitycode + "' AND BUCode = '" + bucode + "'";
 
             cmd = new SqlCommand(query);
             cmd.Connection = cn;

@@ -28,7 +28,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("Na", typeof(string));
             }
 
-            string qry = "SELECT [ID] ,[NAME] FROM [hijo_portal].[dbo].[vw_AXEntityTable]";
+            string qry = "SELECT [ID] ,[NAME] FROM [dbo].[vw_AXEntityTable]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;

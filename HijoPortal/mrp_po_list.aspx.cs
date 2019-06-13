@@ -100,7 +100,7 @@ namespace HijoPortal
             dt.Columns.Add("Qty", typeof(Double));
 
             string update = "";
-            string query = "SELECT [PK], [Identifier], [ItemPK], [Qty] FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE PONumber = '" + ponumber + "'";
+            string query = "SELECT [PK], [Identifier], [ItemPK], [Qty] FROM [dbo].[tbl_POCreation_Details] WHERE PONumber = '" + ponumber + "'";
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
             SqlCommand cmd = new SqlCommand(query, conn);
@@ -126,7 +126,7 @@ namespace HijoPortal
                 switch (dr["Identifier"])
                 {
                     case "1"://Direct Materials
-                        query = "SELECT [QtyPO] FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] WHERE [PK] = '" + dr["ItemPK"] + "'";
+                        query = "SELECT [QtyPO] FROM [dbo].[tbl_MRP_List_DirectMaterials] WHERE [PK] = '" + dr["ItemPK"] + "'";
                         cmd = new SqlCommand(query, conn);
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
@@ -136,14 +136,14 @@ namespace HijoPortal
                         reader.Close();
                         remaining_qty = original_qty - poqty;
 
-                         update = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] SET [QtyPO] = '" + remaining_qty + "' WHERE [PK] = '" + dr["ItemPK"] + "'";
+                         update = "UPDATE [dbo].[tbl_MRP_List_DirectMaterials] SET [QtyPO] = '" + remaining_qty + "' WHERE [PK] = '" + dr["ItemPK"] + "'";
 
                         cmd = new SqlCommand(update, conn);
                         cmd.ExecuteNonQuery();
 
                         break;
                     case "2"://Opex
-                        query = "SELECT [QtyPO] FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] WHERE [PK] = '" + dr["ItemPK"] + "'";
+                        query = "SELECT [QtyPO] FROM [dbo].[tbl_MRP_List_OPEX] WHERE [PK] = '" + dr["ItemPK"] + "'";
                         cmd = new SqlCommand(query, conn);
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
@@ -153,14 +153,14 @@ namespace HijoPortal
                         reader.Close();
                         remaining_qty = original_qty - poqty;
 
-                         update = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_OPEX] SET [QtyPO] = '" + remaining_qty + "' WHERE [PK] = '" + dr["ItemPK"] + "'";
+                         update = "UPDATE [dbo].[tbl_MRP_List_OPEX] SET [QtyPO] = '" + remaining_qty + "' WHERE [PK] = '" + dr["ItemPK"] + "'";
 
                         cmd = new SqlCommand(update, conn);
                         cmd.ExecuteNonQuery();
                         break;
 
                     case "4"://Capex
-                        query = "SELECT [QtyPO] FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE [PK] = '" + dr["ItemPK"] + "'";
+                        query = "SELECT [QtyPO] FROM [dbo].[tbl_MRP_List_CAPEX] WHERE [PK] = '" + dr["ItemPK"] + "'";
                         cmd = new SqlCommand(query, conn);
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
@@ -170,7 +170,7 @@ namespace HijoPortal
                         reader.Close();
                         remaining_qty = original_qty - poqty;
 
-                        update = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] SET [QtyPO] = '" + remaining_qty + "' WHERE [PK] = '" + dr["ItemPK"] + "'";
+                        update = "UPDATE [dbo].[tbl_MRP_List_CAPEX] SET [QtyPO] = '" + remaining_qty + "' WHERE [PK] = '" + dr["ItemPK"] + "'";
 
                         cmd = new SqlCommand(update, conn);
                         cmd.ExecuteNonQuery();
@@ -178,7 +178,7 @@ namespace HijoPortal
                 }
             }
 
-            string delete = "DELETE FROM [hijo_portal].[dbo].[tbl_POCreation] WHERE [PONumber] = '" + ponumber + "'";
+            string delete = "DELETE FROM [dbo].[tbl_POCreation] WHERE [PONumber] = '" + ponumber + "'";
             cmd = new SqlCommand(delete, conn);
             cmd.ExecuteNonQuery();
             conn.Close();

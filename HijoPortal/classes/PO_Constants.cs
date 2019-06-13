@@ -9,17 +9,17 @@ namespace HijoPortal.classes
     {
         public static string DocNumberTableName()
         {
-            return "[hijo_portal].[dbo].[tbl_DocumentNumber]";
+            return "[dbo].[tbl_DocumentNumber]";
         }
 
         public static string POCreation_TableName()
         {
-            return "[hijo_portal].[dbo].[tbl_POCreation]";
+            return "[dbo].[tbl_POCreation]";
         }
 
         public static string POReference_TableName()
         {
-            return "[hijo_portal].[dbo].[tbl_POCreation_Ref]";
+            return "[dbo].[tbl_POCreation_Ref]";
         }
     }
 }

@@ -68,7 +68,7 @@ namespace HijoPortal.classes
                     dtRow["Creator"] = EncryptionClass.Decrypt(row["Firstname"].ToString()) + " " + EncryptionClass.Decrypt(row["Lastname"].ToString());
                     dtRow["ExpectedDate"] = Convert.ToDateTime(row["ExpectedDate"]).ToString("MM/dd/yyyy");
 
-                    string query = "SELECT SUM([TotalCost]), SUM([TotalCostwVAT]) FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PONumber] = '" + row["PONumber"].ToString() + "' GROUP BY MOPNumber";
+                    string query = "SELECT SUM([TotalCost]), SUM([TotalCostwVAT]) FROM [dbo].[tbl_POCreation_Details] WHERE [PONumber] = '" + row["PONumber"].ToString() + "' GROUP BY MOPNumber";
                     cmd = new SqlCommand(query, cn);
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -148,7 +148,7 @@ namespace HijoPortal.classes
                 //dtTable.Columns.Add("EntityCode", typeof(string));
             }
 
-            string qry = "SELECT [PK], [MRPMonth], [MRPYear] FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE PK IN(SELECT MAX(PK) FROM [hijo_portal].[dbo].[tbl_MRP_List] GROUP BY MRPMonth, MRPYear) AND StatusKey = '4' ORDER BY MRPMonth, MRPYear ASC";
+            string qry = "SELECT [PK], [MRPMonth], [MRPYear] FROM [dbo].[tbl_MRP_List] WHERE PK IN(SELECT MAX(PK) FROM [dbo].[tbl_MRP_List] GROUP BY MRPMonth, MRPYear) AND StatusKey = '4' ORDER BY MRPMonth, MRPYear ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -419,7 +419,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT DISTINCT [ACCOUNTNUM],[NAME] FROM [hijo_portal].[dbo].[vw_AXVendTable]";
+            string qry = "SELECT DISTINCT [ACCOUNTNUM],[NAME] FROM [dbo].[vw_AXVendTable]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -459,7 +459,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("DESCRIPTION", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXPaymTerm]";
+            string qry = "SELECT * FROM [dbo].[vw_AXPaymTerm]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -499,7 +499,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("TXT", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXCurrency]";
+            string qry = "SELECT * FROM [dbo].[vw_AXCurrency]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -539,7 +539,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("SITEID", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSite] WHERE (DATAAREAID = '" + entity + "') ORDER BY NAME ASC";
+            string qry = "SELECT * FROM [dbo].[vw_AXInventSite] WHERE (DATAAREAID = '" + entity + "') ORDER BY NAME ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -579,7 +579,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteWarehouse] WHERE ([INVENTSITEID] = '" + ID + "') AND (NOT (warehouse = 'TRANSIT'))  ORDER BY NAME ASC";
+            string qry = "SELECT * FROM [dbo].[vw_AXInventSiteWarehouse] WHERE ([INVENTSITEID] = '" + ID + "') AND (NOT (warehouse = 'TRANSIT'))  ORDER BY NAME ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -618,7 +618,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("LocationCode", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXInventSiteLocation] WHERE ([WarehouseCode] = '" + warehouse + "') AND (NOT (WarehouseCode = 'TRANSIT'))  ORDER BY WarehouseCode ASC";
+            string qry = "SELECT * FROM [dbo].[vw_AXInventSiteLocation] WHERE ([WarehouseCode] = '" + warehouse + "') AND (NOT (WarehouseCode = 'TRANSIT'))  ORDER BY WarehouseCode ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -979,7 +979,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("TAXGROUP", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXTaxGroup]";
+            string qry = "SELECT * FROM [dbo].[vw_AXTaxGroup]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -1017,7 +1017,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("TAXITEMGROUP", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXTaxItemGroup]";
+            string qry = "SELECT * FROM [dbo].[vw_AXTaxItemGroup]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -1054,7 +1054,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("MOPNumber", typeof(string));
             }
 
-            string qry = "SELECT DISTINCT [MOPNumber] FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PONumber] = '" + ponumber + "'";
+            string qry = "SELECT DISTINCT [MOPNumber] FROM [dbo].[tbl_POCreation_Details] WHERE [PONumber] = '" + ponumber + "'";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -1206,9 +1206,9 @@ namespace HijoPortal.classes
 
 
             //CAPEX
-            qry = "SELECT dbo.tbl_POCreation_Details.PK, dbo.tbl_POCreation_Details.PONumber, dbo.tbl_POCreation_Details.MOPNumber, dbo.tbl_POCreation_Details.ItemPK, dbo.tbl_POCreation_Details.Identifier, dbo.tbl_POCreation_Details.ItemCode, dbo.tbl_POCreation_Details.TaxGroup, dbo.tbl_POCreation_Details.TaxItemGroup, dbo.tbl_POCreation_Details.POUOM, dbo.tbl_POCreation_Details.Qty, dbo.tbl_POCreation_Details.Cost, dbo.tbl_POCreation_Details.TotalCost, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.Cost AS CACost, dbo.tbl_MRP_List_CAPEX.Qty AS CAQty, dbo.tbl_MRP_List_CAPEX.TotalCost AS CATotal, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.ProdCat FROM dbo.tbl_POCreation_Details LEFT OUTER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE(dbo.tbl_POCreation_Details.Identifier = '4') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
+            //qry = "SELECT dbo.tbl_POCreation_Details.PK, dbo.tbl_POCreation_Details.PONumber, dbo.tbl_POCreation_Details.MOPNumber, dbo.tbl_POCreation_Details.ItemPK, dbo.tbl_POCreation_Details.Identifier, dbo.tbl_POCreation_Details.ItemCode, dbo.tbl_POCreation_Details.TaxGroup, dbo.tbl_POCreation_Details.TaxItemGroup, dbo.tbl_POCreation_Details.POUOM, dbo.tbl_POCreation_Details.Qty, dbo.tbl_POCreation_Details.Cost, dbo.tbl_POCreation_Details.TotalCost, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.Cost AS CACost, dbo.tbl_MRP_List_CAPEX.Qty AS CAQty, dbo.tbl_MRP_List_CAPEX.TotalCost AS CATotal, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.ProdCat FROM dbo.tbl_POCreation_Details LEFT OUTER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE(dbo.tbl_POCreation_Details.Identifier = '4') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
 
-
+            qry = "SELECT dbo.tbl_POCreation_Details.*, dbo.tbl_MRP_List_CAPEX.Description, dbo.tbl_MRP_List_CAPEX.Cost AS CACost, dbo.tbl_MRP_List_CAPEX.Qty AS CAQty, dbo.tbl_MRP_List_CAPEX.TotalCost AS CATotal, dbo.tbl_MRP_List_CAPEX.CIPSIPNumber, dbo.tbl_MRP_List_CAPEX.ProdCat FROM dbo.tbl_POCreation_Details LEFT OUTER JOIN dbo.tbl_MRP_List_CAPEX ON dbo.tbl_POCreation_Details.ItemPK = dbo.tbl_MRP_List_CAPEX.PK WHERE(dbo.tbl_POCreation_Details.Identifier = '4') AND (dbo.tbl_POCreation_Details.PONumber = '" + ponumber + "')";
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
             adp = new SqlDataAdapter(cmd);
@@ -1278,7 +1278,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("PW", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[tbl_AXPOUploadingPath]";
+            string qry = "SELECT * FROM [dbo].[tbl_AXPOUploadingPath]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -1372,8 +1372,8 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            //string qry = "SELECT [ID] ,[NAME] FROM [hijo_portal].[dbo].[vw_AXEntityTable] WHERE [ID] NOT IN(SELECT [EntityCode] FROM [hijo_portal].[dbo].[tbl_PONumber])";
-            string qry = "SELECT [ID] ,[NAME] FROM [hijo_portal].[dbo].[vw_AXEntityTable]";
+            //string qry = "SELECT [ID] ,[NAME] FROM [dbo].[vw_AXEntityTable] WHERE [ID] NOT IN(SELECT [EntityCode] FROM [dbo].[tbl_PONumber])";
+            string qry = "SELECT [ID] ,[NAME] FROM [dbo].[vw_AXEntityTable]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;

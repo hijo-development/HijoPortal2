@@ -29,7 +29,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT [PK] AS ID, [UserLevel] AS NAME FROM [hijo_portal].[dbo].[tbl_UserLevel]";
+            string qry = "SELECT [PK] AS ID, [UserLevel] AS NAME FROM [dbo].[tbl_UserLevel]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -102,7 +102,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT PK, Lastname, Firstname FROM [hijo_portal].[dbo].[tbl_Users] ORDER BY Lastname, Firstname ";
+            string qry = "SELECT PK, Lastname, Firstname FROM [dbo].[tbl_Users] ORDER BY Lastname, Firstname ";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;

@@ -83,10 +83,7 @@ namespace HijoPortal.classes
             DataTable dtable3 = new DataTable();
 
             conn.Open();
-            qry = "SELECT dbo.tbl_Users.Email, dbo.tbl_Users.Gender, dbo.tbl_Users.Lastname " +
-                  " FROM dbo.tbl_MRP_List LEFT OUTER JOIN " +
-                  " dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK " +
-                  " WHERE(dbo.tbl_MRP_List.PK = "+ MRPKey + ")";
+            qry = "SELECT dbo.tbl_Users.Email, dbo.tbl_Users.Gender, dbo.tbl_Users.Lastname FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK WHERE(dbo.tbl_MRP_List.PK = "+ MRPKey + ")";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -121,10 +118,7 @@ namespace HijoPortal.classes
             }
             dtable.Clear();
 
-            qry = "SELECT TOP (1) PK " +
-                  " FROM dbo.tbl_System_MOP_DataFlow " +
-                  " WHERE(EffectDate <= '"+ dteCreated + "') " +
-                  " ORDER BY EffectDate DESC";
+            qry = "SELECT TOP (1) PK FROM dbo.tbl_System_MOP_DataFlow WHERE(EffectDate <= '"+ dteCreated + "') ORDER BY EffectDate DESC";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -133,13 +127,7 @@ namespace HijoPortal.classes
             {
                 foreach (DataRow row in dtable.Rows)
                 {
-                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
-                          " dbo.tbl_System_Approval_Position.SQLQuery, " +
-                          " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey " +
-                          " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
-                          " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                          " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = "+ row["PK"] +") " +
-                          " AND(dbo.tbl_System_MOP_DataFlow_Details.Line = "+ WorkLineNext + ")";
+                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, dbo.tbl_System_Approval_Position.SQLQuery, dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = "+ row["PK"] +") AND(dbo.tbl_System_MOP_DataFlow_Details.Line = "+ WorkLineNext + ")";
                     cmd1 = new SqlCommand(qry);
                     cmd1.Connection = conn;
                     adp1 = new SqlDataAdapter(cmd1);
@@ -183,14 +171,11 @@ namespace HijoPortal.classes
                                         sBody.Append("</body>");
                                         sBody.Append("</html>");
 
-                                        bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+                                        //bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+                                        GlobalClass.CreateEmailNotification(sEmail, sGreetings, docNum, "is waiting for your review/approval", 2);
 
                                         //Update Workflow
-                                        qry = "UPDATE tbl_MRP_List_Workflow " +
-                                               " SET Visible = 0, " +
-                                               " Status = 1 " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + WorkFlowLine + ")";
+                                        qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 0, Status = 1 WHERE (MasterKey = " + MRPKey + ") AND (Line = " + WorkFlowLine + ")";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
@@ -200,43 +185,24 @@ namespace HijoPortal.classes
                                         cmdUp.ExecuteNonQuery();
 
                                         //Update Workflow Next
-                                        qry = "UPDATE tbl_MRP_List_Workflow " +
-                                               " SET Visible = 1, " +
-                                               " UserKey = "+ row2["UserKey"] +", " +
-                                               " PositionNameKey = "+ row1["PositionNameKey"] +" " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + WorkLineNext + ")";
+                                        qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 1, UserKey = "+ row2["UserKey"] +", PositionNameKey = "+ row1["PositionNameKey"] +" WHERE (MasterKey = " + MRPKey + ") AND (Line = " + WorkLineNext + ")";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
                                         //Update Assigned to me
-                                        qry = "UPDATE tbl_Users_Assigned " +
-                                               " SET Attended = 1 " +
-                                               " WHERE (UserKey = " + row2["UserKey"] + ") " +
-                                               " AND (MRPKey = " + MRPKey + ") " +
-                                               " AND (WorkFlowLine = " + WorkFlowLine + ") " +
-                                               " AND (WorkFlowType = 1)";
+                                        qry = "UPDATE tbl_Users_Assigned SET Attended = 1 WHERE (UserKey = " + row2["UserKey"] + ") AND (MRPKey = " + MRPKey + ") AND (WorkFlowLine = " + WorkFlowLine + ") AND (WorkFlowType = 1)";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
                                         //Insert to Assigned to me
-                                        qry = "SELECT tbl_Users_Assigned.* " +
-                                              " FROM tbl_Users_Assigned " +
-                                              " WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") " +
-                                              " AND (MRPKey = " + MRPKey + ") " +
-                                              " AND (WorkFlowLine = " + WorkLineNext + ") " +
-                                              " AND (WorkFlowType = 1)";
+                                        qry = "SELECT tbl_Users_Assigned.* FROM tbl_Users_Assigned WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") AND (MRPKey = " + MRPKey + ") AND (WorkFlowLine = " + WorkLineNext + ") AND (WorkFlowType = 1)";
                                         cmd3 = new SqlCommand(qry);
                                         cmd3.Connection = conn;
                                         adp3 = new SqlDataAdapter(cmd3);
                                         adp3.Fill(dtable3);
                                         if (dtable3.Rows.Count == 0)
                                         {
-                                            qry = "INSERT INTO tbl_Users_Assigned " +
-                                                  " (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) " +
-                                                  " VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " +
-                                                  " " + Convert.ToInt32(row1["PositionNameKey"]) + ", " +
-                                                  " " + MRPKey + ", " + WorkLineNext + ", 1)";
+                                            qry = "INSERT INTO tbl_Users_Assigned (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " + Convert.ToInt32(row1["PositionNameKey"]) + ", " + MRPKey + ", " + WorkLineNext + ", 1)";
                                             cmdIns = new SqlCommand(qry, conn);
                                             cmdIns.ExecuteNonQuery();
                                         }
@@ -251,7 +217,9 @@ namespace HijoPortal.classes
 
                             if (SubmitError == "")
                             {
-                                bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                                //bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                                GlobalClass.CreateEmailNotification(CreatorEmail, CreatorGreetings, docNum, "has been submitted to your Lead for review/approval", 1);
+
                             }
                             
                         }
@@ -296,10 +264,8 @@ namespace HijoPortal.classes
             DataTable dtable3 = new DataTable();
 
             conn.Open();
-            qry = "SELECT dbo.tbl_Users.Email, dbo.tbl_Users.Gender, dbo.tbl_Users.Lastname " +
-                  " FROM dbo.tbl_MRP_List LEFT OUTER JOIN " +
-                  " dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK " +
-                  " WHERE(dbo.tbl_MRP_List.PK = " + MRPKey + ")";
+            qry = "SELECT dbo.tbl_Users.Email, dbo.tbl_Users.Gender, dbo.tbl_Users.Lastname FROM dbo.tbl_MRP_List LEFT OUTER JOIN " +
+                  " dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK WHERE(dbo.tbl_MRP_List.PK = " + MRPKey + ")";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -346,13 +312,7 @@ namespace HijoPortal.classes
             {
                 foreach (DataRow row in dtable.Rows)
                 {
-                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
-                          " dbo.tbl_System_Approval_Position.SQLQuery, " +
-                          " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey " +
-                          " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
-                          " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                          " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + row["PK"] + ") " +
-                          " AND(dbo.tbl_System_MOP_DataFlow_Details.Line = " + WorkLineNext + ")";
+                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, dbo.tbl_System_Approval_Position.SQLQuery, dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + row["PK"] + ") AND(dbo.tbl_System_MOP_DataFlow_Details.Line = " + WorkLineNext + ")";
                     cmd1 = new SqlCommand(qry);
                     cmd1.Connection = conn;
                     adp1 = new SqlDataAdapter(cmd1);
@@ -399,7 +359,8 @@ namespace HijoPortal.classes
                                         sBody.Append("</body>");
                                         sBody.Append("</html>");
 
-                                        bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+                                        //bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+                                        GlobalClass.CreateEmailNotification(sEmail, sGreetings, docNum, "is waiting for your review/approval", 2);
 
                                         //Update Workflow
                                         qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 0, Status = 1 WHERE (MasterKey = " + MRPKey + ") AND (Line = " + WorkFlowLine + ")";
@@ -443,7 +404,8 @@ namespace HijoPortal.classes
                             }
                             if (SubmitError == "")
                             {
-                                bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                                //bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                                GlobalClass.CreateEmailNotification(CreatorEmail, CreatorGreetings, docNum, "has been submitted to Inventory Analyst review/approval", 1);
                             }
                             
                         }
@@ -487,10 +449,7 @@ namespace HijoPortal.classes
             DataTable dtable3 = new DataTable();
 
             conn.Open();
-            qry = "SELECT dbo.tbl_Users.Email, dbo.tbl_Users.Gender, dbo.tbl_Users.Lastname " +
-                  " FROM dbo.tbl_MRP_List LEFT OUTER JOIN " +
-                  " dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK " +
-                  " WHERE(dbo.tbl_MRP_List.PK = " + MRPKey + ")";
+            qry = "SELECT dbo.tbl_Users.Email, dbo.tbl_Users.Gender, dbo.tbl_Users.Lastname FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK WHERE(dbo.tbl_MRP_List.PK = " + MRPKey + ")";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -516,7 +475,7 @@ namespace HijoPortal.classes
                     sCreatorBody.Append("</head>");
                     sCreatorBody.Append("<body>");
                     sCreatorBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + CreatorGreetings + ",</p>");
-                    sCreatorBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted to Finance(Budget) review/approval.</p>");
+                    sCreatorBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " has been submitted for Deliberation.</p>");
                     sCreatorBody.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
                     sCreatorBody.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
                     sCreatorBody.Append("</body>");
@@ -525,10 +484,7 @@ namespace HijoPortal.classes
             }
             dtable.Clear();
 
-            qry = "SELECT TOP (1) PK " +
-                  " FROM dbo.tbl_System_MOP_DataFlow " +
-                  " WHERE(EffectDate <= '" + dteCreated + "') " +
-                  " ORDER BY EffectDate DESC";
+            qry = "SELECT TOP (1) PK FROM dbo.tbl_System_MOP_DataFlow WHERE(EffectDate <= '" + dteCreated + "') ORDER BY EffectDate DESC";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -537,13 +493,7 @@ namespace HijoPortal.classes
             {
                 foreach (DataRow row in dtable.Rows)
                 {
-                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
-                          " dbo.tbl_System_Approval_Position.SQLQuery, " +
-                          " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey " +
-                          " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
-                          " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                          " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + row["PK"] + ") " +
-                          " AND(dbo.tbl_System_MOP_DataFlow_Details.Line = " + WorkLineNext + ")";
+                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, dbo.tbl_System_Approval_Position.SQLQuery, dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + row["PK"] + ") AND(dbo.tbl_System_MOP_DataFlow_Details.Line = " + WorkLineNext + ")";
                     cmd1 = new SqlCommand(qry);
                     cmd1.Connection = conn;
                     adp1 = new SqlDataAdapter(cmd1);
@@ -580,21 +530,18 @@ namespace HijoPortal.classes
                                         sBody.Append("</head>");
                                         sBody.Append("<body>");
                                         sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>" + sGreetings + ",</p>");
-                                        sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " is waiting for your review/approval.</p>");
+                                        sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'>MOP Document # " + docNum.ToString() + " is waiting for Deliberation.</p>");
                                         sBody.Append("<p style='font-family:Tahoma; font-size: 12px;'><a href=" + GlobalClass.Email_Redirect() + ">Goto System</a></p>");
                                         sBody.Append("<p style='font-family:Tahoma; font-size: 10px;font-style:italic;'>***This is a system-generated message. please do not reply to this email.***</p>");
                                         sBody.Append("<p style='font-family:Tahoma; font-size: 10px;'>DISCLAIMER: This email is confidential and intended solely for the use of the individual to whom it is addressed. If you are not the intended recipient, be advised that you have received this email in error and that any use, dissemination, forwarding, printing or copying of this email is strictly prohibited. If you have received this email in error please notify the sender or email info@hijoresources.net, telephone number (082) 282-3662.</p>");
                                         sBody.Append("</body>");
                                         sBody.Append("</html>");
 
-                                        bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+                                        //bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+                                        GlobalClass.CreateEmailNotification(sEmail, sGreetings, docNum, "is waiting for Deliberation", 2);
 
                                         //Update Workflow
-                                        qry = "UPDATE tbl_MRP_List_Workflow " +
-                                               " SET Visible = 0, " +
-                                               " Status = 1 " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + WorkFlowLine + ")";
+                                        qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 0, Status = 1 WHERE (MasterKey = " + MRPKey + ") AND (Line = " + WorkFlowLine + ")";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
@@ -604,43 +551,24 @@ namespace HijoPortal.classes
                                         cmdUp.ExecuteNonQuery();
 
                                         //Update Workflow Next
-                                        qry = "UPDATE tbl_MRP_List_Workflow " +
-                                               " SET Visible = 1, " +
-                                               " UserKey = " + row2["UserKey"] + ", " +
-                                               " PositionNameKey = " + row1["PositionNameKey"] + " " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + WorkLineNext + ")";
+                                        qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 1, UserKey = " + row2["UserKey"] + ", PositionNameKey = " + row1["PositionNameKey"] + " WHERE (MasterKey = " + MRPKey + ") AND (Line = " + WorkLineNext + ")";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
                                         //Update Assigned to me
-                                        qry = "UPDATE tbl_Users_Assigned " +
-                                               " SET Attended = 1 " +
-                                               " WHERE (UserKey = " + row2["UserKey"] + ") " +
-                                               " AND (MRPKey = " + MRPKey + ") " +
-                                               " AND (WorkFlowLine = " + WorkFlowLine + ") " +
-                                               " AND (WorkFlowType = 1)";
+                                        qry = "UPDATE tbl_Users_Assigned SET Attended = 1 WHERE (UserKey = " + row2["UserKey"] + ") AND (MRPKey = " + MRPKey + ") AND (WorkFlowLine = " + WorkFlowLine + ") AND (WorkFlowType = 1)";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
                                         //Insert to Assigned to me
-                                        qry = "SELECT tbl_Users_Assigned.* " +
-                                              " FROM tbl_Users_Assigned " +
-                                              " WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") " +
-                                              " AND (MRPKey = " + MRPKey + ") " +
-                                              " AND (WorkFlowLine = " + WorkLineNext + ") " +
-                                              " AND (WorkFlowType = 1)";
+                                        qry = "SELECT tbl_Users_Assigned.* FROM tbl_Users_Assigned WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") AND (MRPKey = " + MRPKey + ") AND (WorkFlowLine = " + WorkLineNext + ") AND (WorkFlowType = 1)";
                                         cmd3 = new SqlCommand(qry);
                                         cmd3.Connection = conn;
                                         adp3 = new SqlDataAdapter(cmd3);
                                         adp3.Fill(dtable3);
                                         if (dtable3.Rows.Count == 0)
                                         {
-                                            qry = "INSERT INTO tbl_Users_Assigned " +
-                                                  " (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) " +
-                                                  " VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " +
-                                                  " " + Convert.ToInt32(row1["PositionNameKey"]) + ", " +
-                                                  " " + MRPKey + ", " + WorkLineNext + ", 1)";
+                                            qry = "INSERT INTO tbl_Users_Assigned (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " + Convert.ToInt32(row1["PositionNameKey"]) + ", " + MRPKey + ", " + WorkLineNext + ", 1)";
                                             cmdIns = new SqlCommand(qry, conn);
                                             cmdIns.ExecuteNonQuery();
                                         }
@@ -650,7 +578,9 @@ namespace HijoPortal.classes
                                 dtable2.Clear();
                             }
 
-                            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                            //bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                            GlobalClass.CreateEmailNotification(CreatorEmail, CreatorGreetings, docNum, "has been submitted for Deliberation", 1);
+
                         }
                     }
                     dtable1.Clear();
@@ -692,10 +622,7 @@ namespace HijoPortal.classes
             DataTable dtable3 = new DataTable();
 
             conn.Open();
-            qry = "SELECT dbo.tbl_Users.Email, dbo.tbl_Users.Gender, dbo.tbl_Users.Lastname " +
-                  " FROM dbo.tbl_MRP_List LEFT OUTER JOIN " +
-                  " dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK " +
-                  " WHERE(dbo.tbl_MRP_List.PK = " + MRPKey + ")";
+            qry = "SELECT dbo.tbl_Users.Email, dbo.tbl_Users.Gender, dbo.tbl_Users.Lastname FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK WHERE(dbo.tbl_MRP_List.PK = " + MRPKey + ")";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -730,10 +657,7 @@ namespace HijoPortal.classes
             }
             dtable.Clear();
 
-            qry = "SELECT TOP (1) PK " +
-                  " FROM dbo.tbl_System_MOP_DataFlow " +
-                  " WHERE(EffectDate <= '" + dteCreated + "') " +
-                  " ORDER BY EffectDate DESC";
+            qry = "SELECT TOP (1) PK FROM dbo.tbl_System_MOP_DataFlow WHERE(EffectDate <= '" + dteCreated + "') ORDER BY EffectDate DESC";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -742,13 +666,7 @@ namespace HijoPortal.classes
             {
                 foreach (DataRow row in dtable.Rows)
                 {
-                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
-                          " dbo.tbl_System_Approval_Position.SQLQuery, " +
-                          " dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey " +
-                          " FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN " +
-                          " dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                          " WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + row["PK"] + ") " +
-                          " AND(dbo.tbl_System_MOP_DataFlow_Details.Line = " + WorkLineNext + ")";
+                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, dbo.tbl_System_Approval_Position.SQLQuery, dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey FROM dbo.tbl_System_MOP_DataFlow_Details LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_System_MOP_DataFlow_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_System_MOP_DataFlow_Details.MasterKey = " + row["PK"] + ") AND(dbo.tbl_System_MOP_DataFlow_Details.Line = " + WorkLineNext + ")";
                     cmd1 = new SqlCommand(qry);
                     cmd1.Connection = conn;
                     adp1 = new SqlDataAdapter(cmd1);
@@ -792,14 +710,11 @@ namespace HijoPortal.classes
                                         sBody.Append("</body>");
                                         sBody.Append("</html>");
 
-                                        bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+                                        //bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+                                        GlobalClass.CreateEmailNotification(sEmail, sGreetings, docNum, "is waiting for deliberation", 2);
 
                                         //Update Workflow
-                                        qry = "UPDATE tbl_MRP_List_Workflow " +
-                                               " SET Visible = 0, " +
-                                               " Status = 1 " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + WorkFlowLine + ")";
+                                        qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 0, Status = 1 WHERE (MasterKey = " + MRPKey + ") AND (Line = " + WorkFlowLine + ")";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
@@ -809,43 +724,24 @@ namespace HijoPortal.classes
                                         cmdUp.ExecuteNonQuery();
 
                                         //Update Workflow Next
-                                        qry = "UPDATE tbl_MRP_List_Workflow " +
-                                               " SET Visible = 1, " +
-                                               " UserKey = " + row2["UserKey"] + ", " +
-                                               " PositionNameKey = " + row1["PositionNameKey"] + " " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + WorkLineNext + ")";
+                                        qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 1, UserKey = " + row2["UserKey"] + ", PositionNameKey = " + row1["PositionNameKey"] + " WHERE (MasterKey = " + MRPKey + ") AND (Line = " + WorkLineNext + ")";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
                                         //Update Assigned to me
-                                        qry = "UPDATE tbl_Users_Assigned " +
-                                               " SET Attended = 1 " +
-                                               " WHERE (UserKey = " + row2["UserKey"] + ") " +
-                                               " AND (MRPKey = " + MRPKey + ") " +
-                                               " AND (WorkFlowLine = " + WorkFlowLine + ") " +
-                                               " AND (WorkFlowType = 1)";
+                                        qry = "UPDATE tbl_Users_Assigned SET Attended = 1 WHERE (UserKey = " + row2["UserKey"] + ") AND (MRPKey = " + MRPKey + ") AND (WorkFlowLine = " + WorkFlowLine + ") AND (WorkFlowType = 1)";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
                                         //Insert to Assigned to me
-                                        qry = "SELECT tbl_Users_Assigned.* " +
-                                              " FROM tbl_Users_Assigned " +
-                                              " WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") " +
-                                              " AND (MRPKey = " + MRPKey + ") " +
-                                              " AND (WorkFlowLine = " + WorkLineNext + ") " +
-                                              " AND (WorkFlowType = 1)";
+                                        qry = "SELECT tbl_Users_Assigned.* FROM tbl_Users_Assigned WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") AND (MRPKey = " + MRPKey + ") AND (WorkFlowLine = " + WorkLineNext + ") AND (WorkFlowType = 1)";
                                         cmd3 = new SqlCommand(qry);
                                         cmd3.Connection = conn;
                                         adp3 = new SqlDataAdapter(cmd3);
                                         adp3.Fill(dtable3);
                                         if (dtable3.Rows.Count == 0)
                                         {
-                                            qry = "INSERT INTO tbl_Users_Assigned " +
-                                                  " (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) " +
-                                                  " VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " +
-                                                  " " + Convert.ToInt32(row1["PositionNameKey"]) + ", " +
-                                                  " " + MRPKey + ", " + WorkLineNext + ", 1)";
+                                            qry = "INSERT INTO tbl_Users_Assigned (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " + Convert.ToInt32(row1["PositionNameKey"]) + ", " + MRPKey + ", " + WorkLineNext + ", 1)";
                                             cmdIns = new SqlCommand(qry, conn);
                                             cmdIns.ExecuteNonQuery();
                                         }
@@ -855,7 +751,8 @@ namespace HijoPortal.classes
                                 dtable2.Clear();
                             }
 
-                            bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                            //bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                            GlobalClass.CreateEmailNotification(CreatorEmail, CreatorGreetings, docNum, "has been submitted for Deliberation", 1);
                         }
                     }
                     dtable1.Clear();
@@ -899,10 +796,7 @@ namespace HijoPortal.classes
             DataTable dtable3 = new DataTable();
 
             conn.Open();
-            qry = "SELECT dbo.tbl_Users.Email, dbo.tbl_Users.Gender, dbo.tbl_Users.Lastname " +
-                  " FROM dbo.tbl_MRP_List LEFT OUTER JOIN " +
-                  " dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK " +
-                  " WHERE(dbo.tbl_MRP_List.PK = " + MRPKey + ")";
+            qry = "SELECT dbo.tbl_Users.Email, dbo.tbl_Users.Gender, dbo.tbl_Users.Lastname FROM dbo.tbl_MRP_List LEFT OUTER JOIN dbo.tbl_Users ON dbo.tbl_MRP_List.CreatorKey = dbo.tbl_Users.PK WHERE(dbo.tbl_MRP_List.PK = " + MRPKey + ")";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -938,11 +832,7 @@ namespace HijoPortal.classes
             dtable.Clear();
 
             //Update Workflow After Deliberation
-            qry = "UPDATE tbl_MRP_List_Workflow " +
-                   " SET Visible = 0, " +
-                   " Status = 1 " +
-                   " WHERE (MasterKey = " + MRPKey + ") " +
-                   " AND (Line = " + WorkFlowLine + ")";
+            qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 0, Status = 1 WHERE (MasterKey = " + MRPKey + ") AND (Line = " + WorkFlowLine + ")";
             cmdUp = new SqlCommand(qry, conn);
             cmdUp.ExecuteNonQuery();
 
@@ -952,19 +842,12 @@ namespace HijoPortal.classes
             cmdUp.ExecuteNonQuery();
 
             //Update Workflow Approval
-            qry = "UPDATE tbl_MRP_List_Workflow " +
-                   " SET Visible = 1, " +
-                   " Status = 0 " +
-                   " WHERE (MasterKey = " + MRPKey + ") " +
-                   " AND (Line = " + WorkLineNext + ")";
+            qry = "UPDATE tbl_MRP_List_Workflow SET Visible = 1, Status = 0 WHERE (MasterKey = " + MRPKey + ") AND (Line = " + WorkLineNext + ")";
             cmdUp = new SqlCommand(qry, conn);
             cmdUp.ExecuteNonQuery();
 
             // Approval
-            qry = "SELECT TOP (1) PK " +
-                  " FROM dbo.tbl_System_Approval " +
-                  " WHERE(EffectDate <= '" + dteCreated + "') " +
-                  " ORDER BY EffectDate DESC";
+            qry = "SELECT TOP (1) PK FROM dbo.tbl_System_Approval WHERE(EffectDate <= '" + dteCreated + "') ORDER BY EffectDate DESC";
             cmd = new SqlCommand(qry);
             cmd.Connection = conn;
             adp = new SqlDataAdapter(cmd);
@@ -973,21 +856,7 @@ namespace HijoPortal.classes
             {
                 foreach (DataRow row in dtable.Rows)
                 {
-                    //qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
-                    //      " dbo.tbl_System_Approval_Position.SQLQuery, " +
-                    //      " dbo.tbl_System_Approval_Details.PositionNameKey " +
-                    //      " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
-                    //      " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                    //      " WHERE(dbo.tbl_System_Approval_Details.MasterKey = "+ row["PK"] +") " +
-                    //      " AND(dbo.tbl_System_Approval_Details.Line = "+ ApprovalLine + ")";
-                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, " +
-                          " dbo.tbl_System_Approval_Position.SQLQuery, " +
-                          " dbo.tbl_System_Approval_Details.PositionNameKey, " +
-                          " dbo.tbl_System_Approval_Details.Line " +
-                          " FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN " +
-                          " dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                          " WHERE(dbo.tbl_System_Approval_Details.MasterKey = " + row["PK"] + ") " +
-                          " ORDER BY dbo.tbl_System_Approval_Details.Line";
+                    qry = "SELECT dbo.tbl_System_Approval_Position.PositionName, dbo.tbl_System_Approval_Position.SQLQuery, dbo.tbl_System_Approval_Details.PositionNameKey, dbo.tbl_System_Approval_Details.Line FROM dbo.tbl_System_Approval_Details LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_System_Approval_Details.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_System_Approval_Details.MasterKey = " + row["PK"] + ") ORDER BY dbo.tbl_System_Approval_Details.Line";
                     cmd1 = new SqlCommand(qry);
                     cmd1.Connection = conn;
                     adp1 = new SqlDataAdapter(cmd1);
@@ -1019,7 +888,7 @@ namespace HijoPortal.classes
                                         {
                                             sGreetings = "Dear Ms. " + EncryptionClass.Decrypt(row2["Lastname"].ToString());
                                         }
-                                        sSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your review and approval";
+                                        sSubject = "MOP DocNum " + docNum.ToString() + " is waiting for your approval";
 
                                         sBody.Append("<!DOCTYPE html>");
                                         sBody.Append("<html>");
@@ -1034,35 +903,23 @@ namespace HijoPortal.classes
                                         sBody.Append("</body>");
                                         sBody.Append("</html>");
 
-                                        bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+                                        //bool msgSend = GlobalClass.IsMailSent(sEmail, sSubject, sBody.ToString());
+                                        GlobalClass.CreateEmailNotification(sEmail, sGreetings, docNum, "is waiting for your approval", 3);
 
                                         //Update Approval
-                                        qry = "UPDATE tbl_MRP_List_Approval " +
-                                               " SET Visible = 1, " +
-                                               " UserKey = " + row2["UserKey"] + " " +
-                                               " WHERE (MasterKey = " + MRPKey + ") " +
-                                               " AND (Line = " + ApprovalLine + ")";
+                                        qry = "UPDATE tbl_MRP_List_Approval SET Visible = 1, UserKey = " + row2["UserKey"] + " WHERE (MasterKey = " + MRPKey + ") AND (Line = " + ApprovalLine + ")";
                                         cmdUp = new SqlCommand(qry, conn);
                                         cmdUp.ExecuteNonQuery();
 
                                         //Insert to Assigned to me
-                                        qry = "SELECT tbl_Users_Assigned.* " +
-                                              " FROM tbl_Users_Assigned " +
-                                              " WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") " +
-                                              " AND (MRPKey = " + MRPKey + ") " +
-                                              " AND (WorkFlowLine = " + ApprovalLine + ") " +
-                                              " AND (WorkFlowType = 2)";
+                                        qry = "SELECT tbl_Users_Assigned.* FROM tbl_Users_Assigned WHERE (UserKey = " + Convert.ToInt32(row2["UserKey"]) + ") AND (MRPKey = " + MRPKey + ") AND (WorkFlowLine = " + ApprovalLine + ") AND (WorkFlowType = 2)";
                                         cmd3 = new SqlCommand(qry);
                                         cmd3.Connection = conn;
                                         adp3 = new SqlDataAdapter(cmd3);
                                         adp3.Fill(dtable3);
                                         if (dtable3.Rows.Count == 0)
                                         {
-                                            qry = "INSERT INTO tbl_Users_Assigned " +
-                                                  " (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) " +
-                                                  " VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " +
-                                                  " " + Convert.ToInt32(row1["PositionNameKey"]) + ", " +
-                                                  " " + MRPKey + ", " + ApprovalLine + ", 2)";
+                                            qry = "INSERT INTO tbl_Users_Assigned (UserKey, PositionNameKey, MRPKey, WorkFlowLine, WorkFlowType) VALUES(" + Convert.ToInt32(row2["UserKey"]) + ", " + Convert.ToInt32(row1["PositionNameKey"]) + ", " + MRPKey + ", " + ApprovalLine + ", 2)";
                                             cmdIns = new SqlCommand(qry, conn);
                                             cmdIns.ExecuteNonQuery();
                                         }
@@ -1076,7 +933,9 @@ namespace HijoPortal.classes
                             }
                             if (SubmitError == "")
                             {
-                                bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                                //bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                                GlobalClass.CreateEmailNotification(CreatorEmail, CreatorGreetings, docNum, "has been submitted for SCM Lead Approval", 1);
+
                             }
                         }
                     }
