@@ -27,7 +27,13 @@ namespace HijoPortal.classes
                     {
                         while (sr.Peek() >= 0)
                         {
-                            EncryptionKey = sr.ReadLine();
+                            string ss = sr.ReadLine();
+                            string[] txtsplit = ss.Split('{');
+                            if (txtsplit[0].ToString() == "enckey")
+                            {
+                                EncryptionKey = txtsplit[1].ToString();
+                            }
+                                
                         }
                     }
                 }

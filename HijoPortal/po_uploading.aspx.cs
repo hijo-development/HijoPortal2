@@ -246,7 +246,7 @@ namespace HijoPortal
 
             string encrypted_password = EncryptionClass.Encrypt(Pword.Text);
 
-            string insert = "INSERT INTO [hijo_portal].[dbo].[tbl_AXPOUploadingPath] ([Entity], [Entity Name], [POHeaderPath], [POLinePath], [Domain], [UserName], [Password]) VALUES (@Entity, @EntityName, @POHeaderPath, @POLinePath, @Domain, @UserName, @Password)";
+            string insert = "INSERT INTO [dbo].[tbl_AXPOUploadingPath] ([Entity], [Entity Name], [POHeaderPath], [POLinePath], [Domain], [UserName], [Password]) VALUES (@Entity, @EntityName, @POHeaderPath, @POLinePath, @Domain, @UserName, @Password)";
 
             SqlCommand cmd = new SqlCommand(insert, conn);
             cmd.Parameters.AddWithValue("@Entity", entity.Text);
@@ -299,7 +299,7 @@ namespace HijoPortal
             {
                 string encrypted_password = EncryptionClass.Encrypt(Pword.Text);
 
-                update = "UPDATE [hijo_portal].[dbo].[tbl_AXPOUploadingPath] SET [Entity] = @Entity, [Entity Name] = @EntityName, [POHeaderPath] = @POHeaderPath, [POLinePath] = @POLinePath, [Domain] = @Domain, [UserName] = @UserName, [Password] = @Password WHERE [PK] = @PK";
+                update = "UPDATE [dbo].[tbl_AXPOUploadingPath] SET [Entity] = @Entity, [Entity Name] = @EntityName, [POHeaderPath] = @POHeaderPath, [POLinePath] = @POLinePath, [Domain] = @Domain, [UserName] = @UserName, [Password] = @Password WHERE [PK] = @PK";
                 cmd = new SqlCommand(update, conn);
                 cmd.Parameters.AddWithValue("@Entity", entity_string);
                 cmd.Parameters.AddWithValue("@EntityName", entityname.Text);
@@ -313,7 +313,7 @@ namespace HijoPortal
             }
             else
             {
-                update = "UPDATE [hijo_portal].[dbo].[tbl_AXPOUploadingPath] SET [Entity] = @Entity, [Entity Name] = @EntityName, [POHeaderPath] = @POHeaderPath, [POLinePath] = @POLinePath, [Domain] = @Domain, [UserName] = @UserName WHERE [PK] = @PK";
+                update = "UPDATE [dbo].[tbl_AXPOUploadingPath] SET [Entity] = @Entity, [Entity Name] = @EntityName, [POHeaderPath] = @POHeaderPath, [POLinePath] = @POLinePath, [Domain] = @Domain, [UserName] = @UserName WHERE [PK] = @PK";
                 cmd = new SqlCommand(update, conn);
                 cmd.Parameters.AddWithValue("@Entity", entity_string);
                 cmd.Parameters.AddWithValue("@EntityName", entityname.Text);
@@ -346,7 +346,7 @@ namespace HijoPortal
             conn.Open();
 
             string PK = e.Keys[0].ToString();
-            string delete = "DELETE FROM [hijo_portal].[dbo].[tbl_AXPOUploadingPath] WHERE [PK] = '" + PK + "'";
+            string delete = "DELETE FROM [dbo].[tbl_AXPOUploadingPath] WHERE [PK] = '" + PK + "'";
 
             SqlCommand cmd = new SqlCommand(delete, conn);
             cmd.ExecuteNonQuery();
@@ -395,7 +395,7 @@ namespace HijoPortal
             if (grid.IsNewRowEditing)
             {
 
-                string check = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_PONumber] WHERE [EntityCode] = '" + entity_string + "'";
+                string check = "SELECT COUNT(*) FROM [dbo].[tbl_PONumber] WHERE [EntityCode] = '" + entity_string + "'";
 
                 cmd = new SqlCommand(check, conn);
                 Int32 result = Convert.ToInt32(cmd.ExecuteScalar());
@@ -409,7 +409,7 @@ namespace HijoPortal
             {
                 string PK = e.Keys[0].ToString();
 
-                string check = "SELECT [EntityCode] FROM [hijo_portal].[dbo].[tbl_PONumber] WHERE [EntityCode] = '" + entity_string + "' EXCEPT(SELECT[EntityCode] FROM[hijo_portal].[dbo].[tbl_PONumber] WHERE[PK] = '" + PK + "')";
+                string check = "SELECT [EntityCode] FROM [dbo].[tbl_PONumber] WHERE [EntityCode] = '" + entity_string + "' EXCEPT(SELECT[EntityCode] FROM[dbo].[tbl_PONumber] WHERE[PK] = '" + PK + "')";
 
                 cmd = new SqlCommand(check, conn);
                 reader = cmd.ExecuteReader();
@@ -438,7 +438,7 @@ namespace HijoPortal
             if (grid.IsNewRowEditing)
             {
 
-                string check = "SELECT COUNT(*) FROM [hijo_portal].[dbo].[tbl_AXPOUploadingPath] WHERE [Entity] = '" + entity_string + "'";
+                string check = "SELECT COUNT(*) FROM [dbo].[tbl_AXPOUploadingPath] WHERE [Entity] = '" + entity_string + "'";
 
                 SqlCommand cmd = new SqlCommand(check, conn);
                 int result = Convert.ToInt32(cmd.ExecuteScalar());
@@ -452,7 +452,7 @@ namespace HijoPortal
             {
                 string PK = e.Keys[0].ToString();
 
-                string check1 = "SELECT [Entity] FROM [hijo_portal].[dbo].[tbl_AXPOUploadingPath] WHERE [Entity] = '" + entity_string + "' EXCEPT(SELECT [Entity] FROM [hijo_portal].[dbo].[tbl_AXPOUploadingPath] WHERE [PK] = '" + PK + "')";
+                string check1 = "SELECT [Entity] FROM [dbo].[tbl_AXPOUploadingPath] WHERE [Entity] = '" + entity_string + "' EXCEPT(SELECT [Entity] FROM [dbo].[tbl_AXPOUploadingPath] WHERE [PK] = '" + PK + "')";
 
                 SqlCommand cmd = new SqlCommand(check1, conn);
                 cmd.CommandType = CommandType.Text;

@@ -143,7 +143,7 @@ namespace HijoPortal
                 conn.Open();
 
                 query = "SELECT [OMOPERATINGUNITNUMBER] AS ID, [NAME] AS BUCodeDesc " +
-                        " FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable] " +
+                        " FROM [dbo].[vw_AXOperatingUnitTable] " +
                         " WHERE (entity = '" + entCode.Value.ToString().Trim() + "') ";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
@@ -176,7 +176,7 @@ namespace HijoPortal
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
 
-            string query = "SELECT [PK] AS ID, [UserLevel] AS UserTypeDesc FROM [hijo_portal].[dbo].[tbl_UserLevel]";
+            string query = "SELECT [PK] AS ID, [UserLevel] AS UserTypeDesc FROM [dbo].[tbl_UserLevel]";
 
             SqlCommand cmd = new SqlCommand(query, conn);
             SqlDataReader reader = cmd.ExecuteReader();
@@ -286,7 +286,7 @@ namespace HijoPortal
                 conn.Open();
 
                 query = "SELECT [OMOPERATINGUNITNUMBER] AS ID, [NAME] AS BUCodeDesc " +
-                        " FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable] " +
+                        " FROM [dbo].[vw_AXOperatingUnitTable] " +
                         " WHERE (entity = '" + entCode.Value.ToString().Trim() + "') ";
 
                 SqlCommand cmd = new SqlCommand(query, conn);

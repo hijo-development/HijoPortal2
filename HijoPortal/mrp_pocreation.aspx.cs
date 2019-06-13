@@ -73,7 +73,7 @@ namespace HijoPortal
 
                         //query if po number already PO
 
-                        //string query_po = "SELECT COUNT(*) FROM[hijo_portal].[dbo].[tbl_POCreation_Details] WHERE PONumber = '" + poNumber + "'";
+                        //string query_po = "SELECT COUNT(*) FROM[dbo].[tbl_POCreation_Details] WHERE PONumber = '" + poNumber + "'";
                         //SqlCommand cmd = new SqlCommand(query_po, conn);
                         //int result_po = Convert.ToInt32(cmd.ExecuteScalar());
                         //MRPClass.PrintString(":" + result_po);
@@ -82,7 +82,7 @@ namespace HijoPortal
                         //else
                         Response.RedirectLocation = "mrp_pocreatededit.aspx?PONum=" + poNumber.ToString();
 
-//                         string query_po = "SELECT COUNT(*) FROM[hijo_portal].[dbo].[tbl_POCreation_Details] WHERE PONumber = '" + poNumber + "'";
+//                         string query_po = "SELECT COUNT(*) FROM[dbo].[tbl_POCreation_Details] WHERE PONumber = '" + poNumber + "'";
 //                         SqlCommand cmd = new SqlCommand(query_po, conn);
 //                         int result_po = Convert.ToInt32(cmd.ExecuteScalar());
 //                         //MRPClass.PrintString(":" + result_po);

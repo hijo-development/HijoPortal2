@@ -476,7 +476,7 @@ namespace HijoPortal
 
         protected void pocreatededit_currency_callback_Callback(object sender, CallbackEventArgsBase e)
         {
-            //string query = "SELECT VENDGROUP, PAYMTERMID, CURRENCY FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE[ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            //string query = "SELECT VENDGROUP, PAYMTERMID, CURRENCY FROM[dbo].[vw_AXVendTable] WHERE[ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
 
             //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             //conn.Open();
@@ -508,7 +508,7 @@ namespace HijoPortal
 
         protected void pocreatededit_terms_callback_Callback(object sender, CallbackEventArgsBase e)
         {
-            //string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            //string query = "SELECT PAYMTERMID FROM[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
 
             //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             //conn.Open();
@@ -590,7 +590,7 @@ namespace HijoPortal
             //if (Vendor.Value == null)
             //    return;
 
-            //string query = "SELECT VENDGROUP, PAYMTERMID, CURRENCY FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE[ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            //string query = "SELECT VENDGROUP, PAYMTERMID, CURRENCY FROM[dbo].[vw_AXVendTable] WHERE[ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
 
             //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             //conn.Open();
@@ -624,7 +624,7 @@ namespace HijoPortal
             //if (Vendor.Value == null)
             //    return;
 
-            //string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            //string query = "SELECT PAYMTERMID FROM[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
 
             //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             //conn.Open();

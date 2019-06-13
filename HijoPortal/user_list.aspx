@@ -219,6 +219,9 @@
                                     <dx:ASPxButton runat="server" Text="Save" Theme="Office2010Blue" AutoPostBack="false">
                                         <ClientSideEvents Click="updateUserListNew" />
                                     </dx:ASPxButton>
+                                    <%--<dx:ASPxButton runat="server" Text="Reset Password" Theme="Office2010Blue" AutoPostBack="false">
+                                        <ClientSideEvents Click="" />
+                                    </dx:ASPxButton>--%>
                                     <dx:ASPxButton runat="server" Text="Cancel" Theme="Office2010Blue" AutoPostBack="false">
                                         <ClientSideEvents Click="function(s,e){UserListGrid.CancelEdit();}" />
                                     </dx:ASPxButton>

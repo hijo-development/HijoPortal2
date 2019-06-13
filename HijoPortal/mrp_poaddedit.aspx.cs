@@ -77,7 +77,7 @@ namespace HijoPortal
             //    //BindGridViewDataComboBoxColumn();
             //    BindPOAddEdit(Session["MRP_Number"].ToString(), "ITEMGROUPID");
 
-            //    string query_ponumber = "SELECT Count(*) FROM [hijo_portal].[dbo].[tbl_POCreation] where PONumber = '" + POnumber.Text + "' AND ExpectedDate IS NOT NULL";
+            //    string query_ponumber = "SELECT Count(*) FROM [dbo].[tbl_POCreation] where PONumber = '" + POnumber.Text + "' AND ExpectedDate IS NOT NULL";
             //    cmd = new SqlCommand(query_ponumber, conn);
             //    int count = Convert.ToInt32(cmd.ExecuteScalar());
             //    if (count > 0) Create.Text = "Update";
@@ -349,7 +349,7 @@ namespace HijoPortal
 
         protected void CurrencyCallback_Callback(object sender, CallbackEventArgsBase e)
         {
-            //string query = "SELECT VENDGROUP, PAYMTERMID, CURRENCY FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE[ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            //string query = "SELECT VENDGROUP, PAYMTERMID, CURRENCY FROM[dbo].[vw_AXVendTable] WHERE[ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
 
             //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             //conn.Open();
@@ -381,7 +381,7 @@ namespace HijoPortal
 
         protected void TermsCallback_Callback(object sender, CallbackEventArgsBase e)
         {
-            //string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
+            //string query = "SELECT PAYMTERMID FROM[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Value.ToString() + "'";
 
             //SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             //conn.Open();

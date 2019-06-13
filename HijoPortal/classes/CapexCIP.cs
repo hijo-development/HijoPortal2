@@ -126,7 +126,7 @@ namespace HijoPortal.classes
                 //dtTable.Columns.Add("EntityCode", typeof(string));
             }
 
-            //string qry = "SELECT [PK], [MRPMonth], [MRPYear], [EntityCode] FROM [hijo_portal].[dbo].[tbl_MRP_List] WHERE PK IN(SELECT MAX(PK) FROM [hijo_portal].[dbo].[tbl_MRP_List] GROUP BY MRPMonth, MRPYear) ORDER BY MRPMonth, MRPYear ASC";
+            //string qry = "SELECT [PK], [MRPMonth], [MRPYear], [EntityCode] FROM [dbo].[tbl_MRP_List] WHERE PK IN(SELECT MAX(PK) FROM [dbo].[tbl_MRP_List] GROUP BY MRPMonth, MRPYear) ORDER BY MRPMonth, MRPYear ASC";
 
             string qry = "SELECT DISTINCT PK, MRPMonth, MRPYear, EntityCode FROM dbo.tbl_MRP_List WHERE(StatusKey = '4') AND (PK IN(SELECT MAX(PK) AS Expr1 FROM dbo.tbl_MRP_List AS tbl_MRP_List_1 GROUP BY MRPMonth, MRPYear)) ORDER BY MRPMonth, MRPYear";
 

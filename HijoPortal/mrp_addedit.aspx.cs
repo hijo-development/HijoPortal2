@@ -572,7 +572,7 @@ namespace HijoPortal
         {
             SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
             conn.Open();
-            string query = "SELECT [ManPowerTypeDesc] FROM [hijo_portal].[dbo].[tbl_System_ManPowerType]";
+            string query = "SELECT [ManPowerTypeDesc] FROM [dbo].[tbl_System_ManPowerType]";
             SqlCommand cmd = new SqlCommand(query, conn);
             SqlDataReader reader = cmd.ExecuteReader();
 
@@ -1225,7 +1225,7 @@ namespace HijoPortal
             conn.Open();
 
             int manpower_type_pk = 0;
-            string query = "SELECT [PK] FROM [hijo_portal].[dbo].[tbl_System_ManPowerType] WHERE [ManPowerTypeDesc] = '" + type.Value.ToString() + "'";
+            string query = "SELECT [PK] FROM [dbo].[tbl_System_ManPowerType] WHERE [ManPowerTypeDesc] = '" + type.Value.ToString() + "'";
             SqlCommand comm = new SqlCommand(query, conn);
             SqlDataReader reader = comm.ExecuteReader();
             while (reader.Read())
@@ -1368,7 +1368,7 @@ namespace HijoPortal
             string PK = e.Keys[0].ToString();
 
             int manpower_type_pk = 0;
-            string query = "SELECT [PK] FROM [hijo_portal].[dbo].[tbl_System_ManPowerType] WHERE [ManPowerTypeDesc] = '" + type.Value.ToString() + "'";
+            string query = "SELECT [PK] FROM [dbo].[tbl_System_ManPowerType] WHERE [ManPowerTypeDesc] = '" + type.Value.ToString() + "'";
             SqlCommand comm = new SqlCommand(query, conn);
             SqlDataReader reader = comm.ExecuteReader();
             while (reader.Read())

@@ -202,7 +202,7 @@ namespace HijoPortal
 
         private void TermsCombo_Data()
         {
-            //string query = "SELECT PAYMTERMID, DESCRIPTION FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + VendorCombo.Text.ToString() + "'";
+            //string query = "SELECT PAYMTERMID, DESCRIPTION FROM[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + VendorCombo.Text.ToString() + "'";
             string query = "SELECT dbo.vw_AXVendTable.PAYMTERMID, ISNULL(dbo.vw_AXPaymTerm.DESCRIPTION, N'') AS DESCRIPTION, dbo.vw_AXVendTable.ACCOUNTNUM FROM dbo.vw_AXVendTable LEFT OUTER JOIN  dbo.vw_AXPaymTerm ON dbo.vw_AXVendTable.PAYMTERMID = dbo.vw_AXPaymTerm.PAYMTERMID WHERE(dbo.vw_AXVendTable.ACCOUNTNUM = '" + VendorCombo.Text.ToString() + "')";
             ASPxComboBox combo = TermsCombo as ASPxComboBox;
             combo.Columns.Clear();
@@ -559,7 +559,7 @@ namespace HijoPortal
                 iVAT = 1;
             }
             string ItemPK = "", Identifier = ""; Double old_qty = 0;
-            string query = "SELECT ItemPK, Identifier, Qty FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PK] = '" + PK + "'";
+            string query = "SELECT ItemPK, Identifier, Qty FROM [dbo].[tbl_POCreation_Details] WHERE [PK] = '" + PK + "'";
             cmd = new SqlCommand(query, conn);
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -570,7 +570,7 @@ namespace HijoPortal
             }
             reader.Close();
 
-            string update = "UPDATE [hijo_portal].[dbo].[tbl_POCreation_Details] SET [TaxGroup] = @TaxGroup, [TaxItemGroup] = @TaxItemGroup, [Qty] = @Qty, [Cost] = @Cost, [POUOM] = @POUOM, [wVAT] = @wVAT, [CostwVAT] = @CostwVAT WHERE [PK] = @PK";
+            string update = "UPDATE [dbo].[tbl_POCreation_Details] SET [TaxGroup] = @TaxGroup, [TaxItemGroup] = @TaxItemGroup, [Qty] = @Qty, [Cost] = @Cost, [POUOM] = @POUOM, [wVAT] = @wVAT, [CostwVAT] = @CostwVAT WHERE [PK] = @PK";
 
             string pouom = POUOM.Value.ToString();
             string qty = POQty.Value.ToString();
@@ -631,7 +631,7 @@ namespace HijoPortal
                     break;
 
                 case "4"://CAPEX
-                    query = "SELECT [QtyPO] FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE [PK] = '" + ItemPK + "'";
+                    query = "SELECT [QtyPO] FROM [dbo].[tbl_MRP_List_CAPEX] WHERE [PK] = '" + ItemPK + "'";
                     cmd = new SqlCommand(query, conn);
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -661,7 +661,7 @@ namespace HijoPortal
             SqlCommand cmd = null;
 
             string ItemPK = "", Identifier = "", qty = "";
-            string query = "SELECT ItemPK, Identifier, Qty FROM [hijo_portal].[dbo].[tbl_POCreation_Details] WHERE [PK] = '" + PK + "'";
+            string query = "SELECT ItemPK, Identifier, Qty FROM [dbo].[tbl_POCreation_Details] WHERE [PK] = '" + PK + "'";
             cmd = new SqlCommand(query, conn);
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -716,7 +716,7 @@ namespace HijoPortal
                     break;
 
                 case "4"://CAPEX
-                    query = "SELECT [QtyPO] FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] WHERE [PK] = '" + ItemPK + "'";
+                    query = "SELECT [QtyPO] FROM [dbo].[tbl_MRP_List_CAPEX] WHERE [PK] = '" + ItemPK + "'";
                     cmd = new SqlCommand(query, conn);
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -726,7 +726,7 @@ namespace HijoPortal
                     reader.Close();
                     remaining = original_qty_po - Convert.ToDouble(qty);
 
-                    update = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] SET [QtyPO] = '" + remaining + "' WHERE [PK] = '" + ItemPK + "'";
+                    update = "UPDATE [dbo].[tbl_MRP_List_CAPEX] SET [QtyPO] = '" + remaining + "' WHERE [PK] = '" + ItemPK + "'";
                     cmd = new SqlCommand(update, conn);
                     cmd.ExecuteNonQuery();
                     break;

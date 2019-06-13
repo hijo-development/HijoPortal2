@@ -308,7 +308,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXEntityTable]";
+            string qry = "SELECT * FROM [dbo].[vw_AXEntityTable]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -332,7 +332,7 @@ namespace HijoPortal.classes
 
         public static string EntityCodeDescription(string code)
         {
-            string query = "SELECT NAME FROM [hijo_portal].[dbo].[vw_AXEntityTable] where ID = '" + code + "'";
+            string query = "SELECT NAME FROM [dbo].[vw_AXEntityTable] where ID = '" + code + "'";
 
             string actcodeVal = "";
             SqlConnection conn = new SqlConnection(SQLConnString());
@@ -367,7 +367,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable]";
+            string qry = "SELECT * FROM [dbo].[vw_AXOperatingUnitTable]";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -408,7 +408,7 @@ namespace HijoPortal.classes
                 dtTable.Columns.Add("NAME", typeof(string));
             }
 
-            string qry = "SELECT * FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable] WHERE (entity = '" + entCode + "')";
+            string qry = "SELECT * FROM [dbo].[vw_AXOperatingUnitTable] WHERE (entity = '" + entCode + "')";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -450,8 +450,8 @@ namespace HijoPortal.classes
             }
 
             
-            //string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
-            string qry = "SELECT [NAME],[DESCRIPTION] FROM [hijo_portal].[dbo].[vw_AXProdCategory_Group] ORDER BY NAME ASC";
+            //string qry = "SELECT [NAME],[DESCRIPTION] FROM [dbo].[vw_AXProdCategory] ORDER BY NAME ASC";
+            string qry = "SELECT [NAME],[DESCRIPTION] FROM [dbo].[vw_AXProdCategory_Group] ORDER BY NAME ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -493,7 +493,7 @@ namespace HijoPortal.classes
             }
 
             string qry = "SELECT [PK] AS NAME, [PositionName] AS DESCRIPTION " +
-                         " FROM [hijo_portal].[dbo].[tbl_System_Approval_Position] ORDER BY PositionName ASC";
+                         " FROM [dbo].[tbl_System_Approval_Position] ORDER BY PositionName ASC";
 
             cmd = new SqlCommand(qry);
             cmd.Connection = cn;
@@ -517,7 +517,7 @@ namespace HijoPortal.classes
 
         public static string BUCodeDescription(string code)
         {
-            string query = "SELECT NAME FROM [hijo_portal].[dbo].[vw_AXOperatingUnitTable] where OMOPERATINGUNITNUMBER = '" + code + "'";
+            string query = "SELECT NAME FROM [dbo].[vw_AXOperatingUnitTable] where OMOPERATINGUNITNUMBER = '" + code + "'";
 
             string actcodeVal = "";
             SqlConnection conn = new SqlConnection(SQLConnString());
@@ -1225,6 +1225,55 @@ namespace HijoPortal.classes
             cn.Close();
 
             return dtTable;
+        }
+
+        public static void CreateEmailNotification(string EmailAdd, string Greetings, string DocNum, string DocLevel, int EmailType)
+        {
+            DataTable dtTable = new DataTable();
+
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            SqlCommand cmdIns = null;
+            string qry = "";
+
+            cn.Open();
+            qry = "INSERT INTO tbl_System_EmailSent (EmailAdd, Greetings, DocNum, DocumentLevel, EmailType) VALUES ('" + GlobalClass.FormatSQL(EmailAdd) + "', '" + GlobalClass.FormatSQL(Greetings) + "', '" + GlobalClass.FormatSQL(DocNum.ToString()) + "', '"+ GlobalClass.FormatSQL(DocLevel) +"', "+ EmailType + ")";
+            cmdIns = new SqlCommand(qry, cn);
+            cmdIns.ExecuteNonQuery();
+
+            cn.Close();
+        }
+
+        public static string DefaultPassword()
+        {
+            string sWebRoot = HttpContext.Current.Server.MapPath("~");
+            string ResetPasswordPath = sWebRoot + @"config\Key.txt";
+            string ResetPassword = "";
+
+            try
+            {
+                if (File.Exists(ResetPasswordPath))
+                {
+                    using (StreamReader sr = new StreamReader(ResetPasswordPath))
+                    {
+                        while (sr.Peek() >= 0)
+                        {
+                            string ss = sr.ReadLine();
+                            string[] txtsplit = ss.Split('{');
+                            if (txtsplit[0].ToString() == "respass")
+                            {
+                                ResetPassword = txtsplit[1].ToString();
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ResetPassword = "";
+            }
+
+            return ResetPassword;
         }
     }
 }

@@ -293,7 +293,7 @@ namespace HijoPortal
                         }
                         else
                         {
-                            query_1 = "SELECT [ItemDescription], [ItemCode] FROM [hijo_portal].[dbo].[tbl_MRP_List_DirectMaterials] where [PK] = '" + PK + "'";
+                            query_1 = "SELECT [ItemDescription], [ItemCode] FROM [dbo].[tbl_MRP_List_DirectMaterials] where [PK] = '" + PK + "'";
                             cmd = new SqlCommand(query_1);
                             cmd.Connection = conn;
                             adp = new SqlDataAdapter(cmd);
@@ -402,7 +402,7 @@ namespace HijoPortal
                         }
                         else
                         {
-                            query_1 = "SELECT [Description], [ItemCode] FROM [hijo_portal].[dbo].[tbl_MRP_List_OPEX] where [PK] = '" + PK + "'";
+                            query_1 = "SELECT [Description], [ItemCode] FROM [dbo].[tbl_MRP_List_OPEX] where [PK] = '" + PK + "'";
                             cmd = new SqlCommand(query_1);
                             cmd.Connection = conn;
                             adp = new SqlDataAdapter(cmd);
@@ -449,7 +449,7 @@ namespace HijoPortal
 
                         break;
                     case manpowerIdentifier:
-                        query_1 = "SELECT [Description] FROM [hijo_portal].[dbo].[tbl_MRP_List_ManPower] where [PK] = '" + PK + "'";
+                        query_1 = "SELECT [Description] FROM [dbo].[tbl_MRP_List_ManPower] where [PK] = '" + PK + "'";
                         cmd = new SqlCommand(query_1);
                         cmd.Connection = conn;
                         adp = new SqlDataAdapter(cmd);
@@ -483,7 +483,7 @@ namespace HijoPortal
 
                         break;
                     case capexIdentifier:
-                        query_1 = "SELECT [Description] FROM [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] where [PK] = '" + PK + "'";
+                        query_1 = "SELECT [Description] FROM [dbo].[tbl_MRP_List_CAPEX] where [PK] = '" + PK + "'";
                         cmd = new SqlCommand(query_1);
                         cmd.Connection = conn;
                         adp = new SqlDataAdapter(cmd);
@@ -517,7 +517,7 @@ namespace HijoPortal
 
                         break;
                     case revenueIdentifier:
-                        query_1 = "SELECT [FarmName] FROM [hijo_portal].[dbo].[tbl_MRP_List_RevenueAssumptions] where [PK] = '" + PK + "'";
+                        query_1 = "SELECT [FarmName] FROM [dbo].[tbl_MRP_List_RevenueAssumptions] where [PK] = '" + PK + "'";
                         cmd = new SqlCommand(query_1);
                         cmd.Connection = conn;
                         adp = new SqlDataAdapter(cmd);

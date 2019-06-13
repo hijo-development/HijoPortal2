@@ -106,7 +106,7 @@ namespace HijoPortal
         protected void TermsCallback_Callback(object sender, CallbackEventArgsBase e)
         {
             ASPxComboBox combo = Terms;
-            //string query = "SELECT PAYMTERMID FROM[hijo_portal].[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Text.ToString() + "'";
+            //string query = "SELECT PAYMTERMID FROM[dbo].[vw_AXVendTable] WHERE [ACCOUNTNUM] = '" + Vendor.Text.ToString() + "'";
 
             string query = "SELECT dbo.vw_AXVendTable.PAYMTERMID, ISNULL(dbo.vw_AXPaymTerm.DESCRIPTION, N'') AS DESCRIPTION, dbo.vw_AXVendTable.ACCOUNTNUM FROM dbo.vw_AXVendTable LEFT OUTER JOIN  dbo.vw_AXPaymTerm ON dbo.vw_AXVendTable.PAYMTERMID = dbo.vw_AXPaymTerm.PAYMTERMID WHERE(dbo.vw_AXVendTable.ACCOUNTNUM = '" + Vendor.Text.ToString() + "')";
 
@@ -288,7 +288,7 @@ namespace HijoPortal
             string mopnumber = MOPReference.Text;
             string entitycode = "", bucode = "";
 
-            query = "SELECT [PK],[EntityCode],[BUCode] FROM[hijo_portal].[dbo].[tbl_MRP_List] WHERE DocNumber = '" + mopnumber + "'";
+            query = "SELECT [PK],[EntityCode],[BUCode] FROM[dbo].[tbl_MRP_List] WHERE DocNumber = '" + mopnumber + "'";
             cmd = new SqlCommand(query, conn);
             reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -318,7 +318,7 @@ namespace HijoPortal
                     POSeriesNum = Convert.ToInt32(row["LastNumber"]) + 1;
                     PONumber = row["Prefix"].ToString() + "-" + row["EntityCode"].ToString() + "-" + row["BeforeSeries"].ToString() + POSeriesNum.ToString("0000000#");
 
-                    insert = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation] ([PONumber],[DateCreated],[CreatorKey],[MRPNumber], [ExpectedDate], [VendorCode], [PaymentTerms], [CurrencyCode], [InventSite], [InventSiteWarehouse], [InventSiteWarehouseLocation], [EntityCode], [BUSSUCode], [Remarks]) VALUES (@PONumber, @DateCreated, @CreatorKey, @MRPNumber, @ExpectedDate, @VendorCode, @PaymentTerms, @CurrencyCode, @InventSite, @InventSiteWarehouse, @InventSiteWarehouseLocation, @EntityCode, @BUSSUCode, @Remarks)";
+                    insert = "INSERT INTO [dbo].[tbl_POCreation] ([PONumber],[DateCreated],[CreatorKey],[MRPNumber], [ExpectedDate], [VendorCode], [PaymentTerms], [CurrencyCode], [InventSite], [InventSiteWarehouse], [InventSiteWarehouseLocation], [EntityCode], [BUSSUCode], [Remarks]) VALUES (@PONumber, @DateCreated, @CreatorKey, @MRPNumber, @ExpectedDate, @VendorCode, @PaymentTerms, @CurrencyCode, @InventSite, @InventSiteWarehouse, @InventSiteWarehouseLocation, @EntityCode, @BUSSUCode, @Remarks)";
 
                     cmd = new SqlCommand(insert, conn);
                     cmd.Parameters.AddWithValue("@PONumber", PONumber);
@@ -368,7 +368,7 @@ namespace HijoPortal
                             iVat = 1;
                         }
 
-                        insert_po_details = "INSERT INTO [hijo_portal].[dbo].[tbl_POCreation_Details] ([PONumber],[MOPNumber], [ItemPK], [Identifier], [ItemCode], [TaxGroup], [TaxItemGroup], [Qty], [Cost], [POUOM], [wVAT], [CostwVAT]) VALUES (@PONumber,@MOPNumber, @ItemPK, @Identifier, @ItemCode, @TaxGroup, @TaxItemGroup, @Qty, @Cost, @POUOM, @wVAT, @CostwVAT)";
+                        insert_po_details = "INSERT INTO [dbo].[tbl_POCreation_Details] ([PONumber],[MOPNumber], [ItemPK], [Identifier], [ItemCode], [TaxGroup], [TaxItemGroup], [Qty], [Cost], [POUOM], [wVAT], [CostwVAT]) VALUES (@PONumber,@MOPNumber, @ItemPK, @Identifier, @ItemCode, @TaxGroup, @TaxItemGroup, @Qty, @Cost, @POUOM, @wVAT, @CostwVAT)";
 
                         cmd = new SqlCommand(insert_po_details, conn);
                         cmd.Parameters.AddWithValue("@PONumber", PONumber);
@@ -403,7 +403,7 @@ namespace HijoPortal
                                 break;
 
                             case "4"://CAPEX
-                                update = "UPDATE [hijo_portal].[dbo].[tbl_MRP_List_CAPEX] SET [QtyPO] = '" + Convert.ToDouble(POQty) + "' WHERE [PK] = '" + ItemPK + "'";
+                                update = "UPDATE [dbo].[tbl_MRP_List_CAPEX] SET [QtyPO] = '" + Convert.ToDouble(POQty) + "' WHERE [PK] = '" + ItemPK + "'";
                                 cmd = new SqlCommand(update, conn);
                                 cmd.ExecuteNonQuery();
                                 break;
