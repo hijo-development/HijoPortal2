@@ -127,7 +127,15 @@
                 <dx:ASPxPanel ID="ASPxPanel2" runat="server" Width="100%" Paddings-PaddingBottom="10">
                     <PanelCollection>
                         <dx:PanelContent>
-                            <h1>M R P  Preview</h1>
+                            <%--<h1>M R P  Preview</h1>--%>
+                            <%--<asp:Label ID="h1Approval" runat="server"></asp:Label>--%>
+                            <table style="width: 95%; margin: auto;" border="0">
+                                <tr>
+                                    <td style="text-align:center; height: 20px; vertical-align:central;">
+                                        <dx:ASPxLabel ID="h1Approval" runat="server" Text="" Theme="Office2010Blue" Style="font-size: large; font-weight: bold; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"></dx:ASPxLabel>
+                                    </td>
+                                </tr>
+                            </table>
                             <table style="width: 95%; margin: auto;" border="0">
                                 <tr>
                                     <td style="width: 12%">

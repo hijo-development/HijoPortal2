@@ -931,18 +931,20 @@ namespace HijoPortal.classes
                                 }
                                 dtable2.Clear();
                             }
-                            if (SubmitError == "")
-                            {
-                                //bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
-                                GlobalClass.CreateEmailNotification(CreatorEmail, CreatorGreetings, docNum, "has been submitted for SCM Lead Approval", 1);
-
-                            }
+                            
                         }
                     }
                     dtable1.Clear();
                 }
             }
             dtable.Clear();
+
+            if (SubmitError == "")
+            {
+                //bool msgSendToCreator = GlobalClass.IsMailSent(CreatorEmail, CreatorSubject, sCreatorBody.ToString());
+                GlobalClass.CreateEmailNotification(CreatorEmail, CreatorGreetings, docNum, "has been submitted for SCM Lead Approval", 1);
+
+            }
 
             conn.Close();
         }

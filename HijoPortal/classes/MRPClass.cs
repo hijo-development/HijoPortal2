@@ -597,12 +597,7 @@ namespace HijoPortal.classes
                     }
                     else if (Convert.ToInt32(row["StatusKey"]) == 3)
                     {
-                        qry = "SELECT dbo.tbl_MRP_List_Approval.Line, dbo.tbl_System_Approval_Position.PositionName " +
-                              " FROM dbo.tbl_MRP_List_Approval LEFT OUTER JOIN " +
-                              " dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Approval.PositionNameKey = dbo.tbl_System_Approval_Position.PK " +
-                              " WHERE(dbo.tbl_MRP_List_Approval.MasterKey = " + row["PK"] + ") " +
-                              " AND(dbo.tbl_MRP_List_Approval.Status = 0) " +
-                              " AND(dbo.tbl_MRP_List_Approval.Visible = 1)";
+                        qry = "SELECT TOP (1) dbo.tbl_MRP_List_Approval.Line, dbo.tbl_System_Approval_Position.PositionName FROM dbo.tbl_MRP_List_Approval LEFT OUTER JOIN dbo.tbl_System_Approval_Position ON dbo.tbl_MRP_List_Approval.PositionNameKey = dbo.tbl_System_Approval_Position.PK WHERE(dbo.tbl_MRP_List_Approval.MasterKey = " + row["PK"] + ") AND(dbo.tbl_MRP_List_Approval.Status = 0) AND(dbo.tbl_MRP_List_Approval.Visible = 1) ORDER BY dbo.tbl_MRP_List_Approval.Line ";
                         cmd1 = new SqlCommand(qry);
                         cmd1.Connection = cn;
                         adp1 = new SqlDataAdapter(cmd1);
@@ -4141,17 +4136,38 @@ namespace HijoPortal.classes
                         {
                             case 1: //BU Lead
                                 {
-                                    isAllowed = GlobalClass.IsAllowed(CreatorKey, "MOPBULead", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "");
+                                    if (GlobalClass.IsSuperAdmin(CreatorKey))
+                                    {
+                                        isAllowed = true;
+                                    } else
+                                    {
+                                        isAllowed = GlobalClass.IsAllowed(CreatorKey, "MOPBULead", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "");
+                                    }
+                                    
                                     break;
                                 }
                             case 2: //Inventory Analyst
                                 {
-                                    isAllowed = GlobalClass.IsAllowed(CreatorKey, "MOPInventoryAnalyst", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "");
+                                    if (GlobalClass.IsSuperAdmin(CreatorKey))
+                                    {
+                                        isAllowed = true;
+                                    } else
+                                    {
+                                        isAllowed = GlobalClass.IsAllowed(CreatorKey, "MOPInventoryAnalyst", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "");
+                                    }
+                                        
                                     break;
                                 }
                             case 3: //Inventory Analyst (Deliberation)
                                 {
-                                    isAllowed = GlobalClass.IsAllowed(CreatorKey, "MOPInventoryAnalyst", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "");
+                                    if (GlobalClass.IsSuperAdmin(CreatorKey))
+                                    {
+                                        isAllowed = true;
+                                    } else
+                                    {
+                                        isAllowed = GlobalClass.IsAllowed(CreatorKey, "MOPInventoryAnalyst", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "");
+                                    }
+                                    
                                     break;
                                 }
                         }
@@ -4186,21 +4202,29 @@ namespace HijoPortal.classes
             {
                 foreach (DataRow row in dt.Rows)
                 {
-                    if (GlobalClass.IsAllowed(CreatorKey, "MOPSCMLead", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "") == true)
+                    if (GlobalClass.IsSuperAdmin(CreatorKey))
                     {
                         isAllowed = true;
                         goto RetAllowed;
-                    }
-                    if (GlobalClass.IsAllowed(CreatorKey, "MOPFinanceLead", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "") == true)
+                    } else
                     {
-                        isAllowed = true;
-                        goto RetAllowed;
+                        if (GlobalClass.IsAllowed(CreatorKey, "MOPSCMLead", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "") == true)
+                        {
+                            isAllowed = true;
+                            goto RetAllowed;
+                        }
+                        if (GlobalClass.IsAllowed(CreatorKey, "MOPFinanceLead", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "") == true)
+                        {
+                            isAllowed = true;
+                            goto RetAllowed;
+                        }
+                        if (GlobalClass.IsAllowed(CreatorKey, "MOPExecutive", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "") == true)
+                        {
+                            isAllowed = true;
+                            goto RetAllowed;
+                        }
                     }
-                    if (GlobalClass.IsAllowed(CreatorKey, "MOPExecutive", Convert.ToDateTime(row["DateCreated"]), row["EntityCode"].ToString(), row["BUCode"].ToString(), "") == true)
-                    {
-                        isAllowed = true;
-                        goto RetAllowed;
-                    }
+                    
                 }
             }
             dt.Clear();

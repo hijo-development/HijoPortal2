@@ -748,6 +748,34 @@ namespace HijoPortal.classes
             return isAdmin;
         }
 
+        public static bool IsSuperAdmin(int usrKey)
+        {
+            bool isSuperAdmin = false;
+            string qry = "";
+            SqlConnection cn = new SqlConnection(GlobalClass.SQLConnString());
+            DataTable dtable = new DataTable();
+            SqlCommand cmd = null;
+            SqlDataAdapter adp;
+            cn.Open();
+            qry = "SELECT PK, UserLevelKey, Active " +
+                   " FROM dbo.tbl_Users " +
+                   " WHERE(PK = " + usrKey + ") " +
+                   " AND(UserLevelKey = 2) " +
+                   " AND(Active = 1)";
+            cmd = new SqlCommand(qry);
+            cmd.Connection = cn;
+            adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtable);
+            if (dtable.Rows.Count > 0)
+            {
+                isSuperAdmin = true;
+            }
+            dtable.Clear();
+            cn.Close();
+            return isSuperAdmin;
+        }
+
+
         public static bool IsAllowed(int usrKey, string sModuleName, DateTime dtEffect, string sEntCode = "", string sBUCode = "", string ProcCat ="")
         {
             bool isAllowed = false;

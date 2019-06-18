@@ -47,7 +47,7 @@ namespace HijoPortal
                 ASPxPageControl1.Font.Bold = true;
                 ASPxPageControl1.Font.Size = 12;
 
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 //docnumber = Request.Params["DocNum"].ToString();  //Session["DocNumber"].ToString();
                 docnumber = Session["mrp_docNum"].ToString();
@@ -242,13 +242,20 @@ namespace HijoPortal
             hfwrkLine["hidden_value"] = wrkflwln.ToString();
             hfstatKey["hidden_value"] = iStatusKey.ToString();
 
+
             if (Session["mrp_creator"].ToString() != Session["CreatorKey"].ToString())
             {
-                if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dateCreated, entitycode, buCode) == false)
+                if (GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])) == false)
                 {
-                    Response.Redirect("mrp_list.aspx");
+                    if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dateCreated, entitycode, buCode) == false)
+                    {
+                        Response.Redirect("mrp_list.aspx");
+                    }
                 }
+
             }
+
+
 
         }
 
@@ -2454,7 +2461,15 @@ namespace HijoPortal
                 if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
                 {
                     bool isAllowed = false;
-                    isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dateCreated, entitycode, buCode);
+                    if (GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])))
+                    {
+                        isAllowed = true;
+                    }
+                    else
+                    {
+                        isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dateCreated, entitycode, buCode);
+                    }
+
                     if (isAllowed == true)
                     {
                         //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));

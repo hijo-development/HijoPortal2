@@ -23,11 +23,33 @@ namespace HijoPortal
             CheckCreatorKey();
             if (!Page.IsPostBack)
             {
-                bool isAllowed = false;
-                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", DateTime.Now);
-                if (isAllowed == false)
+                docnumber = Session["mrp_docNum"].ToString();
+                wrkflwln = Convert.ToInt32(Session["mrp_wrkLine"]);
+
+                //bool isAllowed = false;
+
+
+                //if (MRPClass.PreviewRights(Convert.ToInt32(Session["CreatorKey"]), docnumber, wrkflwln) == false)
+                //{
+                //    MRPAccessRightsMsg.Text = "Acces Denied!";
+                //    MRPAccessRights.HeaderText = "Access Denied";
+                //    MRPAccessRights.ShowOnPageLoad = true;
+                //}
+
+                //if (GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])))
+                //{
+                //    isAllowed = true;
+                //} else
+                //{
+                //    isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", DateTime.Now);
+                //}
+                    
+                if (MRPClass.PreviewRights(Convert.ToInt32(Session["CreatorKey"]), docnumber, wrkflwln) == false)
                 {
-                    Response.Redirect("home.aspx");
+                    //Response.Redirect("home.aspx");
+                    MRPAccessRightsMsg.Text = "Acces Denied!";
+                    MRPAccessRights.HeaderText = "Access Denied";
+                    MRPAccessRights.ShowOnPageLoad = true;
                 }
                 else
                 {
@@ -45,13 +67,12 @@ namespace HijoPortal
                     ASPxPageControl1.Font.Size = 12;
 
                     //Rsize
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                     //Session["mrp_docNum"] = docnumber.ToString();
                     //Session["mrp_wrkLine"] = wrkflwln.ToString();
                     //docnumber = Request.Params["DocNum"].ToString();
                     //wrkflwln = Convert.ToInt32(Request.Params["WrkFlwLn"].ToString());
-                    docnumber = Session["mrp_docNum"].ToString();
-                    wrkflwln = Convert.ToInt32(Session["mrp_wrkLine"]);
+                    
                     if (wrkflwln == 2)
                     {
                         mrpHead.InnerText = "M O P  Details (Inventory Analyst)";
@@ -570,7 +591,7 @@ namespace HijoPortal
                 {
                     //MRPClass.Submit_MRP(docnumber.ToString(), mrp_key, wrkflwln + 1, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
                     PopupSubmit.ShowOnPageLoad = false;
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                     MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
@@ -627,6 +648,10 @@ namespace HijoPortal
         {
             ASPxGridView grid = sender as ASPxGridView;
             MRPClass.VisibilityRevDesc(grid, entitycode);
+        }
+        protected void RightsOK_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("default.aspx");
         }
     }
 }

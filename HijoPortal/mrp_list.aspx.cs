@@ -187,11 +187,11 @@ namespace HijoPortal
                 {
                     if (e.ButtonID == "Edit")
                     {
-                        if (StatusKey == 2 )
+                        if (StatusKey == 2)
                         {
                             if (CurrentWorkFlow == 1)
                             {
-                                if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", DateTime.Now, entCode, buCode))
+                                if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", DateTime.Now, entCode, buCode) || GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])))
                                 {
                                     string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
                                     Session["mrp_creator"] = mrp_creator;
@@ -204,9 +204,10 @@ namespace HijoPortal
                                 {
                                     text["hidden_value"] = "InvalidCreator";
                                 }
-                            } else if (CurrentWorkFlow == 2 || CurrentWorkFlow == 3)
+                            }
+                            else if (CurrentWorkFlow == 2 || CurrentWorkFlow == 3)
                             {
-                                if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", DateTime.Now, entCode, buCode))
+                                if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", DateTime.Now, entCode, buCode) || GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])))
                                 {
                                     string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
                                     Session["mrp_creator"] = mrp_creator;
@@ -225,21 +226,59 @@ namespace HijoPortal
                                 text["hidden_value"] = "InvalidCreator";
                             }
 
-                        } else
+                        }
+                        else
                         {
                             text["hidden_value"] = "InvalidCreator";
                         }
-                        
-                    } else
+
+                    }
+                    else
                     {
                         text["hidden_value"] = "InvalidCreator";
                     }
-                        
-                } else if (e.ButtonID == "Preview")
+
+                }
+                else if (e.ButtonID == "Preview")
                 {
                     string mrp_creator = MainTable.GetRowValues(MainTable.FocusedRowIndex, "CreatorKey").ToString();
                     Session["mrp_creator"] = mrp_creator;
-                    if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dteCreated, entCode, buCode) == true)
+
+                    if (GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])))
+                    {
+                        if (StatusKey == 4)
+                        {
+                            Session["mrp_docNum"] = docNum.ToString();
+                            Session["mrp_source"] = "0";
+                            Response.RedirectLocation = "mrp_preview_approve.aspx?DocNum=" + docNum.ToString() + "&Source=0";
+                        }
+                        else if (StatusKey == 3)
+                        {
+                            Session["mrp_docNum"] = docNum.ToString();
+                            Session["mrp_appLine"] = CurrentWorkFlow.ToString();
+                            Response.RedirectLocation = "mrp_previewforapproval.aspx?DocNum=" + docNum.ToString() + "&ApprvLn=" + CurrentWorkFlow.ToString();
+                        }
+                        else if (StatusKey == 2)
+                        {
+                            Session["mrp_docNum"] = docNum.ToString();
+                            Session["mrp_wrkLine"] = CurrentWorkFlow.ToString();
+                            if (CurrentWorkFlow == 2 || CurrentWorkFlow == 3)
+                            {
+                                Response.RedirectLocation = "mrp_preview_inventanalyst.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + CurrentWorkFlow.ToString();
+                            } else
+                            {
+                                Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + CurrentWorkFlow.ToString();
+                            }
+                            
+                        }
+                        else if (StatusKey == 1)
+                        {
+                            Session["mrp_docNum"] = docNum.ToString();
+                            Session["mrp_wrkLine"] = CurrentWorkFlow.ToString();
+                            Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=" + CurrentWorkFlow.ToString();
+                        }
+                    }
+                    else if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dteCreated, entCode, buCode) || GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])))
                     {
                         if (StatusKey == 4)
                         {
@@ -275,7 +314,7 @@ namespace HijoPortal
                             Response.RedirectLocation = "mrp_preview.aspx?DocNum=" + docNum.ToString() + "&WrkFlwLn=0";
                         }
                     }
-                    else if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPProcurementOfficer", dteCreated, entCode, buCode) == true)
+                    else if (GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPProcurementOfficer", dteCreated, entCode, buCode) || GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])))
                     {
                         if (StatusKey == 4)
                         {
@@ -467,7 +506,7 @@ namespace HijoPortal
                 Session["mrp_docNum"] = docNumber.ToString();
                 Session["mrp_wrkLine"] = "0";
                 Response.Redirect("mrp_addedit.aspx?DocNum=" + docNumber.ToString() + "&WrkFlwLn=0");
-            }            
+            }
         }
 
         protected void MainTable_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)

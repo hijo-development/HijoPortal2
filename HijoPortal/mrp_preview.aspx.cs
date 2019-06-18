@@ -449,7 +449,7 @@ namespace HijoPortal
 
                     PopupSubmitPreview.ShowOnPageLoad = false;
 
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                    //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                     MRPSubmitClass.MRP_Submit(docnumber.ToString(), mrp_key, dateCreated, wrkflwln, entitycode, buCode, Convert.ToInt32(Session["CreatorKey"]));
 
@@ -480,24 +480,31 @@ namespace HijoPortal
                 if (MRPClass.MRP_Line_Status(mrp_key, wrkflwln) == 0)
                 {
                     bool isAllowed = false;
-                    switch (wrkflwln)
+                    if (GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])))
                     {
-                        case 1:
-                            {
-                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dateCreated, entitycode, buCode);
-                                break;
-                            }
-                        case 2:
-                            {
-                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", dateCreated);
-                                break;
-                            }
-                        case 3:
-                            {
-                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBudget_PerEntBU", dateCreated, entitycode, buCode);
-                                break;
-                            }
+                        isAllowed = true;
+                    } else
+                    {
+                        switch (wrkflwln)
+                        {
+                            case 1:
+                                {
+                                    isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBULead", dateCreated, entitycode, buCode);
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryAnalyst", dateCreated);
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPBudget_PerEntBU", dateCreated, entitycode, buCode);
+                                    break;
+                                }
+                        }
                     }
+                    
 
                     if (isAllowed == true)
                     {
@@ -1418,7 +1425,7 @@ namespace HijoPortal
 
             CheckCreatorKey();
 
-            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
             if (!IsPostBack)
             {

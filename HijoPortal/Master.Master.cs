@@ -147,7 +147,7 @@ namespace HijoPortal
                     foreach (DataRow row in dtable.Rows)
                     {
                         //if (Convert.ToInt32(Session["isAdmin"]) == 1)
-                        if (GlobalClass.IsAdmin(usrKey) == true)
+                        if (GlobalClass.IsAdmin(usrKey) == true || GlobalClass.IsSuperAdmin(usrKey) == true)
                         {
                             if (GlobalClass.IsAllowed(usrKey, row["ModuleName"].ToString().Trim(), DateTime.Now))
                             {
