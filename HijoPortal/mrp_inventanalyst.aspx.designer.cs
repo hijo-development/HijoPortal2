@@ -218,5 +218,8 @@ namespace HijoPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxGridView CapGrid;
+
+        protected global::DevExpress.Web.ASPxPopupControl MRPAccessRights;
+        protected global::DevExpress.Web.ASPxLabel MRPAccessRightsMsg;
     }
 }

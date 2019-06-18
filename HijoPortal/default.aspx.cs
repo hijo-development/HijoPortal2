@@ -62,7 +62,7 @@ namespace HijoPortal
                     Session["isAdmin"] = foundRows[0]["UserLevelKey"].ToString();
 
                     Session["viewAllMRP"] = "0";
-                    if (GlobalClass.IsAdmin(Convert.ToInt32(foundRows[0]["PK"])))
+                    if (GlobalClass.IsAdmin(Convert.ToInt32(foundRows[0]["PK"])) || GlobalClass.IsSuperAdmin(Convert.ToInt32(foundRows[0]["PK"])))
                     {
                         Session["viewAllMRP"] = "1";
                     } else

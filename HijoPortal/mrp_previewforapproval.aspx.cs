@@ -102,24 +102,31 @@ namespace HijoPortal
             {
 
                 bool isAllowed = false;
-                switch (appflwln)
+                if (GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])))
                 {
-                    case 1:
-                        {
-                            isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPSCMLead", dateCreated);
-                            break;
-                        }
-                    case 2:
-                        {
-                            isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPFinanceLead", dateCreated);
-                            break;
-                        }
-                    case 3:
-                        {
-                            isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPExecutive", dateCreated);
-                            break;
-                        }
+                    isAllowed = true;
+                } else
+                {
+                    switch (appflwln)
+                    {
+                        case 1:
+                            {
+                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPSCMLead", dateCreated);
+                                break;
+                            }
+                        case 2:
+                            {
+                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPFinanceLead", dateCreated);
+                                break;
+                            }
+                        case 3:
+                            {
+                                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPExecutive", dateCreated);
+                                break;
+                            }
+                    }
                 }
+                
                 if (isAllowed == true)
                 {
                     //MRPClass.PrintString("Approved");
@@ -234,7 +241,7 @@ namespace HijoPortal
 
             if (!Page.IsPostBack)
             {
-                ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
                 //docnum = Request.Params["DocNum"].ToString();
                 //appflwln = Convert.ToInt32(Request.Params["ApprvLn"].ToString());
@@ -244,6 +251,7 @@ namespace HijoPortal
                 //Session["mrp_appLine"] = wrklineval.ToString();
                 docnum = Session["mrp_docNum"].ToString();
                 appflwln = Convert.ToInt32(Session["mrp_appLine"]);
+
                 DocNum.Text = Session["mrp_docNum"].ToString();
 
                 if (MRPClass.PreviewApprovalRights(Convert.ToInt32(Session["CreatorKey"]), docnum) == false)
@@ -252,6 +260,26 @@ namespace HijoPortal
                     MRPAccessRights.HeaderText = "Access Denied";
                     MRPAccessRights.ShowOnPageLoad = true;
                 }
+
+                switch (appflwln)
+                {
+                    case 1:
+                        {
+                            h1Approval.Text = "M O P for Approval in Supply Chain Management Level";
+                            break;
+                        }
+                    case 2:
+                        {
+                            h1Approval.Text = "M O P for Approval in Finance Level";
+                            break;
+                        }
+                    case 3:
+                        {
+                            h1Approval.Text = "M O P for Approval in Executive Level";
+                            break;
+                        }
+                }
+                
 
                 Load_MRP(docnum);
             }

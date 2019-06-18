@@ -41,6 +41,8 @@ namespace HijoPortal
         protected global::DevExpress.Web.ASPxLabel Creator;
         protected global::DevExpress.Web.ASPxLabel Status;
 
+        protected global::DevExpress.Web.ASPxLabel h1Approval;
+
         /// <summary>
         /// dvContentWrapper control.
 

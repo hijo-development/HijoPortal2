@@ -22,6 +22,7 @@
     src: url('../font/opensans/OpenSans-Regular.ttf');
 }
 
+
 .modalBackground {
     background-color: gray;
     filter: alpha(opacity=90);
