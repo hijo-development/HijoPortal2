@@ -149,7 +149,7 @@ namespace HijoPortal
                         //if (Convert.ToInt32(Session["isAdmin"]) == 1)
                         if (GlobalClass.IsAdmin(usrKey) == true || GlobalClass.IsSuperAdmin(usrKey) == true)
                         {
-                            if (GlobalClass.IsAllowed(usrKey, row["ModuleName"].ToString().Trim(), DateTime.Now))
+                            if (GlobalClass.IsAllowed(usrKey, row["ModuleName"].ToString().Trim(), DateTime.Now) || GlobalClass.IsSuperAdmin(usrKey))
                             {
                                 MenuBar.Items.Add(new DevExpress.Web.MenuItem() { NavigateUrl = row["formURL"].ToString(), Text = row["formDescription"].ToString() });
                                 //MenuBar.Items.Add(new DevExpress.Web.MenuItem() { NavigateUrl = "Default.aspx", Text = "Default" });
@@ -159,7 +159,7 @@ namespace HijoPortal
                         {
                             if (Convert.ToInt32(row["forAdminOnly"]) != 1)
                             {
-                                if (GlobalClass.IsAllowed(usrKey, row["ModuleName"].ToString().Trim(), DateTime.Now))
+                                if (GlobalClass.IsAllowed(usrKey, row["ModuleName"].ToString().Trim(), DateTime.Now) || GlobalClass.IsSuperAdmin(usrKey))
                                 {
                                     MenuBar.Items.Add(new DevExpress.Web.MenuItem() { NavigateUrl = row["formURL"].ToString(), Text = row["formDescription"].ToString() });
                                 }
