@@ -23,16 +23,23 @@ namespace HijoPortal
             {
 
                 bool isAllowed = false;
-                isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryOfficer", DateTime.Now);
+                if (GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])))
+                {
+                    isAllowed = true;
+                } else
+                {
+                    isAllowed = GlobalClass.IsAllowed(Convert.ToInt32(Session["CreatorKey"]), "MOPInventoryOfficer", DateTime.Now);
+                }
+                
                 if (isAllowed == false)
                 {
                     Response.Redirect("home.aspx");
                 }
-                else
-                {
-                    //Rsize
-                    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
-                }
+                //else
+                //{
+                //    //Rsize
+                //    ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+                //}
 
 
                 //docnumber = Request.Params["DocNum"].ToString();

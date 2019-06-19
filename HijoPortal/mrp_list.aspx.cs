@@ -185,7 +185,22 @@ namespace HijoPortal
             {
                 if (e.ButtonID == "Edit" || e.ButtonID == "Submit" || e.ButtonID == "Delete")
                 {
-                    if (e.ButtonID == "Edit")
+                    if (e.ButtonID == "Delete" || e.ButtonID == "Submit")
+                    {
+                        if (GlobalClass.IsSuperAdmin(Convert.ToInt32(Session["CreatorKey"])))
+                        {
+                            if (MainTable.FocusedRowIndex > -1)
+                            {
+                                Status["hidden_value"] = MainTable.GetRowValues(MainTable.FocusedRowIndex, "StatusKey").ToString();
+
+                            }
+                        }
+                        else
+                        {
+                            text["hidden_value"] = "InvalidCreator";
+                        }
+                    }
+                    else if (e.ButtonID == "Edit")
                     {
                         if (StatusKey == 2)
                         {
@@ -385,9 +400,10 @@ namespace HijoPortal
                 //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
                 Checkbox.CheckState = CheckState.Unchecked;
                 MonthYearCombo.Text = "";
-                Year.Text = "";
-                Month.Text = "";
-                PopUpControl.HeaderText = "MRP";
+                //Year.Text = DateTime.Now.Year.ToString();
+                Year.Value = DateTime.Now.Year.ToString();
+                Month.Value = Convertion.INDEX_TO_MONTH(DateTime.Now.Month) ;
+                PopUpControl.HeaderText = "Add MRP";
                 PopUpControl.ShowOnPageLoad = true;
 
             }
@@ -416,6 +432,8 @@ namespace HijoPortal
             combo.Items.Add("October");
             combo.Items.Add("November");
             combo.Items.Add("December");
+
+
         }
 
         protected void Year_Init(object sender, EventArgs e)
@@ -475,7 +493,7 @@ namespace HijoPortal
             if (Month.Value == null || Year.Value == null)
                 return;
 
-            ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
+            //ScriptManager.RegisterStartupScript(this.Page, typeof(string), "Resize", "changeWidth.resizeWidth();", true);
 
             int CopyMOP = 0, PreMonth = 0, PreYear = 0;
             if (Checkbox.Checked)
