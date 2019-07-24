@@ -133,6 +133,7 @@
     <Content Include="font\opensans\LICENSE.txt" />
     <Content Include="forgotpassword.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="hlsSOA.aspx" />
     <Content Include="home.aspx" />
     <Content Include="images\2leftarrow.png" />
     <Content Include="images\2rightarrow.png" />
@@ -248,6 +249,7 @@
     <Compile Include="classes\EncryptionClass.cs" />
     <Compile Include="classes\FinanceClass.cs" />
     <Compile Include="classes\GlobalClass.cs" />
+    <Compile Include="classes\HLSSOA.cs" />
     <Compile Include="classes\ImpersonatedUser.cs" />
     <Compile Include="classes\ItemInfoClass.cs" />
     <Compile Include="classes\MasterClass.cs" />
@@ -317,6 +319,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="hlsSOA.aspx.cs">
+      <DependentUpon>hlsSOA.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="hlsSOA.aspx.designer.cs">
+      <DependentUpon>hlsSOA.aspx</DependentUpon>
     </Compile>
     <Compile Include="home.aspx.cs">
       <DependentUpon>home.aspx</DependentUpon>
