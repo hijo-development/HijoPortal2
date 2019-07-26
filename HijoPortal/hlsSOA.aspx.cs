@@ -2,10 +2,12 @@
 using HijoPortal.classes;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Collections;
 
 namespace HijoPortal
 {
@@ -25,7 +27,13 @@ namespace HijoPortal
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            CheckCreatorKey();
+            if (!Page.IsPostBack)
+            {
+                HLSSOAList.DataSource = HLSSOA.HLSSOA_List();
+                HLSSOAList.KeyFieldName = "PK";
+                HLSSOAList.DataBind();
+            }
         }
 
         protected void AddSOA_Click(object sender, EventArgs e)
@@ -148,89 +156,89 @@ namespace HijoPortal
             combo.TextFormatString = "{1}";
         }
 
-        protected void ListBoxWaybill_Init(object sender, EventArgs e)
-        {
-            string sYear = ComboBoxYear.Text;
-            string sWeekNum = ComboBoxWeekNum.Text;
-            string sCustCode = TextBoxCustCode.Text;
+        //protected void ListBoxWaybill_Init(object sender, EventArgs e)
+        //{
+        //    string sYear = ComboBoxYear.Text;
+        //    string sWeekNum = ComboBoxWeekNum.Text;
+        //    string sCustCode = TextBoxCustCode.Text;
 
-            ASPxListBox list = sender as ASPxListBox;
-            list.Columns.Clear();
-            list.Items.Clear();
+        //    ASPxListBox list = sender as ASPxListBox;
+        //    list.Columns.Clear();
+        //    list.Items.Clear();
 
-            //if (!string.IsNullOrEmpty(sWeekNum) && !string.IsNullOrEmpty(sCustCode))
-            //{
-            //    MRPClass.PrintString("pass init ---- ");
+        //    //if (!string.IsNullOrEmpty(sWeekNum) && !string.IsNullOrEmpty(sCustCode))
+        //    //{
+        //    //    MRPClass.PrintString("pass init ---- ");
 
-            //    list.DataSource = HLSSOA.HLSSOAWaybills(Convert.ToInt32(sYear), Convert.ToInt32(sWeekNum), sCustCode);
+        //    //    list.DataSource = HLSSOA.HLSSOAWaybills(Convert.ToInt32(sYear), Convert.ToInt32(sWeekNum), sCustCode);
 
-            //    ListBoxColumn l_value = new ListBoxColumn();
-            //    l_value.FieldName = "Waybill";
-            //    l_value.Caption = "Select Waybill";
-            //    l_value.Width = 300;
-            //    list.Columns.Add(l_value);
+        //    //    ListBoxColumn l_value = new ListBoxColumn();
+        //    //    l_value.FieldName = "Waybill";
+        //    //    l_value.Caption = "Select Waybill";
+        //    //    l_value.Width = 300;
+        //    //    list.Columns.Add(l_value);
 
-            //    list.ValueField = "Waybill";
-            //    list.TextField = "Waybill";
-            //    list.DataBind();
-            //    list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
-            //    list.ClientEnabled = true;
-            //}
+        //    //    list.ValueField = "Waybill";
+        //    //    list.TextField = "Waybill";
+        //    //    list.DataBind();
+        //    //    list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+        //    //    list.ClientEnabled = true;
+        //    //}
 
-            list.DataSource = HLSSOA.HLSSOAWaybills(0, 0, "");
+        //    list.DataSource = HLSSOA.HLSSOAWaybills(0, 0, "");
 
-            ListBoxColumn l_value = new ListBoxColumn();
-            l_value.FieldName = "Waybill";
-            l_value.Caption = "Select Waybill";
-            l_value.Width = 300;
-            list.Columns.Add(l_value);
+        //    ListBoxColumn l_value = new ListBoxColumn();
+        //    l_value.FieldName = "Waybill";
+        //    l_value.Caption = "Select Waybill";
+        //    l_value.Width = 300;
+        //    list.Columns.Add(l_value);
 
-            list.ValueField = "Waybill";
-            list.TextField = "Waybill";
-            list.DataBind();
-            list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
-            list.ClientEnabled = true;
+        //    list.ValueField = "Waybill";
+        //    list.TextField = "Waybill";
+        //    list.DataBind();
+        //    list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+        //    list.ClientEnabled = true;
 
-        }
+        //}
 
-        protected void ListBoxWaybill_Callback(object sender, CallbackEventArgsBase e)
-        {
+        //protected void ListBoxWaybill_Callback(object sender, CallbackEventArgsBase e)
+        //{
 
-            string sYear = ComboBoxYear.Text;
-            string sWeekNum = ComboBoxWeekNum.Text;
-            string sCustCode = TextBoxCustCode.Text;
+        //    string sYear = ComboBoxYear.Text;
+        //    string sWeekNum = ComboBoxWeekNum.Text;
+        //    string sCustCode = TextBoxCustCode.Text;
 
-            MRPClass.PrintString("Year : " + sYear);
-            MRPClass.PrintString("WeekNum : " + sWeekNum);
-            MRPClass.PrintString("CustCode : " + sCustCode);
+        //    MRPClass.PrintString("Year : " + sYear);
+        //    MRPClass.PrintString("WeekNum : " + sWeekNum);
+        //    MRPClass.PrintString("CustCode : " + sCustCode);
 
-            ASPxListBox list = sender as ASPxListBox;
-            list.Columns.Clear();
-            list.Items.Clear();
+        //    ASPxListBox list = sender as ASPxListBox;
+        //    list.Columns.Clear();
+        //    list.Items.Clear();
 
-            if (!string.IsNullOrEmpty(sWeekNum) && !string.IsNullOrEmpty(sCustCode))
-            {
-                //MRPClass.PrintString("pass callback ---- ");
+        //    if (!string.IsNullOrEmpty(sWeekNum) && !string.IsNullOrEmpty(sCustCode))
+        //    {
+        //        //MRPClass.PrintString("pass callback ---- ");
 
-                //MRPClass.PrintString("Year : " + sYear);
-                //MRPClass.PrintString("WeekNum : " + sWeekNum);
-                //MRPClass.PrintString("CustCode : " + sCustCode);
+        //        //MRPClass.PrintString("Year : " + sYear);
+        //        //MRPClass.PrintString("WeekNum : " + sWeekNum);
+        //        //MRPClass.PrintString("CustCode : " + sCustCode);
 
-                list.DataSource = HLSSOA.HLSSOAWaybills(Convert.ToInt32(sYear), Convert.ToInt32(sWeekNum), sCustCode);
+        //        list.DataSource = HLSSOA.HLSSOAWaybills(Convert.ToInt32(sYear), Convert.ToInt32(sWeekNum), sCustCode);
 
-                ListBoxColumn l_value = new ListBoxColumn();
-                l_value.FieldName = "Waybill";
-                l_value.Caption = "Select Waybill";
-                l_value.Width = 300;
-                list.Columns.Add(l_value);
+        //        ListBoxColumn l_value = new ListBoxColumn();
+        //        l_value.FieldName = "Waybill";
+        //        l_value.Caption = "Select Waybill";
+        //        l_value.Width = 300;
+        //        list.Columns.Add(l_value);
 
-                list.ValueField = "Waybill";
-                list.TextField = "Waybill";
-                list.DataBind();
-                list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
-                list.ClientEnabled = true;
-            } 
-        }
+        //        list.ValueField = "Waybill";
+        //        list.TextField = "Waybill";
+        //        list.DataBind();
+        //        list.ItemStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+        //        list.ClientEnabled = true;
+        //    } 
+        //}
 
         protected void gridWayBill_DataBound(object sender, EventArgs e)
         {
@@ -263,6 +271,66 @@ namespace HijoPortal
         protected void BtnAddSOA_Click(object sender, EventArgs e)
         {
 
+            List<object> fieldValues = gridWayBill.GetSelectedFieldValues(new string[] {"Waybill", "Year", "WeekNum", "CustCode"}) as List<object>;
+
+            string userkey = Session["CreatorKey"].ToString();
+            string delete = "DELETE FROM [dbo].[tbl_HLS_StatementOfAccount_Temp] WHERE [UserKey] = " + Convert.ToInt32(userkey) + "";
+
+            SqlConnection conn = new SqlConnection(GlobalClass.SQLConnString());
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(delete, conn);
+            cmd.ExecuteNonQuery();
+
+            string sWeekYear = "";
+            string sWeekNum = "";
+            string sCustCode = "";
+
+            foreach (object[] obj in fieldValues)
+            {
+                //string[] arr = obj[0].ToString().Split('-');
+                string waybill = obj[0].ToString();
+                sWeekYear = obj[1].ToString();
+                sWeekNum = obj[2].ToString();
+                sCustCode = obj[3].ToString();
+                string insert = "INSERT INTO [dbo].[tbl_HLS_StatementOfAccount_Temp] ([UserKey], [WeekYear], [WeekNum], [CustCode], [WaybillNum]) VALUES (@userkey, @WeekYear, @WeekNum, @CustCode, @WaybillNum)";
+
+                cmd = new SqlCommand(insert, conn);
+                cmd.Parameters.AddWithValue("@userkey", Convert.ToInt32(userkey));
+                cmd.Parameters.AddWithValue("@WeekYear", Convert.ToInt32(sWeekYear));
+                cmd.Parameters.AddWithValue("@WeekNum", Convert.ToInt32(sWeekNum));
+                cmd.Parameters.AddWithValue("@CustCode", sCustCode);
+                cmd.Parameters.AddWithValue("@WaybillNum", waybill);
+                cmd.ExecuteNonQuery();
+            }
+
+            ModalPopupExtenderLoading.Hide();
+            Session["HLS_Trans"] = "Add";
+            Session["HLS_Add_Year"] = sWeekYear;
+            Session["HLS_Add_WeekNum"] = sWeekNum;
+            Session["HLS_Add_CustCode"] = sCustCode;
+            Session["HLS_Add_SOANum"] = "";
+            Response.Redirect("hlsSOA_Add.aspx");
+        }
+
+        protected void HLSSOAList_CustomButtonCallback(object sender, ASPxGridViewCustomButtonCallbackEventArgs e)
+        {
+            if (e.ButtonID == "Delete")
+            {
+
+            }
+            if (e.ButtonID == "Preview")
+            {
+                if (HLSSOAList.FocusedRowIndex > -1)
+                {
+                    Session["HLS_Trans"] = "View";
+                    Session["HLS_Add_Year"] = HLSSOAList.GetRowValues(HLSSOAList.FocusedRowIndex, "Year").ToString();
+                    Session["HLS_Add_WeekNum"] = HLSSOAList.GetRowValues(HLSSOAList.FocusedRowIndex, "WeekNum").ToString();
+                    Session["HLS_Add_CustCode"] = HLSSOAList.GetRowValues(HLSSOAList.FocusedRowIndex, "CustCode").ToString();
+                    Session["HLS_Add_SOANum"] = HLSSOAList.GetRowValues(HLSSOAList.FocusedRowIndex, "SOANum").ToString();
+                    //Response.Redirect("hlsSOA_Add.aspx");
+                    Response.RedirectLocation = "hlsSOA_Add.aspx";
+                }
+            }
         }
     }
 }

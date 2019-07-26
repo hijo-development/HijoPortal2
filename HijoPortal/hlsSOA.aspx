@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="HLS - Statement Of Account" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="hlsSOA.aspx.cs" Inherits="HijoPortal.hlsSOA" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script type="text/javascript">
         function ComboBoxYear_SelectedIndexChanged(s, e) {
@@ -56,9 +58,35 @@
                 BtnAddSOAClient.SetEnabled(false);
         }
 
+        function btnAddSOA_Clicked(s, e) {
+            PopUpControlAddSOA.Hide();
+            $find('ModalPopupExtenderLoading').show();
+            e.processOnServer = true;
+        }
+
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <asp:TextBox ID="TextBoxLoading" runat="server" Visible="true" Style="display: none;"></asp:TextBox>
+    <ajaxToolkit:ModalPopupExtender runat="server"
+        ID="ModalPopupExtenderLoading"
+        BackgroundCssClass="modalBackground"
+        PopupControlID="PanelLoading"
+        TargetControlID="TextBoxLoading"
+        CancelControlID="ButtonErrorOK1"
+        ClientIDMode="Static">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PanelLoading" runat="server"
+        CssClass="modalPopupLoading"
+        Height="200px"
+        Width="200px"
+        align="center"
+        Style="display: none;">
+        <img src="images/Loading.gif" style="height: 200px; width: 200px;" />
+        <asp:Button ID="ButtonErrorOK1" runat="server" CssClass="buttons" Width="30%" Text="OK" Style="display: none;" />
+    </asp:Panel>
+
 
     <dx:ASPxPopupControl ID="PopUpControlAddSOA" ClientInstanceName="PopUpControlAddSOA" runat="server"
         Modal="true" PopupAnimationType="Fade" CloseAnimationType="Fade" CloseAction="CloseButton"
@@ -120,7 +148,7 @@
                                     Theme="Moderno" Width="100%" Height="200px" OnInit="ListBoxWaybill_Init" OnCallback="ListBoxWaybill_Callback" >
                                     <ClientSideEvents SelectedIndexChanged="ListBoxWaybill_SelectedIndexChanged" EndCallback="ListBoxWaybill_EndCallback" />
                                 </dx:ASPxListBox>--%>
-                                <dx:ASPxCallbackPanel ID="CallbackPanelWaybill" runat="server" ClientInstanceName="CallbackPanelWaybill" 
+                                <dx:ASPxCallbackPanel ID="CallbackPanelWaybill" runat="server" ClientInstanceName="CallbackPanelWaybill"
                                     Width="100%" OnCallback="CallbackPanelWaybill_Callback">
                                     <PanelCollection>
                                         <dx:PanelContent>
@@ -130,29 +158,25 @@
                                                 <Columns>
                                                     <dx:GridViewCommandColumn ShowSelectCheckbox="true" SelectAllCheckboxMode="Page" Width="40px"></dx:GridViewCommandColumn>
                                                     <dx:GridViewDataColumn FieldName="Waybill" Caption="Waybill"></dx:GridViewDataColumn>
+                                                    <dx:GridViewDataColumn FieldName="Year" Visible="false"></dx:GridViewDataColumn>
+                                                    <dx:GridViewDataColumn FieldName="WeekNum" Visible="false"></dx:GridViewDataColumn>
+                                                    <dx:GridViewDataColumn FieldName="CustCode" Visible="false"></dx:GridViewDataColumn>
                                                 </Columns>
-                                                <Settings VerticalScrollBarMode ="Visible" VerticalScrollableHeight ="200"  />
+                                                <Settings VerticalScrollBarMode="Visible" VerticalScrollableHeight="200" />
+                                                <SettingsPager Mode="ShowAllRecords" PageSize="5" AlwaysShowPager="false">
+                                                </SettingsPager>
                                             </dx:ASPxGridView>
                                         </dx:PanelContent>
                                     </PanelCollection>
                                 </dx:ASPxCallbackPanel>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <dx:ASPxLabel runat="server" Text="SOA Number" Theme="Moderno"></dx:ASPxLabel>
-                            </td>
-                            <td>
-                                <dx:ASPxTextBox ID="TextBoxSOA" runat="server" ClientInstanceName="TextBoxSOAClient" Width="100%" Theme="Moderno">
-
-                                </dx:ASPxTextBox>
-                            </td>
-                        </tr>
+                        
                         <tr>
                             <td colspan="2" style="text-align: right; padding-top: 20px;">
-                                <dx:ASPxButton ID="BtnAddSOA" runat="server" ClientInstanceName="BtnAddSOAClient" 
+                                <dx:ASPxButton ID="BtnAddSOA" runat="server" ClientInstanceName="BtnAddSOAClient"
                                     ClientEnabled="false" Text="Add" Theme="Moderno" Width="30%" OnClick="BtnAddSOA_Click">
-                                    <%--<ClientSideEvents Click="AddNewMOP" />--%>
+                                    <ClientSideEvents Click="btnAddSOA_Clicked" />
                                 </dx:ASPxButton>
                             </td>
                         </tr>
@@ -171,7 +195,7 @@
                 <div>
                     <dx:ASPxGridView ID="HLSSOAList" runat="server" ClientInstanceName="HLSSOAListClient" KeyFieldName="PK"
                         EnableCallbackCompression="False" EnableCallBacks="True" EnableTheming="True" KeyboardSupport="true"
-                        Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue">
+                        Style="margin: 0 auto;" Width="100%" Theme="Office2010Blue" OnCustomButtonCallback="HLSSOAList_CustomButtonCallback">
                         <SettingsBehavior AllowSort="true" SortMode="Value" />
                         <Columns>
                             <dx:GridViewCommandColumn VisibleIndex="0" ButtonRenderMode="Image" Width="50">
@@ -181,25 +205,31 @@
                                     </div>
                                 </HeaderTemplate>
                                 <CustomButtons>
-                                    <dx:GridViewCommandColumnCustomButton ID="Edit" Text="" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                    <%--<dx:GridViewCommandColumnCustomButton ID="Edit" Text="" Image-Url="Images/Edit.ico" Image-ToolTip="Edit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>--%>
                                     <dx:GridViewCommandColumnCustomButton ID="Delete" Text="" Image-Url="Images/Delete.ico" Image-ToolTip="Delete Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                                     <dx:GridViewCommandColumnCustomButton ID="Preview" Text="" Image-Url="Images/Refresh.ico" Image-ToolTip="Preview Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
+                                    <dx:GridViewCommandColumnCustomButton ID="Submit" Text="" Image-Url="Images/Submit.ico" Image-ToolTip="Submit Row" Image-Width="15px"></dx:GridViewCommandColumnCustomButton>
                                 </CustomButtons>
                             </dx:GridViewCommandColumn>
-                            <dx:GridViewDataColumn FieldName="" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
-                            <dx:GridViewDataColumn FieldName="" Caption="SOA Number" VisibleIndex="2" SortOrder="Descending" Width="140px"></dx:GridViewDataColumn>
-                            <dx:GridViewDataColumn FieldName="" Visible="false" VisibleIndex="3"></dx:GridViewDataColumn>
-                            <dx:GridViewDataColumn FieldName="" Caption="Customer" VisibleIndex="4"></dx:GridViewDataColumn>
-                            <dx:GridViewDataColumn FieldName="" Caption="Week Number" VisibleIndex="5" Width="140px">
+                            <dx:GridViewDataColumn FieldName="PK" Visible="false" VisibleIndex="1"></dx:GridViewDataColumn>
+                            <dx:GridViewDataColumn FieldName="SOANum" Caption="SOA Number" VisibleIndex="2" HeaderStyle-Font-Bold="true" SortOrder="Descending" Width="140px"></dx:GridViewDataColumn>
+                            <dx:GridViewDataColumn FieldName="SOADate" Caption="SOA Date" VisibleIndex="3" HeaderStyle-Font-Bold="true"></dx:GridViewDataColumn>
+                            <dx:GridViewDataColumn FieldName="CustCode" Visible="false" VisibleIndex="4"></dx:GridViewDataColumn>
+                            <dx:GridViewDataColumn FieldName="CustName" Caption="Customer" VisibleIndex="5" HeaderStyle-Font-Bold="true"></dx:GridViewDataColumn>
+                            <dx:GridViewDataColumn FieldName="Year" Caption="Year" VisibleIndex="6" Width="140px" HeaderStyle-Font-Bold="true">
                                 <HeaderStyle HorizontalAlign="Center" />
                                 <CellStyle HorizontalAlign="Center"></CellStyle>
                             </dx:GridViewDataColumn>
-                            <dx:GridViewDataColumn FieldName="" Caption="Year" VisibleIndex="6" Width="100px">
+                            <dx:GridViewDataColumn FieldName="WeekNum" Caption="Week Number" VisibleIndex="7" Width="100px" HeaderStyle-Font-Bold="true">
                                 <HeaderStyle HorizontalAlign="Center" />
                                 <CellStyle HorizontalAlign="Center"></CellStyle>
                             </dx:GridViewDataColumn>
-                            <dx:GridViewDataColumn FieldName="" Caption="Amount" VisibleIndex="7" Width="200px">
-                                <HeaderStyle HorizontalAlign="Right" />
+                            <dx:GridViewDataColumn FieldName="BillingInv" Caption="Billing Invoice" VisibleIndex="8" Width="100px" HeaderStyle-Font-Bold="true">
+                                <HeaderStyle HorizontalAlign="Left" />
+                                <CellStyle HorizontalAlign="Left"></CellStyle>
+                            </dx:GridViewDataColumn>
+                            <dx:GridViewDataColumn FieldName="Amount" Caption="Amount" VisibleIndex="9" Width="200px">
+                                <HeaderStyle HorizontalAlign="Right" Font-Bold="true" />
                                 <CellStyle HorizontalAlign="Right"></CellStyle>
                             </dx:GridViewDataColumn>
                         </Columns>
